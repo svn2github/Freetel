@@ -83,7 +83,7 @@ sqlite: $(SQLITE_DIR)/.built
 
 $(ROOT)/lib/php/.db-installed:
 	pear install DB
-	cd $(ROOT)/lib/php/DB; patch -p1 < $(TOP_DIR)/patch/common.patch 
+	cd $(ROOT)/lib/php/DB; patch -p1 < $(TOPDIR)/patch/common.patch 
 	touch $(ROOT)/lib/php/.db-installed
 
 pear-db: $(ROOT)/lib/php/.db-installed
@@ -369,6 +369,13 @@ freepbx-make-patch:
 	-diff -uN \
 	$(AO)/amp_conf/htdocs/admin/cdr/lib/defines.php \
 	$(AROOT)/admin/cdr/lib/defines.php \
+	>> patch/freepbx.patch
+
+	# trap missing cdr table error in Reports menu
+
+	-diff -uN \
+	$(AO)/amp_conf/htdocs/admin/cdr/lib/Class.Table.php \
+	$(AROOT)/admin/cdr/lib/Class.Table.php \
 	>> patch/freepbx.patch
 
 	# typo in newinstall.sqlite3.sql

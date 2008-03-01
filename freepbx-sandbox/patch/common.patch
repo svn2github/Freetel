@@ -4,7 +4,7 @@
              return $ret;
          } else {
              $this->last_parameters = array();
-+		    $this->last_query = $query;
++             $this->last_query = $query;
              $result = $this->simpleQuery($query);
              if ($result === DB_OK || DB::isError($result)) {
                  return $result;
