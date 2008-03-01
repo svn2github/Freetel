@@ -1,0 +1,10 @@
+--- orig/common.php	2008-03-01 09:40:36.000000000 +1030
++++ mod/common.php	2008-03-01 09:14:34.000000000 +1030
+@@ -1213,6 +1213,7 @@
+             return $ret;
+         } else {
+             $this->last_parameters = array();
++		    $this->last_query = $query;
+             $result = $this->simpleQuery($query);
+             if ($result === DB_OK || DB::isError($result)) {
+                 return $result;

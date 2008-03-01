@@ -1,0 +1,254 @@
+--- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//amp_conf/htdocs/admin/modules/core/functions.inc.php	2008-02-10 05:16:02.000000000 +1030
++++ /home/david/freepbx-sandbox/root/www/admin/modules/core/functions.inc.php	2008-02-29 20:39:27.000000000 +1030
+@@ -2886,6 +2886,7 @@
+ 		// TODO: sqlite work arround - diego
+ 		// TODO: WILL NOT WORK, need to remove the usage of SUBSTRING
+ 		// need to reorder the trunks in PHP code
++/*
+ 		$sqlstr  = "SELECT t.variable, t.value, d.value state FROM `globals` t ";
+ 		$sqlstr .= "JOIN (SELECT x.variable, x.value FROM globals x WHERE x.variable LIKE 'OUTDISABLE\_%') d ";
+ 		$sqlstr .= "ON substring(t.variable,5) = substring(d.variable,12) WHERE t.variable LIKE 'OUT\_%' ";
+@@ -2894,9 +2895,9 @@
+ 		$sqlstr .= "WHERE v.variable LIKE 'OUT\_%' AND concat('OUTDISABLE_',substring(v.variable,5)) NOT IN ";
+ 		$sqlstr .= " ( SELECT variable from globals WHERE variable LIKE 'OUTDISABLE\_%' ) ";
+ 		$sqlstr .= "ORDER BY variable";
+-
+-		//$unique_trunks = sql("SELECT * FROM globals WHERE variable LIKE 'OUT_%' ORDER BY variable","getAll"); 
+-		$unique_trunks = sql($sqlstr,"getAll"); 
++*/
++		$unique_trunks = sql("SELECT * FROM globals WHERE variable LIKE 'OUT_%' ORDER BY variable","getAll"); 
++		//$unique_trunks = sql($sqlstr,"getAll"); 
+ 	}
+ 	else
+ 	{
+--- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//amp_conf/htdocs/admin/common/db_connect.php	2007-09-09 20:41:11.000000000 +0930
++++ /home/david/freepbx-sandbox/root/www/admin/common/db_connect.php	2008-03-01 09:23:08.000000000 +1030
+@@ -52,7 +52,11 @@
+ 		}
+ 
+ 		$datasource = "sqlite3:///" . $amp_conf["AMPDBFILE"] . "?mode=0666";
+-		$db = DB::connect($datasource);
++                $options = array(
++       	           	'debug'       => 4,
++			'portability' => DB_PORTABILITY_NUMROWS
++		);
++		$db = DB::connect($datasource, $options);
+ 		break;
+ 
+ 	default:
+--- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//amp_conf/htdocs/recordings/includes/database.php	2006-05-01 01:05:45.000000000 +0930
++++ /home/david/freepbx-sandbox/root/www/recordings/includes/database.php	2008-02-29 20:39:27.000000000 +1030
+@@ -43,18 +43,25 @@
+     // connect string
+     if ($dbfile) {
+       // datasource mostly to support sqlite: dbengine://dbfile?mode=xxxx 
+-      $dsn = $engine . '://' . $dbfile . '?mode=0666';
++      $datasource = $engine . ':///' . $dbfile . '?mode=0666';
++      $options = array(
++        'debug'       => 4
++      );
++      if (! extension_loaded('sqlite3') ) {
++        dl('sqlite3.so');
++      }
++
+     } 
+     else {
+       // datasource in in this style: dbengine://username:password@host/database 
+       $datasource = $engine . '://' . $username . ':' . $password . '@' . $host . '/' . $name;
+-    }
+ 
+-    // options
+-    $options = array(
+-      'debug'       => 2,
+-      'portability' => DB_PORTABILITY_LOWERCASE|DB_PORTABILITY_RTRIM|DB_PORTABILITY_DELETE_COUNT|DB_PORTABILITY_NUMROWS|DB_PORTABILITY_ERRORS|DB_PORTABILITY_NULL_TO_EMPTY,
+-    );
++      // options
++      $options = array(
++        'debug'       => 2,
++        'portability' => DB_PORTABILITY_LOWERCASE|DB_PORTABILITY_RTRIM|DB_PORTABILITY_DELETE_COUNT|DB_PORTABILITY_NUMROWS|DB_PORTABILITY_ERRORS|DB_PORTABILITY_NULL_TO_EMPTY,
++      );
++    }
+     
+     // attempt connection
+     $dbh = DB::connect($datasource,$options); 
+--- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//amp_conf/htdocs/admin/cdr/lib/defines.php	2006-09-26 20:48:51.000000000 +0930
++++ /home/david/freepbx-sandbox/root/www/admin/cdr/lib/defines.php	2008-03-01 09:26:19.000000000 +1030
+@@ -12,7 +12,7 @@
+         return $conf;
+ }
+ 
+-$amp_conf = parse_amportal_conf("/etc/amportal.conf");
++$amp_conf = parse_amportal_conf("/home/david/freepbx-sandbox/root/etc/amportal.conf");
+ 
+ 
+ define ("WEBROOT", "http://".$amp_conf["AMPWEBADDRESS"]."/admin/cdr/");
+@@ -27,8 +27,8 @@
+ define ("PORT", "5432");
+ define ("USER", $amp_conf["AMPDBUSER"]);
+ define ("PASS", $amp_conf["AMPDBPASS"]);
+-define ("DBNAME", "asteriskcdrdb");
+-define ("DB_TYPE", "mysql"); // mysql or postgres
++define ("DBNAME","/home/david/freepbx-sandbox/root/var/asteriskcdr.db");
++define ("DB_TYPE","sqlite3");
+ 
+ 
+ define ("DB_TABLENAME", "cdr");
+@@ -47,16 +47,36 @@
+ 
+ function DbConnect()
+ {
+-  if (DB_TYPE == "postgres")
+-    { 
++  switch (DB_TYPE)
++  {
++
++    case "pgsql":
+       $datasource = 'pgsql://'.USER.':'.PASS.'@'.HOST.'/'.DBNAME;
+-    }
+-  else
+-    { 
++      $options = array();
++      break;	
++
++    case "mysql":
+       $datasource = DB_TYPE.'://'.USER.':'.PASS.'@'.HOST.'/'.DBNAME;
+-    }
++      $options = array();
++      break;
++
++    case "sqlite3":
++      $datasource = DB_TYPE . ':///' . DBNAME . '?mode=0666';
++      if (! extension_loaded('sqlite3') ) {
++        dl('sqlite3.so');
++      }
++      if (! require_once('DB/sqlite3.php') )
++      {
++	die_freepbx("Your PHP installation has no PEAR/SQLite3 support. Please install php-sqlite3 and php-pear.");
++      }
++      $options = array(
++        'debug'       => 4,
++ 	'portability' => DB_PORTABILITY_NUMROWS
++      );
++      break;
++  }
+ 
+-  $db = DB::connect($datasource); // attempt connection
++  $db = DB::connect($datasource, $options); // attempt connection
+  
+   if(DB::isError($db))
+     {
+--- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//SQL/newinstall.sqlite3.sql	2008-02-11 14:27:53.000000000 +1030
++++ /home/david/freepbx-sandbox/freepbx-2.4.0//SQL/newinstall.sqlite3.sql	2008-02-29 19:21:08.000000000 +1030
+@@ -323,7 +323,7 @@
+ -- Dumping data for table `modules`
+ --
+ 
+-DROP TABLE IF EXISTS `modules_xml`;
++DROP TABLE IF EXISTS `module_xml`;
+ CREATE TABLE `module_xml` (
+ 	`id` varchar(20) NOT NULL default 'xml',
+ 	`time` int(11) NOT NULL default '0',
+--- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//install_amp	2008-01-28 04:22:58.000000000 +1030
++++ /home/david/freepbx-sandbox/freepbx-2.4.0//install_amp	2008-02-29 19:34:47.000000000 +1030
+@@ -4,7 +4,7 @@
+ require_once ("libfreepbx.install.php");
+ 
+ # constants
+-define("AMP_CONF", "/etc/amportal.conf");
++define("AMP_CONF", "/home/david/freepbx-sandbox/root/etc/amportal.conf");
+ define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
+ define("UPGRADE_DIR", dirname(__FILE__)."/upgrades");
+ define("MODULE_DIR", dirname(__FILE__)."/amp_conf/htdocs/admin/modules/");
+@@ -892,10 +892,12 @@
+ 
+ outn("Connecting to database..");
+ 
+-$db_user = $amp_conf["AMPDBUSER"];
+-$db_pass = $amp_conf["AMPDBPASS"];
+-$db_host = $amp_conf["AMPDBHOST"];
+ $db_engine = $amp_conf["AMPDBENGINE"];
++if ($db_engine != "sqlite3") {
++	$db_user = $amp_conf["AMPDBUSER"];
++	$db_pass = $amp_conf["AMPDBPASS"];
++	$db_host = $amp_conf["AMPDBHOST"];
++}
+ $db_name = $amp_conf["AMPDBNAME"];
+ 
+ // we still support older configurations,  and fall back 
+--- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//amp_conf/htdocs/admin/modules/recordings/install.php	2007-08-08 14:34:58.000000000 +0930
++++ /home/david/freepbx-sandbox/freepbx-2.4.0//amp_conf/htdocs/admin/modules/recordings/install.php	2008-02-29 20:23:06.000000000 +1030
+@@ -22,7 +22,14 @@
+ unset($fcc);
+ 
+ // Make sure table exists
+-$sql = "CREATE TABLE IF NOT EXISTS recordings ( id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, displayname VARCHAR(50) , filename BLOB, description VARCHAR(254));";
++
++if ($amp_conf["AMPDBENGINE"] == 'sqlite3') {
++	$sql = "CREATE TABLE IF NOT EXISTS recordings ( `id` integer NOT NULL PRIMARY KEY AUTOINCREMENT, displayname VARCHAR(50) , filename BLOB, description VARCHAR(254));";
++}
++else {
++	$sql = "CREATE TABLE IF NOT EXISTS recordings ( id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, displayname VARCHAR(50) , filename BLOB, description VARCHAR(254));";
++}
++
+ $result = $db->query($sql);
+ if(DB::IsError($result)) {
+         die_freepbx($result->getDebugInfo());
+@@ -42,7 +49,13 @@
+ $sql = "SELECT * FROM recordings where displayname = '__invalid'";
+ $results = $db->getRow($sql, DB_FETCHMODE_ASSOC);
+ if (!isset($results['filename'])) {
+-	sql("INSERT INTO recordings values ('', '__invalid', 'install done', '')");
++	if ($amp_conf["AMPDBENGINE"] == 'sqlite3') {
++		sql("INSERT INTO recordings values (NULL, '__invalid', 'install done', '')");
++	}
++	else
++		sql("INSERT INTO recordings values ('', '__invalid', 'install done', '')");
++		print("AFTE2\n");
++
+ 	$dh = opendir($recordings_directory);
+ 	while (false !== ($file = readdir($dh))) { // http://au3.php.net/readdir 
+ 		if ($file[0] != "." && $file != "CVS" && $file != "svn" && !is_dir("$recordings_directory/$file")) {
+@@ -59,10 +72,14 @@
+ 
+ // Upgrade to recordings 3.0
+ // Change filename from VARCHAR(80) to BLOB
+-$sql = 'ALTER TABLE recordings CHANGE filename filename BLOB';
+-$result = $db->query($sql);
+-if(DB::IsError($result)) {
+-	die_freepbx($result->getDebugInfo());
++// Note sqlite3 doesn't support ALTER
++
++if ($amp_conf["AMPDBENGINE"] != 'sqlite3') {
++	$sql = 'ALTER TABLE recordings CHANGE filename filename BLOB';
++	$result = $db->query($sql);
++	if(DB::IsError($result)) {
++		die_freepbx($result->getDebugInfo());
++	}
+ }
+ 
+ ?>
+--- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//amp_conf/bin/retrieve_conf	2007-12-15 08:18:39.000000000 +1030
++++ /home/david/freepbx-sandbox/freepbx-2.4.0//amp_conf/bin/retrieve_conf	2008-03-01 13:42:55.000000000 +1030
+@@ -10,7 +10,7 @@
+ 
+ ini_set('error_reporting', E_ALL & ~E_NOTICE);
+ 
+-define("AMP_CONF", "/etc/amportal.conf");
++define("AMP_CONF", "/home/david/freepbx-sandbox/root/etc/amportal.conf");
+ $amportalconf = AMP_CONF;
+ 
+ //define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
+@@ -671,8 +671,11 @@
+ 
+ // script to write op_server.cfg file from mysql 
+ //
+-$script = $amp_conf['AMPBIN'].'/retrieve_op_conf_from_mysql.pl '.$amportalconf.' '.rtrim($asterisk_conf['astetcdir'],DIRECTORY_SEPARATOR);
+-exec($script);
++if ($amp_conf["AMPDBENGINE"] != 'sqlite3') {
++	// sqlite3 not supported just yet
++	if ($script = $amp_conf['AMPBIN'].'/retrieve_op_conf_from_mysql.pl '.$amportalconf.' '.rtrim($asterisk_conf['astetcdir'],DIRECTORY_SEPARATOR);
++	exec($script);
++}
+ 
+ // generate configuration files
+ //
