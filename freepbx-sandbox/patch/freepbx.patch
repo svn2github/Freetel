@@ -1,5 +1,5 @@
---- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//amp_conf/htdocs/admin/modules/core/functions.inc.php	2008-02-10 05:16:02.000000000 +1030
-+++ /home/david/freepbx-sandbox/root/www/admin/modules/core/functions.inc.php	2008-03-07 14:20:23.000000000 +1030
+--- freepbx-2.4.0-orig//amp_conf/htdocs/admin/modules/core/functions.inc.php	2008-02-10 05:16:02.000000000 +1030
++++ root/www/admin/modules/core/functions.inc.php	2008-03-07 14:20:23.000000000 +1030
 @@ -2886,6 +2886,7 @@
  		// TODO: sqlite work arround - diego
  		// TODO: WILL NOT WORK, need to remove the usage of SUBSTRING
@@ -21,8 +21,8 @@
  	}
  	else
  	{
---- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//amp_conf/htdocs/admin/common/db_connect.php	2007-09-09 20:41:11.000000000 +0930
-+++ /home/david/freepbx-sandbox/root/www/admin/common/db_connect.php	2008-03-07 14:20:23.000000000 +1030
+--- freepbx-2.4.0-orig//amp_conf/htdocs/admin/common/db_connect.php	2007-09-09 20:41:11.000000000 +0930
++++ root/www/admin/common/db_connect.php	2008-03-07 14:20:23.000000000 +1030
 @@ -52,7 +52,11 @@
  		}
  
@@ -44,8 +44,8 @@
  	$nt->add_warning('core', 'AMPDBPASS', _("Default SQL Password Used"), _("You are using the default SQL password that is widely known, you should set a secure password"));
  } else {
  	$nt->delete('core', 'AMPDBPASS');
---- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//amp_conf/htdocs/recordings/includes/database.php	2006-05-01 01:05:45.000000000 +0930
-+++ /home/david/freepbx-sandbox/root/www/recordings/includes/database.php	2008-03-07 14:20:23.000000000 +1030
+--- freepbx-2.4.0-orig//amp_conf/htdocs/recordings/includes/database.php	2006-05-01 01:05:45.000000000 +0930
++++ root/www/recordings/includes/database.php	2008-03-07 14:20:23.000000000 +1030
 @@ -43,18 +43,25 @@
      // connect string
      if ($dbfile) {
@@ -79,14 +79,14 @@
      
      // attempt connection
      $dbh = DB::connect($datasource,$options); 
---- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//amp_conf/htdocs/admin/cdr/lib/defines.php	2006-09-26 20:48:51.000000000 +0930
-+++ /home/david/freepbx-sandbox/root/www/admin/cdr/lib/defines.php	2008-03-07 14:20:23.000000000 +1030
+--- freepbx-2.4.0-orig//amp_conf/htdocs/admin/cdr/lib/defines.php	2006-09-26 20:48:51.000000000 +0930
++++ root/www/admin/cdr/lib/defines.php	2008-03-07 14:20:23.000000000 +1030
 @@ -12,7 +12,7 @@
          return $conf;
  }
  
 -$amp_conf = parse_amportal_conf("/etc/amportal.conf");
-+$amp_conf = parse_amportal_conf("/etc/amportal.conf"");
++$amp_conf = parse_amportal_conf("/etc/amportal.conf");
  
  
  define ("WEBROOT", "http://".$amp_conf["AMPWEBADDRESS"]."/admin/cdr/");
@@ -96,7 +96,7 @@
  define ("PASS", $amp_conf["AMPDBPASS"]);
 -define ("DBNAME", "asteriskcdrdb");
 -define ("DB_TYPE", "mysql"); // mysql or postgres
-+define ("DBNAME","/home/david/freepbx-sandbox/root/var/asteriskcdr.db");
++define ("DBNAME","/var/asteriskcdr.db");
 +define ("DB_TYPE","sqlite3");
  
  
@@ -145,8 +145,8 @@
   
    if(DB::isError($db))
      {
---- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//amp_conf/htdocs/admin/cdr/lib/Class.Table.php	2006-09-26 20:48:51.000000000 +0930
-+++ /home/david/freepbx-sandbox/root/www/admin/cdr/lib/Class.Table.php	2008-03-07 14:20:23.000000000 +1030
+--- freepbx-2.4.0-orig//amp_conf/htdocs/admin/cdr/lib/Class.Table.php	2006-09-26 20:48:51.000000000 +0930
++++ root/www/admin/cdr/lib/Class.Table.php	2008-03-07 14:20:23.000000000 +1030
 @@ -80,8 +80,11 @@
  				
  		//$res=DbExec($link, $QUERY);
@@ -160,8 +160,8 @@
  		$num = $res -> numRows();
  		
  		
---- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//SQL/newinstall.sqlite3.sql	2008-02-11 14:27:53.000000000 +1030
-+++ /home/david/freepbx-sandbox/freepbx-2.4.0//SQL/newinstall.sqlite3.sql	2008-03-02 20:20:33.000000000 +1030
+--- freepbx-2.4.0-orig//SQL/newinstall.sqlite3.sql	2008-02-11 14:27:53.000000000 +1030
++++ freepbx-2.4.0//SQL/newinstall.sqlite3.sql	2008-03-02 20:20:33.000000000 +1030
 @@ -323,7 +323,7 @@
  -- Dumping data for table `modules`
  --
@@ -171,14 +171,14 @@
  CREATE TABLE `module_xml` (
  	`id` varchar(20) NOT NULL default 'xml',
  	`time` int(11) NOT NULL default '0',
---- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//install_amp	2008-01-28 04:22:58.000000000 +1030
-+++ /home/david/freepbx-sandbox/freepbx-2.4.0//install_amp	2008-03-02 20:20:33.000000000 +1030
+--- freepbx-2.4.0-orig//install_amp	2008-01-28 04:22:58.000000000 +1030
++++ freepbx-2.4.0//install_amp	2008-03-02 20:20:33.000000000 +1030
 @@ -4,7 +4,7 @@
  require_once ("libfreepbx.install.php");
  
  # constants
 -define("AMP_CONF", "/etc/amportal.conf");
-+define("AMP_CONF", "/etc/amportal.conf"");
++define("AMP_CONF", "/etc/amportal.conf");
  define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
  define("UPGRADE_DIR", dirname(__FILE__)."/upgrades");
  define("MODULE_DIR", dirname(__FILE__)."/amp_conf/htdocs/admin/modules/");
@@ -198,8 +198,8 @@
  $db_name = $amp_conf["AMPDBNAME"];
  
  // we still support older configurations,  and fall back 
---- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//amp_conf/htdocs/admin/modules/recordings/install.php	2007-08-08 14:34:58.000000000 +0930
-+++ /home/david/freepbx-sandbox/freepbx-2.4.0//amp_conf/htdocs/admin/modules/recordings/install.php	2008-03-02 20:20:33.000000000 +1030
+--- freepbx-2.4.0-orig//amp_conf/htdocs/admin/modules/recordings/install.php	2007-08-08 14:34:58.000000000 +0930
++++ freepbx-2.4.0//amp_conf/htdocs/admin/modules/recordings/install.php	2008-03-02 20:20:33.000000000 +1030
 @@ -22,7 +22,14 @@
  unset($fcc);
  
@@ -250,14 +250,14 @@
  }
  
  ?>
---- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//amp_conf/bin/retrieve_conf	2007-12-15 08:18:39.000000000 +1030
-+++ /home/david/freepbx-sandbox/freepbx-2.4.0//amp_conf/bin/retrieve_conf	2008-03-07 15:45:02.000000000 +1030
+--- freepbx-2.4.0-orig//amp_conf/bin/retrieve_conf	2007-12-15 08:18:39.000000000 +1030
++++ freepbx-2.4.0//amp_conf/bin/retrieve_conf	2008-03-07 15:45:02.000000000 +1030
 @@ -10,7 +10,7 @@
  
  ini_set('error_reporting', E_ALL & ~E_NOTICE);
  
 -define("AMP_CONF", "/etc/amportal.conf");
-+define("AMP_CONF", "/etc/amportal.conf"");
++define("AMP_CONF", "/etc/amportal.conf");
  $amportalconf = AMP_CONF;
  
  //define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
@@ -313,8 +313,8 @@
  // Check and install the freepbx-cron-scheduler.php manager
  //
  install_cron_scheduler();
---- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//amp_conf/astetc/manager.conf	2006-05-01 11:39:24.000000000 +0930
-+++ /home/david/freepbx-sandbox/freepbx-2.4.0//amp_conf/astetc/manager.conf	2008-03-07 13:41:16.000000000 +1030
+--- freepbx-2.4.0-orig//amp_conf/astetc/manager.conf	2006-05-01 11:39:24.000000000 +0930
++++ freepbx-2.4.0//amp_conf/astetc/manager.conf	2008-03-07 13:41:16.000000000 +1030
 @@ -6,8 +6,8 @@
  port = 5038
  bindaddr = 0.0.0.0

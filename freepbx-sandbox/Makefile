@@ -330,9 +330,9 @@ clean:
 # installed files $(AROOT), or modified tar ball $A.
 # Run this Makefile target to capture any changes to patches
 
-AO    = $(FREEPBX_DIR)-orig/
-AROOT = $(ROOT)/www
-A     = $(FREEPBX_DIR)/
+AO    = $(FREEPBX_DIRNAME)-orig/
+AROOT = root/www
+A     = $(FREEPBX_DIRNAME)/
 
 freepbx-make-patch:
 
@@ -418,11 +418,9 @@ freepbx-make-patch:
 
 	# NOTE: common.patch was generated manually from command line
 
-	# undo patch hack (messy!  Must be a better way....)
+	# undo sandbox path (messy!  Must be a better way....)
 
-	sed -i \
-	's|"$(ROOT)/etc/amportal.conf|"/etc/amportal.conf"|' \
-	patch/freepbx.patch
+	sed -i 's|$(ROOT)||' patch/freepbx.patch
 
 
 
