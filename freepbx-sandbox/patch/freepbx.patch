@@ -172,7 +172,7 @@
  	`id` varchar(20) NOT NULL default 'xml',
  	`time` int(11) NOT NULL default '0',
 --- freepbx-2.4.0-orig//install_amp	2008-01-28 04:22:58.000000000 +1030
-+++ freepbx-2.4.0//install_amp	2008-03-07 19:18:46.000000000 +1030
++++ freepbx-2.4.0//install_amp	2008-03-08 10:05:14.000000000 +1030
 @@ -4,7 +4,7 @@
  require_once ("libfreepbx.install.php");
  
@@ -192,7 +192,7 @@
 -if ($current_user != "root"){
 -	out("FAILED");
 -	fatal($argv[0]." must be run as root");
-+if (function_exists('posix_getpwuid') && functionIexists('posix_geteuid') {
++if (function_exists('posix_getpwuid') && function_exists('posix_geteuid')) {
 +	//$current_user=(isset($_ENV["USER"]) ? $_ENV["USER"] : exec('whoami',$output));
 +	$euid = (posix_getpwuid(posix_geteuid()));
 +	$current_user = $euid['name'];
@@ -274,7 +274,7 @@
  
  ?>
 --- freepbx-2.4.0-orig//amp_conf/bin/retrieve_conf	2007-12-15 08:18:39.000000000 +1030
-+++ freepbx-2.4.0//amp_conf/bin/retrieve_conf	2008-03-07 15:45:02.000000000 +1030
++++ freepbx-2.4.0//amp_conf/bin/retrieve_conf	2008-03-07 20:39:45.000000000 +1030
 @@ -10,7 +10,7 @@
  
  ini_set('error_reporting', E_ALL & ~E_NOTICE);

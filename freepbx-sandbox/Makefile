@@ -232,7 +232,7 @@ $(DL_DIR)/$(FREEPBX_SOURCE):
 
 $(FREEPBX_DIR)/.unpacked: $(DL_DIR)/$(FREEPBX_SOURCE)
 	zcat $(DL_DIR)/$(FREEPBX_SOURCE) | tar -C $(BUILD_DIR) -xf -
-	patch -d $(FREEPBX_DIR) -p5 < patch/freepbx.patch
+	patch -d $(FREEPBX_DIR) -p1 < patch/freepbx.patch
 	touch $(FREEPBX_DIR)/.unpacked
 
 $(FREEPBX_DIR)/.installed: $(FREEPBX_DIR)/.unpacked
