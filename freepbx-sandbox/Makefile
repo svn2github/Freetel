@@ -378,6 +378,14 @@ freepbx-make-patch:
 	$(AROOT)/admin/cdr/lib/Class.Table.php \
 	>> patch/freepbx.patch
 
+	# support for Blackfin machine type in conf array, helps install_amp switch
+	# off a few unsupported function calls
+
+	-diff -uN \
+	$(AO)/amp_conf/htdocs/admin/functions.inc.php \
+	$(A)/amp_conf/htdocs/admin/functions.inc.php \
+	>> patch/freepbx.patch
+
 	# typo in newinstall.sqlite3.sql
 
 	-diff -uN \
