@@ -317,156 +317,10 @@ freepbx: $(FREEPBX_DIR)/.installed
 clean: 
 	rm -Rf $(PHP_DIR) $(SQLITE_DIR) $(PHP-SQLITE3_DIR) \
 	$(XDEBUG_DIR) $(LIGHTTPD_DIR) $(FREEPBX_DIR) root \
-	(FREEPBX_DIR)-orig
+	$(FREEPBX_DIR)-orig
 
 	find . -name '*~' | xargs rm -f
 	rm -f *.xml # where do these come from?
-
-#########################################################################
-# freepbx-bfin-all ------------------------------------------------------
-#########################################################################
-
-# Different build to freepbx above to suit Blackfin.  We still need
-# PHP to set up PEAR/DB and sqlite to set up the database.
-
-freepbx-bfin-all: php sqlite pear-db-bfin php-sqlite3-bfin freepbx-bfin
-
-ROOT_BFIN = $(TOPDIR)/bfin-root
-
-##############################################################
-# pear-db-bfin------------------------------------------------
-##############################################################
-
-# just copy regular x86 PEAR/DB files
-
-$(ROOT_BFIN)/lib/php/.db-installed: pear-db
-	mkdir -p $(ROOT_BFIN)/lib/php
-	cp -af $(ROOT)/lib/php $(ROOT_BFIN)/lib/
-	touch $(ROOT_BFIN)/lib/php/.db-installed
-
-pear-db-bfin: $(ROOT_BFIN)/lib/php/.db-installed
-
-########################################################################
-# php-sqlite3-bfin -----------------------------------------------------
-########################################################################
-
-PHP-SQLITE3-BFIN_VERSION=0.5
-PHP-SQLITE3-BFIN_DIRNAME=sqlite3-$(PHP-SQLITE3-BFIN_VERSION)
-PHP-SQLITE3-BFIN_DIR=$(BUILD_DIR)/$(PHP-SQLITE3-BFIN_DIRNAME)-bfin
-PHP-SQLITE3-BFIN_SITE=http://downloads.sourceforge.net/php-sqlite3/
-PHP-SQLITE3-BFIN_SOURCE=sqlite3-$(PHP-SQLITE3-BFIN_VERSION).tgz
-PHP-SQLITE3-BFIN_CONFIGURE_OPTS= \
-	--host=bfin-linux-uclibc \
-	--with-sqlite3=$(STAGING_DIR)/usr \
-	--with-php-config=$(ROOT)/bin/php-config
-
-$(PHP-SQLITE3-BFIN_DIR)/.unpacked: $(DL_DIR)/$(PHP-SQLITE3-BFIN_SOURCE)
-	cd $(DL_DIR); tar xzf $(PHP-SQLITE3-BFIN_SOURCE); \
-	mv $(PHP-SQLITE3-BFIN_DIRNAME) $(PHP-SQLITE3-BFIN_DIR)
-	touch $(PHP-SQLITE3-BFIN_DIR)/.unpacked
-
-$(PHP-SQLITE3-BFIN_DIR)/.configured: $(PHP-SQLITE3-BFIN_DIR)/.unpacked
-	cd $(PHP-SQLITE3-BFIN_DIR); phpize; ./configure $(PHP-SQLITE3-BFIN_CONFIGURE_OPTS)
-	touch $(PHP-SQLITE3-BFIN_DIR)/.configured
-
-$(PHP-SQLITE3-BFIN_DIR)/.built: $(PHP-SQLITE3-BFIN_DIR)/.configured
-	cd $(PHP-SQLITE3-BFIN_DIR); make
-
-	touch $(PHP-SQLITE3-BFIN_DIR)/.built
-
-php-sqlite3-bfin: $(PHP-SQLITE3-BFIN_DIR)/.built
-
-########################################################################
-# freepbx-bfin ---------------------------------------------------------
-########################################################################
-
-FREEPBX_BFIN_DIRNAME=freepbx-$(FREEPBX_VERSION)
-FREEPBX_BFIN_DIR=$(BUILD_DIR)/$(FREEPBX_BFIN_DIRNAME)-bfin
-FREEPBX_BFIN_SITE= http://mirror.freepbx.org
-FREEPBX_BFIN_SOURCE=freepbx-$(FREEPBX_VERSION).tar.gz
-FREEPBX_BFIN_CONFIGURE_OPTS=
-
-$(FREEPBX_BFIN_DIR)/.unpacked: $(DL_DIR)/$(FREEPBX_BFIN_SOURCE)
-	cd $(DL_DIR); tar xzf $(FREEPBX_BFIN_SOURCE); \
-	mv $(FREEPBX_BFIN_DIRNAME) $(FREEPBX_BFIN_DIR)
-	patch -d $(FREEPBX_BFIN_DIR) -p5 < patch/freepbx.patch
-	touch $(FREEPBX_BFIN_DIR)/.unpacked
-
-$(FREEPBX_BFIN_DIR)/.installed: $(FREEPBX_BFIN_DIR)/.unpacked
-
-	# initialise databases (freepbx and CDR)
-
-	mkdir -p $(ROOT_BFIN)/var
-	cat $(FREEPBX_BFIN_DIR)/SQL/newinstall.sqlite3.sql | sqlite3 $(ROOT_BFIN)/var/freepbx.db
-	touch $(ROOT_BFIN)/var/asteriskcdr.db
-
-	# edit amportal.conf
-
-        #     out with the old......
-
-	cat $(FREEPBX_BFIN_DIR)/amportal.conf | \
-	sed -e '/AMPDBENGINE=/ d' -e '/AMPDBFILE=/ d' \
-	-e '/AMPWEBROOT=/ d' -e '/FOPWEBROOT=/ d' \
-	-e '/AMPDBHOST=/ d' -e '/AMPDBUSER=/ d' -e '/AMPDBPASS=/ d' \
-	> $(FREEPBX_BFIN_DIR)/amportal.conf.tmp
-
-	mv $(FREEPBX_BFIN_DIR)/amportal.conf.tmp $(FREEPBX_BFIN_DIR)/amportal.conf
-
-        #    in with the new........
-
-	echo "AMPDBENGINE=sqlite3" >> $(FREEPBX_BFIN_DIR)/amportal.conf
-	echo "AMPDBFILE=/var/freepbx.db" >> $(FREEPBX_BFIN_DIR)/amportal.conf
-	echo "AMPWEBROOT=/www" >> $(FREEPBX_BFIN_DIR)/amportal.conf
-	echo "FOPWEBROOT=/www/panel" >> $(FREEPBX_BFIN_DIR)/amportal.conf
-
-	sed -i "s|/var/www/html|/www|" $(FREEPBX_BFIN_DIR)/amportal.conf
-
-	# change recordings/includes/main.conf.php DBENGINE and DBFILE settings which
-	# are hard coded for mysql
-
-	sed -i "s|ASTERISKCDR_DBENGINE.*|ASTERISKCDR_DBENGINE=\"sqlite3\";|" \
-	$(FREEPBX_BFIN_DIR)/amp_conf/htdocs/recordings/includes/main.conf.php
-	sed -i "s|ASTERISKCDR_DBFILE.*|ASTERISKCDR_DBFILE=\"/var/asteriskcdr.db\";|" \
-	$(FREEPBX_BFIN_DIR)/amp_conf/htdocs/recordings/includes/main.conf.php
-
-	# change admin/cdr/lib/defines DB_TYPE and DBNAME settings
-
-	sed -i "s|\"DBNAME\".*|\"DBNAME\",\"/var/asteriskcdr.db\");|" \
-	$(FREEPBX_BFIN_DIR)/amp_conf/htdocs/admin/cdr/lib/defines.php
-	sed -i "s|\"DB_TYPE\".*|\"DB_TYPE\",\"sqlite3\");|" \
-	$(FREEPBX_BFIN_DIR)/amp_conf/htdocs/admin/cdr/lib/defines.php
-
-	# switch off mp3 support as I dont have asterisk-addons and Asterisk keeps
-	# crashing when I start it
-
-	sed -i "s|load => format_mp3.so|;load => format_mp3.so|" \
-	$(FREEPBX_BFIN_DIR)/amp_conf/astetc/modules.conf
-
-	# do a manual install, as we can't run code on the Blackfin here
-
-	mkdir -p $(ROOT_BFIN)/etc
-	mkdir -p $(ROOT_BFIN)/etc/asterisk
-	mkdir -p $(ROOT_BFIN)/www
-	mkdir -p $(ROOT_BFIN)/var/lib/asterisk/bin
-	mkdir -p $(ROOT_BFIN)/var/lib/asterisk/sounds
-	cp -af $(FREEPBX_BFIN_DIR)/amportal.conf $(ROOT_BFIN)/etc
-	cp -af $(FREEPBX_BFIN_DIR)/amp_conf/htdocs/* $(ROOT_BFIN)/www
-	cp -af $(FREEPBX_BFIN_DIR)/amp_conf/bin/* $(ROOT_BFIN)/var/lib/asterisk/bin
-	cp -af $(FREEPBX_BFIN_DIR)/amp_conf/sounds/* $(ROOT_BFIN)/var/lib/asterisk/sounds
-	cp -af $(FREEPBX_BFIN_DIR)/amp_conf/astetc/* $(ROOT_BFIN)/etc/asterisk
-
-	# use updated sqlite3.php for PHP 5. 
-
-	cp $(TOPDIR)/files/sqlite3.php $(ROOT_BFIN)/lib/php/DB/sqlite3.php
-	cp $(PHP-SQLITE3-BFIN_DIR)/modules/sqlite3.so $(ROOT_BFIN)/lib
-
-	# remove some stuff we don't need
-
-	cd $(ROOT_BFIN)/lib/php/; rm -Rf build PEAR .registry .channels doc
-
-	#touch $(FREEPBX_BFIN_DIR).installed
-
-freepbx-bfin: $(FREEPBX_BFIN_DIR)/.installed
 
 #########################################################################
 # freepbx-make-patch  ---------------------------------------------------
@@ -554,4 +408,18 @@ freepbx-make-patch:
 	$(A)/amp_conf/bin/retrieve_conf \
 	>> patch/freepbx.patch
 
+	-diff -uN \
+	$(AO)/amp_conf/astetc/manager.conf \
+	$(A)/amp_conf/astetc/manager.conf \
+	>> patch/freepbx.patch
+
 	# NOTE: common.patch was generated manually from command line
+
+	# undo patch hack (messy!  Must be a better way....)
+
+	sed -i \
+	's|"$(ROOT)/etc/amportal.conf|"/etc/amportal.conf"|' \
+	patch/freepbx.patch
+
+
+
