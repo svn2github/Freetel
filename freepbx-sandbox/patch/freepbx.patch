@@ -160,16 +160,6 @@
  		$num = $res -> numRows();
  		
  		
---- freepbx-2.4.0-orig//amp_conf/htdocs/admin/functions.inc.php	2008-02-09 02:12:18.000000000 +1030
-+++ freepbx-2.4.0//amp_conf/htdocs/admin/functions.inc.php	2008-03-07 18:20:40.000000000 +1030
-@@ -32,6 +32,7 @@
- 	'AMPMGRPASS'     => array('std' , 'amp111'),
- 	'FOPPASSWORD'    => array('std' , 'passw0rd'),
- 	'FOPSORT'        => array('std' , 'extension'),
-+	'AMPMACHINE'     => array('std' , 'x86'),
- 
- 	'ASTETCDIR'      => array('dir' , '/etc/asterisk'),
- 	'ASTMODDIR'      => array('dir' , '/usr/lib/asterisk/modules'),
 --- freepbx-2.4.0-orig//SQL/newinstall.sqlite3.sql	2008-02-11 14:27:53.000000000 +1030
 +++ freepbx-2.4.0//SQL/newinstall.sqlite3.sql	2008-03-02 20:20:33.000000000 +1030
 @@ -323,7 +323,7 @@
@@ -182,7 +172,7 @@
  	`id` varchar(20) NOT NULL default 'xml',
  	`time` int(11) NOT NULL default '0',
 --- freepbx-2.4.0-orig//install_amp	2008-01-28 04:22:58.000000000 +1030
-+++ freepbx-2.4.0//install_amp	2008-03-07 18:24:30.000000000 +1030
++++ freepbx-2.4.0//install_amp	2008-03-07 19:18:46.000000000 +1030
 @@ -4,7 +4,7 @@
  require_once ("libfreepbx.install.php");
  
@@ -192,7 +182,7 @@
  define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
  define("UPGRADE_DIR", dirname(__FILE__)."/upgrades");
  define("MODULE_DIR", dirname(__FILE__)."/amp_conf/htdocs/admin/modules/");
-@@ -691,13 +691,20 @@
+@@ -691,13 +691,16 @@
  // **** Look for user = root
  
  outn("Checking user..");
@@ -202,10 +192,7 @@
 -if ($current_user != "root"){
 -	out("FAILED");
 -	fatal($argv[0]." must be run as root");
-+if ($amp_conf["AMPMACHINE"] != "Blackfin") {
-+
-+	# Blackfin doesn't support posix_getuid() but we are always root anyway
-+
++if (function_exists('posix_getpwuid') && functionIexists('posix_geteuid') {
 +	//$current_user=(isset($_ENV["USER"]) ? $_ENV["USER"] : exec('whoami',$output));
 +	$euid = (posix_getpwuid(posix_geteuid()));
 +	$current_user = $euid['name'];
@@ -213,13 +200,12 @@
 +		out("FAILED");
 +		fatal($argv[0]." must be run as root");
 +	}
-+
  }
 +
  out("OK");
  
  
-@@ -892,10 +899,12 @@
+@@ -892,10 +895,12 @@
  
  outn("Connecting to database..");
  
