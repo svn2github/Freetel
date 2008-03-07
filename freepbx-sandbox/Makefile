@@ -95,7 +95,7 @@ pear-db: $(ROOT)/lib/php/.db-installed
 PHP-SQLITE3_VERSION=0.5
 PHP-SQLITE3_DIRNAME=sqlite3-$(PHP-SQLITE3_VERSION)
 PHP-SQLITE3_DIR=$(BUILD_DIR)/$(PHP-SQLITE3_DIRNAME)
-PHP-SQLITE3_SITE=http://downloads.sourceforge.net/php-sqlite3/
+PHP-SQLITE3_SITE=http://optusnet.dl.sourceforge.net/sourceforge/php-sqlite3/
 PHP-SQLITE3_SOURCE=sqlite3-$(PHP-SQLITE3_VERSION).tgz
 PHP-SQLITE3_CONFIGURE_OPTS=--prefix=$(ROOT) \
 	                   --with-sqlite3=$(ROOT) \
@@ -117,7 +117,7 @@ $(PHP-SQLITE3_DIR)/.built: $(PHP-SQLITE3_DIR)/.configured
 	cd $(PHP-SQLITE3_DIR); make
 	cd $(PHP-SQLITE3_DIR); make install
 
-	# use my hacked up sqlite3.php for PHP 5.  We use a sym link so that
+	# use modified sqlite3.php for PHP 5.  We use a sym link so that
 	# we can edit it in place and capture changes to source control
 
 	ln -sf $(TOPDIR)/files/sqlite3.php $(ROOT)/lib/php/DB/sqlite3.php
