@@ -15,11 +15,10 @@ The notable exception is that it doesn't build Asterisk (yet).
 FreePBX is configured to use lighttpd (easier than building Apache)
 and and sqlite3.
 
-All the files environment are confined to this directory, i.e. you
-mostly (except for Asterisk) don't need to mess with your PC's
-configuration.  Inspired by buildroot.  Used to model and test
-configuration for Blackfin port, but may be useful for general FreePBX
-development.
+Most of the files for are confined to this directory, i.e. you mostly
+(except for Asterisk) don't need to mess with your PC's configuration.
+Used to model and test configuration for Blackfin port, but may be
+useful for general FreePBX development.
 
 FreePBX Sqlite3 Status
 ----------------------
@@ -30,10 +29,10 @@ tested.  Reports/Recording is awaiting sqlite3 CDR support (e.g. in
 Asterisk 1.6) for further testing.  The amp_conf installer works OK.
 
 I have run some basic tests such as adding an extension/route/trunk
-and it seems to work OK.
+and made a few calls OK.
 
 This FreePBX/Sqlite3 development has been performed on a laptop
-running Ubuntu (no zaptel hardware) with Asterisk 1.6 and FreePBX
+running Ubuntu (no zaptel hardware) with Asterisk 1.4 and FreePBX
 2.4.0.
 
 Motivation
@@ -62,7 +61,7 @@ Building:
 
 1/ Install Asterisk 1.4.x and start Asterisk.  
 
-2/ Build freepbx-sandbox
+2/ Build freepbx-sandbox:
 
 [your home]$ svn co \
              https://freetel.svn.sourceforge.net/svnroot/freetel/freepbx-sandbox \
