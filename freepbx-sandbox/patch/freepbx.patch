@@ -1,5 +1,5 @@
 --- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//amp_conf/htdocs/admin/modules/core/functions.inc.php	2008-02-10 05:16:02.000000000 +1030
-+++ /home/david/freepbx-sandbox/root/www/admin/modules/core/functions.inc.php	2008-03-07 12:40:07.000000000 +1030
++++ /home/david/freepbx-sandbox/root/www/admin/modules/core/functions.inc.php	2008-03-07 14:20:23.000000000 +1030
 @@ -2886,6 +2886,7 @@
  		// TODO: sqlite work arround - diego
  		// TODO: WILL NOT WORK, need to remove the usage of SUBSTRING
@@ -22,7 +22,7 @@
  	else
  	{
 --- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//amp_conf/htdocs/admin/common/db_connect.php	2007-09-09 20:41:11.000000000 +0930
-+++ /home/david/freepbx-sandbox/root/www/admin/common/db_connect.php	2008-03-07 12:40:06.000000000 +1030
++++ /home/david/freepbx-sandbox/root/www/admin/common/db_connect.php	2008-03-07 14:20:23.000000000 +1030
 @@ -52,7 +52,11 @@
  		}
  
@@ -36,8 +36,16 @@
  		break;
  
  	default:
+@@ -70,6 +74,7 @@
+ $nt = notifications::create($db);
+ 
+ if ($amp_conf['AMPDBPASS'] == $amp_conf_defaults['AMPDBPASS'][1]) {
++	print 
+ 	$nt->add_warning('core', 'AMPDBPASS', _("Default SQL Password Used"), _("You are using the default SQL password that is widely known, you should set a secure password"));
+ } else {
+ 	$nt->delete('core', 'AMPDBPASS');
 --- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//amp_conf/htdocs/recordings/includes/database.php	2006-05-01 01:05:45.000000000 +0930
-+++ /home/david/freepbx-sandbox/root/www/recordings/includes/database.php	2008-03-07 12:40:06.000000000 +1030
++++ /home/david/freepbx-sandbox/root/www/recordings/includes/database.php	2008-03-07 14:20:23.000000000 +1030
 @@ -43,18 +43,25 @@
      // connect string
      if ($dbfile) {
@@ -72,7 +80,7 @@
      // attempt connection
      $dbh = DB::connect($datasource,$options); 
 --- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//amp_conf/htdocs/admin/cdr/lib/defines.php	2006-09-26 20:48:51.000000000 +0930
-+++ /home/david/freepbx-sandbox/root/www/admin/cdr/lib/defines.php	2008-03-07 12:40:07.000000000 +1030
++++ /home/david/freepbx-sandbox/root/www/admin/cdr/lib/defines.php	2008-03-07 14:20:23.000000000 +1030
 @@ -12,7 +12,7 @@
          return $conf;
  }
@@ -138,7 +146,7 @@
    if(DB::isError($db))
      {
 --- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//amp_conf/htdocs/admin/cdr/lib/Class.Table.php	2006-09-26 20:48:51.000000000 +0930
-+++ /home/david/freepbx-sandbox/root/www/admin/cdr/lib/Class.Table.php	2008-03-07 12:40:07.000000000 +1030
++++ /home/david/freepbx-sandbox/root/www/admin/cdr/lib/Class.Table.php	2008-03-07 14:20:23.000000000 +1030
 @@ -80,8 +80,11 @@
  				
  		//$res=DbExec($link, $QUERY);
@@ -243,7 +251,7 @@
  
  ?>
 --- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//amp_conf/bin/retrieve_conf	2007-12-15 08:18:39.000000000 +1030
-+++ /home/david/freepbx-sandbox/freepbx-2.4.0//amp_conf/bin/retrieve_conf	2008-03-02 20:20:33.000000000 +1030
++++ /home/david/freepbx-sandbox/freepbx-2.4.0//amp_conf/bin/retrieve_conf	2008-03-07 15:45:02.000000000 +1030
 @@ -10,7 +10,7 @@
  
  ini_set('error_reporting', E_ALL & ~E_NOTICE);
@@ -253,7 +261,33 @@
  $amportalconf = AMP_CONF;
  
  //define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
-@@ -671,8 +671,11 @@
+@@ -272,8 +272,6 @@
+ 	fatal(_("database connection failure"),("failed trying to connect to the configured database"));
+ 	
+ }
+-out(_("OK"));
+-
+ 
+ //TODO : make this engine-neutral
+ outn(_("Connecting to Asterisk manager interface.."));
+@@ -284,7 +282,6 @@
+ 	out(_("FAILED"));
+ 	fatal(_("Asterisk Manager Connection Failure"),sprintf(_("Failed to connect to the Asterisk manager through port: %s"), $amp_conf['ASTMANAGERPORT']));
+ }
+-out(_("OK"));
+ 
+ //include common functions
+ require_once($amp_conf['AMPWEBROOT']."/admin/extensions.class.php");
+@@ -293,7 +290,7 @@
+ // query for our modules
+ // var_dump( $db );
+ $modules = module_getinfo();
+-
++out(_("DR-BBB"));
+ //Putting the core module last, to move outbound-allroutes 
+ // last in from-internals-additional
+ if (array_key_exists('core', $modules)) {
+@@ -671,8 +668,11 @@
  
  // script to write op_server.cfg file from mysql 
  //
@@ -267,6 +301,18 @@
  
  // generate configuration files
  //
+@@ -684,10 +684,7 @@
+ 	generate_configurations_iax($version);
+ 	generate_configurations_zap($version);
+ }
+-if (!isset($queues_conf) || !is_a($queues_conf, "queues_conf")) {
+-	generate_configurations_queues($version);
+-}
+-	
++
+ // Check and install the freepbx-cron-scheduler.php manager
+ //
+ install_cron_scheduler();
 --- /home/david/freepbx-sandbox/freepbx-2.4.0-orig//amp_conf/astetc/manager.conf	2006-05-01 11:39:24.000000000 +0930
 +++ /home/david/freepbx-sandbox/freepbx-2.4.0//amp_conf/astetc/manager.conf	2008-03-07 13:41:16.000000000 +1030
 @@ -6,8 +6,8 @@

@@ -399,9 +399,12 @@ freepbx-make-patch:
 	$(A)/amp_conf/htdocs/admin/modules/recordings/install.php \
 	>> patch/freepbx.patch
 
-	# stop perl script for flash panel being called, as
+	# 1/ stop perl script for flash panel being called, as
 	# this won't work on Blackfin (might work on x86 with
 	# appropriate Perl lib but not tested)
+	#
+	# 2/ Remove code to set up queues, as it seems to be killing retrive_conf
+	# Is this needed or a legacy thing?
 
 	-diff -uN \
 	$(AO)/amp_conf/bin/retrieve_conf \
