@@ -1,5 +1,5 @@
 --- freepbx-2.4.0-orig//amp_conf/htdocs/admin/modules/core/functions.inc.php	2008-02-10 05:16:02.000000000 +1030
-+++ root/www/admin/modules/core/functions.inc.php	2008-03-07 14:20:23.000000000 +1030
++++ root/www/admin/modules/core/functions.inc.php	2008-03-11 11:31:52.000000000 +1030
 @@ -2886,6 +2886,7 @@
  		// TODO: sqlite work arround - diego
  		// TODO: WILL NOT WORK, need to remove the usage of SUBSTRING
@@ -22,7 +22,7 @@
  	else
  	{
 --- freepbx-2.4.0-orig//amp_conf/htdocs/admin/common/db_connect.php	2007-09-09 20:41:11.000000000 +0930
-+++ root/www/admin/common/db_connect.php	2008-03-07 14:20:23.000000000 +1030
++++ root/www/admin/common/db_connect.php	2008-03-11 11:31:52.000000000 +1030
 @@ -52,7 +52,11 @@
  		}
  
@@ -45,7 +45,7 @@
  } else {
  	$nt->delete('core', 'AMPDBPASS');
 --- freepbx-2.4.0-orig//amp_conf/htdocs/recordings/includes/database.php	2006-05-01 01:05:45.000000000 +0930
-+++ root/www/recordings/includes/database.php	2008-03-07 14:20:23.000000000 +1030
++++ root/www/recordings/includes/database.php	2008-03-11 11:31:52.000000000 +1030
 @@ -43,18 +43,25 @@
      // connect string
      if ($dbfile) {
@@ -80,7 +80,7 @@
      // attempt connection
      $dbh = DB::connect($datasource,$options); 
 --- freepbx-2.4.0-orig//amp_conf/htdocs/admin/cdr/lib/defines.php	2006-09-26 20:48:51.000000000 +0930
-+++ root/www/admin/cdr/lib/defines.php	2008-03-07 14:20:23.000000000 +1030
++++ root/www/admin/cdr/lib/defines.php	2008-03-11 11:31:52.000000000 +1030
 @@ -12,7 +12,7 @@
          return $conf;
  }
@@ -146,7 +146,7 @@
    if(DB::isError($db))
      {
 --- freepbx-2.4.0-orig//amp_conf/htdocs/admin/cdr/lib/Class.Table.php	2006-09-26 20:48:51.000000000 +0930
-+++ root/www/admin/cdr/lib/Class.Table.php	2008-03-07 14:20:23.000000000 +1030
++++ root/www/admin/cdr/lib/Class.Table.php	2008-03-11 11:31:52.000000000 +1030
 @@ -80,8 +80,11 @@
  				
  		//$res=DbExec($link, $QUERY);
@@ -161,7 +161,7 @@
  		
  		
 --- freepbx-2.4.0-orig//SQL/newinstall.sqlite3.sql	2008-02-11 14:27:53.000000000 +1030
-+++ freepbx-2.4.0//SQL/newinstall.sqlite3.sql	2008-03-02 20:20:33.000000000 +1030
++++ freepbx-2.4.0//SQL/newinstall.sqlite3.sql	2008-03-08 10:05:24.000000000 +1030
 @@ -323,7 +323,7 @@
  -- Dumping data for table `modules`
  --
@@ -172,7 +172,7 @@
  	`id` varchar(20) NOT NULL default 'xml',
  	`time` int(11) NOT NULL default '0',
 --- freepbx-2.4.0-orig//install_amp	2008-01-28 04:22:58.000000000 +1030
-+++ freepbx-2.4.0//install_amp	2008-03-08 10:05:14.000000000 +1030
++++ freepbx-2.4.0//install_amp	2008-03-08 10:05:29.000000000 +1030
 @@ -4,7 +4,7 @@
  require_once ("libfreepbx.install.php");
  
@@ -222,7 +222,7 @@
  
  // we still support older configurations,  and fall back 
 --- freepbx-2.4.0-orig//amp_conf/htdocs/admin/modules/recordings/install.php	2007-08-08 14:34:58.000000000 +0930
-+++ freepbx-2.4.0//amp_conf/htdocs/admin/modules/recordings/install.php	2008-03-02 20:20:33.000000000 +1030
++++ freepbx-2.4.0//amp_conf/htdocs/admin/modules/recordings/install.php	2008-03-08 10:05:24.000000000 +1030
 @@ -22,7 +22,14 @@
  unset($fcc);
  
@@ -274,7 +274,7 @@
  
  ?>
 --- freepbx-2.4.0-orig//amp_conf/bin/retrieve_conf	2007-12-15 08:18:39.000000000 +1030
-+++ freepbx-2.4.0//amp_conf/bin/retrieve_conf	2008-03-07 20:39:45.000000000 +1030
++++ freepbx-2.4.0//amp_conf/bin/retrieve_conf	2008-03-08 10:05:28.000000000 +1030
 @@ -10,7 +10,7 @@
  
  ini_set('error_reporting', E_ALL & ~E_NOTICE);
@@ -337,7 +337,7 @@
  //
  install_cron_scheduler();
 --- freepbx-2.4.0-orig//amp_conf/astetc/manager.conf	2006-05-01 11:39:24.000000000 +0930
-+++ freepbx-2.4.0//amp_conf/astetc/manager.conf	2008-03-07 13:41:16.000000000 +1030
++++ freepbx-2.4.0//amp_conf/astetc/manager.conf	2008-03-08 10:05:24.000000000 +1030
 @@ -6,8 +6,8 @@
  port = 5038
  bindaddr = 0.0.0.0
@@ -349,3 +349,16 @@
  deny=0.0.0.0/0.0.0.0
  permit=127.0.0.1/255.255.255.0
  read = system,call,log,verbose,command,agent,user
+--- freepbx-2.4.0-orig//amp_conf/htdocs/admin/config.php	2007-12-02 18:06:31.000000000 +1030
++++ root/www/admin/config.php	2008-03-11 13:22:34.000000000 +1030
+@@ -39,7 +39,9 @@
+ 			/** AJAX handler for reload event
+ 			 */
+ 			include_once('common/json.inc.php');
+-			$response = do_reload();
++			// DR: include as global code
++			include_once('do_reload.php');
++			//$response = do_reload();
+ 			$json = new Services_JSON();
+ 			echo $json->encode($response);
+ 		break;

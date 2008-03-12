@@ -24,7 +24,7 @@ PHP_SOURCE=php-$(PHP_VERSION).tar.bz2
 PHP_CONFIGURE_OPTS=--disable-all --with-pcre-regex --enable-force-cgi-redirect \
                    --with-config-file-path=$(ROOT)/etc --prefix=$(ROOT) \
 		   --with-pear --enable-xml --enable-libxml --enable-session \
-	           --with-gettext
+	           --with-gettext --enable-debug
 
 $(DL_DIR)/$(PHP_SOURCE):
 	mkdir -p dl
@@ -233,6 +233,11 @@ $(DL_DIR)/$(FREEPBX_SOURCE):
 $(FREEPBX_DIR)/.unpacked: $(DL_DIR)/$(FREEPBX_SOURCE)
 	zcat $(DL_DIR)/$(FREEPBX_SOURCE) | tar -C $(BUILD_DIR) -xf -
 	patch -d $(FREEPBX_DIR) -p1 < patch/freepbx.patch
+
+	# additional files to implement retrieve_conf as include
+
+	cp files/retrieve_conf.inc.php files/do_reload.php $(FREEPBX_DIR)/amp_conf/admin
+
 	touch $(FREEPBX_DIR)/.unpacked
 
 $(FREEPBX_DIR)/.installed: $(FREEPBX_DIR)/.unpacked
@@ -411,9 +416,19 @@ freepbx-make-patch:
 	$(A)/amp_conf/bin/retrieve_conf \
 	>> patch/freepbx.patch
 
+	# set up default AMP user and password
+
 	-diff -uN \
 	$(AO)/amp_conf/astetc/manager.conf \
 	$(A)/amp_conf/astetc/manager.conf \
+	>> patch/freepbx.patch
+
+	# make retrieve_conf an include from config.php rather
+        # than exec to save about 15M
+
+	-diff -uN \
+	$(AO)/amp_conf/htdocs/admin/config.php \
+	$(AROOT)/admin/config.php \
 	>> patch/freepbx.patch
 
 	# NOTE: common.patch was generated manually from command line
