@@ -236,7 +236,8 @@ $(FREEPBX_DIR)/.unpacked: $(DL_DIR)/$(FREEPBX_SOURCE)
 
 	# additional files to implement retrieve_conf as include
 
-	cp files/retrieve_conf.inc.php files/do_reload.php $(FREEPBX_DIR)/amp_conf/admin
+	cp files/retrieve_conf.inc.php files/do_reload.php \
+	$(FREEPBX_DIR)/amp_conf/htdocs/admin
 
 	touch $(FREEPBX_DIR)/.unpacked
 
