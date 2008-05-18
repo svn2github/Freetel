@@ -113,11 +113,25 @@ router without level conversion, see reference docs for RS232 software
 UART code in wispcar.asm.  I used a MAX232 type chip for interfacing
 the RS232 tx & rx to a PC's serial port for testing.
 
-Gotcha
-------
+Gotchas
+-------
 
-Can only use 'call' to call an address in the first 256 bytes, so put
-all funcs at the start of the program, main at the end.
+1/ On the PIC12F510 we can only use 'call' to call an address in the
+first 256 bytes, so put all funcs at the start of the program, main at
+the end.
+
+2/ If the RS232 characters have occasional errors, the internal clock
+oscillator may need tweaking.  You can check the baud rate of the
+RS232 signals using an oscilloscope, at 4800 baud the bit period
+should be 208us.  See PIC data sheet for information on adjusting the
+internal oscillator.
+
+3/ The Vce(max) rating of Q2 is 35V, and Vgs(max) of Q1 +/- 20V.  As
+R1/R2 form a voltage divider I think this sets the maximum Vbat at 35V
+for the current version, i.e. Q1 will pop first (as Vgs will hit 20V
+when Vbat=40V).  Need higher Vce Q2 or change circuit to limit
+Vgs(max). Need to make sure sufficient Vgs to switch on Q1 at low
+Vbat.  Maybe two versions with different R1/R2?
 
 TODO List
 ---------
@@ -129,17 +143,20 @@ TODO List
     [ ] connect + & - together on unsued op-amp sections
     [ ] TAPR open harwdare license
 
-[ ] svn repository
+[X] svn repository
     + with datasheet pdfs ?
 [ ] wire correctly for power on reset
     + test with dodgy power on curve (slow power up)
-[ ] blog post
-[ ] README in SVN
+[X] blog post
+[X] README in SVN
+    + this file
+[ ] Add 4th digit to sleep timer
 [ ] test with WRT54
 [ ] add brown out detector to PIC reset to be double sure?
     + see PIC data sheet
 [ ] check what happens in overvoltage on input, how can we protect?
 [ ] document test plan
+[ ] get PIC part name right in symbol file
 [X] make sure we can't stall in RS232 input routine
     + need a way to get around this.....
     + malformed RS323 could cause a hang
@@ -177,3 +194,5 @@ TODO List
 [ ] work out how to run from 60V
     + 78L05 pops at 35V
 
+[ ] Will 5V levels from PIC play nicely with 3V3 levels of router -
+check data sheets!
