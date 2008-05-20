@@ -133,6 +133,27 @@ when Vbat=40V).  Need higher Vce Q2 or change circuit to limit
 Vgs(max). Need to make sure sufficient Vgs to switch on Q1 at low
 Vbat.  Maybe two versions with different R1/R2?
 
+4/ Current Sensor resistor values.  When building the first soldered
+prototype I found that residual flux messed up the 10M R11 feedback
+resistor.  Scraping flux away and cleaning with solvent brought the
+resistance back up again.  This could be a problem with home
+construction, and possibly humid environments.  Perhaps we should
+scale resistors down to say 100k/10k voltage dividers, 1M R11?
+
+5/ When building the first soldered prototype I found that the
+position of the ground wires carrying high current caused the current
+sensor to stop working (stuck at 0V).  U2 GND and the GND of R7, R9,
+R10 where at different places along the GND track carrying 0.5A.  This
+caused a voltage drop of about 5mV between the two GNDs.  I moved the
+ground connection (made the GND in GND out points close to each other
+so 0.5A was only flowing thru a short section of track) and the
+current sensor started working again.  This suggests a carefully laid
+out PCB is a good idea.
+
+6/ The voltage on pins 2 & 3 of U2 (+/i op-amp input) should be within
+10 mV of each other with U2 unplugged.  A greater difference indicates
+one of the resistor values is wrong.
+
 TODO List
 ---------
 
@@ -147,6 +168,8 @@ TODO List
     + with datasheet pdfs ?
 [ ] wire correctly for power on reset
     + test with dodgy power on curve (slow power up)
+[ ] unused LM324 inputs
+    + check if its really OK to GND them
 [X] blog post
 [X] README in SVN
     + this file
@@ -157,6 +180,9 @@ TODO List
 [ ] check what happens in overvoltage on input, how can we protect?
 [ ] document test plan
 [ ] get PIC part name right in symbol file
+[ ] meausure the current consumption of the soldered prototype
+[ ] Indicate single point grounding on schematic
+[ ] Note 1% R's on schematic
 [X] make sure we can't stall in RS232 input routine
     + need a way to get around this.....
     + malformed RS323 could cause a hang
@@ -171,6 +197,10 @@ TODO List
     + or can it be spread over cycles?
 [ ] enable PIC watchdog timer
     + how can we test?
+[ ] How repeatable is current sensor?
+    + y intercept (DC offset)
+    + slope
+    + maybe build a few a check
 [ ] make sure all RS232 chars OK
     + how to prog with calibrated clock?
     + check baud rate
