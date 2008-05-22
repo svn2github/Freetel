@@ -42,6 +42,11 @@ Project Plan
     [ ] Install in Solar powered AP (Rowetel)
     
 [ ] WP300 Testing
+    [ ] Test 1: false watchdog firing
+	+ test_watchdog.tcl Exepct script
+	+ sends 'w' every sec, look for false WD fire
+	+ results: after approx 40 hrs, 91,000 seconds, no false firing
+        
     [ ] Test to determine watchdog doesn't fire by mistake
         + leave running for 1 week
         + stable power & router
@@ -158,11 +163,11 @@ TODO List
 ---------
 
 [ ] schematic
-    [ ] pinout of 78L05
-    [ ] pinout of power FET
-    [ ] pinout of BC548
+    [X] pinout of 78L05
+    [X] pinout of power FET
+    [X] pinout of BC548
     [ ] connect + & - together on unsued op-amp sections
-    [ ] TAPR open harwdare license
+    [X] TAPR open harwdare license
 
 [X] svn repository
     + with datasheet pdfs ?
@@ -171,6 +176,8 @@ TODO List
 [ ] unused LM324 inputs
     + check if its really OK to GND them
 [X] blog post
+[ ] test at 5A for 24 Hrs
+    + given FET on-resistance do we need a heat sink?
 [X] README in SVN
     + this file
 [ ] Add 4th digit to sleep timer

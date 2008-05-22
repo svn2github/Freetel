@@ -67,21 +67,21 @@
 ;
 ; 4800 BAUD RS232 OUTPUT
 ; ======================
-;
-; Vsense
-; |   Isense
-; |   |   Last char received (ASCII)
-; |   |   | Last char received (decimal)
-; |   |   | |   Watchdog timeout counter
-; |   |   | |   |   Watchdog fire counter
-; |   |   | |   |   |   Sleep state machine state
-; |   |   | |   |   |   | Sleep timeout counter
-; |   |   | |   |   |   | |    
-; 040 031   032 012 000 0 000 w---reason for last restart
-;                                 b - Wispcar (re)booted  
-;                                 w - watchdog timer fired 
-;                                 s - we went to sleep
-;
+; Name of script on host that parses this line
+; |       Vsense
+; |       |   Isense
+; |       |   |   char received (ASCII)
+; |       |   |   | Last char received (decimal)
+; |       |   |   | |   Watchdog timeout counter
+; |       |   |   | |   |   Watchdog fire counter
+; |       |   |   | |   |   |   Sleep state machine state
+; |       |   |   | |   |   |   | Sleep timeout counter
+; |       |   |   | |   |   |   | |    
+; wispcar 040 031 - 032 012 000 0 000 w---reason for last restart
+;                                     b - Wispcar (re)booted  
+;                                     w - watchdog timer fired 
+;                                     s - we went to sleep
+;                                     - - restart flag reset
 ;
 ; COMMANDS
 ; ========
@@ -334,7 +334,7 @@ inch_n_delay
 
 	; clear previous rx char
 
-	movlw	' '
+	movlw	'-'
 	movwf	SERBUFI
 
 	; init delay loop for 1999996 cycles
@@ -407,7 +407,7 @@ inch_n1
 	movlw	WD_TIMEOUT	; reset watchdog timer
 	movwf	wd_timeout
 
-	movlw	' '		; clear reboot flag
+	movlw	'-'		; clear reboot flag
         movwf	restart_flag
 
 	clrf	sleep_state     ; reset sleep state machine for good measure
@@ -693,6 +693,26 @@ main
 wait_adc_v
 	btfsc	ADCON0,1	; skip if A/D conversion finished
 	goto	wait_adc_v
+
+	; print 'wispcar' to get host to call script called wispcar.
+	; This script can then parse wispcar output
+
+	movlw   'w'
+ 	call	outch_n
+	movlw   'i'
+ 	call	outch_n
+	movlw   's'
+ 	call	outch_n
+	movlw   'p'
+ 	call	outch_n
+	movlw   'c'
+ 	call	outch_n
+	movlw   'a'
+ 	call	outch_n
+	movlw   'r'
+ 	call	outch_n
+	movlw   ' '
+ 	call	outch_n
 
 	; print voltage to RS232
 
