@@ -2,8 +2,8 @@
 # Generates sch PDF
 # Derived from the BlackfinOne Makefile - thanks Ivan
 
-SCH_FILES = wispcar
-PROJECT = wispcar
+SCH_FILES = wispcarb
+PROJECT = wispcarb
 REV     := $(shell svn info | grep Revision | sed 's/Revision: //')
 
 SCHPS     = $(addsuffix .ps,$(SCH_FILES))
