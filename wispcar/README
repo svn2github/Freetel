@@ -1,0 +1,11 @@
+wispcar README
+--------------
+
+David Rowe 22 June 2009
+
+stty is a WRT54GL OpenWRT  binary utility some one had compiled on the web, used
+for setting serial port speeds
+
+wispcar.asm is the original code as per the blog post: http://www.rowetel.com/blog/?p=68
+
+wispcarb.asm has a mod to the watchdog timer to stay off, used for battery testing

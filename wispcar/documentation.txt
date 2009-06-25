@@ -60,7 +60,7 @@ Project Plan
     [ ] Brown out test
         + vary Vbat from 30V down to 2V 10 times
         + make sure PIC does not hang
-        
+         
 Specs:
 -----
 
@@ -168,6 +168,11 @@ TODO List
     [X] pinout of BC548
     [ ] connect + & - together on unsued op-amp sections
     [X] TAPR open harwdare license
+[ ] PCB ideas
+    [ ] extra pads for zener to drop input voltage
+    [ ] extra pads for general prototyping
+    [ ] break out extra op amp pins
+        + dont hard-tie them
 
 [X] svn repository
     + with datasheet pdfs ?

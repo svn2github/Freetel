@@ -1,5 +1,11 @@
-; wispcar.asm
-; David Rowe May 2008
+; wispcarb.asm
+; David Rowe June 2009
+;
+; WISPCAR modified for EV battery testing.  When watchdog fires PowerSwitch
+; (pin 6) stays off until the host sends a "w".  This switches off current
+; to the battery under test if the host side dies.  This mod is just a hack
+; for now.
+;
 ;
 ; PIC12F510 Assembler program, MPLAB V8.10 IDE used to build.
 ;
@@ -415,6 +421,9 @@ inch_n1
 
 	movlw	WD_TIMEOUT	; reset watchdog timer
 	movwf	wd_timeout
+
+	; DR June 2009 - mods
+	bsf		GPIO,1
 
 	movlw	'-'		; clear reboot flag
         movwf	restart_flag
@@ -919,7 +928,10 @@ dec_sleeptimeout
 watchdog_firing
 
 	movlw	1
-	subwf	wd_fire,1
+
+	; DR June 2009 - make watchdog fire forerver, cutting power
+	; from battery indefinately until host returns
+	subwf	wd_fire,0
 
 	; watchdog firing complete? (wd_fire == 0)?
 
