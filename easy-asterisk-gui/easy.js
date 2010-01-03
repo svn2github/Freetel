@@ -1,0 +1,67 @@
+var script_path = "cgi-bin/";
+
+function doStatic() {    
+    $('ipaddress').disabled = 0;
+    $('netmask').disabled = 0;
+    $('gateway').disabled = 0;
+    $('dns').disabled = 0;
+}
+
+function doDHCP() {
+    $('ipaddress').disabled = 1;
+    $('netmask').disabled = 1;
+    $('gateway').disabled = 1;
+    $('dns').disabled = 1;
+}
+
+// http://moblog.bradleyit.com/2009/06/javascript-ip-address-validation.html
+
+function isIP(obj) {
+    var ary = obj.value.split(".");
+    var ip = true;
+
+    for (var i=0; i<4; i++) { 
+	ip = (!ary[i].match(/^\d{1,3}$/) || (Number(ary[i]) > 255)) ? false : ip; 
+    } 
+  
+    if (ip)
+	ip = (ary.length == 4); 
+
+    if (!ip) {    
+	// the value is NOT a valid IP address
+	obj.style.background = "red";
+	obj.select();
+    } 
+    else { obj.style.background = ""; } // the value IS a valid IP address
+
+    return ip;
+}
+
+function validateForm(thisForm) {
+    var valid = true;
+
+    with (thisForm) {
+	valid = isISP(ipaddress);
+    }
+
+    return !valid;
+}
+
+function localInit() {
+
+    if (init_dhcp == "yes") {
+	$('dhcp').checked = true;
+    }
+    else {
+	$('static').checked = true;
+	$('ipaddress').disabled = 0;
+	$('netmask').disabled = 0;
+	$('gateway').disabled = 0;
+	$('dns').disabled = 0;
+    }
+    $('ipaddress').value = init_ipaddress;
+    $('netmask').value = init_netmask;
+    $('gateway').value = init_gateway;
+    $('dns').value = init_dns;
+    $('networkapply').disabled = 0;    
+}

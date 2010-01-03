@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 # set_network.sh
 #
 # A system call from AJAM/Asterisk sets the network parameters of an IP0X using
@@ -7,6 +7,16 @@
 # ./set_network yes|no [ipaddress] [netmask] [gateway] [dns]
 
 echo `date` " set_network.sh $1 $2 $3 $4 $5" >> /tmp/easy_gui.log
+
+cat << EOF
+<html>
+EOF
+env
+cat <<EOF
+</html>
+EOF
+
+exit
 
 if [ $1 == "yes" ]; then
 
