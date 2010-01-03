@@ -50,7 +50,7 @@ cat <<EOF
 <html>
 <head>
 <title>set_network.sh</title>
-<meta http-equiv="REFRESH" content="0;url=http:test.sh">
+<meta http-equiv="REFRESH" content="0;url=http:network.sh">
 </head>
 </html>
 

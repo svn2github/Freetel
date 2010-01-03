@@ -1,4 +1,7 @@
 #!/bin/sh
+# network.sh
+# David Rowe 4 Jan 2010
+# CGI for network GUI
 
 echo `date` " get_network.sh" >> /tmp/easy_gui.log
 
@@ -19,6 +22,15 @@ then
   dns=`sed -n 's/DNS="\(.*\)"/\1/p' /etc/init.d/network-static`
 fi
 
+# See if we have Internet connectivity
+
+packet_loss=`ping google.com -c 1 -q | sed -n 's/.*received, \(.*\)% packet loss/\1/p'`
+if [ $packet_loss == "0" ]; then
+  internet="Good";
+else
+  internet="Not Available";
+fi
+
 # Construct the web page -------------------------------
 
 echo "<script src="prototype.js"></script>"
@@ -29,14 +41,15 @@ echo 'var init_ipaddress="'$ipaddress'";'
 echo 'var init_netmask="'$netmask'";'
 echo 'var init_gateway="'$gateway'";'
 echo 'var init_dns="'$dns'";'
-cat easy.js
+echo 'var init_internet="'$internet'";'
+cat network.js
 echo "</script>"
 
 cat << EOF
 <html>
-<title>Easy Asterisk GUI</title>
+<title>Easy Asterisk - Network</title>
 <body onload="localInit()">
-<form action="/cgi-bin/set_network.sh" method="get">
+<form action="/cgi-bin/set_network.sh" onsubmit="return validate_form(this)" method="get">
 <table align="center" width=600>
 <tr>
   <tr>
@@ -47,6 +60,7 @@ cat << EOF
   <tr><td>Netmask:</td><td><input type="text" name="netmask" id="netmask" onBlur="isIP(this)"></td></tr>
   <tr><td>Gateway:</td><td><input type="text" name="gateway" id="gateway" onBlur="isIP(this)"></td></tr>
   <tr><td>DNS:</td><td><input type="text" name="dns" id="dns" onBlur="isIP(this)"></td></tr>
+  <tr><td>Internet Connection:</td><td><input type="text" name="internet" id="internet" disabled=1></td></tr>
   <tr><td><input id="networkapply" type="submit" value="Apply"></td></tr>
 </tr>
 </table>
