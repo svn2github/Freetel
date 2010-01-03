@@ -4,6 +4,8 @@
 # Extracts network config into /etc/asterisk/network.conf in a form
 # that the AJAM getconfig can read.
 
+echo `date` " get_network.sh" >> /tmp/easy_gui.log
+
 F="/etc/asterisk/network.conf"
 echo "[network]" > $F
 
