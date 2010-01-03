@@ -43,10 +43,10 @@ cat << EOF
      <td><input type="radio" id="static" name="dhcp" value="no" onClick="doStatic()">Static</td>
      <td><input type="radio" id="dhcp"   name="dhcp" value="yes" onClick="doDHCP()">DHCP</td>
   </tr>
-  <tr><td>IP Address:</td><td><input type="text" name="ipaddress" id="ipaddress" onBlur="isIP(this)" disabled=1></td></tr>
-  <tr><td>Netmask:</td><td><input type="text" name="netmask" id="netmask" onBlur="isIP(this)" disabled=1></td></tr>
-  <tr><td>Gateway:</td><td><input type="text" name="gateway" id="gateway" onBlur="isIP(this)" disabled=1></td></tr>
-  <tr><td>DNS:</td><td><input type="text" name="dns" id="dns" onBlur="isIP(this)" disabled=1></td></tr>
+  <tr><td>IP Address:</td><td><input type="text" name="ipaddress" id="ipaddress" onBlur="isIP(this)"></td></tr>
+  <tr><td>Netmask:</td><td><input type="text" name="netmask" id="netmask" onBlur="isIP(this)"></td></tr>
+  <tr><td>Gateway:</td><td><input type="text" name="gateway" id="gateway" onBlur="isIP(this)"></td></tr>
+  <tr><td>DNS:</td><td><input type="text" name="dns" id="dns" onBlur="isIP(this)"></td></tr>
   <tr><td><input id="networkapply" type="submit" value="Apply"></td></tr>
 </tr>
 </table>

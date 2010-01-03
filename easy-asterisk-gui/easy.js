@@ -37,20 +37,14 @@ function isIP(obj) {
     return ip;
 }
 
-function validateForm(thisForm) {
-    var valid = true;
-
-    with (thisForm) {
-	valid = isISP(ipaddress);
-    }
-
-    return !valid;
-}
-
 function localInit() {
 
     if (init_dhcp == "yes") {
 	$('dhcp').checked = true;
+	$('ipaddress').disabled = 1;
+	$('netmask').disabled = 1;
+	$('gateway').disabled = 1;
+	$('dns').disabled = 1;
     }
     else {
 	$('static').checked = true;

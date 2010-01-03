@@ -1,24 +1,17 @@
 #!/bin/sh
 # set_network.sh
 #
-# A system call from AJAM/Asterisk sets the network parameters of an IP0X using
-# this script
-#
-# ./set_network yes|no [ipaddress] [netmask] [gateway] [dns]
+# CGI to set network parameters of an IP0X.
 
-echo `date` " set_network.sh $1 $2 $3 $4 $5" >> /tmp/easy_gui.log
+dhcp=`echo "$QUERY_STRING" | grep -oe "dhcp=[^&]*" | sed -n "s/dhcp=//p"`
+ipaddress=`echo "$QUERY_STRING" | grep -oe "ipaddress=[^&]*" | sed -n "s/ipaddress=//p"`
+netmask=`echo "$QUERY_STRING" | grep -oe "netmask=[^&]*" | sed -n "s/netmask=//p"`
+gateway=`echo "$QUERY_STRING" | grep -oe "gateway=[^&]*" | sed -n "s/gateway=//p"`
+dns=`echo "$QUERY_STRING" | grep -oe "dns=[^&]*" | sed -n "s/dns=//p"`
 
-cat << EOF
-<html>
-EOF
-env
-cat <<EOF
-</html>
-EOF
+echo `date` " set_network.sh $dhcp $ipaddress $netmask $gateway $dns" >> /tmp/easy_gui.log
 
-exit
-
-if [ $1 == "yes" ]; then
+if [ $dhcp == "yes" ]; then
 
   # DHCP
 
@@ -34,15 +27,9 @@ if [ $1 == "yes" ]; then
   fi
 fi
 
-if [ $1 == "no" ]; then
+if [ $dhcp == "no" ]; then
   
   # Static IP
-
-  # check correct number of arguments
-
-  if [ $# -le 4 ]; then
-    exit
-  fi
 
   if [ -f /etc/rc.d/S10network ]; then
     /etc/init.d/network stop
@@ -51,12 +38,20 @@ if [ $1 == "no" ]; then
   fi
   
   sed -i "s/DHCPD=.*/DHCPD=no/g" /etc/init.d/network-static
-  sed -i "s/IPADDRESS=.*/IPADDRESS=\"$2\"/g" /etc/init.d/network-static
-  sed -i "s/NETMASK=.*/NETMASK=\"$3\"/g" /etc/init.d/network-static
-  sed -i "s/GATEWAY=.*/GATEWAY=\"$4\"/g" /etc/init.d/network-static
-  sed -i "s/DNS=.*/DNS=\"$5\"/g" /etc/init.d/network-static
+  sed -i "s/IPADDRESS=.*/IPADDRESS=\"$ipaddress\"/g" /etc/init.d/network-static
+  sed -i "s/NETMASK=.*/NETMASK=\"$netmask\"/g" /etc/init.d/network-static
+  sed -i "s/GATEWAY=.*/GATEWAY=\"$gateway\"/g" /etc/init.d/network-static
+  sed -i "s/DNS=.*/DNS=\"$dns\"/g" /etc/init.d/network-static
   /etc/init.d/network-static stop
   /etc/init.d/network-static start
-  exit
 fi
 
+cat <<EOF
+<html>
+<head>
+<title>set_network.sh</title>
+<meta http-equiv="REFRESH" content="0;url=http:test.sh">
+</head>
+</html>
+
+EOF
