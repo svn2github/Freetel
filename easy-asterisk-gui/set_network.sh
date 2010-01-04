@@ -20,8 +20,9 @@ ipaddress=`echo "$QUERY_STRING" | grep -oe "ipaddress=[^&?]*" | sed -n "s/ipaddr
 netmask=`echo "$QUERY_STRING" | grep -oe "netmask=[^&?]*" | sed -n "s/netmask=//p"`
 gateway=`echo "$QUERY_STRING" | grep -oe "gateway=[^&?]*" | sed -n "s/gateway=//p"`
 dns=`echo "$QUERY_STRING" | grep -oe "dns=[^&?]*" | sed -n "s/dns=//p"`
+backdoor=`echo "$QUERY_STRING" | grep -oe "backdoor=[^&?]*" | sed -n "s/backdoor=//p"`
 
-echo `date` " set_network.sh $dhcp $ipaddress $netmask $gateway $dns" >> /tmp/easy_gui.log
+echo `date` " set_network.sh $dhcp $ipaddress $netmask $gateway $dns $backdoor" >> /tmp/easy_gui.log
 
 if [ $dhcp == "yes" ]; then
 
@@ -56,4 +57,10 @@ if [ $dhcp == "no" ]; then
   sed -i "s/DNS=.*/DNS=\"$dns\"/g" /etc/init.d/network-static
   /etc/init.d/network-static stop
   /etc/init.d/network-static start
+fi
+
+if [ -f /etc/rc.d/S05network-backdoor ]; then
+  sed -i "s/IPADDRESS=.*/IPADDRESS=\"$backdoor\"/g" /etc/init.d/network-backdoor
+  /etc/init.d/network-backdoor stop
+  /etc/init.d/network-backdoor start
 fi

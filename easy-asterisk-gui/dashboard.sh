@@ -3,13 +3,12 @@
 # David Rowe 4 Jan 2010
 # CGI for Easy Asterisk dashboard GUI
 
-# See if we have Internet connectivity
+# See if we have Internet connectivity, unlike network.sh we don't check dns first
 
+internet="no";
 packet_loss=`ping google.com -c 1 -q | sed -n 's/.*received, \(.*\)% packet loss/\1/p'`
 if [ $packet_loss == "0" ]; then
-  internet="Good";
-else
-  internet="Not Available";
+  internet="yes";
 fi
 
 # Construct the web page -------------------------------
@@ -46,7 +45,7 @@ cat <<EOF
     <form action="/cgi-bin/set_network.sh" onsubmit="return validate_form(this)" method="get">
     <table align="right" width=600>
     <tr>
-      <tr><td colspan="2" align="left"><h2>Dashboard</h2></td>
+      <tr><td colspan="2" align="left" valign="top" ><h2>Dashboard</h2></td>
       <tr onMouseOver="popUp(event,'t1')" onmouseout="popUp(event,'t1')">
 	  <td>Internet Connection:</td>
 	  <td><div id="internet" >

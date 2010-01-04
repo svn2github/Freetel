@@ -57,7 +57,12 @@ function localInit() {
     $('netmask').value = init_netmask;
     $('gateway').value = init_gateway;
     $('dns').value = init_dns;
-    $('internet').innerHTML = init_internet;    
+    $('backdoor').value = init_backdoor;    
+    if (init_internet == "yes")
+	$('internet').innerHTML = '<img src="tick.png" alt="tick" />';
+    else
+        $('internet').innerHTML = '<img src="cross.png" alt="tick" />';
+
 }
 
 function validate_form(form)
