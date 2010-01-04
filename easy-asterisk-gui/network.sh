@@ -63,26 +63,20 @@ cat << EOF
 <html>
 <title>Easy Asterisk - Network</title>
 <body onload="localInit()">
-<div id="t1" class="tip">A tick means I can reach the Internet.  You need the Internet for VOIP calls.  
-                         If you have a problem reaching the Internet check your Network settings, in 
-                         particular Gateway and DNS.</div>
-<div id="t2" class="tip">Emergency backdoor IP. Useful if you get locked out of the main network connection, for 
-                         example due to DHCP problems on your network or a configuration mistake.  
-                         Write this number down somewhere!</div>
-
-<table align="center" width=800>
 EOF
+
+cat tooltips.html
+echo "<table align="center" width=800 border=0>"
 cat banner.html
 echo "    <tr>"
 cat menu.html    
 cat <<EOF
 
-    <td>
+    <td valign="top">
 
     <form action="/cgi-bin/set_network.sh" onsubmit="return validate_form(this)" method="get">
-    <table align="center" width=600>
-    <tr>
-      <tr><td colspan="2" align="left" valign="top"><h2>Network</h2></td>
+    <table align="center" width=600 border=0>
+      <tr><td colspan="2" align="left" valign="top"><h2>Network</h2></td></tr>
       <tr>
 	 <td><input type="radio" id="static" name="dhcp" value="no" onClick="doStatic()">Static</td>
 	 <td><input type="radio" id="dhcp"   name="dhcp" value="yes" onClick="doDHCP()">DHCP</td>
@@ -91,17 +85,16 @@ cat <<EOF
       <tr><td>Netmask:</td><td><input type="text" name="netmask" id="netmask" onBlur="isIP(this)"></td></tr>
       <tr><td>Gateway:</td><td><input type="text" name="gateway" id="gateway" onBlur="isIP(this)"></td></tr>
       <tr><td>DNS:</td><td><input type="text" name="dns" id="dns" onBlur="isIP(this)"></td></tr>
-      <tr onMouseOver="popUp(event,'t2')" onmouseout="popUp(event,'t2')">
+      <tr onMouseOver="popUp(event,'network_backdoor')" onmouseout="popUp(event,'network_backdoor')">
           <td>Emergency IP:</td><td><input type="text" name="backdoor" id="backdoor" onBlur="isIP(this)"></td>
       </tr>
-      <tr onMouseOver="popUp(event,'t1')" onmouseout="popUp(event,'t1')">
+      <tr onMouseOver="popUp(event,'network_internet')" onmouseout="popUp(event,'network_internet')">
 	  <td>Internet Connection:</td>
 	  <td><div id="internet" >
 	  <span style="margin-left: 4px;font-weight:bold">&nbsp;</span></div></td>
 
       </tr>
       <tr><td><input id="networkapply" type="submit" value="Apply"></td></tr>
-    </tr>
     </table>
     </form>
 

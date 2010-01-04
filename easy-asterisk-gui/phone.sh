@@ -1,15 +1,7 @@
 #!/bin/sh -x
-# dashboard.sh
+# phone.sh
 # David Rowe 4 Jan 2010
-# CGI for Easy Asterisk dashboard GUI
-
-# See if we have Internet connectivity, unlike network.sh we don't check dns first
-
-internet="no";
-packet_loss=`ping google.com -c 1 -q | sed -n 's/.*received, \(.*\)% packet loss/\1/p'`
-if [ $packet_loss == "0" ]; then
-  internet="yes";
-fi
+# CGI for Easy Asterisk phones GUI
 
 # Construct the web page -------------------------------
 
@@ -24,28 +16,31 @@ EOF
 
 echo "<script>"
 echo 'var init_internet="'$internet'";'
-cat dashboard.js
+cat phone.js
 echo "</script>"
 
 cat << EOF
 <html>
-<title>Easy Asterisk - Dashboard</title>
+<title>Easy Asterisk - Phones</title>
 <body onload="localInit()">
-EOF
+<div id="t1" class="tip">Tells you if I can reach the Internet.  If 
+                         not "Good" check your network settings, in 
+                         particular Gateway and DNS.</div>
 
-cat tooltips.html
-echo "<table align="center" width=800 border=0>"
+<table align="center" width=800>
+EOF
 cat banner.html
 echo "    <tr>"
 cat menu.html    
 cat <<EOF
 
-    <td valign="top">
+    <td>
 
-    <form action="/cgi-bin/set_network.sh" onsubmit="return validate_form(this)" method="get">
-    <table align="right" width=600 border=0>
-      <tr><td colspan="2" align="left" valign="top" ><h2>Dashboard</h2></td></tr>
-      <tr onMouseOver="popUp(event,'network_internet')" onmouseout="popUp(event,'network_internet')">
+    <form action="/cgi-bin/set_phone.sh" onsubmit="return validate_form(this)" method="get">
+    <table align="right" width=600>
+    <tr>
+      <tr><td colspan="2" align="left" valign="top" ><h2>Phones</h2></td>
+      <tr onMouseOver="popUp(event,'t1')" onmouseout="popUp(event,'t1')">
 	  <td>Internet Connection:</td>
 	  <td><div id="internet" >
 	  <span style="margin-left: 4px;font-weight:bold">&nbsp;</span></div></td>
