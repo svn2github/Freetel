@@ -14,15 +14,7 @@ fi
 
 # Construct the web page -------------------------------
 
-echo $HTTP_COOKIE | grep "loggedin" > /dev/null
-if [ $? -eq 1 ]; then
-    echo "<html>"
-    echo "<head>"
-    echo '<meta http-equiv="REFRESH" content="0;url=http:login.sh">'
-    echo "</head>"
-    echo "</html>"
-    exit
-fi
+sh check_loggedin.sh
 
 cat <<EOF
 <script src="prototype.js"></script>
@@ -41,19 +33,34 @@ cat << EOF
 <title>Easy Asterisk - Dashboard</title>
 <body onload="localInit()">
 <div id="t1" class="tip">Tells you if I can reach the Internet.  If not "Good" check your network settings, in particular Gateway and DNS.</div>
-<form action="/cgi-bin/set_network.sh" onsubmit="return validate_form(this)" method="get">
-<table align="center" width=600>
-<tr>
-  <tr><td colspan="2" align="left"><h2>Dashboard</h2></td>
-  <tr onMouseOver="popUp(event,'t1')" onmouseout="popUp(event,'t1')">
-      <td>Internet Connection:</td>
-      <td><div id="internet" >
-      <span style="margin-left: 4px;font-weight:bold">&nbsp;</span></div></td>
-      
-  </tr>
-</tr>
+
+<table align="center" width=800>
+EOF
+cat banner.html
+echo "    <tr>"
+cat menu.html    
+cat <<EOF
+
+    <td>
+
+    <form action="/cgi-bin/set_network.sh" onsubmit="return validate_form(this)" method="get">
+    <table align="right" width=600>
+    <tr>
+      <tr><td colspan="2" align="left"><h2>Dashboard</h2></td>
+      <tr onMouseOver="popUp(event,'t1')" onmouseout="popUp(event,'t1')">
+	  <td>Internet Connection:</td>
+	  <td><div id="internet" >
+	  <span style="margin-left: 4px;font-weight:bold">&nbsp;</span></div></td>
+
+      </tr>
+    </table>
+    </form>
+
+    </td>
+
+    </tr>
+
 </table>
-</form>
 EOF
 
 echo $HTTP_COOKIE

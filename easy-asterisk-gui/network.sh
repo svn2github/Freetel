@@ -33,6 +33,8 @@ fi
 
 # Construct the web page -------------------------------
 
+sh check_loggedin.sh
+
 cat <<EOF
 <script src="prototype.js"></script>
 <link href="astman.css" media="all" rel="Stylesheet" type="text/css" />

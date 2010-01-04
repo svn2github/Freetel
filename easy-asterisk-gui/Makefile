@@ -9,4 +9,4 @@ TESTIP=192.168.1.150
 #	rcp index.html root@$(TESTIP):/var/lib/asterisk/static-http/
 
 test:
-	rcp logout.sh login.sh dashboard.sh dashboard.js network.sh network.js set_network.sh tooltip.js tooltip.css root@$(TESTIP):/www/cgi-bin
+	rcp banner.html menu.html check_loggedin.sh logout.sh login.sh dashboard.sh dashboard.js network.sh network.js set_network.sh tooltip.js tooltip.css root@$(TESTIP):/www/cgi-bin
