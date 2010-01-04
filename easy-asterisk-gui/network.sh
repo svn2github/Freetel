@@ -1,7 +1,7 @@
 #!/bin/sh
 # network.sh
 # David Rowe 4 Jan 2010
-# CGI for network GUI
+# CGI for Easy Asterisk network GUI
 
 echo `date` " get_network.sh" >> /tmp/easy_gui.log
 
@@ -52,13 +52,13 @@ echo "</script>"
 
 cat << EOF
 <html>
-<title>Network</title>
+<title>Easy Asterisk - Network</title>
 <body onload="localInit()">
 <div id="t1" class="tip">Tells you if I can reach the Internet.  If not "Good" check your network settings, in particular Gateway and DNS.</div>
 <form action="/cgi-bin/set_network.sh" onsubmit="return validate_form(this)" method="get">
 <table align="center" width=600>
 <tr>
-  <tr><td colspan="2" align="left"><h2>Easy Asterisk - Network</h2></td>
+  <tr><td colspan="2" align="left"><h2>Network</h2></td>
   <tr>
      <td><input type="radio" id="static" name="dhcp" value="no" onClick="doStatic()">Static</td>
      <td><input type="radio" id="dhcp"   name="dhcp" value="yes" onClick="doDHCP()">DHCP</td>
@@ -80,4 +80,3 @@ cat << EOF
 </html>
 EOF
 
-#<td><input type="text" name="internet" id="internet" disabled=1 onMouseOver="popUp(event,'t1')" ></td></tr>

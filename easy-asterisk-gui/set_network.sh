@@ -15,11 +15,11 @@ Please wait a few seconds.....
 </html>
 EOF
 
-dhcp=`echo "$QUERY_STRING" | grep -oe "dhcp=[^&]*" | sed -n "s/dhcp=//p"`
-ipaddress=`echo "$QUERY_STRING" | grep -oe "ipaddress=[^&]*" | sed -n "s/ipaddress=//p"`
-netmask=`echo "$QUERY_STRING" | grep -oe "netmask=[^&]*" | sed -n "s/netmask=//p"`
-gateway=`echo "$QUERY_STRING" | grep -oe "gateway=[^&]*" | sed -n "s/gateway=//p"`
-dns=`echo "$QUERY_STRING" | grep -oe "dns=[^&]*" | sed -n "s/dns=//p"`
+dhcp=`echo "$QUERY_STRING" | grep -oe "dhcp=[^&?]*" | sed -n "s/dhcp=//p"`
+ipaddress=`echo "$QUERY_STRING" | grep -oe "ipaddress=[^&?]*" | sed -n "s/ipaddress=//p"`
+netmask=`echo "$QUERY_STRING" | grep -oe "netmask=[^&?]*" | sed -n "s/netmask=//p"`
+gateway=`echo "$QUERY_STRING" | grep -oe "gateway=[^&?]*" | sed -n "s/gateway=//p"`
+dns=`echo "$QUERY_STRING" | grep -oe "dns=[^&?]*" | sed -n "s/dns=//p"`
 
 echo `date` " set_network.sh $dhcp $ipaddress $netmask $gateway $dns" >> /tmp/easy_gui.log
 
