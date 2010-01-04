@@ -33,8 +33,13 @@ fi
 
 # Construct the web page -------------------------------
 
-echo "<script src="prototype.js"></script>"
-echo "<link href="astman.css" media="all" rel="Stylesheet" type="text/css" />"
+cat <<EOF
+<script src="prototype.js"></script>
+<link href="astman.css" media="all" rel="Stylesheet" type="text/css" />
+<script type="text/javascript" src="tooltip.js"></script>
+<link rel="stylesheet" href="tooltip.css" type="text/css" />
+EOF
+
 echo "<script>"
 echo 'var init_dhcp="'$dhcp'";'
 echo 'var init_ipaddress="'$ipaddress'";'
@@ -47,11 +52,13 @@ echo "</script>"
 
 cat << EOF
 <html>
-<title>Easy Asterisk - Network</title>
+<title>Network</title>
 <body onload="localInit()">
+<div id="t1" class="tip">Tells you if I can reach the Internet.  If not "Good" check your network settings, in particular Gateway and DNS.</div>
 <form action="/cgi-bin/set_network.sh" onsubmit="return validate_form(this)" method="get">
 <table align="center" width=600>
 <tr>
+  <tr><td colspan="2" align="left"><h2>Easy Asterisk - Network</h2></td>
   <tr>
      <td><input type="radio" id="static" name="dhcp" value="no" onClick="doStatic()">Static</td>
      <td><input type="radio" id="dhcp"   name="dhcp" value="yes" onClick="doDHCP()">DHCP</td>
@@ -60,10 +67,17 @@ cat << EOF
   <tr><td>Netmask:</td><td><input type="text" name="netmask" id="netmask" onBlur="isIP(this)"></td></tr>
   <tr><td>Gateway:</td><td><input type="text" name="gateway" id="gateway" onBlur="isIP(this)"></td></tr>
   <tr><td>DNS:</td><td><input type="text" name="dns" id="dns" onBlur="isIP(this)"></td></tr>
-  <tr><td>Internet Connection:</td><td><input type="text" name="internet" id="internet" disabled=1></td></tr>
+  <tr onMouseOver="popUp(event,'t1')" onmouseout="popUp(event,'t1')">
+      <td>Internet Connection:</td>
+      <td><div id="internet" >
+      <span style="margin-left: 4px;font-weight:bold">&nbsp;</span></div></td>
+      
+  </tr>
   <tr><td><input id="networkapply" type="submit" value="Apply"></td></tr>
 </tr>
 </table>
 </form>
 </html>
 EOF
+
+#<td><input type="text" name="internet" id="internet" disabled=1 onMouseOver="popUp(event,'t1')" ></td></tr>

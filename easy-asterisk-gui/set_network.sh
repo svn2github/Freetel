@@ -3,6 +3,18 @@
 #
 # CGI to set network parameters of an IP0X.
 
+cat <<EOF
+<html>
+<head>
+<title>set_network.sh</title>
+<meta http-equiv="REFRESH" content="0;url=http:network.sh">
+<body>
+Please wait a few seconds.....
+</body>
+</head>
+</html>
+EOF
+
 dhcp=`echo "$QUERY_STRING" | grep -oe "dhcp=[^&]*" | sed -n "s/dhcp=//p"`
 ipaddress=`echo "$QUERY_STRING" | grep -oe "ipaddress=[^&]*" | sed -n "s/ipaddress=//p"`
 netmask=`echo "$QUERY_STRING" | grep -oe "netmask=[^&]*" | sed -n "s/netmask=//p"`
@@ -45,13 +57,3 @@ if [ $dhcp == "no" ]; then
   /etc/init.d/network-static stop
   /etc/init.d/network-static start
 fi
-
-cat <<EOF
-<html>
-<head>
-<title>set_network.sh</title>
-<meta http-equiv="REFRESH" content="0;url=http:network.sh">
-</head>
-</html>
-
-EOF

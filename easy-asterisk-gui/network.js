@@ -57,7 +57,7 @@ function localInit() {
     $('netmask').value = init_netmask;
     $('gateway').value = init_gateway;
     $('dns').value = init_dns;
-    $('internet').value = init_internet;    
+    $('internet').innerHTML = init_internet;    
 }
 
 function validate_form(form)
