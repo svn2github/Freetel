@@ -62,5 +62,10 @@ function localInit() {
 
 function validate_form(form)
 {
-    return true;
+    var valid = true;
+
+    if ($('dhcp').checked == false)
+	valid = isIP(form.ipaddress) && isIP(form.ipaddress) && isIP(form.gateway) && isIP(form.dns);
+
+    return valid;
 }
