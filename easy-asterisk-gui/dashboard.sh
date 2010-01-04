@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 # dashboard.sh
 # David Rowe 4 Jan 2010
 # CGI for Easy Asterisk dashboard GUI
@@ -14,6 +14,16 @@ fi
 
 # Construct the web page -------------------------------
 
+echo $HTTP_COOKIE | grep "loggedin" > /dev/null
+if [ $? -eq 1 ]; then
+    echo "<html>"
+    echo "<head>"
+    echo '<meta http-equiv="REFRESH" content="0;url=http:login.sh">'
+    echo "</head>"
+    echo "</html>"
+    exit
+fi
+
 cat <<EOF
 <script src="prototype.js"></script>
 <link href="astman.css" media="all" rel="Stylesheet" type="text/css" />
@@ -23,7 +33,7 @@ EOF
 
 echo "<script>"
 echo 'var init_internet="'$internet'";'
-cat network.js
+cat dashboard.js
 echo "</script>"
 
 cat << EOF
@@ -44,6 +54,11 @@ cat << EOF
 </tr>
 </table>
 </form>
+EOF
+
+echo $HTTP_COOKIE
+cat<<EOF
+</body>
 </html>
 EOF
 

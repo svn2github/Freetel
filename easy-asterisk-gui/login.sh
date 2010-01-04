@@ -37,17 +37,16 @@ else
     if [ $? -eq 0 ]; then
 
 	# login sucessful
-	cat <<EOF
-	<html>
-	<head>
-	<title>Easy Asterisk - Login</title>
-	<meta http-equiv="REFRESH" content="0;url=http:dashboard.sh">
-	<body>
-	Please wait a few seconds.....
-	</body>
-	</head>
-	</html>
-EOF
+        echo "Content-type: text/html"
+        echo "Set-Cookie: loggedin=1"
+        echo ""
+	echo "<head>"
+	echo "<title>Easy Asterisk - Login</title>"
+	echo '<meta http-equiv="REFRESH" content="0;url=http:dashboard.sh">'
+	echo "<body>"
+	echo "Please wait a few seconds....."
+	echo "</body>"
+	echo "</head>"
     else
 	# login failed
 	cat <<EOF
