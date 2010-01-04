@@ -57,28 +57,45 @@ cat << EOF
 <title>Easy Asterisk - Network</title>
 <body onload="localInit()">
 <div id="t1" class="tip">Tells you if I can reach the Internet.  If not "Good" check your network settings, in particular Gateway and DNS.</div>
-<form action="/cgi-bin/set_network.sh" onsubmit="return validate_form(this)" method="get">
-<table align="center" width=600>
-<tr>
-  <tr><td colspan="2" align="left"><h2>Network</h2></td>
-  <tr>
-     <td><input type="radio" id="static" name="dhcp" value="no" onClick="doStatic()">Static</td>
-     <td><input type="radio" id="dhcp"   name="dhcp" value="yes" onClick="doDHCP()">DHCP</td>
-  </tr>
-  <tr><td>IP Address:</td><td><input type="text" name="ipaddress" id="ipaddress" onBlur="isIP(this)"></td></tr>
-  <tr><td>Netmask:</td><td><input type="text" name="netmask" id="netmask" onBlur="isIP(this)"></td></tr>
-  <tr><td>Gateway:</td><td><input type="text" name="gateway" id="gateway" onBlur="isIP(this)"></td></tr>
-  <tr><td>DNS:</td><td><input type="text" name="dns" id="dns" onBlur="isIP(this)"></td></tr>
-  <tr onMouseOver="popUp(event,'t1')" onmouseout="popUp(event,'t1')">
-      <td>Internet Connection:</td>
-      <td><div id="internet" >
-      <span style="margin-left: 4px;font-weight:bold">&nbsp;</span></div></td>
-      
-  </tr>
-  <tr><td><input id="networkapply" type="submit" value="Apply"></td></tr>
-</tr>
+
+<table align="center" width=800>
+EOF
+cat banner.html
+echo "    <tr>"
+cat menu.html    
+cat <<EOF
+
+    <td>
+
+    <form action="/cgi-bin/set_network.sh" onsubmit="return validate_form(this)" method="get">
+    <table align="center" width=600>
+    <tr>
+      <tr><td colspan="2" align="left"><h2>Network</h2></td>
+      <tr>
+	 <td><input type="radio" id="static" name="dhcp" value="no" onClick="doStatic()">Static</td>
+	 <td><input type="radio" id="dhcp"   name="dhcp" value="yes" onClick="doDHCP()">DHCP</td>
+      </tr>
+      <tr><td>IP Address:</td><td><input type="text" name="ipaddress" id="ipaddress" onBlur="isIP(this)"></td></tr>
+      <tr><td>Netmask:</td><td><input type="text" name="netmask" id="netmask" onBlur="isIP(this)"></td></tr>
+      <tr><td>Gateway:</td><td><input type="text" name="gateway" id="gateway" onBlur="isIP(this)"></td></tr>
+      <tr><td>DNS:</td><td><input type="text" name="dns" id="dns" onBlur="isIP(this)"></td></tr>
+      <tr onMouseOver="popUp(event,'t1')" onmouseout="popUp(event,'t1')">
+	  <td>Internet Connection:</td>
+	  <td><div id="internet" >
+	  <span style="margin-left: 4px;font-weight:bold">&nbsp;</span></div></td>
+
+      </tr>
+      <tr><td><input id="networkapply" type="submit" value="Apply"></td></tr>
+    </tr>
+    </table>
+    </form>
+
+    </td>
+
+    </tr>
+
 </table>
-</form>
+
 </html>
 EOF
 

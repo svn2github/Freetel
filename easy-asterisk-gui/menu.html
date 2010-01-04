@@ -1,6 +1,16 @@
-    <td>
+    <div id="dashboard_tip" class="tip">Monitor the status of your phone system</div>
+    <div id="network_tip" class="tip">Set up the network and connect to the Internet</div>
+    <td valign="top" >
 	<table align="right" width=200>
-	<tr><td>Menu 1</td></tr>
-	<tr><td>Menu 2</td></tr>
+	<tr><td><h2>&nbsp;</h2></td></tr>
+	<tr onMouseOver="popUp(event,'dashboard_tip')" onmouseout="popUp(event,'dashboard_tip')">
+	  <td><a href="dashboard.sh">Dashboard</a></td>
+	</tr>
+	<tr onMouseOver="popUp(event,'network_tip')" onmouseout="popUp(event,'network_tip')">
+	  <td><a href="network.sh">Network</a></td>
+	</tr>
+	<tr>
+	  <td><a href="logout.sh">Logout</a></td>
+	</tr>
 	</table>
     </td>
