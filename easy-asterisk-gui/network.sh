@@ -66,7 +66,7 @@ cat << EOF
 EOF
 
 cat tooltips.html
-echo "<table align="center" width=800 border=0>"
+echo '<table align="center" width=800 border=0>'
 cat banner.html
 echo "    <tr>"
 cat menu.html    

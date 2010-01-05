@@ -34,7 +34,7 @@ cat << EOF
 EOF
 
 cat tooltips.html
-echo "<table align="center" width=800 border=0>"
+echo '<table align="center" width=800 border=0>'
 cat banner.html
 echo "    <tr>"
 cat menu.html    
@@ -44,7 +44,7 @@ cat <<EOF
 
     <form action="/cgi-bin/set_network.sh" onsubmit="return validate_form(this)" method="get">
     <table align="right" width=600 border=0>
-      <tr><td colspan="2" align="left" valign="top" ><h2>Dashboard</h2></td></tr>
+      <tr><td colspan="3" align="left" valign="top" ><h2>Dashboard</h2></td></tr>
       <tr onMouseOver="popUp(event,'network_internet')" onmouseout="popUp(event,'network_internet')">
 	  <td>Internet Connection:</td>
 	  <td><div id="internet" >

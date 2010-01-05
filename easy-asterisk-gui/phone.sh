@@ -23,30 +23,27 @@ cat << EOF
 <html>
 <title>Easy Asterisk - Phones</title>
 <body onload="localInit()">
-<div id="t1" class="tip">Tells you if I can reach the Internet.  If 
-                         not "Good" check your network settings, in 
-                         particular Gateway and DNS.</div>
-
-<table align="center" width=800>
 EOF
+
+cat tooltips.html
+echo '<table align="center" width=800>'
 cat banner.html
 echo "    <tr>"
 cat menu.html    
 cat <<EOF
 
-    <td>
+    <td valign="top">
 
-    <form action="/cgi-bin/set_phone.sh" onsubmit="return validate_form(this)" method="get">
     <table align="right" width=600>
-    <tr>
-      <tr><td colspan="2" align="left" valign="top" ><h2>Phones</h2></td>
-      <tr onMouseOver="popUp(event,'t1')" onmouseout="popUp(event,'t1')">
-	  <td>Internet Connection:</td>
-	  <td><div id="internet" >
-	  <span style="margin-left: 4px;font-weight:bold">&nbsp;</span></div></td>
-      </tr>
+      <tr><td colspan="2" align="left" valign="top" ><h2>Phones</h2></td></tr>
+EOF
+
+# use perl to construct list of phones and phone lines for us
+asterisk "-rx sip show peers" 2>/dev/null > sipshowpeers.txt
+./phone.pl
+
+cat<<EOF
     </table>
-    </form>
 
     </td>
 
