@@ -3,12 +3,16 @@
 # David Rowe 4 Jan 2010
 # CGI for Easy Asterisk dashboard GUI
 
-# See if we have Internet connectivity, unlike network.sh we don't check dns first
+# See if we have Internet connectivity, first check dns as time outs can be very slow
 
+dns=`cat /etc/resolv.conf | awk '/^nameserver/ {print $2}'`
+dns_packet_loss=`ping $dns -c 1 -q | sed -n 's/.*received, \(.*\)% packet loss/\1/p'`
 internet="no";
-packet_loss=`ping google.com -c 1 -q | sed -n 's/.*received, \(.*\)% packet loss/\1/p'`
-if [ $packet_loss == "0" ]; then
-  internet="yes";
+if [ $dns_packet_loss == "0" ]; then
+  packet_loss=`ping google.com -c 1 -q | sed -n 's/.*received, \(.*\)% packet loss/\1/p'`
+  if [ $packet_loss == "0" ]; then
+    internet="yes";
+  fi
 fi
 
 # Construct the web page -------------------------------

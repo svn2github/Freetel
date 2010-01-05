@@ -3,6 +3,20 @@
 # David Rowe 4 Jan 2010
 # CGI for Easy Asterisk phones GUI
 
+# See if we have Internet connectivity, first check dns as time outs can be very slow
+
+dns=`cat /etc/resolv.conf | awk '/^nameserver/ {print $2}'`
+dns_packet_loss=`ping $dns -c 1 -q | sed -n 's/.*received, \(.*\)% packet loss/\1/p'`
+internet="no";
+if [ $dns_packet_loss == "0" ]; then
+  packet_loss=`ping google.com -c 1 -q | sed -n 's/.*received, \(.*\)% packet loss/\1/p'`
+  if [ $packet_loss == "0" ]; then
+    internet="yes";
+  fi
+fi
+
+ipaddress=`ifconfig eth0 | sed -n 's/.*inet addr:\(.*\)  Bcast.*/\1/p'`
+
 # Construct the web page -------------------------------
 
 sh check_loggedin.sh
@@ -35,7 +49,23 @@ cat <<EOF
     <td valign="top">
 
     <table align="right" width=600>
-      <tr><td colspan="2" align="left" valign="top" ><h2>Phones</h2></td></tr>
+      <tr onMouseOver="popUp(event,'phone_system')" onmouseout="popUp(event,'phone_system')">
+          <td colspan="4" align="left" valign="top" ><h2>Phone System</h2></td>
+      </tr>
+      <tr onMouseOver="popUp(event,'network_internet')" onmouseout="popUp(event,'network_internet')">
+	  <td colspan="3">Internet Connection:</td>
+	  <td><div id="internet" >&nbsp;</div></td>
+      </tr>
+      <tr onMouseOver="popUp(event,'phone_ipaddress')" onmouseout="popUp(event,'phone_ipaddress')">
+	  <td colspan="3">Phone System IP Address:</td>
+EOF
+echo "<td>$ipaddress</td>"
+cat <<EOF
+      </tr>
+      <tr><td>&nbsp</td></tr>
+      <tr onMouseOver="popUp(event,'phone_phones')" onmouseout="popUp(event,'phone_phones')">
+          <td colspan="4" align="left" valign="top" ><h2>Phones</h2></td>
+      </tr>
 EOF
 
 # use perl to construct list of phones and phone lines for us

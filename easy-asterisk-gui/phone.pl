@@ -74,48 +74,56 @@ close SIP;
 
 # print list of analog phones
 
-$tool_tip = "onMouseOver=\"popUp(event,'phone_phone')\" onmouseout=\"popUp(event,'phone_phone')\"";
+$tooltip_anphone = "onMouseOver=\"popUp(event,'phone_anphone')\" onmouseout=\"popUp(event,'phone_anphone')\"";
+$tooltip_ext = "onMouseOver=\"popUp(event,'phone_ext')\" onmouseout=\"popUp(event,'phone_ext')\"";
+$tooltip_port = "onMouseOver=\"popUp(event,'phone_port_phone')\" onmouseout=\"popUp(event,'phone_port_phone')\"";
 
 foreach $a (sort keys %analog) {
     if ($zap{$a} eq "fxs") {
-	$icon = "<img $tool_tip src=\"phone.png\" alt=\"Analog Phone\" />";
-	print "<tr><td>$analog{$a}</td><td>Port $a</td><td>$icon</td></tr>\n";
+	$icon = "<img src=\"anphone.png\" alt=\"Analog Phone\" />";
+	print "<tr><td $tooltip_ext>$analog{$a}</td><td $tooltip_anphone>Analog Phone</td><td $tooltip_port>Port $a</td><td>$icon</td></tr>\n";
     }
 }
 
 # print list of IP phones
 
-$tool_tip = "onMouseOver=\"popUp(event,'phone_ipphone')\" onmouseout=\"popUp(event,'phone_ipphone')\"";
+$tooltip_ipphone = "onMouseOver=\"popUp(event,'phone_ipphone')\" onmouseout=\"popUp(event,'phone_ipphone')\"";
+$tooltip_ipphone_ip = "onMouseOver=\"popUp(event,'phone_ipphone_ip')\" onmouseout=\"popUp(event,'phone_ipphone_ip')\"";
 
 foreach $s (sort keys %sip) {
     if ($sip{$s} eq "OK") {
-	$icon = "<img $tool_tip src=\"ipphone.png\" alt=\"IP Phone\" />";
-	print "<tr><td>$s</td><td>$ipad{$s}</td><td>$icon</td></tr>\n";
+	$icon = "<img src=\"ipphone.png\" alt=\"IP Phone\" />";
+	print "<tr><td $tooltip_ext>$s</td><td $tooltip_ipphone>IP Phone</td<td $tooltip_ipphone_ip>$ipad{$s}</td><td>$icon</td></tr>\n";
     }
 }
 
-print '<tr><td colspan="2" align="left" valign="top" ><h2>Phone Lines</h2></td></tr>
-';
+$tool_tip = "onMouseOver=\"popUp(event,'phone_lines')\" onmouseout=\"popUp(event,'phone_lines')\"";
+
+print '<tr><td>&nbsp</td></tr>';
+print "<tr $tool_tip><td colspan=\"4\" align=\"left\" valign=\"top\" ><h2>Phone Lines</h2></td></tr>
+";
 
 # print list of analog phone lines
 
-$tool_tip = "onMouseOver=\"popUp(event,'phone_phoneline')\" onmouseout=\"popUp(event,'phone_phoneline')\"";
+$tooltip_phoneline = "onMouseOver=\"popUp(event,'phone_phoneline')\" onmouseout=\"popUp(event,'phone_phoneline')\"";
+$tooltip_port = "onMouseOver=\"popUp(event,'phone_port_line')\" onmouseout=\"popUp(event,'phone_port_line')\"";
 
 foreach $a (sort keys %analog) {
     if ($zap{$a} eq "fxo") {
-	$icon = "<img $tool_tip src=\"phoneline.jpg\" alt=\"Phone Line\" />";
-	print "<tr><td>$analog{$a}</td><td>Port $a</td><td>$icon</td></tr>\n";
+	$icon = "<img src=\"phoneline.jpg\" alt=\"Phone Line\" />";
+	print "<tr><td>$analog{$a}</td><td $tooltip_phoneline>Analog</td><td $tooltip_port>Port $a</td><td>$icon</td></tr>\n";
     }
 }
 
 # print list of SIP VOIP trunks
 
-$tool_tip = "onMouseOver=\"popUp(event,'phone_voipline')\" onmouseout=\"popUp(event,'phone_voipline')\"";
+$tooltip_voipline = "onMouseOver=\"popUp(event,'phone_voipline')\" onmouseout=\"popUp(event,'phone_voipline')\"";
+$tooltip_voipline_ip = "onMouseOver=\"popUp(event,'phone_voipline_ip')\" onmouseout=\"popUp(event,'phone_voipline_ip')\"";
 
 foreach $s (sort keys %voip) {
     if ($voip{$s} eq "OK") {
-	$icon = "<img $tool_tip src=\"voipline.jpg\" alt=\"VOIP Line\" />";
-	print "<tr><td>$s</td><td>$ipad{$s}</td><td>$icon</td></tr>\n";
+	$icon = "<img src=\"voipline.jpg\" alt=\"VOIP Line\" />";
+	print "<tr><td>$s</td><td $tooltip_voipline>VOIP</td><td $tooltip_voipline_ip>$ipad{$s}</td><td>$icon</td></tr>\n";
     }
 }
 
