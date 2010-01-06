@@ -1,7 +1,7 @@
 #!/bin/sh -x
-# phone.sh
+# phones.sh
 # David Rowe 4 Jan 2010
-# CGI for Easy Asterisk phones GUI
+# Phones screen for Easy Asterisk GUI
 
 # See if we have Internet connectivity, first check dns as time outs can be very slow
 
@@ -30,7 +30,7 @@ EOF
 
 echo "<script>"
 echo 'var init_internet="'$internet'";'
-cat phone.js
+cat phones.js
 echo "</script>"
 
 cat << EOF
@@ -50,8 +50,7 @@ cat <<EOF
 
     <table align="right" width=600>
       <tr>
-          <td onMouseOver="popUp(event,'phone_system')" onmouseout="popUp(event,'phone_system')" colspan="3" align="left" valign="top"><h2>Phone System</h2></td>
-	  <td onMouseOver="popUp(event,'phone_addipphone')" onmouseout="popUp(event,'phone_addipphone')"><a href="addipphone.sh">Add IP Phone</a></td>
+          <td onMouseOver="popUp(event,'phone_system')" onmouseout="popUp(event,'phone_system')" colspan="4" align="left" valign="top"><h2>Phone System</h2></td>
       </tr>
       <tr onMouseOver="popUp(event,'network_internet')" onmouseout="popUp(event,'network_internet')">
 	  <td colspan="3">Internet Connection:</td>
@@ -64,14 +63,17 @@ echo "<td>$ipaddress</td>"
 cat <<EOF
       </tr>
       <tr><td>&nbsp</td></tr>
-      <tr onMouseOver="popUp(event,'phone_phones')" onmouseout="popUp(event,'phone_phones')">
-          <td colspan="4" align="left" valign="top" ><h2>Phones</h2></td>
+      <tr>
+          <td onMouseOver="popUp(event,'phone_phones')" onmouseout="popUp(event,'phone_phones')" 
+               colspan="3" align="left" valign="top" ><h2>Phones</h2></td>
+	  <td onMouseOver="popUp(event,'phone_addipphone')" onmouseout="popUp(event,'phone_addipphone')">
+               <a href="addipphone.sh">Add IP Phone</a></td>
       </tr>
 EOF
 
 # use perl to construct list of phones and phone lines for us
 asterisk "-rx sip show peers" 2>/dev/null > sipshowpeers.txt
-./phone.pl
+./phones.pl
 
 cat<<EOF
     </table>

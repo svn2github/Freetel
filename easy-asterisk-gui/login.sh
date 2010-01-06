@@ -42,7 +42,7 @@ else
         echo ""
 	echo "<head>"
 	echo "<title>Easy Asterisk - Login</title>"
-	echo '<meta http-equiv="REFRESH" content="0;url=http:dashboard.sh">'
+	echo '<meta http-equiv="REFRESH" content="0;url=http:phones.sh">'
 	echo "<body>"
 	echo "Please wait a few seconds....."
 	echo "</body>"

@@ -1,11 +1,12 @@
 #!/sbin/microperl
-# phone.pl
+# phones.pl
 # David Rowe 5 Jan 2010
 #
-# Extracts the phone extension infor from /etc/asterisk/extensions.conf
-# and generate html.  Perl used as faster than equivalent shell script
+# Test processing for the phones screen.
 
 $tool_tip = "onMouseOver=\"popUp(event,'network_internet')\" onmouseout=\"popUp(event,'network_internet')\"";
+
+# Slurp up analog port (Zap) data from extensions.conf
 
 my %analog = (); # analog extension keyed on zap port
 
@@ -17,6 +18,8 @@ while (<EXT>) {
     }
 }
 close EXT;
+
+# Slurp up data on installed zaptel ports from /etc/zaptel.conf
 
 my %zap = (); # zaptel port type keyed on zap port 
               # (fxs/fxo or no entry if not live)
@@ -30,6 +33,8 @@ while (<ZAP>) {
     }
 }
 close ZAP;
+
+# Slurp up SIP extension (Sip) data from extensions.conf
 
 my %ip = (); # ip extension keyed on sip.conf name
 

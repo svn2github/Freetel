@@ -3,6 +3,9 @@
 # David Rowe 6 Jan 2010
 # Dashboard screen for Easy Asterisk GUI
 
+more=`echo "$QUERY_STRING" | grep -oe "more=[^&?]*" | sed -n "s/more=//p"`
+ipaddress=`ifconfig eth0 | sed -n 's/.*inet addr:\(.*\)  Bcast.*/\1/p'`
+
 # Construct the web page -------------------------------
 
 sh check_loggedin.sh
@@ -34,19 +37,27 @@ cat <<EOF
 
     <td valign="top">
 
-    <form action="/cgi-bin/set_network.sh" onsubmit="return validate_form(this)" method="get">
     <table align="right" width=600 border=0>
-      <tr><td colspan="3" align="left" valign="top" ><h2>Dashboard</h2></td></tr>
-      <tr onMouseOver="popUp(event,'network_internet')" onmouseout="popUp(event,'network_internet')">
-	  <td>Internet Connection:</td>
-	  <td><div id="internet" >
-	  <span style="margin-left: 4px;font-weight:bold">&nbsp;</span></div></td>
-      </tr>
+      <tr><td  onMouseOver="popUp(event,'ipphones_ipphones')" onmouseout="popUp(event,'ipphones_ipphones')" 
+           colspan="4" align="left" valign="top" ><h2>IP Phones</h2></td></tr>
+      <tr onMouseOver="popUp(event,'phone_ipaddress')" onmouseout="popUp(event,'phone_ipaddress')">
+	  <td colspan="3">Phone System IP Address:</td>
+EOF
+echo "<td>$ipaddress</td></tr><td>&nbsp;</td><tr></tr>"
+
+    # use perl to construct list of IP phones for us
+    asterisk "-rx sip show peers" 2>/dev/null > sipshowpeers.txt
+    ./ipphones.pl $ipaddress $more
+
+cat <<EOF
     </table>
-    </form>
 
-    </td>
-
+    <h2>&nbsp;<br>How to Configure IP Phones</h2>
+    <h3>1. Atcom AT-530</h3>
+EOF
+cat at-530.html
+cat <<EOF
+     </td>
     </tr>
 
 </table>
