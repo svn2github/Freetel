@@ -66,8 +66,6 @@ cat <<EOF
       <tr>
           <td onMouseOver="popUp(event,'phone_phones')" onmouseout="popUp(event,'phone_phones')" 
                colspan="3" align="left" valign="top" ><h2>Phones</h2></td>
-	  <td onMouseOver="popUp(event,'phone_addipphone')" onmouseout="popUp(event,'phone_addipphone')">
-               <a href="addipphone.sh">Add IP Phone</a></td>
       </tr>
 EOF
 

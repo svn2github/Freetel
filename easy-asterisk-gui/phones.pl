@@ -102,6 +102,9 @@ foreach $s (sort keys %sip) {
     }
 }
 
+print '<tr><td>&nbsp;</td></tr>';
+print "<tr><td onMouseOver=\"popUp(event,'phone_addipphone')\" onmouseout=\"popUp(event,'phone_addipphone')\"><a href=\"ipphones.sh\">Add IP Phone</a></td></tr>";
+
 $tool_tip = "onMouseOver=\"popUp(event,'phone_lines')\" onmouseout=\"popUp(event,'phone_lines')\"";
 
 print '<tr><td>&nbsp</td></tr>';

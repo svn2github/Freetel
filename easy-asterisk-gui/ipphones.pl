@@ -60,6 +60,7 @@ foreach $e (sort keys %ip) {
         $comment=$ipad{$e};
         $tooltip_ext = "onMouseOver=\"popUp(event,'phone_ext')\" onmouseout=\"popUp(event,'phone_ext')\"";
 	$tooltip_ip =  "onMouseOver=\"popUp(event,'phone_ipphone_ip')\" onmouseout=\"popUp(event,'phone_ipphone_ip')\"";
+	$unconnected = 0;
     }
     else {
 	$unconnected = $unconnected + 1;
