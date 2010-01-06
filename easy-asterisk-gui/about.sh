@@ -43,6 +43,23 @@ cat <<EOF
 EOF
 echo '      <tr><td>Easy Asterisk $Revision$</td></tr> ' | sed -n 's/\$//pg'
 
+more=`echo "$QUERY_STRING" | grep -oe "more=[^&?]*" | sed -n "s/more=//p"`
+if  [ $more -eq 1 ]; then
+  echo 
+else
+    echo "      <tr><td>&nbsp;</td></tr>"
+    echo '      <tr><td><a href="about.sh?more=1">More</a></td></tr>';
+cat <<EOF
+    </table>
+    </td>
+    </tr>
+</table>
+</body>
+</html>
+EOF
+exit
+fi
+
 echo "      <tr><td>&nbsp;</td></tr>"
 echo "      <tr><td><h3>cat /proc/version</h3></td></tr>"
 echo "      <tr><td>"
@@ -97,6 +114,10 @@ echo "      <tr><td>"
 cat /proc/yaffs | tr '\n' '#' | sed -n 's/\#/<br>/pg'
 echo "      </td></tr>"
 
+echo "      <tr><td>&nbsp;</td></tr>"
+echo '      <tr><td><a href="about.sh">Less</a></td></tr>';
+
+cat <<EOF
     </table>
 
     </td>

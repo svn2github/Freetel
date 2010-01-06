@@ -79,10 +79,10 @@ foreach $e (sort keys %ip) {
 }
 
 if ($more == 0) {
-    print '<tr><td><a href="ipphones.sh?more=1">more</a></td></tr>';
+    print '<tr><td><a href="ipphones.sh?more=1">More</a></td></tr>';
 }
 else {
-    print '<tr><td><a href="ipphones.sh">less</a></td></tr>';
+    print '<tr><td><a href="ipphones.sh">Less</a></td></tr>';
 }
 
 
