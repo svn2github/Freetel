@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 # dashboard.sh
 # David Rowe 6 Jan 2010
 # Dashboard screen for Easy Asterisk GUI

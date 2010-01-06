@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 # phones.sh
 # David Rowe 4 Jan 2010
 # Phones screen for Easy Asterisk GUI

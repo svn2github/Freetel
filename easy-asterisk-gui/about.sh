@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 # about.sh
 # David Rowe 7 Jan 2010
 # About screen for Easy Asterisk GUI
@@ -40,33 +40,62 @@ cat <<EOF
 
     <table align="right" width=600>
       <tr><td align="left" valign="top"><h2>About</h2></td></tr>
-      <tr><td>&nbsp;</td></tr>
-      <tr><td>Easy Asterisk $Revision$</td></tr>
 EOF
+echo '      <tr><td>Easy Asterisk $Revision$</td></tr> ' | sed -n 's/\$//pg'
+
 echo "      <tr><td>&nbsp;</td></tr>"
 echo "      <tr><td><h3>cat /proc/version</h3></td></tr>"
+echo "      <tr><td>"
 cat /proc/version
+echo "      </td></tr>"
+
 echo "      <tr><td>&nbsp;</td></tr>"
 echo "      <tr><td><h3>ipkg list_installed</h3></td></tr>"
-ipkg list_installed
+echo "      <tr><td>"
+ipkg list_installed | tr '\n' '#' | sed -n 's/\#/<br>/pg'
+echo "      </td></tr>"
+
 echo "      <tr><td>&nbsp;</td></tr>"
-echo "      <tr><td><h3>cat /proc/loadav</h3></td></tr>"
-cat /proc/loadav
+echo "      <tr><td><h3>cat /proc/loadavg</h3></td></tr>"
+echo "      <tr><td>"
+cat /proc/loadavg
+echo "      </td></tr>"
+
 echo "      <tr><td>&nbsp;</td></tr>"
 echo "      <tr><td><h3>uptime</h3></td></tr>"
+echo "      <tr><td>"
 uptime
+echo "      </td></tr>"
+
 echo "      <tr><td>&nbsp;</td></tr>"
 echo "      <tr><td><h3>cat /proc/meminfo</h3></td></tr>"
-cat /proc/meminfo
+echo "      <tr><td>"
+cat /proc/meminfo | tr '\n' '#' | sed -n 's/\#/<br>/pg'
+echo "      </td></tr>"
+
 echo "      <tr><td>&nbsp;</td></tr>"
 echo "      <tr><td><h3>cat /proc/cmdline</h3></td></tr>"
+echo "      <tr><td>"
 cat /proc/cmdline
+echo "      </td></tr>"
+
 echo "      <tr><td>&nbsp;</td></tr>"
 echo "      <tr><td><h3>cat /proc/cpuinfo</h3></td></tr>"
+echo "      <tr><td>"
 cat /proc/cpuinfo
+echo "      </td></tr>"
+
 echo "      <tr><td>&nbsp;</td></tr>"
 echo "      <tr><td><h3>cat /proc/mtd</h3></td></tr>"
-cat /proc/mtd
+echo "      <tr><td>"
+cat /proc/mtd | tr '\n' '#' | sed -n 's/\#/<br>/pg'
+echo "      </td></tr>"
+
+echo "      <tr><td>&nbsp;</td></tr>"
+echo "      <tr><td><h3>cat /proc/yaffs</h3></td></tr>"
+echo "      <tr><td>"
+cat /proc/yaffs | tr '\n' '#' | sed -n 's/\#/<br>/pg'
+echo "      </td></tr>"
 
     </table>
 

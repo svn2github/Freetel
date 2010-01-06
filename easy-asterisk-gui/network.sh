@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 # network.sh
 # David Rowe 4 Jan 2010
 # CGI for Easy Asterisk network GUI
