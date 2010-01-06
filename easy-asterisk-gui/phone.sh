@@ -49,8 +49,9 @@ cat <<EOF
     <td valign="top">
 
     <table align="right" width=600>
-      <tr onMouseOver="popUp(event,'phone_system')" onmouseout="popUp(event,'phone_system')">
-          <td colspan="4" align="left" valign="top" ><h2>Phone System</h2></td>
+      <tr>
+          <td onMouseOver="popUp(event,'phone_system')" onmouseout="popUp(event,'phone_system')" colspan="3" align="left" valign="top"><h2>Phone System</h2></td>
+	  <td onMouseOver="popUp(event,'phone_addipphone')" onmouseout="popUp(event,'phone_addipphone')"><a href="addipphone.sh">Add IP Phone</a></td>
       </tr>
       <tr onMouseOver="popUp(event,'network_internet')" onmouseout="popUp(event,'network_internet')">
 	  <td colspan="3">Internet Connection:</td>
