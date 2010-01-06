@@ -85,7 +85,7 @@ $tooltip_port = "onMouseOver=\"popUp(event,'phone_port_phone')\" onmouseout=\"po
 
 foreach $a (sort keys %analog) {
     if ($zap{$a} eq "fxs") {
-	$icon = "<img src=\"anphone.png\" alt=\"Analog Phone\" />";
+	$icon = "<img src=\"tick.png\" alt=\"Analog Phone OK\" />";
 	print "<tr><td $tooltip_ext>$analog{$a}</td><td $tooltip_anphone>Analog Phone</td><td $tooltip_port>Port $a</td><td>$icon</td></tr>\n";
     }
 }
@@ -97,7 +97,7 @@ $tooltip_ipphone_ip = "onMouseOver=\"popUp(event,'phone_ipphone_ip')\" onmouseou
 
 foreach $s (sort keys %sip) {
     if ($sip{$s} eq "OK") {
-	$icon = "<img src=\"ipphone.png\" alt=\"IP Phone\" />";
+	$icon = "<img src=\"tick.png\" alt=\"IP Phone OK\" />";
 	print "<tr><td $tooltip_ext>$s</td><td $tooltip_ipphone>IP Phone</td<td $tooltip_ipphone_ip>$ipad{$s}</td><td>$icon</td></tr>\n";
     }
 }
@@ -115,11 +115,12 @@ print "<tr $tool_tip><td colspan=\"4\" align=\"left\" valign=\"top\" ><h2>Phone 
 
 $tooltip_phoneline = "onMouseOver=\"popUp(event,'phone_phoneline')\" onmouseout=\"popUp(event,'phone_phoneline')\"";
 $tooltip_port = "onMouseOver=\"popUp(event,'phone_port_line')\" onmouseout=\"popUp(event,'phone_port_line')\"";
+$tooltip_line_prefix = "onMouseOver=\"popUp(event,'phone_line_prefix')\" onmouseout=\"popUp(event,'phone_line_prefix')\"";
 
 foreach $a (sort keys %analog) {
     if ($zap{$a} eq "fxo") {
-	$icon = "<img src=\"phoneline.jpg\" alt=\"Phone Line\" />";
-	print "<tr><td>$analog{$a}</td><td $tooltip_phoneline>Analog</td><td $tooltip_port>Port $a</td><td>$icon</td></tr>\n";
+	$icon = "<img src=\"tick.jpg\" alt=\"Phone Line OK\" />";
+	print "<tr><td $tooltip_line_prefix>0</td><td $tooltip_phoneline>Analog Line</td><td $tooltip_port>Port $a</td><td>$icon</td></tr>\n";
     }
 }
 
@@ -127,11 +128,12 @@ foreach $a (sort keys %analog) {
 
 $tooltip_voipline = "onMouseOver=\"popUp(event,'phone_voipline')\" onmouseout=\"popUp(event,'phone_voipline')\"";
 $tooltip_voipline_ip = "onMouseOver=\"popUp(event,'phone_voipline_ip')\" onmouseout=\"popUp(event,'phone_voipline_ip')\"";
+$tooltip_voipline_prefix = "onMouseOver=\"popUp(event,'phone_voipline_prefix')\" onmouseout=\"popUp(event,'phone_voipline_prefix')\"";
 
 foreach $s (sort keys %voip) {
     if ($voip{$s} eq "OK") {
-	$icon = "<img src=\"voipline.jpg\" alt=\"VOIP Line\" />";
-	print "<tr><td>$s</td><td $tooltip_voipline>VOIP</td><td $tooltip_voipline_ip>$ipad{$s}</td><td>$icon</td></tr>\n";
+	$icon = "<img src=\"tick.png\" alt=\"VOIP Line OK\" />";
+	print "<tr><td $tooltip_voipline_prefix>1</td><td $tooltip_voipline>VOIP Line</td><td $tooltip_voipline_ip>$ipad{$s}</td><td>$icon</td></tr>\n";
     }
 }
 

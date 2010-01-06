@@ -3,6 +3,18 @@
 # David Rowe 4 Jan 2010
 # Phones screen for Easy Asterisk GUI
 
+# check we are logged in
+
+echo $HTTP_COOKIE | grep "loggedin" > /dev/null
+if [ $? -eq 1 ]; then
+    echo "<html>"
+    echo "<head>"
+    echo '<meta http-equiv="REFRESH" content="0;url=http:login.sh">'
+    echo "</head>"
+    echo "</html>"
+    exit
+fi
+
 # See if we have Internet connectivity, first check dns as time outs can be very slow
 
 dns=`cat /etc/resolv.conf | awk '/^nameserver/ {print $2}'`
@@ -18,8 +30,6 @@ fi
 ipaddress=`ifconfig eth0 | sed -n 's/.*inet addr:\(.*\)  Bcast.*/\1/p'`
 
 # Construct the web page -------------------------------
-
-sh check_loggedin.sh
 
 cat <<EOF
 <script src="prototype.js"></script>

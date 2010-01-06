@@ -3,12 +3,22 @@
 # David Rowe 6 Jan 2010
 # Dashboard screen for Easy Asterisk GUI
 
+# check we are logged in
+
+echo $HTTP_COOKIE | grep "loggedin" > /dev/null
+if [ $? -eq 1 ]; then
+    echo "<html>"
+    echo "<head>"
+    echo '<meta http-equiv="REFRESH" content="0;url=http:login.sh">'
+    echo "</head>"
+    echo "</html>"
+    exit
+fi
+
 more=`echo "$QUERY_STRING" | grep -oe "more=[^&?]*" | sed -n "s/more=//p"`
 ipaddress=`ifconfig eth0 | sed -n 's/.*inet addr:\(.*\)  Bcast.*/\1/p'`
 
 # Construct the web page -------------------------------
-
-sh check_loggedin.sh
 
 cat <<EOF
 <script src="prototype.js"></script>

@@ -1,24 +1,33 @@
     <div id="admin_tip" class="tip">Change your password, Time & time zone, Reset the defaults, Install new software</div>
     <div id="network_tip" class="tip">Connect the phone system to your network and the Internet</div>
-    <div id="phones_tip" class="tip">Set up your phones, phone lines and phone calls</div>
+    <div id="phones_tip" class="tip">Lists your phones and phone lines</div>
     <div id="ipphones_tip" class="tip">Set up your IP phones</div>
+    <div id="about_tip" class="tip">Boring information like software version numbers</div>
+    <div id="faq_tip" class="tip">Frequently asked questions and links to further information</div>
+    <div id="logout_tip" class="tip">I think you can work this one out....</div>
     <td valign="top" >
 	<table align="right" width=200>
 	<tr><td><h2>&nbsp;</h2></td></tr>
+	<tr onMouseOver="popUp(event,'about_tip')" onmouseout="popUp(event,'about_tip')">
+	  <td><a href="about.sh">About</a></td>
+	</tr>
 	<tr onMouseOver="popUp(event,'admin_tip')" onmouseout="popUp(event,'admin_tip')">
 	  <td><a href="admin.sh">Admin</a></td>
 	</tr>
-	<tr onMouseOver="popUp(event,'network_tip')" onmouseout="popUp(event,'network_tip')">
-	  <td><a href="network.sh">Network</a></td>
+	<tr onMouseOver="popUp(event,'faq_tip')" onmouseout="popUp(event,'faq_tip')">
+	  <td><a href="ipphones.sh">FAQ</a></td>
 	</tr>
 	<tr onMouseOver="popUp(event,'ipphones_tip')" onmouseout="popUp(event,'ipphones_tip')">
 	  <td><a href="ipphones.sh">IP Phones</a></td>
 	</tr>
+	<tr onMouseOver="popUp(event,'logout_tip')" onmouseout="popUp(event,'logout_tip')">
+	  <td><a href="logout.sh">Logout</a></td>
+	</tr>
 	<tr onMouseOver="popUp(event,'phones_tip')" onmouseout="popUp(event,'phones_tip')">
 	  <td><a href="phones.sh">Phones</a></td>
 	</tr>
-	<tr>
-	  <td><a href="logout.sh">Logout</a></td>
+	<tr onMouseOver="popUp(event,'network_tip')" onmouseout="popUp(event,'network_tip')">
+	  <td><a href="network.sh">Network</a></td>
 	</tr>
 	</table>
     </td>

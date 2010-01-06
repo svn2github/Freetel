@@ -27,7 +27,7 @@ EOF
       <tr><td>Password:</td><td><input type="text" name="pass" ></td></tr>
       <tr><td><input type="submit" value="Login"></td></tr>
     </tr>
-    <tr><td></td><td>Default is root/uClinux</td>
+    <tr><td></td><td>Default user/password is root/uClinux</td>
     </table>
     </form>
     </html>
