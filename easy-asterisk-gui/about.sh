@@ -42,6 +42,9 @@ cat <<EOF
       <tr><td align="left" valign="top"><h2>About</h2></td></tr>
 EOF
 echo '      <tr><td>Easy Asterisk $Revision$</td></tr> ' | sed -n 's/\$//pg'
+echo '      <tr><td>&nbsp;</td></tr>'
+echo '      <tr><td>Brought to you by the <a href="http://rowetel.com/ucasterisk/index.html">Free Telephony Project</a></td></tr>'
+echo '      <tr><td><img src="http://rowetel.com/images/ip04/ip04_case.jpg" /></td></tr>'
 
 more=`echo "$QUERY_STRING" | grep -oe "more=[^&?]*" | sed -n "s/more=//p"`
 if  [ $more -eq 1 ]; then
@@ -66,11 +69,14 @@ echo "      <tr><td>"
 cat /proc/version
 echo "      </td></tr>"
 
-echo "      <tr><td>&nbsp;</td></tr>"
-echo "      <tr><td><h3>ipkg list_installed</h3></td></tr>"
-echo "      <tr><td>"
-ipkg list_installed | tr '\n' '#' | sed -n 's/\#/<br>/pg'
-echo "      </td></tr>"
+which ipkg >> /dev/null
+if [ $? -eq 0 ]; then
+    echo "      <tr><td>&nbsp;</td></tr>"
+    echo "      <tr><td><h3>ipkg list_installed</h3></td></tr>"
+    echo "      <tr><td>"
+    ipkg list_installed | tr '\n' '#' | sed -n 's/\#/<br>/pg'
+    echo "      </td></tr>"
+fi
 
 echo "      <tr><td>&nbsp;</td></tr>"
 echo "      <tr><td><h3>cat /proc/loadavg</h3></td></tr>"
@@ -102,17 +108,21 @@ echo "      <tr><td>"
 cat /proc/cpuinfo
 echo "      </td></tr>"
 
-echo "      <tr><td>&nbsp;</td></tr>"
-echo "      <tr><td><h3>cat /proc/mtd</h3></td></tr>"
-echo "      <tr><td>"
-cat /proc/mtd | tr '\n' '#' | sed -n 's/\#/<br>/pg'
-echo "      </td></tr>"
+if [ -f /proc/mtd ]; then
+    echo "      <tr><td>&nbsp;</td></tr>"
+    echo "      <tr><td><h3>cat /proc/mtd</h3></td></tr>"
+    echo "      <tr><td>"
+    cat /proc/mtd | tr '\n' '#' | sed -n 's/\#/<br>/pg'
+    echo "      </td></tr>"
+fi
 
-echo "      <tr><td>&nbsp;</td></tr>"
-echo "      <tr><td><h3>cat /proc/yaffs</h3></td></tr>"
-echo "      <tr><td>"
-cat /proc/yaffs | tr '\n' '#' | sed -n 's/\#/<br>/pg'
-echo "      </td></tr>"
+if [ -f /proc/yaffs ]; then
+    echo "      <tr><td>&nbsp;</td></tr>"
+    echo "      <tr><td><h3>cat /proc/yaffs</h3></td></tr>"
+    echo "      <tr><td>"
+    cat /proc/yaffs | tr '\n' '#' | sed -n 's/\#/<br>/pg'
+    echo "      </td></tr>"
+fi
 
 echo "      <tr><td>&nbsp;</td></tr>"
 echo '      <tr><td><a href="about.sh">Less</a></td></tr>';

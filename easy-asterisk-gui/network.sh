@@ -15,9 +15,10 @@ if [ $? -eq 1 ]; then
     exit
 fi
 
-echo `date` " get_network.sh" >> /tmp/easy_gui.log
+grok_network=0
 
 if [ -f /etc/rc.d/S10network ]; then
+  grok_network=1
   dhcp=yes
   ipaddress=`ifconfig eth0 | sed -n 's/.*inet addr:\(.*\)  Bcast.*/\1/p'`
   netmask=`ifconfig eth0 | sed -n 's/.*Mask:\(.*\)\s*/\1/p'`
@@ -27,6 +28,7 @@ fi
 
 if [ -f /etc/rc.d/S10network-static ]
 then
+  grok_network=1
   dhcp=no  
   ipaddress=`sed -n 's/IPADDRESS="\(.*\)"/\1/p' /etc/init.d/network-static`
   netmask=`sed -n 's/NETMASK="\(.*\)"/\1/p' /etc/init.d/network-static`
@@ -34,6 +36,36 @@ then
   dns=`sed -n 's/DNS="\(.*\)"/\1/p' /etc/init.d/network-static`
 fi
 
+# if we don't understand this machines network config then bail
+
+if [ $groknetwork -eq 0 ]; then
+cat << EOF
+<html>
+<title>Easy Asterisk - Network</title>
+EOF
+
+cat tooltips.html
+echo '<table align="center" width=800 border=0>'
+cat banner.html
+echo "    <tr>"
+cat menu.html    
+cat <<EOF
+
+    <td valign="top">
+    <table align="center" width=600 border=0>
+      <tr><td colspan="2" align="left" valign="top"><h2>Network</h2></td></tr>
+      <tr><td>Sorry - I can't edit the Network configuration on this machine</td></tr>
+    </td>
+    </table>
+    </td>
+    </tr>
+
+</table>
+
+</html>
+EOF
+fi
+ 
 if [ -f /etc/rc.d/S05network-backdoor ]; then
   backdoor=`sed -n 's/IPADDRESS="\(.*\)"/\1/p' /etc/init.d/network-backdoor`
 fi

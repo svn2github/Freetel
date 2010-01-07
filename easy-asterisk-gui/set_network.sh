@@ -22,8 +22,6 @@ gateway=`echo "$QUERY_STRING" | grep -oe "gateway=[^&?]*" | sed -n "s/gateway=//
 dns=`echo "$QUERY_STRING" | grep -oe "dns=[^&?]*" | sed -n "s/dns=//p"`
 backdoor=`echo "$QUERY_STRING" | grep -oe "backdoor=[^&?]*" | sed -n "s/backdoor=//p"`
 
-echo `date` " set_network.sh $dhcp $ipaddress $netmask $gateway $dns $backdoor" >> /tmp/easy_gui.log
-
 if [ $dhcp == "yes" ]; then
 
   # DHCP

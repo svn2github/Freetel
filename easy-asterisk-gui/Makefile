@@ -8,5 +8,5 @@
 #        make TESTIP=boris test
 
 test:
-	rcp faq.sh faq.html about.sh at-530.html ipphones.pl ipphones.sh ipphones.js voipline.jpg anphone.png phoneline.jpg ipphone.png phones.pl tooltips.html phones.sh phones.js tick.png cross.png banner.html menu.html check_loggedin.sh logout.sh login.sh network.sh network.js set_network.sh tooltip.js tooltip.css root@$(TESTIP):/www/cgi-bin
+	rcp index.html faq.sh faq.html about.sh at-530.html ipphones.pl ipphones.sh ipphones.js voipline.jpg anphone.png phoneline.jpg ipphone.png phones.pl tooltips.html phones.sh phones.js tick.png cross.png banner.html menu.html check_loggedin.sh logout.sh login.sh network.sh network.js set_network.sh tooltip.js tooltip.css root@$(TESTIP):/www/cgi-bin
 	rcp sip.conf extensions.conf root@$(TESTIP):/etc/asterisk
