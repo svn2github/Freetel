@@ -2,7 +2,7 @@
 # ipphones.pl
 # David Rowe 6 Jan 2010
 #
-# Test processing for the ipphones screen
+# Text processing for the ipphones screen
 
 $ipaddress = $ARGV[0];
 $more = $ARGV[1];

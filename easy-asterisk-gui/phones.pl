@@ -2,7 +2,7 @@
 # phones.pl
 # David Rowe 5 Jan 2010
 #
-# Test processing for the phones screen.
+# Text processing for the phones screen.
 
 $tool_tip = "onMouseOver=\"popUp(event,'network_internet')\" onmouseout=\"popUp(event,'network_internet')\"";
 
@@ -193,3 +193,6 @@ foreach $s (sort keys %voip) {
     }
 }
 
+print '<tr><td>&nbsp;</td></tr>';
+print "<tr><td colspan=2 onMouseOver=\"popUp(event,'phone_addvoipline')\" onmouseout=\"popUp(event,'phone_addvoipline')\">";
+print "<a href=\"voiplines.sh\">Set Up VOIP Line</a></td></tr>";
