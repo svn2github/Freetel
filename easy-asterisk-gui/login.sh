@@ -19,12 +19,12 @@ EOF
     cat << EOF
     <html>
     <title>Easy Asterisk - Login</title>
-    <form action="/cgi-bin/login.sh" method="get">
+    <form action="login.sh" method="get">
     <table align="center" width=600>
     <tr><td colspan="2" align="left"><h2>Login</h2></td>
     <tr>
       <tr><td>User:</td><td><input type="text" name="user" ></td></tr>
-      <tr><td>Password:</td><td><input type="text" name="pass" ></td></tr>
+      <tr><td>Password:</td><td><input type="password" name="pass" ></td></tr>
       <tr><td><input type="submit" value="Login"></td></tr>
     </tr>
     <tr><td></td><td>Default user/password is root/uClinux</td>

@@ -25,11 +25,17 @@ my %zap = (); # zaptel port type keyed on zap port
               # (fxs/fxo or no entry if not live)
 open ZAP, "/etc/zaptel.conf";
 while (<ZAP>) { 
-    if (/fxoks=([0-9]*)/) {
-        $zap{$1} = "fxs";
+    if (/fxoks=(.*)/) {
+        @fxs = split(/,/, $1);
+	foreach (@fxs) {
+	    $zap{$_} = "fxs";
+	}
     }
-    if (/fxsks=([0-9]*)/) {
-        $zap{$1} = "fxo";
+    if (/fxsks=(.*)/) {
+        @fxo = split(/,/, $1);
+	foreach (@fxo) {
+	    $zap{$_} = "fxo";
+	}
     }
 }
 close ZAP;
@@ -47,7 +53,34 @@ while (<EXT>) {
 }
 close EXT;
 
-my %sip = ();  # SIP IP phone status keyed on sip.conf names 
+# Determine which extenions are "Reception", i.e. set to ring on incoming
+# calls
+
+my %zap_ring = (); # ring flag keyed on Zap port (1,2...)
+my %sip_ring = (); # ring flag keyed on sip.cong ext name (6011,6012 etc)
+
+open EXT, "/etc/asterisk/extensions.conf";
+while (<EXT>) { 
+    if (/s,1,Dial\((.*)\) ;; easy/) {
+        @ring = split(/&/, $1);
+	#print "'$1' '@ring'\n foreach:\n";
+	foreach (@ring) {
+	    #print "    $_\n";
+	    if (/Zap\/([0-9]*)/) {
+		$zap_ring{$1} = 1;
+		#print "'$_' $1 \n";
+	    }
+	    if (/SIP\/([0-9]*)/) {
+		$sip_ring{$1} = 1;
+		#print "'$_' $1 \n";
+	    }
+	}
+    }
+}
+close EXT;
+
+
+my %sip = ();  # SIP IP phone status keyed on sip.conf names (6011,6012 etc)
                # if no entry we can't see IP phone device
 my %voip = (); # SIP trunks status keyed on sip.conf names 
                # if no entry we can't see SIP trunk
@@ -77,16 +110,28 @@ while (<SIP>) {
 
 close SIP;
 
+# start phones ringing form
+
+print '<form action="set_ring.sh?" method="get">';
+
 # print list of analog phones
 
 $tooltip_anphone = "onMouseOver=\"popUp(event,'phone_anphone')\" onmouseout=\"popUp(event,'phone_anphone')\"";
 $tooltip_ext = "onMouseOver=\"popUp(event,'phone_ext')\" onmouseout=\"popUp(event,'phone_ext')\"";
 $tooltip_port = "onMouseOver=\"popUp(event,'phone_port_phone')\" onmouseout=\"popUp(event,'phone_port_phone')\"";
+$tooltip_reception = "onMouseOver=\"popUp(event,'phone_reception')\" onmouseout=\"popUp(event,'phone_reception')\"";
 
 foreach $a (sort keys %analog) {
     if ($zap{$a} eq "fxs") {
 	$icon = "<img src=\"tick.png\" alt=\"Analog Phone OK\" />";
-	print "<tr><td $tooltip_ext>$analog{$a}</td><td $tooltip_anphone>Analog Phone</td><td $tooltip_port>Port $a</td><td>$icon</td></tr>\n";
+	print "<tr><td $tooltip_ext>$analog{$a}</td><td $tooltip_anphone>Analog Phone</td><td $tooltip_port>Port $a</td>";
+	if ($zap_ring{$a} == 1) {
+	    $checked = "checked";
+	}
+	else {
+	    $checked = "";
+	}
+	print "<td $tooltip_reception><input type=\"checkbox\" name=\"Zap_$a\" $checked>Reception</td><td>$icon</td></tr>\n";
     }
 }
 
@@ -94,22 +139,33 @@ foreach $a (sort keys %analog) {
 
 $tooltip_ipphone = "onMouseOver=\"popUp(event,'phone_ipphone')\" onmouseout=\"popUp(event,'phone_ipphone')\"";
 $tooltip_ipphone_ip = "onMouseOver=\"popUp(event,'phone_ipphone_ip')\" onmouseout=\"popUp(event,'phone_ipphone_ip')\"";
+$tooltip_reception = "onMouseOver=\"popUp(event,'phone_reception')\" onmouseout=\"popUp(event,'phone_reception')\"";
 
 foreach $s (sort keys %sip) {
     if ($sip{$s} eq "OK") {
 	$icon = "<img src=\"tick.png\" alt=\"IP Phone OK\" />";
-	print "<tr><td $tooltip_ext>$s</td><td $tooltip_ipphone>IP Phone</td<td $tooltip_ipphone_ip>$ipad{$s}</td><td>$icon</td></tr>\n";
+	print "<tr><td $tooltip_ext>$s</td><td $tooltip_ipphone>IP Phone</td><td $tooltip_ipphone_ip>$ipad{$s}</td>";
+	if ($sip_ring{$s} == 1) {
+	    $checked = "checked";
+	}
+	else {
+	    $checked = "";
+	}
+	print "<td $tooltip_reception><input type=\"checkbox\" name=\"SIP_$s\" $checked>Reception</td><td>$icon</td></tr>\n";
     }
 }
 
 print '<tr><td>&nbsp;</td></tr>';
-print "<tr><td onMouseOver=\"popUp(event,'phone_addipphone')\" onmouseout=\"popUp(event,'phone_addipphone')\"><a href=\"ipphones.sh\">Add IP Phone</a></td></tr>";
+print "<tr><td onMouseOver=\"popUp(event,'phone_addipphone')\" onmouseout=\"popUp(event,'phone_addipphone')\">";
+print "<a href=\"ipphones.sh\">Add IP Phone</a></td><td></td><td></td><td><input type=\"submit\" value=\"Update Reception\"></td></tr>";
 
 $tool_tip = "onMouseOver=\"popUp(event,'phone_lines')\" onmouseout=\"popUp(event,'phone_lines')\"";
 
 print '<tr><td>&nbsp</td></tr>';
 print "<tr $tool_tip><td colspan=\"4\" align=\"left\" valign=\"top\" ><h2>Phone Lines</h2></td></tr>
 ";
+
+print "</form>";
 
 # print list of analog phone lines
 
@@ -119,8 +175,8 @@ $tooltip_line_prefix = "onMouseOver=\"popUp(event,'phone_line_prefix')\" onmouse
 
 foreach $a (sort keys %analog) {
     if ($zap{$a} eq "fxo") {
-	$icon = "<img src=\"tick.jpg\" alt=\"Phone Line OK\" />";
-	print "<tr><td $tooltip_line_prefix>0</td><td $tooltip_phoneline>Analog Line</td><td $tooltip_port>Port $a</td><td>$icon</td></tr>\n";
+	$icon = "<img src=\"tick.png\" alt=\"Phone Line OK\" />";
+	print "<tr><td $tooltip_line_prefix>0</td><td $tooltip_phoneline>Analog Line</td><td $tooltip_port>Port $a</td><td></td><td>$icon</td></tr>\n";
     }
 }
 
@@ -133,7 +189,7 @@ $tooltip_voipline_prefix = "onMouseOver=\"popUp(event,'phone_voipline_prefix')\"
 foreach $s (sort keys %voip) {
     if ($voip{$s} eq "OK") {
 	$icon = "<img src=\"tick.png\" alt=\"VOIP Line OK\" />";
-	print "<tr><td $tooltip_voipline_prefix>1</td><td $tooltip_voipline>VOIP Line</td><td $tooltip_voipline_ip>$ipad{$s}</td><td>$icon</td></tr>\n";
+	print "<tr><td $tooltip_voipline_prefix>1</td><td $tooltip_voipline>VOIP Line</td><td $tooltip_voipline_ip>$ipad{$s}</td><td></td><td>$icon</td></tr>\n";
     }
 }
 

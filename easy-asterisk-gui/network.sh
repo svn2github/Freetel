@@ -116,7 +116,7 @@ cat <<EOF
 
     <td valign="top">
 
-    <form action="/cgi-bin/set_network.sh" onsubmit="return validate_form(this)" method="get">
+    <form action="set_network.sh" onsubmit="return validate_form(this)" method="get">
     <table align="center" width=600 border=0>
       <tr><td colspan="2" align="left" valign="top"><h2>Network</h2></td></tr>
       <tr>

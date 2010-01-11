@@ -62,12 +62,12 @@ cat <<EOF
       <tr>
           <td onMouseOver="popUp(event,'phone_system')" onmouseout="popUp(event,'phone_system')" colspan="4" align="left" valign="top"><h2>Phone System</h2></td>
       </tr>
-      <tr onMouseOver="popUp(event,'network_internet')" onmouseout="popUp(event,'network_internet')">
-	  <td colspan="3">Internet Connection:</td>
-	  <td><div id="internet" >&nbsp;</div></td>
+      <tr>
+	  <td colspan="3" onMouseOver="popUp(event,'network_internet')" onmouseout="popUp(event,'network_internet')">Internet Connection:</td>
+	  <td></td><td><div id="internet" >&nbsp;</div></td>
       </tr>
       <tr onMouseOver="popUp(event,'phone_ipaddress')" onmouseout="popUp(event,'phone_ipaddress')">
-	  <td colspan="3">Phone System IP Address:</td>
+	  <td colspan="4">Phone System IP Address:</td>
 EOF
 echo "<td>$ipaddress</td>"
 cat <<EOF
