@@ -15,6 +15,10 @@ if [ $? -eq 1 ]; then
     exit
 fi
 
+# See if we have can reach the VOIP Line host
+
+asterisk "-rx sip show peers" 2>/dev/null > sipshowpeers.txt
+
 # Construct the web page -------------------------------
 
 cat <<EOF
@@ -41,7 +45,7 @@ cat <<EOF
     <table align="right" width=600>
       <tr><td>&nbsp</td></tr>
       <form action="set_voiplines.sh" method="get">
-      <tr><td align="left" valign="top"><h2>VOIP Line</h2></td></tr>
+      <tr><td onMouseOver="popUp(event,'voiplines_voiplines')" onmouseout="popUp(event,'voiplines_voiplines')" align="left" valign="top"><h2>VOIP Line</h2></td></tr>
 
       <tr><td>&nbsp</td></tr>
 EOF

@@ -31,14 +31,20 @@ while (<SIP>) {
 	if (/^\[/) {
 	    $next_state = "finished";
 	}
+	if (/^;.*\[/) {
+	    $next_state = "finished";
+	}
 
-	if (/user=/) {
+	if (/^user=/) {
 	    print "user=$user\n";
 	}
-	elsif (/secret=/) {
+	elsif (/^fromuser=/) {
+	    print "fromuser=$user\n";
+	}
+	elsif (/^secret=/) {
 	    print "secret=$pass\n";
 	}
-	elsif (/host=/) {
+	elsif (/^host=/) {
 	    print "host=$host\n";
 	}
 	else {
