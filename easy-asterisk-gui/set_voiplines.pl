@@ -54,8 +54,3 @@ while (<SIP>) {
 }
 close SIP;
 
-# generate form fields -------------------------------------------
-
-print "<tr><td>User:</td><td><input type=\"text\" name=\"user\" value=\"$user\"></td></tr>\n";
-print "<tr><td>Password:</td><td><input type=\"password\" name=\"pass\" value=\"$pass\"></td></tr>";
-print "<tr><td>Host:</td><td><input type=\"text\" name=\"host\" value=\"$host\"></td></tr>";

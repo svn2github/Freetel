@@ -4,23 +4,26 @@
 #
 # CGI to set voip line parameters in sip.conf.
 
-cat <<EOF
-<html>
-<head>
-<title>set_network.sh</title>
-<meta http-equiv="REFRESH" content="0;url=http:network.sh">
-<body>
-Please wait a few seconds.....
-</body>
-</head>
-</html>
-EOF
+# check we are logged in
+
+echo $HTTP_COOKIE | grep "loggedin" > /dev/null
+if [ $? -eq 1 ]; then
+    echo "<html>"
+    echo "<head>"
+    echo '<meta http-equiv="REFRESH" content="0;url=http:login.sh">'
+    echo "</head>"
+    echo "</html>"
+    exit
+fi
 
 user=`echo "$QUERY_STRING" | grep -oe "user=[^&?]*" | sed -n "s/user=//p"`
 pass=`echo "$QUERY_STRING" | grep -oe "pass=[^&?]*" | sed -n "s/pass=//p"`
 host=`echo "$QUERY_STRING" | grep -oe "host=[^&?]*" | sed -n "s/host=//p"`
 
-./set_voipline.pl $user $pass $host > /etc/asterisk/sip.conf
+./set_voiplines.pl $user $pass $host > /etc/asterisk/sip.conf.new
+mv /etc/asterisk/sip.conf /etc/asterisk/sip.conf.bak
+mv /etc/asterisk/sip.conf.new /etc/asterisk/sip.conf
+asterisk -rx "sip reload" 2>/dev/null 1 > /dev/null
 
 cat <<EOF
 <html>
@@ -33,3 +36,4 @@ Please wait a few seconds.....
 </head>
 </html>
 EOF
+
