@@ -12,7 +12,7 @@ if [ $? -eq 1 ]; then
     echo '<meta http-equiv="REFRESH" content="0;url=http:login.sh">'
     echo "</head>"
     echo "</html>"
-#    exit
+    exit
 fi
 
 # extract extensions to ring and reload extensions.conf

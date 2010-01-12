@@ -1,5 +1,5 @@
 #!/bin/sh
-# voipline.sh
+# voiplines.sh
 # David Rowe 12 Jan 2010
 # VOIP Line screen for Easy Asterisk GUI
 
@@ -40,12 +40,13 @@ cat <<EOF
 
     <table align="right" width=600>
       <tr><td>&nbsp</td></tr>
-      <form action="voipline.sh" method="get">
+      <form action="set_voiplines.sh" method="get">
       <tr><td align="left" valign="top"><h2>VOIP Line</h2></td></tr>
 
       <tr><td>&nbsp</td></tr>
 EOF
-./voipline.pl
+
+./voiplines.pl
 
 cat <<EOF
       <tr><td>&nbsp</td></tr>

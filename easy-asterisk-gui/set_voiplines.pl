@@ -1,8 +1,12 @@
 #!/sbin/microperl
-# voiplines.pl
+# set_voiplines.pl
 # David Rowe 12 Jan 2010
 #
-# Text processing for the ipphones screen
+# Replaces fields in sip.conf, outputs new sip.conf contents to stdout
+
+$user = $ARGV[0];
+$pass = $ARGV[1];
+$host = $ARGV[2];
 
 # slurp up voip trunk details --------------------------------
 
@@ -13,30 +17,37 @@ while (<SIP>) {
     $next_state = $state;
 
     if ($state eq "looking for [voip]") {
-
+	
 	if (/^\[voip\]/) {
 	    $next_state="inside [voip]";
 	    #print "$state $next_state\n";
 	}
 
+	print $_;
     }
 
     if ($state eq "inside [voip]") {
-	#print $_;
+
 	if (/^\[/) {
 	    $next_state = "finished";
-	    #print "$next_state\n";
 	}
 
-	if (/user=(.*)/) {
-	    $user = $1;
+	if (/user=/) {
+	    print "user=$user\n";
 	}
-	if (/secret=(.*)/) {
-	    $pass = $1;
+	elsif (/secret=/) {
+	    print "secret=$pass\n";
 	}
-	if (/host=(.*)/) {
-	    $host = $1;
+	elsif (/host=/) {
+	    print "host=$host\n";
 	}
+	else {
+	    print $_;
+	}
+    }
+
+    if ($state eq "finished") {
+	print $_;
     }
 
     $state = $next_state;
