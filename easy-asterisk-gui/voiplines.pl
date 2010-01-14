@@ -71,9 +71,9 @@ my %voip = (); # SIP trunks status keyed on sip.conf stanza names
 
 open SIP, "sipshowpeers.txt";
 while (<SIP>) { 
-    if (/^(voip[0-9]*)[\s\/].*(OK)/) {
+    if (/^(\S*).*(OK)/) {
         $voip{$1} = $2;
-	#print "'$1' '$2' $voip{$1}\n";
+	print "'$1' '$2' $voip{$1}\n";
 	$e = $1;
 	if (/\s([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)\s/) {
 	    $ipad{$e} = $1;
@@ -120,15 +120,15 @@ foreach (@providers) {
 print "</select></td></tr>\n";
 
 print "<tr $tt_user><td>User:</td><td><input type=\"text\" name=\"user\" id=\"user\" value=\"$user{$provider_current}\"></td></tr>\n";
-print "<tr $tt_pass><td>Password:</td><td><input type=\"password\" name=\"pass\" id=\"pass\" value=\"$pass{$provider_current}\"></td></tr>";
-print "<tr $tt_host><td>Host:</td><td><input type=\"text\" name=\"host\" id=\"host\" value=\"$host{$provider_current}\"></td></tr>";
+print "<tr $tt_pass><td>Password:</td><td><input type=\"password\" name=\"pass\" id=\"pass\" value=\"$pass{$provider_current}\"></td></tr>\n";
+print "<tr $tt_host><td>Host:</td><td><input type=\"text\" name=\"host\" id=\"host\" value=\"$host{$provider_current}\"></td></tr>\n";
 if ($voip{$stanza{$provider_current}} eq "OK") {
-    $icon = "<img src=\"tick.png\" alt=\"VOIP Line OK\" />";
+    $icon = "<img src=\"tick.png\" alt=\"OK\" />";
 }
 else {
-    $icon = "<img src=\"cross.png\" alt=\"VOIP Line OK\" />";
+    $icon = "<img src=\"cross.png\" alt=\"Not OK\" />";
 }
-print "<tr $tt_status><td>Voip Line Status:</td><td>$icon</td></tr>";
+print "<tr $tt_status><td>Voip Line Status:</td><td>$icon</td></tr>\n";
 
 # hidden field to pass stanza with form
 
