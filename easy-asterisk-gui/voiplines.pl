@@ -101,7 +101,13 @@ print "</script>\n";
 
 # generate form fields -------------------------------------------
 
-print "<tr><td>Provider</td><td>\n";
+$tt_provider = "onMouseOver=\"popUp(event,'voiplines_provider')\" onmouseout=\"popUp(event,'voiplines_provider')\"";
+$tt_user = "onMouseOver=\"popUp(event,'voiplines_user')\" onmouseout=\"popUp(event,'voiplines_user')\"";
+$tt_pass = "onMouseOver=\"popUp(event,'voiplines_pass')\" onmouseout=\"popUp(event,'voiplines_pass')\"";
+$tt_host = "onMouseOver=\"popUp(event,'voiplines_host')\" onmouseout=\"popUp(event,'voiplines_host')\"";
+$tt_status = "onMouseOver=\"popUp(event,'voiplines_status')\" onmouseout=\"popUp(event,'voiplines_status')\"";
+
+print "<tr $tt_provider><td>Provider</td><td>\n";
 print "<select name=\"provider\" id=\"provider\" onchange=\"changeProvider()\">\n";
 foreach (@providers) {
     if ($_ eq $provider_current) {
@@ -113,16 +119,16 @@ foreach (@providers) {
 }
 print "</select></td></tr>\n";
 
-print "<tr><td>User:</td><td><input type=\"text\" name=\"user\" id=\"user\" value=\"$user{$provider_current}\"></td></tr>\n";
-print "<tr><td>Password:</td><td><input type=\"password\" name=\"pass\" id=\"pass\" value=\"$pass{$provider_current}\"></td></tr>";
-print "<tr><td>Host:</td><td><input type=\"text\" name=\"host\" id=\"host\" value=\"$host{$provider_current}\"></td></tr>";
+print "<tr $tt_user><td>User:</td><td><input type=\"text\" name=\"user\" id=\"user\" value=\"$user{$provider_current}\"></td></tr>\n";
+print "<tr $tt_pass><td>Password:</td><td><input type=\"password\" name=\"pass\" id=\"pass\" value=\"$pass{$provider_current}\"></td></tr>";
+print "<tr $tt_host><td>Host:</td><td><input type=\"text\" name=\"host\" id=\"host\" value=\"$host{$provider_current}\"></td></tr>";
 if ($voip{$stanza{$provider_current}} eq "OK") {
     $icon = "<img src=\"tick.png\" alt=\"VOIP Line OK\" />";
 }
 else {
     $icon = "<img src=\"cross.png\" alt=\"VOIP Line OK\" />";
 }
-print "<tr><td>Voip Line Status:</td><td>$icon</td></tr>";
+print "<tr $tt_status><td>Voip Line Status:</td><td>$icon</td></tr>";
 
 # hidden field to pass stanza with form
 
