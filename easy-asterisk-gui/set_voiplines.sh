@@ -19,8 +19,9 @@ fi
 user=`echo "$QUERY_STRING" | grep -oe "user=[^&?]*" | sed -n "s/user=//p"`
 pass=`echo "$QUERY_STRING" | grep -oe "pass=[^&?]*" | sed -n "s/pass=//p"`
 host=`echo "$QUERY_STRING" | grep -oe "host=[^&?]*" | sed -n "s/host=//p"`
+provider=`echo "$QUERY_STRING" | grep -oe "provider=[^&?]*" | sed -n "s/provider=//p"`
 
-./set_voiplines.pl $user $pass $host > /etc/asterisk/sip.conf.new
+./set_voiplines.pl $user $pass $host $provider > /etc/asterisk/sip.conf.new
 mv /etc/asterisk/sip.conf /etc/asterisk/sip.conf.bak
 mv /etc/asterisk/sip.conf.new /etc/asterisk/sip.conf
 asterisk -rx "sip reload" 2>/dev/null 1 > /dev/null

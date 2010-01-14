@@ -26,9 +26,13 @@ cat <<EOF
 <link href="astman.css" media="all" rel="Stylesheet" type="text/css" />
 <script type="text/javascript" src="tooltip.js"></script>
 <link rel="stylesheet" href="tooltip.css" type="text/css" />
+<script>
 EOF
 
+cat voiplines.js
+
 cat << EOF
+</script>
 <html>
 <title>Easy Asterisk - VOIP Line</title>
 EOF

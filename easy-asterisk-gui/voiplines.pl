@@ -2,43 +2,56 @@
 # voiplines.pl
 # David Rowe 12 Jan 2010
 #
-# Text processing for the ipphones screen
+# Text processing for the voiplines screen
 
-# slurp up voip trunk details --------------------------------
+# slurp up list of possible voip line providers --------------------------------
+# one of these will be currently selected
 
 open SIP, "/etc/asterisk/sip.conf";
-$state = "looking for [voip]";
+my $provider = ""; # current provider bring parsed in sip.conf
+my @providers=();  # list of all providers
+my %user = ();     # user keyed on provider
+my %pass = ();     # password keyed on provider
+my %host = ();     # host name keyed on provider
 
 while (<SIP>) { 
-    $next_state = $state;
 
-    if ($state eq "looking for [voip]") {
+    # start of any stanza switches off parsing.  It may get switched
+    # back on below if it contains easy-asterisk keyword. This allows
+    # non-easy asterisk SIP devices to be included in sip.conf
 
-	if (/^\[voip\]/) {
-	    $next_state="inside [voip]";
-	    #print "$state $next_state\n";
-	}
-
+    if (/^\[/) {
+	$provider = "";	
     }
 
-    if ($state eq "inside [voip]") {
-	#print $_;
-	if (/^\[/) {
-	    $next_state = "finished";
-	    #print "$next_state\n";
-	}
-	if (/^;.*\[/) { # commented out next stanza
-	    $next_state = "finished";
-	}
+    # currently disabled easy-asterisk provider
 
-	if (/^user=(.*)/) {
-	    $user = $1;
+    if (/^;\[.* \"(.*)\" easy-asterisk/) {
+	push (@providers, $1);
+	$provider = $1;
+	#print "$1\n";	
+    }
+
+    # current easy-asterisk provider
+
+    if (/^\[.* \"(.*)\" easy-asterisk/) {
+	push (@providers, $1);
+	$provider = $1;
+	$provider_current = $1;
+	#print "$1\n";
+    }
+
+    if ($provider ne "") {
+	#print $_;
+
+	if (/^;*user=(.*)/) {
+	    $user{$provider} = $1;
 	}
-	if (/^secret=(.*)/) {
-	    $pass = $1;
+	if (/^;*secret=(.*)/) {
+	    $pass{$provider} = $1;
 	}
-	if (/^host=(.*)/) {
-	    $host = $1;
+	if (/^;*host=(.*)/) {
+	    $host{$provider} = $1;
 	}
     }
 
@@ -46,26 +59,9 @@ while (<SIP>) {
 }
 close SIP;
 
-# Determine list of possible VOIP lines to use
-
-open SIP, "/etc/asterisk/sip.conf";
-
-@voiplines=();
-
-while (<SIP>) { 
-    if (/^;\[.* \"(.*)\" easy-asterisk/) {
-	push (@voiplines, $1);
-	#print "$1\n";
-    }
-    if (/^\[.* \"(.*)\" easy-asterisk/) {
-	push (@voiplines, $1);
-	$voipline_current = $1;
-	#print "$1\n";
-    }
-}
-close SIP;
-
-# Determine if Asterisk can see our Voip Line (SIP trunk) 
+# Determine if Asterisk can see current voip line (SIP trunk) 
+# sipshowpeers.txt needs to be generated before calling this perl
+# script
 
 my %voip = (); # SIP trunks status keyed on sip.conf names 
                # if no entry we can't see SIP trunk
@@ -85,12 +81,25 @@ while (<SIP>) {
 
 close SIP;
 
+# javascript to handle changing providers
+
+print "<script>\n";
+print "var hosts = new Array();\n";
+print "var users = new Array();\n";
+print "var passwords = new Array();\n";
+foreach (@providers) {
+    print "hosts[\'$_\'] = \'$host{$_}\';\n";
+    print "users[\'$_\'] = \'$user{$_}\';\n";
+    print "passwords[\'$_\'] = \'$pass{$_}\';\n";
+}
+print "</script>\n";
+
 # generate form fields -------------------------------------------
 
 print "<tr><td>Provider</td><td>\n";
-print "<select name=\"voiplines\">\n";
-foreach (@voiplines) {
-    if ($_ eq $voipline_current) {
+print "<select name=\"provider\" id=\"provider\" onchange=\"changeProvider()\">\n";
+foreach (@providers) {
+    if ($_ eq $provider_current) {
 	print "<option selected=\"yes\">$_</option>\n";
     }
     else {
@@ -99,9 +108,9 @@ foreach (@voiplines) {
 }
 print "</select></td></tr>\n";
 
-print "<tr><td>User:</td><td><input type=\"text\" name=\"user\" value=\"$user\"></td></tr>\n";
-print "<tr><td>Password:</td><td><input type=\"password\" name=\"pass\" value=\"$pass\"></td></tr>";
-print "<tr><td>Host:</td><td><input type=\"text\" name=\"host\" value=\"$host\"></td></tr>";
+print "<tr><td>User:</td><td><input type=\"text\" name=\"user\" id=\"user\" value=\"$user{$provider_current}\"></td></tr>\n";
+print "<tr><td>Password:</td><td><input type=\"password\" name=\"pass\" id=\"pass\" value=\"$pass{$provider_current}\"></td></tr>";
+print "<tr><td>Host:</td><td><input type=\"text\" name=\"host\" id=\"host\" value=\"$host{$provider_current}\"></td></tr>";
 if ($voip{"voip"} eq "OK") {
     $icon = "<img src=\"tick.png\" alt=\"VOIP Line OK\" />";
 }

@@ -7,18 +7,19 @@
 $user = $ARGV[0];
 $pass = $ARGV[1];
 $host = $ARGV[2];
+$provider = $ARGV[3];
 
 # slurp up voip trunk details --------------------------------
 
 open SIP, "/etc/asterisk/sip.conf";
-$state = "looking for [voip]";
+$state = "looking for easy-asterisk";
 
 while (<SIP>) { 
     $next_state = $state;
 
-    if ($state eq "looking for [voip]") {
+    if ($state eq "looking for easy-asterisk") {
 	
-	if (/^\[voip\]/) {
+	if (/[voip\]/) {
 	    $next_state="inside [voip]";
 	    #print "$state $next_state\n";
 	}
