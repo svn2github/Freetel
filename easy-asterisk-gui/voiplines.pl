@@ -20,7 +20,7 @@ while (<SIP>) {
     # back on below if it contains easy-asterisk keyword. This allows
     # non-easy asterisk SIP devices to be included in sip.conf
 
-    if (/^\[/) {
+    if (/\[/) {
 	$provider = "";	
     }
 

@@ -7,57 +7,64 @@
 $user = $ARGV[0];
 $pass = $ARGV[1];
 $host = $ARGV[2];
-$provider = $ARGV[3];
+$provider_new = $ARGV[3];
 
-# slurp up voip trunk details --------------------------------
+# We need to slurp up the easy asterisk provider and spit them
+# back out.  All must be commented out except for the one that
+# is selected.  Hopefully non-easy asterisk content of sip.conf
+# won't be affected.
 
 open SIP, "/etc/asterisk/sip.conf";
-$state = "looking for easy-asterisk";
-
+$provider = "";
 while (<SIP>) { 
-    $next_state = $state;
 
-    if ($state eq "looking for easy-asterisk") {
-	
-	if (/[voip\]/) {
-	    $next_state="inside [voip]";
-	    #print "$state $next_state\n";
-	}
+    # start of any new stanza switches off parsing.  It may get
+    # switched back on below if it contains easy-asterisk
+    # keyword. This allows non-easy asterisk SIP devices to be
+    # included in sip.conf
 
-	print $_;
+    if (/\[/) {
+	$provider = "";	
     }
 
-    if ($state eq "inside [voip]") {
+    # look for commented or uncommented easy asterisk provider stanza
 
-	if (/^\[/) {
-	    $next_state = "finished";
-	}
-	if (/^;.*\[/) {
-	    $next_state = "finished";
-	}
+    if (/\[.* \"(.*)\" easy-asterisk/) {
+	$provider = $1;
+    }
 
-	if (/^user=/) {
-	    print "user=$user\n";
-	}
-	elsif (/^fromuser=/) {
-	    print "fromuser=$user\n";
-	}
-	elsif (/^secret=/) {
-	    print "secret=$pass\n";
-	}
-	elsif (/^host=/) {
-	    print "host=$host\n";
+    if ($provider ne "") {
+	# OK, we are in an easy-asterisk stanza
+
+	# strip off any leading ";"
+
+	$_ =~ s/^\;//;
+	
+	if ($provider eq $provider_new) {
+
+	    # this stanza should be uncommented
+
+	    if (/^user=/) {
+		print "user=$user\n";
+	    }
+	    elsif (/^fromuser=/) {
+		print "fromuser=$user\n";
+	    }
+	    elsif (/^secret=/) {
+		print "secret=$pass\n";
+	    }
+	    elsif (/^host=/) {
+		print "host=$host\n";
+	    }
+	    else {
+		print $_;
+	    }
 	}
 	else {
-	    print $_;
+	    print ";$_";
 	}
     }
 
-    if ($state eq "finished") {
-	print $_;
-    }
-
-    $state = $next_state;
 }
 close SIP;
 
