@@ -67,6 +67,9 @@ while (<SIP>) {
 	    if (/^user=/) {
 		print "user=$user\n";
 	    }
+	    if (/^username=/) {
+		print "username=$user\n";
+	    }
 	    elsif (/^fromuser=/) {
 		print "fromuser=$user\n";
 	    }

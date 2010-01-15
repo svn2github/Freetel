@@ -50,6 +50,9 @@ while (<SIP>) {
 	if (/^;*user=(.*)/) {
 	    $user{$provider} = $1;
 	}
+	if (/^;*username=(.*)/) {
+	    $user{$provider} = $1;
+	}
 	if (/^;*secret=(.*)/) {
 	    $pass{$provider} = $1;
 	}
@@ -66,19 +69,14 @@ close SIP;
 # sipshowpeers.txt needs to be generated before calling this perl
 # script
 
-my %voip = (); # SIP trunks status keyed on sip.conf stanza names 
+my %voip = (); # SIP trunks status keyed on sip.conf stanza name/username
                # if no entry we can't see SIP trunk
 
-open SIP, "sipshowpeers.txt";
+open SIP, "sipshowregistry.txt";
 while (<SIP>) { 
-    if (/^(\S*).*(OK)/) {
+    if (/^(.*):.*(Registered)/) {
         $voip{$1} = $2;
 	print "'$1' '$2' $voip{$1}\n";
-	$e = $1;
-	if (/\s([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)\s/) {
-	    $ipad{$e} = $1;
-	    #print "'$1'\n";
-	}
     }
 }
 
@@ -122,7 +120,10 @@ print "</select></td></tr>\n";
 print "<tr $tt_user><td>User:</td><td><input type=\"text\" name=\"user\" id=\"user\" value=\"$user{$provider_current}\"></td></tr>\n";
 print "<tr $tt_pass><td>Password:</td><td><input type=\"password\" name=\"pass\" id=\"pass\" value=\"$pass{$provider_current}\"></td></tr>\n";
 print "<tr $tt_host><td>Host:</td><td><input type=\"text\" name=\"host\" id=\"host\" value=\"$host{$provider_current}\"></td></tr>\n";
-if ($voip{$stanza{$provider_current}} eq "OK") {
+
+print "\nXXX $provider_current $stanza{$provider_current} $voip{$stanza{$provider_current}}\n";
+
+if ($voip{$stanza{$provider_current}} eq "Registered") {
     $icon = "<img src=\"tick.png\" alt=\"OK\" />";
 }
 else {

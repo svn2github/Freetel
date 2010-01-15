@@ -15,9 +15,9 @@ if [ $? -eq 1 ]; then
     exit
 fi
 
-# See if we have can reach the VOIP Line host
+# See if we have can reach the VOIP Line provider
 
-asterisk "-rx sip show peers" 2>/dev/null > sipshowpeers.txt
+asterisk "-rx sip show registry" 2>/dev/null > sipshowregistry.txt
 
 # Construct the web page -------------------------------
 
