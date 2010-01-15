@@ -3,10 +3,9 @@
 # David Rowe 4 Jan 2010
 # CGI for Easy Asterisk login GUI
 
-user=`echo "$QUERY_STRING" | grep -oe "user=[^&?]*" | sed -n "s/user=//p"`
 pass=`echo "$QUERY_STRING" | grep -oe "pass=[^&?]*" | sed -n "s/pass=//p"`
 
-echo $QUERY_STRING | grep user > /dev/null
+echo $QUERY_STRING | grep pass > /dev/null
 if [ $? -eq 1 ]; then
     # Display form -------------------------------
 
@@ -23,17 +22,16 @@ EOF
     <table align="center" width=600>
     <tr><td colspan="2" align="left"><h2>Login</h2></td>
     <tr>
-      <tr><td>User:</td><td><input type="text" name="user" ></td></tr>
       <tr><td>Password:</td><td><input type="password" name="pass" ></td></tr>
       <tr><td><input type="submit" value="Login"></td></tr>
     </tr>
-    <tr><td></td><td>Default user/password is root/uClinux</td>
+    <tr><td></td><td>Default password is uClinux</td>
     </table>
     </form>
     </html>
 EOF
 else
-    testuser $user $pass
+    testuser root $pass
     if [ $? -eq 0 ]; then
 
 	# login sucessful
@@ -43,10 +41,10 @@ else
 	echo "<head>"
 	echo "<title>Easy Asterisk - Login</title>"
 	echo '<meta http-equiv="REFRESH" content="0;url=http:phones.sh">'
+	echo "</head>"
 	echo "<body>"
 	echo "Please wait a few seconds....."
 	echo "</body>"
-	echo "</head>"
     else
 	# login failed
 	cat <<EOF

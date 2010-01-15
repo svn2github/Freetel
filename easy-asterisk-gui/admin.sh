@@ -15,6 +15,36 @@ if [ $? -eq 1 ]; then
     exit
 fi
 
+# set password CGI
+
+echo "$QUERY_STRING" | grep -oe "pass=" > /dev/null
+if [ $? -eq 0 ]; then
+    pass=`echo "$QUERY_STRING" | grep -oe "pass=[^&?]*" | sed -n "s/pass=//p"`
+    passwd_cmdline $pass
+fi
+
+# restart CGI
+
+echo "$QUERY_STRING" | grep -oe "restart=1" > /dev/null
+if [ $? -eq 0 ]; then
+
+# kill cookie to log out.  This ensures hitting refresh wont run
+# the restart process again
+
+cat <<EOF
+Content-type: text/html
+Set-Cookie: loggedin=1; expires=Thursday, 01-Jan-98 12:00:00 GMT
+
+<head>
+<title>Easy Asterisk - Restart</title>
+</head>
+<body>
+<h2>Restarting...come back in 1 minute</h2>
+</body>
+EOF
+reboot
+fi
+
 # Construct the web page -------------------------------
 
 cat <<EOF
@@ -45,18 +75,18 @@ cat <<EOF
 
       <tr><td>&nbsp</td></tr>
       <tr><td colspan="2"><h3>Change Phone System Password</h2></td></tr>
-      <tr><td>User:</td><td><input type="text" name="user" ></td></tr>
-      <tr><td>Current Password:</td><td><input type="password" name="oldpass" ></td></tr>
-      <tr><td>New Password:</td><td><input type="password" name="newpass" ></td></tr>
+      <tr><td>New Password:</td><td><input type="password" name="pass" ></td></tr>
       <tr><td>&nbsp</td></tr>
-      <tr><td></td><td>Default user/password is root/uClinux</td>
+      <tr><td></td><td>Default password is uClinux</td>
       <tr><td><input type="submit" value="Set Password"></td></tr>
       </form>
 
       <tr><td>&nbsp</td></tr>
-      <tr><td colspan="2"><h3>Restart Phone System</h2></td></tr>
-      <form action="admin.sh?reboot=1" method="get">
-      <tr><td><input type="submit" value="Restart"></td></tr>
+      <tr><td  colspan="2"><h3>Restart Phone System</h2></td></tr>
+      <form action="admin.sh" method="get">
+      <tr><td><input type="hidden" name="restart" value="1"></td></tr>
+      <tr><td onMouseOver="popUp(event,'admin_restart')" onmouseout="popUp(event,'admin_restart')">
+          <input type="submit" value="Restart"></td></tr>
       </form>
 
       <tr><td>&nbsp</td></tr>

@@ -80,10 +80,10 @@ while (<EXT>) {
 close EXT;
 
 
+# work out which IP phones are registered -----------------------------------
+
 my %sip = ();  # SIP IP phone status keyed on sip.conf names (6011,6012 etc)
                # if no entry we can't see IP phone device
-my %voip = (); # SIP trunks status keyed on sip.conf names 
-               # if no entry we can't see SIP trunk
 my %ipad = (); # IP address of SIP device keyed on sip.conf names
 
 open SIP, "sipshowpeers.txt";
@@ -97,9 +97,10 @@ while (<SIP>) {
 	    #print "'$1'\n";
 	}
     }
-    if (/^(voip[0-9]*)[\s\/].*(OK)/) {
-        $voip{$1} = $2;
-	#print "'$1' '$2' $voip{$1}\n";
+
+    if (/^(.*)\/.*(OK)/) {
+        #$sip{$1} = $2;
+	#print "'$1' '$2' $sip{$1}\n";
 	$e = $1;
 	if (/\s([0-9]+\.[0-9]+\.[0-9]+\.[0-9]+)\s/) {
 	    $ipad{$e} = $1;
@@ -110,7 +111,24 @@ while (<SIP>) {
 
 close SIP;
 
-# start phones ringing form
+# Determine if Asterisk can see current voip line (SIP trunk) 
+# sipshowpeers.txt needs to be generated before calling this perl
+# script
+
+my %voip = (); # SIP trunks status keyed on sip.conf stanza name/username
+               # if no entry we can't see SIP trunk
+
+open SIP, "sipshowregistry.txt";
+while (<SIP>) { 
+    if (/^(.*):.*(Registered)/) {
+        $voip{$1} = $2;
+	#print "'$1' '$2' $voip{$1}\n";
+    }
+}
+
+close SIP;
+
+# start phones ringing form -------------------------------------------
 
 print '<form action="set_ring.sh?" method="get">';
 
@@ -187,7 +205,7 @@ $tooltip_voipline_ip = "onMouseOver=\"popUp(event,'phone_voipline_ip')\" onmouse
 $tooltip_voipline_prefix = "onMouseOver=\"popUp(event,'phone_voipline_prefix')\" onmouseout=\"popUp(event,'phone_voipline_prefix')\"";
 
 foreach $s (sort keys %voip) {
-    if ($voip{$s} eq "OK") {
+    if ($voip{$s} eq "Registered") {
 	$icon = "<img src=\"tick.png\" alt=\"VOIP Line OK\" />";
 	print "<tr><td $tooltip_voipline_prefix>1</td><td $tooltip_voipline>VOIP Line</td><td $tooltip_voipline_ip>$ipad{$s}</td><td></td><td>$icon</td></tr>\n";
     }

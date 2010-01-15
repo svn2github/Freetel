@@ -76,7 +76,7 @@ open SIP, "sipshowregistry.txt";
 while (<SIP>) { 
     if (/^(.*):.*(Registered)/) {
         $voip{$1} = $2;
-	print "'$1' '$2' $voip{$1}\n";
+	#print "'$1' '$2' $voip{$1}\n";
     }
 }
 
@@ -121,7 +121,7 @@ print "<tr $tt_user><td>User:</td><td><input type=\"text\" name=\"user\" id=\"us
 print "<tr $tt_pass><td>Password:</td><td><input type=\"password\" name=\"pass\" id=\"pass\" value=\"$pass{$provider_current}\"></td></tr>\n";
 print "<tr $tt_host><td>Host:</td><td><input type=\"text\" name=\"host\" id=\"host\" value=\"$host{$provider_current}\"></td></tr>\n";
 
-print "\nXXX $provider_current $stanza{$provider_current} $voip{$stanza{$provider_current}}\n";
+#print "\nXXX $provider_current $stanza{$provider_current} $voip{$stanza{$provider_current}}\n";
 
 if ($voip{$stanza{$provider_current}} eq "Registered") {
     $icon = "<img src=\"tick.png\" alt=\"OK\" />";
