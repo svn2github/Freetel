@@ -8,5 +8,5 @@
 #        make TESTIP=boris test
 
 test:
-	rcp voiplines.js set_voiplines.pl set_voiplines.sh voiplines.sh voiplines.pl set_ring.sh prototype.js admin.sh index.html faq.sh faq.html about.sh at-530.html ipphones.pl ipphones.sh ipphones.js voipline.jpg anphone.png phoneline.jpg ipphone.png phones.pl tooltips.html phones.sh phones.js tick.png cross.png banner.html menu.html check_loggedin.sh logout.sh login.sh network.sh network.js set_network.sh tooltip.js tooltip.css root@$(TESTIP):/www
-	rcp sip.conf extensions.conf root@$(TESTIP):/etc/asterisk
+	rcp cgi-bin/*.html cgi-bin/*.sh cgi-bin/*.pl cgi-bin/*.js cgi-bin/*.css  cgi-bin/*.png root@$(TESTIP):/www
+	rcp etc/asterisk/*.conf root@$(TESTIP):/etc/asterisk
