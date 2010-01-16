@@ -15,7 +15,7 @@ if [ $? -eq 1 ]; then
     exit
 fi
 
-# set password CGI
+# set password CGI -----------------------------------------------
 
 echo "$QUERY_STRING" | grep -oe "pass=" > /dev/null
 if [ $? -eq 0 ]; then
@@ -23,7 +23,7 @@ if [ $? -eq 0 ]; then
     passwd_cmdline $pass
 fi
 
-# restart CGI
+# restart CGI ----------------------------------------------------
 
 echo "$QUERY_STRING" | grep -oe "restart=1" > /dev/null
 if [ $? -eq 0 ]; then
@@ -43,6 +43,16 @@ Set-Cookie: loggedin=1; expires=Thursday, 01-Jan-98 12:00:00 GMT
 </body>
 EOF
 reboot
+fi
+
+# set defaults CGI ----------------------------------------------------
+
+echo "$QUERY_STRING" | grep -oe "defaults=1" > /dev/null
+if [ $? -eq 0 ]; then
+    cp /etc/asterisk/extensions.conf.def /etc/asterisk/extensions.conf
+    cp /etc/asterisk/sip.conf.def /etc/asterisk/sip.conf
+    asterisk -rx "sip reload" 2>/dev/null 1 > /dev/null
+    asterisk -rx "dialplan reload" 2>/dev/null 1 > /dev/null
 fi
 
 # Construct the web page -------------------------------
@@ -73,32 +83,52 @@ cat <<EOF
       <tr><td align="left" valign="top"><h2>Admin</h2></td></tr>
 
       <tr><td>&nbsp</td></tr>
-      <tr><td colspan="2"><h3>Change Phone System Password</h2></td></tr>
-      <tr><td>New Password:</td><td><input type="password" name="pass" ></td></tr>
+      <tr><td colspan="2"><h3>Change Phone System Password</h3></td></tr>
+      <tr><td>New Password:</td><td><input type="password" name="pass" ></td>
+          <td><input type="submit" value="Set Password"></td>
+      </tr>
       <tr><td>&nbsp</td></tr>
       <tr><td></td><td>Default password is uClinux</td>
-      <tr><td><input type="submit" value="Set Password"></td></tr>
       </form>
 
       <tr><td>&nbsp</td></tr>
-      <tr><td  colspan="2"><h3>Restart Phone System</h2></td></tr>
+      <tr><td colspan="2"><h3>Restart Phone System</h3></td>
+          <td onMouseOver="popUp(event,'admin_restart')" onmouseout="popUp(event,'admin_restart')">
+              <form action="admin.sh" method="get">
+              <input type="hidden" name="restart" value="1">
+              <input type="submit" value="Restart">
+          </form>
+          </td>
+      </tr>
+
+      <tr><td>&nbsp</td></tr>
+      <tr><td colspan="2"><h3>Reset Phone System Defaults</h3></td>
+          <td>
+              <form action="admin.sh" method="get">
+              <input type="hidden" name="defaults" value="1">
+              <input type="submit" value="Reset">
+	      </form>
+	  </td>
+      </tr>
+
+      <tr><td>&nbsp</td></tr>
+      <tr onMouseOver="popUp(event,'admin_upgrade')" onmouseout="popUp(event,'admin_upgrade')">
+          <td colspan="2"><h3>Upgrade Easy Asterisk</h3></td>
+          <td>
+              <form action="admin.sh" method="get">
+              <input type="hidden" name="upgrade" value="1">
+              <input type="submit" value="Upgrade">
+          </td>
+      </tr>
+
+      <tr><td>&nbsp</td></tr>
+      <tr><td colspan="2"><h3>Install New Firmware</h3>
       <form action="admin.sh" method="get">
-      <tr><td><input type="hidden" name="restart" value="1"></td></tr>
-      <tr><td onMouseOver="popUp(event,'admin_restart')" onmouseout="popUp(event,'admin_restart')">
-          <input type="submit" value="Restart"></td></tr>
-      </form>
-
-      <tr><td>&nbsp</td></tr>
-      <tr><td colspan="2"><h3>Reset Phone System Defaults</h2></td></tr>
-      <form action="admin.sh?defaults=1" method="get">
-      <tr><td><input type="submit" value="Reset"></td></tr>
-      </form>
-
-      <tr><td>&nbsp</td></tr>
-      <tr><td colspan="2"><h3>Upgrade Software</h2></td></tr>
-      <form action="admin.sh?upgrade=1" method="get">
-      <tr><td>Software URL:</td><td><input type="text" name="upgrade" ></td></tr>
-      <tr><td><input type="submit" value="Upgrade"></td></tr>
+      <tr onMouseOver="popUp(event,'admin_firmware')" onmouseout="popUp(event,'admin_firmware')">
+          <td>Firmware URL:</td>
+          <td><input type="text" name="firmwareurl" ></td>
+          <td><input type="submit" value="Install"></td>
+      </tr>
       </form>
 
     </table>
