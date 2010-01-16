@@ -40,7 +40,7 @@ cat <<EOF
     <table align="right" width=600>
       <tr><td align="left" valign="top"><h2>About</h2></td></tr>
 EOF
-echo '      <tr><td><strong>Easy Asterisk</strong> $Revision: 122 $</td></tr> ' | sed -n 's/\$//pg'
+echo '      <tr><td><strong>Easy Asterisk</strong> Revision: 122 </td></tr> '
 echo '      <tr><td>&nbsp;</td></tr>'
 echo '      <tr><td>Brought to you by the <a href="http://rowetel.com/ucasterisk/index.html">Free Telephony Project</a></td></tr>'
 echo '      <tr><td><a href="http://rowetel.com/ucasterisk/ip04.html"><img src="http://rowetel.com/images/ip04/ip04_case.jpg" border="0" /></a></td></tr>'

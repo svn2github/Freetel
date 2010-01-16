@@ -9,9 +9,9 @@ tip documentation and a learning curve of a few minutes.  Analog ports
 and IP Phones are automatically detected, and no knowledge of Asterisk
 configuration is required.
 
-Easy Asterisk is "unfeatured" - many of the Asterisk features are
-hidden by the GUI.  Instead it tries to make very basic, very common
-Asterisk installations fast and simple, for example:
+Easy Asterisk is "unfeatured" - many of the Asterisk features are not
+available.  Instead it tries to make very basic, very common Asterisk
+installations fast and simple, for example:
 
 * An Asterisk server running on your home gateway/firewall/server.
   You want to connect a few IP Phones and make cheap phones calls
@@ -23,8 +23,23 @@ Asterisk installations fast and simple, for example:
 * A small office that already has an old analog phone system.  You
   want to keep your current analog lines for incoming calls, but
   install 8 IP Phones and use VOIP for outgoing calls.  You know
-  enough to set up a DSL router but don't want to rely on some phone
-  or computer guy at $100/hr to maintain your phone system.
+  enough to set up a DSL router but don't want to rely on "the Phone
+  Guy" or "The Coumputer Guy" at $100/hr to maintain your phone
+  system.
+
+* You are a "Phone Guy" who doesn't understand Linux and Asterisk but
+  you want to install IP-PBXes.
+
+Status
+------
+
+Alpha.
+
+* Works on IP0X
+* Not tested on x86. Several IP0X features are n/a for x86 and should be
+  disbaled when the x86 (or non-IP0X) platform is detected.
+* Needs feedback from real users to see how useful the concept is and what
+  features need to be added.
 
 Implementation
 --------------
@@ -35,10 +50,11 @@ hardware but will also run on x86 and probably many other platforms.
 Easy Asterisk does not require a dedicated PC, you do not need to
 reformat a hard disk and install an ISO CD image.
 
-It is implemented as a set of CGI scripts (shell, perl, java-script)
-and pre-configured extensions.conf and sip.conf files.  Only a basic
-web server and microperl support are required, making it suitable for
-small embedded platforms.  No Perl libraries or CPAN are required.
+It is implemented as a set of CGI scripts (shell, perl, client side
+java-script) and pre-configured extensions.conf and sip.conf files.
+Only a basic web server and microperl support are required, making it
+suitable for small embedded platforms.  No Perl libraries or CPAN are
+required.
 
 Easy Asterisk is "unfeatured" - it hides many of the advanced Asterisk
 features in the interest of simple and fast configuration.  However
@@ -62,9 +78,10 @@ analog hardware.  On the IP0X this happens automatically.
 Installation
 ------------
 
-Note: this process will overwrite your Asterisk extensions.conf and
+Note: this process may overwrite your Asterisk extensions.conf and
 sip.conf files - back them up if you have an existing Asterisk
-installation that you want to keep.  
+installation that you want to keep.  The IP0X ipkg does attempt to
+backup the modified conf files to *.bak but no guarantees....
 
 However once easy-asterisk is installed it should honor any manual
 changes made to extensions.conf and sip.conf.
@@ -77,7 +94,6 @@ IP0X Installation
 
    -------------------------------------------------------------------
    root~> ipkg install easy-asterisk
-   root~> reboot
    -------------------------------------------------------------------
 
 x86 Installation
@@ -86,7 +102,8 @@ x86 Installation
 1. You need a web server, Asterisk and some sort of Perl installed
    (very basic Perl installation is fine).  Configure your web server
    to run CGIs (.sh and .pl) from /www (lighttpd config instructions
-   below).
+   below).  Easy Asterisk expects all files (shell, perl, html etc) to
+   be in the same directory.
 
    The process below places the web files in /www, you may like to
    place the files somewhere else like /www/asterisk.  One of the
@@ -95,9 +112,13 @@ x86 Installation
 
 2. Login as root to install the Easy Asterisk files:
 
+   Remember to backup your existing extensions.conf & sip.conf in
+   /etc/asterisk
+
    -------------------------------------------------------------------
    # cd ~ 
    # svn co https://freetel.svn.sourceforge.net/svnroot/freetel/easy-asterisk-gui
+   # ./update_revision.sh
    # cp easy-asterisk-gui/etc/asterisk/* /etc/asterisk 
    # cp easy-asterisk-gui/cgi-bin/* /www
    # cd /etc/asterisk
