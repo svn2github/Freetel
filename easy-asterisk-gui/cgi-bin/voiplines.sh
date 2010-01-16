@@ -23,7 +23,6 @@ asterisk "-rx sip show registry" 2>/dev/null > sipshowregistry.txt
 
 cat <<EOF
 <script src="prototype.js"></script>
-<link href="astman.css" media="all" rel="Stylesheet" type="text/css" />
 <script type="text/javascript" src="tooltip.js"></script>
 <link rel="stylesheet" href="tooltip.css" type="text/css" />
 <script>

@@ -11,7 +11,6 @@ if [ $? -eq 1 ]; then
 
     cat <<EOF
     <script src="prototype.js"></script>
-    <link href="astman.css" media="all" rel="Stylesheet" type="text/css" />
     <script type="text/javascript" src="tooltip.js"></script>
     <link rel="stylesheet" href="tooltip.css" type="text/css" />
 EOF
