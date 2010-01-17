@@ -130,7 +130,7 @@ close SIP;
 
 # start phones ringing form -------------------------------------------
 
-print '<form action="set_ring.sh?" method="get">';
+print '<form action="set_ring.sh" method="get">';
 
 # print list of analog phones
 

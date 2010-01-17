@@ -9,7 +9,7 @@ echo $HTTP_COOKIE | grep "loggedin" > /dev/null
 if [ $? -eq 1 ]; then
     echo "<html>"
     echo "<head>"
-    echo '<meta http-equiv="REFRESH" content="0;url=http:login.sh">'
+    echo '<meta http-equiv="REFRESH" content="0;url=login.sh">'
     echo "</head>"
     echo "</html>"
     exit
@@ -40,7 +40,7 @@ cat <<EOF
     <table align="right" width=600>
       <tr><td align="left" valign="top"><h2>About</h2></td></tr>
 EOF
-echo '      <tr><td><strong>Easy Asterisk</strong> Revision: 124</td></tr> '
+echo '      <tr><td><a href="http://rowetel.com/ucasterisk/easy.html">Easy Asterisk</a> Revision: 122 </td></tr> '
 echo '      <tr><td>&nbsp;</td></tr>'
 echo '      <tr><td>Brought to you by the <a href="http://rowetel.com/ucasterisk/index.html">Free Telephony Project</a></td></tr>'
 echo '      <tr><td><a href="http://rowetel.com/ucasterisk/ip04.html"><img src="http://rowetel.com/images/ip04/ip04_case.jpg" border="0" /></a></td></tr>'

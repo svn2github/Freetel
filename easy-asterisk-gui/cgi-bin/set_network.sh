@@ -7,7 +7,7 @@ cat <<EOF
 <html>
 <head>
 <title>set_network.sh</title>
-<meta http-equiv="REFRESH" content="0;url=http:network.sh">
+<meta http-equiv="REFRESH" content="0;url=network.sh">
 <body>
 Please wait a few seconds.....
 </body>

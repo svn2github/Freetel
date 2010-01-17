@@ -10,7 +10,7 @@ echo $HTTP_COOKIE | grep "loggedin" > /dev/null
 if [ $? -eq 1 ]; then
     echo "<html>"
     echo "<head>"
-    echo '<meta http-equiv="REFRESH" content="0;url=http:login.sh">'
+    echo '<meta http-equiv="REFRESH" content="0;url=login.sh">'
     echo "</head>"
     echo "</html>"
     exit
@@ -36,7 +36,7 @@ cat <<EOF
 <html>
 <head>
 <title>set_voiplines.sh</title>
-<meta http-equiv="REFRESH" content="0;url=http:voiplines.sh">
+<meta http-equiv="REFRESH" content="0;url=voiplines.sh">
 <body>
 Please wait a few seconds.....
 </body>

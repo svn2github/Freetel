@@ -39,7 +39,7 @@ else
         echo ""
 	echo "<head>"
 	echo "<title>Easy Asterisk - Login</title>"
-	echo '<meta http-equiv="REFRESH" content="0;url=http:phones.sh">'
+	echo '<meta http-equiv="REFRESH" content="0;url=phones.sh">'
 	echo "</head>"
 	echo "<body>"
 	echo "Please wait a few seconds....."
@@ -50,7 +50,7 @@ else
 	<html>
 	<head>
 	<title>Easy Asterisk - Login</title>
-	<meta http-equiv="REFRESH" content="0;url=http:login.sh">
+	<meta http-equiv="REFRESH" content="0;url=login.sh">
 	<body>
 	Please wait a few seconds.....
 	</body>
