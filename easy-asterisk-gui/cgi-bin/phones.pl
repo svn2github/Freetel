@@ -1,4 +1,4 @@
-#!/sbin/microperl
+#!/usr/bin/perl
 # phones.pl
 # David Rowe 5 Jan 2010
 #

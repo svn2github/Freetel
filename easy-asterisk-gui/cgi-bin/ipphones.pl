@@ -1,4 +1,4 @@
-#!/sbin/microperl
+#!usr/bin/perl
 # ipphones.pl
 # David Rowe 6 Jan 2010
 #

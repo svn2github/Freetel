@@ -1,4 +1,4 @@
-#!/sbin/microperl
+#!/usr/bin/perl
 # voiplines.pl
 # David Rowe 12 Jan 2010
 #

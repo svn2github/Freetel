@@ -44,6 +44,12 @@ else
 	echo "<body>"
 	echo "Please wait a few seconds....."
 	echo "</body>"
+
+	# load easy asterisk conf files in case this is our first login
+
+	asterisk -rx "sip reload" 2>/dev/null 1 > /dev/null
+	asterisk -rx "dialplan reload" 2>/dev/null 1 > /dev/null
+
     else
 	# login failed
 	cat <<EOF

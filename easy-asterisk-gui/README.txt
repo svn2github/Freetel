@@ -1,6 +1,11 @@
 Easy Asterisk
 =============
 
+Click on the image for an on-line demo:
+
+image::/images/ip04/easy.png["easy Asterisk Demo", link="easy/phones.sh.html"]
+
+[[intro]]
 Introduction
 ------------
 
@@ -9,7 +14,7 @@ tip documentation and a learning curve of a few minutes.  Analog ports
 and IP Phones are automatically detected, and no knowledge of Asterisk
 configuration is required.
 
-Easy Asterisk is "unfeatured" - many of the Asterisk features are not
+Easy Asterisk is "unfeatured" - many of the Asterisk options are not
 available.  Instead it tries to make very basic, very common Asterisk
 installations fast and simple, for example:
 
@@ -24,12 +29,65 @@ installations fast and simple, for example:
   want to keep your current analog lines for incoming calls, but
   install 8 IP Phones and use VOIP for outgoing calls.  You know
   enough to set up a DSL router but don't want to rely on "the Phone
-  Guy" or "The Coumputer Guy" at $100/hr to maintain your phone
+  Guy" or "The Computer Guy" at $100/hr to maintain your phone
   system.
 
 * You are a "Phone Guy" who doesn't understand Linux and Asterisk but
   you want to install IP-PBXes.
 
+[[why]]
+Why Another Asterisk GUI?
+-------------------------
+
+I needed an Asterisk GUI that was very easy to use for the
+link:ip04.html[IP0X devices] I sell.  Something my wife and kids could
+use.
+
+I was also interested in exploring the ease-of-use meme, as we have
+been discussing it a lot on the http://villagetelco.org[Village Telco]
+project.  Just how easy can we make Asterisk to use? So I scratched
+the itch.
+
+Easy Asterisk has the following features that make it reasonably
+unique.  They may be good or bad features depending on your point of
+view!
+
+* Easy Asterisk is "un-featured" - it hides many of the advanced
+  Asterisk features in the interest of simple and fast configuration.
+
+* Light weight so it can run on embedded boxes like the IP0X family.
+  No SQL database or PHP or LAMP.  Only a basic web server and
+  microperl are required, no CPAN.
+
+* Works directly on extensions.conf and sip.conf, but honors any edits
+  you make to these files.  So all the powerful Asterisk features are
+  available in the background.
+
+* Doesn't use AJAX or the built-in Asterisk web server or users.conf
+  magic.  Plain old HTML, a little Java-script and CGIs written in
+  shell script and Perl.
+
+* Doesn't use the Asterisk programming "model".  For example you don't
+  have to understand what a dial-plan is, much less understand how to
+  code one.  Plain English terms are used instead, for example "Phones
+  and Phone lines".  Terms like Asterisk, Linux, SIP, Zap/1 don't even
+  get a mention.
+
+* Extensive tool tip documentation.  No manual.
+
+* Doesn't require a dedicated PC, not installed from an ISO CD.  So
+  you can use it as a GUI for Asterisk on a little SOHO Linux box that
+  is also your firewall, server etc.
+
+* Easy Asterisk tells you when something is wrong, like if your Phone
+  System can't see the Internet.
+
+* Extensive pre-configuration of extensions.conf and sip.conf,
+  pre-selected phone numbers, SIP trunks are selected from a pull-down
+  menu (except they are called VOIP lines).  Analog ports are auto
+  detected, at least on the IP0X.
+
+[[status]]
 Status
 ------
 
@@ -37,29 +95,17 @@ Alpha.
 
 * Works on IP0X
 * Not tested on x86. Several IP0X features are n/a for x86 and should be
-  disbaled when the x86 (or non-IP0X) platform is detected.
+  disabled when the x86 (or non-IP0X) platform is detected.
 * Needs feedback from real users to see how useful the concept is and what
-  features need to be added.
+  (un)features need to be added.
 
-Implementation
---------------
+[[notes]]
+Implementation Notes
+--------------------
 
 Easy Asterisk is written for the
 http://rowetel.com/ucasterisk/ip04.html[IP0X embedded Asterisk]
 hardware but will also run on x86 and probably many other platforms.
-Easy Asterisk does not require a dedicated PC, you do not need to
-reformat a hard disk and install an ISO CD image.
-
-It is implemented as a set of CGI scripts (shell, perl, client side
-java-script) and pre-configured extensions.conf and sip.conf files.
-Only a basic web server and microperl support are required, making it
-suitable for small embedded platforms.  No Perl libraries or CPAN are
-required.
-
-Easy Asterisk is "unfeatured" - it hides many of the advanced Asterisk
-features in the interest of simple and fast configuration.  However
-once you get started and your experience builds these features are of
-course available using regular Asterisk configuration techniques.
 
 Easy Asterisk has been written to be compatible with regular Asterisk
 conf file configuration.  Just leave the conf file lines with
@@ -67,14 +113,11 @@ conf file configuration.  Just leave the conf file lines with
 extensions.conf and sip.conf are directly modified by Easy Asterisk,
 but changes are limited to the "easy-asterisk" lines.  
 
-No database is used.  Neither is the users.conf/AJAX style interface
-based on the Asterisk built-in web server which should be disabled
-when using Easy Asterisk.
-
 For Auto-detection of Zap ports Easy Asterisk looks at
 /etc/zapata.conf, so you may need this set up correctly for your
 analog hardware.  On the IP0X this happens automatically.
 
+[[install]]
 Installation
 ------------
 
@@ -89,59 +132,78 @@ changes made to extensions.conf and sip.conf.
 IP0X Installation
 ~~~~~~~~~~~~~~~~~
 
-   Prior to Easy Asterisk installation we assume you have some version
-   or Asterisk and Zaptel installed.
+Installation instructions for IP0X boxes running link:baps.html[BAPS],
+with some version of Asterisk and Zaptel installed.
 
-   -------------------------------------------------------------------
-   root~> ipkg install easy-asterisk
-   -------------------------------------------------------------------
+-------------------------------------------------------------------
+root~> ipkg install easy-asterisk
+-------------------------------------------------------------------
 
 x86 Installation
 ~~~~~~~~~~~~~~~~
 
-1. You need a web server, Asterisk and some sort of Perl installed
-   (very basic Perl installation is fine).  Configure your web server
-   to run CGIs (.sh and .pl) from /www (lighttpd config instructions
-   below).  Easy Asterisk expects all files (shell, perl, html etc) to
-   be in the same directory.
+. You need a web server, Asterisk and some sort of Perl installed
+(very basic Perl installation is fine).  Configure your web server to
+run CGIs (.sh and .pl) from /www (lighttpd config instructions below).
+Easy Asterisk expects all files (shell, perl, html etc) to be in the
+same directory.  
 
-   The process below places the web files in /www, you may like to
-   place the files somewhere else like /www/asterisk.  One of the
-   files is named index.html so beware of conflicts of you have other
-   files on your web server.
+. The process below places the web files in /www, you may like to
+place the files somewhere else like /www/asterisk.  One of the files
+is named index.html so make sure you don't overwrite an existing
+index.html.
 
-2. Login as root to install the Easy Asterisk files:
+. Login as root to install the Easy Asterisk files:
++
+Remember to backup your existing extensions.conf & sip.conf in
+/etc/asterisk
++
+-------------------------------------------------------------------
+# cd ~ 
+# svn co https://freetel.svn.sourceforge.net/svnroot/freetel/easy-asterisk-gui
+# ./update_revision.sh
+# cp easy-asterisk-gui/etc/asterisk/* /etc/asterisk 
+# cp easy-asterisk-gui/cgi-bin/* /www
+# cd /etc/asterisk
+# cp extensions.conf extensions.conf.def
+# cp sip.conf sip.conf.def
+# mv etc/asterisk/users.conf etc/asterisk/users.conf.bak
+-------------------------------------------------------------------
++
+The final step above may not be required on your machine if you don't
+have a users.conf.  The .def copies are required by the "reset
+defaults" feature on the admin screen.
 
-   Remember to backup your existing extensions.conf & sip.conf in
-   /etc/asterisk
-
-   -------------------------------------------------------------------
-   # cd ~ 
-   # svn co https://freetel.svn.sourceforge.net/svnroot/freetel/easy-asterisk-gui
-   # ./update_revision.sh
-   # cp easy-asterisk-gui/etc/asterisk/* /etc/asterisk 
-   # cp easy-asterisk-gui/cgi-bin/* /www
-   # cd /etc/asterisk
-   # cp extensions.conf extensions.conf.def
-   # cp sip.conf sip.conf.def
-   # mv etc/asterisk/users.conf etc/asterisk/users.conf.bak
-   -------------------------------------------------------------------
-
-   The final step above may not be required on your machine if you
-   don't have a users.conf.  The .def copies are required by the
-   "reset defaults" feature on the admin screen.
-
-3. Switch off the internal Asterisk web server by editing
-   /etc/asterisk.httpd.conf.  Make sure the enabled line reads like
-   this:
+. Switch off the internal Asterisk web server by editing
+/etc/asterisk.httpd.conf.  Make sure the enabled line reads like this:
 
    enabled=no
++
+Then stop and restart Asterisk.
 
-   Then stop and restart Asterisk.
+. I use lighttpd as the web server, the /etc/lighttpd.conf lines
+required are:
++
+-------------------------------------------------------------------
+cgi.assign = ( ".sh" => "/bin/sh",".pl" => "/usr/sbin/microperl" )
+-------------------------------------------------------------------
 
-4. I use lighttpd as the web server, the /etc/lighttpd.conf lines
-   required are:
+[[support]]
+Support
+-------
 
-   -------------------------------------------------------------------
-   cgi.assign = ( ".sh" => "/bin/sh",".pl" => "/usr/sbin/microperl" )
-   -------------------------------------------------------------------
+Comments, features request, bugs please let me know using Free
+Telephony Project http://www.rowetel.com/ucasterisk/#support[Support].
+
+[[source]]
+The Source Code
+---------------
+
+Browse:
+
+http://freetel.svn.sourceforge.net/viewvc/freetel/codec2/[http://freetel.svn.sourceforge.net/viewvc/freetel/codec2/]
+
+Check Out:
+
+  $ svn co https://freetel.svn.sourceforge.net/svnroot/freetel/codec2 codec2
+

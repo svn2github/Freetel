@@ -3,10 +3,32 @@
 # 
 # Makefile for Easy Asterisk GUI
 #
-# usage: make TESTIP=test.machine.ip|hostname test
-#        make TESTIP=192.168.1.150 test
-#        make TESTIP=boris test
+# 1/ Download files to development box for testing:
+#
+#    usage: make HOST=test.machine.ip|hostname test
+#           make HOST=192.168.1.150 test
+#           make HOST=boris test
+#
+# 2/ Create static copy of web pages from HOST for static demo
+#
+#    usage: make HOST=test.machine.ip static
 
 test:
-	rcp cgi-bin/*.html cgi-bin/*.sh cgi-bin/*.pl cgi-bin/*.js cgi-bin/*.css  cgi-bin/*.png root@$(TESTIP):/www
-	rcp etc/asterisk/*.conf root@$(TESTIP):/etc/asterisk
+	rcp cgi-bin/*.html cgi-bin/*.sh cgi-bin/*.pl cgi-bin/*.js cgi-bin/*.css \
+	cgi-bin/*.png root@$(HOST):/www
+	rcp etc/asterisk/*.conf root@$(HOST):/etc/asterisk
+
+.PHONY : static
+static: 
+	# generate static pages
+
+	rm -Rf static; mkdir static; cd static; \
+	wget -rEk --header="Cookie: loggedin=1" http://$(HOST)/phones.sh
+
+	# modify links to non-existent scripts on static demo
+
+	sed -i "s,http://$(HOST)/set_network.sh,network.sh.html," static/$(HOST)/network.sh.html
+	sed -i "s,http://$(HOST)/set_ring.sh,phones.sh.html," static/$(HOST)/phones.sh.html
+	sed -i "s,http://$(HOST)/set_voiplines.sh,voiplines.sh.html," static/$(HOST)/voiplines.sh.html
+
+

@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 # update_revision.sh
 #
 # Sets correct Revision number in the about screen.  Good idea to
