@@ -195,7 +195,7 @@ Then stop and restart Asterisk.
 required are:
 +
 -------------------------------------------------------------------
-cgi.assign = ( ".sh" => "/bin/sh",".pl" => "/usr/sbin/microperl" )
+cgi.assign = ( ".sh" => "/bin/sh",".pl" => "/usr/bin/perl" )
 -------------------------------------------------------------------
 
 [[contribute]]

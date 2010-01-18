@@ -80,7 +80,7 @@ EOF
 
 # use perl to construct list of phones and phone lines for us
 asterisk "-rx sip show peers" 2>/dev/null > sipshowpeers.txt
-./phones.pl
+perl ./phones.pl
 
 cat<<EOF
     </table>

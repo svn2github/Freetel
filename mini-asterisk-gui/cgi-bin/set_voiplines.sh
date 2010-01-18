@@ -24,7 +24,7 @@ stanza=`echo "$QUERY_STRING" | grep -oe "stanza=[^&?]*" | sed -n "s/stanza=//p"`
 # create new sip.conf with selected provider uncommented
 
 echo "set_voiplines.sh" $user $pass $host $stanza >> /tmp/log.txt
-./set_voiplines.pl $user $pass $host $stanza > /etc/asterisk/sip.conf.new
+perl set_voiplines.pl $user $pass $host $stanza > /etc/asterisk/sip.conf.new
 mv /etc/asterisk/sip.conf /etc/asterisk/sip.conf.bak
 mv /etc/asterisk/sip.conf.new /etc/asterisk/sip.conf
 

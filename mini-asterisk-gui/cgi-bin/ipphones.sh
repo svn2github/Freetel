@@ -56,7 +56,7 @@ echo "<td>$ipaddress</td></tr><td>&nbsp;</td><tr></tr>"
 
     # use perl to construct list of IP phones for us
     asterisk "-rx sip show peers" 2>/dev/null > sipshowpeers.txt
-    ./ipphones.pl $ipaddress $more
+    perl ipphones.pl $ipaddress $more
 
 cat <<EOF
     </table>

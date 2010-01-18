@@ -55,6 +55,35 @@ if [ $? -eq 0 ]; then
     asterisk -rx "dialplan reload" 2>/dev/null 1 > /dev/null
 fi
 
+# Upgrade Mini Asterisk CGI ----------------------------------------------------
+
+echo "$QUERY_STRING" | grep -oe "upgrade=1" > /dev/null
+if [ $? -eq 0 ]; then
+    cat <<EOF
+    <html>
+    <head>
+    <title>Mini Asterisk - Upgrade</title>
+    </head>
+    <body>
+    <h2>Upgrading...</h2>
+EOF
+    rev_before=`grep -oe "Revision: [0-9]*" /www/about.sh`
+    echo "<strong>Current $rev_before</strong><br>"
+    echo "<strong>Removing $ver_before</strong><br>"
+    ipkg remove mini-asterisk-gui | tr '\n' '#' | sed -n 's/\#/<br>/pg'
+    echo "<strong>Installing...</strong><br>"
+    ipkg update | tr '\n' '#' | sed -n 's/\#/<br>/pg'
+    ipkg install mini-asterisk-gui | tr '\n' '#' | sed -n 's/\#/<br>/pg'
+
+    # Note - never actually gets here as admin.sh is wiped out by upgrade..
+    # need a better way of handling this....
+
+    rev_after=`grep -oe "Revision: [0-9]*" /www/about.sh`
+    echo "<strong>$rev_after installed</strong>"
+    echo "</body></html>"
+    exit
+fi
+
 # Construct the web page -------------------------------
 
 cat <<EOF
@@ -118,6 +147,7 @@ cat <<EOF
               <form action="admin.sh" method="get">
               <input type="hidden" name="upgrade" value="1">
               <input type="submit" value="Upgrade">
+	      </form>
           </td>
       </tr>
 

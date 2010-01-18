@@ -53,7 +53,7 @@ cat <<EOF
       <tr><td>&nbsp</td></tr>
 EOF
 
-./voiplines.pl
+perl ./voiplines.pl
 
 cat <<EOF
       <tr><td>&nbsp</td></tr>
