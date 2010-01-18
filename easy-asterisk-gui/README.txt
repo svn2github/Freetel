@@ -1,9 +1,11 @@
 Easy Asterisk
 =============
 
-Click on the image for an on-line demo:
+A simple, light weight GUI for Asterisk.
 
 image::/images/ip04/easy.png["easy Asterisk Demo", link="easy/phones.sh.html"]
+
+Click on the screen shot above for an on line demo.
 
 [[intro]]
 Introduction
@@ -39,9 +41,13 @@ installations fast and simple, for example:
 Why Another Asterisk GUI?
 -------------------------
 
-I needed an Asterisk GUI that was very easy to use for the
-link:ip04.html[IP0X devices] I sell.  Something my wife and kids could
-use.
+There are http://www.voip-info.org/wiki/view/Asterisk+GUI[a lot of
+Asterisk GUIs] out there already.  So why do we need another one?
+
+Well I needed an Asterisk GUI that was very easy to use for the
+link:ip04.html[IP0X devices] I sell.  Something that would lower the
+technical skill required to install and maintain an Asterisk Phone
+system.  Something my wife and kids could use.
 
 I was also interested in exploring the ease-of-use meme, as we have
 been discussing it a lot on the http://villagetelco.org[Village Telco]
@@ -56,8 +62,8 @@ view!
   Asterisk features in the interest of simple and fast configuration.
 
 * Light weight so it can run on embedded boxes like the IP0X family.
-  No SQL database or PHP or LAMP.  Only a basic web server and
-  microperl are required, no CPAN.
+  No SQL database or PHP or LAMP.  Only a basic web server and a very
+  basic perl are required (e.g. microperl - no CPAN libraries).
 
 * Works directly on extensions.conf and sip.conf, but honors any edits
   you make to these files.  So all the powerful Asterisk features are
@@ -79,25 +85,29 @@ view!
   you can use it as a GUI for Asterisk on a little SOHO Linux box that
   is also your firewall, server etc.
 
-* Easy Asterisk tells you when something is wrong, like if your Phone
-  System can't see the Internet.
+* Easy Asterisk tells you when something is wrong, for example you get
+  a warning if your Phone System can't see the Internet.
 
 * Extensive pre-configuration of extensions.conf and sip.conf,
   pre-selected phone numbers, SIP trunks are selected from a pull-down
   menu (except they are called VOIP lines).  Analog ports are auto
-  detected, at least on the IP0X.
+  detected, at least on the IP0X.  This makes adding IP phones very
+  fast and simple.
 
 [[status]]
 Status
 ------
 
-Alpha.
+Alpha:
 
-* Works on IP0X
+* Works on IP0X.
 * Not tested on x86. Several IP0X features are n/a for x86 and should be
   disabled when the x86 (or non-IP0X) platform is detected.
 * Needs feedback from real users to see how useful the concept is and what
   (un)features need to be added.
+* Need a few more (un)features to be added, and Voip Line screen
+  populated with more ITSPs.
+* But quite useable as it stands.
 
 [[notes]]
 Implementation Notes
@@ -146,7 +156,7 @@ x86 Installation
 (very basic Perl installation is fine).  Configure your web server to
 run CGIs (.sh and .pl) from /www (lighttpd config instructions below).
 Easy Asterisk expects all files (shell, perl, html etc) to be in the
-same directory.  
+same directory.  If you find this painful please <<support, let me know>>.
 
 . The process below places the web files in /www, you may like to
 place the files somewhere else like /www/asterisk.  One of the files
@@ -188,6 +198,14 @@ required are:
 cgi.assign = ( ".sh" => "/bin/sh",".pl" => "/usr/sbin/microperl" )
 -------------------------------------------------------------------
 
+[[contribute]]
+Contributions
+-------------
+
+I welcome sip.conf entries for your favourite ITSP (VOIP service) to
+help populate the Provider field of the
+link:easy/voiplines.sh.html[Voip Line Screen].
+
 [[support]]
 Support
 -------
@@ -196,14 +214,14 @@ Comments, features request, bugs please let me know using Free
 Telephony Project http://www.rowetel.com/ucasterisk/#support[Support].
 
 [[source]]
-The Source Code
----------------
+Source Code
+-----------
 
 Browse:
 
-http://freetel.svn.sourceforge.net/viewvc/freetel/codec2/[http://freetel.svn.sourceforge.net/viewvc/freetel/codec2/]
+http://freetel.svn.sourceforge.net/viewvc/freetel/easy-asterisk-gui/[http://freetel.svn.sourceforge.net/viewvc/freetel/easy-asterisk-gui/]
 
 Check Out:
 
-  $ svn co https://freetel.svn.sourceforge.net/svnroot/freetel/codec2 codec2
+  $ svn co https://freetel.svn.sourceforge.net/svnroot/freetel/easy-asterisk-gui
 
