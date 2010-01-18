@@ -20,12 +20,13 @@ function isIP(obj) {
     var ary = obj.value.split(".");
     var ip = true;
 
-    for (var i=0; i<4; i++) { 
-	ip = (!ary[i].match(/^\d{1,3}$/) || (Number(ary[i]) > 255)) ? false : ip; 
-    } 
-  
-    if (ip)
-	ip = (ary.length == 4); 
+    ip = (ary.length == 4); 
+
+    if (ip) {
+	for (var i=0; i<4; i++) { 
+		ip = (!ary[i].match(/^\d{1,3}$/) || (Number(ary[i]) > 255)) ? false : ip; 
+    	} 
+    }
 
     if (!ip) {    
 	// the value is NOT a valid IP address
