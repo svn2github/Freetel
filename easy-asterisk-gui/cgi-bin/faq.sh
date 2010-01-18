@@ -1,7 +1,7 @@
 #!/bin/sh
 # faq.sh
 # David Rowe 7 Jan 2010
-# FAQ screen for Easy Asterisk GUI
+# FAQ screen for Mini Asterisk GUI
 
 # check we are logged in
 
@@ -25,7 +25,7 @@ EOF
 
 cat << EOF
 <html>
-<title>Easy Asterisk - FAQ</title>
+<title>Mini Asterisk - FAQ</title>
 EOF
 
 cat tooltips.html

@@ -1,9 +1,9 @@
-Easy Asterisk
+Mini Asterisk
 =============
 
 A simple, light weight GUI for Asterisk.
 
-image::/images/ip04/easy.png["easy Asterisk Demo", link="easy/phones.sh.html"]
+image::/images/ip04/mini.png["Mini Asterisk Demo", link="mini/phones.sh.html"]
 
 Click on the screen shot above for an on line demo.
 
@@ -11,12 +11,12 @@ Click on the screen shot above for an on line demo.
 Introduction
 ------------
 
-Easy Asterisk is a simple Web GUI for Asterisk with comprehensive tool
+Mini Asterisk is a simple Web GUI for Asterisk with comprehensive tool
 tip documentation and a learning curve of a few minutes.  Analog ports
 and IP Phones are automatically detected, and no knowledge of Asterisk
 configuration is required.
 
-Easy Asterisk is "unfeatured" - many of the Asterisk options are not
+Mini Asterisk is "unfeatured" - many of the Asterisk options are not
 available.  Instead it tries to make very basic, very common Asterisk
 installations fast and simple, for example:
 
@@ -54,11 +54,11 @@ been discussing it a lot on the http://villagetelco.org[Village Telco]
 project.  Just how easy can we make Asterisk to use? So I scratched
 the itch.
 
-Easy Asterisk has the following features that make it reasonably
+Mini Asterisk has the following features that make it reasonably
 unique.  They may be good or bad features depending on your point of
 view!
 
-* Easy Asterisk is "un-featured" - it hides many of the advanced
+* Mini Asterisk is "un-featured" - it hides many of the advanced
   Asterisk features in the interest of simple and fast configuration.
 
 * Light weight so it can run on embedded boxes like the IP0X family.
@@ -85,7 +85,7 @@ view!
   you can use it as a GUI for Asterisk on a little SOHO Linux box that
   is also your firewall, server etc.
 
-* Easy Asterisk tells you when something is wrong, for example you get
+* Mini Asterisk tells you when something is wrong, for example you get
   a warning if your Phone System can't see the Internet.
 
 * Extensive pre-configuration of extensions.conf and sip.conf,
@@ -113,17 +113,17 @@ Alpha:
 Implementation Notes
 --------------------
 
-Easy Asterisk is written for the
+Mini Asterisk is written for the
 http://rowetel.com/ucasterisk/ip04.html[IP0X embedded Asterisk]
 hardware but will also run on x86 and probably many other platforms.
 
-Easy Asterisk has been written to be compatible with regular Asterisk
+Mini Asterisk has been written to be compatible with regular Asterisk
 conf file configuration.  Just leave the conf file lines with
-"easy-asterisk" comments alone.  The Asterisk conf files
-extensions.conf and sip.conf are directly modified by Easy Asterisk,
-but changes are limited to the "easy-asterisk" lines.  
+"mini-asterisk" comments alone.  The Asterisk conf files
+extensions.conf and sip.conf are directly modified by Mini Asterisk,
+but changes are limited to the "mini-asterisk" lines.  
 
-For Auto-detection of Zap ports Easy Asterisk looks at
+For Auto-detection of Zap ports Mini Asterisk looks at
 /etc/zapata.conf, so you may need this set up correctly for your
 analog hardware.  On the IP0X this happens automatically.
 
@@ -136,7 +136,7 @@ sip.conf files - back them up if you have an existing Asterisk
 installation that you want to keep.  The IP0X ipkg does attempt to
 backup the modified conf files to *.bak but no guarantees....
 
-However once easy-asterisk is installed it should honor any manual
+However once mini-asterisk is installed it should honor any manual
 changes made to extensions.conf and sip.conf.
 
 IP0X Installation
@@ -146,7 +146,7 @@ Installation instructions for IP0X boxes running link:baps.html[BAPS],
 with some version of Asterisk and Zaptel installed.
 
 -------------------------------------------------------------------
-root~> ipkg install easy-asterisk
+root~> ipkg install mini-asterisk
 -------------------------------------------------------------------
 
 x86 Installation
@@ -155,7 +155,7 @@ x86 Installation
 . You need a web server, Asterisk and some sort of Perl installed
 (very basic Perl installation is fine).  Configure your web server to
 run CGIs (.sh and .pl) from /www (lighttpd config instructions below).
-Easy Asterisk expects all files (shell, perl, html etc) to be in the
+Mini Asterisk expects all files (shell, perl, html etc) to be in the
 same directory.  If you find this painful please <<support, let me know>>.
 
 . The process below places the web files in /www, you may like to
@@ -163,17 +163,17 @@ place the files somewhere else like /www/asterisk.  One of the files
 is named index.html so make sure you don't overwrite an existing
 index.html.
 
-. Login as root to install the Easy Asterisk files:
+. Login as root to install the Mini Asterisk files:
 +
 Remember to backup your existing extensions.conf & sip.conf in
 /etc/asterisk
 +
 -------------------------------------------------------------------
 # cd ~ 
-# svn co https://freetel.svn.sourceforge.net/svnroot/freetel/easy-asterisk-gui
+# svn co https://freetel.svn.sourceforge.net/svnroot/freetel/mini-asterisk-gui
 # ./update_revision.sh
-# cp easy-asterisk-gui/etc/asterisk/* /etc/asterisk 
-# cp easy-asterisk-gui/cgi-bin/* /www
+# cp mini-asterisk-gui/etc/asterisk/* /etc/asterisk 
+# cp mini-asterisk-gui/cgi-bin/* /www
 # cd /etc/asterisk
 # cp extensions.conf extensions.conf.def
 # cp sip.conf sip.conf.def
@@ -204,7 +204,7 @@ Contributions
 
 I welcome sip.conf entries for your favourite ITSP (VOIP service) to
 help populate the Provider field of the
-link:easy/voiplines.sh.html[Voip Line Screen].
+link:mini/voiplines.sh.html[Voip Line Screen].
 
 [[support]]
 Support
@@ -219,9 +219,9 @@ Source Code
 
 Browse:
 
-http://freetel.svn.sourceforge.net/viewvc/freetel/easy-asterisk-gui/[http://freetel.svn.sourceforge.net/viewvc/freetel/easy-asterisk-gui/]
+http://freetel.svn.sourceforge.net/viewvc/freetel/mini-asterisk-gui/[http://freetel.svn.sourceforge.net/viewvc/freetel/mini-asterisk-gui/]
 
 Check Out:
 
-  $ svn co https://freetel.svn.sourceforge.net/svnroot/freetel/easy-asterisk-gui
+  $ svn co https://freetel.svn.sourceforge.net/svnroot/freetel/mini-asterisk-gui
 

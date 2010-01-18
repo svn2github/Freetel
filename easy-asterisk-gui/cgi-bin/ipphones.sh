@@ -1,7 +1,7 @@
 #!/bin/sh
 # dashboard.sh
 # David Rowe 6 Jan 2010
-# Dashboard screen for Easy Asterisk GUI
+# Dashboard screen for Mini Asterisk GUI
 
 # check we are logged in
 
@@ -33,7 +33,7 @@ echo "</script>"
 
 cat << EOF
 <html>
-<title>Easy Asterisk - IP Phones</title>
+<title>Mini Asterisk - IP Phones</title>
 <body onload="localInit()">
 EOF
 

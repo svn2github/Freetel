@@ -9,9 +9,9 @@ $pass = $ARGV[1];
 $host = $ARGV[2];
 $stanza_new = $ARGV[3];
 
-# We need to slurp up the easy asterisk provider and spit them
+# We need to slurp up the mini asterisk provider and spit them
 # back out.  All must be commented out except for the one that
-# is selected.  Hopefully non-easy asterisk content of sip.conf
+# is selected.  Hopefully non-mini asterisk content of sip.conf
 # won't be affected.
 
 open SIP, "/etc/asterisk/sip.conf";
@@ -19,25 +19,25 @@ $provider = "";
 while (<SIP>) { 
 
     # start of any new stanza switches off parsing.  It may get
-    # switched back on below if it contains easy-asterisk
-    # keyword. This allows non-easy asterisk SIP stanzas to be
+    # switched back on below if it contains mini-asterisk
+    # keyword. This allows non-mini asterisk SIP stanzas to be
     # included in sip.conf
 
     if (/\[/) {
 	$stanza = "";	
     }
 
-    # look for commented or uncommented easy asterisk provider stanza
+    # look for commented or uncommented mini asterisk provider stanza
 
-    if (/\[(.*)\] .* easy-asterisk/) {
+    if (/\[(.*)\] .* mini-asterisk/) {
 	$stanza = $1;
     }
 
     if ($stanza eq "") {
-	# we are not in an easy-asterisk provider stanza
+	# we are not in an mini-asterisk provider stanza
 	
-	if (/;*register => (\S*)@(\S*).*;.*(easy-asterisk.*)/) {
-	    # an easy-asterisk register line
+	if (/;*register => (\S*)@(\S*).*;.*(mini-asterisk.*)/) {
+	    # an mini-asterisk register line
 
 	    #print "XX stanza_new='$stanza_new' '$1' '$2' '$3'\n";
 		    
@@ -54,7 +54,7 @@ while (<SIP>) {
 	}
     }
     else {
-	# OK, we are in an easy-asterisk stanza
+	# OK, we are in an mini-asterisk stanza
 
 	# strip off any leading ";"
 
@@ -84,7 +84,7 @@ while (<SIP>) {
 	    }
 	}
 	else {
-	    # comment out unused easy-asterisk stanzas
+	    # comment out unused mini-asterisk stanzas
 	    print ";$_";
 	}
     }

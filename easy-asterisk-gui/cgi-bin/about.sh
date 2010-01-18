@@ -1,7 +1,7 @@
 #!/bin/sh
 # about.sh
 # David Rowe 7 Jan 2010
-# About screen for Easy Asterisk GUI
+# About screen for Mini Asterisk GUI
 
 # check we are logged in
 
@@ -25,7 +25,7 @@ EOF
 
 cat << EOF
 <html>
-<title>Easy Asterisk - About</title>
+<title>Mini Asterisk - About</title>
 EOF
 
 cat tooltips.html
@@ -40,7 +40,7 @@ cat <<EOF
     <table align="right" width=600>
       <tr><td align="left" valign="top"><h2>About</h2></td></tr>
 EOF
-echo '      <tr><td><a href="http://rowetel.com/ucasterisk/easy.html">Easy Asterisk</a> Revision: 122 </td></tr> '
+echo '      <tr><td><a href="http://rowetel.com/ucasterisk/mini.html">Mini Asterisk</a> Revision: 122 </td></tr> '
 echo '      <tr><td>&nbsp;</td></tr>'
 echo '      <tr><td>Brought to you by the <a href="http://rowetel.com/ucasterisk/index.html">Free Telephony Project</a></td></tr>'
 echo '      <tr><td><a href="http://rowetel.com/ucasterisk/ip04.html"><img src="http://rowetel.com/images/ip04/ip04_case.jpg" border="0" /></a></td></tr>'

@@ -1,7 +1,7 @@
 #!/bin/sh
 # voiplines.sh
 # David Rowe 12 Jan 2010
-# VOIP Line screen for Easy Asterisk GUI
+# VOIP Line screen for Mini Asterisk GUI
 
 # check we are logged in
 
@@ -33,7 +33,7 @@ cat voiplines.js
 cat << EOF
 </script>
 <html>
-<title>Easy Asterisk - VOIP Line</title>
+<title>Mini Asterisk - VOIP Line</title>
 EOF
 
 cat tooltips.html

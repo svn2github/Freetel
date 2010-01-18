@@ -1,7 +1,7 @@
 #!/bin/sh
 # admin.sh
 # David Rowe 7 Jan 2010
-# Admin screen for Easy Asterisk GUI
+# Admin screen for Mini Asterisk GUI
 
 # check we are logged in
 
@@ -36,7 +36,7 @@ Content-type: text/html
 Set-Cookie: loggedin=1; expires=Thursday, 01-Jan-98 12:00:00 GMT
 
 <head>
-<title>Easy Asterisk - Restart</title>
+<title>Mini Asterisk - Restart</title>
 </head>
 <body>
 <h2>Restarting...come back in 1 minute</h2>
@@ -65,7 +65,7 @@ EOF
 
 cat << EOF
 <html>
-<title>Easy Asterisk - Admin</title>
+<title>Mini Asterisk - Admin</title>
 EOF
 
 cat tooltips.html
@@ -113,7 +113,7 @@ cat <<EOF
 
       <tr><td>&nbsp</td></tr>
       <tr onMouseOver="popUp(event,'admin_upgrade')" onmouseout="popUp(event,'admin_upgrade')">
-          <td colspan="2"><h3>Upgrade Easy Asterisk</h3></td>
+          <td colspan="2"><h3>Upgrade Mini Asterisk</h3></td>
           <td>
               <form action="admin.sh" method="get">
               <input type="hidden" name="upgrade" value="1">

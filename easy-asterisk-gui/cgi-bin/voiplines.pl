@@ -18,25 +18,25 @@ my %host = ();     # host name keyed on provider
 while (<SIP>) { 
 
     # start of any stanza switches off parsing.  It may get switched
-    # back on below if it contains easy-asterisk keyword. This allows
-    # non-easy asterisk SIP devices to be included in sip.conf
+    # back on below if it contains mini-asterisk keyword. This allows
+    # non-mini asterisk SIP devices to be included in sip.conf
 
     if (/\[/) {
 	$provider = "";	
     }
 
-    # currently disabled easy-asterisk provider
+    # currently disabled mini-asterisk provider
 
-    if (/^;\[(.*)\].* \"(.*)\" easy-asterisk/) {
+    if (/^;\[(.*)\].* \"(.*)\" mini-asterisk/) {
 	push (@providers, $2);
 	$provider = $2;
 	$stanza{$2} = $1;
 	#print "'$1' '$2'\n";	
     }
 
-    # current easy-asterisk provider
+    # current mini-asterisk provider
 
-    if (/^\[(.*)\].* \"(.*)\" easy-asterisk/) {
+    if (/^\[(.*)\].* \"(.*)\" mini-asterisk/) {
 	push (@providers, $2);
 	$provider = $2;
 	$provider_current = $2;

@@ -25,7 +25,7 @@ if [ $? -eq 0 ]; then
   a=`echo $a | sed -n "s/&/\\\\&/pg"`
 fi
 
-sed -i "s_s,1,Dial(.*) ;; easy-asterisk_s,1,Dial($a) ;; easy-asterisk_" /etc/asterisk/extensions.conf
+sed -i "s_s,1,Dial(.*) ;; mini-asterisk_s,1,Dial($a) ;; mini-asterisk_" /etc/asterisk/extensions.conf
 asterisk -rx "dialplan reload" 2>/dev/null 1 > /dev/null
 
 # bounce us back to Phones screen
@@ -33,7 +33,7 @@ asterisk -rx "dialplan reload" 2>/dev/null 1 > /dev/null
 cat <<EOF
 <html>
 <head>
-<title>Easy Asterisk - Set Ring</title>
+<title>Mini Asterisk - Set Ring</title>
 <meta http-equiv="REFRESH" content="0;url=phones.sh">
 <body>
 Please wait a few seconds.....

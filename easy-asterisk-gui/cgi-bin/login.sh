@@ -1,7 +1,7 @@
 #!/bin/sh
 # login.sh
 # David Rowe 4 Jan 2010
-# CGI for Easy Asterisk login GUI
+# CGI for Mini Asterisk login GUI
 
 pass=`echo "$QUERY_STRING" | grep -oe "pass=[^&?]*" | sed -n "s/pass=//p"`
 
@@ -16,7 +16,7 @@ if [ $? -eq 1 ]; then
 EOF
     cat << EOF
     <html>
-    <title>Easy Asterisk - Login</title>
+    <title>Mini Asterisk - Login</title>
     <form action="login.sh" method="get">
     <table align="center" width=600>
     <tr><td colspan="2" align="left"><h2>Login</h2></td>
@@ -38,14 +38,14 @@ else
         echo "Set-Cookie: loggedin=1"
         echo ""
 	echo "<head>"
-	echo "<title>Easy Asterisk - Login</title>"
+	echo "<title>Mini Asterisk - Login</title>"
 	echo '<meta http-equiv="REFRESH" content="0;url=phones.sh">'
 	echo "</head>"
 	echo "<body>"
 	echo "Please wait a few seconds....."
 	echo "</body>"
 
-	# load easy asterisk conf files in case this is our first login
+	# load mini asterisk conf files in case this is our first login
 
 	asterisk -rx "sip reload" 2>/dev/null 1 > /dev/null
 	asterisk -rx "dialplan reload" 2>/dev/null 1 > /dev/null
@@ -55,7 +55,7 @@ else
 	cat <<EOF
 	<html>
 	<head>
-	<title>Easy Asterisk - Login</title>
+	<title>Mini Asterisk - Login</title>
 	<meta http-equiv="REFRESH" content="0;url=login.sh">
 	<body>
 	Please wait a few seconds.....

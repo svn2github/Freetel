@@ -1,7 +1,7 @@
 #!/bin/sh
 # network.sh
 # David Rowe 4 Jan 2010
-# CGI for Easy Asterisk network GUI
+# CGI for Mini Asterisk network GUI
 
 # check we are logged in
 
@@ -41,7 +41,7 @@ fi
 if [ $groknetwork -eq 0 ]; then
 cat << EOF
 <html>
-<title>Easy Asterisk - Network</title>
+<title>Mini Asterisk - Network</title>
 EOF
 
 cat tooltips.html
@@ -102,7 +102,7 @@ echo "</script>"
 
 cat << EOF
 <html>
-<title>Easy Asterisk - Network</title>
+<title>Mini Asterisk - Network</title>
 <body onload="localInit()">
 EOF
 

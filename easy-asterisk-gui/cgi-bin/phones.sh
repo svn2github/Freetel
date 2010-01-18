@@ -1,7 +1,7 @@
 #!/bin/sh
 # phones.sh
 # David Rowe 4 Jan 2010
-# Phones screen for Easy Asterisk GUI
+# Phones screen for Mini Asterisk GUI
 
 # check we are logged in
 
@@ -44,7 +44,7 @@ echo "</script>"
 
 cat << EOF
 <html>
-<title>Easy Asterisk - Phones</title>
+<title>Mini Asterisk - Phones</title>
 <body onload="localInit()">
 EOF
 

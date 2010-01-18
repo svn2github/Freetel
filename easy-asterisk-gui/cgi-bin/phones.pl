@@ -61,7 +61,7 @@ my %sip_ring = (); # ring flag keyed on sip.cong ext name (6011,6012 etc)
 
 open EXT, "/etc/asterisk/extensions.conf";
 while (<EXT>) { 
-    if (/s,1,Dial\((.*)\) ;; easy/) {
+    if (/s,1,Dial\((.*)\) ;; mini/) {
         @ring = split(/&/, $1);
 	#print "'$1' '@ring'\n foreach:\n";
 	foreach (@ring) {
