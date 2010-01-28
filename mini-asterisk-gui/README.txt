@@ -127,6 +127,11 @@ For Auto-detection of Zap ports Mini Asterisk looks at
 /etc/zapata.conf, so you may need this set up correctly for your
 analog hardware.  On the IP0X this happens automatically.
 
+The scripts need to run as root to run asterisk commands.  This is
+probably OK an on IP0X but not a good idea on an x86.  I am not happy
+with this security model and would appreciate any suggestions on how
+to improve it.
+
 [[install]]
 Installation
 ------------
@@ -224,4 +229,33 @@ http://freetel.svn.sourceforge.net/viewvc/freetel/mini-asterisk-gui/[http://free
 Check Out:
 
   $ svn co https://freetel.svn.sourceforge.net/svnroot/freetel/mini-asterisk-gui
+
+[[test]]
+Testing and debugging scripts
+-----------------------------
+
+. To download all the GUi scripts to an IP0X machine with the host name "ip04":
+
+   [david@bunny mini-asterisk-gui]$ make HOST=ip04 test
+
+. A simple cookie is used to indicate logged in status, so to run
+  scripts for each screen from the command line (for example to spot
+  script syntax errors):
+
+IP0X: 
+  
+  root:/www> export HTTP_COOKIE="loggedin=1" ; sh admin.sh
+
+  If you encounter a syntax error when testing a script on an IP0X
+  then running the same script on an x86 can be useful as it has much
+  better error reporting:
+
+x86:
+
+  [david@host cgi-bin]$ export HTTP_COOKIE="loggedin=1" ; sh admin.sh
+
+. The -x option at the stop of any sheel script can be useful to watch
+  execution on an IP0X:
+
+  #!/bin/sh -x
 

@@ -59,6 +59,23 @@ fi
 
 echo "$QUERY_STRING" | grep -oe "upgrade=1" > /dev/null
 if [ $? -eq 0 ]; then
+
+    # test if we are running on an IP0X
+    which ipkg >> /dev/null
+    if [ $? -eq 1 ]; then
+	cat <<EOF
+	<html>
+	<head>
+	<title>Mini Asterisk - Upgrade</title>
+	</head>
+	<body>
+	Sorry upgrade only supported on IP0X at this time
+	</body>
+	</head>
+	</html>
+EOF
+    fi
+
     cat <<EOF
     <html>
     <head>
@@ -67,6 +84,7 @@ if [ $? -eq 0 ]; then
     <body>
     <h2>Upgrading...</h2>
 EOF
+
     rev_before=`grep -oe "Revision: [0-9]*" /www/about.sh`
     echo "<strong>Current $rev_before</strong><br>"
     echo "<strong>Removing $ver_before</strong><br>"
@@ -81,6 +99,28 @@ EOF
     rev_after=`grep -oe "Revision: [0-9]*" /www/about.sh`
     echo "<strong>$rev_after installed</strong>"
     echo "</body></html>"
+    exit
+fi
+
+# Install New Firmware CGI ----------------------------------------------------
+# this is just a nasty option to run an arbitrary script as root!
+# not a good idea on x86 platforms...but a nice way of upgrading IP0X
+
+echo "$QUERY_STRING" | grep -oe "firmwareurl=" > /dev/null
+if [ $? -eq 0 ]; then
+
+    h=`hostname`
+    if [ ! $h == "ip04" ]; then
+	echo "<html>Sorry Firmware Upgreade only supported on IP04</html>"
+    fi
+
+    firmwareurl=`echo "$QUERY_STRING" | grep -oe "firmwareurl=[^&?]*" | sed -n "s/firmwareurl=//p"`
+    # convert URL encoded string, this can just handle : and / so be careful
+    # with script names
+    firmwareurl=`echo $firmwareurl | sed -e "s/%3A/:/" -e "s_%2F_/_g"`
+    wget $firmwareurl
+    filename=`echo $firmwareurl | sed 's_^.*/__'`
+    sh $filename
     exit
 fi
 
@@ -156,7 +196,7 @@ cat <<EOF
       <form action="admin.sh" method="get">
       <tr onMouseOver="popUp(event,'admin_firmware')" onmouseout="popUp(event,'admin_firmware')">
           <td>Firmware URL:</td>
-          <td><input type="text" name="firmwareurl" ></td>
+          <td><input type="text" size="45" name="firmwareurl" ></td>
           <td><input type="submit" value="Install"></td>
       </tr>
       </form>
