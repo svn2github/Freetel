@@ -106,8 +106,8 @@ Alpha:
   (un)features need to be added.
 * Need a few more (un)features to be added, and Voip Line screen
   populated with more ITSPs.
-* But quite useable as it stands, especially as a starting point for
-  IP0X.
+* But quite useable as it stands, especially as a way to get started
+  quickly with the IP0X.
 
 [[notes]]
 Implementation Notes
@@ -184,6 +184,7 @@ Remember to backup your existing extensions.conf & sip.conf in
 # cp extensions.conf extensions.conf.def
 # cp sip.conf sip.conf.def
 # mv users.conf users.conf.bak
+-------------------------------------------------------------------
 +
 The .def copies are required by the "reset defaults" feature on the
 admin screen.
@@ -219,13 +220,15 @@ cgi.assign      = (
 Make sure lighttpd runs as root, as we need to run Asterisk etc from
 shell script CGIs:
 +
+-------------------------------------------------------------------
 ## change uid to <uid> (default: don't care)
 #server.username            = "wwwrun"
 
 ## change uid to <uid> (default: don't care)
 #server.groupname           = "wwwrun"
+-------------------------------------------------------------------
 +
-Restart lighttpd after all the changes:
+Then restart lighttpd after all the changes:
 +
 --------------------------------------------------------------------
 # /etc/init.d/lighttpd restart
@@ -272,42 +275,38 @@ Check Out:
 Testing and debugging scripts
 -----------------------------
 
-. To download all the GUi scripts to an IP0X machine with the host name "ip04":
+. To download all the GUI scripts to an IP0X machine with the host name "ip04":
 
    [david@bunny mini-asterisk-gui]$ make HOST=ip04 test
++
 
-. A simple cookie is used to indicate logged in status, so to run
+However this is a bit slow.  So when editing on an x86 host and testing
+on an IP0X I use dthe M-! command on Emacs that lets you execute a
+shell command.  I use this to download just the single the shell file
+I am working on, e.g. "scp admin.sh root@ip04".
+
+. A simple cookie is used to indicate logged in status.  To run
   scripts for each screen from the command line (for example to spot
   script syntax errors):
-
++
 IP0X: 
-  
++  
   root:/www> export HTTP_COOKIE="loggedin=1" ; sh admin.sh
-
-  If you encounter a syntax error when testing a script on an IP0X
-  then running the same script on an x86 can be useful as it has much
-  better error reporting:
-
++
+If you encounter a syntax error when testing a script on an IP0X
+then running the same script on an x86 can be useful as it has much
+better error reporting:
++
 x86:
-
++
   [david@host cgi-bin]$ export HTTP_COOKIE="loggedin=1" ; sh admin.sh
 
-. The -x option at the stop of any shell script can be useful to trace
-  execution on an IP0X:
-
-  #!/bin/sh -x
-
-  However this only works if the shell script has executable perminissions
-  set.  If running using the sh command you can also trace execution:
-
+. If running using the sh command you can also trace execution with 
+  the "-x" option:
++
   [david@host cgi-bin]$ sh -x login.sh
 
 . Testing forms from the command line can be achieved by manually
 setting up the CGI QUERY_STRING environment variable:
-
++
   [david@host cgi-bin]$ export QUERY_STRING="pass=uClinux" ; sh login.sh
-
-. When editing on an x86 host and testing on an IP0X Emacs has a nice
-  feature M-! that lets you execute a shell command.  I use this to
-  download the shell fuile I am working on, e.g. "scp admin.sh
-  root@ip04".
