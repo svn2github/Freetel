@@ -16,7 +16,7 @@
 test:
 	rcp cgi-bin/*.html cgi-bin/*.sh cgi-bin/*.pl cgi-bin/*.js cgi-bin/*.css \
 	cgi-bin/*.png root@$(HOST):/www
-	rcp etc/asterisk/*.conf root@$(HOST):/etc/asterisk
+	scp etc/asterisk/*.conf root@$(HOST):/etc/asterisk
 
 .PHONY : static
 static: 

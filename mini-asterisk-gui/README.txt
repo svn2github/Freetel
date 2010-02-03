@@ -254,8 +254,17 @@ x86:
 
   [david@host cgi-bin]$ export HTTP_COOKIE="loggedin=1" ; sh admin.sh
 
-. The -x option at the stop of any sheel script can be useful to watch
+. The -x option at the stop of any shell script can be useful to trace
   execution on an IP0X:
 
   #!/bin/sh -x
 
+  However this only works if the shell script has executable perminissions
+  set.  If running using the sh command you can also trace execution:
+
+  [david@host cgi-bin]$ sh -x login.sh
+
+. Testing forms from the command line can be achieved by manually
+setting up the CGI QUERY_STRING environment variable:
+
+  [david@host cgi-bin]$ export QUERY_STRING="pass=uClinux" ; sh login.sh
