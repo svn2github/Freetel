@@ -30,8 +30,21 @@ EOF
     </html>
 EOF
 else
-    testuser root $pass
+    
+    # If we are a non-blackfin then use hard coded password for now.
+    # I don't feel comfortable sending root password through a web
+    # GUI for x86 boxes, but this is reasonable approach for embedded
+    # systems.  TODO: add a way to store and modify x86 passwds
+
+    cat /proc/cpuinfo | grep "CPU:.*ADSP" > /dev/null
     if [ $? -eq 0 ]; then
+	# Blackfin IP0X system
+        testuser root "$pass"; res=$?
+    else
+       [ $pass = "uClinux" ] ; res=$?
+    fi 
+
+    if [ $res -eq 0 ]; then
 
 	# login sucessful
         echo "Content-type: text/html"
