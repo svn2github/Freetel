@@ -28,11 +28,10 @@ installations fast and simple, for example:
   file format.
 
 * A small office that already has an old analog phone system.  You
-  want to keep your current analog lines for incoming calls, but
-  install 8 IP Phones and use VOIP for outgoing calls.  You know
-  enough to set up a DSL router but don't want to rely on "the Phone
-  Guy" or "The Computer Guy" at $100/hr to maintain your phone
-  system.
+  want to keep your current analog lines for incoming calls, but use
+  IP Phones for handsets and VOIP for outgoing calls.  You know enough
+  to set up a DSL router and don't want to rely on "the Phone Guy" or
+  "The Computer Guy" at $100/hr to maintain your phone system.
 
 * You are a "Phone Guy" who doesn't understand Linux and Asterisk but
   you want to install IP-PBXes.
@@ -45,7 +44,7 @@ There are http://www.voip-info.org/wiki/view/Asterisk+GUI[a lot of
 Asterisk GUIs] out there already.  So why do we need another one?
 
 Well I needed an Asterisk GUI that was very easy to use for the
-link:ip04.html[IP0X devices] I sell.  Something that would lower the
+link:ip04.html[IP0X] family.  Something that would lower the
 technical skill required to install and maintain an Asterisk Phone
 system.  Something my wife and kids could use.
 
@@ -63,7 +62,7 @@ view!
 
 * Light weight so it can run on embedded boxes like the IP0X family.
   No SQL database or PHP or LAMP.  Only a basic web server and a very
-  basic perl are required (e.g. microperl - no CPAN libraries).
+  basic perl are required (microperl - no CPAN libraries).
 
 * Works directly on extensions.conf and sip.conf, but honors any edits
   you make to these files.  So all the powerful Asterisk features are
@@ -77,7 +76,7 @@ view!
   have to understand what a dial-plan is, much less understand how to
   code one.  Plain English terms are used instead, for example "Phones
   and Phone lines".  Terms like Asterisk, Linux, SIP, Zap/1 don't even
-  get a mention.
+  get mentioned.
 
 * Extensive tool tip documentation.  No manual.
 
@@ -91,8 +90,8 @@ view!
 * Extensive pre-configuration of extensions.conf and sip.conf,
   pre-selected phone numbers, SIP trunks are selected from a pull-down
   menu (except they are called VOIP lines).  Analog ports are auto
-  detected, at least on the IP0X.  This makes adding IP phones very
-  fast and simple.
+  detected, at least on the IP0X.  This makes adding phones fast and
+  simple.
 
 [[status]]
 Status
@@ -101,13 +100,14 @@ Status
 Alpha:
 
 * Works on IP0X.
-* Not tested on x86. Several IP0X features are n/a for x86 and should be
-  disabled when the x86 (or non-IP0X) platform is detected.
+* Works on x86 but many features (like upgrades) disabled in the
+  interests of security. These need to be implemented in a safe way.
 * Needs feedback from real users to see how useful the concept is and what
   (un)features need to be added.
 * Need a few more (un)features to be added, and Voip Line screen
   populated with more ITSPs.
-* But quite useable as it stands.
+* But quite useable as it stands, especially as a starting point for
+  IP0X.
 
 [[notes]]
 Implementation Notes
@@ -176,28 +176,62 @@ Remember to backup your existing extensions.conf & sip.conf in
 -------------------------------------------------------------------
 # cd ~ 
 # svn co https://freetel.svn.sourceforge.net/svnroot/freetel/mini-asterisk-gui
+# cd mini-asterisk-gui
 # ./update_revision.sh
-# cp mini-asterisk-gui/etc/asterisk/* /etc/asterisk 
-# cp mini-asterisk-gui/cgi-bin/* /www
+# cp etc/asterisk/* /etc/asterisk 
+# cp cgi-bin/* /var/www
 # cd /etc/asterisk
 # cp extensions.conf extensions.conf.def
 # cp sip.conf sip.conf.def
-# mv etc/asterisk/users.conf etc/asterisk/users.conf.bak
--------------------------------------------------------------------
+# mv users.conf users.conf.bak
 +
-The final step above may not be required on your machine if you don't
-have a users.conf.  The .def copies are required by the "reset
-defaults" feature on the admin screen.
+The .def copies are required by the "reset defaults" feature on the
+admin screen.
 
-. Switch off the internal Asterisk web server by editing
+. It's a good idea to switch off the internal Asterisk web server by editing
 /etc/asterisk.httpd.conf.  Make sure the enabled line reads like this:
 
    enabled=no
 +
 Then stop and restart Asterisk.
++
+-------------------------------------------------------------------
+# /etc/init.d/asterisk restart
+-------------------------------------------------------------------
++
+. I use lighttpd as the web server.  On my x86 box I needed to install
+a sym-link and edit the 10-cgi.conf file:
++
+-------------------------------------------------------------------
+# cd /etc/lighttpd/conf-enabled
+# ln -s ../conf-available/10-cgi.conf .
+-------------------------------------------------------------------
++
+I then modified 10-cgi-conf to enable perl and shell scripts:
++
+-------------------------------------------------------------------
+cgi.assign      = (
+	".pl"  => "/usr/bin/perl",
+	".sh"  => "/bin/sh",
+)
+-------------------------------------------------------------------
++
+Make sure lighttpd runs as root, as we need to run Asterisk etc from
+shell script CGIs:
++
+## change uid to <uid> (default: don't care)
+#server.username            = "wwwrun"
 
-. I use lighttpd as the web server, the /etc/lighttpd.conf lines
-required are:
+## change uid to <uid> (default: don't care)
+#server.groupname           = "wwwrun"
++
+Restart lighttpd after all the changes:
++
+--------------------------------------------------------------------
+# /etc/init.d/lighttpd restart
+------------------------------------------------------------------
++
+For comparison on the IP04 I just modified /etc/lighttpd.conf:
 +
 -------------------------------------------------------------------
 cgi.assign = ( ".sh" => "/bin/sh",".pl" => "/usr/bin/perl" )
@@ -207,16 +241,20 @@ cgi.assign = ( ".sh" => "/bin/sh",".pl" => "/usr/bin/perl" )
 Contributions
 -------------
 
-I welcome sip.conf entries for your favourite ITSP (VOIP service) to
-help populate the Provider field of the
+I especially welcome sip.conf entries for your favourite ITSP (VOIP
+service) to help populate the Provider field of the
 link:mini/voiplines.sh.html[Voip Line Screen].
+
+Suggestions and patches for new features are also very welcome.
 
 [[support]]
 Support
 -------
 
 Comments, features request, bugs please let me know using Free
-Telephony Project http://www.rowetel.com/ucasterisk/#support[Support].
+Telephony Project
+https://lists.sourceforge.net/lists/listinfo/freetel-discuss[Mailing
+List]
 
 [[source]]
 Source Code
@@ -268,3 +306,8 @@ x86:
 setting up the CGI QUERY_STRING environment variable:
 
   [david@host cgi-bin]$ export QUERY_STRING="pass=uClinux" ; sh login.sh
+
+. When editing on an x86 host and testing on an IP0X Emacs has a nice
+  feature M-! that lets you execute a shell command.  I use this to
+  download the shell fuile I am working on, e.g. "scp admin.sh
+  root@ip04".

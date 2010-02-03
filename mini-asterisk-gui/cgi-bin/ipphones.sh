@@ -16,7 +16,7 @@ if [ $? -eq 1 ]; then
 fi
 
 more=`echo "$QUERY_STRING" | grep -oe "more=[^&?]*" | sed -n "s/more=//p"`
-ipaddress=`ifconfig eth0 | sed -n 's/.*inet addr:\(.*\)  Bcast.*/\1/p'`
+ipaddress=`ifconfig | sed -n 's/.*inet addr:\(.*\)  Bcast.*/\1/p' | head -n 1`
 
 # Construct the web page -------------------------------
 

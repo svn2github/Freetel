@@ -15,6 +15,15 @@ if [ $? -eq 1 ]; then
     exit
 fi
 
+# check what sort of machine we are running on.  We only support this screen for
+# IP0X
+
+cat /proc/cpuinfo | grep "CPU:.*ADSP" > /dev/null
+if [ ! $? -eq 0 ]; then
+    echo "<html>Sorry, Network configuration is only supported on the IP0X</html>"
+    exit
+fi
+
 grok_network=0
 
 if [ -f /etc/rc.d/S10network ]; then
@@ -72,11 +81,11 @@ fi
 
 # See if we have Internet connectivity, first check dns as time outs can be very slow
 
-dns_packet_loss=`ping $dns -c 1 -q | sed -n 's/.*received, \(.*\)% packet loss/\1/p'`
+dns_packet_loss=`ping $dns -c 1 -q | sed -n 's/.*received, \(.*\)%.*/\1/p'`
 internet="no";
-if [ $dns_packet_loss == "0" ]; then
-  packet_loss=`ping google.com -c 1 -q | sed -n 's/.*received, \(.*\)% packet loss/\1/p'`
-  if [ $packet_loss == "0" ]; then
+if [ $dns_packet_loss = "0" ]; then
+  packet_loss=`ping google.com -c 1 -q | sed -n 's/.*received, \(.*\)%.*/\1/p'`
+  if [ $packet_loss = "0" ]; then
     internet="yes";
   fi
 fi

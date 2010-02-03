@@ -3,7 +3,7 @@
 # David Rowe 7 Jan 2010
 # Admin screen for Mini Asterisk GUI
 
-# check we are logged in
+# check we are logged in ----------------------------------------
 
 echo $HTTP_COOKIE | grep "loggedin" > /dev/null
 if [ $? -eq 1 ]; then
@@ -15,10 +15,25 @@ if [ $? -eq 1 ]; then
     exit
 fi
 
+# check what sort of machine we are running on.  Many operations
+# outlawed for x86
+
+cat /proc/cpuinfo | grep "CPU:.*ADSP" > /dev/null
+if [ $? -eq 0 ]; then
+    mach="ip0x"
+else
+    mach="x86"
+fi
+
 # set password CGI -----------------------------------------------
 
 echo "$QUERY_STRING" | grep -oe "pass=" > /dev/null
 if [ $? -eq 0 ]; then
+    if [ $mach != "ip0x" ] ; then
+	echo "<html>Sorry, only supported on the IP0X</html>"
+	exit
+    fi
+
     pass=`echo "$QUERY_STRING" | grep -oe "pass=[^&?]*" | sed -n "s/pass=//p"`
     passwd_cmdline $pass
 fi
@@ -27,6 +42,11 @@ fi
 
 echo "$QUERY_STRING" | grep -oe "restart=1" > /dev/null
 if [ $? -eq 0 ]; then
+
+    if [ $mach != "ip0x" ] ; then
+	echo "<html>Sorry, only supported on the IP0X</html>"
+	exit
+    fi
 
 # kill cookie to log out.  This ensures hitting refresh wont run
 # the restart process again
@@ -55,7 +75,7 @@ if [ $? -eq 0 ]; then
     asterisk -rx "dialplan reload" 2>/dev/null 1 > /dev/null
 fi
 
-# Upgrade Mini Asterisk CGI ----------------------------------------------------
+# Upgrade Mini Asterisk CGI -------------------------------------------
 
 echo "$QUERY_STRING" | grep -oe "upgrade=1" > /dev/null
 if [ $? -eq 0 ]; then
@@ -63,17 +83,8 @@ if [ $? -eq 0 ]; then
     # test if we are running on an IP0X
     which ipkg >> /dev/null
     if [ $? -eq 1 ]; then
-	cat <<EOF
-	<html>
-	<head>
-	<title>Mini Asterisk - Upgrade</title>
-	</head>
-	<body>
-	Sorry upgrade only supported on IP0X at this time
-	</body>
-	</head>
-	</html>
-EOF
+	echo "<html>Sorry, only supported on the IP0X</html>"
+        exit
     fi
 
     cat <<EOF
@@ -109,9 +120,9 @@ fi
 echo "$QUERY_STRING" | grep -oe "firmwareurl=" > /dev/null
 if [ $? -eq 0 ]; then
 
-    h=`hostname`
-    if [ ! $h == "ip04" ]; then
-	echo "<html>Sorry Firmware Upgreade only supported on IP04</html>"
+    if [ $mach != "ip0x" ] ; then
+	echo "<html>Sorry, only supported on IP0X</html>"
+	exit
     fi
 
     firmwareurl=`echo "$QUERY_STRING" | grep -oe "firmwareurl=[^&?]*" | sed -n "s/firmwareurl=//p"`

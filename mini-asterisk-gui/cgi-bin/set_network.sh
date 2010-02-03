@@ -22,7 +22,7 @@ gateway=`echo "$QUERY_STRING" | grep -oe "gateway=[^&?]*" | sed -n "s/gateway=//
 dns=`echo "$QUERY_STRING" | grep -oe "dns=[^&?]*" | sed -n "s/dns=//p"`
 backdoor=`echo "$QUERY_STRING" | grep -oe "backdoor=[^&?]*" | sed -n "s/backdoor=//p"`
 
-if [ $dhcp == "yes" ]; then
+if [ $dhcp = "yes" ]; then
 
   # DHCP
 
@@ -38,7 +38,7 @@ if [ $dhcp == "yes" ]; then
   fi
 fi
 
-if [ $dhcp == "no" ]; then
+if [ $dhcp = "no" ]; then
   
   # Static IP
 

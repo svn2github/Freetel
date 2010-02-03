@@ -28,6 +28,11 @@ perl set_voiplines.pl $user $pass $host $stanza > /etc/asterisk/sip.conf.new
 mv /etc/asterisk/sip.conf /etc/asterisk/sip.conf.bak
 mv /etc/asterisk/sip.conf.new /etc/asterisk/sip.conf
 
+# modify extensions.conf for new provider
+
+sed -i "s#_1.,1,Dial(.*)#_1.,1,Dial(SIP/$stanza/\${EXTEN:1})#" /etc/asterisk/extensions.conf
+asterisk -rx "dialplan reload" 2>/dev/null 1 > /dev/null
+
 # get asterisk to load changes
 
 asterisk -rx "sip reload" 2>/dev/null 1 > /dev/null
