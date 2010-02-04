@@ -44,9 +44,12 @@ There are http://www.voip-info.org/wiki/view/Asterisk+GUI[a lot of
 Asterisk GUIs] out there already.  So why do we need another one?
 
 Well I needed an Asterisk GUI that was very easy to use for the
-link:ip04.html[IP0X] family.  Something that would lower the
-technical skill required to install and maintain an Asterisk Phone
+link:ip04.html[IP0X] family.  Something that would lower
+the technical skill required to install and maintain an Asterisk Phone
 system.  Something my wife and kids could use.
+
+The IP0X can't run a LAMP stack very well so the GUI had to be light
+weight.
 
 I was also interested in exploring the ease-of-use meme, as we have
 been discussing it a lot on the http://villagetelco.org[Village Telco]
@@ -132,6 +135,9 @@ The scripts need to run as root to run asterisk commands.  This is
 probably OK an on IP0X but not a good idea on an x86.  I am not happy
 with this security model and would appreciate any suggestions on how
 to improve it.
+
+Mini Asterisk uses HTML, CSS, Javascript, CGI, Shell scripting, and
+Perl.
 
 [[install]]
 Installation

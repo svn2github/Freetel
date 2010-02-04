@@ -57,7 +57,12 @@ perl ./voiplines.pl
 
 cat <<EOF
       <tr><td>&nbsp</td></tr>
-      <tr><td colspan="2">Refresh your browser to update Voip Line status </td></tr>
+
+      <tr><td colspan="2">Sometime it takes a few seconds to connect
+                          your Voip Line.  After clicking OK refresh
+                          your browser to update Voip Line status.
+                          </td></tr>
+
       <tr><td>&nbsp</td></tr>
       <tr><td><input type="submit" value="OK"></td></tr>
 

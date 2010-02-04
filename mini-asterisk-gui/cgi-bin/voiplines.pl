@@ -14,6 +14,9 @@ my %user = ();     # user keyed on provider
 my %pass = ();     # password keyed on provider
 my %host = ();     # host name keyed on provider
 
+my $provider_current = "none";
+push (@providers, "none");
+
 while (<SIP>) { 
 
     # start of any stanza switches off parsing.  It may get switched
