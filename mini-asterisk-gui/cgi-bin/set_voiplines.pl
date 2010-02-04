@@ -45,6 +45,10 @@ while (<SIP>) {
 
 	    #print "XX provider_new='$provider_new' '$1' '$2' '$3'\n";
 		    
+            # note fine /$user seems to be necessary so that incoming VOIP
+	    # calls work.  I really doin't get the syntax but messed around for
+	    # hours until it worked!
+
 	    print "register => $user\@$user/$user; $3\n";
 	}
 	else {

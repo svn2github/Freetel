@@ -72,7 +72,7 @@ view!
   magic.  Plain old HTML, a little Java-script and CGIs written in
   shell script and Perl.
 
-* Doesn't use the Asterisk programming "model".  For example you don't
+* Doesn't use the Asterisk programming model.  For example you don't
   have to understand what a dial-plan is, much less understand how to
   code one.  Plain English terms are used instead, for example "Phones
   and Phone lines".  Terms like Asterisk, Linux, SIP, Zap/1 don't even
@@ -159,14 +159,13 @@ x86 Installation
 
 . You need a web server, Asterisk and some sort of Perl installed
 (very basic Perl installation is fine).  Configure your web server to
-run CGIs (.sh and .pl) from /www (lighttpd config instructions below).
+run CGIs (.sh and .pl) from your server root (lighttpd config instructions below).
 Mini Asterisk expects all files (shell, perl, html etc) to be in the
 same directory.  If you find this painful please <<support, let me know>>.
 
-. The process below places the web files in /www, you may like to
-place the files somewhere else like /www/asterisk.  One of the files
-is named index.html so make sure you don't overwrite an existing
-index.html.
+. The process below places the web files in /var/www, you may like to
+place the files somewhere else.  One of the files is named index.html
+so make sure you don't overwrite an existing index.html.
 
 . Login as root to install the Mini Asterisk files:
 +
