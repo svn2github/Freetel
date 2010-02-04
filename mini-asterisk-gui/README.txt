@@ -102,6 +102,7 @@ Alpha:
 * Works on IP0X.
 * Works on x86 but many features (like upgrades) disabled in the
   interests of security. These need to be implemented in a safe way.
+* Tested on asterisk 1.4.x
 * Needs feedback from real users to see how useful the concept is and what
   (un)features need to be added.
 * Need a few more (un)features to be added, and Voip Line screen
