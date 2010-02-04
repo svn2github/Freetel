@@ -19,18 +19,18 @@ fi
 user=`echo "$QUERY_STRING" | grep -oe "user=[^&?]*" | sed -n "s/user=//p"`
 pass=`echo "$QUERY_STRING" | grep -oe "pass=[^&?]*" | sed -n "s/pass=//p"`
 host=`echo "$QUERY_STRING" | grep -oe "host=[^&?]*" | sed -n "s/host=//p"`
-stanza=`echo "$QUERY_STRING" | grep -oe "stanza=[^&?]*" | sed -n "s/stanza=//p"`
+provider=`echo "$QUERY_STRING" | grep -oe "provider=[^&?]*" | sed -n "s/provider=//p"`
 
 # create new sip.conf with selected provider uncommented
 
-echo "set_voiplines.sh" $user $pass $host $stanza >> /tmp/log.txt
-perl set_voiplines.pl $user $pass $host $stanza > /etc/asterisk/sip.conf.new
+echo "set_voiplines.sh" $user $pass $host $provider >> /tmp/log.txt
+perl set_voiplines.pl $user $pass $host $provider > /etc/asterisk/sip.conf.new
 mv /etc/asterisk/sip.conf /etc/asterisk/sip.conf.bak
 mv /etc/asterisk/sip.conf.new /etc/asterisk/sip.conf
 
 # modify extensions.conf for new provider
 
-sed -i "s#_1.,1,Dial(.*)#_1.,1,Dial(SIP/$stanza/\${EXTEN:1})#" /etc/asterisk/extensions.conf
+sed -i "s#_1.,1,Dial(.*)#_1.,1,Dial(SIP/$user/\${EXTEN:1})#" /etc/asterisk/extensions.conf
 asterisk -rx "dialplan reload" 2>/dev/null 1 > /dev/null
 
 # get asterisk to load changes

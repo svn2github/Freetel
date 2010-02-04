@@ -14,7 +14,7 @@
 #    usage: make HOST=test.machine.ip static
 
 test:
-	rcp cgi-bin/*.html cgi-bin/*.sh cgi-bin/*.pl cgi-bin/*.js cgi-bin/*.css \
+	scp cgi-bin/*.html cgi-bin/*.sh cgi-bin/*.pl cgi-bin/*.js cgi-bin/*.css \
 	cgi-bin/*.png root@$(HOST):/www
 	scp etc/asterisk/*.conf root@$(HOST):/etc/asterisk
 

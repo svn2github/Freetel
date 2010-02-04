@@ -10,7 +10,6 @@
 open SIP, "/etc/asterisk/sip.conf";
 my $provider = ""; # current provider bring parsed in sip.conf
 my @providers=();  # list of all providers
-my %stanza = ();   # stanza name keyed on provider
 my %user = ();     # user keyed on provider
 my %pass = ();     # password keyed on provider
 my %host = ();     # host name keyed on provider
@@ -27,11 +26,10 @@ while (<SIP>) {
 
     # currently disabled mini-asterisk provider
 
-    if (/^;\[(.*)\].* \"(.*)\" mini-asterisk/) {
-	push (@providers, $2);
-	$provider = $2;
-	$stanza{$2} = $1;
-	#print "'$1' '$2'\n";	
+    if (/^;\[.*\].* \"(.*)\" mini-asterisk/) {
+	push (@providers, $1);
+	$provider = $1;
+	#print "'$1'\n";	
     }
 
     # current mini-asterisk provider
@@ -40,16 +38,13 @@ while (<SIP>) {
 	push (@providers, $2);
 	$provider = $2;
 	$provider_current = $2;
-	$stanza{$2} = $1;
+	$stanza_current = $1;
 	#print "'$1' '$2'\n";
     }
 
     if ($provider ne "") {
 	#print $_;
 
-	if (/^;*user=(.*)/) {
-	    $user{$provider} = $1;
-	}
 	if (/^;*username=(.*)/) {
 	    $user{$provider} = $1;
 	}
@@ -93,7 +88,6 @@ foreach (@providers) {
     print "hosts[\'$_\'] = \'$host{$_}\';\n";
     print "users[\'$_\'] = \'$user{$_}\';\n";
     print "passwords[\'$_\'] = \'$pass{$_}\';\n";
-    print "stanzas[\'$_\'] = \'$stanza{$_}\';\n";
 }
 print "</script>\n";
 
@@ -121,9 +115,9 @@ print "<tr $tt_user><td>User:</td><td><input type=\"text\" name=\"user\" id=\"us
 print "<tr $tt_pass><td>Password:</td><td><input type=\"password\" name=\"pass\" id=\"pass\" value=\"$pass{$provider_current}\"></td></tr>\n";
 print "<tr $tt_host><td>Host:</td><td><input type=\"text\" name=\"host\" id=\"host\" value=\"$host{$provider_current}\"></td></tr>\n";
 
-#print "\nXXX $provider_current $stanza{$provider_current} $voip{$stanza{$provider_current}}\n";
+#print "\nXXX $provider_current $stanza_current} $voip{$stanza_current}\n";
 
-if ($voip{$stanza{$provider_current}} eq "Registered") {
+if ($voip{$stanza_current} eq "Registered") {
     $icon = "<img src=\"tick.png\" alt=\"OK\" />";
 }
 else {
@@ -131,6 +125,3 @@ else {
 }
 print "<tr $tt_status><td>Voip Line Status:</td><td>$icon</td></tr>\n";
 
-# hidden field to pass stanza with form
-
-print "<tr><td><input type=\"hidden\" name=\"stanza\" id=\"stanza\" value=\"$stanza{$provider_current}\"></td></tr>";

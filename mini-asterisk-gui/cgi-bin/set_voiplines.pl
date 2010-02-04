@@ -7,7 +7,7 @@
 $user = $ARGV[0];
 $pass = $ARGV[1];
 $host = $ARGV[2];
-$stanza_new = $ARGV[3];
+$provider_new = $ARGV[3];
 
 # We need to slurp up the mini asterisk provider and spit them
 # back out.  All must be commented out except for the one that
@@ -29,24 +29,23 @@ while (<SIP>) {
 
     # look for commented or uncommented mini asterisk provider stanza
 
-    if (/\[(.*)\] .* mini-asterisk/) {
+    if (/\[(.*)\].* \"(.*)\" mini-asterisk/) {
 	$stanza = $1;
+	$provider = $2;
     }
 
     if ($stanza eq "") {
 	# we are not in an mini-asterisk provider stanza
 	
-	if (/;*register => (\S*)@(\S*).*;.*(mini-asterisk.*)/) {
-	    # an mini-asterisk register line
+        # however we may hit a mini-asterisk register line here
 
-	    #print "XX stanza_new='$stanza_new' '$1' '$2' '$3'\n";
+	if (/.*register => (\S*)@(\S*).*;.*(mini-asterisk.*)/) {
+	    # the mini-asterisk register line, not only one register supported
+	    # at the moment (one VOIP line)
+
+	    #print "XX provider_new='$provider_new' '$1' '$2' '$3'\n";
 		    
-	    if ($2 eq $stanza_new) {
-		print "register => $user\@$stanza_new; $3\n";
-	    }
-	    else {
-		print ";register => $1\@$2 ; $3\n";
-	    }
+	    print "register => $user\@$user/$user; $3\n";
 	}
 	else {
 	    # OK so this is a regular sip.conf line, just echo to stdout
@@ -60,14 +59,16 @@ while (<SIP>) {
 
 	$_ =~ s/^\;//;
 	
-	if ($stanza eq $stanza_new) {
+	if ($provider eq $provider_new) {
 
 	    # this stanza should be uncommented
 
-	    if (/^user=/) {
-		print "user=$user\n";
+	    if (/\[.*\].* \".*\" mini-asterisk/) {
+		# rename stanza name to user name
+		# this is required to make incoming calls work
+		print "[$user] ; \"$provider\" mini-asterisk do not remove this comment\n";
 	    }
-	    if (/^username=/) {
+	    elsif (/^username=/) {
 		print "username=$user\n";
 	    }
 	    elsif (/^fromuser=/) {
