@@ -24,7 +24,7 @@ installations fast and simple, for example:
   You want to connect a few IP Phones and make cheap phones calls
   using VOIP.  An Asterisk distro on a CD is a possibility but you
   don't want to dedicate a full PC just for Asterisk.  You don't
-  really want to learn obscure dial plan syntax and yet another conf
+  really want to learn Asterisk dial plan syntax and yet another conf
   file format.
 
 * A small office that already has an old analog phone system.  You
@@ -65,18 +65,18 @@ view!
 
 * Light weight so it can run on embedded boxes like the IP0X family.
   No SQL database or PHP or LAMP.  Only a basic web server and a very
-  basic perl are required (microperl - no CPAN libraries).
+  basic Perl are required (microperl - no CPAN libraries).
 
 * Works directly on extensions.conf and sip.conf, but honors any edits
   you make to these files.  So all the powerful Asterisk features are
-  available in the background.
+  available if after a while you want to dive into Asterisk conf files.
 
 * Doesn't use AJAX or the built-in Asterisk web server or users.conf
   magic.  Plain old HTML, a little Java-script and CGIs written in
   shell script and Perl.
 
 * Doesn't use the Asterisk programming model.  For example you don't
-  have to understand what a dial-plan is, much less understand how to
+  have to understand what a dial plan is, much less understand how to
   code one.  Plain English terms are used instead, for example "Phones
   and Phone lines".  Terms like Asterisk, Linux, SIP, Zap/1 don't even
   get mentioned.
@@ -88,13 +88,15 @@ view!
   is also your firewall, server etc.
 
 * Mini Asterisk tells you when something is wrong, for example you get
-  a warning if your Phone System can't see the Internet.
+  a warning if your Phone System can't see the Internet, or if it can't
+  see your ITSP.
 
-* Extensive pre-configuration of extensions.conf and sip.conf,
-  pre-selected phone numbers, SIP trunks are selected from a pull-down
-  menu (except they are called VOIP lines).  Analog ports are auto
-  detected, at least on the IP0X.  This makes adding phones fast and
-  simple.
+* Extensive pre-configuration of extensions.conf and sip.conf.  The
+  phone numbers of extensions are pre-configured and ITSP
+  configurations are selected from a pull-down menu.  Analog ports are
+  auto detected, at least on the IP0X.  This makes adding phones and
+  ITSPs fast and simple.  It also gives people new to Asterisk a
+  working starting point.
 
 [[status]]
 Status
@@ -104,7 +106,7 @@ Alpha:
 
 * Works on IP0X.
 * Works on x86 but many features (like upgrades) disabled in the
-  interests of security. These need to be implemented in a safe way.
+  interests of security. These need to be implemented on x86 in a safe way.
 * Tested on asterisk 1.4.x
 * Needs feedback from real users to see how useful the concept is and what
   (un)features need to be added.
@@ -171,7 +173,9 @@ x86 Installation
 
 . You need a web server, Asterisk and some sort of Perl installed
 (very basic Perl installation is fine).  Configure your web server to
-run CGIs (.sh and .pl) from your server root (lighttpd config instructions below).
+run CGIs (.sh and .pl) from your server root (lighttpd config
+instructions below).
+
 Mini Asterisk expects all files (shell, perl, html etc) to be in the
 same directory.  If you find this painful please <<support, let me know>>.
 
