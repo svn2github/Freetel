@@ -58,6 +58,7 @@ cat <<EOF
     <td valign="top">
 
     <table align="right" width=600>
+    <col width="50" /><col width="150" />
       <tr>
           <td onMouseOver="popUp(event,'phone_system')" onmouseout="popUp(event,'phone_system')" colspan="4" align="left" valign="top"><h2>Phone System</h2></td>
       </tr>

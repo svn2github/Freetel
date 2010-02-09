@@ -136,8 +136,13 @@ probably OK an on IP0X but not a good idea on an x86.  I am not happy
 with this security model and would appreciate any suggestions on how
 to improve it.
 
-Mini Asterisk uses HTML, CSS, Javascript, CGI, Shell scripting, and
-Perl.
+Mini Asterisk uses the following technologies: HTML, CSS, Javascript,
+CGI, Shell scripting, Perl, Asterisk.  But most of the work is done in
+shell script and HTML, with a little Perl for the text processing.
+
+The msh shell on the IP0X is fairly basic (no functions, several
+quirks).  The shell script has been coded so that it runs OK on the
+IP0X, which is upwards compatable to x86.
 
 [[install]]
 Installation

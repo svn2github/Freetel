@@ -87,8 +87,12 @@ my %sip = ();  # SIP IP phone status keyed on sip.conf names (6011,6012 etc)
 my %ipad = (); # IP address of SIP device keyed on sip.conf names
 
 open SIP, "sipshowpeers.txt";
-while (<SIP>) { 
-    if (/^([0-9]*)[\s\/].*(OK)/) {
+while (<SIP>) {
+
+    # just look for 4 digit extensions starting with 6 so we don't
+    # confuse with Voip Line
+ 
+    if (/^(6[0-9][0-9][0-9])[\s\/].*(OK)/) {
         $sip{$1} = $2;
 	#print "'$1' '$2' $sip{$1}\n";
 	$e = $1;
@@ -174,8 +178,8 @@ foreach $s (sort keys %sip) {
 }
 
 print '<tr><td>&nbsp;</td></tr>';
-print "<tr><td onMouseOver=\"popUp(event,'phone_addipphone')\" onmouseout=\"popUp(event,'phone_addipphone')\">";
-print "<a href=\"ipphones.sh\">Add IP Phone</a></td><td></td><td></td><td><input type=\"submit\" value=\"Update Reception\"></td></tr>";
+print "<tr><td colspan=\"2\" onMouseOver=\"popUp(event,'phone_addipphone')\" onmouseout=\"popUp(event,'phone_addipphone')\">";
+print "<a href=\"ipphones.sh\">Add IP Phone</a></td><td></td><td><input type=\"submit\" value=\"Update Reception\"></td></tr>";
 
 $tool_tip = "onMouseOver=\"popUp(event,'phone_lines')\" onmouseout=\"popUp(event,'phone_lines')\"";
 
