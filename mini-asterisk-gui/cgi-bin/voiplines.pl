@@ -136,5 +136,5 @@ else {
 print "<tr $tt_status><td>Voip Line Status:</td><td>$icon</td></tr>\n";
 
 print "<tr><td>&nbsp</td></tr>\n";
-print "<tr><td colspan=\"2\"><div id=\"comment\">&nbsp;$comment{$provider_current}</div></td></tr>\n";
+print "<tr><td colspan=\"2\"><div id=\"comment\">$comment{$provider_current}</div></td></tr>\n";
 print "<tr><td>&nbsp</td></tr>\n";
