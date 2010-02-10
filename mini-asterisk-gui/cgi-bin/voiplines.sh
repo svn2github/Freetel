@@ -58,7 +58,7 @@ perl ./voiplines.pl
 cat <<EOF
       <tr><td>&nbsp</td></tr>
 
-      <tr><td colspan="2">Sometime it takes a few seconds to connect
+      <tr><td colspan="2">Sometimes it takes a few seconds to connect
                           your Voip Line.  After clicking OK refresh
                           your browser to update Voip Line status.
                           </td></tr>

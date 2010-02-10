@@ -3,13 +3,14 @@
 # David Rowe 12 Jan 2010
 #
 # Replaces fields in sip.conf, outputs new sip.conf contents to stdout
+# Gets run when "OK" is pressed on the Voip Lines screen
 
 $user = $ARGV[0];
 $pass = $ARGV[1];
 $host = $ARGV[2];
 $provider_new = $ARGV[3];
 
-# We need to slurp up the mini asterisk provider and spit them
+# We need to slurp up the mini asterisk providers and spit them
 # back out.  All must be commented out except for the one that
 # is selected.  Hopefully non-mini asterisk content of sip.conf
 # won't be affected.
@@ -44,9 +45,15 @@ while (<SIP>) {
 	    # at the moment (one VOIP line)
 
 	    #print "XX provider_new='$provider_new' '$1' '$2' '$3'\n";
-		    
-            # note fine /$user seems to be necessary so that incoming VOIP
-	    # calls work.  I really doin't get the syntax but messed around for
+		
+	    # commentout register if "none" selected
+
+	    if ($user eq "none") {
+		print ";";
+	    }
+
+            # note final /$user seems to be necessary so that incoming VOIP
+	    # calls work.  I really don't get the syntax but messed around for
 	    # hours until it worked!
 
 	    print "register => $user\@$user/$user; $3\n";
