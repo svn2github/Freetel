@@ -16,6 +16,7 @@ my %host = ();     # host name keyed on provider
 
 my $provider_current = "none";
 push (@providers, "none");
+$comment{"none"} = "&nbsp;";
 
 while (<SIP>) { 
 
@@ -57,6 +58,10 @@ while (<SIP>) {
 	if (/^;*host=(.*)/) {
 	    $host{$provider} = $1;
 	}
+
+	if (/^;; (.*)/) {
+	    $comment{$provider} = $1;
+	}
     }
 
     $state = $next_state;
@@ -87,10 +92,12 @@ print "var hosts = new Array();\n";
 print "var users = new Array();\n";
 print "var passwords = new Array();\n";
 print "var stanzas = new Array();\n";
+print "var comments = new Array();\n";
 foreach (@providers) {
     print "hosts[\'$_\'] = \'$host{$_}\';\n";
     print "users[\'$_\'] = \'$user{$_}\';\n";
     print "passwords[\'$_\'] = \'$pass{$_}\';\n";
+    print "comments[\'$_\'] = \"$comment{$_}\";\n";
 }
 print "</script>\n";
 
@@ -115,8 +122,8 @@ foreach (@providers) {
 print "</select></td></tr>\n";
 
 print "<tr $tt_user><td>User:</td><td><input type=\"text\" name=\"user\" id=\"user\" value=\"$user{$provider_current}\"></td></tr>\n";
-print "<tr $tt_pass><td>Password:</td><td><input type=\"password\" name=\"pass\" id=\"pass\" value=\"$pass{$provider_current}\"></td></tr>\n";
-print "<tr $tt_host><td>Host:</td><td><input type=\"text\" name=\"host\" id=\"host\" value=\"$host{$provider_current}\"></td></tr>\n";
+print "<tr $tt_pass><td >Password:</td><td><input type=\"password\" name=\"pass\" id=\"pass\" value=\"$pass{$provider_current}\"></td></tr>\n";
+print "<tr $tt_host><td >Host:</td><td><input type=\"text\" name=\"host\" id=\"host\" value=\"$host{$provider_current}\"></td></tr>\n";
 
 #print "\nXXX $provider_current $stanza_current} $voip{$stanza_current}\n";
 
@@ -128,3 +135,6 @@ else {
 }
 print "<tr $tt_status><td>Voip Line Status:</td><td>$icon</td></tr>\n";
 
+print "<tr><td>&nbsp</td></tr>\n";
+print "<tr><td colspan=\"2\"><div id=\"comment\">&nbsp;$comment{$provider_current}</div></td></tr>\n";
+print "<tr><td>&nbsp</td></tr>\n";

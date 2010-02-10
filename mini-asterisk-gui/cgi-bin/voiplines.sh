@@ -48,7 +48,7 @@ cat <<EOF
     <table align="right" width=600>
       <tr><td>&nbsp</td></tr>
       <form action="set_voiplines.sh" method="get">
-      <tr><td onMouseOver="popUp(event,'voiplines_voiplines')" onmouseout="popUp(event,'voiplines_voiplines')" align="left" valign="top"><h2>VOIP Line</h2></td></tr>
+      <tr><td onMouseOver="popUp(event,'voiplines_voiplines')" onmouseout="popUp(event,'voiplines_voiplines')" align="left" valign="top" colspan="3"><h2>VOIP Line</h2></td></tr>
 
       <tr><td>&nbsp</td></tr>
 EOF
@@ -56,7 +56,6 @@ EOF
 perl ./voiplines.pl
 
 cat <<EOF
-      <tr><td>&nbsp</td></tr>
 
       <tr><td colspan="2">Sometimes it takes a few seconds to connect
                           your Voip Line.  After clicking OK refresh

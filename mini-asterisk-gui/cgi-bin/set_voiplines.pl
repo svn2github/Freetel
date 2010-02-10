@@ -66,9 +66,12 @@ while (<SIP>) {
     else {
 	# OK, we are in an mini-asterisk stanza
 
-	# strip off any leading ";"
+	# strip off leading ";", except for comments lines which start
+	# with ;;
 
-	$_ =~ s/^\;//;
+	unless (/^;;/) {
+	    $_ =~ s/^\;//;
+	}
 	
 	if ($provider eq $provider_new) {
 
@@ -97,7 +100,13 @@ while (<SIP>) {
 	}
 	else {
 	    # comment out unused mini-asterisk stanzas
-	    print ";$_";
+	    if (/^;;/) {
+		# special csse for comment lines
+		print "$_";
+	    }
+	    else {
+		print ";$_";
+	    }
 	}
     }
 

@@ -3,4 +3,5 @@ function changeProvider() {
 	$('user').value = users[provider];
 	$('pass').value = passwords[provider];
 	$('host').value = hosts[provider];
+        $('comment').innerHTML = comments[provider];
 }
