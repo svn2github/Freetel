@@ -133,7 +133,7 @@ if ($voip{$stanza_current} eq "Registered") {
 else {
     $icon = "<img src=\"cross.png\" alt=\"Not OK\" />";
 }
-print "<tr $tt_status><td>Voip Line Status:</td><td>$icon</td></tr>\n";
+print "<tr $tt_status><td>Voip Line Status:</td><td><div id=\"status\" >$icon</div></td></tr>\n";
 
 print "<tr><td>&nbsp</td></tr>\n";
 print "<tr><td colspan=\"2\"><div id=\"comment\">$comment{$provider_current}</div></td></tr>\n";
