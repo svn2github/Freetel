@@ -179,7 +179,9 @@ foreach $s (sort keys %sip) {
 
 print '<tr><td>&nbsp;</td></tr>';
 print "<tr><td colspan=\"2\" onMouseOver=\"popUp(event,'phone_addipphone')\" onmouseout=\"popUp(event,'phone_addipphone')\">";
-print "<a href=\"ipphones.sh\">Add IP Phone</a></td><td></td><td><input type=\"submit\" value=\"Update Reception\"></td></tr>";
+
+$tooltip_update_reception = "onMouseOver=\"popUp(event,'phone_update_reception')\" onmouseout=\"popUp(event,'phone_update_reception')\"";
+print "<a href=\"ipphones.sh\">Add IP Phone</a></td><td></td><td $tooltip_update_reception><input type=\"submit\" value=\"Update Reception\"></td></tr>";
 
 $tool_tip = "onMouseOver=\"popUp(event,'phone_lines')\" onmouseout=\"popUp(event,'phone_lines')\"";
 

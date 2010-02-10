@@ -150,7 +150,7 @@ IP0X, which is upwards compatable to x86.
 Installation
 ------------
 
-Note: this process may overwrite your Asterisk extensions.conf and
+NOTE: this process may overwrite your Asterisk extensions.conf and
 sip.conf files - back them up if you have an existing Asterisk
 installation that you want to keep.  The IP0X ipkg does attempt to
 backup the modified conf files to *.bak but no guarantees....
@@ -171,22 +171,37 @@ root~> ipkg install mini-asterisk
 x86 Installation
 ~~~~~~~~~~~~~~~~
 
-. You need a web server, Asterisk and some sort of Perl installed
+You need a web server, Asterisk and some sort of Perl installed
 (very basic Perl installation is fine).  Configure your web server to
-run CGIs (.sh and .pl) from your server root (lighttpd config
-instructions below).
+run CGIs (.sh and .pl) from your server root.  Lighttpd config
+instructions are below.
 
 Mini Asterisk expects all files (shell, perl, html etc) to be in the
 same directory.  If you find this painful please <<support, let me know>>.
 
-. The process below places the web files in /var/www, you may like to
+The process below places the web files in /var/www, you may like to
 place the files somewhere else.  One of the files is named index.html
 so make sure you don't overwrite an existing index.html.
 
-. Login as root to install the Mini Asterisk files:
+. Login as root.
+
+. If you haven't done so already install Asterisk 1.4.x:
 +
-Remember to backup your existing extensions.conf & sip.conf in
-/etc/asterisk
+-------------------------------------------------------------------
+# wget http://downloads.asterisk.org/pub/telephony/asterisk/old-releases/asterisk-1.4.11.tar.gz
+# tar xvzf asterisk-1.4.11.tar.gz
+# cd asterisk-1.4.11
+# ./configure
+# make
+# make install
+# make samples
+-------------------------------------------------------------------
+
+. If you have a running Asterisk installation backup your existing
+extensions.conf & sip.conf in /etc/asterisk
+
+. Installation of Mini Asterisk is basically copying the cgi-bin and etc/asterisk
+files:
 +
 -------------------------------------------------------------------
 # cd ~ 
@@ -205,8 +220,8 @@ The .def copies are required by the "reset defaults" feature on the
 admin screen.
 
 . It's a good idea to switch off the internal Asterisk web server by editing
-/etc/asterisk.httpd.conf.  Make sure the enabled line reads like this:
-
+/etc/asterisk/http.conf.  Make sure the enabled line reads like this:
++
    enabled=no
 +
 Then stop and restart Asterisk.
@@ -214,13 +229,11 @@ Then stop and restart Asterisk.
 -------------------------------------------------------------------
 # /etc/init.d/asterisk restart
 -------------------------------------------------------------------
-+
-. I use lighttpd as the web server.  On my x86 box I needed to install
-a sym-link and edit the 10-cgi.conf file:
+
+. I use lighttpd as the web server.  To enable CGI support:
 +
 -------------------------------------------------------------------
-# cd /etc/lighttpd/conf-enabled
-# ln -s ../conf-available/10-cgi.conf .
+# lighty-enable-mod cgi
 -------------------------------------------------------------------
 +
 I then modified 10-cgi-conf to enable perl and shell scripts:
