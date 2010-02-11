@@ -20,7 +20,12 @@ fi
 
 cat /proc/cpuinfo | grep "CPU:.*ADSP" > /dev/null
 if [ ! $? -eq 0 ]; then
-    echo "<html>Sorry, Network configuration is only supported on the IP0X</html>"
+cat <<EOF
+    <html>
+    Sorry, Network configuration is only supported on the IP0X.  Anyway you 
+    probably have a good way of setting up your network already.
+    </html>
+EOF
     exit
 fi
 
