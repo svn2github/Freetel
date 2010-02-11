@@ -97,7 +97,7 @@ foreach (@providers) {
     print "hosts[\'$_\'] = \'$host{$_}\';\n";
     print "users[\'$_\'] = \'$user{$_}\';\n";
     print "passwords[\'$_\'] = \'$pass{$_}\';\n";
-    print "comments[\'$_\'] = \"$comment{$_}\";\n";
+    print "comments[\'$_\'] = \'$comment{$_}\';\n";
 }
 print "</script>\n";
 

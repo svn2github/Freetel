@@ -146,6 +146,9 @@ The msh shell on the IP0X is fairly basic (no functions, several
 quirks).  The shell script has been coded so that it runs OK on the
 IP0X, which is upwards compatable to x86.
 
+You can customise Mini Asterisk by adding your own banner to in
+banner.html.
+
 [[install]]
 Installation
 ------------
@@ -272,11 +275,13 @@ cgi.assign = ( ".sh" => "/bin/sh",".pl" => "/usr/bin/perl" )
 Contributions
 -------------
 
-I especially welcome sip.conf entries for your favourite ITSP (VOIP
+. I especially welcome sip.conf entries for your favourite ITSP (VOIP
 service) to help populate the Provider field of the
 link:mini/voiplines.sh.html[Voip Line Screen].
 
-Suggestions and patches for new features are also very welcome.
+. Suggestions and patches for new features are also very welcome.
+
+. Help making the web pages look nicer.
 
 [[support]]
 Support

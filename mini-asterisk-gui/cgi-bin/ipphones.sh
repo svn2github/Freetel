@@ -16,7 +16,19 @@ if [ $? -eq 1 ]; then
 fi
 
 more=`echo "$QUERY_STRING" | grep -oe "more=[^&?]*" | sed -n "s/more=//p"`
-ipaddress=`ifconfig | sed -n 's/.*inet addr:\(.*\)  Bcast.*/\1/p' | head -n 1`
+
+# Build list of interface IPs based on what sort of machine we are
+# running on.  For IP0X we just print the IP of the first interface.
+# For other machines the situation is a bit more complex so we print
+# all of them.  I figure anyone with multiple interfaces will know
+# enough about what they are doing to figure out the right one to use.
+
+ipaddress=`ifconfig | sed -n 's/.*inet addr:\(.*\)  Bcast.*/\1/p'`
+
+cat /proc/cpuinfo | grep "CPU:.*ADSP" > /dev/null
+if [ $? -eq 0 ]; then
+    ipaddress=`echo $ipaddress | awk '{ print $1 }'`
+fi
 
 # Construct the web page -------------------------------
 
