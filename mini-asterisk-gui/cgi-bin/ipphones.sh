@@ -64,11 +64,16 @@ cat <<EOF
       <tr onMouseOver="popUp(event,'phone_ipaddress')" onmouseout="popUp(event,'phone_ipaddress')">
 	  <td colspan="3">Phone System IP Address:</td>
 EOF
-echo "<td>$ipaddress</td></tr><td>&nbsp;</td><tr></tr>"
+echo "<td>"
+echo $ipaddress | sed -n 's/ /<br>/p'
+echo "</td>"
+
+# make nice tooltips for multiple ip interfaces on some x86 boxes
+ipaddress=`echo $ipaddress | sed -n 's/ / or /p'`
 
     # use perl to construct list of IP phones for us
     asterisk "-rx sip show peers" 2>/dev/null > sipshowpeers.txt
-    perl ipphones.pl $ipaddress $more
+    perl ipphones.pl "$ipaddress" $more
 
 cat <<EOF
     </table>

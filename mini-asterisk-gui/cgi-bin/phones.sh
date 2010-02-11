@@ -37,7 +37,7 @@ ipaddress=`ifconfig | sed -n 's/.*inet addr:\(.*\)  Bcast.*/\1/p'`
 
 cat /proc/cpuinfo | grep "CPU:.*ADSP" > /dev/null
 if [ $? -eq 0 ]; then
-    ipaddress=`echo $ipaddress |  awk '{ print $1 }'`
+    ipaddress=`echo $ipaddress | awk '{ print $1 }'`
 fi
 
 # Construct the web page -------------------------------
@@ -80,7 +80,9 @@ cat <<EOF
       <tr onMouseOver="popUp(event,'phone_ipaddress')" onmouseout="popUp(event,'phone_ipaddress')">
 	  <td colspan="4">Phone System IP Address:</td>
 EOF
-echo "<td>$ipaddress</td>"
+echo "<td>"
+echo $ipaddress | sed -n 's/ /<br>/p'
+echo "</td>"
 cat <<EOF
       </tr>
       <tr><td>&nbsp</td></tr>
