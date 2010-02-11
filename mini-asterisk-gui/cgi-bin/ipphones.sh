@@ -28,6 +28,14 @@ ipaddress=`ifconfig | sed -n 's/.*inet addr:\(.*\)  Bcast.*/\1/p'`
 cat /proc/cpuinfo | grep "CPU:.*ADSP" > /dev/null
 if [ $? -eq 0 ]; then
     ipaddress=`echo $ipaddress | awk '{ print $1 }'`
+    ipaddress_system=$ipaddress
+    ipaddress_tooltip=$ipaddress
+else
+    ipaddress_system=`echo $ipaddress | sed -n 's/ /<br>/p'`
+
+    # make nice tooltips for multiple ip interfaces on some x86 boxes
+
+    ipaddress_tooltip=`echo $ipaddress | sed -n 's/ / or /p'`
 fi
 
 # Construct the web page -------------------------------
@@ -64,16 +72,11 @@ cat <<EOF
       <tr onMouseOver="popUp(event,'phone_ipaddress')" onmouseout="popUp(event,'phone_ipaddress')">
 	  <td colspan="3">Phone System IP Address:</td>
 EOF
-echo "<td>"
-echo $ipaddress | sed -n 's/ /<br>/p'
-echo "</td>"
-
-# make nice tooltips for multiple ip interfaces on some x86 boxes
-ipaddress=`echo $ipaddress | sed -n 's/ / or /p'`
+echo "<td>$ipaddress_system</td>"
 
     # use perl to construct list of IP phones for us
     asterisk "-rx sip show peers" 2>/dev/null > sipshowpeers.txt
-    perl ipphones.pl "$ipaddress" $more
+    perl ipphones.pl "$ipaddress_tooltip" $more
 
 cat <<EOF
     </table>

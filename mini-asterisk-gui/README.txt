@@ -283,6 +283,8 @@ link:mini/voiplines.sh.html[Voip Line Screen].
 
 . Help making the web pages look nicer.
 
+. Configuration instructions (even photos) for other IP phones.
+
 [[support]]
 Support
 -------
