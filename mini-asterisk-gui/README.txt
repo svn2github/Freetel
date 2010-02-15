@@ -144,7 +144,7 @@ shell script and HTML, with a little Perl for the text processing.
 
 The msh shell on the IP0X is fairly basic (no functions, several
 quirks).  The shell script has been coded so that it runs OK on the
-IP0X, which is upwards compatable to x86.
+IP0X, which is upwards compatible to x86.
 
 You can customise Mini Asterisk by adding your own banner to in
 banner.html.
@@ -316,7 +316,7 @@ Testing and debugging scripts
 +
 
 However this is a bit slow.  So when editing on an x86 host and testing
-on an IP0X I use dthe M-! command on Emacs that lets you execute a
+on an IP0X I used the M-! command on Emacs that lets you execute a
 shell command.  I use this to download just the single the shell file
 I am working on, e.g. "scp admin.sh root@ip04".
 
