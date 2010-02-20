@@ -85,6 +85,8 @@ cat <<EOF
     <h3>1. Atcom AT-530</h3>
 EOF
 cat at-530.html
+echo "<h3>2. Atcom AT-620R</h3>"
+cat at-620r.html
 cat <<EOF
      </td>
     </tr>
