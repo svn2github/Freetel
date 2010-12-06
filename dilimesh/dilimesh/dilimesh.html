@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<style type="text/css">
+  html { height: 100% }
+  body { height: 100%; margin: 0px; padding: 0px }
+  #map_canvas { height: 100% }
+</style>
+<title>Dili Mesh</title>
+
+<link rel="stylesheet" type="text/css" href="dilimesh.css">
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+
+<script type="text/javascript">
+ 
+  /*
+     dilimesh.html
+     David Rowe 
+     Dec 4 2010
+
+     Simple mesh network mapping application used as a test bed for debugging
+     problem links in the Dili Village Telco.  
+
+     See dilimesh README.txt for more information.
+  */
+
+  var map;
+
+  // cookie params
+
+  var cookiename = "dilimesh0001";
+  var cookieexpy = 7;
+
+  // these are stored in cookie, with default values
+
+  var lat = 0;
+  var lng = 0;
+  var myzoom = 2;
+  var vis_server_ip = "192.168.1.100";
+  var update_enable = 0;
+  var update_time = 5;
+  var debug_enable  = 0;  
+
+  // state variables we use while dragging
+
+  var dragIp;
+  var drag_packet_loss;
+  var drag_in_progress;
+ 
+  var pathes = []; // array of lines, used to delete them
+  var vis    = []; // array of vis server information
+  var nodes  = []; // database of nodes we keep in memory
+                   // mirrors nodes.txt but also store marker locations
+
+  // Called when we load page
+
+  function initialize() {
+
+    // we use our cookie as a mini-databse for map location, 
+    // control panel values etc
+ 
+    getCookie();
+
+    var myLatlng = new google.maps.LatLng(lat, lng);
+    var myOptions = {
+      zoom: myzoom,
+      center: myLatlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    }
+    map = new google.maps.Map(document.getElementById("main-map"), myOptions);
+
+    //google.maps.event.addListener(map, 'click', function(event) {
+    //  placeMarker(event.latLng);
+    //});
+
+    // set up initial form values
+
+    document.control_panel.vis_server_ip.value = vis_server_ip;
+    document.control_panel.update_time.value = update_time;
+    document.control_panel.update_enable.checked = update_enable;
+    document.control_panel.debug_enable.checked = debug_enable;
+    var html = '<a href="/cgi-bin/getvis.cgi?ip=' + vis_server_ip + ' ">Test Vis Server Connection</a>';
+    document.getElementById('test_vis_server').innerHTML = html;
+
+    // read from nodes.txt database text file on server and init map
+    
+    downloadUrl("/cgi-bin/getnodes.cgi", processMarkers);
+  }
+
+
+  // Slurp up nodes.txt when web pages loads
+
+  processMarkers = function(doc, status) {
+    log("processMarkers");
+
+    // split the document into lines
+
+    var lines = doc.split("\n");
+    for (var i=0; i<lines.length; i++) {
+      if (lines[i].length > 1) {
+
+        // split each line into parts separated by "," and use the contents
+
+        parts = lines[i].split(",");
+        if (parts.length > 1) {
+          var lat = parseFloat(parts[0]);
+          var lng = parseFloat(parts[1]);
+          var ip = parts[2];
+          if (ip == undefined) {
+            ip = "";
+          }
+
+          // sanity check, make sure no duplicate IPs
+   
+          if (dupIp(ip))
+            log("Error - Duplicate IP " + ip + " in nodes.txt");
+          else
+            addNewNode(lat, lng, ip, false);
+        }
+      }
+    }
+
+    // initial map display
+ 
+    poll();       
+
+    // kick off timer process that periodically fires off vis and fping CGIs
+
+    timer();
+  }
+
+
+  // check for duplicate IPs
+
+  function dupIp(ip) {
+
+    if ( (ip == undefined) || (ip == ""))
+      return false;
+
+    // walk nodes list looking for this IP
+
+    for (var j=0; j<nodes.length; j++) {
+        if (nodes[j].ip == ip) {
+          return true;
+        }
+      }
+
+    return false;
+
+  }
+
+
+  // Process the Vis server information 
+
+  processVis = function(doc, status) {
+    log("processVis");
+
+    if (drag_in_progress)
+      return;
+
+    // extract the JSON lines from doc returned by getvis.cgi
+    // there is surely a better way to do this but I am a JSON noob
+
+    var lines = doc.split("\n");
+    var vis_str = "vis = {data: [\n";
+    for (var i=0; i<lines.length; i++) {
+      if (lines[i].length > 1) {
+        if (lines[i].indexOf('{') != -1) {
+          vis_str = vis_str + lines[i] + "\n";
+        }
+      }
+    }
+    
+    vis_str = vis_str + "]\n};"
+    eval(vis_str); // run time compilation of JSON string
+    
+    // OK now we have an array that we can parse for new nodes
+
+    // walk vis list by router
+
+    var new_nodes = 0;
+    for (var i=0; i<vis.data.length; i++) {
+
+      // see if this node exists in our database
+ 
+      var node_exists = 0;
+      for (var j=0; j<nodes.length; j++) {
+ 
+        if (vis.data[i].router == nodes[j].ip) {
+          node_exists = 1;
+        }
+      }    
+
+      // create node if it doesn't exists already
+
+      if (node_exists == 0) {
+         // small offset makes sure we don't create them all on one spot
+         var location = new google.maps.LatLng(lat + 1E-3*nodes.length, lng);
+         placeMarker(location, vis.data[i].router, true);
+      }
+    }
+
+    // walk vis list by neighbour
+
+    for (var i=0; i<vis.data.length; i++) {
+
+      if (vis.data[i].neighbour != undefined) {
+
+        // see if this node exists in our database
+ 
+        var node_exists = 0;
+        for (var j=0; j<nodes.length; j++) {
+ 
+          if (vis.data[i].neighbour == nodes[j].ip) {
+            node_exists = 1;
+          }
+        }    
+
+        // create node if it doesn't exists already
+
+        if (node_exists == 0) {
+          // small offset makes sure we don't create them all on one spot
+          var location = new google.maps.LatLng(lat + 1E-5*nodes.length, lng);
+          placeMarker(location, vis.data[i].neighbour, true);
+        }
+      }
+    }
+
+    // now all nodes are logged in text file and nodes database
+    // lets see if we any have routes between them
+
+    //drawPathesBetweenNodes();
+  }
+
+ 
+  function poll() {
+
+    // fire off vis server CGI
+
+    downloadUrl("/cgi-bin/getvis.cgi?ip=" + vis_server_ip, processVis);
+ 
+    // fire off fping CGI
+
+    var ips = "ip=";
+    for (var j=0; j<nodes.length; j++) {
+      if (nodes[j].ip != "") {
+        ips = ips + nodes[j].ip;
+        if (j != (nodes.length-1)) {
+          ips = ips + ",";
+        }
+      }
+    }    
+						  
+    if (ips != "") {
+      downloadUrl("/cgi-bin/fpingnodes.cgi?" + ips, processFping);						  
+
+      // set up HTML for ping tests of all nodes
+    
+      var html = '<a href="/cgi-bin/fpingnodes.cgi?' + ips + ' ">Ping nodes</a>';
+      document.getElementById('ping_nodes').innerHTML = html;
+    }
+
+  }
+
+
+  function timer() {
+    var today=new Date();
+    var h=today.getHours();
+    var m=today.getMinutes();
+    var s=today.getSeconds();
+
+    // set time, add a zero in front of numbers < 10
+
+    m=checkTime(m);
+    s=checkTime(s);
+    document.getElementById('time').innerHTML=h+":"+m+":"+s;
+
+    if (update_enable)
+      poll();
+
+    // restart this timer after update_time seconds
+   
+    t=setTimeout('timer()',update_time*1000);
+  }
+
+
+  function checkTime(i) {
+    if (i<10) {
+      i="0" + i;
+    }
+    return i;
+  }
+
+
+  function processFping(doc, status) {
+
+    //log("processFping");
+
+    if (drag_in_progress)
+      return;
+
+    // walk node list and set colour depending on ping stats
+
+    var nodes_reachable = 0;
+    var nodes_poor_packet_loss = 0;
+    for (var j=0; j<nodes.length; j++) {
+      if (doc.indexOf(nodes[j].ip) == -1) {
+        // no ping from node
+        nodes[j].marker.setIcon("node_dead.png");
+        // update IIR averaging filter
+        nodes[j].packet_loss = 0.875*nodes[j].packet_loss + 0.125;
+        //log("  no ping, packet_loss = " + nodes[j].packet_loss);
+      }
+      else {
+
+        // update IIR averaging filter
+
+        nodes[j].packet_loss = 0.875*nodes[j].packet_loss;
+        nodes_reachable++;
+        //log("  ping, packet_loss = " + nodes[j].packet_loss);
+
+      }
+
+      // Change icon based on packet loss
+
+      if (nodes[j].packet_loss < 0.1) {
+           nodes[j].marker.setIcon("node_good.png");
+      }
+      if ((nodes[j].packet_loss > 0.1) && (nodes[j].packet_loss < 0.9)) {
+        nodes[j].marker.setIcon("node_packet_loss.png");
+        nodes_poor_packet_loss++;
+      }
+      if (nodes[j].packet_loss > 0.9) {
+        nodes[j].marker.setIcon("node_dead.png");
+        nodes_poor_packet_loss++;
+      }
+						  
+      //log("  nodes[j].packet_loss");
+
+      var packet_loss_formatted = Math.round(nodes[j].packet_loss*100);
+
+      nodes[j].marker.setTitle(nodes[j].ip + ' Packet Loss: ' + packet_loss_formatted + '%');  
+      nodes[j].infowindow.setContent(nodes[j].ip + '<br>Packet Loss: ' + packet_loss_formatted + '%');  
+    }  
+
+    document.getElementById('nodes_total').innerHTML = nodes.length;
+    document.getElementById('nodes_reachable').innerHTML = nodes_reachable;  
+    document.getElementById('nodes_poor_packet_loss').innerHTML = nodes_poor_packet_loss;  
+  }
+
+
+  function trim(stringToTrim) {
+	return stringToTrim.replace(/^\s+|\s+$/g,"");
+  }
+
+  // process signal strengths from CGI
+
+  function processgetSig(doc, status) {
+    log("processgetSig");
+   
+    // extract our lines from the HTML
+
+    var lines = doc.split("\n");
+    var ip;
+    var neighour_ips;
+    var neighour_sigs
+    var text_line = 0;
+    for (var j=0; j<lines.length; j++) {
+
+      // look for the three lines we want, these don't have '<' on them
+      // must a better way to grok html....
+
+      if ((lines[j].indexOf('<') == -1) && (lines[j] != "")) {
+        if (text_line == 0)
+          ip = lines[j];
+        if (text_line == 1)
+          neighour_ips = lines[j].split(" ");
+        if (text_line == 2)
+          neighour_sigs = lines[j].split(" ");
+        text_line++;
+      }
+    }
+
+    // walk nodes list match ip
+
+    for (var j=0; j<nodes.length; j++) {
+
+      if (nodes[j].ip == ip) {
+
+        // update info window
+
+        var packet_loss_formatted = Math.round(nodes[j].packet_loss*100);
+        var content = nodes[j].ip;
+        content += '<br>Packet Loss: ' + packet_loss_formatted + '%<br>';
+ 
+        if (text_line == 3) {
+          for(var i=0; i<neighour_ips.length; i++) {
+            content += '<br>' + trim(neighour_ips[i]) + ': ' + trim(neighour_sigs[i+1]) + ' dBm';   
+          }
+        }
+        else {
+          // check for error conditions
+
+          content += "<br>(No route or no sig strength daemon on that node)";
+        }
+
+        nodes[j].infowindow.setContent(content);        
+      }    
+    }
+  }
+
+
+  // draw lines indicating links between nodes 
+
+  function drawPathesBetweenNodes() {
+
+    // delete all exisiting paths, this is inefficient but is OK for a first pass
+      
+    if (pathes) {
+      for (j in pathes) {
+        pathes[j].setMap(null);
+      }
+      pathes.length = 0;
+    }
+
+    // walk vis array looking for routes, I think this actually draws
+    // routes twice
+
+    for (var i=0; i<vis.data.length; i++) {
+   
+      if (vis.data[i].neighbour != undefined) {
+ 
+        // this entry in vis array has a route and a neighbour
+
+        router_ip = vis.data[i].router;
+        neighbour_ip = vis.data[i].neighbour;
+
+        // walk nodes list to find router location on map
+
+        var router_location;
+        for (var j=0; j<nodes.length; j++) {
+ 
+          if (router_ip == nodes[j].ip) {
+            router_location = nodes[j].marker.position;
+          }
+        }    
+
+        // walk nodes list to find neighbour location on map
+
+        var neighbour_location;
+        for (var j=0; j<nodes.length; j++) {
+ 
+          if (neighbour_ip == nodes[j].ip) {
+            neighbour_location = nodes[j].marker.position;
+          }
+        }    
+
+	if ((router_location != undefined) && (neighbour_location != undefined)) {
+          // draw polyline between locations
+
+          var coords = [
+            router_location,
+            neighbour_location
+          ];
+          var path = new google.maps.Polyline({
+            path: coords,
+            strokeColor: "#008000",
+            strokeOpacity: 1.0,
+            strokeWeight: 2
+          });
+          path.setMap(map);
+
+          pathes.push(path);
+        }  
+      }          
+    }
+  }
+
+
+  // sets up map side for new Node
+  // adds node to nodes[] array but doesn't write to text file
+
+  function addNewNode(lat, lng, newIp, isNewNode) {
+
+    // create the marker
+
+    var location = new google.maps.LatLng(lat, lng);
+    var newMarker = new google.maps.Marker(
+      {position: location, 
+       map: map, 
+       draggable: true,
+       title: newIp,
+       icon: "node_good.png" });
+
+    if (isNewNode) {
+      newMarker.setAnimation(google.maps.Animation.BOUNCE);
+    }
+
+    // add to nodes array
+
+    var newInfoWindow = new google.maps.InfoWindow(
+      { content: newIp,
+        maxWidth: 20
+      });
+    var newNode = {marker : newMarker, 
+                   ip: newIp, 
+                   infowindow: newInfoWindow, 
+                   packet_loss: 0.0};
+    nodes.push(newNode); 
+
+    // add listeners
+
+    google.maps.event.addListener(newMarker, "dragstart", function() {
+
+      drag_in_progress = 1;
+
+      // remove node from nodes array
+
+      var new_nodes = [];
+      for (var j=0; j<nodes.length; j++) {
+        if (nodes[j].marker.position != newMarker.position) {
+          new_nodes.push(nodes[j]);
+        }
+        else {
+          // preserve some states for when we drop it
+          dragIp = nodes[j].ip;
+          drag_packet_loss = nodes[j].packet_loss;
+        }
+      }
+      nodes = new_nodes;
+
+      // delete node from text file
+
+      var url;
+      url = "/cgi-bin/delnode.cgi?" + "lat=" + this.position.ya + "&" + "lng=" +
+             this.position.za;
+      downloadUrl(url, function(doc) { });
+    });
+
+    google.maps.event.addListener(newMarker, "dragend", function() {
+
+      // stop any bouncing
+      newMarker.setAnimation(null);
+
+      // add node to nodes array
+
+      var newInfoWindow = new google.maps.InfoWindow(
+        {  content: dragIp,
+           maxWidth: 20
+        });
+      var newNode = {marker : newMarker, 
+                     ip: dragIp, 
+                     infowindow: newInfoWindow, 
+                     packet_loss: drag_packet_loss
+      };
+      nodes.push(newNode); 
+     
+      // add node to text file
+
+      var url;
+      url = "/cgi-bin/addnode.cgi?" + "lat=" +  this.position.ya + "&" + "lng=" +
+            this.position.za + "&" + "ip=" + dragIp;
+      downloadUrl(url, function(doc) { });
+
+      drawPathesBetweenNodes();
+
+      drag_in_progress = 0;
+    });
+
+    google.maps.event.addListener(newMarker, "click", function() {
+
+      // walk node list to find our InfoWindow
+
+      for (var j=0; j<nodes.length; j++) {
+        if (nodes[j].marker.position == newMarker.position) {
+          nodes[j].infowindow.open(map, newMarker);
+        }
+      }    
+
+    });
+
+    google.maps.event.addListener(newMarker, "rightclick", function() {
+
+      // remove node from nodes array
+
+      var new_nodes = [];
+      for (var j=0; j<nodes.length; j++) {
+        if (nodes[j].marker.position != newMarker.position) {
+          new_nodes.push(nodes[j]);
+        }
+      }
+      nodes = new_nodes;
+
+      // delete node from text file
+
+      var url;
+      url = "/cgi-bin/delnode.cgi?" + "lat=" +  this.position.ya + "&" + "lng=" +  this.position.za;
+      downloadUrl(url, function(doc) { });
+      this.setMap(null);
+
+      drawPathesBetweenNodes();
+
+    });
+
+  }
+
+
+  // save our map location and zoom using a cookie
+
+  function setCookie() {
+    var cookietext = cookiename;
+    cookietext += "=" + map.getCenter().lat();
+    cookietext += "|" + map.getCenter().lng() + "|" + map.getZoom();
+    cookietext += "|" + vis_server_ip + "|" + update_time;
+    cookietext += "|" + update_enable + "|" + debug_enable;
+    if (cookieexpy) {
+      var exdate=new Date();
+      exdate.setDate(exdate.getDate()+cookieexpy);
+      cookietext += ";expires="+exdate.toGMTString();
+    }
+    
+    // write the cookie
+
+    document.cookie = cookietext;
+  }
+
+
+  // Grab a bunch of config info from our cookie
+
+  function getCookie() {
+    if (document.cookie.length>0) {
+      cookieStart = document.cookie.indexOf(cookiename + "=");
+      if (cookieStart!=-1) {
+        cookieStart += cookiename.length+1; 
+        cookieEnd=document.cookie.indexOf(";",cookieStart);
+        if (cookieEnd==-1) {
+          cookieEnd=document.cookie.length;
+        }
+        cookietext = document.cookie.substring(cookieStart,cookieEnd);
+ 
+        // split the cookie text and create the variables
+
+        bits = cookietext.split("|");
+        lat = parseFloat(bits[0]);
+        lng = parseFloat(bits[1]);
+        myzoom = parseInt(bits[2]);
+        vis_server_ip = (bits[3]);
+        update_time = parseInt(bits[4]);
+        update_enable = parseInt(bits[5]);
+        debug_enable = parseInt(bits[6]);
+      } 
+    }
+  }
+
+
+  // called when we click to add a node on map
+  // not used much as normally we auto-detect new nodes from Vis server
+
+  function placeMarker(location, ip, isNewNode) {
+    if (ip == undefined) {
+      ip = "";
+    }
+    if (isNewNode == undefined) {
+      isNewNode = false;
+    }
+
+    addNewNode(location.ya, location.za, ip, isNewNode);
+
+    // save to marker file by calling a CGI
+
+    var url;
+    url = "/cgi-bin/addnode.cgi?" + "lat=" + location.ya + "&" + "lng=" + location.za + "&" + "ip=" + ip;
+    downloadUrl(url, function(doc) { });
+  }
+  
+ 
+  /**
+  * Returns an XMLHttp instance to use for asynchronous
+  * downloading. This method will never throw an exception, but will
+  * return NULL if the browser does not support XmlHttp for any reason.
+  * @return {XMLHttpRequest|Null}
+  */
+  function createXmlHttpRequest() {
+    try {
+      if (typeof ActiveXObject != 'undefined') {
+        return new ActiveXObject('Microsoft.XMLHTTP');
+      } else if (window["XMLHttpRequest"]) {
+        return new XMLHttpRequest();
+      }
+     } catch (e) {
+     changeStatus(e);
+     }
+   return null;
+  };
+
+  /**
+  * This functions wraps XMLHttpRequest open/send function.
+  * It lets you specify a URL and will call the callback if
+  * it gets a status code of 200.
+  * @param {String} url The URL to retrieve
+  * @param {Function} callback The function to call once retrieved.
+  */
+  function downloadUrl(url, callback) {
+    var status = -1;
+    var request = createXmlHttpRequest();
+    if (!request) {
+      return false;
+    }
+
+    request.onreadystatechange = function() {
+      if (request.readyState == 4) {
+        try {
+          status = request.status;
+        } catch (e) {
+          // Usually indicates request timed out in FF.
+        }
+        if (status == 200) {
+          callback(request.responseText, request.status);
+          request.onreadystatechange = function() {};
+        }
+      }
+    }
+    request.open('GET', url, true);
+    try {
+      request.send(null);
+    } catch (e) {
+      changeStatus(e);
+    }
+  };
+
+  function log(message) {
+    if (debug_enable == 1) {
+      message_list = document.getElementById("debugging_messages");
+      log_message = document.createTextNode(message);
+      log_list_item = document.createElement('li');
+      log_list_item.appendChild(log_message);
+      message_list.appendChild(log_list_item);
+    }
+  }
+
+  function debugClicked() {
+    if (document.control_panel.debug_enable.checked)
+      debug_enable = 1;
+    else
+      debug_enable = 0;
+  }
+
+  function updateEnableClicked() {
+    if (document.control_panel.update_enable.checked)
+      update_enable = 1;
+    else
+      update_enable = 0;
+  }
+
+  function setVisServerIp() {
+    vis_server_ip = document.control_panel.vis_server_ip.value;
+    var html = '<a href="/cgi-bin/getvis.cgi?ip=' + vis_server_ip + ' ">Test Vis Server Connection</a>';
+    document.getElementById('test_vis_server').innerHTML = html;
+  }
+
+  function setUpdateTime() {
+    update_time = document.control_panel.update_time.value;
+  }
+
+</script>
+
+</head>
+<body onload="initialize()" onunload="setCookie()">
+
+  <div id="main-map">
+  </div>
+
+  <div id="side">
+
+    <div id="stats" style="width: 100%;">
+      <h3>Network Stats</h3>
+        <table>
+	  <tr><td width="5%"></td><td>Time</td><td><div id="time"></div></td><tr>
+	  <tr><td></td><td>Nodes Reachable</td><td><div id="nodes_reachable"></div></td><tr>
+	  <tr><td></td><td>Nodes Poor Packet Loss</td><td><div id="nodes_poor_packet_loss"></div></td><tr>
+	  <tr><td></td><td>Nodes Total</td><td><div id="nodes_total"></div></td><tr>
+        </table>
+    </div>
+
+    <div id="control" style="width: 100%;">
+      <h3>Contol Panel</h3>
+      <form name="control_panel">
+        <table>
+        <tr>
+	<tr>
+          <td width="5%">
+          <td>Visualisation Server IP</td>
+          <td colspan="2"><input type="text" name="vis_server_ip" size="15"></td>
+          <td width="50"><input type="submit" value="Set" onclick="setVisServerIp()"></td>
+        </tr>
+        <tr>
+          <td></td>
+	  <td>Update Enable</td>
+          <td><input type="checkbox" name="update_enable" value="1" onclick="updateEnableClicked()"></td>
+        </tr>
+        <tr>
+          <td></td>
+	  <td>Update Time (s)</td>
+          <td><input type="text" name="update_time" size="3"></td>
+          <td width="30%"></td>
+          <td width="50"><input type="submit" value="Set" onclick="setUpdateTime()"></td>
+        </tr>
+        <tr>
+	  <td></td>
+          <td>Debug Messages</td>
+          <td><input type="checkbox" name="debug_enable" onclick="debugClicked()"></td>
+        </tr>
+        <table>
+      </form>
+    </div>
+
+    <div id="tests" style="width: 100%;">
+      <h3>Tests</h3>
+      <ol>
+	<li><a href="/cgi-bin/getnodes.cgi">Test nodes.txt database</a><br>
+        <li><div id="test_vis_server">&nbsp</div>
+        <li><div id="ping_nodes">&nbsp</div>
+      </ol>
+    </div>
+
+    <div id="debugging_output" style="width: 100%;">
+      <h3>Debugging Output</h3>
+      <ol id="debugging_messages">
+      </ol>
+    </div>
+  </div>
+
+
+</body>
+</html>
