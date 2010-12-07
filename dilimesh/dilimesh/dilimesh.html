@@ -358,12 +358,17 @@
       var packet_loss_formatted = Math.round(nodes[j].packet_loss*100);
 
       nodes[j].marker.setTitle(nodes[j].ip + ' Packet Loss: ' + packet_loss_formatted + '%');  
-      var html = nodes[j].ip + '<br>Packet Loss: ' + packet_loss_formatted + '%';
+      var html  = '<table>';
+          html += '<tr><th>' + nodes[j].ip + '</th></tr>';
+          html += '<tr><td>Packet Loss</td><td>' + packet_loss_formatted + '%</td></tr>';
       if (nodes[j].neighbour_ips != undefined) {
         for(var i=0; i<nodes[j].neighbour_ips.length; i++) {
-          html += '<br>' + trim(nodes[j].neighbour_ips[i]) + ' ' + trim(nodes[j].neighbour_sigs[i]) + ' dBm';
+          html += '<tr><td>' + trim(nodes[j].neighbour_ips[i]) + '</td><td>';
+          html += trim(nodes[j].neighbour_sigs[i]) + ' dBm</td><td>';
 	}
       }
+      html += '</table>';
+
       nodes[j].infowindow.setContent(html);  
     }  
 
@@ -413,12 +418,11 @@
         if (nodes[j].ip == ip) {
           nodes[j].neighbour_ips  = neighbour_ips;
           nodes[j].neighbour_sigs = neighbour_sigs;
-          var html="";
+          var html="<table>";
           for(var i=0; i<neighbour_ips.length; i++) {
-            html += trim(neighbour_ips[i]) + ' ' + trim(neighbour_sigs[i]) + ' dBm';
-            if (i != (neighbour_ips.length-1))
-              html += '<br>';
+            html += '<tr><td>' + trim(neighbour_ips[i]) + '</td><td>' + trim(neighbour_sigs[i]) + ' dBm</td></tr>';
 	  }
+          html += '</table>';
 	  document.getElementById('sigstr_last_node').innerHTML = ip;
 	  document.getElementById('sigstr_results').innerHTML = html;
         }    
@@ -431,7 +435,7 @@
 
   function drawPathesBetweenNodes() {
 
-    // delete all exisiting paths, this is inefficient but is OK for a first pass
+    // delete all existing paths, this is inefficient but is OK for a first pass
       
     if (pathes) {
       for (j in pathes) {
@@ -516,8 +520,7 @@
     // add to nodes array
 
     var newInfoWindow = new google.maps.InfoWindow(
-      { content: newIp,
-        maxWidth: 20
+      { content: newIp
       });
     var newNode = {marker : newMarker, 
                    ip: newIp, 
@@ -562,8 +565,7 @@
       // add node to nodes array
 
       var newInfoWindow = new google.maps.InfoWindow(
-        {  content: dragIp,
-           maxWidth: 20
+        {  content: dragIp
         });
       var newNode = {marker : newMarker, 
                      ip: dragIp, 

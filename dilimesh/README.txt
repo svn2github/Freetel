@@ -152,7 +152,7 @@ Installation
 
 4/ (Optional) Signal strength daemon:
 
-  Copy these scripts to each MP in your mesh that you wish to read sis
+  Copy these scripts to each MP in your mesh that you wish to read sig
   strength from:
   
     $ cd dilimesh/script
