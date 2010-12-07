@@ -85,7 +85,8 @@ Directories
   
   sigstr.sh      - script that runs on MP as a telnet daemon to return signal
                    strength of each node to getsig.cgi.  Experimental.
-
+  S99sigstr      - /etc/init.d Mesh Potato start upscript for sigstr.sh telnet
+                   daemon
 
 Software
 --------
@@ -149,6 +150,22 @@ Installation
     # ps | grep batman
     552 root      1564 S    batmand -s 10.130.1.1 ath0
 
+4/ (Optional) Signal strength daemon:
+
+  Copy these scripts to each MP in your mesh that you wish to read sis
+  strength from:
+  
+    $ cd dilimesh/script
+    $ scp sigstr.sh root@10.130.1.36:/usr/sbin
+    $ scp S99sigstr  root@10.130.1.36:/etc/rc.d
+  
+  Now start daemon on remote machine:
+
+    $ ssh root@10.130.1.36 '/etc/rc.d/S99sigstr'
+
+  Test if deamon is running
+
+   $ telnet 10.130.1.36 4950
 
 Tests
 -----
@@ -196,6 +213,15 @@ Tests
    $ cat /var/www/dilimesh/nodes.txt
    (empty file)
 
+7/ Test signal strength daemon:
+
+   $ telnet 10.130.1.1 4950
+   Trying 10.130.1.36...
+   Connected to 10.130.1.36.
+   Escape character is '^]'.
+
+   10.130.1.1 10.130.1.56 10.130.1.14
+   -64 -90 -75
 
 Using Dilimesh
 --------------

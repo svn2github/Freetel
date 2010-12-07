@@ -49,10 +49,16 @@
   var drag_packet_loss;
   var drag_in_progress;
  
+  // pathes, vis server data, node list
+
   var pathes = []; // array of lines, used to delete them
   var vis    = []; // array of vis server information
   var nodes  = []; // database of nodes we keep in memory
                    // mirrors nodes.txt but also store marker locations
+
+  // states for polling sig strength
+
+  var sigstr_node_index = 0;
 
   // Called when we load page
 
@@ -262,6 +268,16 @@
       document.getElementById('ping_nodes').innerHTML = html;
     }
 
+    // fire off next sig strength
+
+    if (nodes[sigstr_node_index] != undefined) {
+      downloadUrl("/cgi-bin/getsig.cgi?ip=" + nodes[sigstr_node_index].ip, processgetSig);
+      document.getElementById('sigstr_current_node').innerHTML = nodes[sigstr_node_index].ip;
+    }
+ 
+    sigstr_node_index++;
+    if (sigstr_node_index >= nodes.length)
+      sigstr_node_index = 0;
   }
 
 
@@ -342,7 +358,13 @@
       var packet_loss_formatted = Math.round(nodes[j].packet_loss*100);
 
       nodes[j].marker.setTitle(nodes[j].ip + ' Packet Loss: ' + packet_loss_formatted + '%');  
-      nodes[j].infowindow.setContent(nodes[j].ip + '<br>Packet Loss: ' + packet_loss_formatted + '%');  
+      var html = nodes[j].ip + '<br>Packet Loss: ' + packet_loss_formatted + '%';
+      if (nodes[j].neighbour_ips != undefined) {
+        for(var i=0; i<nodes[j].neighbour_ips.length; i++) {
+          html += '<br>' + trim(nodes[j].neighbour_ips[i]) + ' ' + trim(nodes[j].neighbour_sigs[i]) + ' dBm';
+	}
+      }
+      nodes[j].infowindow.setContent(html);  
     }  
 
     document.getElementById('nodes_total').innerHTML = nodes.length;
@@ -376,38 +398,31 @@
         if (text_line == 0)
           ip = lines[j];
         if (text_line == 1)
-          neighour_ips = lines[j].split(" ");
+          neighbour_ips = lines[j].split(" ");
         if (text_line == 2)
-          neighour_sigs = lines[j].split(" ");
+          neighbour_sigs = trim(lines[j]).split(" ");
         text_line++;
       }
     }
 
-    // walk nodes list match ip
-
-    for (var j=0; j<nodes.length; j++) {
-
-      if (nodes[j].ip == ip) {
-
-        // update info window
-
-        var packet_loss_formatted = Math.round(nodes[j].packet_loss*100);
-        var content = nodes[j].ip;
-        content += '<br>Packet Loss: ' + packet_loss_formatted + '%<br>';
+    if (text_line == 3) {
  
-        if (text_line == 3) {
-          for(var i=0; i<neighour_ips.length; i++) {
-            content += '<br>' + trim(neighour_ips[i]) + ': ' + trim(neighour_sigs[i+1]) + ' dBm';   
-          }
-        }
-        else {
-          // check for error conditions
+     // walk nodes list to match ip
 
-          content += "<br>(No route or no sig strength daemon on that node)";
-        }
-
-        nodes[j].infowindow.setContent(content);        
-      }    
+      for (var j=0; j<nodes.length; j++) {
+        if (nodes[j].ip == ip) {
+          nodes[j].neighbour_ips  = neighbour_ips;
+          nodes[j].neighbour_sigs = neighbour_sigs;
+          var html="";
+          for(var i=0; i<neighbour_ips.length; i++) {
+            html += trim(neighbour_ips[i]) + ' ' + trim(neighbour_sigs[i]) + ' dBm';
+            if (i != (neighbour_ips.length-1))
+              html += '<br>';
+	  }
+	  document.getElementById('sigstr_last_node').innerHTML = ip;
+	  document.getElementById('sigstr_results').innerHTML = html;
+        }    
+      }
     }
   }
 
@@ -788,7 +803,6 @@
       <h3>Contol Panel</h3>
       <form name="control_panel">
         <table>
-        <tr>
 	<tr>
           <td width="5%">
           <td>Visualisation Server IP</td>
@@ -812,8 +826,27 @@
           <td>Debug Messages</td>
           <td><input type="checkbox" name="debug_enable" onclick="debugClicked()"></td>
         </tr>
-        <table>
+        </table>
       </form>
+
+      <h3>Signal Strength</h3>
+        <table>
+        <tr>
+	  <td width="5%"></td>
+          <td>Currently Polling</td>
+          <td><div id="sigstr_current_node"></div></td>
+        </tr>
+        <tr>
+	  <td></td>
+          <td>Last Node that<br>Responded</td>
+          <td><div id="sigstr_last_node"></div></td>
+        </tr>
+        <tr>
+	  <td></td>
+          <td valign=top>Results</td>
+          <td><div id="sigstr_results"></div></td>
+        </tr>
+        </table>
     </div>
 
     <div id="tests" style="width: 100%;">
