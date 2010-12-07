@@ -197,7 +197,7 @@
 
       if (node_exists == 0) {
          // small offset makes sure we don't create them all on one spot
-         var location = new google.maps.LatLng(lat + 1E-3*nodes.length, lng);
+         var location = new google.maps.LatLng(lat + 1E-4*nodes.length, lng);
          placeMarker(location, vis.data[i].router, true);
       }
     }
@@ -222,7 +222,7 @@
 
         if (node_exists == 0) {
           // small offset makes sure we don't create them all on one spot
-          var location = new google.maps.LatLng(lat + 1E-5*nodes.length, lng);
+          var location = new google.maps.LatLng(lat + 1E-4*nodes.length, lng);
           placeMarker(location, vis.data[i].neighbour, true);
         }
       }
@@ -231,7 +231,7 @@
     // now all nodes are logged in text file and nodes database
     // lets see if we any have routes between them
 
-    //drawPathesBetweenNodes();
+    drawPathesBetweenNodes();
   }
 
  
