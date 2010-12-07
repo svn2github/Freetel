@@ -18,8 +18,8 @@ Content-type: text/html
 EOF
 
 ip=`echo "$QUERY_STRING" | sed -n "s/.*ip=//p" | sed "s/,/ /g"`
+nc $ip 4950
 echo $ip
-nc $ip 4950 | sed -e "1d"
 
 cat <<EOF
 </body>

@@ -260,7 +260,7 @@
     }    
 						  
     if (ips != "") {
-      downloadUrl("/cgi-bin/fpingnodes.cgi?" + ips, processFping);						  
+      downloadUrl("/cgi-bin/fpingnodes.cgi?" + ips, processFping);
 
       // set up HTML for ping tests of all nodes
     
@@ -323,11 +323,15 @@
     var nodes_poor_packet_loss = 0;
     for (var j=0; j<nodes.length; j++) {
       if (doc.indexOf(nodes[j].ip) == -1) {
+ 
         // no ping from node
+ 
         nodes[j].marker.setIcon("node_dead.png");
+ 
         // update IIR averaging filter
+ 
         nodes[j].packet_loss = 0.875*nodes[j].packet_loss + 0.125;
-        //log("  no ping, packet_loss = " + nodes[j].packet_loss);
+ 
       }
       else {
 
@@ -335,8 +339,6 @@
 
         nodes[j].packet_loss = 0.875*nodes[j].packet_loss;
         nodes_reachable++;
-        //log("  ping, packet_loss = " + nodes[j].packet_loss);
-
       }
 
       // Change icon based on packet loss
@@ -387,30 +389,37 @@
   function processgetSig(doc, status) {
     log("processgetSig");
    
-    // extract our lines from the HTML
-
+    // extract our lines from the HTML using state machine
+   
     var lines = doc.split("\n");
     var ip;
     var neighour_ips;
     var neighour_sigs
-    var text_line = 0;
+    var state = "start";
+    var next_state;
     for (var j=0; j<lines.length; j++) {
 
-      // look for the three lines we want, these don't have '<' on them
-      // must a better way to grok html....
-
-      if ((lines[j].indexOf('<') == -1) && (lines[j] != "")) {
-        if (text_line == 0)
-          ip = lines[j];
-        if (text_line == 1)
-          neighbour_ips = lines[j].split(" ");
-        if (text_line == 2)
-          neighbour_sigs = trim(lines[j]).split(" ");
-        text_line++;
+      next_state = state;
+      if (state == "start") {
+        if (lines[j].indexOf('sigstr') != -1)
+          next_state = "read ips";
       }
+      if (state == "read ips") {
+        neighbour_ips = lines[j].split(" ");
+        next_state = "read sigs";
+      }
+      if (state == "read sigs") {
+        neighbour_sigs = trim(lines[j]).split(" ");
+        next_state = "read ip";
+      }
+      if (state == "read ip") {
+        ip =lines[j];
+        next_state = "finished";
+      }
+      state = next_state;
     }
 
-    if (text_line == 3) {
+    if (state == "finished") {
  
      // walk nodes list to match ip
 
@@ -421,7 +430,7 @@
           var html="<table>";
           for(var i=0; i<neighbour_ips.length; i++) {
             html += '<tr><td>' + trim(neighbour_ips[i]) + '</td><td>' + trim(neighbour_sigs[i]) + ' dBm</td></tr>';
-	  }
+          }
           html += '</table>';
 	  document.getElementById('sigstr_last_node').innerHTML = ip;
 	  document.getElementById('sigstr_results').innerHTML = html;
