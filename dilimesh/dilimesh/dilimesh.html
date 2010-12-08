@@ -73,6 +73,7 @@
     var myOptions = {
       zoom: myzoom,
       center: myLatlng,
+      scaleControl: true,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     }
     map = new google.maps.Map(document.getElementById("main-map"), myOptions);
@@ -262,13 +263,14 @@
     if (ips != "") {
       downloadUrl("/cgi-bin/fpingnodes.cgi?" + ips, processFping);
 
-      // set up HTML for ping tests of all nodes
+      // set up HTML for manual ping test
     
       var html = '<a href="/cgi-bin/fpingnodes.cgi?' + ips + ' ">Ping nodes</a>';
       document.getElementById('ping_nodes').innerHTML = html;
     }
 
-    // fire off next sig strength
+    // fire off next sig strength CGI, we iterate these over time to keep
+    // network load nominal
 
     if (nodes[sigstr_node_index] != undefined) {
       downloadUrl("/cgi-bin/getsig.cgi?ip=" + nodes[sigstr_node_index].ip, processgetSig);
@@ -280,6 +282,9 @@
       sigstr_node_index = 0;
   }
 
+
+  // this function calls itself every update_time seconds
+  // used for peridoic updates (polling) of network stats
 
   function timer() {
     var today=new Date();
@@ -309,6 +314,8 @@
     return i;
   }
 
+
+  // called when Fping CGI returns
 
   function processFping(doc, status) {
 
@@ -380,11 +387,15 @@
   }
 
 
+  // remove leading and trailing whitespace from a string
+
   function trim(stringToTrim) {
 	return stringToTrim.replace(/^\s+|\s+$/g,"");
   }
 
-  // process signal strengths from CGI
+
+  // called when getsig.cgi returns to grok signal
+  // strength information
 
   function processgetSig(doc, status) {
     log("processgetSig");
@@ -524,13 +535,14 @@
           google.maps.event.addListener(path, "click", function() {
             var path = this.getPath();
             var dist = distHaversine(path.b[0], path.b[1]) * 1000;
-            var path_loss = 100.0 + 20*Math.log(dist/1000)/Math.log(10);
-            path_loss =  Math.round(path_loss);
 
             // est rx power: 
-            //   MP tx pwr between 15 and 20dB depending on rate
-            //   roughly 2dB antennas
+            //   MP tx pwr between 15 and 20dB depending on rate, so use 17dB
+            //   roughly 2dB tx and rx antennas
+            //   100dB loss for 1000m, 6dB more for double distance
 
+            var path_loss = 100.0 + 20*Math.log(dist/1000)/Math.log(10);
+            path_loss =  Math.round(path_loss);
             var est_rx_sig = 17 + 2 + 2 - path_loss;
 
             document.getElementById('distance').innerHTML = dist + ' m';
@@ -545,7 +557,7 @@
   }
 
 
-  // sets up map side for new Node
+  // sets up map for a new Node
   // adds node to nodes[] array but doesn't write to text file
 
   function addNewNode(lat, lng, newIp, isNewNode) {
@@ -671,7 +683,7 @@
   }
 
 
-  // save our map location and zoom using a cookie
+  // save state 9config info) to our cookie
 
   function setCookie() {
     var cookietext = cookiename;
@@ -720,7 +732,6 @@
 
 
   // called when we click to add a node on map
-  // not used much as normally we auto-detect new nodes from Vis server
 
   function placeMarker(location, ip, isNewNode) {
     if (ip == undefined) {
