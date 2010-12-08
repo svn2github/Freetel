@@ -440,6 +440,24 @@
   }
 
 
+  // calculate distance between two points
+
+  rad = function(x) {return x*Math.PI/180;}
+
+  distHaversine = function(p1, p2) {
+    var R = 6371; // earth's mean radius in km
+    var dLat  = rad(p2.lat() - p1.lat());
+    var dLong = rad(p2.lng() - p1.lng());
+
+    var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+            Math.cos(rad(p1.lat())) * Math.cos(rad(p2.lat())) * Math.sin(dLong/2) * Math.sin(dLong/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c;
+
+    return d.toFixed(3);
+  }
+
+
   // draw lines indicating links between nodes 
 
   function drawPathesBetweenNodes() {
@@ -486,7 +504,8 @@
         }    
 
 	if ((router_location != undefined) && (neighbour_location != undefined)) {
-          // draw polyline between locations
+ 
+         // draw polyline between locations
 
           var coords = [
             router_location,
@@ -495,11 +514,30 @@
           var path = new google.maps.Polyline({
             path: coords,
             strokeColor: "#008000",
-            strokeOpacity: 1.0,
-            strokeWeight: 2
+            strokeOpacity: 0.5,
+            strokeWeight: 5
           });
           path.setMap(map);
 
+          // click on line to get distance and path loss estimates
+
+          google.maps.event.addListener(path, "click", function() {
+            var path = this.getPath();
+            var dist = distHaversine(path.b[0], path.b[1]) * 1000;
+            var path_loss = 100.0 + 20*Math.log(dist/1000)/Math.log(10);
+            path_loss =  Math.round(path_loss);
+
+            // est rx power: 
+            //   MP tx pwr between 15 and 20dB depending on rate
+            //   roughly 2dB antennas
+
+            var est_rx_sig = 17 + 2 + 2 - path_loss;
+
+            document.getElementById('distance').innerHTML = dist + ' m';
+            document.getElementById('path_loss').innerHTML = -path_loss + ' dBm';
+            document.getElementById('est_rx_sig').innerHTML = est_rx_sig + ' dBm';
+          });
+         
           pathes.push(path);
         }  
       }          
@@ -856,6 +894,25 @@
 	  <td></td>
           <td valign=top>Results</td>
           <td><div id="sigstr_results"></div></td>
+        </tr>
+        </table>
+
+      <h3>Distance</h3>
+        <table>
+        <tr>
+	  <td width="5%"></td>
+          <td valign=top>Distance</td>
+          <td><div id="distance"></div></td>
+        </tr>
+        <tr>
+	  <td></td>
+          <td valign=top>Path Loss</td>
+          <td><div id="path_loss"></div></td>
+        </tr>
+        <tr>
+	  <td></td>
+          <td valign=top>Est Rx Signal</td>
+          <td><div id="est_rx_sig"></div></td>
         </tr>
         </table>
     </div>

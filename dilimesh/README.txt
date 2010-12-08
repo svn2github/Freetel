@@ -213,7 +213,7 @@ Tests
    $ cat /var/www/dilimesh/nodes.txt
    (empty file)
 
-7/ Test signal strength daemon:
+7/ Test signal strength daemon on each node:
 
    $ telnet 10.130.1.1 4950
    Trying 10.130.1.36...
@@ -222,6 +222,7 @@ Tests
 
    10.130.1.1 10.130.1.56 10.130.1.14
    -64 -90 -75
+
 
 Using Dilimesh
 --------------
@@ -233,14 +234,19 @@ Using Dilimesh
 3/ Dilimesh will find new nodes automatically.  Drag bouncing nodes
    to the correct position on map.
 
-4/ Mouse over or click to get node IP and packet loss.  Right click to
-   delete node. Colours:
+4/ Mouse over or click on a node to get IP and packet loss.  If nodes
+   are running signal strength daemon signal strengths of adjacent
+   nodes will also be displayed.
+
+5/ Click on links to get "Distance" stats on lower right hand side.
+
+5/ Node colours:
      * blue  - packet loss < 10%
      * red   - packet loss between 10% and 90%
      * black - packet loss > 90%
 
-5/ "Update Enable" will update packet loss and network links
-    automatically.
+5/ "Update Enable" will update packet loss, network links and signal
+    strength automatically.
 
 
 Debugging
