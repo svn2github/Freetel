@@ -42,6 +42,7 @@
   var update_enable = 0;
   var update_time = 5;
   var debug_enable  = 0;  
+  var known_location = true;
 
   // state variables we use while dragging
 
@@ -78,6 +79,8 @@
     }
     map = new google.maps.Map(document.getElementById("main-map"), myOptions);
 
+    // we don't want manual placement of nodes, use vis server to pop
+    // them up
     //google.maps.event.addListener(map, 'click', function(event) {
     //  placeMarker(event.latLng);
     //});
@@ -129,9 +132,11 @@
       }
     }
 
-    // initial map display
+    // initial map display, only if we have a sensible map location.  Otherwise
+    // new nodes will be placed in middle of current default location
  
-    poll();       
+    if (known_location)
+      poll();       
 
     // kick off timer process that periodically fires off vis and fping CGIs
 
@@ -611,8 +616,8 @@
       // delete node from text file
 
       var url;
-      url = "/cgi-bin/delnode.cgi?" + "lat=" + this.position.ya + "&" + "lng=" +
-             this.position.za;
+      url = "/cgi-bin/delnode.cgi?" + "lat=" + this.position.lat() + "&" + "lng=" +
+             this.position.lng();
       downloadUrl(url, function(doc) { });
     });
 
@@ -636,8 +641,8 @@
       // add node to text file
 
       var url;
-      url = "/cgi-bin/addnode.cgi?" + "lat=" +  this.position.ya + "&" + "lng=" +
-            this.position.za + "&" + "ip=" + dragIp;
+      url = "/cgi-bin/addnode.cgi?" + "lat=" +  this.position.lat() + "&" + "lng=" +
+            this.position.lng() + "&" + "ip=" + dragIp;
       downloadUrl(url, function(doc) { });
 
       drawPathesBetweenNodes();
@@ -683,7 +688,7 @@
   }
 
 
-  // save state 9config info) to our cookie
+  // save state (config info) to our cookie
 
   function setCookie() {
     var cookietext = cookiename;
@@ -706,8 +711,12 @@
   // Grab a bunch of config info from our cookie
 
   function getCookie() {
-    if (document.cookie.length>0) {
+
+    if (document.cookie.length > 0) {
       cookieStart = document.cookie.indexOf(cookiename + "=");
+
+      // lets see if our cookie exists
+
       if (cookieStart!=-1) {
         cookieStart += cookiename.length+1; 
         cookieEnd=document.cookie.indexOf(";",cookieStart);
@@ -726,8 +735,15 @@
         update_time = parseInt(bits[4]);
         update_enable = parseInt(bits[5]);
         debug_enable = parseInt(bits[6]);
-      } 
+      }
+    } 
+    else {
+      known_location = false; // don't detect and display new nodes
+      alert("Move to your " +
+            "current location then refresh to detect nodes.");              
+
     }
+
   }
 
 
@@ -741,12 +757,12 @@
       isNewNode = false;
     }
 
-    addNewNode(location.ya, location.za, ip, isNewNode);
+    addNewNode(location.lat(), location.lng(), ip, isNewNode);
 
     // save to marker file by calling a CGI
 
     var url;
-    url = "/cgi-bin/addnode.cgi?" + "lat=" + location.ya + "&" + "lng=" + location.za + "&" + "ip=" + ip;
+    url = "/cgi-bin/addnode.cgi?" + "lat=" + location.lat() + "&" + "lng=" + location.lng() + "&" + "ip=" + ip;
     downloadUrl(url, function(doc) { });
   }
   
@@ -849,13 +865,18 @@
 
   <div id="side">
 
+    <h3>Help</h3>
+      <table>
+        <tr><td width="5%"></td><td><a href="https://freetel.svn.sourceforge.net/svnroot/freetel/dilimesh/README.txt">DiliMesh README</a></td></tr>
+      </table>
+
     <div id="stats" style="width: 100%;">
       <h3>Network Stats</h3>
         <table>
-	  <tr><td width="5%"></td><td>Time</td><td><div id="time"></div></td><tr>
-	  <tr><td></td><td>Nodes Reachable</td><td><div id="nodes_reachable"></div></td><tr>
-	  <tr><td></td><td>Nodes Poor Packet Loss</td><td><div id="nodes_poor_packet_loss"></div></td><tr>
-	  <tr><td></td><td>Nodes Total</td><td><div id="nodes_total"></div></td><tr>
+	  <tr><td width="5%"></td><td>Time</td><td><div id="time"></div></td></tr>
+	  <tr><td></td><td>Nodes Reachable</td><td><div id="nodes_reachable"></div></td></tr>
+	  <tr><td></td><td>Nodes Poor Packet Loss</td><td><div id="nodes_poor_packet_loss"></div></td></tr>
+	  <tr><td></td><td>Nodes Total</td><td><div id="nodes_total"></div></td></tr>
         </table>
     </div>
 

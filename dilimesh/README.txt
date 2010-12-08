@@ -27,18 +27,42 @@ for link debugging techniques in the Dili Village Telco.
 
 * Loosely coupled design: Can work without any additional software on
   each mesh mode, just needs a Visualisation server somewhere in the
-  mesh.
+  mesh.  Doesn't affct Mesh Potato operation, or the operation of
+  other software on the mesh.
+
+
+Using Dilimesh
+--------------
+
+1/ Point your browser at http://server/dilimesh/dilimesh/html
+
+2/ Set "Visualisation Server IP" on RHS and reload page.
+
+3/ Dilimesh will find new nodes automatically.  Drag bouncing nodes
+   to the correct position on map.
+
+4/ Mouse over or click on a node to get IP and packet loss.  If nodes
+   are running signal strength daemon signal strengths of adjacent
+   nodes will also be displayed.
+
+5/ Click on links to get "Distance" stats on lower right hand side.
+
+5/ Node colours:
+     * blue  - packet loss < 10%
+     * red   - packet loss between 10% and 90%
+     * black - packet loss > 90%
+
+5/ "Update Enable" will update packet loss, network links and signal
+    strength automatically.
 
 
 Status
 ------
 
 * Alpha
-* Tested on Firefox 3.5.3 with Apache2 server
+* Tested on Firefox 3.5.3 with Apache2 servers running Ubuntu 9 & 10.
 * Tested on small 5 node mesh network, might needs tweaks (e.g. fping
   arguments) for larger networks
-* Displays nodes, link paths, node IP and packet loss
-* Signal strength per link feature under development
 
 
 Implementation Notes
@@ -104,18 +128,30 @@ You need:
    may already be running on your supernode.  Batman on each node should
    be configured for the vis server (e.g. -s 10.130.1.1)
 
-4/ A route from the web server PC to the mesh network.
+4/ A route from the web server PC to the mesh network.  On the Ubuntu
+   machine I use as a server I put this script in the file
+   /etc/network/if-up.d/potato:
 
+     !/bin/sh
+     # Add interface and routes to connect to potato mesh network
+
+     ifconfig eth0 10.30.1.3 netmask 255.255.255.0
+     route add -net 10.130.1.0/24 gw 10.30.1.1
+
+   This file runs when the machine boots and connects to the Supernode
+   via Ethernet.
 
 Installation
 ------------
 
 1/ Server PC
 
-  # sudo mkdir /var/www/dilimesh
-  # sudo chmod 777 /var/www/dilimesh
-  # cp dilimesh/* /var/www/dilimesh
-  # cp cgi-bin/* /usr/lib/cgi-bin
+  $ svn co https://freetel.svn.sourceforge.net/svnroot/freetel/dilimesh
+  $ cd dilimesh
+  $ sudo mkdir /var/www/dilimesh
+  $ sudo chmod 777 /var/www/dilimesh
+  $ cp dilimesh/* /var/www/dilimesh
+  $ sudo cp cgi-bin/* /usr/lib/cgi-bin
 
 2/ Supernode
 
@@ -163,7 +199,7 @@ Installation
 
     $ ssh root@10.130.1.36 '/etc/rc.d/S99sigstr'
 
-  Test if deamon is running
+  Test if daemon is running
 
    $ telnet 10.130.1.36 4950
 
@@ -197,9 +233,9 @@ Tests
 
 5/ Test CGIs:
  
-    Point your browser at: 
+   Point your browser at: 
 
-      http://localhost/cgi-bin/fpingnodes.cgi?ip=10.130.1.1
+     http://localhost/cgi-bin/fpingnodes.cgi?ip=10.130.1.1
 
 6/ Test reading and writing nodes.txt database with your browser:
 
@@ -224,31 +260,6 @@ Tests
    -64 -90 -75
 
 
-Using Dilimesh
---------------
-
-1/ Point your browser at http://server/dilimesh/dilimesh/html
-
-2/ Set "Visualisation Server IP" on RHS and reload page.
-
-3/ Dilimesh will find new nodes automatically.  Drag bouncing nodes
-   to the correct position on map.
-
-4/ Mouse over or click on a node to get IP and packet loss.  If nodes
-   are running signal strength daemon signal strengths of adjacent
-   nodes will also be displayed.
-
-5/ Click on links to get "Distance" stats on lower right hand side.
-
-5/ Node colours:
-     * blue  - packet loss < 10%
-     * red   - packet loss between 10% and 90%
-     * black - packet loss > 90%
-
-5/ "Update Enable" will update packet loss, network links and signal
-    strength automatically.
-
-
 Debugging
 ---------
 
@@ -256,7 +267,7 @@ Debugging
 
   $ tail -f /var/log/apache2/access.log
 
-2/ Use Firebug on Firefox.
+2/ Use Firebug on Firefox to single step, set breakpoints etc.
 
 3/ Check nodes.txt database, each line is (lat, lng, IP):
 
@@ -267,3 +278,13 @@ Debugging
   -34.87893842193011,138.55278968811035,10.130.1.23
   -34.882511765792316,138.55210304260254,10.130.1.14
   -34.880364257566484,138.5518455505371,10.130.1.36
+
+4/ The "dilimesh" cookie stores a lot of our state. On Firefox 3.5 you
+   can remove the dilimesh cookie using Edit-Preferences-Privacy, then
+   click on "remove individual cookies".
+
+5/ To reset to defaults:
+   
+   * move to another page (cookie is svaed when we exit page)
+   * rm -f /var/www/dilimesh/nodes.txt
+   * Delete cookie using setp (4) above
