@@ -170,7 +170,7 @@ Installation
 
   Configure you nodes to use the visualisation server:
   
-    # cat /etc/confog/batman  
+    # cat /etc/config/batman  
     config batmand general
         option interface                ath0
         option announce

@@ -677,7 +677,7 @@
       // delete node from text file
 
       var url;
-      url = "/cgi-bin/delnode.cgi?" + "lat=" +  this.position.ya + "&" + "lng=" +  this.position.za;
+      url = "/cgi-bin/delnode.cgi?" + "lat=" +  this.position.lat() + "&" + "lng=" +  this.position.lng();
       downloadUrl(url, function(doc) { });
       this.setMap(null);
 
@@ -711,7 +711,7 @@
   // Grab a bunch of config info from our cookie
 
   function getCookie() {
-
+			
     if (document.cookie.length > 0) {
       cookieStart = document.cookie.indexOf(cookiename + "=");
 
@@ -745,6 +745,25 @@
     }
 
   }
+
+
+  // clear database and set cookie to defaults
+
+  function clearDatabase() {
+
+    // call CGI to rm nodes.txt
+
+    downloadUrl("/cgi-bin/cleardb.cgi", function(doc) { });
+    nodes = [];    
+
+    // I would really like to clear cookie but can't work out how, so
+    // set to defaults instead, 
+
+    var myLatLng = new google.maps.LatLng(0, 0);
+    map.setCenter(myLatLng);
+    map.setZoom(2);
+    update_enable = 0;				 
+ }
 
 
   // called when we click to add a node on map
@@ -901,6 +920,13 @@
           <td><input type="text" name="update_time" size="3"></td>
           <td width="30%"></td>
           <td width="50"><input type="submit" value="Set" onclick="setUpdateTime()"></td>
+        </tr>
+        <tr>
+          <td></td>
+	  <td>Clear Database</td>
+          <td></td>
+          <td width="30%"></td>
+          <td width="60"><input type="submit" value="Clear" onclick="clearDatabase()"></td>
         </tr>
         <tr>
 	  <td></td>
