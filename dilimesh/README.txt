@@ -122,7 +122,9 @@ You need:
    to /var/www/dilimesh is hard coded in the CGI scripts so it's
    best not to change that.
 
-2/ netcat (nc) and fping installed on the server.
+2/ netcat (nc) and fping installed on the server.  Note that on Ubuntu
+   we found that netcat 1.10.38 was required, netcat-openbsd would not
+   work.
 
 3/ A Batman mesh network with the vis server on one of the nodes, this
    may already be running on your supernode.  Batman on each node should
