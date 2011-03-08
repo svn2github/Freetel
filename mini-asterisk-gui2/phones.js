@@ -78,22 +78,6 @@ function initialisePage() {
 }
 
 
-// called when Fping CGI returns
-
-function processFping(doc, status) {
-
-    // Change icon based on ping results
-
-    var icon;
-
-    if (doc.indexOf("google.com") != -1)
-	icon = '<img src="tick.png" />';
-    else
-	icon = '<img src="cross.png" />';
-
-    document.getElementById('internet').innerHTML = icon;
-}
-
 // called when ifconfig CGI returns
 
 function processIfconfig(doc, status) {

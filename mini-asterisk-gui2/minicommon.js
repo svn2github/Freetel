@@ -185,6 +185,23 @@ function loadHtmlTextFile(doc, textLineProcessing) {
 }
 
 
+// called when Fping CGI returns
+
+function processFping(doc, status) {
+
+    // Change icon based on ping results
+
+    var icon;
+
+    if (doc.indexOf("google.com") != -1)
+	icon = '<img src="tick.png" />';
+    else
+	icon = '<img src="cross.png" />';
+
+    document.getElementById('internet').innerHTML = icon;
+}
+
+
 /**
  * Returns an XMLHttp instance to use for asynchronous
  * downloading. This method will never throw an exception, but will

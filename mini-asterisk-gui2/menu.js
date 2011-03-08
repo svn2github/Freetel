@@ -7,13 +7,13 @@
 */
 
 var menuItems = [
-    '<a href="phones.sh">Phone System</a>',
+    '<a href="phones.html">Phone System</a>',
     '<a href="about.sh">About</a>',
     '<a href="admin.sh">Admin</a>',
     '<a href="faq.sh">FAQ</a>',
     '<a href="ipphones.sh">IP Phones</a>',
     '<a href="logout.sh">Logout</a>',
-    '<a href="network.sh">Network</a>',
+    '<a href="network.html">Network</a>',
     '<a href="voiplines.sh">VOIP Line</a>'
 ];
 

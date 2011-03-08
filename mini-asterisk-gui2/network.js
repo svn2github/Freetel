@@ -21,6 +21,26 @@ function initialise() {
 }
 
 
+function greyout(dhcp) {
+
+    if (dhcp == "yes") {
+	document.network.static.checked = 0;
+	document.network.dhcp.checked = 1;
+	document.network.ipaddress.disabled = 1;
+	document.network.netmask.disabled = 1;
+	document.network.gateway.disabled = 1;
+	document.network.dns.disabled = 1;
+    }
+    else {
+	document.network.static.checked = 1;
+	document.network.dhcp.checked = 0;
+	document.network.ipaddress.disabled = 0;
+	document.network.netmask.disabled = 0;
+	document.network.gateway.disabled = 0;
+	document.network.dns.disabled = 0;
+    }
+}
+
 // called when DHCP CGI returns
 
 function processDhcp(doc,status) {
@@ -31,11 +51,10 @@ function processDhcp(doc,status) {
 	}
 	);
 
+    greyout(dhcp);
+
     if (dhcp == "no") {
-       downloadUrl("/cgi-bin/getconf.cgi?file=../init.d/network-static", processStatic);
-    }
-    else {
-        // grey out fields
+        downloadUrl("/cgi-bin/getconf.cgi?file=../init.d/network-static", processStatic);
     }
 }
 
@@ -47,9 +66,22 @@ function processStatic(doc,status) {
 	    parseNetwork(line);
 	}
 	);
-
+        
+    downloadUrl("/cgi-bin/getemergencyip.cgi", processEmergencyIp);
 }
 
+// called when Emergency CGI returns
+
+function processEmergencyIp(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    parseNetwork(line);
+	}
+	);
+        
+    // fire off fping CGI
+
+    downloadUrl("/cgi-bin/fpingnodes.cgi?ip=google.com", processFping);
+}
 
 function parseNetwork(line) {
 
@@ -82,6 +114,11 @@ function parseNetwork(line) {
       document.network.dns.value = dns;
    }
 
+   if (line.indexOf("BACKDOOR=") != -1) {
+      var s = line.split('"');
+      var backdoor = s[1];
+      document.network.backdoor.value = backdoor;
+   }
 }
 
 
