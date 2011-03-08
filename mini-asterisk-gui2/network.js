@@ -32,11 +32,10 @@ function processDhcp(doc,status) {
 	);
 
     if (dhcp == "no") {
-       downloadUrl("/cgi-bin/getdhcpconf.cgi?file=../init.d/network-static", processDhcp);
+       downloadUrl("/cgi-bin/getconf.cgi?file=../init.d/network-static", processStatic);
     }
     else {
         // grey out fields
-        initilaisePage();
     }
 }
 
@@ -49,7 +48,6 @@ function processStatic(doc,status) {
 	}
 	);
 
-    initialisePage();
 }
 
 
@@ -57,31 +55,31 @@ function parseNetwork(line) {
 
     if (line.indexOf("DHCP=") != -1) {
       var s = line.split('"');
-      dhcp = "yes";
+      dhcp = s[1];
     }
 
     if (line.indexOf("IPADDRESS=") != -1) {
       var s = line.split('"');
-      var ip = s(2);
-      document.getElementById('ip').innerHTML = ip;
+      var ipaddress = s[1];
+      document.network.ipaddress.value = ipaddress;
     }
 
     if (line.indexOf("NETMASK=") != -1) {
       var s = line.split('"');
-      var netmask = s(2);
-      document.getElementById('netmask').innerHTML = netmask;
+      var netmask = s[1];
+      document.network.netmask.value = netmask;
     }
 
     if (line.indexOf("GATEWAY=") != -1) {
       var s = line.split('"');
-      var gateway = s(2);
-      document.getElementById('gateway').innerHTML = gateway;
+      var gateway = s[1];
+      document.network.gateway.value = gateway;
     }
 
     if (line.indexOf("DNS=") != -1) {
       var s = line.split('"');
-      var dns = s(2);
-      document.getElementById('dns').innerHTML = dns;
+      var dns = s[1];
+      document.network.dns.value = dns;
    }
 
 }

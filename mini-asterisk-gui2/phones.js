@@ -74,7 +74,7 @@ function initialisePage() {
 
     // fire off Ifconfig IP address to get IP Address
 
-    downloadUrl("/cgi-bin/ifconfig.cgi?arg=wlan0", processIfconfig);
+    downloadUrl("/cgi-bin/ifconfig.cgi?arg=eth0", processIfconfig);
 }
 
 

@@ -23,17 +23,17 @@
     <td><div id="menu"></div></td>
     <td valign="top">
 
-      <form action="set_network.sh" onsubmit="return validate_form(this)" method="get">
+      <form name="network">
       <table align="center" width=600 border=0>
         <tr><td colspan="2" align="left" valign="top"><h2>Network</h2></td></tr>
         <tr>
 	   <td><input type="radio" id="static" name="dhcp" value="no" onClick="doStatic()">Static</td>
 	   <td><input type="radio" id="dhcp"   name="dhcp" value="yes" onClick="doDHCP()">DHCP</td>
         </tr>
-        <tr><td>IP Address:</td><td><input type="text" name="ipaddress" id="ipaddress" onBlur="isIP(this)"></td></tr>
-        <tr><td>Netmask:</td><td><input type="text" name="netmask" id="netmask" onBlur="isIP(this)"></td></tr>
-        <tr><td>Gateway:</td><td><input type="text" name="gateway" id="gateway" onBlur="isIP(this)"></td></tr>
-        <tr><td>DNS:</td><td><input type="text" name="dns" id="dns" onBlur="isIP(this)"></td></tr>
+        <tr><td>IP Address:</td><td><input type="text" name="ipaddress" onBlur="isIP(this)"></td></tr>
+        <tr><td>Netmask:</td><td><input type="text" name="netmask" onBlur="isIP(this)"></td></tr>
+        <tr><td>Gateway:</td><td><input type="text" name="gateway" onBlur="isIP(this)"></td></tr>
+        <tr><td>DNS:</td><td><input type="text" name="dns" onBlur="isIP(this)"></td></tr>
         <tr onMouseOver="popUp(event,'network_backdoor')" onmouseout="popUp(event,'network_backdoor')">
           <td>Emergency IP:</td><td><input type="text" name="backdoor" id="backdoor" onBlur="isIP(this)"></td>
         </tr>
