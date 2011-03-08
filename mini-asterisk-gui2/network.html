@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
+<title>Mini Asterisk - Phones</title>
+
+<link rel="stylesheet" type="text/css" href="ministyle.css">
+<link rel="stylesheet" href="tooltip.css" type="text/css" />
+<script type="text/javascript" src="minicommon.js"></script>
+<script type="text/javascript" src="tooltip.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript" src="network.js"></script>
+<script type="text/javascript">
+
+</script>
+
+</head>
+
+<body onload="initialise()">
+
+  <table align="center" width=800>
+  <tr>
+    <td><div id="menu"></div></td>
+    <td valign="top">
+
+      <form action="set_network.sh" onsubmit="return validate_form(this)" method="get">
+      <table align="center" width=600 border=0>
+        <tr><td colspan="2" align="left" valign="top"><h2>Network</h2></td></tr>
+        <tr>
+	   <td><input type="radio" id="static" name="dhcp" value="no" onClick="doStatic()">Static</td>
+	   <td><input type="radio" id="dhcp"   name="dhcp" value="yes" onClick="doDHCP()">DHCP</td>
+        </tr>
+        <tr><td>IP Address:</td><td><input type="text" name="ipaddress" id="ipaddress" onBlur="isIP(this)"></td></tr>
+        <tr><td>Netmask:</td><td><input type="text" name="netmask" id="netmask" onBlur="isIP(this)"></td></tr>
+        <tr><td>Gateway:</td><td><input type="text" name="gateway" id="gateway" onBlur="isIP(this)"></td></tr>
+        <tr><td>DNS:</td><td><input type="text" name="dns" id="dns" onBlur="isIP(this)"></td></tr>
+        <tr onMouseOver="popUp(event,'network_backdoor')" onmouseout="popUp(event,'network_backdoor')">
+          <td>Emergency IP:</td><td><input type="text" name="backdoor" id="backdoor" onBlur="isIP(this)"></td>
+        </tr>
+        <tr onMouseOver="popUp(event,'network_internet')" onmouseout="popUp(event,'network_internet')">
+	  <td>Internet Connection:</td>
+	  <td><div id="internet" >
+	  <span style="margin-left: 4px;font-weight:bold">&nbsp;</span></div></td>
+        </tr>
+        <tr><td><input id="networkapply" type="submit" value="Apply"></td></tr>
+      </table>
+    </form>
+
+  </tr>
+
+  </table>
+</body>
+</html>

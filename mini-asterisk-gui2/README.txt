@@ -1,0 +1,15 @@
+Mini Asterisk GUI Version 2
+===========================
+
+Rewrite of original concept using Javascript.
+
+TODO
+----
+
+[ ] fping ipkg dependancy
+[ ] blog post
+    + javascript with firebox is a joy to debug
+    + cf server side, CGIs
+    + keep CGIs really small, very productive
+    + BASIC style string processing versus regexp
+
