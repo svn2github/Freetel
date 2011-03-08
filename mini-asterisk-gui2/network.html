@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="tooltip.css" type="text/css" />
 <script type="text/javascript" src="minicommon.js"></script>
 <script type="text/javascript" src="tooltip.js"></script>
+<script type="text/javascript" src="tooltips.js"></script>
 <script type="text/javascript" src="menu.js"></script>
 <script type="text/javascript" src="network.js"></script>
 <script type="text/javascript">
@@ -17,6 +18,8 @@
 </head>
 
 <body onload="initialise()">
+
+  <div id="tooltips"></div></td>
 
   <table align="center" width=800>
   <tr>
@@ -34,15 +37,14 @@
         <tr><td>Netmask:</td><td><input type="text" name="netmask" onBlur="isIP(this)"></td></tr>
         <tr><td>Gateway:</td><td><input type="text" name="gateway" onBlur="isIP(this)"></td></tr>
         <tr><td>DNS:</td><td><input type="text" name="dns" onBlur="isIP(this)"></td></tr>
-        <tr onMouseOver="popUp(event,'network_backdoor')" onmouseout="popUp(event,'network_backdoor')">
+        <tr onMouseOver="popUp(event,'network_backdoor')" onMouseOut="popUp(event,'network_backdoor')">
           <td>Emergency IP:</td><td><input type="text" name="backdoor" onBlur="isIP(this)"></td>
         </tr>
-        <tr onMouseOver="popUp(event,'network_internet')" onmouseout="popUp(event,'network_internet')">
+        <tr onMouseOver="popUp(event,'network_internet')" onMouseOut="popUp(event,'network_internet')">
 	  <td>Internet Connection:</td>
-	  <td><div id="internet" >
-	  <span style="margin-left: 4px;font-weight:bold">&nbsp;</span></div></td>
+	  <td><div id="internet"></div></td>
         </tr>
-        <tr><td><input id="networkapply" type="submit" value="Apply"></td></tr>
+        <tr><td><input type="submit" value="Apply"></td></tr>
       </table>
     </form>
 

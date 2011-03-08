@@ -12,6 +12,8 @@ var dhcp;
 
 function initialise() {
     mainMenu();
+    var html = toolTips[0] + toolTips[1];
+    document.getElementById('tooltips').innerHTML = html;
 
     // kick off cascading CGIs, initialisePage() will be called when complete
 
