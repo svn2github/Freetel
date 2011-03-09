@@ -7,6 +7,11 @@
 */
 
 var dhcp;
+var ipaddress;
+var netmask;
+var gateway;
+var dns;
+var backdoor;
 
 // Called when we load page
 
@@ -94,31 +99,31 @@ function parseNetwork(line) {
 
     if (line.indexOf("IPADDRESS=") != -1) {
       var s = line.split('"');
-      var ipaddress = s[1];
+      ipaddress = s[1];
       document.network.ipaddress.value = ipaddress;
     }
 
     if (line.indexOf("NETMASK=") != -1) {
       var s = line.split('"');
-      var netmask = s[1];
+      netmask = s[1];
       document.network.netmask.value = netmask;
     }
 
     if (line.indexOf("GATEWAY=") != -1) {
       var s = line.split('"');
-      var gateway = s[1];
+      gateway = s[1];
       document.network.gateway.value = gateway;
     }
 
     if (line.indexOf("DNS=") != -1) {
       var s = line.split('"');
-      var dns = s[1];
+      dns = s[1];
       document.network.dns.value = dns;
    }
 
    if (line.indexOf("BACKDOOR=") != -1) {
       var s = line.split('"');
-      var backdoor = s[1];
+      backdoor = s[1];
       document.network.backdoor.value = backdoor;
    }
 }
@@ -146,4 +151,68 @@ function isIP(obj) {
     else { obj.style.background = ""; } // the value IS a valid IP address
 
     return ip;
+}
+
+
+// called when Apply button pressed
+
+function onClickApply() {
+
+    // change network type, DHCP or static
+
+    if (document.network.dhcp.value == "yes") {
+
+	if (dhcp = "no") {
+	    // disable network-state service and endable network service
+	    downloadUrl(/cgi-bin/setservice.cgi?action=enabledhcp,null);
+	}
+	else {
+	    // dhcp already running, restart service
+	    downloadUrl(/cgi-bin/setservice.cgi?action=restartdhcp,null);
+	}
+    }
+    else {
+
+	if (dhcp = "yes") {
+	    // disable network service and enable network-static service
+	    downloadUrl(/cgi-bin/setservice.cgi?action=enablestatic,null);
+	}
+
+	// change network-static file variables
+
+	if (document.network.ipaddress.value != ipaddress) {
+	    var new_ipaddress = document.network.ipaddress.value;
+	    var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-static&this=IPADDRESS=&that="' + new_ipaddress + '"';
+	    downloadUrl(url,null);
+	}
+
+	if (document.network.netmask.value != netmask) {
+	    var new_netmask = document.network.netmask.value;
+	    var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-static&this=NETMASK=&that="' + new_netmask + '"';
+	    downloadUrl(url,null);
+	}
+
+	if (document.network.gateway.value != gateway) {
+	    var new_ = document.network.gateway.value;
+	    var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-static&this=GATEWAY=&that="' + new_gateway + '"';
+	    downloadUrl(url,null);
+	}
+
+	if (document.network.dns.value != dns) {
+	    var new_ = document.network.dns.value;
+	    var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-static&this=DNS=&that="' + new_dns + '"';
+	    downloadUrl(url,null);
+	}
+
+	if (document.network.backdoor.value != backdoor) {
+	    var new_ = document.network.backdoor.value;
+	    var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-backup&this=BACKDOOR=&that="' + new_backdoor + '"';
+	    downloadUrl(url,null);
+    	    downloadUrl(/cgi-bin/setservice.cgi?action=restartbackup,null);
+	}
+
+	// finally restart network-static service with new parameters
+
+    	downloadUrl(/cgi-bin/setservice.cgi?action=restartstatic,null);
+    }
 }

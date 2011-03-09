@@ -1,8 +1,13 @@
 #!/bin/sh
 # setline.cgi
-# David Rowe 12 Dec 2010
+# David Rowe 9 March 2011
 #
-# CGI to set the text on a particular line
+# CGI to set the text in "file" from "this" to "that"
+#
+# Test on host with:
+#
+#    $ export QUERY_STRING='file=test.txt&this=IPADDRESS=&that="192.168.1.31"'; ./setline.cgi
+#
 
 cat <<EOF
 Content-type: text/html
@@ -15,9 +20,19 @@ Content-type: text/html
 <body>
 EOF
 
-LINE=`echo "$QUERY_STRING" | sed -n "s/.*line=//p"`
-echo $LINE
-
+file=`echo $QUERY_STRING | grep -oe "file=[^&?]*" | sed -n "s/file=//p"`
+this=`echo $QUERY_STRING | grep -oe "this=[^&?]*" | sed -n "s/this=//p" | sed "s/%22/\"/g"`
+that=`echo $QUERY_STRING | grep -oe "that=[^&?]*" | sed -n "s/that=//p" | sed "s/%22/\"/g"`
+echo $QUERY_STRING
+echo $file
+echo $this
+echo $that
+if [ -f $file ]; then
+  sed -i "s/$this.*/$this$that/g" $file
+else
+  echo "$file does not exist"
+fi
+ 
 cat <<EOF
 </body>
 </html>

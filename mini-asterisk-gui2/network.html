@@ -30,8 +30,8 @@
       <table align="center" width=600 border=0>
         <tr><td colspan="2" align="left" valign="top"><h2>Network</h2></td></tr>
         <tr>
-	   <td><input type="radio" name="static" value="no" onClick="doStatic()">Static</td>
-	   <td><input type="radio" name="dhcp" value="yes" onClick="doDHCP()">DHCP</td>
+	   <td><input type="radio" id="static" name="dhcp" value="no" onClick="doStatic()">Static</td>
+	   <td><input type="radio" id="dhcp" name="dhcp" value="yes" onClick="doDHCP()">DHCP</td>
         </tr>
         <tr><td>IP Address:</td><td><input type="text" name="ipaddress" onBlur="isIP(this)"></td></tr>
         <tr><td>Netmask:</td><td><input type="text" name="netmask" onBlur="isIP(this)"></td></tr>
@@ -44,10 +44,9 @@
 	  <td>Internet Connection:</td>
 	  <td><div id="internet"></div></td>
         </tr>
-        <tr><td><input type="submit" value="Apply"></td></tr>
+        <tr><td></td><td><input type="button" style="width:20%" value="Apply" onClick="onClickApply()"></td></tr>
       </table>
     </form>
-
   </tr>
 
   </table>

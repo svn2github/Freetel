@@ -12,4 +12,4 @@ TODO
     + cf server side, CGIs
     + keep CGIs really small, very productive
     + BASIC style string processing versus regexp
-
+    + CGI wring, regexp, sed is painfully slow, so minimise it
