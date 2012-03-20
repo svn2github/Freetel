@@ -40,8 +40,13 @@ function initialisePage() {
     html += '<tr><td colspan="4" align="left" valign="top"><h2>Phones</h2></td></tr>';
     for(var i=0; i<zap.length; i++) {
         if (zap[i] == 'FXS') {
-	    html += "<tr><td>" + analog_ext[i] + "</td>" + "<td>" + "Analog Phone" + "</td>";
-	    html += "<td>Port" + i + "</td></tr>";
+            html += "<tr>";
+	    html += "<td>" + analog_ext[i] + "</td>" + "<td>" + "Analog Phone" + "</td>";
+//	    html += "<td>Port" + i  + "<td>" +"   <img src=" + "tick.png" + " />"+"</td>" + "</td></tr>";
+//	    html += "<td>Port" + i  + "<td>" + '<img src="tick.png" />' + "</td>" + "</td></tr>";
+	    html += "<td>Port" + i  + "</td>";
+            html += "<td>" + '<img src="tick.png" />' + "</td>";
+            html += "</tr>";
 	}
     }
 
@@ -49,8 +54,11 @@ function initialisePage() {
 
     for (j in ip_ext) {
         if (ip_ext[j] != '') {
-	    html += "<tr><td>" + j + "</td>" + "<td>" + "IP Phone" + "</td>";
-	    html += "<td>" + ip_ext[j] + "</td></tr>";
+            html += "<tr>";
+	    html += "<td>" + j + "</td>" + "<td>" + "IP Phone" + "</td>";
+	    html += "<td>" + ip_ext[j] + "</td>";
+            html += "<td>" + '<img src="tick.png" />' + "</td>";
+            html += "</tr>";
 	}
     }
 
@@ -59,8 +67,11 @@ function initialisePage() {
     html += '<tr><td colspan="4" align="left" valign="top"><h2>Phone Lines</h2></td></tr>';
     for(var i=0; i<zap.length; i++) {
         if (zap[i] == 'FXO') {
-	    html += "<tr><td>" + "0" + "</td>" + "<td>" + "Analog Phone" + "</td>";
-	    html += "<td>Port" + i + "</td></tr>";
+            html += "<tr>";
+	    html += "<td>" + "0" + "</td>" + "<td>" + "Analog Phone" + "</td>";
+	    html += "<td>Port" + i + "</td>";
+            html += "<td>" + '<img src="tick.png" />' + "</td>";
+            html += "</tr>";
 	}
     }
 
@@ -74,7 +85,8 @@ function initialisePage() {
 
     // fire off Ifconfig IP address to get IP Address
 
-    downloadUrl("/cgi-bin/ifconfig.cgi?arg=eth0", processIfconfig);
+//    downloadUrl("/cgi-bin/ifconfig.cgi?arg=eth0", processIfconfig);
+    downloadUrl("/cgi-bin/ifconfig.cgi?arg=eth1", processIfconfig);
 }
 
 
