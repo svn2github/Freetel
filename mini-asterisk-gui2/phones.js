@@ -17,6 +17,7 @@ function initialise() {
     // kick off cascading CGIs, initialisePage() will be called when complete
 
     loadExtensions();
+    //initialisePage();
 }
 
 
@@ -85,8 +86,8 @@ function initialisePage() {
 
     // fire off Ifconfig IP address to get IP Address
 
-//    downloadUrl("/cgi-bin/ifconfig.cgi?arg=eth0", processIfconfig);
-    downloadUrl("/cgi-bin/ifconfig.cgi?arg=eth1", processIfconfig);
+    downloadUrl("/cgi-bin/ifconfig.cgi?arg=eth0", processIfconfig);
+//    downloadUrl("/cgi-bin/ifconfig.cgi?arg=eth1", processIfconfig);
 }
 
 
