@@ -9,6 +9,7 @@
 var menuItems = [
     '<a href="phones.html">Phone System</a>',
     '<a href="about.html">About</a>',
+    '<a href="system.html">System Info</a>',
     '<a href="admin.sh">Admin</a>',
     '<a href="faq.sh">FAQ</a>',
     '<a href="ipphones.sh">IP Phones</a>',
@@ -20,6 +21,7 @@ var menuItems = [
 var menuTips = [
     'phones_tip',
     'about_tip',
+    'system_tip',
     'admin_tip',
     'faq_tip',
     'ipphones_tip',
@@ -30,7 +32,8 @@ var menuTips = [
 
 var menuToolTips = [
     '<div id="phones_tip" class="tip">Lists your phones and phone lines</div>',
-    '<div id="about_tip" class="tip">Boring information like software version numbers</div>',
+    '<div id="about_tip" class="tip">Software version and links to web site</div>',
+    '<div id="system_tip" class="tip">Cpu, memory, loadavg info , linux version and installed packages</div>',
     '<div id="admin_tip" class="tip">Change your password, reset the default settings, upgrade software</div>',
     '<div id="faq_tip" class="tip">Frequently asked questions and links to further information</div>',
     '<div id="ipphones_tip" class="tip">Set up your IP phones</div>',
