@@ -29,26 +29,11 @@ function initialisePage() {
     // print out info
 
     html += '<tr><td colspan="3" align="left" valign="top"><h2>About</h2></td></tr>';
-    html += '<tr><td colspan="2">Mini Asterisk</td><td> </td><td>Revision XXX</td></tr>';
-    html += '<tr><td colspan="2">Brought to you by the</td><td> </td><td>Free Telephony Project</td></tr>';
-    html += '<tr><td colspan="2">Image goes here</td><td> </td><td>Pic</td></tr>';
+    html += '<tr><td colspan="2"><a href="http://rowetel.com/ucasterisk/mini.html">Mini Asterisk GUI2</a></td><td> </td><td>Revision XXX</td></tr>';
+    html += '<tr><td colspan="2">Brought to you by the</td><td> </td><td> <a href="http://rowetel.com/ucasterisk/index.html">Free Telephony Project</a></td></tr>';
+    html += '<tr><td colspan="2"><a href="http://rowetel.com/ucasterisk/ip04.html"><img src="http://rowetel.com/images/ip04/ip04_case.jpg" border="0" /></a></td><td> </td><td></td></tr>';
     html += '<tr><td>&nbsp</td></tr>';
  
-    // print out analog phones
-
-/*    html += '<tr><td colspan="4" align="left" valign="top"><h2>Phones</h2></td></tr>';
-    for(var i=0; i<zap.length; i++) {
-        if (zap[i] == 'FXS') {
-            html += "<tr>";
-	    html += "<td>" + analog_ext[i] + "</td>" + "<td>" + "Analog Phone" + "</td>";
-	    html += "<td>Port" + i  + "</td>";
-            html += "<td>" + '<img src="tick.png" />' + "</td>";
-            html += "</tr>";
-	}
-    }
-*/
- 
-
     html += '</table>';
 
     document.getElementById("about").innerHTML += html;
