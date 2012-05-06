@@ -32,8 +32,8 @@ function initialisePage() {
     // print out internet connection
 
     html += '<tr><td colspan="3" align="left" valign="top"><h2>Phone System</h2></td></tr>';
-    html += '<tr><td colspan="2">Internet Connection:</td><td><div id="internet"></div></td></tr>';
-    html += '<tr><td colspan="2">Phone System IP Address:</td><td div id="ipaddress"></div></td></tr>';
+    html += '<tr><td colspan="2">Internet Connection:</td><td> </td><td><div id="internet"></div></td></tr>';
+    html += '<tr><td colspan="2">Phone System IP Address:</td><td> </td><td div id="ipaddress"></div></td></tr>';
     html += '<tr><td>&nbsp</td></tr>';
  
     // print out analog phones
