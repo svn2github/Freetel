@@ -8,7 +8,7 @@
 
 var menuItems = [
     '<a href="phones.html">Phone System</a>',
-    '<a href="about.sh">About</a>',
+    '<a href="about.html">About</a>',
     '<a href="admin.sh">Admin</a>',
     '<a href="faq.sh">FAQ</a>',
     '<a href="ipphones.sh">IP Phones</a>',
