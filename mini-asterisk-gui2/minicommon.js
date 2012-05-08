@@ -20,6 +20,8 @@ var ip_ext = [];
 
 var network = "no";
 
+
+
 function loadExtensions() {
 
     /* 
@@ -242,7 +244,7 @@ function createXmlHttpRequest() {
 	changeStatus(e);
     }
     return null;
-};
+}
 
 
 /**
@@ -278,4 +280,7 @@ function downloadUrl(url, callback) {
     } catch (e) {
 	changeStatus(e);
     }
-};
+
+}
+
+
