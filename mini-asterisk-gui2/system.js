@@ -40,8 +40,12 @@ function initialisePage() {
     html += '<tr><td div id="loadavg"></div></td></tr>';
 
     html += '<tr><td colspan="2">cat /proc/cpuinfo</td></tr>';
+    html += '<tr><td div id="cpuinfo"></div></td></tr>';
 
     html += '<tr><td colspan="2">cat /proc/mtd</td></tr>';
+    html += '<tr><td div id="mtd"></div></td></tr>';
+
+    html += '<tr><td colspan="2">cat /proc/meminfo</td></tr>';
 
     html += '<tr><td colspan="2">cat /proc/yaffs</td></tr>';
 
@@ -74,7 +78,29 @@ function loadLoadavg(doc, status) {
 
 	document.getElementById('loadavg').innerHTML = doc.substr(0, doc.length);
 
-	//downloadUrl("/cgi-bin/catproc.cgi?arg=XXX, loadXXX);
+	downloadUrl("/cgi-bin/catproc.cgi?arg=cpuinfo", loadCPUinfo);
 }
+
+function loadCPUinfo(doc, status) {
+	cpuinfo = "";
+
+//	cpuinfo = doc.substr(0, doc.length);
+    if (doc.indexOf("processor") != -1) {
+	ip = doc.substr(doc.indexOf("processor"), doc.length);
+//	ip = ip.substr(10, ip.length);
+	ip = ip.substr(0, ip.indexOf("power manage"));
+    }
+	document.getElementById('cpuinfo').innerHTML = ip;
+
+	downloadUrl("/cgi-bin/catproc.cgi?arg=mtd", loadmtd);
+}
+
+function loadmtd(doc, status) {
+
+	document.getElementById('mtd').innerHTML = doc.substr(0, doc.length);
+
+//	downloadUrl("/cgi-bin/catproc.cgi?arg=cpuinfo", loadCPUinfo);
+}
+
 
 
