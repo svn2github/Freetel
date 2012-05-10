@@ -1,9 +1,9 @@
 /*
-  about.js
+  voiplines.js
   Ian Roberts
-  May 7 2012
+  May 10 2012
 
-  About screen for Mini Asterisk GUI2.
+  voiplines screen for Mini Asterisk GUI2.
 */
 
 var update_time = 10;
@@ -28,7 +28,7 @@ function initialisePage() {
 
     // print out info
 
-    html += '<tr><td colspan="3" align="left" valign="top"><h2>About</h2></td></tr>';
+    html += '<tr><td colspan="3" align="left" valign="top"><h2>Voip Lines</h2></td></tr>';
     html += '<tr><td colspan="2"><a href="http://rowetel.com/ucasterisk/mini.html">Mini Asterisk GUI2</a></td><td> </td><td>Revision XXX</td></tr>';
     html += '<tr><td colspan="2">Brought to you by the</td><td> </td><td> <a href="http://rowetel.com/ucasterisk/index.html">Free Telephony Project</a></td></tr>';
     // this image will only come up if internet connection is present
@@ -37,7 +37,7 @@ function initialisePage() {
  
     html += '</table>';
 
-    document.getElementById("about").innerHTML += html;
+    document.getElementById("voiplines").innerHTML += html;
 
 }
 

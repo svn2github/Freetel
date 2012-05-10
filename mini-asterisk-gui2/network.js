@@ -25,6 +25,7 @@ function initialise() {
     // determine if DHCP or static
 
     downloadUrl("/cgi-bin/getdhcp.cgi", processDhcp);
+//    initialisePage();
 }
 
 
@@ -62,7 +63,9 @@ function processDhcp(doc,status) {
 
     if (dhcp == "no") {
         downloadUrl("/cgi-bin/getconf.cgi?file=../init.d/network-static", processStatic);
-    }
+    } else {
+	initialistPage();
+	}
 }
 
 
