@@ -159,25 +159,7 @@ function loadIpExtensions(doc,status) {
 
     // we get Network connection details
 
-    downloadUrl("/cgi-bin/getnetwork.cgi?cli=", loadNetwork);
-   // initialisePage();
-}
-
-// creates a network connection
-
-function loadNetwork(doc,status) {
-    loadHtmlTextFile(doc, function(line) {
-	    //parseSipShowPeers(line);
-	    if (line.indexOf("alive") != -1)  {
-		network = "yes";
-		}
-	}
-	);
-
-    // 
-
-    //downloadUrl("/cgi-bin/getnetwork.cgi?cli=", loadNetwork);
-    initialisePage();
+      initialisePage();
 }
 
 
