@@ -46,12 +46,16 @@ function initialisePage() {
     html += '<tr><td div id="mtd"></div></td></tr>';
 
     html += '<tr><td colspan="2">cat /proc/meminfo</td></tr>';
+    html += '<tr><td div id="meminfo"></div></td></tr>';
 
     html += '<tr><td colspan="2">cat /proc/yaffs</td></tr>';
+    html += '<tr><td div id="yaffs"></div></td></tr>';
 
     html += '<tr><td colspan="2">uptime</td></tr>';
+    html += '<tr><td div id="uptime"></div></td></tr>';
 
     html += '<tr><td colspan="2">ipkg list_installed</td></tr>';
+    html += '<tr><td div id="installed"></div></td></tr>';
 
     html += '<tr><td>&nbsp</td></tr>';
  
@@ -82,14 +86,17 @@ function loadLoadavg(doc, status) {
 }
 
 function loadCPUinfo(doc, status) {
-	cpuinfo = "";
+	ip = "";
 
-//	cpuinfo = doc.substr(0, doc.length);
-    if (doc.indexOf("processor") != -1) {
-	ip = doc.substr(doc.indexOf("processor"), doc.length);
-//	ip = ip.substr(10, ip.length);
-	ip = ip.substr(0, ip.indexOf("power manage"));
-    }
+	ip = doc.substr(0, doc.length);
+        if (doc.indexOf("CPU") != -1) {
+
+		// Blackfin hardware is ADSP-BF533
+		ip = doc.substr(doc.indexOf("CPU"), doc.length);
+//		ip = ip.substr(10, ip.length);
+//		ip = ip.substr(0, ip.indexOf("power manage"));
+    	}
+
 	document.getElementById('cpuinfo').innerHTML = ip;
 
 	downloadUrl("/cgi-bin/catproc.cgi?arg=mtd", loadmtd);
@@ -99,8 +106,35 @@ function loadmtd(doc, status) {
 
 	document.getElementById('mtd').innerHTML = doc.substr(0, doc.length);
 
-//	downloadUrl("/cgi-bin/catproc.cgi?arg=cpuinfo", loadCPUinfo);
+	downloadUrl("/cgi-bin/catproc.cgi?arg=meminfo", loadmeminfo);
 }
 
+function loadmeminfo(doc, status) {
+
+	document.getElementById('meminfo').innerHTML = doc.substr(0, doc.length);
+
+	downloadUrl("/cgi-bin/catproc.cgi?arg=yaffs", loadyaffs);
+}
+
+function loadyaffs(doc, status) {
+
+	document.getElementById('yaffs').innerHTML = doc.substr(0, doc.length);
+
+	downloadUrl("/cgi-bin/uptime.cgi?arg=nothing", loaduptime);
+}
+
+function loaduptime(doc, status) {
+
+	document.getElementById('uptime').innerHTML = doc.substr(0, doc.length);
+
+	downloadUrl("/cgi-bin/ipkg.cgi?arg=list_installed", loadinstalled);
+}
+
+function loadinstalled(doc, status) {
+
+	document.getElementById('installed').innerHTML = doc.substr(0, doc.length);
+
+//	downloadUrl("/cgi-bin/catproc.cgi?arg=cpuinfo", loadCPUinfo);
+}
 
 
