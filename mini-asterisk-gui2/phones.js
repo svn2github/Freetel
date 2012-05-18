@@ -27,7 +27,7 @@ function initialisePage() {
     var icon = '<img src="tick.png" alt="Analog Phone OK" />';
     var html = '';
 
-    html += '<table align="right" width=600>';
+    html += '<table align="right" width=600 cellspacing=2>';
 
     // print out internet connection
 
@@ -46,10 +46,25 @@ function initialisePage() {
 //	    html += "<td>Port" + i  + "<td>" +"   <img src=" + "tick.png" + " />"+"</td>" + "</td></tr>";
 //	    html += "<td>Port" + i  + "<td>" + '<img src="tick.png" />' + "</td>" + "</td></tr>";
 	    html += "<td>Port" + i  + "</td>";
+	    //html += "<td>(Reception)</td>";
+            // the reception checkbox code
+	    html += "<td>" + '<input type="checkbox" name="reception' + analog_ext[i] ;
+	    // todo ian change zap[i] to array of reception info 
+            if (zap[i] == 'reception') {
+		    html += '" checked/>';
+		}
+	    else {
+		    html += '" unchecked/>';
+	    }
+            html += "</td>";
+	
+	    html += "<td>(Reception)</td>";
             html += "<td>" + '<img src="tick.png" />' + "</td>";
             html += "</tr>";
 	}
     }
+
+
 
     // print out IP phones
 
@@ -63,6 +78,18 @@ function initialisePage() {
 	}
     }
 
+    // print out submit button
+
+
+    html += "<tr>";
+    html += "<td>";
+    html += "<a href=ipphones.html    /a>Add IP Phone";
+    html += "</td>";
+    html += "<td>";
+    html += "<input type='submit' value='Update Reception' />";
+    html += "</td>";
+    html += "</tr>";
+
     // print out phone lines
 
     html += '<tr><td colspan="4" align="left" valign="top"><h2>Phone Lines</h2></td></tr>';
@@ -75,6 +102,14 @@ function initialisePage() {
             html += "</tr>";
 	}
     }
+
+    // add a voip line
+
+    html += "<tr>";
+    html += "<td>";
+    html += "<a href=voiplines.html    /a>Add Voip line";
+    html += "</td>";
+    html += "</tr>";
 
     html += '</table>';
 
