@@ -73,6 +73,20 @@ function initialisePage() {
             html += "<tr>";
 	    html += "<td>" + j + "</td>" + "<td>" + "IP Phone" + "</td>";
 	    html += "<td>" + ip_ext[j] + "</td>";
+
+            // the reception checkbox code
+	    html += "<td>" + '<input type="checkbox" name="reception' + ip_ext[j] ;
+	    // todo ian change zap[i] to array of reception info 
+            if (ip_ext[j] == 'reception') {
+		    html += '" checked/>';
+		}
+	    else {
+		    html += '" unchecked/>';
+	    }
+            html += "</td>";
+	
+	    html += "<td>(Reception)</td>";
+
             html += "<td>" + '<img src="tick.png" />' + "</td>";
             html += "</tr>";
 	}
