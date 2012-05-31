@@ -21,7 +21,47 @@
   <table align="center" width=800>
   <tr>
     <td><div id="menu"></div></td>
-    <td><div id="system"></div></td>
+    <td><div id="system"></div>
+        <table align="right" width=600>
+           <tr><td colspan="3" align="left" valign="top"><h2>System</h2></td></tr>
+           <tr><td colspan="2"></td></tr>
+
+           <tr><td colspan="2">cat /proc/version</td></tr>
+           <tr><td div id="version" style="border: 1px solid ;"></div></td></tr>
+           <tr><td>&nbsp</td></tr>
+
+           <tr><td colspan="2">cat /proc/loadavg</td></tr>
+           <tr><td div id="loadavg" style="border: 1px solid ;"></div></td></tr>
+           <tr><td>&nbsp</td></tr>
+
+           <tr><td colspan="2">cat /proc/cpuinfo</td></tr>
+           <tr><td div id="cpuinfo" style="border: 1px solid ;"></div></td></tr>
+           <tr><td>&nbsp</td></tr>
+
+           <tr><td colspan="2">cat /proc/mtd</td></tr>
+           <tr><td div id="mtd" style="border: 1px solid ;"></div></td></tr>
+           <tr><td>&nbsp</td></tr>
+
+           <tr><td colspan="2">cat /proc/meminfo</td></tr>
+           <tr><td div id="meminfo" style="border: 1px solid ;"></div></td></tr>
+           <tr><td>&nbsp</td></tr>
+
+           <tr><td colspan="2">cat /proc/yaffs</td></tr>
+           <tr><td div id="yaffs" style="border: 1px solid ;"></div></td></tr>
+           <tr><td>&nbsp</td></tr>
+
+           <tr><td colspan="2">uptime</td></tr>
+           <tr><td div id="uptime" style="border: 1px solid ;"></div></td></tr>
+           <tr><td>&nbsp</td></tr>
+
+           <tr><td colspan="2">ipkg list_installed</td></tr>
+           <tr><td div id="installed" style="border: 1px solid ;"></div></td></tr>
+           <tr><td>&nbsp</td></tr>
+
+           </table>
+
+
+    </td>
   </tr>
 
   </table>
