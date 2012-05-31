@@ -3,6 +3,8 @@ Mini Asterisk GUI Version 2
 
 Rewrite of original concept using Javascript.
 
+Check out notes in install notes.txt
+
 TODO
 ----
 

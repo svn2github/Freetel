@@ -1,6 +1,10 @@
 Installation reminders for miniasterisk GUI2 on the IP04
 (installation script could handle this stuff)
 
+
 1. Uncomment cgi support in /etc/lighttpd.conf 
 
-2. /etc/asterisk/extensions.conf needs to have "; mini_ext" tags added to the extensions 
+2. /etc/asterisk/extensions.conf         both must have "; mini_ext" tags added to the extensions
+   /etc/asterisk/extensions.conf.def
+
+3. copy scripts into /www/cgi-bin
