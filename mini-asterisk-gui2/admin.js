@@ -7,9 +7,10 @@
 */
 
 var update_time = 10;
+var firmwareurl = "hi";
+var newpassword = "hello";
 
 
-// Called when we load page
 
 function initialise() {
     mainMenu();
@@ -19,27 +20,75 @@ function initialise() {
 
 
 function initialisePage() {
-    // 
     
-    var icon = '<img src="tick.png" alt="Analog Phone OK" />';
-    var html = '';
+    
 
-    html += '<table align="right" width=600>';
+}
 
-    // print out info
+function onClickSetPassword() {
 
-    html += '<tr><td colspan="3" align="left" valign="top"><h2>Admin</h2></td></tr>';
-    html += '<tr><td colspan="2"><a href="http://rowetel.com/ucasterisk/mini.html">Mini Asterisk GUI2</a></td><td> </td><td>Revision XXX</td></tr>';
-    html += '<tr><td colspan="2">Brought to you by the</td><td> </td><td> <a href="http://rowetel.com/ucasterisk/index.html">Free Telephony Project</a></td></tr>';
-    // this image will only come up if internet connection is present
-    html += '<tr><td colspan="2"><a href="http://rowetel.com/ucasterisk/ip04.html"><img src="http://rowetel.com/images/ip04/ip04_case.jpg" border="0" /></a></td><td> </td><td></td></tr>';
-    html += '<tr><td>&nbsp</td></tr>';
- 
-    html += '</table>';
+        newpassword= document.pass.value;
+        downloadUrl("/cgi-bin/setpassword.cgi?newpassword="+newpassword,null);
 
-    document.getElementById("admin").innerHTML += html;
+//      if not x86 (developement environment)
+//	    pass=`echo "$QUERY_STRING" | grep -oe "pass=[^&?]*" | sed -n "s/pass=//p"`
+//	    passwd_cmdline $pass
 
 }
 
 
+function onClickInstall() {
+
+	firmwareurl=document.firmwareurl.value;
+	downloadUrl("/cgi-bin/install.cgi?file="+firmwareurl,null);
+
+//      if not x86 (developement environment)
+//    firmwareurl=`echo "$QUERY_STRING" | grep -oe "firmwareurl=[^&?]*" | sed -n "s/firmwareurl=//p"`
+//    # convert URL encoded string, this can just handle : and / so be careful
+//    # with script names
+//    firmwareurl=`echo $firmwareurl | sed -e "s/%3A/:/" -e "s_%2F_/_g"`
+//    wget $firmwareurl
+//    filename=`echo $firmwareurl | sed 's_^.*/__'`
+//    sh $filename
+//    exit
+
+}
+
+function onClickUpgrade() {
+
+	downloadUrl("/cgi-bin/upgrade.cgi?arg=",null);
+
+//      if not x86 (developement environment)
+//    rev_before=`grep -oe "Revision: [0-9]*" /www/about.sh`
+//    echo "<strong>Current $rev_before</strong><br>"
+//    echo "<strong>Removing $ver_before</strong><br>"
+//    ipkg remove mini-asterisk-gui | tr '\n' '#' | sed -n 's/\#/<br>/pg'
+//    echo "<strong>Installing...</strong><br>"
+//    ipkg update | tr '\n' '#' | sed -n 's/\#/<br>/pg'
+//    ipkg install mini-asterisk-gui | tr '\n' '#' | sed -n 's/\#/<br>/pg'
+
+
+}
+
+
+function onClickReset() {
+
+	downloadUrl("/cgi-bin/reset.cgi",null);
+
+//      if not x86 (developement environment)
+//	cp /etc/asterisk/extensions.conf.def /etc/asterisk/extensions.conf
+//	cp /etc/asterisk/sip.conf.def /etc/asterisk/sip.conf
+//	asterisk -rx "sip reload" 2>/dev/null 1 > /dev/null
+//	asterisk -rx "dialplan reload" 2>/dev/null 1 > /dev/null
+
+}
+
+
+function onClickRestart() {
+
+	downloadUrl("/cgi-bin/restart.cgi",null);
+
+//      if not x86 (developement environment)
+//          reboot
+}
 
