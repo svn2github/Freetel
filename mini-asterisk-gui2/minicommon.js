@@ -162,6 +162,50 @@ function loadIpExtensions(doc,status) {
       initialisePage();
 }
 
+function OnResetReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+
+      initialisePage();
+}
+
+function OnRestartReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+
+      initialisePage();
+}
+
+function OnUpgradeReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+
+      initialisePage();
+}
+
+function OnInstallReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+
+      initialisePage();
+}
+
+function OnSetPasswordReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+
+      initialisePage();
+}
 
 // Load a html encoded text file, strips off the HTML tags
 // and calls textLineProcessing() for every line

@@ -28,7 +28,7 @@ function initialisePage() {
 function onClickSetPassword() {
 
         newpassword= document.pass.value;
-        downloadUrl("/cgi-bin/setpassword.cgi?newpassword="+newpassword,null);
+        downloadUrl("/cgi-bin/setpassword.cgi?newpassword="+newpassword,OnSetPasswordReturn);
 
 //      if not x86 (developement environment)
 //	    pass=`echo "$QUERY_STRING" | grep -oe "pass=[^&?]*" | sed -n "s/pass=//p"`
@@ -40,7 +40,7 @@ function onClickSetPassword() {
 function onClickInstall() {
 
 	firmwareurl=document.firmwareurl.value;
-	downloadUrl("/cgi-bin/install.cgi?file="+firmwareurl,null);
+	downloadUrl("/cgi-bin/install.cgi?file="+firmwareurl,OnInstallReturn);
 
 //      if not x86 (developement environment)
 //    firmwareurl=`echo "$QUERY_STRING" | grep -oe "firmwareurl=[^&?]*" | sed -n "s/firmwareurl=//p"`
@@ -56,7 +56,7 @@ function onClickInstall() {
 
 function onClickUpgrade() {
 
-	downloadUrl("/cgi-bin/upgrade.cgi?arg=",null);
+	downloadUrl("/cgi-bin/upgrade.cgi?arg=",OnUpgradeReturn);
 
 //      if not x86 (developement environment)
 //    rev_before=`grep -oe "Revision: [0-9]*" /www/about.sh`
@@ -73,7 +73,7 @@ function onClickUpgrade() {
 
 function onClickReset() {
 
-	downloadUrl("/cgi-bin/reset.cgi",null);
+	downloadUrl("/cgi-bin/reset.cgi",OnResetReturn);
 
 //      if not x86 (developement environment)
 //	cp /etc/asterisk/extensions.conf.def /etc/asterisk/extensions.conf
@@ -86,7 +86,7 @@ function onClickReset() {
 
 function onClickRestart() {
 
-	downloadUrl("/cgi-bin/restart.cgi",null);
+	downloadUrl("/cgi-bin/restart.cgi",OnRestartReturn);
 
 //      if not x86 (developement environment)
 //          reboot
