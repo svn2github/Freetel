@@ -47,7 +47,7 @@ Set-Cookie: loggedin=1; expires=Thursday, 01-Jan-98 12:00:00 GMT
 <h2>Restarting...come back in 1 minute</h2>
 </body>
 EOF
-#reboot
+reboot
 
 
 cat <<EOF
