@@ -37,7 +37,7 @@ function initialisePage() {
  
     html += '</table>';
 
-    document.getElementById("ipphones").innerHTML += html;
+//    document.getElementById("ipphones").innerHTML += html;
 
 }
 
