@@ -21,7 +21,41 @@
   <table align="center" width=800>
   <tr>
     <td><div id="menu"></div></td>
-    <td><div id="voiplines"></div></td>
+    <td><div id="voiplines"></div>
+
+   <td valign="top">
+
+    <table align="right" width=600>
+      <tr><td>&nbsp</td></tr>
+      <form name="voiplines">
+      <tr><td onMouseOver="popUp(event,'voiplines_voiplines')" onmouseout="popUp(event,'voiplines_voiplines')" align="left" valign="top" colspan="3"><h2>VOIP Line</h2></td></tr>
+
+      <tr><td>&nbsp</td></tr>
+
+      <tr id="tt_provider"><td>Provider</td><td>
+      <select name="provider" id="provider" onchange="changeProvider()">
+	<option selected="yes">one</option>
+	<option selected="no">two</option>
+	<option selected="no">three</option>
+      </select></td></tr>
+      <tr id="tt_user"><td>User:</td><td><input type="text" name="user" id="user" value=""></td></tr>
+      <tr id="tt_pass"><td >Password:</td><td><input type="password" name="pass" id="pass" value=""></td></tr>
+      <tr id="tt_host"><td >Host:</td><td><input type="text" name="host" id="host" value=""></td></tr>
+      <tr><td colspan="2">Sometimes it takes a few seconds to connect
+                          your Voip Line.  After clicking OK refresh
+                          your browser to update Voip Line status.
+                          </td></tr>
+
+      <tr><td>&nbsp</td></tr>
+      <tr><td><input type="submit" value="OK" onClick=onClickApply()></td></tr>
+
+      </form>
+
+    </table>
+    </form>
+
+    </td>
+  </td>
   </tr>
 
   </table>

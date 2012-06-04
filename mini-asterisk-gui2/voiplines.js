@@ -37,9 +37,12 @@ function initialisePage() {
  
     html += '</table>';
 
-    document.getElementById("voiplines").innerHTML += html;
+ //   document.getElementById("voiplines").innerHTML += html;
 
 }
 
+function onClickApply() {
+
+}
 
 
