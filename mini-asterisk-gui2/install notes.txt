@@ -8,3 +8,28 @@ Installation reminders for miniasterisk GUI2 on the IP04
    /etc/asterisk/extensions.conf.def
 
 3. copy scripts into /www/cgi-bin
+
+4. Need dropbear for scp developement
+   ipkg install dropbear
+
+5. Rem Install fping
+
+6. svn propset ignore getnetwork getemergency
+
+7. fping reaction times 
+
+8. network write props
+
+9. sys info format and paging
+
+10. reception
+
+11. time-base dial plan 
+
+12. ntp page for setting times.
+
+13. dial tones impedance US or AUS
+
+14. Selectable FXO for outgoing.
+
+15. Target small businbess with sip phones. After hours leave a message...time-based autoattendant.
