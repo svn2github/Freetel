@@ -27,6 +27,7 @@ function initialisePage() {
     var icon = '<img src="tick.png" alt="Analog Phone OK" />';
     var html = '';
 
+
     html += '<table align="right" width=600 cellspacing=2>';
 
     // print out internet connection
@@ -48,10 +49,11 @@ function initialisePage() {
 //	    html += "<td>Port" + i  + "<td>" + '<img src="tick.png" />' + "</td>" + "</td></tr>";
 	    html += "<td>Port" + i  + "</td>";
 	    //html += "<td>(Reception)</td>";
+
             // the reception checkbox code
-	    html += "<td>" + '<input type="checkbox" name="reception' + analog_ext[i] ;
-	    // todo ian change zap[i] to array of reception info 
-            if (zap[i] == 'reception') {
+	    html += "<td>" + '<input type="checkbox" name="ZAP/' + i ;
+
+            if (reception.indexOf(analog_ext[i])> -1) {
 		    html += '" checked/>';
 		}
 	    else {
@@ -76,9 +78,10 @@ function initialisePage() {
 	    html += "<td>" + ip_ext[j] + "</td>";
 
             // the reception checkbox code
-	    html += "<td>" + '<input type="checkbox" name="reception' + ip_ext[j] ;
-	    // todo ian change zap[i] to array of reception info 
-            if (ip_ext[j] == 'reception') {
+	    html += "<td>" + '<input type="checkbox" name="SIP/' + ip_ext[j] ;
+ 
+
+            if (!reception.indexOf(ip_ext[j])) {
 		    html += '" checked/>';
 		}
 	    else {

@@ -20,7 +20,7 @@ var ip_ext = [];
 
 var network = "no";
 
-
+var reception  = ["6002"];
 
 function loadExtensions() {
 
