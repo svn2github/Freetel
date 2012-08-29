@@ -36,8 +36,9 @@ function initialisePage() {
     html += '<tr><td colspan="2">Phone System IP Address:</td><td> </td><td div id="ipaddress"></div></td></tr>';
     html += '<tr><td>&nbsp</td></tr>';
  
-    // print out analog phones
+    html += '<form action="/cgi-bin/setring.cgi" method="get">';
 
+    // print out analog phones
     html += '<tr><td colspan="4" align="left" valign="top"><h2>Phones</h2></td></tr>';
     for(var i=0; i<zap.length; i++) {
         if (zap[i] == 'FXS') {
@@ -103,6 +104,10 @@ function initialisePage() {
     html += "<input type='submit' value='Update Reception' />";
     html += "</td>";
     html += "</tr>";
+
+
+    html += '</form>';
+
 
     // print out phone lines
 
