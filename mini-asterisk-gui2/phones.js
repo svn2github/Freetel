@@ -51,9 +51,10 @@ function initialisePage() {
 	    //html += "<td>(Reception)</td>";
 
             // the reception checkbox code
-	    html += "<td>" + '<input type="checkbox" name="ZAP/' + i ;
+	    html += "<td>" + '<input type="checkbox" name="ZAP_' + i ;     
+		// Underscore used instead of forward slash to pass thru html request
 
-            if (reception.indexOf(analog_ext[i])> -1) {
+            if (reception.indexOf(analog_ext[i]) != -1) {
 		    html += '" checked/>';
 		}
 	    else {
@@ -78,10 +79,11 @@ function initialisePage() {
 	    html += "<td>" + ip_ext[j] + "</td>";
 
             // the reception checkbox code
-	    html += "<td>" + '<input type="checkbox" name="SIP/' + ip_ext[j] ;
+	    html += "<td>" + '<input type="checkbox" name="SIP_' + ip_ext[j] ;
+		// Underscore used instead of forward slash to pass thru html request
  
 
-            if (!reception.indexOf(ip_ext[j])) {
+            if (reception.indexOf(ip_ext[j])!=-1) {
 		    html += '" checked/>';
 		}
 	    else {

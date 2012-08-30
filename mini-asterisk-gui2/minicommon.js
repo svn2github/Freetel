@@ -22,7 +22,7 @@ var network = "no";
 
 // incomming calls are routed to these extensions
 
-var reception  = ["6002"];
+var reception  = [];
 
 function loadExtensions() {
 
@@ -136,18 +136,19 @@ function loadExtensionsConf(doc,status) {
 	    //  exten => s,1,Dial(Zap/4&SIP/6011) ;; mini-asterisk - don't remove this comment
 
 	    if(line.indexOf("exten => s,1,Dial") != -1) {
-		// for each Zap/ read in a single digit and convert to extension 
-		ret = line.indexOf("Zap/");
 		i=0;
-	        if (ret != -1)
+
+		// for each Zap/ read in a single digit and convert to extension 
+		while((ret = line.indexOf("Zap/"))!=-1) {	        
                     reception [i++] = analog_ext[line.substr(ret+4,1)];
+                    line = line.substr(ret+6,line.length);
+		}
 
 		// for each SIP/ read in four digits
-		ret = line.indexOf("SIP/");
-//                for( x in ret )
-	        if (ret != -1)
-			reception [i++] = line.substr(ret+4,4);
-
+		while ((ret = line.indexOf("SIP/")) != -1) {
+		    reception [i++] = line.substr(ret+4,4);
+                    line = line.substr(ret+9,line.length);
+		}
 
 	    }
 	}

@@ -17,7 +17,8 @@ Content-type: text/html
 EOF
 
 
-# extract extensions to ring and reload extensions.conf
+# extract extensions to ring
+#echo "Input $QUERY_STRING\n"
 
 a=`echo "$QUERY_STRING" | sed -n "s/=on*//pg" | sed -n 's,_,/,pg'`
 
@@ -28,6 +29,9 @@ if [ $? -eq 0 ]; then
 fi
 
 sed -i "s_s,1,Dial(.*) ;; mini-asterisk_s,1,Dial($a) ;; mini-asterisk_" /etc/asterisk/extensions.conf
+
+#reload extensions.conf
+
 #asterisk -rx "dialplan reload" 2>/dev/null 1 > /dev/null
 
  
