@@ -37,7 +37,7 @@ function initialisePage() {
     html += '<tr><td colspan="2">Phone System IP Address:</td><td> </td><td div id="ipaddress"></div></td></tr>';
     html += '<tr><td>&nbsp</td></tr>';
  
-    html += '<form action="/cgi-bin/setring.cgi" method="get">';
+    html += '<form name="phones" method="get">';
 
     // print out analog phones
     html += '<tr><td colspan="4" align="left" valign="top"><h2>Phones</h2></td></tr>';
@@ -106,7 +106,7 @@ function initialisePage() {
     html += "<a href=ipphones.html    /a>Add IP Phone";
     html += "</td>";
     html += "<td>";
-    html += "<input type='submit' value='Update Reception' />";
+    html += "<input type='submit' value='Update Reception' onClick='onClickApply(event)'/>";
     html += "</td>";
     html += "</tr>";
 
@@ -163,4 +163,14 @@ function processIfconfig(doc, status) {
     }
 
     document.getElementById('ipaddress').innerHTML = ip;
+}
+
+function onClickApply(e) {
+
+//	firmwareurl=document.firmwareurl.value;
+	// get the arguments from the form
+	arg1=document.phones.submit();
+//	downloadUrl("/cgi-bin/setring.cgi?"+arg1,null);
+
+
 }

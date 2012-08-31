@@ -29,10 +29,8 @@
       <form name="network">
       <table align="center" width=600 border=0>
         <tr><td colspan="2" align="left" valign="top"><h2>Network</h2></td></tr>
-        <tr>
-	   <td><input type="radio" id="static" name="dhcp" value="no" onClick="doStatic()">Static</td>
-	   <td><input type="radio" id="dhcp" name="dhcp" value="yes" onClick="doDHCP()">DHCP</td>
-        </tr>
+	<tr><td colspan="1" align="middle" valign="top"><input type="radio" id="dhcp" name="dhcp" value="yes" onClick="doDHCP()">DHCP</td></tr>
+  	<tr><td colspan="1" align="middle" valign="top"><input type="radio" id="static" name="dhcp" value="no" onClick="doStatic()">Static</td></tr>
         <tr><td>IP Address:</td><td><input type="text" name="ipaddress" onBlur="isIP(this)"></td></tr>
         <tr><td>Netmask:</td><td><input type="text" name="netmask" onBlur="isIP(this)"></td></tr>
         <tr><td>Gateway:</td><td><input type="text" name="gateway" onBlur="isIP(this)"></td></tr>
