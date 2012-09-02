@@ -75,6 +75,7 @@ function initialisePage() {
 
 
     // print out IP phones
+    //  j is 6011,6012 etc
 
     for (j in ip_ext) {
         if (ip_ext[j] != '') {
@@ -87,7 +88,7 @@ function initialisePage() {
 		// Underscore used instead of forward slash to pass thru html request
  
 
-            if (recept_num.indexOf(ip_ext[j])!=-1) {
+            if (recept_num.indexOf(j)!=-1) {
 		    html += '" checked/>';
 		}
 	    else {
@@ -95,7 +96,9 @@ function initialisePage() {
 	    }
 
 	    // save the reception code
-	    recept_code[iancount++]=ext_code[(i-1)+(j-1)];
+           
+	    recept_code[iancount++]=ext_code[(i-1)];
+	    i++;
 
             html += "</td>";
 	
@@ -201,6 +204,6 @@ function onClickApply(e) {
 
 	}
 
-	//downloadUrl("/cgi-bin/setring.cgi?"+arg,null);
+	downloadUrl("/cgi-bin/setring.cgi?"+arg,null);
 
 }
