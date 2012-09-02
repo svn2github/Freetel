@@ -54,12 +54,16 @@ function initialisePage() {
 	    html += "<td>" + '<input name="selected[]" type="checkbox" ' ;     
 		// Underscore used instead of forward slash to pass thru html request
 
-            if (reception.indexOf(analog_ext[i]) != -1) {
+            if (recept_num.indexOf(analog_ext[i]) != -1) {
 		    html += '" checked/>';
 		}
 	    else {
 		    html += '" unchecked/>';
 	    }
+
+	    // save the reception code
+	    recept_code[iancount++]=ext_code[i-1];
+
             html += "</td>";
 	
 	    html += "<td>(Reception)</td>";
@@ -83,12 +87,16 @@ function initialisePage() {
 		// Underscore used instead of forward slash to pass thru html request
  
 
-            if (reception.indexOf(ip_ext[j])!=-1) {
+            if (recept_num.indexOf(ip_ext[j])!=-1) {
 		    html += '" checked/>';
 		}
 	    else {
 		    html += '" unchecked/>';
 	    }
+
+	    // save the reception code
+	    recept_code[iancount++]=ext_code[(i-1)+(j-1)];
+
             html += "</td>";
 	
 	    html += "<td>(Reception)</td>";
@@ -168,15 +176,31 @@ function processIfconfig(doc, status) {
 function onClickApply(e) {
 
 	// get the arguments from the form  selected[]
-///document.myform.elements['fav[]'].checked
-var arg ='';
-var total = document.getElementByName('selected[]');
+	///document.myform.elements['fav[]'].checked
+	var arg ='';
+
+
+	//	number of check boxes in the form
+	var total = document.phones.elements['selected[]'].length;
+
+	var recept_box = document.phones.elements['selected[]'];
+
+	j=0;
 	for (i=0;i<total; i++) {
-// in document.phones.elements['selected[]'] {
-		if (selected[x]<6010)
-		arg = arg + 'ZAP_'+i;
-        // construct new arg from selected
-	//downloadUrl("/cgi-bin/setring.cgi?"+arg1,null);
+
+	        // construct new arg from selected
+		if(recept_box[i].checked) {
+			
+			j++;
+			if (j>1)
+				arg = arg+"&";
+
+			// got to make up new codes
+			arg = arg + recept_code[i];
+		}
+
 	}
+
+	//downloadUrl("/cgi-bin/setring.cgi?"+arg,null);
 
 }

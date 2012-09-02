@@ -20,14 +20,23 @@ var ip_ext = [];
 
 var network = "no";
 
-// incomming calls are routed to these extensions ie (6003, ZAP/3)
-var number='';
-var code='';
+// incomming calls are routed to these extensions ie (6003, Zap/3)
+// this should be made dynamically from the reception line in extensions.conf
 
+//testing
+//var reception = [["6003","Zap/3"],["6004","Zap/4"],["6011","SIP/6011"],["6012","SIP/6012"]] ;
 
-var reception[]  =  {number, code};
+//max 4 receptions
+var reception = [["",""],["",""],["",""],["",""]] ;
 
+var recept_num = [];
+var ext_code =[];
+var recept_code =[];
+var recept_count = 0;
+var ext_count = 0;
+var iancount = 0;
 
+var items = [[1,2],[3,4],[5,6]];
 
 // these are the selections for the new reception numbers
 
@@ -133,11 +142,18 @@ function loadExtensionsConf(doc,status) {
 		    if (zap[tech2] == undefined)
 			analog_ext[tech2] = "";
 		    else
-			analog_ext[tech2] = ext; 		
+			analog_ext[tech2] = ext; 
 		}
 		if (tech1 == "SIP") {
 		    ip_ext[ext] = "";
 		}
+
+		// save the codes for each extension
+		// need these for constructing the reception string
+		// using underscore instead of forward slash to avoid http managle 
+
+		ext_code[ext_count++] = tech1 +"_"+ tech2;
+		
 	    }
 
 	    // Save the reception numbers if they exist
@@ -145,23 +161,26 @@ function loadExtensionsConf(doc,status) {
 	    //  exten => s,1,Dial(Zap/4&SIP/6011) ;; mini-asterisk - don't remove this comment
 
 	    if(line.indexOf("exten => s,1,Dial") != -1) {
+
 		i=0;
 
 		// for each Zap/ read in a single digit and convert to extension
 		while((ret = line.indexOf("Zap/"))!=-1) {
-                    reception[i].code = line.substr(ret,5);
-                    reception[i].number = analog_ext[line.substr(ret+4,1)];
+//                    recept_code[i] = line.substr(ret,5);
+                    recept_num[i] = analog_ext[line.substr(ret+4,1)];
                     line = line.substr(ret+6,line.length);
 		    i++;
 		}
 
 		// for each SIP/ read in four digits
 		while ((ret = line.indexOf("SIP/")) != -1) {
-                    reception[i].code = line.substr(ret,8);
-                    reception[i].number = line.substr(ret+4,4);
+//                    recept_code[i] = line.substr(ret,8);
+                    recept_num[i] = line.substr(ret+4,4);
                     line = line.substr(ret+9,line.length);
 		    i++;
 		}
+
+	        recept_count = i;
 
 	    }
 	}
