@@ -51,7 +51,7 @@ function initialisePage() {
 	    //html += "<td>(Reception)</td>";
 
             // the reception checkbox code
-	    html += "<td>" + '<input type="checkbox" name="ZAP_' + i ;     
+	    html += "<td>" + '<input name="selected[]" type="checkbox" ' ;     
 		// Underscore used instead of forward slash to pass thru html request
 
             if (reception.indexOf(analog_ext[i]) != -1) {
@@ -79,7 +79,7 @@ function initialisePage() {
 	    html += "<td>" + ip_ext[j] + "</td>";
 
             // the reception checkbox code
-	    html += "<td>" + '<input type="checkbox" name="SIP_' + ip_ext[j] ;
+	    html += "<td>" + '<input name="selected[]" type="checkbox" ' ;
 		// Underscore used instead of forward slash to pass thru html request
  
 
@@ -167,10 +167,16 @@ function processIfconfig(doc, status) {
 
 function onClickApply(e) {
 
-//	firmwareurl=document.firmwareurl.value;
-	// get the arguments from the form
-	arg1=document.phones.submit();
-//	downloadUrl("/cgi-bin/setring.cgi?"+arg1,null);
-
+	// get the arguments from the form  selected[]
+///document.myform.elements['fav[]'].checked
+var arg ='';
+var total = document.getElementByName('selected[]');
+	for (i=0;i<total; i++) {
+// in document.phones.elements['selected[]'] {
+		if (selected[x]<6010)
+		arg = arg + 'ZAP_'+i;
+        // construct new arg from selected
+	//downloadUrl("/cgi-bin/setring.cgi?"+arg1,null);
+	}
 
 }

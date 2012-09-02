@@ -20,9 +20,18 @@ var ip_ext = [];
 
 var network = "no";
 
-// incomming calls are routed to these extensions
+// incomming calls are routed to these extensions ie (6003, ZAP/3)
+var number='';
+var code='';
 
-var reception  = [];
+
+var reception[]  =  {number, code};
+
+
+
+// these are the selections for the new reception numbers
+
+var selected = [];
 
 function loadExtensions() {
 
@@ -138,16 +147,20 @@ function loadExtensionsConf(doc,status) {
 	    if(line.indexOf("exten => s,1,Dial") != -1) {
 		i=0;
 
-		// for each Zap/ read in a single digit and convert to extension 
-		while((ret = line.indexOf("Zap/"))!=-1) {	        
-                    reception [i++] = analog_ext[line.substr(ret+4,1)];
+		// for each Zap/ read in a single digit and convert to extension
+		while((ret = line.indexOf("Zap/"))!=-1) {
+                    reception[i].code = line.substr(ret,5);
+                    reception[i].number = analog_ext[line.substr(ret+4,1)];
                     line = line.substr(ret+6,line.length);
+		    i++;
 		}
 
 		// for each SIP/ read in four digits
 		while ((ret = line.indexOf("SIP/")) != -1) {
-		    reception [i++] = line.substr(ret+4,4);
+                    reception[i].code = line.substr(ret,8);
+                    reception[i].number = line.substr(ret+4,4);
                     line = line.substr(ret+9,line.length);
+		    i++;
 		}
 
 	    }

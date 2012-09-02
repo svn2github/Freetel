@@ -1,6 +1,7 @@
 #!/bin/sh
 # setring.cgi
-# David Rowe 9 March 2011
+# 
+# Ian Roberts 30 August 2012
 #
 # CGI to set extension to ring on an incoming call
 #
@@ -17,7 +18,9 @@ Content-type: text/html
 EOF
 
 
-# extract extensions to ring
+# extract extensions to ring 
+# must replace underscores with forward slash
+
 #echo "Input $QUERY_STRING\n"
 
 a=`echo "$QUERY_STRING" | sed -n "s/=on*//pg" | sed -n 's,_,/,pg'`
