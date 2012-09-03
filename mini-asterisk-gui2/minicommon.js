@@ -26,8 +26,6 @@ var network = "no";
 //testing
 //var reception = [["6003","Zap/3"],["6004","Zap/4"],["6011","SIP/6011"],["6012","SIP/6012"]] ;
 
-//max 4 receptions
-var reception = [["",""],["",""],["",""],["",""]] ;
 
 var recept_num = [];
 var ext_code =[];
