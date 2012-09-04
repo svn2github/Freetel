@@ -23,7 +23,7 @@ EOF
 
 echo "Input $QUERY_STRING"
 
-a=`echo "$QUERY_STRING" | sed -n 's,_,/,pg'`
+a=`echo "$QUERY_STRING" | sed -n "s/=on*//pg" | sed -n 's,_,/,pg'`
 
 # escape & if present
 echo "$a" | grep "&" >> /dev/null
@@ -32,8 +32,8 @@ if [ $? -eq 0 ]; then
 fi
 
 echo "Mods $a"
-#sed -i "s_s,1,Dial(.*) ;; mini-asterisk_s,1,Dial($a) ;; mini-asterisk_" /etc/asterisk/extensions.conf
 sed -i "s_s,1,Dial(.*) ;; mini-asterisk_s,1,Dial($a) ;; mini-asterisk_" /etc/asterisk/extensions.conf
+#sed -i "s_s,1,Dial(.*) ;; mini-asterisk_s,1,Dial($a) ;; mini-asterisk_" /etc/asterisk/extensions.conf
 
 #reload extensions.conf
 

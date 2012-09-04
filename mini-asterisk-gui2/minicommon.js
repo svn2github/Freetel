@@ -233,6 +233,15 @@ function OnRestartReturn(doc,status) {
       initialisePage();
 }
 
+function GenericReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+
+      initialisePage();
+}
+
 function OnUpgradeReturn(doc,status) {
     loadHtmlTextFile(doc, function(line) {
 	    //parseSipShowPeers(line);
@@ -361,5 +370,44 @@ function downloadUrl(url, callback) {
     }
 
 }
+
+/**
+ * This functions wraps XMLHttpRequest open/send function.
+ * It lets you specify a URL and will call the callback if
+ * it gets a status code of 200.
+ * @param {String} url The URL to retrieve
+ * @param {Function} callback The function to call once retrieved.
+ */
+function downloadUrl2(url, callback) {
+    var status = -1;
+    var request = createXmlHttpRequest();
+    if (!request) {
+	return false;
+    }
+
+/*    request.onreadystatechange = function() {
+	if (request.readyState == 4) {
+	    try {
+		status = request.status;
+	    } catch (e) {
+		// Usually indicates request timed out in FF.
+	    }
+	    if (status == 200) {
+		callback(request.responseText, request.status);
+		request.onreadystatechange = function() {};
+	    }
+	}
+    }
+ */
+
+   request.open('GET', url, true);
+    try {
+	request.send(null);
+    } catch (e) {
+	changeStatus(e);
+    }
+
+}
+
 
 

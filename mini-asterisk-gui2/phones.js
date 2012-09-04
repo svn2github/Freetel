@@ -66,7 +66,7 @@ function initialisePage() {
 
             html += "</td>";
 	
-	    html += "<td>(Reception)</td>";
+//	    html += "<td>(Reception)</td>";
             html += "<td>" + '<img src="tick.png" />' + "</td>";
             html += "</tr>";
 	}
@@ -110,15 +110,16 @@ function initialisePage() {
     }
 
     // print out submit button
-
+	//doesn't work ... Only use static html buttons
 
     html += "<tr>";
     html += "<td>";
     html += "<a href=ipphones.html    /a>Add IP Phone";
     html += "</td>";
-    html += "<td>";
-    html += "<input type='submit' value='Update Reception' onClick='onClickApply(event)'/>";
+/*    html += "<td>";
+    html += "<input type='submit' value='Update Reception' onClick='onUpdateReception()'/>";
     html += "</td>";
+*/
     html += "</tr>";
 
 
@@ -158,6 +159,10 @@ function initialisePage() {
 
     downloadUrl("/cgi-bin/ifconfig.cgi?arg=eth0", processIfconfig);
 //    downloadUrl("/cgi-bin/ifconfig.cgi?arg=eth1", processIfconfig);
+
+	// downloadUrl works fine here.
+//    downloadUrl("/cgi-bin/setring.cgi?Zap_3=on", null);
+
 }
 
 
@@ -176,11 +181,11 @@ function processIfconfig(doc, status) {
     document.getElementById('ipaddress').innerHTML = ip;
 }
 
-function onClickApply(e) {
+function onClickUpdateReception() {
 
 	// get the arguments from the form  selected[]
 	///document.myform.elements['fav[]'].checked
-	var arg ='';
+	var arg ="";
 
 
 	//	number of check boxes in the form
@@ -199,11 +204,25 @@ function onClickApply(e) {
 				arg = arg+"&";
 
 			// got to make up new codes
-			arg = arg + recept_code[i];
+			arg = arg + recept_code[i] + "=on";
 		}
 
 	}
+        var arg2 =  "/cgi-bin/setring.cgi?" + arg;
+	downloadUrl(arg2,null);
 
-	downloadUrl("/cgi-bin/setring.cgi?"+arg,null);
 
+/*	
+
+	// ok looks like static buttons work but my dynamic button line 112 doesnt.
+
+    var ret = downloadUrl("/cgi-bin/setring.cgi?Zap_3=on", GenericReturn);
+    if (ret == false) {
+	throw new Error("XMLHttpRequest not supported");
+	}
+*/
 }
+
+
+
+
