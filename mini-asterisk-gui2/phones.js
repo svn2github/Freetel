@@ -26,7 +26,7 @@ function initialisePage() {
     
     var icon = '<img src="tick.png" alt="Analog Phone OK" />';
     var html = '';
-
+    var itemcount = 0;
 
     html += '<table align="right" width=600 cellspacing=2>';
 
@@ -51,7 +51,7 @@ function initialisePage() {
             html += "<td>" + '<img src="tick.png" />' + "</td>";
 
             // the reception checkbox code
-	    html += "<td>" + '<input name="selected[]" type="checkbox" ' ;     
+	    html += "<td>" + '<input name="selected_in[]" type="checkbox" ' ;     
 		// Underscore used instead of forward slash to pass thru html request
 
             if (recept_num.indexOf(analog_ext[i]) != -1) {
@@ -62,7 +62,7 @@ function initialisePage() {
 	    }
 
 	    // save the reception code
-	    recept_code[iancount++]=ext_code[i-1];
+	    recept_code[itemcount++]=ext_code[i-1];
 
             html += "</td>";
 	
@@ -82,7 +82,7 @@ function initialisePage() {
 	    html += "<td>" + ip_ext[j] + "</td>";
 
             // the reception checkbox code
-	    html += "<td>" + '<input name="selected[]" type="checkbox" ' ;
+	    html += "<td>" + '<input name="selected_in[]" type="checkbox" ' ;
 		// Underscore used instead of forward slash to pass thru html request
  
 
@@ -95,12 +95,10 @@ function initialisePage() {
 
 	    // save the reception code
            
-	    recept_code[iancount++]=ext_code[(i-1)];
+	    recept_code[itemcount++]=ext_code[(i-1)];
 	    i++;
 
             html += "</td>";
-	
-	    html += "<td>(Reception)</td>";
 
             html += "<td>" + '<img src="tick.png" />' + "</td>";
             html += "</tr>";
@@ -134,8 +132,27 @@ function initialisePage() {
 	    html += "<td>" + "0" + "</td>" + "<td>" + "Analog Phone" + "</td>";
 	    html += "<td>Port" + i + "</td>";
             html += "<td>" + '<img src="tick.png" />' + "</td>";
-            html += "</tr>";
+
+            // the outgoing radiobox code
+/*	    html += "<td>" + '<input name="selected_out[]" type="radio" ' ;
+
+            if (outgoing_num == i) {
+		    html += '" checked/>';
+		}
+	    else {
+		    html += '" unchecked/>';
+	    }
+
+	    // save the outgoing code
+           
+	    outgoing_code[itemcount++]=ext_code[(i-1)];
+
+            html += "</td>";
+
+*/            html += "</tr>";
 	}
+
+
     }
 
     // add a voip line
@@ -182,15 +199,15 @@ function processIfconfig(doc, status) {
 
 function onClickUpdateReception() {
 
-	// get the arguments from the form  selected[]
+	// get the arguments from the form  selected_in[]
 	///document.myform.elements['fav[]'].checked
 	var arg ="";
 
 
 	//	number of check boxes in the form
-	var total = document.phones.elements['selected[]'].length;
+	var total = document.phones.elements['selected_in[]'].length;
 
-	var recept_box = document.phones.elements['selected[]'];
+	var recept_box = document.phones.elements['selected_in[]'];
 
 	j=0;
 	for (i=0;i<total; i++) {
@@ -207,19 +224,44 @@ function onClickUpdateReception() {
 		}
 
 	}
+
         var arg2 =  "/cgi-bin/setring.cgi?" + arg;
-	downloadUrl(arg2,null);
+	downloadUrl(arg2,GenericReturn);
 
 
-/*	
+}
 
-	// ok looks like static buttons work but my dynamic button line 112 doesnt.
+function onClickUpdateOutgoing() {
 
-    var ret = downloadUrl("/cgi-bin/setring.cgi?Zap_3=on", GenericReturn);
-    if (ret == false) {
-	throw new Error("XMLHttpRequest not supported");
+	// get the arguments from the form  selected_out[]
+	///document.myform.elements['fav[]'].checked
+	var arg ="";
+
+
+	//	number of check boxes in the form
+	var total = document.phones.elements['selected_out[]'].length;
+
+	var out_box = document.phones.elements['selected_out[]'];
+
+	//j=0;
+	for (i=0;i<total; i++) {
+
+	        // construct new arg from selected
+		if(out_box[i].checked) {
+			
+			//j++;
+			//if (j>1)
+			//	arg = arg+"&";
+
+			// got to make up new codes
+			arg = arg + recept_code[i] + "=on";
+		}
+
 	}
-*/
+        var arg2 =  "/cgi-bin/setoutgoing.cgi?" + arg;
+//	downloadUrl(arg2,GenericReturn);
+
+
 }
 
 

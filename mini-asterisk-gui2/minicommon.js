@@ -31,8 +31,10 @@ var recept_num = [];
 var ext_code =[];
 var recept_code =[];
 var recept_count = 0;
+var outgoing_num=0;
+var outgoing_code=[];
 var ext_count = 0;
-var iancount = 0;
+
 
 var items = [[1,2],[3,4],[5,6]];
 
@@ -239,7 +241,7 @@ function GenericReturn(doc,status) {
 	}
 	);
 
-      initialisePage();
+
 }
 
 function OnUpgradeReturn(doc,status) {
