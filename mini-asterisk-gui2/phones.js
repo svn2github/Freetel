@@ -40,15 +40,15 @@ function initialisePage() {
     html += '<form name="phones" method="get">';
 
     // print out analog phones
+
     html += '<tr><td colspan="4" align="left" valign="top"><h2>Phones</h2></td></tr>';
     for(var i=0; i<zap.length; i++) {
         if (zap[i] == 'FXS') {
             html += "<tr>";
 	    html += "<td>" + analog_ext[i] + "</td>" + "<td>" + "Analog Phone" + "</td>";
-//	    html += "<td>Port" + i  + "<td>" +"   <img src=" + "tick.png" + " />"+"</td>" + "</td></tr>";
-//	    html += "<td>Port" + i  + "<td>" + '<img src="tick.png" />' + "</td>" + "</td></tr>";
 	    html += "<td>Port" + i  + "</td>";
-	    //html += "<td>(Reception)</td>";
+
+            html += "<td>" + '<img src="tick.png" />' + "</td>";
 
             // the reception checkbox code
 	    html += "<td>" + '<input name="selected[]" type="checkbox" ' ;     
@@ -66,8 +66,6 @@ function initialisePage() {
 
             html += "</td>";
 	
-//	    html += "<td>(Reception)</td>";
-            html += "<td>" + '<img src="tick.png" />' + "</td>";
             html += "</tr>";
 	}
     }
@@ -109,13 +107,14 @@ function initialisePage() {
 	}
     }
 
-    // print out submit button
-	//doesn't work ... Only use static html buttons
-
     html += "<tr>";
     html += "<td>";
     html += "<a href=ipphones.html    /a>Add IP Phone";
     html += "</td>";
+
+    // print out submit button
+	//doesn't work ... Only use static html buttons
+
 /*    html += "<td>";
     html += "<input type='submit' value='Update Reception' onClick='onUpdateReception()'/>";
     html += "</td>";

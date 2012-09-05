@@ -1,0 +1,41 @@
+IP04 GUI2 Development notes
+Ian Roberts 
+Sept 2012
+
+Need dropbear on IP04 for file tranfer...secure copy scp
+   ipkg install dropbear
+
+
+svn propset ignore getnetwork getemergency
+
+fping 
+	reaction times 
+
+network 
+	write properties?
+
+sys info 
+	format and paging
+
+reception 
+	Had to use static button for reception update. 
+	Dynamic created button failed to fire setring.cgi
+	Escaping the & works on the IP04 but fails on devel pc linux mint. sed on diff platforms?
+
+Install script
+
+Simple Switch button for GUI2 or original.
+	The GUIs can coexist. Should have the option of switching.
+
+ntp page
+	setting times.
+
+dial tones impedance 
+	Set US or AUS
+
+Outgoing calls
+	Selectable FXO.
+
+time-based autoattendant.
+	After hours leave a message
+

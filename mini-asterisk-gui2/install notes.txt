@@ -1,35 +1,17 @@
-Installation reminders for miniasterisk GUI2 on the IP04
-(installation script could handle this stuff)
+IP04 GUI2 Install notes
+Ian Roberts 
+Sept 2012
 
+0. ipkg install fping
 
 1. Uncomment cgi support in /etc/lighttpd.conf 
 
-2. /etc/asterisk/extensions.conf         both must have "; mini_ext" tags added to the extensions
+2. Add "; mini_ext" tags to files
+   /etc/asterisk/extensions.conf
    /etc/asterisk/extensions.conf.def
 
-3. copy scripts into /www/cgi-bin
+3. copy main files to /www/mini-asterisk-gui2
 
-4. Need dropbear for scp developement
-   ipkg install dropbear
+4. copy cgi-bin scripts into /www/cgi-bin
 
-5. Rem Install fping
-
-6. svn propset ignore getnetwork getemergency
-
-7. fping reaction times 
-
-8. network write props
-
-9. sys info format and paging
-
-10. reception
-
-11. time-base dial plan 
-
-12. ntp page for setting times.
-
-13. dial tones impedance US or AUS
-
-14. Selectable FXO for outgoing.
-
-15. Target small businbess with sip phones. After hours leave a message...time-based autoattendant.
+5. point lighttpd at /www/mini-asterisk-gui2
