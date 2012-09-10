@@ -2,39 +2,97 @@ IP04 GUI2 Development notes
 Ian Roberts 
 Sept 2012
 
-Need dropbear on IP04 for file tranfer...secure copy scp
-   ipkg install dropbear
+
+IP04 Environment
+
+	ssh root@192.168.1.30
+	ipkg install dropbear           (for scp access to ip04)
+
+	url:   192.168.1.30
+
+PC Environment 
+
+Packages
+	chrome    	debugger ctrl-shift-i
+	lighttpd	webserver
+	asterisk-1.4.11 required when testing code around asterisk -r calls
+			mostly asterisk doesnt need to be running.
+
+Source code
+	svn co https://freetel.svn.sourceforge.net/svnroot/freetel/mini-asterisk-gui2
+
+	svn status
+	svn diff
+	svn ci
+	svn propset executable
+
+lighttpd setup
+	point at the mini-asterisk-gui2 directory.
+	enable cgi
+
+browser
+	url :   127.0.0.1/phones.html
 
 
-svn propset ignore getnetwork getemergency
+
+Method
+
+	Develop on PC
+	Test on PC
+	Secure copy gui2 to IP04 /www/gui2
+	Copy gui2/cgi-bin to IP04/www/cgi-bin
+	enable cgi for lighttpd.
+	url : 192.168.1.30/gui2/phones.html
+	Test on IP04
+
+
+
+
+Specific Tasks
 
 fping 
-	reaction times 
+	check reaction times 
 
 network 
-	write properties?
+	test write properties
 
 sys info 
 	format and paging
 
 reception 
-	Had to use static button for reception update. 
-	Dynamic created button failed to fire setring.cgi
-	Escaping the & works on the IP04 but fails on devel pc linux mint. sed on diff platforms?
+	Incoming calls are switched to a handset defined in /etc/extensions.conf
+
+	exten => s,1,Dial(Zap/4&SIP/6011) ;; mini-asterisk - don't remove this comment
+
+	In this case, the analog handset hanging off Zap/4, and the sip hanset 6011
+
+	I had to use a static html button for reception update. 
+	The dynamic created button failed to fire setring.cgi
+
+	Setring.cgi : escaping the & works on the IP04 but fails on devel pc linux mint. 
+	sed on diff platforms?
+
+	http://www.voip-info.org/wiki/view/Asterisk+config+extensions.conf
+
 
 Install script
 
 Simple Switch button for GUI2 or original.
 	The GUIs can coexist. Should have the option of switching.
 
-ntp page
-	setting times.
-
 dial tones impedance 
+	/etc/zaptel.conf
+	loadzone = [your country] 
 	Set US or AUS
+	us au fr nl uk fi es jp no at nz it us-old gr tw cl se be sg il br hu lt pl za pt ee mx in de ch dk cz cn ve ph
+	http://www.voip-info.org/wiki/view/Asterisk+config+zaptel.conf
 
 Outgoing calls
 	Selectable FXO.
+	exten => _0.,1,Dial(Zap/g1/${EXTEN:1})
+
+ntp page
+	setting times.
 
 time-based autoattendant.
 	After hours leave a message
