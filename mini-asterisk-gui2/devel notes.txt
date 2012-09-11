@@ -13,24 +13,65 @@ IP04 Environment
 PC Environment 
 
 Packages
-	chrome    	debugger ctrl-shift-i
-	lighttpd	webserver
-	asterisk-1.4.11 required when testing code around asterisk -r calls
-			mostly asterisk doesnt need to be running.
+
+	svn		version control
+	openssh		communication with ip04
+	fping		used to determine internet connection
+	chrome    	has a very useful debugger .... ctrl-shift-i
+	lighttpd	minimal webserver
+	asterisk-1.4.11 when testing code around asterisk -r calls
+			needs to be installed (we need access to the conf files)
+			but doesn't have to be running.
 
 Source code
+
 	svn co https://freetel.svn.sourceforge.net/svnroot/freetel/mini-asterisk-gui2
 
 	svn status
-	svn diff
-	svn ci
+	svn diff <file>
+	svn add <newfile>
+	svn ci <file>
 	svn propset executable
 
+
 lighttpd setup
+
 	point at the mini-asterisk-gui2 directory.
 	enable cgi
+	see x86 instructions at http://www.rowetel.com/blog/?page_id=455
+
+Asterisk Install
+
+	Install asterisk-1.4.11 from source code
+	see x86 instructions at http://www.rowetel.com/blog/?page_id=455
+
+	IP04 runs 1.4.4-1 (2007) with zaptel-sport 1.4.3-2 on a 2.6.19-3 kernel (2006).
+	You can ipkg install asterisk-1.4.20 (2008)
+
+	Asterisk 1.4.22 (2008) changed from using zaptel-sport to dahdi.
+
+	Asterisk 1.6.2.7 (2010) uses dahdi 2.3.0
+
+	AsteriskNow (2012) runs Asterisk 1.8.11 with Dahdi 2.6.1 on a 2.6.18-308 kernel
+
+
+Asterisk conf files
+
+
+	copy the following files from the gui2 source to /etc on the pc.
+
+	gui2/etc/asterisk/extensions.conf  to 	/etc/asterisk/extensions.conf
+	gui2/etc/asterisk/sip.conf	   to	/etc/asterisk/sip.conf
+	gui2/etc/asterisk/zapata.conf	   to	/etc/asterisk/zapata.conf
+	gui2/etc/asterisk/iax.conf	   to 	/etc/asterisk/iax.conf
+
+	and
+
+	gui2/etc/zaptel.conf to /etc/zaptel.conf
+
 
 browser
+
 	url :   127.0.0.1/phones.html
 
 
@@ -69,7 +110,7 @@ reception
 	I had to use a static html button for reception update. 
 	The dynamic created button failed to fire setring.cgi
 
-	Setring.cgi : escaping the & works on the IP04 but fails on devel pc linux mint. 
+	Setring.cgi : escaping the & works on the IP04 but fails on devel pc.... linux mint. 
 	sed on diff platforms?
 
 	http://www.voip-info.org/wiki/view/Asterisk+config+extensions.conf
@@ -81,7 +122,15 @@ Simple Switch button for GUI2 or original.
 	The GUIs can coexist. Should have the option of switching.
 
 dial tones impedance 
-	/etc/zaptel.conf
+	cat /etc/zaptel.conf
+
+	loadzone = us
+	defaultzone=us
+
+	fxsks=1,2
+	fxoks=3,4
+
+	---------------------------
 	loadzone = [your country] 
 	Set US or AUS
 	us au fr nl uk fi es jp no at nz it us-old gr tw cl se be sg il br hu lt pl za pt ee mx in de ch dk cz cn ve ph
