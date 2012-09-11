@@ -3,7 +3,8 @@ Ian Roberts
 Sept 2012
 
 0. ipkg install fping
-   ipkg install dropbear 
+   ipkg install dropbear
+   ipkg install ntp
 
 1. Uncomment cgi support in /etc/lighttpd.conf 
 

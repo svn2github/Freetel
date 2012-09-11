@@ -154,8 +154,72 @@ Bad line/Bad HW detection
 
 
 ntp page
-	look at compiling ntp into an installable package.
+	ipkg install ntp
 	setting times.
+	Configuring ntp?
+
+	root:~> ipkg files ntp
+	Package ntp (4.1.1-1) is installed on root and has the following files:
+	/bin/ntpd
+	/bin/ntpdate
+	/etc/init.d/ntp
+	/usr/doc/ntp.txt
+
+	 NOTES:
+
+	 1. Set the /etc/TZ file for your timezone
+
+	 2. The TZ env variable in your shell will set the current
+	    time zone.  This gets set automatically via /etc/profile
+	    for console and ssh logins, but for some reason it is not
+	    set in telnet logins (maybe because they currently don't
+	    have a proper login).
+
+	 3. List of magic TZ codes here (thanks Mike Taht):
+		http://wiki.openwrt.org/OpenWrtDocs/Configuration
+		(search on TZ)
+
+	 4. It's a really good idea to install the login ipkg (ipkg install
+	    login), otherwise TZ doesn't get set correctly at the start of
+	    each telnet session.  Without login TZ gets set only on the
+	    serial console and ssh logins.
+
+	http://souptonuts.sourceforge.net/readme_working_with_time.html
+
+	     Hours From Greenwich Mean Time (GMT) Value            
+		                                                    
+	      0 GMT Greenwich Mean Time                             
+	      +1   ECT   European Central Time                      
+	      +2   EET   European Eastern Time                      
+	      +2   ART                                              
+	      +3   EAT   Saudi Arabia                               
+	      +3.5 MET   Iran                                       
+	      +4   NET                                              
+	      +5   PLT   West Asia                                  
+	      +5.5 IST   India                                      
+	      +6   BST   Central Asia                               
+	      +7   VST   Bangkok                                    
+	      +8   CTT   China                                      
+	      +9   JST   Japan                                      
+	      +9.5 ACT   Central Australia                          
+	      +10  AET   Eastern Australia                          
+	      +11  SST   Central Pacific                            
+	      +12  NST   New Zealand                                
+	      -11  MIT   Samoa                                      
+	      -10  HST   Hawaii                                     
+	      -9   AST   Alaska                                     
+	      -8   PST   Pacific Standard Time                      
+	      -7   PNT   Arizona                                    
+	      -7   MST   Mountain Standard Time                     
+	      -6   CST   Central Standard Time                      
+	      -5   EST   Eastern Standard Time                      
+	      -5   IET   Indiana East                               
+	      -4   PRT   Atlantic Standard Time                     
+	      -3.5 CNT   Newfoundland                               
+	      -3   AGT   Eastern South America                      
+	      -3   BET   Eastern South America                      
+	      -1   CAT   Azores                                     
+
 
 
 Simple autoattendant

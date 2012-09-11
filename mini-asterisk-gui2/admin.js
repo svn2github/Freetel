@@ -73,7 +73,7 @@ function onClickUpgrade() {
 
 function onClickReset() {
 
-	downloadUrl("/cgi-bin/reset.cgi",OnResetReturn);
+	downloadUrl("/cgi-bin/reset.cgi?arg=",OnResetReturn);
 
 //      if not x86 (developement environment)
 //	cp /etc/asterisk/extensions.conf.def /etc/asterisk/extensions.conf
@@ -86,7 +86,7 @@ function onClickReset() {
 
 function onClickRestart() {
 
-	downloadUrl("/cgi-bin/restart.cgi",OnRestartReturn);
+	downloadUrl("/cgi-bin/restart.cgi?arg=",OnRestartReturn);
 
 //      if not x86 (developement environment)
 //          reboot
