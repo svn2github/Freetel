@@ -3,6 +3,7 @@ Ian Roberts
 Sept 2012
 
 0. ipkg install fping
+   ipkg install dropbear 
 
 1. Uncomment cgi support in /etc/lighttpd.conf 
 
