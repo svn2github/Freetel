@@ -7,6 +7,12 @@
 echo "must be root directory on IP04"
 echo ""
 
+
+# remove old copy
+
+rm gui2.tar.gz
+
+
 # get the source
 
 wget -O gui2.tar.gz http://freetel.svn.sourceforge.net/viewvc/freetel/mini-asterisk-gui2/?view=tar
