@@ -81,6 +81,8 @@ function initialisePage() {
 	    html += "<td>" + j + "</td>" + "<td>" + "IP Phone" + "</td>";
 	    html += "<td>" + ip_ext[j] + "</td>";
 
+            html += "<td>" + '<img src="tick.png" />' + "</td>";
+
             // the reception checkbox code
 	    html += "<td>" + '<input name="selected_in[]" type="checkbox" ' ;
 		// Underscore used instead of forward slash to pass thru html request
@@ -100,7 +102,6 @@ function initialisePage() {
 
             html += "</td>";
 
-            html += "<td>" + '<img src="tick.png" />' + "</td>";
             html += "</tr>";
 	}
     }
