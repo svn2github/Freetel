@@ -17,14 +17,30 @@ gui2 install script fixes
 
 Functionality work
 
-3. firefox broken update reception button
+3. firefox  update reception button broken
+---------------------------------------------
+   Installed firebug debugger
+   Single step thru reception update code
+   phones.js line 209
+   var total = document.phones.elements['selected_in[]'].length;
+   appears to fail and crash out silently.
+   I cant see any phones element in the document
+
+   Start using html validator at http://validator.w3.org/check
+
+   Best practices at http://sixrevisions.com/web-standards/20-html-best-practices-you-should-follow/
+      Close my tags !
+         <img src="images/sample.jpg" alt="sample" />
+
    check internet explorer too.
 
 4. network page not working
+------------------------------
    Also how fast can it detect the internet after change in gateway
    Try to break internet with dns or gateway changes.
 
 5. Outbound calls....
+-------------------------
 
    Groups of people assigned to different outbound
    Work with dialplans
@@ -36,6 +52,7 @@ Functionality work
    Need to have a page where we set up groups of users.
 
 6. ntp testing
+--------------------
    try getting ntpclient rather than ntp?
    try setting TZ in /etc/init.d/asterisk already done...just need reboot
    web page for setting timezone (radio button and apply checkbox?)

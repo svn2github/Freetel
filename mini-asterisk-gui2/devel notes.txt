@@ -19,7 +19,9 @@ Packages
 	svn		version control
 	openssh		communication with ip04
 	fping		used to determine internet connection
-	chrome    	has a very useful debugger .... ctrl-shift-i
+	chrome    	built-in debugger .... ctrl-shift-i
+			install validator extension
+	firefox		install extensions firebug debugger and html validator
 	lighttpd	minimal webserver
 	asterisk-1.4.11 when testing code around asterisk -r calls
 			needs to be installed (we need access to the conf files)

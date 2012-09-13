@@ -48,7 +48,7 @@ function initialisePage() {
 	    html += "<td>" + analog_ext[i] + "</td>" + "<td>" + "Analog Phone" + "</td>";
 	    html += "<td>Port" + i  + "</td>";
 
-            html += "<td>" + '<img src="tick.png" />' + "</td>";
+            html += "<td>" + '<img src="tick.png" alt="tick" />' + "</td>";
 
             // the reception checkbox code
 	    html += "<td>" + '<input name="selected_in[]" type="checkbox" ' ;     
@@ -81,7 +81,7 @@ function initialisePage() {
 	    html += "<td>" + j + "</td>" + "<td>" + "IP Phone" + "</td>";
 	    html += "<td>" + ip_ext[j] + "</td>";
 
-            html += "<td>" + '<img src="tick.png" />' + "</td>";
+            html += "<td>" + '<img src="tick.png" alt="tick" />' + "</td>";
 
             // the reception checkbox code
 	    html += "<td>" + '<input name="selected_in[]" type="checkbox" ' ;
@@ -132,7 +132,7 @@ function initialisePage() {
             html += "<tr>";
 	    html += "<td>" + "0" + "</td>" + "<td>" + "Analog Phone" + "</td>";
 	    html += "<td>Port" + i + "</td>";
-            html += "<td>" + '<img src="tick.png" />' + "</td>";
+            html += "<td>" + '<img src="tick.png" alt="tick" />' + "</td>";
 
             // the outgoing radiobox code
 /*	    html += "<td>" + '<input name="selected_out[]" type="radio" ' ;
