@@ -37,6 +37,8 @@ Source code
 	svn ci <file>
 	svn propset executable
 
+	tortoise svn on win7 
+	checkout https://freetel.svn.sourceforge.net/svnroot/freetel/mini-asterisk-gui
 
 lighttpd setup
 
