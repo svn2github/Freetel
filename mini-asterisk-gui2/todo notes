@@ -8,6 +8,7 @@ Sept 13 2012
 gui2 install script fixes
 
 1. enable cgi 
+----------------
 	use sed on /etc/lighttpd.conf
 	then /etc/init.d/lighttpd restart
 
@@ -74,9 +75,22 @@ Functionality work
 9. Pick up second IP04 for 
 	gui2 install testing
 	unit testing call generation
-
+	
+10. Move formatting from html to css
+     html <table align="center" width=800>
+     css
+	 
+	 
 General Interest
 
- IP04 could be redone more simply with a plug computer (mmu) The blackfin has no memory management unit. This causes many problems and cludgey fixes.
+ IP04 could be redone more simply with a plug computer. $150 - $250AU 
+ http://www.spinifex.com.au/shop/index.php?main_page=product_info&cPath=65&products_id=208
+ 1.2GHz 512 ddr2 flash sd boot 2x usb 2x cat5  5W ..... good ip-pbx? good smoothwall or snorby box?
+ Need some sort of USB to FXO to hook up to analog phone lines.
+ $150 http://sangoma.com/products/telecom_boards/analog/usbfxo/specs.html
+ $20 gets you a skype gateway box with an fxo
+ http://openusbfxo.wordpress.com/
+ 
+ The blackfin has no memory management unit. This causes many problems and cludgey fixes.
 
 opus codec, silk codec, Jean-marc, codec2 
