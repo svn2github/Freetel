@@ -1,0 +1,57 @@
+IP04 GUI2 To do notes
+Ian Roberts 
+
+*************************************************************************
+
+Sept 13 2012
+
+gui2 install script fixes
+
+1. enable cgi 
+	use sed on /etc/lighttpd.conf
+	then /etc/init.d/lighttpd restart
+
+2. add mini_ext comments to 60xx numbers 
+	use sed on /etc/asterisk/extension.conf
+
+
+Functionality work
+
+3. firefox broken update reception button
+   check internet explorer too.
+
+4. network page not working
+   Also how fast can it detect the internet after change in gateway
+   Try to break internet with dns or gateway changes.
+
+5. Outbound calls....
+
+   Groups of people assigned to different outbound
+   Work with dialplans
+   At present  
+      0 gets outside analog line
+      1 gets a sip call thru the vsp
+   Instead of hard coded 0,1 change to dropbox selection 
+   then try assigning to groups.
+   Need to have a page where we set up groups of users.
+
+6. ntp testing
+   try getting ntpclient rather than ntp?
+   try setting TZ in /etc/init.d/asterisk already done...just need reboot
+   web page for setting timezone (radio button and apply checkbox?)
+
+7. Look at using setline.cgi instead of setring.cgi
+   Have setline take care of special cases like escaping the ampersand.
+
+8. Setring.cgi fix
+   Remove asterisk -r calls.....do this from javascript with asterisk.cgi.
+   
+9. Pick up second IP04 for 
+	gui2 install testing
+	unit testing call generation
+
+General Interest
+
+ IP04 could be redone more simply with a plug computer (mmu) The blackfin has no memory management unit. This causes many problems and cludgey fixes.
+
+opus codec, silk codec, Jean-marc, codec2 
