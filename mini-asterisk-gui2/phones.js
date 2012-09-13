@@ -108,7 +108,7 @@ function initialisePage() {
 
     html += "<tr>";
     html += "<td>";
-    html += "<a href=ipphones.html    /a>Add IP Phone";
+    html += "<a href=ipphones.html>Add IP Phone</a>";
     html += "</td>";
 
     // print out submit button
@@ -160,7 +160,7 @@ function initialisePage() {
 
     html += "<tr>";
     html += "<td>";
-    html += "<a href=voiplines.html    /a>Add Voip line";
+    html += "<a href=voiplines.html>Add Voip line</a>";
     html += "</td>";
     html += "</tr>";
 

@@ -20,11 +20,12 @@ Functionality work
 3. firefox  update reception button broken
 ---------------------------------------------
    Installed firebug debugger
-   Single step thru reception update code
+   TypeError
    phones.js line 209
-   var total = document.phones.elements['selected_in[]'].length;
-   appears to fail and crash out silently.
-   I cant see any phones element in the document
+   document.phones.elements['selected_in[]'] undefined ... great
+   So how do I code this to work in firefox, chrome and ie?
+
+   I cant see any phones element in the document model.
 
    Start using html validator at http://validator.w3.org/check
 
@@ -32,7 +33,7 @@ Functionality work
       Close my tags !
          <img src="images/sample.jpg" alt="sample" />
 
-   check internet explorer too.
+   internet explorer 9 is ok.
 
 4. network page not working
 ------------------------------
