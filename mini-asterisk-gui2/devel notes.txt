@@ -5,9 +5,10 @@ Sept 2012
 
 IP04 Environment
 
-	ssh root@192.168.1.30
+	telnet root@192.168.1.30
 	ipkg install dropbear           (for ssh access to ip04)
 	ipkg install fping 
+	ssh root@192.168.1.30
 	url:   192.168.1.30
 
 
@@ -22,7 +23,7 @@ Packages
 	lighttpd	minimal webserver
 	asterisk-1.4.11 when testing code around asterisk -r calls
 			needs to be installed (we need access to the conf files)
-			but doesn't have to be running.
+			but doesn't have to be running unless testing sip stuff
 
 Source code
 
@@ -47,6 +48,7 @@ Asterisk Install
 	see x86 instructions at http://www.rowetel.com/blog/?page_id=455
 
 	IP04 runs 1.4.4-1 (2007) with zaptel-sport 1.4.3-2 on a 2.6.19-3 kernel (2006).
+
 	You can ipkg install asterisk-1.4.20 (2008)
 
 	Asterisk 1.4.22 (2008) changed from using zaptel-sport to dahdi.

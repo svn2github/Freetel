@@ -1,14 +1,15 @@
 # Script to install GUI2 to IP04
+# (Original gui left intact)
 # Developement Edition
 # Ian Roberts
 # Sept 2012
 
 # check we are on an IP0x box
-echo "must be root directory on IP04"
+echo "must be root directory on IP0x"
 echo ""
 
 
-# remove old copy
+# remove old copy if exists
 
 rm gui2.tar.gz
 
@@ -34,6 +35,7 @@ tar zxvf gui2.tar.gz
 
 
 #create directories if required
+
 mkdir /www/gui2
 mkdir /www/cgi-bin
 
@@ -46,6 +48,7 @@ cp mini-asterisk-gui2/*.css /www/gui2
 
 
 # copy cgi to /www/cgi-bin
+
 cp mini-asterisk-gui2/cgi-bin/*.* /www/cgi-bin
 
 
@@ -56,6 +59,7 @@ ipkg install fping
 # check extension.conf 60xx lines have mini_ext tags
 
 
+# check lighttpd installed
 # check cgi support in lighttpd
 
 #Uncomment cgi support in /etc/lighttpd.conf 

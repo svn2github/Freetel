@@ -2,18 +2,23 @@ IP04 GUI2 Install notes
 Ian Roberts 
 Sept 2012
 
+* I now have a script which automates this stuff
+See install_gui2.sh
+
 0. ipkg install fping
    ipkg install dropbear
    ipkg install ntp
 
-1. Uncomment cgi support in /etc/lighttpd.conf 
+1. Uncomment cgi support in /etc/lighttpd.conf and restart
 
-2. Add "; mini_ext" tags to files
+2. Add "; mini_ext" tags to 6000 numbers in
    /etc/asterisk/extensions.conf
    /etc/asterisk/extensions.conf.def
 
-3. copy main files to /www/mini-asterisk-gui2
+3. copy main files to /www/gui2
+   i want to leave the original gui intact while developing
 
 4. copy cgi-bin scripts into /www/cgi-bin
 
-5. point lighttpd at /www/mini-asterisk-gui2
+
+ point browser at 192.168.1.30/gui2/phones.html
