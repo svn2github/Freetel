@@ -12,8 +12,13 @@ gui2 install script fixes
 	then /etc/init.d/lighttpd restart
 
 2. add mini_ext comments to 60xx numbers 
+------------------------------------------
 	use sed on /etc/asterisk/extension.conf
 
+   show extensions missing mini_ext comment
+ 	grep "60**" /etc/asterisk/extensions.conf | grep -v "mini"
+
+	grep "60[0-9][0-9],1,Dial(.*) " /etc/asterisk/extensions.conf
 
 Functionality work
 
