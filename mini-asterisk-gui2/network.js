@@ -217,7 +217,7 @@ function onClickApply() {
 	if (document.network.backdoor.value != backdoor) {
 	    var new_backdoor = document.network.backdoor.value;
 	    var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-backup&this=BACKDOOR=&that="' + new_backdoor + '"';
-	    downloadUrl(url,null);
+	    downloadUrl(url,GenericReturn);
     	downloadUrl("/cgi-bin/network-backdoor.cgi?action=stop",GenericReturn);
     	downloadUrl("/cgi-bin/network-backdoor.cgi?action=start",GenericReturn);
 	}
