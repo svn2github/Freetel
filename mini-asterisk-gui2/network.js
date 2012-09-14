@@ -218,8 +218,8 @@ function onClickApply() {
 	    var new_backdoor = document.network.backdoor.value;
 	    var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-backup&this=BACKDOOR=&that="' + new_backdoor + '"';
 	    downloadUrl(url,null);
-    	downloadUrl("/cgi-bin/network-backdoor.cgi?action=stop",null);
-    	downloadUrl("/cgi-bin/network-backdoor.cgi?action=start",null);
+    	downloadUrl("/cgi-bin/network-backdoor.cgi?action=stop",GenericReturn);
+    	downloadUrl("/cgi-bin/network-backdoor.cgi?action=start",GenericReturn);
 	}
 
 	// finally restart network-static service with new parameters
