@@ -37,7 +37,8 @@ sed -i "s_s,1,Dial(.*) ;; mini-asterisk_s,1,Dial($a) ;; mini-asterisk_" /etc/ast
 
 #reload extensions.conf
 
-asterisk -rx "dialplan reload" 2>/dev/null 1 > /dev/null
+# do this from js with a call to asterisk.cgi
+#asterisk -rx "dialplan reload" 2>/dev/null 1 > /dev/null
 
  
 cat <<EOF

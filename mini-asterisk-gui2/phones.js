@@ -226,9 +226,10 @@ function onClickUpdateReception() {
 
 	}
 
-        var arg2 =  "/cgi-bin/setring.cgi?" + arg;
+    var arg2 =  "/cgi-bin/setring.cgi?" + arg;
 	downloadUrl(arg2,GenericReturn);
 
+	downloadUrl("/cgi-bin/asterisk.cgi?dialplan reload",GenericReturn);
 
 }
 
