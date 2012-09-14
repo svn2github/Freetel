@@ -53,7 +53,7 @@ function mainMenu() {
     }
 
     html += '<td valign="top" >';
-    html += '<table align="right" width=200>';
+    html += '<table align="right" width=170>';
     html += '<tr><td><h2>&nbsp;</h2></td></tr>';
  
     for(var i=0; i<menuItems.length; i++) {
