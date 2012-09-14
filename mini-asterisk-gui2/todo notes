@@ -5,16 +5,17 @@ Ian Roberts
 
 Sept 13 2012
 
-gui2 install script fixes
-
-aiming at ipkg install gui2 -> baps build makefile
+Goal is a gui2 package we can install on an ip0x
+  ipkg install gui2
+see baps build makefile
 http://svn.astfin.org/software/baps/trunk/mini-asterisk-gui.mk
 
 1. install script fix :enable cgi 
 ----------------------------------
 	use sed on /etc/lighttpd.conf
-	 1. 
-	 2. s_#cgi.assign.*_cgi.assign
+	 1. Change end bracket to comma 
+	 2. Uncomment s_#cgi.assign.*_cgi.assign
+	 3. Add in end bracket
 	then /etc/init.d/lighttpd restart
 
 2.  install script fix :add mini_ext comments to 60xx numbers 
@@ -33,23 +34,16 @@ http://svn.astfin.org/software/baps/trunk/mini-asterisk-gui.mk
    Internet Explorer 9 is ok. 
    IE 8? - check on vista laptop
    Safari 5.1.7 is ok
-   
+   Firefox 15 fails ...why?.
    Installed firebug debugger
    TypeError
    phones.js line 209
-   document.phones.elements['selected_in[]'] undefined ... great
-   So how do I code this to work in firefox, chrome and ie?
+   document.phones.elements['selected_in[]'] undefined ... 
 
    I cant see any phones element in the document model.
 
-   Start using html validator at http://validator.w3.org/check
-
-   Best practices at http://sixrevisions.com/web-standards/20-html-best-practices-you-should-follow/
-      Close my tags !
-         <img src="images/sample.jpg" alt="sample" />
-
 		 
-	David --> Try moving form to encapsulate the table
+	David --> Try moving <form> to encapsulate the <table> in phones.js
 	
 	This worked.
 
@@ -57,6 +51,45 @@ http://svn.astfin.org/software/baps/trunk/mini-asterisk-gui.mk
 ------------------------------
    Also how fast can it detect the internet after change in gateway
    Try to break internet with dns or gateway changes.
+   Missing a cgi.....setservice.cgi
+   
+   Calls from network.js are 
+   if (document.network.dhcp.value == "yes") {
+
+	if (dhcp = "no") {
+	    // disable network-state service and endable network service
+	    downloadUrl("/cgi-bin/setservice.cgi?action=enabledhcp",null);
+	}
+	else {
+	    // dhcp already running, restart service
+	    downloadUrl("/cgi-bin/setservice.cgi?action=restartdhcp",null);
+	}
+    }
+    else {
+
+	if (dhcp = "yes") {
+	    // disable network service and enable network-static service
+	    downloadUrl("/cgi-bin/setservice.cgi?action=enablestatic",null);
+	}
+
+	.....
+	
+	if (document.network.backdoor.value != backdoor) {
+	    var new_ = document.network.backdoor.value;
+	    var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-backup&this=BACKDOOR=&that="' + new_backdoor + '"';
+	    downloadUrl(url,null);
+    	    downloadUrl("/cgi-bin/setservice.cgi?action=restartbackup",null);
+	}
+
+	// finally restart network-static service with new parameters
+
+    	downloadUrl("/cgi-bin/setservice.cgi?action=restartstatic",null);
+    }
+
+	
+   
+   
+   
 
 5. Outbound calls....
 -------------------------
@@ -98,6 +131,15 @@ http://svn.astfin.org/software/baps/trunk/mini-asterisk-gui.mk
 -------------------------------------------------------	 
 	 
 General Interest
+
+html validator at http://validator.w3.org/check
+There are validator extensions for most browsers.
+
+Best practices at http://sixrevisions.com/web-standards/20-html-best-practices-you-should-follow/
+      Close my tags !
+         <img src="images/sample.jpg" alt="sample" />
+
+
 
  IP04 could be redone more simply with a plug computer. $150 - $250AU 
  http://www.spinifex.com.au/shop/index.php?main_page=product_info&cPath=65&products_id=208
