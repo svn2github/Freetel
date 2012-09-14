@@ -203,19 +203,19 @@ function onClickApply() {
 	}
 
 	if (document.network.gateway.value != gateway) {
-	    var new_ = document.network.gateway.value;
+	    var new_gateway = document.network.gateway.value;
 	    var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-static&this=GATEWAY=&that="' + new_gateway + '"';
 	    downloadUrl(url,null);
 	}
 
 	if (document.network.dns.value != dns) {
-	    var new_ = document.network.dns.value;
+	    var new_dns = document.network.dns.value;
 	    var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-static&this=DNS=&that="' + new_dns + '"';
 	    downloadUrl(url,null);
 	}
 
 	if (document.network.backdoor.value != backdoor) {
-	    var new_ = document.network.backdoor.value;
+	    var new_backdoor = document.network.backdoor.value;
 	    var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-backup&this=BACKDOOR=&that="' + new_backdoor + '"';
 	    downloadUrl(url,null);
     	downloadUrl("/cgi-bin/network-backdoor.cgi?action=stop",null);
