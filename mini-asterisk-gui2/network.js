@@ -166,7 +166,7 @@ function onClickApply() {
     if (document.network.dhcp.value == "yes") {
 
 	if (dhcp = "no") {
-	    // disable network-state service and endable network service
+	    // disable network-static service and endable network service
 	    downloadUrl("/cgi-bin/network-static.cgi?action=disable",GenericReturn);
 	    downloadUrl("/cgi-bin/network-static.cgi?action=stop",GenericReturn);
 

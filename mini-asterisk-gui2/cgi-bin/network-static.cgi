@@ -18,7 +18,7 @@ Content-type: text/html
 <body>
 EOF
 
-ARG=`echo "$QUERY_STRING" | sed -n "s/.*action=//p" | sed -n "s/%20/ /pg"`
+ARG=`echo "$QUERY_STRING" | sed -n "s/.*action=//p"`
 echo "$ARG"
 /etc/init.d/network-static "$ARG"
 cat <<EOF
