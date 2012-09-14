@@ -193,25 +193,25 @@ function onClickApply() {
 	if (document.network.ipaddress.value != ipaddress) {
 	    var new_ipaddress = document.network.ipaddress.value;
 	    var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-static&this=IPADDRESS=&that="' + new_ipaddress + '"';
-	    downloadUrl(url,null);
+	    downloadUrl(url,GenericReturn);
 	}
 
 	if (document.network.netmask.value != netmask) {
 	    var new_netmask = document.network.netmask.value;
 	    var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-static&this=NETMASK=&that="' + new_netmask + '"';
-	    downloadUrl(url,null);
+	    downloadUrl(url,GenericReturn);
 	}
 
 	if (document.network.gateway.value != gateway) {
 	    var new_gateway = document.network.gateway.value;
 	    var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-static&this=GATEWAY=&that="' + new_gateway + '"';
-	    downloadUrl(url,null);
+	    downloadUrl(url,GenericReturn);
 	}
 
 	if (document.network.dns.value != dns) {
 	    var new_dns = document.network.dns.value;
 	    var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-static&this=DNS=&that="' + new_dns + '"';
-	    downloadUrl(url,null);
+	    downloadUrl(url,GenericReturn);
 	}
 
 	if (document.network.backdoor.value != backdoor) {
