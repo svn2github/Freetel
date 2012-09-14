@@ -167,18 +167,25 @@ function onClickApply() {
 
 	if (dhcp = "no") {
 	    // disable network-state service and endable network service
-	    downloadUrl("/cgi-bin/setservice.cgi?action=enabledhcp",null);
+	    downloadUrl("/cgi-bin/network-static.cgi?action=disable",GenericReturn);
+	    downloadUrl("/cgi-bin/network-static.cgi?action=stop",GenericReturn);
+
+	    downloadUrl("/cgi-bin/network.cgi?action=enable",GenericReturn);
+	    downloadUrl("/cgi-bin/network.cgi?action=start",GenericReturn);
 	}
 	else {
 	    // dhcp already running, restart service
-	    downloadUrl("/cgi-bin/setservice.cgi?action=restartdhcp",null);
+	    downloadUrl("/cgi-bin/network.cgi?action=stop",GenericReturn);
+	    downloadUrl("/cgi-bin/network.cgi?action=start",GenericReturn);
 	}
     }
     else {
 
 	if (dhcp = "yes") {
 	    // disable network service and enable network-static service
-	    downloadUrl("/cgi-bin/setservice.cgi?action=enablestatic",null);
+	    downloadUrl("/cgi-bin/network.cgi?action=stop",GenericReturn);
+	    downloadUrl("/cgi-bin/network.cgi?action=disable",GenericReturn);
+	    downloadUrl("/cgi-bin/network-static.cgi?action=enable",GenericReturn);
 	}
 
 	// change network-static file variables
@@ -211,11 +218,13 @@ function onClickApply() {
 	    var new_ = document.network.backdoor.value;
 	    var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-backup&this=BACKDOOR=&that="' + new_backdoor + '"';
 	    downloadUrl(url,null);
-    	    downloadUrl("/cgi-bin/setservice.cgi?action=restartbackup",null);
+    	downloadUrl("/cgi-bin/network-backdoor.cgi?action=stop",null);
+    	downloadUrl("/cgi-bin/network-backdoor.cgi?action=start",null);
 	}
 
 	// finally restart network-static service with new parameters
 
-    	downloadUrl("/cgi-bin/setservice.cgi?action=restartstatic",null);
+    downloadUrl("/cgi-bin/network-static.cgi?action=stop",GenericReturn);
+    downloadUrl("/cgi-bin/network-static.cgi?action=start",GenericReturn);
     }
 }
