@@ -7,9 +7,14 @@ Sept 13 2012
 
 gui2 install script fixes
 
+aiming at ipkg install gui2 -> baps build makefile
+http://svn.astfin.org/software/baps/trunk/mini-asterisk-gui.mk
+
 1. install script fix :enable cgi 
 ----------------------------------
 	use sed on /etc/lighttpd.conf
+	 1. 
+	 2. s_#cgi.assign.*_cgi.assign
 	then /etc/init.d/lighttpd restart
 
 2.  install script fix :add mini_ext comments to 60xx numbers 
@@ -22,7 +27,7 @@ gui2 install script fixes
 	grep "60[0-9][0-9],1,Dial(.*) " /etc/asterisk/extensions.conf
 
 
-3. on firefox : update reception button broken
+3. on firefox : update reception button broken   Done 14/9
 ---------------------------------------------
    Chrome 21 is ok
    Internet Explorer 9 is ok. 
@@ -44,9 +49,9 @@ gui2 install script fixes
          <img src="images/sample.jpg" alt="sample" />
 
 		 
-	Try moving form back outside table (line 41 to above 31)
+	David --> Try moving form to encapsulate the table
 	
-	Add some formatting (carriage returns) to the table element in phones.js
+	This worked.
 
 4. network page not working
 ------------------------------
@@ -89,6 +94,8 @@ gui2 install script fixes
      html <table align="center" width=800>
      css
 	 
+11.	Add some formatting (carriage returns) to the table element in phones.js	 
+-------------------------------------------------------	 
 	 
 General Interest
 
