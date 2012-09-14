@@ -27,6 +27,8 @@ function initialisePage() {
     var icon = '<img src="tick.png" alt="Analog Phone OK" />';
     var html = '';
     var itemcount = 0;
+	
+    html += '<form name="phones" method="get">';
 
     html += '<table align="right" width=600 cellspacing=2>';
 
@@ -37,7 +39,6 @@ function initialisePage() {
     html += '<tr><td colspan="2">Phone System IP Address:</td><td> </td><td div id="ipaddress"></div></td></tr>';
     html += '<tr><td>&nbsp</td></tr>';
  
-    html += '<form name="phones" method="get">';
 
     // print out analog phones
 
@@ -121,7 +122,7 @@ function initialisePage() {
     html += "</tr>";
 
 
-    html += '</form>';
+
 
 
     // print out phone lines
@@ -165,7 +166,8 @@ function initialisePage() {
     html += "</tr>";
 
     html += '</table>';
-
+	
+    html += '</form>';
     document.getElementById("phones_table").innerHTML += html;
 
     // fire off fping CGI

@@ -43,6 +43,10 @@ gui2 install script fixes
       Close my tags !
          <img src="images/sample.jpg" alt="sample" />
 
+		 
+	Try moving form back outside table (line 41 to above 31)
+	
+	Add some formatting (carriage returns) to the table element in phones.js
 
 4. network page not working
 ------------------------------
