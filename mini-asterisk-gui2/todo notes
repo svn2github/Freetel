@@ -86,7 +86,11 @@ http://svn.astfin.org/software/baps/trunk/mini-asterisk-gui.mk
     	downloadUrl("/cgi-bin/setservice.cgi?action=restartstatic",null);
     }
 
+	Are URLs with null return  function suppose to be synchronous?
 	
+	The networking functions have to have synchrous sections, esp when start/stop/enable/disable
+	
+	For example, u cant do a network start before a network stop has finished?
    
    
    
