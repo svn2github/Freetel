@@ -85,13 +85,17 @@ browser
 
 Method
 
-	Develop on PC
-	Test on PC
-	Secure copy gui2 to IP04 /www/gui2
-	Copy gui2/cgi-bin to IP04/www/cgi-bin
-	enable cgi for lighttpd.
-	url : 192.168.1.30/gui2/phones.html
-	Test on IP04
+	Svn co code to PC gui2 directory
+	Point local web server at gui2 directory and enable cgi
+	Test on PC with 127.0.0.1/gui2/phones.html
+	Svn ci changes.
+	
+	
+	telnet IP04 pristine build or ssh to modified IP04 (dropbear)
+	Install gui2 from root directory
+	   sh install_gui2.sh
+	
+	Test on IP04 with 192.168.1.30/gui2/phones.html
 
 
 
@@ -124,6 +128,7 @@ reception
 
 
 Install script
+	Done....install_gui2.sh
 
 Simple Switch button for GUI2 or original.
 	The GUIs can coexist. Should have the option of switching.
