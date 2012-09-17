@@ -21,6 +21,10 @@ EOF
 ARG=`echo "$QUERY_STRING" | sed -n "s/.*action=//p"`
 echo "$ARG"
 
+if [ $QUERY_STRING = "restartstatic" ]; then
+	echo "hi there"
+fi
+
 # /etc/init.d/network "$ARG"
 cat <<EOF
 </body>
