@@ -165,66 +165,58 @@ function onClickApply() {
 
     if (document.network.dhcp.value == "yes") {
 
-	if (dhcp = "no") {
-	    // disable network-static service and endable network service
-	    downloadUrl("/cgi-bin/network-static.cgi?action=disable",GenericReturn);
-	    downloadUrl("/cgi-bin/network-static.cgi?action=stop",GenericReturn);
-
-	    downloadUrl("/cgi-bin/network.cgi?action=enable",GenericReturn);
-	    downloadUrl("/cgi-bin/network.cgi?action=start",GenericReturn);
-	}
-	else {
-	    // dhcp already running, restart service
-	    downloadUrl("/cgi-bin/network.cgi?action=stop",GenericReturn);
-	    downloadUrl("/cgi-bin/network.cgi?action=start",GenericReturn);
-	}
+		if (dhcp = "no") {
+			// disable network-static service and endable network service
+			downloadUrl("/cgi-bin/setservice.cgi?action=enabledhcp",GenericReturn);
+		}
+		else {
+			// dhcp already running, restart service
+			downloadUrl("/cgi-bin/setservice.cgi?action=restartdhcp",GenericReturn);
+		}
     }
     else {
 
-	if (dhcp = "yes") {
-	    // disable network service and enable network-static service
-	    downloadUrl("/cgi-bin/network.cgi?action=stop",GenericReturn);
-	    downloadUrl("/cgi-bin/network.cgi?action=disable",GenericReturn);
-	    downloadUrl("/cgi-bin/network-static.cgi?action=enable",GenericReturn);
-	}
+		if (dhcp = "yes") {
+			// disable network service and enable network-static service
+			downloadUrl("/cgi-bin/setservice.cgi?action=enablestatic",GenericReturn);
+		}
 
-	// change network-static file variables
+		// change network-static file variables
 
-	if (document.network.ipaddress.value != ipaddress) {
-	    var new_ipaddress = document.network.ipaddress.value;
-	    var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-static&this=IPADDRESS=&that="' + new_ipaddress + '"';
-	    downloadUrl(url,GenericReturn);
-	}
+		if (document.network.ipaddress.value != ipaddress) {
+			var new_ipaddress = document.network.ipaddress.value;
+			var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-static&this=IPADDRESS=&that="' + new_ipaddress + '"';
+			downloadUrl(url,GenericReturn);
+		}
 
-	if (document.network.netmask.value != netmask) {
-	    var new_netmask = document.network.netmask.value;
-	    var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-static&this=NETMASK=&that="' + new_netmask + '"';
-	    downloadUrl(url,GenericReturn);
-	}
+		if (document.network.netmask.value != netmask) {
+			var new_netmask = document.network.netmask.value;
+			var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-static&this=NETMASK=&that="' + new_netmask + '"';
+			downloadUrl(url,GenericReturn);
+		}
 
-	if (document.network.gateway.value != gateway) {
-	    var new_gateway = document.network.gateway.value;
-	    var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-static&this=GATEWAY=&that="' + new_gateway + '"';
-	    downloadUrl(url,GenericReturn);
-	}
+		if (document.network.gateway.value != gateway) {
+			var new_gateway = document.network.gateway.value;
+			var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-static&this=GATEWAY=&that="' + new_gateway + '"';
+			downloadUrl(url,GenericReturn);
+		}
 
-	if (document.network.dns.value != dns) {
-	    var new_dns = document.network.dns.value;
-	    var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-static&this=DNS=&that="' + new_dns + '"';
-	    downloadUrl(url,GenericReturn);
-	}
+		if (document.network.dns.value != dns) {
+			var new_dns = document.network.dns.value;
+			var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-static&this=DNS=&that="' + new_dns + '"';
+			downloadUrl(url,GenericReturn);
+		}
 
-	if (document.network.backdoor.value != backdoor) {
-	    var new_backdoor = document.network.backdoor.value;
-	    var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-backup&this=BACKDOOR=&that="' + new_backdoor + '"';
-	    downloadUrl(url,GenericReturn);
-    	downloadUrl("/cgi-bin/network-backdoor.cgi?action=stop",GenericReturn);
-    	downloadUrl("/cgi-bin/network-backdoor.cgi?action=start",GenericReturn);
-	}
+		if (document.network.backdoor.value != backdoor) {
+			var new_backdoor = document.network.backdoor.value;
+			var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-backup&this=BACKDOOR=&that="' + new_backdoor + '"';
+			downloadUrl(url,GenericReturn);
+			downloadUrl("/cgi-bin/setservice.cgi?action=restartbackup",GenericReturn);
+		}
 
-	// finally restart network-static service with new parameters
+		// finally restart network-static service with new parameters
 
-    downloadUrl("/cgi-bin/network-static.cgi?action=stop",GenericReturn);
-    downloadUrl("/cgi-bin/network-static.cgi?action=start",GenericReturn);
-    }
+		downloadUrl("/cgi-bin/setservice.cgi?action=restartstatic",GenericReturn);
+
+		}
 }
