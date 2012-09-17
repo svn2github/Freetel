@@ -17,6 +17,8 @@ http://svn.astfin.org/software/baps/trunk/mini-asterisk-gui.mk
 	 2. Uncomment s_#cgi.assign.*_cgi.assign
 	 3. Add in end bracket
 	then /etc/init.d/lighttpd restart
+	
+	kiss. just copy the corrected conf file from the sourceforge archive.
 
 2.  install script fix :add mini_ext comments to 60xx numbers 
 ------------------------------------------

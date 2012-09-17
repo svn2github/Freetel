@@ -1,5 +1,6 @@
 # Script to install GUI2 to IP04
-# (Original gui left intact)
+# Original gui left intact
+# New gui at 192.168.1.30/gui2/phones.html
 # Developement Edition
 # Ian Roberts
 # Sept 2012
@@ -7,7 +8,7 @@
 # check we are on an IP0x box
 echo "must be root directory on IP0x"
 echo ""
-
+cd /
 
 # remove old copy if exists
 
@@ -56,14 +57,23 @@ cp mini-asterisk-gui2/cgi-bin/*.* /www/cgi-bin
 
 ipkg install fping
 
+
 # check extension.conf 60xx lines have mini_ext tags
 
+cp mini-asterisk-gui2/etc/asterisk/extensions.conf /etc/asterisk/extensions.conf
 
 # check lighttpd installed
 # check cgi support in lighttpd
 
-#Uncomment cgi support in /etc/lighttpd.conf 
-#Restart lighttpd
+cp mini-asterisk-gui2/etc/lighttpd.conf /etc/lighttpd.conf
+
+# webserver index should point browser at gui2 login
+
+# restart the http server
+/etc/init.d/lighttpd stop
+/etc/init.d/lighttpd start
+
+
 echo ""
 echo "Point your browser at 192.168.1.30/gui2/phones.html"
 
