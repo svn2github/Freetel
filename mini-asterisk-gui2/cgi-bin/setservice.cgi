@@ -21,7 +21,7 @@ EOF
 ARG=`echo "$QUERY_STRING" | sed -n "s/.*action=//p"`
 echo "$ARG"
 
-if [ $QUERY_STRING = "restartstatic" ]; then
+if [ $ARG = "restartstatic" ]; then
 	echo "hi there"
 fi
 
