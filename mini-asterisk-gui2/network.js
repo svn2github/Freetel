@@ -250,6 +250,17 @@ function dnsReturn(doc,status) {
 
 	// finally restart network-static service with new parameters
 
-	downloadUrl("/cgi-bin/setservice.cgi?action=restartstatic",GenericReturn);
+	downloadUrl("/cgi-bin/setservice.cgi?action=restartstatic",restartstaticReturn);
+}
+
+function restartstaticReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+
+	// finally reload the page (this updates the fping....crudely)
+
+	initialise();
 }
 
