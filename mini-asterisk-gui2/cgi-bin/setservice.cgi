@@ -19,13 +19,41 @@ Content-type: text/html
 EOF
 
 ARG=`echo "$QUERY_STRING" | sed -n "s/.*action=//p"`
-echo "$ARG"
+echo "arg is $ARG"
 
 if [ $ARG = "restartstatic" ]; then
-	echo "hi there"
+	echo "restart static"
+	/etc/init.d/network-static stop
+	/etc/init.d/network-static start
 fi
 
-# /etc/init.d/network "$ARG"
+if [ $ARG = "restartbackup" ]; then
+	echo "restartbackup"
+	/etc/init.d/network-backup stop
+	/etc/init.d/network-backup start
+fi
+
+if [ $ARG = "restartdhcp" ]; then
+	echo "restartdhcp"
+	/etc/init.d/network stop
+	/etc/init.d/network start
+fi
+
+if [ $ARG = "enabledhcp" ]; then
+	echo "enabledhcp"
+    /etc/init.d/network-static disable
+    /etc/init.d/network-static stop
+    /etc/init.d/network enable
+    /etc/init.d/network start
+fi
+
+if [ $ARG = "enablestatic" ]; then
+	echo "enable static"
+    /etc/init.d/network stop
+    /etc/init.d/network disable
+    /etc/init.d/network-static enable
+fi
+
 cat <<EOF
 </body>
 </html>
