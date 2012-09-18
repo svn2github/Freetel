@@ -10,7 +10,7 @@ Goal is a gui2 package we can install on an ip0x
 see baps build makefile
 http://svn.astfin.org/software/baps/trunk/mini-asterisk-gui.mk
 
-1. install script fix :enable cgi 
+1. install script fix :enable cgi     Done
 ----------------------------------
 	use sed on /etc/lighttpd.conf
 	 1. Change end bracket to comma 
@@ -20,7 +20,7 @@ http://svn.astfin.org/software/baps/trunk/mini-asterisk-gui.mk
 	
 	kiss. just copy the corrected conf file from the sourceforge archive.
 
-2.  install script fix :add mini_ext comments to 60xx numbers 
+2.  install script fix :add mini_ext comments Done 
 ------------------------------------------
 	use sed on /etc/asterisk/extension.conf
 
@@ -49,7 +49,7 @@ http://svn.astfin.org/software/baps/trunk/mini-asterisk-gui.mk
 	
 	This worked.
 
-4. network page not working
+4. network page not working       Not done
 ------------------------------
    Also how fast can it detect the internet after change in gateway
    Try to break internet with dns or gateway changes.
@@ -93,6 +93,8 @@ http://svn.astfin.org/software/baps/trunk/mini-asterisk-gui.mk
 	The networking functions have to have synchrous sections, esp when start/stop/enable/disable
 	
 	For example, u cant do a network start before a network stop has finished?
+	
+	Try to synchronise with cascading cgi flow.
    
    
    
