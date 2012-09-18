@@ -176,29 +176,26 @@ function onClickApply() {
     }
     else {
 
-		if (dhcp = "yes") {
-			// disable network service and enable network-static service
-			downloadUrl("/cgi-bin/setservice.cgi?action=enablestatic",GenericReturn);
-		}
-
-		// change network-static file variables
-
-		var new_ipaddress = document.network.ipaddress.value;
-		var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-static&this=IPADDRESS=&that="' + new_ipaddress + '"';
-		
-		# kick off cascading cgi
-		downloadUrl(url,ipaddressReturn);
+		// start cgi cascade
+		// disable network service and enable network-static service
+		downloadUrl("/cgi-bin/setservice.cgi?action=enablestatic",dhcpReturn);
 
 
-//		if (document.network.backdoor.value != backdoor) {
-//			var new_backdoor = document.network.backdoor.value;
-//			var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-backup&this=BACKDOOR=&that="' + new_backdoor + '"';
-//			downloadUrl(url,GenericReturn);
-//			downloadUrl("/cgi-bin/setservice.cgi?action=restartbackup",GenericReturn);
-//		}
 
 
 	}
+}
+
+function dhcpReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+
+	var new_ipaddress = document.network.ipaddress.value;
+	var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-static&this=IPADDRESS=&that="' + new_ipaddress + '"';
+		
+	downloadUrl(url,ipaddressReturn);
 }
 
 function ipaddressReturn(doc,status) {
@@ -233,6 +230,17 @@ function gatewayReturn(doc,status) {
 	var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-static&this=DNS=&that="' + new_dns + '"';
 	downloadUrl(url,dnsReturn);
 }
+
+
+//	var new_backdoor = document.network.backdoor.value;
+//	var url = '/cgi-bin/setline.cgi?file=/etc/init.d/network-backup&this=BACKDOOR=&that="' + new_backdoor + '"';
+//	downloadUrl(url,GenericReturn);
+
+
+
+//	downloadUrl("/cgi-bin/setservice.cgi?action=restartbackup",GenericReturn);
+//	
+
 
 function dnsReturn(doc,status) {
     loadHtmlTextFile(doc, function(line) {
