@@ -94,7 +94,9 @@ http://svn.astfin.org/software/baps/trunk/mini-asterisk-gui.mk
 	
 	For example, u cant do a network start before a network stop has finished?
 	
-	Try to synchronise with cascading cgi flow.
+	Try to synchronise with cascading cgi flow. This works.
+	
+	Need to time-out fping after 2-3seconds, else it will go 30s.
    
    
    
