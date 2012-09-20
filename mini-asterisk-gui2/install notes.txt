@@ -2,25 +2,31 @@ IP04 GUI2 Install notes
 Ian Roberts 
 Sept 2012
 
-* I now have a script which automates this stuff
-See install_gui2.sh
 
-0. ipkg install fping
-   ipkg install dropbear
-   ipkg install ntp
+0. Connect ip04 to network. Power up.
 
-1. Uncomment cgi support in /etc/lighttpd.conf and restart
+1. Telnet 192.168.1.30
 
-2. Add "; mini_ext" tags to 6000 numbers in
-   /etc/asterisk/extensions.conf
-   /etc/asterisk/extensions.conf.def
+2. Create a file
 
-3. copy main files to /www/gui2
-   i want to leave the original gui intact while developing
+   vi install_gui2.sh
 
-4. copy cgi-bin scripts into /www/cgi-bin
+3. Copy script from
+   http://freetel.svn.sourceforge.net/viewvc/freetel/mini-asterisk-gui2/install_gui2.sh?revision=717&content-type=text%2Fplain
+   
+   Paste into vi session (right click will do it)
+   Save file
+   
+4. Make the script executable
 
+   chmod a+x install_gui2.sh
 
- point browser at 192.168.1.30/gui2/phones.html
+5. Run the script
+
+   sh install_gui2.sh
+
+6. Check gui2 
+
+   192.168.1.30/gui2/phones.html
 
 
