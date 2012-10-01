@@ -72,7 +72,7 @@ function processDhcp(doc,status) {
     if (dhcp == "no") {
         downloadUrl("/cgi-bin/getconf.cgi?file=../init.d/network-static", processStatic);
     } else {
-	initialise();
+	    //initialise(); endless loop
 	}
 }
 
@@ -171,7 +171,7 @@ function onClickApply() {
 
     // change network type, DHCP or static
 
-    if (document.getElementById("dhcp").value == "yes") {
+    if (document.getElementById("dhcp").checked == 1) {
 
 		if (dhcp = "no") {
 			// disable network-static service and endable network service
