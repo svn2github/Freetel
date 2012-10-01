@@ -134,6 +134,9 @@ Simple Switch button for GUI2 or original.
 	The GUIs can coexist. Should have the option of switching.
 
 dial tones impedance 
+    zaptel init.d
+	ztcfg
+	
 	cat /etc/zaptel.conf
 
 	loadzone = us

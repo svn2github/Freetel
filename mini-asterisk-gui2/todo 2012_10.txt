@@ -1,0 +1,29 @@
+IP04 GUI2 To do notes
+Ian Roberts 
+
+*************************************************************************
+
+Oct 1 2012
+
+network page
+  
+  Test static to dhcp selection
+  
+  dhcp   if cant reference objects (radio) directly...use getElementById()
+         dhcp get 1.30 if possible?
+		 
+  gateway :fping does not time out when internet down
+  
+  add in emergency ip code
+
+phones page
+
+  debug reception errors with 1fxo, 1fxs in zaptel.conf
+  
+new config page 
+
+  impedance select US or AU
+  ntp select region
+ 
+new login page
+  makes a cookie based on 
