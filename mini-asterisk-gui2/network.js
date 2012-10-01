@@ -28,6 +28,12 @@ function initialise() {
 //    initialisePage();
 }
 
+function doDHCP() {
+}
+
+function doStatic() {
+}
+
 
 function greyout(dhcp) {
 
@@ -64,7 +70,7 @@ function processDhcp(doc,status) {
     if (dhcp == "no") {
         downloadUrl("/cgi-bin/getconf.cgi?file=../init.d/network-static", processStatic);
     } else {
-	initialistPage();
+	initialise();
 	}
 }
 
@@ -163,7 +169,7 @@ function onClickApply() {
 
     // change network type, DHCP or static
 
-    if (document.network.dhcp.value == "yes") {
+    if (document.getElementById("dhcp").value == "yes") {
 
 		if (dhcp = "no") {
 			// disable network-static service and endable network service
