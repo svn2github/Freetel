@@ -40,16 +40,16 @@ function doStatic() {
 function greyout(dhcp) {
 
     if (dhcp == "yes") {
-	document.network.static.checked = 0;
-	document.network.dhcp.checked = 1;
+	document.getElementById("static").checked = 0;
+	document.getElementById("dhcp").checked = 1;
 	document.network.ipaddress.disabled = 1;
 	document.network.netmask.disabled = 1;
 	document.network.gateway.disabled = 1;
 	document.network.dns.disabled = 1;
     }
     else {
-	document.network.static.checked = 1;
-	document.network.dhcp.checked = 0;
+	document.getElementById("static").checked = 1;
+	document.getElementById("dhcp").checked = 0;
 	document.network.ipaddress.disabled = 0;
 	document.network.netmask.disabled = 0;
 	document.network.gateway.disabled = 0;
