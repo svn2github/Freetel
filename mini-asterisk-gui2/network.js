@@ -29,9 +29,11 @@ function initialise() {
 }
 
 function doDHCP() {
+    greyout("yes");
 }
 
 function doStatic() {
+    greyout("no");
 }
 
 
