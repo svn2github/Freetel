@@ -46,29 +46,30 @@ function initialisePage() {
     for(var i=0; i<zap.length; i++) {
         if (zap[i] == 'FXS') {
             html += "<tr>";
-	    html += "<td>" + analog_ext[i] + "</td>" + "<td>" + "Analog Phone" + "</td>";
-	    html += "<td>Port" + i  + "</td>";
+	        html += "<td>" + analog_ext[i] + "</td>" + "<td>" + "Analog Phone" + "</td>";
+	        html += "<td>Port" + i  + "</td>";
 
             html += "<td>" + '<img src="tick.png" alt="tick" />' + "</td>";
 
             // the reception checkbox code
-	    html += "<td>" + '<input name="selected_in[]" type="checkbox" ' ;     
-		// Underscore used instead of forward slash to pass thru html request
+	        html += "<td>" + '<input name="selected_in[]" ' ;
+			html += 'value= "' + ext_code[i-1] + '" ';
+            html += 'type="checkbox" ' ;
 
             if (recept_num.indexOf(analog_ext[i]) != -1) {
-		    html += '" checked/>';
-		}
-	    else {
-		    html += '" unchecked/>';
-	    }
+		        html += '" checked/>';
+		        }
+	        else {
+		        html += '" unchecked/>';
+	        }
 
-	    // save the reception code
-	    recept_code[itemcount++]=ext_code[i-1];
+	        // save the reception code
+	        recept_code[itemcount++]=ext_code[i-1];
 
             html += "</td>";
 	
             html += "</tr>";
-	}
+	    }
     }
 
 
@@ -79,32 +80,30 @@ function initialisePage() {
     for (j in ip_ext) {
         if (ip_ext[j] != '') {
             html += "<tr>";
-	    html += "<td>" + j + "</td>" + "<td>" + "IP Phone" + "</td>";
-	    html += "<td>" + ip_ext[j] + "</td>";
+	        html += "<td>" + j + "</td>" + "<td>" + "IP Phone" + "</td>";
+	        html += "<td>" + ip_ext[j] + "</td>";
 
             html += "<td>" + '<img src="tick.png" alt="tick" />' + "</td>";
 
             // the reception checkbox code
-	    html += "<td>" + '<input name="selected_in[]" type="checkbox" ' ;
-		// Underscore used instead of forward slash to pass thru html request
- 
-
+	        html += "<td>" + '<input name="selected_in[]" type="checkbox" ' ;
+			
             if (recept_num.indexOf(j)!=-1) {
-		    html += '" checked/>';
-		}
-	    else {
-		    html += '" unchecked/>';
-	    }
+		        html += '" checked/>';
+		    }
+	        else {
+		        html += '" unchecked/>';
+	        }
 
-	    // save the reception code
+	        // save the reception code
            
-	    recept_code[itemcount++]=ext_code[(i-1)];
-	    i++;
+	        recept_code[itemcount++]=ext_code[(i-1)];
+	        i++;
 
             html += "</td>";
 
             html += "</tr>";
-	}
+	    }
     }
 
     html += "<tr>";
