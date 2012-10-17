@@ -224,7 +224,7 @@ function onClickUpdateReception() {
 				arg = arg+"&";
 
 			// got to make up new codes
-			arg = arg + recept_code[i] + "=on";
+			arg = arg + recept_box[i].value + "=on";
 		}
 
 	}
