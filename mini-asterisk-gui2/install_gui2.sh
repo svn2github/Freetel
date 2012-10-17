@@ -19,7 +19,6 @@ rm gui2.tar.gz
 
 wget -O gui2.tar.gz http://freetel.svn.sourceforge.net/viewvc/freetel/mini-asterisk-gui2/?view=tar
 
-#mv index.html?view=tar mag2.tar.gz
 
 echo ""
 

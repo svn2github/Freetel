@@ -27,3 +27,28 @@ new config page
  
 new login page
   makes a cookie based on 
+  
+  
+*****************************************************************************  
+  
+Oct 18 2012
+  
+
+Phones page
+
+	Reception update fail : Daisy chain url calls
+
+	internet fping 8.8.8.8
+  
+Network page
+  
+	Bad dns .... Try fping 8.8.8.8 instead?
+	....try fping dns check before internet fping
+	.... maybe nslookup 
+		 fping 8.8.8.8 ?
+
+	two crosses dns and internet?
+
+	fping dns
+	if ok fping google
+	else fail report

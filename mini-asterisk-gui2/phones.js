@@ -230,10 +230,19 @@ function onClickUpdateReception() {
 	}
 
     var arg2 =  "/cgi-bin/setring.cgi?" + arg;
-	downloadUrl(arg2,GenericReturn);
+	downloadUrl(arg2,OnSetringReturn);
+
+
+}
+
+function OnSetringReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
 
 	downloadUrl("/cgi-bin/asterisk.cgi?dialplan reload",GenericReturn);
-
+	//initialisePage();
 }
 
 function onClickUpdateOutgoing() {
