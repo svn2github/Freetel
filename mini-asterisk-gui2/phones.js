@@ -87,7 +87,7 @@ function initialisePage() {
 
             // the reception checkbox code
 	        html += "<td>" + '<input name="selected_in[]" ';
- 			html += 'value="SIP_' + ip_ext[j] + '" ';
+ 			html += 'value="SIP_' + j + '" ';
             html += 'type="checkbox" ' ;
 			
             if (recept_num.indexOf(j)!=-1) {
