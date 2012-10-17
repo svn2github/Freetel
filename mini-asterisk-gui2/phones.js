@@ -86,7 +86,10 @@ function initialisePage() {
             html += "<td>" + '<img src="tick.png" alt="tick" />' + "</td>";
 
             // the reception checkbox code
-	        html += "<td>" + '<input name="selected_in[]" type="checkbox" ' ;
+	        html += "<td>" + '<input name="selected_in[]" ';
+ 			html += 'value= "' + ext_code[i-1] + '" ';
+			i++;
+            html += 'type="checkbox" ' ;
 			
             if (recept_num.indexOf(j)!=-1) {
 		        html += '" checked/>';
