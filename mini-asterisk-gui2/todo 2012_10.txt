@@ -36,7 +36,9 @@ Oct 18 2012
 
 Phones page
 
-	Reception update fail : Daisy chain url calls
+	Reception update fail : 
+		Daisy chain url calls
+		Fix asterisk cgi prefix .... cli=dial plan
 
 	internet fping 8.8.8.8
   
@@ -52,3 +54,5 @@ Network page
 	fping dns
 	if ok fping google
 	else fail report
+	
+Dialplan outbound g1/g2 ?
