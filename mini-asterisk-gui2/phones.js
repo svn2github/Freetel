@@ -241,7 +241,7 @@ function OnSetringReturn(doc,status) {
 	}
 	);
 
-	downloadUrl("/cgi-bin/asterisk.cgi?dialplan reload",GenericReturn);
+	downloadUrl("/cgi-bin/asterisk.cgi?cli=dialplan reload",GenericReturn);
 	//initialisePage();
 }
 

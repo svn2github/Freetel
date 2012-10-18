@@ -17,6 +17,7 @@ Content-type: text/html
 EOF
 
 CLI=`echo "$QUERY_STRING" | sed -n "s/.*cli=//p" | sed -n "s/%20/ /pg"`
+echo "$CLI"
 asterisk -rx "$CLI"
 echo hello
 cat <<EOF
