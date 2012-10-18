@@ -55,4 +55,8 @@ Network page
 	if ok fping google
 	else fail report
 	
-Dialplan outbound g1/g2 ?
+[  Dialplan outbound g1/g2 ?   ]
+
+IP provider page
+
+Login page
