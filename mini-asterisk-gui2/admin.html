@@ -4,7 +4,7 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8"/>
 <title>Admin</title>
 
-<link rel="stylesheet" type="text/css" href="ministyle.css">
+<link rel="stylesheet" type="text/css" href="ministyle.css" />
 <link rel="stylesheet" href="tooltip.css" type="text/css" />
 <script type="text/javascript" src="minicommon.js"></script>
 <script type="text/javascript" src="tooltip.js"></script>
@@ -25,37 +25,38 @@
     <td valign="top">
 
     <table align="right" width=600>
-      <tr><td>&nbsp</td></tr>
+      <tr><td>&nbsp;</td></tr>
+	  
       <form action="adminpw" method="get">
       <tr><td align="left" valign="top"><h2>Admin</h2></td></tr>
-
-      <tr><td>&nbsp</td></tr>
+      <tr><td>&nbsp;</td></tr>
       <tr><td colspan="2"><h3>Change Phone System Password</h3></td></tr>
       <tr><td>New Password:</td><td><input type="password" name="pass" ></td>
           <td><input type="button" style="width:100%" value="Set Password" onClick="onClickSetPassword()"></td>
       </tr>
-      <tr><td>&nbsp</td></tr>
-      <tr><td></td><td>Default password is uClinux</td>
+      <tr><td>&nbsp;</td></tr>
+      <tr><td></td><td>Default password is uClinux</td></tr>
       </form>
 
-      <tr><td>&nbsp</td></tr>
+      <tr><td>&nbsp;</td></tr>
       <tr><td colspan="2"><h3>Restart Phone System</h3></td>
           <td><input type="button" style="width:100%" value="Restart" onClick="onClickRestart()"></td>
       </tr>
 
-      <tr><td>&nbsp</td></tr>
+      <tr><td>&nbsp;</td></tr>
        <tr><td colspan="2"><h3>Reset Phone System Defaults</h3></td>
           <td><input type="button" style="width:100%" value="Reset" onClick="onClickReset()"></td>
       </tr>
 
-      <tr><td>&nbsp</td></tr>
+      <tr><td>&nbsp;</td></tr>
       <tr onMouseOver="popUp(event,'admin_upgrade')" onmouseout="popUp(event,'admin_upgrade')">
           <td colspan="2"><h3>Upgrade Mini Asterisk</h3></td>
           <td><input type="button" style="width:100%" value="Upgrade" onClick="onClickUpgrade()"></td>
       </tr>
 
-      <tr><td>&nbsp</td></tr>
+      <tr><td>&nbsp;</td></tr>
       <tr><td colspan="2"><h3>Install New Firmware</h3>
+	  
       <form action="admininstall" method="get">
       <tr onMouseOver="popUp(event,'admin_firmware')" onmouseout="popUp(event,'admin_firmware')">
           <td>Firmware URL:</td>
@@ -64,14 +65,12 @@
 
       </tr>
       </form>
-
-    </table>
-    </form>
-
-    </td>
+	  
+      </td>
+      </tr>
+   </table>
 
   </tr>
-
   </table>
 </body>
 </html>
