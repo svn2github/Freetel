@@ -26,17 +26,16 @@
    <td valign="top">
 
     <table align="right" width=600>
-      <tr><td>&nbsp</td></tr>
-      <form name="voiplines">
+      <tr><td>&nbsp;</td></tr>
       <tr><td onMouseOver="popUp(event,'voiplines_voiplines')" onmouseout="popUp(event,'voiplines_voiplines')" align="left" valign="top" colspan="3"><h2>VOIP Line</h2></td></tr>
 
       <tr><td>&nbsp</td></tr>
 
       <tr id="tt_provider"><td>Provider</td><td>
       <select name="provider" id="provider" onchange="changeProvider()">
-	<option selected="yes">one</option>
-	<option selected="no">two</option>
-	<option selected="no">three</option>
+	<option value="one">one</option>
+	<option value="two">two</option>
+	<option value="three">three</option>
       </select></td></tr>
       <tr id="tt_user"><td>User:</td><td><input type="text" name="user" id="user" value=""></td></tr>
       <tr id="tt_pass"><td >Password:</td><td><input type="password" name="pass" id="pass" value=""></td></tr>
@@ -46,13 +45,12 @@
                           your browser to update Voip Line status.
                           </td></tr>
 
-      <tr><td>&nbsp</td></tr>
-      <tr><td><input type="submit" value="OK" onClick=onClickApply()></td></tr>
+      <tr><td>&nbsp;</td></tr>
+      <tr><td><input type="submit" value="OK" onClick="onClickApply()"></td></tr>
 
       </form>
 
     </table>
-    </form>
 
     </td>
   </td>
