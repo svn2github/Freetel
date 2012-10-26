@@ -31,22 +31,24 @@
 
       <tr><td>&nbsp;</td></tr>
 
-      <tr id="tt_provider"><td>Provider</td><td>
-      <select name="provider" id="provider" onchange="changeProvider()">
-	<option value="one">one</option>
-	<option value="two">two</option>
-	<option value="three">three</option>
-      </select></td></tr>
-      <tr id="tt_user"><td>User:</td><td><input type="text" name="user" id="user" value=""></td></tr>
-      <tr id="tt_pass"><td >Password:</td><td><input type="password" name="pass" id="pass" value=""></td></tr>
-      <tr id="tt_host"><td >Host:</td><td><input type="text" name="host" id="host" value=""></td></tr>
+      <tr id="tt_provider"><td>Provider</td>
+	  <td>
+        <select name="provider" id="provider" onchange="changeProvider()">
+	      <option value="one">one</option>
+	      <option value="two">two</option>
+	      <option value="three">three</option>
+        </select>
+	  </td></tr>
+      <tr id="tt_user"><td>User:</td><td><input type="text" name="user" id="user" value=""/></td></tr>
+      <tr id="tt_pass"><td >Password:</td><td><input type="password" name="pass" id="pass" value=""/></td></tr>
+      <tr id="tt_host"><td >Host:</td><td><input type="text" name="host" id="host" value=""/></td></tr>
       <tr><td colspan="2">Sometimes it takes a few seconds to connect
                           your Voip Line.  After clicking OK refresh
                           your browser to update Voip Line status.
                           </td></tr>
 
       <tr><td>&nbsp;</td></tr>
-      <tr><td><input type="submit" value="OK" onClick="onClickApply()"></td></tr>
+      <tr><td><input type="submit" value="OK" onClick="onClickApply()" /></td></tr>
 
 
     </table>
