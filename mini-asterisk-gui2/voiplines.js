@@ -60,6 +60,7 @@ function changeProvider() {
 		document.getElementById('user').value = "";
 		document.getElementById('host').value = "";
 		document.getElementById('pass').value = "";
+		var temp = document.getElementById('info');
 		document.getElementById('info').value = "No provider selected";
 	} else if (selection == "SIPNAT" ) {
 		// fill sipnat
