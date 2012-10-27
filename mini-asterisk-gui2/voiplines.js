@@ -59,6 +59,9 @@ function changeProvider() {
 		// clear fields
 	} else if (selection == "SIPNAT" ) {
 		// fill sipnat
+		document.getElementById('user').value = "sipnat";
+		document.getElementById('host').value = "sipnathost";
+		document.getElementById('pass').value = "xxxxxx";
 	} else if (selection == "SIP" ) {
 	    // fill sip
 	} else if (selection == "JAZMIN" ) {
