@@ -53,7 +53,7 @@ function changeProvider() {
 
 // fill the host and username fields based on selection
 
-var selection = document.getElementById('povider').innerHTML;
+var selection = document.getElementById('provider').innerHTML;
 
 
 }
