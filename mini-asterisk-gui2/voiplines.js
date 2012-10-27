@@ -57,6 +57,10 @@ function changeProvider() {
 
 	if (selection == "none" ) {
 		// clear fields
+		document.getElementById('user').value = "";
+		document.getElementById('host').value = "";
+		document.getElementById('pass').value = "";
+		document.getElementById('info').value = "No provider selected";
 	} else if (selection == "SIPNAT" ) {
 		// fill sipnat
 		document.getElementById('user').value = "sipnat";
@@ -64,8 +68,14 @@ function changeProvider() {
 		document.getElementById('pass').value = "xxxxxx";
 	} else if (selection == "SIP" ) {
 	    // fill sip
+		document.getElementById('user').value = "sip";
+		document.getElementById('host').value = "siphost";
+		document.getElementById('pass').value = "xxxxxx";		
 	} else if (selection == "JAZMIN" ) {
 		// fill jazmin
+		document.getElementById('user').value = "jazmin";
+		document.getElementById('host').value = "jazminhost";
+		document.getElementById('pass').value = "xxxxxx";		
 	} else {
 		// something weird happened
 	}
