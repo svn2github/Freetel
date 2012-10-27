@@ -53,9 +53,20 @@ function changeProvider() {
 
 // fill the host and username fields based on selection
 
-var selection = document.getElementById('provider').value;
+	var selection = document.getElementById('provider').value;
 
-
+	if (selection == "none" ) {
+		// clear fields
+	} else if (selection == "SIPNAT" ) {
+		// fill sipnat
+	} else if (selection == "SIP" ) {
+	    // fill sip
+	} else if (selection == "JAZMIN" ) {
+		// fill jazmin
+	} else {
+		// something weird happened
+	}
+	
 }
 
 
