@@ -41,9 +41,19 @@ function initialisePage() {
 */
 }
 
+
 function onClickApply() {
 
 //take username, password and host. Insert to file. Restart sip.
+
+
+}
+
+function changeProvider() {
+
+// fill the host and username fields based on selection
+
+var selection = document.getElementById('povider').innerHTML;
 
 
 }
