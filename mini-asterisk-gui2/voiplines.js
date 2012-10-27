@@ -21,30 +21,36 @@ function initialise() {
 function initialisePage() {
     // 
     
- /*   var icon = '<img src="tick.png" alt="Analog Phone OK" />';
+    var tickicon = '<img src="tick.png" alt="Provider OK" />';
+    var crossicon = '<img src="cross.png" alt="No provider found" />';
     var html = '';
+	var providerfound = 0;
+	
+	// Check if provider is up
+	// asterisk sip register
+	
+    if (providerfound == 1) {
+		html += tickicon;
+	} else {
+		html += crossicon;
+	}
 
-    html += '<table align="right" width=600>';
+    document.getElementById("voiplinestatus").innerHTML = html;
 
-    // print out info
-
-    html += '<tr><td colspan="3" align="left" valign="top"><h2>Voip Lines</h2></td></tr>';
-    html += '<tr><td colspan="2"><a href="http://rowetel.com/ucasterisk/mini.html">Mini Asterisk GUI2</a></td><td> </td><td>Revision XXX</td></tr>';
-    html += '<tr><td colspan="2">Brought to you by the</td><td> </td><td> <a href="http://rowetel.com/ucasterisk/index.html">Free Telephony Project</a></td></tr>';
-    // this image will only come up if internet connection is present
-    html += '<tr><td colspan="2"><a href="http://rowetel.com/ucasterisk/ip04.html"><img src="http://rowetel.com/images/ip04/ip04_case.jpg" border="0" /></a></td><td> </td><td></td></tr>';
-    html += '<tr><td>&nbsp</td></tr>';
- 
-    html += '</table>';
-
- //   document.getElementById("voiplines").innerHTML += html;
-*/
 }
 
 
 function onClickApply() {
 
-//take username, password and host. Insert to file. Restart sip.
+//take provider, username, password and host. 
+
+// Save old sip.conf
+// Make new sip.conf with provider uncommented
+
+// Modify extensions.conf for new provider
+// asterisk dialplan reload
+
+// asterisk sip reload
 
 
 }
@@ -64,20 +70,20 @@ function changeProvider() {
 		document.getElementById('info').textContent = "No provider selected";
 	} else if (selection == "SIPNAT" ) {
 		// fill sipnat
-		document.getElementById('user').value = "sipnat";
-		document.getElementById('host').value = "sipnathost";
+		document.getElementById('user').value = "user";
+		document.getElementById('host').value = "192.168.1.28";
 		document.getElementById('pass').value = "xxxxxx";
-		document.getElementById('info').textContent = "You reach your ITSP via a NAT router ...most common";
+		document.getElementById('info').textContent = "You reach your ITSP via a NAT router ...the most common setup";
 	} else if (selection == "SIP" ) {
 	    // fill sip
-		document.getElementById('user').value = "sip";
-		document.getElementById('host').value = "siphost";
+		document.getElementById('user').value = "user";
+		document.getElementById('host').value = "192.168.1.28";
 		document.getElementById('pass').value = "xxxxxx";		
 		document.getElementById('info').textContent = "No NAT router between your Phone system and your ITSP";
 	} else if (selection == "JAZMIN" ) {
 		// fill jazmin
-		document.getElementById('user').value = "jazmin";
-		document.getElementById('host').value = "jazminhost";
+		document.getElementById('user').value = "username";
+		document.getElementById('host').value = "sip.jazmin.net.au";
 		document.getElementById('pass').value = "xxxxxx";		
 		document.getElementById('info').textContent = "Jazmin are a South Australian ITSP";
 	} else {
