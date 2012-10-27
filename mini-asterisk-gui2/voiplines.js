@@ -67,16 +67,19 @@ function changeProvider() {
 		document.getElementById('user').value = "sipnat";
 		document.getElementById('host').value = "sipnathost";
 		document.getElementById('pass').value = "xxxxxx";
+		document.getElementById('info').textContent = "You reach your ITSP via a NAT router ...most common";
 	} else if (selection == "SIP" ) {
 	    // fill sip
 		document.getElementById('user').value = "sip";
 		document.getElementById('host').value = "siphost";
 		document.getElementById('pass').value = "xxxxxx";		
+		document.getElementById('info').textContent = "No NAT router between your Phone system and your ITSP";
 	} else if (selection == "JAZMIN" ) {
 		// fill jazmin
 		document.getElementById('user').value = "jazmin";
 		document.getElementById('host').value = "jazminhost";
 		document.getElementById('pass').value = "xxxxxx";		
+		document.getElementById('info').textContent = "Jazmin are a South Australian ITSP";
 	} else {
 		// something weird happened
 	}
