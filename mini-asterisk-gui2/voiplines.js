@@ -21,7 +21,7 @@ function initialise() {
 function initialisePage() {
     // 
     
-    var icon = '<img src="tick.png" alt="Analog Phone OK" />';
+ /*   var icon = '<img src="tick.png" alt="Analog Phone OK" />';
     var html = '';
 
     html += '<table align="right" width=600>';
@@ -38,10 +38,13 @@ function initialisePage() {
     html += '</table>';
 
  //   document.getElementById("voiplines").innerHTML += html;
-
+*/
 }
 
 function onClickApply() {
+
+//take username, password and host. Insert to file. Restart sip.
+
 
 }
 
