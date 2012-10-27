@@ -61,7 +61,7 @@ function changeProvider() {
 		document.getElementById('host').value = "";
 		document.getElementById('pass').value = "";
 		var temp = document.getElementById('info');
-		document.getElementById('info').value = "No provider selected";
+		document.getElementById('info').textContent = "No provider selected";
 	} else if (selection == "SIPNAT" ) {
 		// fill sipnat
 		document.getElementById('user').value = "sipnat";
