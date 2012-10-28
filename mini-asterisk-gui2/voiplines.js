@@ -28,7 +28,7 @@ function initialisePage() {
 
 }
 
-function OnSiphowReturn(doc,status) {
+function OnSipshowReturn(doc,status) {
     loadHtmlTextFile(doc, function(line) {
 	    //parseSipShowPeers(line);
 	}
