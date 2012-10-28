@@ -69,13 +69,31 @@ function onClickApply() {
 	// You will need to cascade calls to downloadUrl
 
 	// take provider, username, password and host. 
-
-	// 1. Save old sip.conf
-	// 2. Make new sip.conf with provider uncommented
-	//  2.1	insert register command
-	//	2.2	uncomment sip trunk entry
-	//  2.3	update sip trunk details
+	var user = "";
+	var host = "";
+	var passwd = "";
+	
+	// 1. Save sip.conf	
+	
+	
+	user = document.getElementById('user').value;
+	host = document.getElementById('host').value;
+	passwd = document.getElementById('pass').value
+	
+	
+	// 2. Update sip.conf
+	//  2.1	insert register command  
+	//          ;register => 1234:password@mysipprovider.com   becomes     register => trev:password@192.168.1.30 
+	
+	
+	
+	//  2.2	update sip trunk details  ... user pw host
+	//          [usersip]             becomes       [trev]
+	//          username=usersip                     username=trev
+	//          secret=passwordsip                   secret=password
+	//          host=hostsip                         host=192.168.1.30
 	// 3. Modify extensions.conf for new provider
+	//          exten => _1.,1,Dial(SIP/voip/${EXTEN:1})    becomes     exten => _1.,1,Dial(SIP/trev/${EXTEN:1}) 
 	// 4. asterisk sip reload ....ORDER? beardy has this at position 4
 	// 5. asterisk dialplan reload
 

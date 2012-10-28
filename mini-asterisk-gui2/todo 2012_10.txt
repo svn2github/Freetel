@@ -69,5 +69,6 @@ Oct 29 2012
 IP provider page work
 	sip.conf modified with new keywords
 	install script changed to update sip.conf
+	Are sip provider entries ok to leav uncommented?...they have dummy hosts
 	
 Notice ip phone (ekiga from pc) registrations stay on ip04 after phone has disappeared
