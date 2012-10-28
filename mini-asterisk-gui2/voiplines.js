@@ -27,7 +27,11 @@ function initialisePage() {
 	var providerfound = 0;
 	
 	// Check if provider is up
-	// asterisk sip register
+	//     asterisk sip show registry
+	
+	// If a provider is registered, 
+	//     get provider details from sip.conf
+	//     fill out form on page
 	
     if (providerfound == 1) {
 		html += tickicon;
