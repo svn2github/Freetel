@@ -40,12 +40,22 @@ function OnSipshowReturn(doc,status) {
 	var providerfound = 0;
 
 	// If a provider is registered, 
-	//     get provider details from sip.conf
-	//     fill out form on page
 	
-    if (providerfound == 1) {
+    if (doc.indexOf("Registered") != -1) {
+		// provider is registered
 		html += tickicon;
+		// get provider details from doc
+		var user = "";
+		var host = "";
+		//var pass = "";
+		// fill out form on page
+		//document.getElementById('user').value = user;
+		//document.getElementById('host').value = host;
+		//document.getElementById('pass').value = pass;
+		
 	} else {
+		// no provider or 
+		// provider is not registered
 		html += crossicon;
 	}
 
