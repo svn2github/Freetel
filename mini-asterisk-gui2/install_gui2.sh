@@ -61,6 +61,10 @@ ipkg install fping
 
 cp mini-asterisk-gui2/etc/asterisk/extensions.conf /etc/asterisk/extensions.conf
 
+# check sip.conf has new provider keywords
+
+cp mini-asterisk-gui2/etc/asterisk/sip.conf /etc/asterisk/sip.conf
+
 # check lighttpd installed
 # check cgi support in lighttpd
 
