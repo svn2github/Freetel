@@ -87,7 +87,7 @@ function onClickApply() {
 	//          ;register => 1234:password@mysipprovider.com   becomes     register => trev:password@192.168.1.30 
 	
 	var new_register = "register => "+user+":"+passwd+"@"+host;
-	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=;register => 1234:password@mysipprovider.com&that="' + new_register + '"';
+	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=;register => 1234:password@mysipprovider.com&that=' + new_register ;
 		
 	downloadUrl(url,registerReturn);
 	
@@ -124,7 +124,7 @@ function usernameReturn(doc,status) {
 	
 	//          secret=passwordsip                   secret=password
     //   need to switch keywords based on selection
-	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=passwordsip&that="' + document.getElementById('pass').value + '"';
+	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=passwordsip&that=' + document.getElementById('pass').value ;
 
 	downloadUrl(url,passwordReturn);
 }
@@ -137,7 +137,7 @@ function passwordReturn(doc,status) {
 	
 	//          host=hostsip                         host=192.168.1.30
     //   need to switch keywords based on selection
-	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=hostsip&that="' + document.getElementById('host').value + '"';
+	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=hostsip&that=' + document.getElementById('host').value + ;
 
 	downloadUrl(url,hostReturn);
 }
@@ -150,7 +150,7 @@ function hostReturn(doc,status) {
 	
 	//          exten => _1.,1,Dial(SIP/voip/${EXTEN:1})    becomes     exten => _1.,1,Dial(SIP/trev/${EXTEN:1}) 
 
-	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/extensions.conf&this=voip&that="' + document.getElementById('user').value + '"';
+	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/extensions.conf&this=voip&that=' + document.getElementById('user').value ;
 
 	downloadUrl(url,extReturn);
 }
