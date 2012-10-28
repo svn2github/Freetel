@@ -129,7 +129,7 @@ function usernameReturn(doc,status) {
 	downloadUrl(url,passwordReturn);
 }
 
-function usernameReturn(doc,status) {
+function passwordReturn(doc,status) {
     loadHtmlTextFile(doc, function(line) {
 	    //parseSipShowPeers(line);
 	}
