@@ -42,22 +42,23 @@ function initialisePage() {
 
 function onClickApply() {
 
-//take provider, username, password and host. 
+	// All this stuff is synchronous. Must happen in order specified.
+	// You will need to cascade calls to downloadUrl
 
-// Save old sip.conf
-// Make new sip.conf with provider uncommented
+	// take provider, username, password and host. 
 
-// Modify extensions.conf for new provider
-// asterisk dialplan reload
-
-// asterisk sip reload
+	// 1. Save old sip.conf
+	// 2. Make new sip.conf with provider uncommented
+	// 3. Modify extensions.conf for new provider
+	// 4. asterisk dialplan reload
+	// 5. asterisk sip reload
 
 
 }
 
 function changeProvider() {
 
-// fill the host and username fields based on selection
+	// fill the host and username fields based on selection
 
 	var selection = document.getElementById('provider').value;
 
