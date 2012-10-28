@@ -86,11 +86,11 @@ function onClickApply() {
 	//  2.1	insert register command  
 	//          ;register => 1234:password@mysipprovider.com   becomes     register => trev:password@192.168.1.30 
 	
-	var new_register = "register => "+user+":"+passwd+"@"+host;
-//	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=;register=>1234:password@mysipprovider.com&that=' + new_register ;
-	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=;register=>&that=register=>';
+	var new_register = user+":"+passwd+"@"+host;
+	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=1234:password@mysipprovider.com&that=' + new_register ;
+//	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=;register&that=register';
 		
-	downloadUrl(url,registerReturn);
+	downloadUrl(url,semiReturn);
 	
 	//  2.2	update sip trunk details  ... user pw host
 	//          [usersip]             becomes       [trev]
@@ -103,6 +103,22 @@ function onClickApply() {
 	// 5. asterisk dialplan reload
 
 }
+
+function semiReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+	
+	//          username=usersip                     username=trev
+    //   need to switch keywords based on selection
+	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=;register&that=register';
+
+	downloadUrl(url,registerReturn);
+}
+
+
+
 
 function registerReturn(doc,status) {
     loadHtmlTextFile(doc, function(line) {
