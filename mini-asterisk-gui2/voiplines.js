@@ -72,13 +72,14 @@ function onClickApply() {
 	var user = "";
 	var host = "";
 	var passwd = "";
+	var selection = "";
 	
 	// 1. Save sip.conf	
 	
-	
+	selection = document.getElementById('provider').value;
 	user = document.getElementById('user').value;
 	host = document.getElementById('host').value;
-	passwd = document.getElementById('pass').value
+	passwd = document.getElementById('pass').value;
 	
 	
 	// 2. Update sip.conf
