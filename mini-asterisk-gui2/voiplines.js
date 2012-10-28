@@ -49,10 +49,12 @@ function onClickApply() {
 
 	// 1. Save old sip.conf
 	// 2. Make new sip.conf with provider uncommented
+	//  2.1	insert register command
+	//	2.2	uncomment sip trunk entry
+	//  2.3	update sip trunk details
 	// 3. Modify extensions.conf for new provider
-	// 4. asterisk dialplan reload
-	// 5. asterisk sip reload
-
+	// 4. asterisk sip reload ....ORDER? beardy has this at position 4
+	// 5. asterisk dialplan reload
 
 }
 
