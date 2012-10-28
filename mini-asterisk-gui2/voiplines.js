@@ -7,7 +7,7 @@
 */
 
 var update_time = 10;
-
+var selection = "";
 
 // Called when we load page
 
@@ -72,7 +72,7 @@ function onClickApply() {
 	var user = "";
 	var host = "";
 	var passwd = "";
-	var selection = "";
+
 	
 	// 1. Save sip.conf	
 	
@@ -86,7 +86,10 @@ function onClickApply() {
 	//  2.1	insert register command  
 	//          ;register => 1234:password@mysipprovider.com   becomes     register => trev:password@192.168.1.30 
 	
-	
+	var new_register = "register => "+user+":"+passwd+"@"+host;
+	var url = '/cgi-bin/setline.cgi?file=/etc/asterisk/sip.conf&this=;register => 1234:password@mysipprovider.com&that="' + new_register + '"';
+		
+	downloadUrl(url,registerReturn);
 	
 	//  2.2	update sip trunk details  ... user pw host
 	//          [usersip]             becomes       [trev]
@@ -100,11 +103,99 @@ function onClickApply() {
 
 }
 
+function registerReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+	
+	//          username=usersip                     username=trev
+    //   need to switch keywords based on selection
+	var url = '/cgi-bin/setline.cgi?file=/etc/asterisk/sip.conf&this=usersip&that="' + document.getElementById('user').value + '"';
+
+	downloadUrl(url,usernameReturn);
+}
+
+function usernameReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+	
+	//          secret=passwordsip                   secret=password
+    //   need to switch keywords based on selection
+	var url = '/cgi-bin/setline.cgi?file=/etc/asterisk/sip.conf&this=passwordsip&that="' + document.getElementById('pass').value + '"';
+
+	downloadUrl(url,passwordReturn);
+}
+
+function usernameReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+	
+	//          host=hostsip                         host=192.168.1.30
+    //   need to switch keywords based on selection
+	var url = '/cgi-bin/setline.cgi?file=/etc/asterisk/sip.conf&this=hostsip&that="' + document.getElementById('host').value + '"';
+
+	downloadUrl(url,hostReturn);
+}
+
+function hostReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+	
+	//          exten => _1.,1,Dial(SIP/voip/${EXTEN:1})    becomes     exten => _1.,1,Dial(SIP/trev/${EXTEN:1}) 
+
+	var url = '/cgi-bin/setline.cgi?file=/etc/asterisk/extension.conf&this=voip&that="' + document.getElementById('user').value + '"';
+
+	downloadUrl(url,extReturn);
+}
+
+function extReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+	
+	// 4. asterisk sip reload ....ORDER? beardy has this at position 4
+
+	downloadUrl("/cgi-bin/asterisk.cgi?cli=sip reload",sipReloadReturn);
+
+}
+
+function sipReloadReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+	
+	// 5. asterisk dialplan reload
+
+	downloadUrl("/cgi-bin/asterisk.cgi?cli=dialplan reload",dialplanReloadReturn);
+
+}
+
+function dialplanReloadReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+	
+	// initialise page?
+
+	initialise();
+
+}
+
 function changeProvider() {
 
 	// fill the host and username fields based on selection
 
-	var selection = document.getElementById('provider').value;
+	selection = document.getElementById('provider').value;
 
 	if (selection == "none" ) {
 		// clear fields
