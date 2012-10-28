@@ -137,7 +137,7 @@ function passwordReturn(doc,status) {
 	
 	//          host=hostsip                         host=192.168.1.30
     //   need to switch keywords based on selection
-	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=hostsip&that=' + document.getElementById('host').value + ;
+	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=hostsip&that=' + document.getElementById('host').value ;
 
 	downloadUrl(url,hostReturn);
 }
