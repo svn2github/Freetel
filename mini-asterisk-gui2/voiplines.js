@@ -88,7 +88,7 @@ function onClickApply() {
 	
 	var new_register = "register => "+user+":"+passwd+"@"+host;
 //	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=;register=>1234:password@mysipprovider.com&that=' + new_register ;
-	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=;register=&that=register';
+	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=;register=>&that=register=>';
 		
 	downloadUrl(url,registerReturn);
 	
