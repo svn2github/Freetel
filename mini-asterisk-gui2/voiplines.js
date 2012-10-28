@@ -21,14 +21,24 @@ function initialise() {
 function initialisePage() {
     // 
     
+	
+	// Check if provider is up
+	//     asterisk sip show registry
+	downloadUrl("/cgi-bin/asterisk.cgi?cli=sip show registry",OnSipshowReturn);
+
+}
+
+function OnSiphowReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+
     var tickicon = '<img src="tick.png" alt="Provider OK" />';
     var crossicon = '<img src="cross.png" alt="No provider found" />';
     var html = '';
 	var providerfound = 0;
-	
-	// Check if provider is up
-	//     asterisk sip show registry
-	
+
 	// If a provider is registered, 
 	//     get provider details from sip.conf
 	//     fill out form on page
@@ -42,7 +52,6 @@ function initialisePage() {
     document.getElementById("voiplinestatus").innerHTML = html;
 
 }
-
 
 function onClickApply() {
 
