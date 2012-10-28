@@ -28,7 +28,7 @@ echo $file
 echo $this
 echo $that
 if [ -f $file ]; then
-  sed -i "s/$this.*/$that/g" $file
+  sed -i "s/$this.*/$that.*/g" $file
 else
   echo "$file does not exist"
 fi
