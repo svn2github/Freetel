@@ -112,7 +112,7 @@ function semiReturn(doc,status) {
 	
 	//          username=usersip                     username=trev
     //   need to switch keywords based on selection
-	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=;register&that=register';
+	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=;register=&that=register=';
 
 	downloadUrl(url,registerReturn);
 }
