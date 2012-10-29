@@ -231,9 +231,9 @@ function changeProvider() {
 		document.getElementById('info').textContent = "You reach your ITSP via a NAT router ...the most common setup";
 	} else if (selection == "sip" ) {
 	    // fill sip
-		document.getElementById('user').value = "user";
-		document.getElementById('host').value = "192.168.1.28";
-		document.getElementById('pass').value = "xxxxxx";		
+		document.getElementById('user').value = "trev";
+		document.getElementById('host').value = "192.168.1.30";
+		document.getElementById('pass').value = "supertrev";		
 		document.getElementById('info').textContent = "No NAT router between your Phone system and your ITSP";
 	} else if (selection == "jazmin" ) {
 		// fill jazmin
