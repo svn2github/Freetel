@@ -80,6 +80,10 @@ Register command needs to be unique
 
 SetRegister.cgi   ?  with mini-asterisk
 
+	$ cat test.txt | sed 's/\(register=>\).*\( ; mini-asterisk\)/\1bob:superbob@192.168.1.3\2/'
+	register=>bob:superbob@192.168.1.3 ; mini-asterisk yada yada
+	;register => 2345:password@sip_proxy/1234
+
 Register needs to be able to handle other manual register entries
 
 Or make a mod to set_line_ext.cgi with third arg (jazmin,sip,sip-nat)
@@ -90,3 +94,20 @@ Uncomment / comment sip provider as a cgi?
 [11:09:09 AM | Edited 11:10:06 AM] David Rowe:  s/(host=).*\w/$1trev/g
 [11:10:13 AM] David Rowe: host=mal
 [11:10:16 AM] David Rowe: host=trev
+
+
+hex codes as uniques?  hard to remember
+
+$ cat test.txt | sed 's/\(host=\)[a-z]*\(.*sip mini-asterisk.*\)/\1trev\2/'
+host=fred ; jazmin mini-asterisk
+host=trev ; sip mini-asterisk
+
+$ cat test.txt | sed 's/\(dtmfmod=\)[a-z0-9\.]*\(.*Jazmin mini-asterisk.*\)/\1trev\2/'
+host=192.168.1.28       ; Jazmin mini-asterisk do not remove this comment
+dtmfmod=trev         ; Jazmin mini-asterisk do not remove this comment
+
+debugging
+#!/bin/sh
+[12:05:07 PM] David Rowe: #!/bin/sh -x
+[12:05:16 PM] David Rowe:   sed -i "s/$this.*/$this$that/g" $file
+
