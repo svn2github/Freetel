@@ -31,7 +31,7 @@ echo $that
 echo $key
 if [ -f $file ]; then
 #  sed -i  "s/\($this\)[a-z0-9\.]*\(.*$key.*\)/\1$that\2/"  $file
-rhs=`cat $file | grep -oe "host=[a-z0-9\.]*" | sed -n "s/host=//p"`
+rhs=`cat $file | grep -oe "$this.*$key" | grep -oe "$this[a-z0-9\.]*" | sed -n "s/host=//p"`
 cat $file | sed "s/$rhs/$that/"
 else
   echo "$file does not exist"
