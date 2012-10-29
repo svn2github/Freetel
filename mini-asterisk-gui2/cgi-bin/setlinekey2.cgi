@@ -1,5 +1,5 @@
 #!/bin/sh -x
-# setlinekey.cgi
+# setlinekey2.cgi
 # David Rowe 29 Oct 2012
 #
 # CGI to set the text in "file" from "this" to "that"
@@ -31,7 +31,8 @@ echo $that
 echo $key
 if [ -f $file ]; then
 #  sed -i  "s/\($this\)[a-z0-9\.]*\(.*$key.*\)/\1$that\2/"  $file
-  cat $file | sed "s/\($this\)[a-z0-9\.]*\(.*$key.*\)/\1$that\2/"
+rhs=`cat $file | grep -oe "host=[a-z0-9\.]*" | sed -n "s/host=//p"`
+cat $file | sed "s/$rhs/$that/"
 else
   echo "$file does not exist"
 fi
