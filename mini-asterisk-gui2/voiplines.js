@@ -128,7 +128,7 @@ function registerReturn(doc,status) {
 	
 	//   username=usersip                     username=trev
     //   need to switch keywords based on selection
-	var url = '/cgi-bin/setlinekey.cgi?file=/etc/asterisk/sip.conf&this=username&that=' 
+	var url = '/cgi-bin/setlinekey.cgi?file=/etc/asterisk/sip.conf&this=username=&that=' 
 			+ document.getElementById('user').value 
 			+ '&key='+ selection + '-mini-asterisk';
 
