@@ -87,7 +87,7 @@ function onClickApply() {
 	//          ;register => 1234:password@mysipprovider.com   becomes     register => trev:password@192.168.1.30 
 	
 	var new_register = user+":"+passwd+"@"+host;
-	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=1234:password@mysipprovider.com&that=' + new_register ;
+	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=9876:password@mysipprovider.com&that=' + new_register ;
 //	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=;register&that=register';
 		
 	downloadUrl(url,semiReturn);
@@ -112,7 +112,7 @@ function semiReturn(doc,status) {
 	
 	//          username=usersip                     username=trev
     //   need to switch keywords based on selection
-	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=;register=&that=register=';
+	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=;dregister=&that=register=';
 
 	downloadUrl(url,registerReturn);
 }
@@ -128,7 +128,9 @@ function registerReturn(doc,status) {
 	
 	//          username=usersip                     username=trev
     //   need to switch keywords based on selection
-	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=usersip&that=' + document.getElementById('user').value ;
+	var url = '/cgi-bin/setlinekey.cgi?file=/etc/asterisk/sip.conf&this=usersip&that=' 
+			+ document.getElementById('user').value 
+			+ '&key='+ selection + '-mini-asterisk';
 
 	downloadUrl(url,usernameReturn);
 }
@@ -221,19 +223,19 @@ function changeProvider() {
 		document.getElementById('pass').value = "";
 		var temp = document.getElementById('info');
 		document.getElementById('info').textContent = "No provider selected";
-	} else if (selection == "SIPNAT" ) {
+	} else if (selection == "sipnat" ) {
 		// fill sipnat
 		document.getElementById('user').value = "user";
 		document.getElementById('host').value = "192.168.1.28";
 		document.getElementById('pass').value = "xxxxxx";
 		document.getElementById('info').textContent = "You reach your ITSP via a NAT router ...the most common setup";
-	} else if (selection == "SIP" ) {
+	} else if (selection == "sip" ) {
 	    // fill sip
 		document.getElementById('user').value = "user";
 		document.getElementById('host').value = "192.168.1.28";
 		document.getElementById('pass').value = "xxxxxx";		
 		document.getElementById('info').textContent = "No NAT router between your Phone system and your ITSP";
-	} else if (selection == "JAZMIN" ) {
+	} else if (selection == "jazmin" ) {
 		// fill jazmin
 		document.getElementById('user').value = "username";
 		document.getElementById('host').value = "sip.jazmin.net.au";
