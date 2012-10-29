@@ -72,3 +72,21 @@ IP provider page work
 	Are sip provider entries ok to leav uncommented?...they have dummy hosts
 	
 Notice ip phone (ekiga from pc) registrations stay on ip04 after phone has disappeared
+
+
+Error on Fxo/FXS rearrangement  phones lines read as phone
+
+Register command needs to be unique
+
+SetRegister.cgi   ?  with mini-asterisk
+
+Register needs to be able to handle other manual register entries
+
+Or make a mod to set_line_ext.cgi with third arg (jazmin,sip,sip-nat)
+
+Uncomment / comment sip provider as a cgi?
+
+								s/$this.*/$this$that/g
+[11:09:09 AM | Edited 11:10:06 AM] David Rowe:  s/(host=).*\w/$1trev/g
+[11:10:13 AM] David Rowe: host=mal
+[11:10:16 AM] David Rowe: host=trev

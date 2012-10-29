@@ -132,7 +132,7 @@ function initialisePage() {
     for(var i=0; i<zap.length; i++) {
         if (zap[i] == 'FXO') {
             html += "<tr>";
-	    html += "<td>" + "0" + "</td>" + "<td>" + "Analog Phone" + "</td>";
+	    html += "<td>" + "0" + "</td>" + "<td>" + "Analog Phone Line" + "</td>";
 	    html += "<td>Port" + i + "</td>";
             html += "<td>" + '<img src="tick.png" alt="tick" />' + "</td>";
 
