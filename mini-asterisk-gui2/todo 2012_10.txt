@@ -111,3 +111,6 @@ debugging
 [12:05:07 PM] David Rowe: #!/bin/sh -x
 [12:05:16 PM] David Rowe:   sed -i "s/$this.*/$this$that/g" $file
 
+export QUERY_STRING='file=test.txt&this=host=&that=192.168.1.31&key=Jazmin mini'; ./setlinekey.cgi
+
+We are getting problems with sed (busybox version) regular expressions on the ip04. We are losing /1 /2 entities.
