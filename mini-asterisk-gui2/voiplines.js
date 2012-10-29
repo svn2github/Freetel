@@ -126,9 +126,9 @@ function registerReturn(doc,status) {
 	}
 	);
 	
-	//          username=usersip                     username=trev
+	//   username=usersip                     username=trev
     //   need to switch keywords based on selection
-	var url = '/cgi-bin/setlinekey.cgi?file=/etc/asterisk/sip.conf&this=usersip&that=' 
+	var url = '/cgi-bin/setlinekey.cgi?file=/etc/asterisk/sip.conf&this=username&that=' 
 			+ document.getElementById('user').value 
 			+ '&key='+ selection + '-mini-asterisk';
 
@@ -141,7 +141,7 @@ function usernameReturn(doc,status) {
 	}
 	);
 	
-	//          secret=passwordsip                   secret=password
+	//   secret=passwordsip                   secret=password
     //   need to switch keywords based on selection
 	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=passwordsip&that=' + document.getElementById('pass').value ;
 
@@ -154,7 +154,7 @@ function passwordReturn(doc,status) {
 	}
 	);
 	
-	//          host=hostsip                         host=192.168.1.30
+	//   host=hostsip                         host=192.168.1.30
     //   need to switch keywords based on selection
 	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=hostsip&that=' + document.getElementById('host').value ;
 
