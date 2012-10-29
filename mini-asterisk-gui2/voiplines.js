@@ -130,7 +130,7 @@ function registerReturn(doc,status) {
     //   need to switch keywords based on selection
 	var url = '/cgi-bin/setlinekey2.cgi?file=/etc/asterisk/sip.conf&this=username=&that=' 
 			+ document.getElementById('user').value 
-			+ '&key=; '+ selection + '-mini-asterisk';
+			+ '&key='+ selection + '-mini-ast';
 
 	downloadUrl(url,usernameReturn);
 }
