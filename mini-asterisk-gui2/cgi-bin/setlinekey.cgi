@@ -32,7 +32,7 @@ echo $key
 if [ -f $file ]; then
 #  sed -i "s/$this.*/$this$that/g" $file
    sed 's/\($this\)[a-z0-9\.]*\(.*$key.*\)/\1$that\2/' $file
-#   sed 's/\(host=\)[^\s]*\(; Jazmin mini-asterisk.*\)/\1trev\2/' $file
+#   sed 's/\($this\)[^\s]*\($key.*\)/\1$that\2/' $file
 #  's/\(host=\)[^\s]*\(; Jazmin mini-asterisk.*\)/\1trev\2/'
 #  's/\(host=\)[a-z0-9\.]*\(.*Jazmin mini-asterisk.*\)/\1trev\2/'
 else
