@@ -37,7 +37,7 @@ echo $that
 echo $key
 if [ -f $file ]; then
   # to debug remove -i (write results to file), it will then just print results
-  perl -pe "s/($this)[A-Za-z0-9\.\<\>]*(.*$key.*)/$this$that\$2/" $file
+  perl -i -pe "s/($this)[A-Za-z0-9\.\<\>]*(.*$key.*)/$this$that\$2/" $file
 else
   echo "$file does not exist"
 fi
