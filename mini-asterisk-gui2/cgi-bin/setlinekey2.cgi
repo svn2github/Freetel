@@ -36,11 +36,8 @@ echo $this
 echo $that
 echo $key
 if [ -f $file ]; then
-#  sed -i  "s/\($this\)[a-z0-9\.]*\(.*$key.*\)/\1$that\2/"  $file
-#rhs=`cat $file | grep -oe "$this.*$key" | grep -oe "$this[a-z0-9\.]*" | sed -n "s/$this//p"`
-#cat $file | sed "s/$rhs/$that/"
-# testversion:
-perl -i -pe "s/($this)[a-z0-9\.]*(.*$key.*)/$this$that\$2/" $file
+  # to debug remove -i (write results to file), it will then just print results
+  perl -i -pe "s/($this)[a-z0-9\.]*(.*$key.*)/$this$that\$2/" $file
 else
   echo "$file does not exist"
 fi
