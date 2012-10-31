@@ -83,20 +83,30 @@ function onClickApply() {
 	
 	
 	// 2. Update sip.conf
+	
+	// 2.0 uncomment sip register
+	var url = '/cgi-bin/uncomment.cgi?file=/etc/asterisk/sip.conf&key=register-mini-asterisk';
+		
+	downloadUrl(url,uncommentregReturn);	
+	
+	
+	
+
+
+function uncommentregReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
 	//  2.1	insert register command  
 	//          ;register => 1234:password@mysipprovider.com   becomes     register => trev:password@192.168.1.30 
 	
-	var new_register = user+":"+passwd+"@"+host;
-	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=9876:password@mysipprovider.com&that=' + new_register ;
-//	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=;register&that=register';
+	var new_register = document.getElementById('user').value+":"+document.getElementById('pass').value+"@"+document.getElementById('host').value;
+	var url = '/cgi-bin/setlinekey2.cgi?file=/etc/asterisk/sip.conf&this=9876:password@mysipprovider.com&that=' + new_register + '&key=register-mini-asterisk';
+
 		
-	downloadUrl(url,semiReturn);
+	downloadUrl(url,updateregReturn);
 	
-	//  2.2	update sip trunk details  ... user pw host
-	//          [usersip]             becomes       [trev]
-	//          username=usersip                     username=trev
-	//          secret=passwordsip                   secret=password
-	//          host=hostsip                         host=192.168.1.30
 	// 3. Modify extensions.conf for new provider
 	//          exten => _1.,1,Dial(SIP/voip/${EXTEN:1})    becomes     exten => _1.,1,Dial(SIP/trev/${EXTEN:1}) 
 	// 4. asterisk sip reload ....ORDER? beardy has this at position 4
@@ -104,35 +114,38 @@ function onClickApply() {
 
 }
 
-function semiReturn(doc,status) {
+function updateregReturn(doc,status) {
     loadHtmlTextFile(doc, function(line) {
 	    //parseSipShowPeers(line);
 	}
 	);
-	
-	//          username=usersip                     username=trev
-    //   need to switch keywords based on selection
-	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=;dregister=&that=register=';
 
-	downloadUrl(url,registerReturn);
+	//  2.15 uncomment sip trunk
+
+	var url = '/cgi-bin/uncomment.cgi?file=/etc/asterisk/sip.conf&key='+selection;
+		
+	downloadUrl(url,dialplanReloadReturn);	
+
 }
 
 
 
 
-function registerReturn(doc,status) {
+function uncommenttrunkReturn(doc,status) {
     loadHtmlTextFile(doc, function(line) {
 	    //parseSipShowPeers(line);
 	}
 	);
+	//  2.2	update sip trunk details  ... user pw host
+	//          [usersip]             becomes       [trev]
+	//          username=usersip                     username=trev
+	//          secret=passwordsip                   secret=password
+	//          host=hostsip                         host=192.168.1.30
 	
-	//   username=usersip                     username=trev
-    //   need to switch keywords based on selection
-	var url = '/cgi-bin/setlinekey2.cgi?file=/etc/asterisk/sip.conf&this=username=&that=' 
-			+ document.getElementById('user').value 
-			+ '&key='+ selection + '-mini-ast';
+	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=;dregister=&that=register=';
 
-	downloadUrl(url,usernameReturn);
+	downloadUrl(url,dialplanReloadReturn);
+	
 }
 
 function usernameReturn(doc,status) {
