@@ -73,13 +73,13 @@ function onClickApply() {
 	var host = "";
 	var passwd = "";
 
-	
-	// 1. Save sip.conf	
-	
 	selection = document.getElementById('provider').value;
 	user = document.getElementById('user').value;
 	host = document.getElementById('host').value;
 	passwd = document.getElementById('pass').value;
+	
+	// 1. Save sip.conf	
+	
 	
 	
 	// 2. Update sip.conf
@@ -89,7 +89,7 @@ function onClickApply() {
 		
 	downloadUrl(url,uncommentregReturn);	
 	
-	
+}	
 	
 
 
