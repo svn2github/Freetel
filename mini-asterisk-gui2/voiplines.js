@@ -85,7 +85,7 @@ function onClickApply() {
 	// 2. Update sip.conf
 	
 	// 2.0 uncomment sip register
-	var url = '/cgi-bin/uncomment.cgi?file=/etc/asterisk/sip.conf&key=register-mini-asterisk';
+	var url = '/cgi-bin/uncommentkey.cgi?file=/etc/asterisk/sip.conf&key=register-mini-asterisk';
 		
 	downloadUrl(url,uncommentregReturn);	
 	
@@ -122,7 +122,7 @@ function updateregReturn(doc,status) {
 
 	//  2.15 uncomment sip trunk
 
-	var url = '/cgi-bin/uncomment.cgi?file=/etc/asterisk/sip.conf&key='+selection;
+	var url = '/cgi-bin/uncommentkey.cgi?file=/etc/asterisk/sip.conf&key='+selection;
 		
 	downloadUrl(url,dialplanReloadReturn);	
 
