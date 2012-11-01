@@ -142,7 +142,7 @@ function uncommenttrunkReturn(doc,status) {
 	//          secret=passwordsip                   secret=password
 	//          host=hostsip                         host=192.168.1.30
 	
-	var url = '/cgi-bin/setlinekey2.cgi?file=/etc/asterisk/sip.conf'+
+	var url = '/cgi-bin/setlinekey2.cgi?file=/etc/asterisk/sip.conf'
 				+'&this=username='
 				+'&that='+document.getElementById('user').value
 				+'&key='+selection+'-mini-asterisk';
