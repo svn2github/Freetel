@@ -188,7 +188,7 @@ function hostReturn(doc,status) {
 	
 	//   3.9       exten => _1.,1,Dial(SIP/voip/${EXTEN:1})    becomes     exten => _1.,1,Dial(SIP/trev/${EXTEN:1}) 
 
-	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/extensions.conf&this=voip&that=' + document.getElementById('user').value ;
+	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/extensions.conf&this=voip&that=user' + document.getElementById('user').value ;
 
 	downloadUrl(url,extReturn);
 }
