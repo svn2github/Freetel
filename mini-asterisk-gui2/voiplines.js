@@ -102,7 +102,7 @@ function uncommentregReturn(doc,status) {
 	//          ;register => 1234:password@mysipprovider.com   becomes     register => trev:password@192.168.1.30 
 	
 	var new_register = document.getElementById('user').value+":"+document.getElementById('pass').value+"@"+document.getElementById('host').value;
-	var url = '/cgi-bin/setlinekey2.cgi?file=/etc/asterisk/sip.conf&this=9876:password@mysipprovider.com&that=' + new_register + '&key=register-mini-asterisk';
+	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=9876:password@mysipprovider.com&that=' + new_register + '&key=register-mini-asterisk';
 
 		
 	downloadUrl(url,updateregReturn);
@@ -122,7 +122,7 @@ function updateregReturn(doc,status) {
 
 	//  2.15 uncomment sip trunk
 
-	var url = '/cgi-bin/uncommentkey.cgi?file=/etc/asterisk/sip.conf&key='+selection;
+	var url = '/cgi-bin/uncommentkey.cgi?file=/etc/asterisk/sip.conf&key='+selection+'-mini-asterisk';
 		
 	downloadUrl(url,dialplanReloadReturn);	
 
