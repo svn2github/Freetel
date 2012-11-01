@@ -188,7 +188,7 @@ function hostReturn(doc,status) {
 	
 	//   3.9       exten => _1.,1,Dial(SIP/voip/${EXTEN:1})    becomes     exten => _1.,1,Dial(SIP/trev/${EXTEN:1}) 
 
-	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/extensions.conf&this=voip&that=user' + document.getElementById('user').value ;
+	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/extensions.conf&this=voip&that=user' + selection ;
 
 	downloadUrl(url,extReturn);
 }
@@ -242,6 +242,9 @@ function changeProvider() {
 		document.getElementById('pass').value = "";
 		var temp = document.getElementById('info');
 		document.getElementById('info').textContent = "No provider selected";
+		
+		// may need to comment out previous sip.conf activity
+		
 	} else if (selection == "sipnat" ) {
 		// fill sipnat
 		document.getElementById('user').value = "user";
