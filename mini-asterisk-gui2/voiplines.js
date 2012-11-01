@@ -124,7 +124,7 @@ function updateregReturn(doc,status) {
 
 	var url = '/cgi-bin/uncommentkey.cgi?file=/etc/asterisk/sip.conf&key='+selection+'-mini-asterisk';
 		
-	downloadUrl(url,dialplanReloadReturn);	
+	downloadUrl(url,uncommenttrunkReturn);	
 
 }
 
@@ -137,14 +137,17 @@ function uncommenttrunkReturn(doc,status) {
 	}
 	);
 	//  2.2	update sip trunk details  ... user pw host
-	//          [usersip]             becomes       [trev]
+
 	//          username=usersip                     username=trev
 	//          secret=passwordsip                   secret=password
 	//          host=hostsip                         host=192.168.1.30
 	
-	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=;dregister=&that=register=';
+	var url = '/cgi-bin/setlinekey2.cgi?file=/etc/asterisk/sip.conf'+
+				+'&this=username='
+				+'&that='+document.getElementById('user').value
+				+'&key='+selection+'-mini-asterisk';
 
-	downloadUrl(url,dialplanReloadReturn);
+	downloadUrl(url,usernameReturn);
 	
 }
 
@@ -156,9 +159,11 @@ function usernameReturn(doc,status) {
 	
 	//   secret=passwordsip                   secret=password
     //   need to switch keywords based on selection
-	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=passwordsip&that=' + document.getElementById('pass').value ;
+//	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=passwordsip&that=' + document.getElementById('pass').value ;
 
-	downloadUrl(url,passwordReturn);
+//	downloadUrl(url,passwordReturn);
+	
+		initialise();
 }
 
 function passwordReturn(doc,status) {
@@ -180,7 +185,7 @@ function hostReturn(doc,status) {
 	}
 	);
 	
-	//          exten => _1.,1,Dial(SIP/voip/${EXTEN:1})    becomes     exten => _1.,1,Dial(SIP/trev/${EXTEN:1}) 
+	//   3.9       exten => _1.,1,Dial(SIP/voip/${EXTEN:1})    becomes     exten => _1.,1,Dial(SIP/trev/${EXTEN:1}) 
 
 	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/extensions.conf&this=voip&that=' + document.getElementById('user').value ;
 
