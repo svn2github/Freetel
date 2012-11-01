@@ -157,13 +157,13 @@ function usernameReturn(doc,status) {
 	}
 	);
 	
-	//   secret=passwordsip                   secret=password
-    //   need to switch keywords based on selection
-//	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=passwordsip&that=' + document.getElementById('pass').value ;
+	var url = '/cgi-bin/setlinekey2.cgi?file=/etc/asterisk/sip.conf'
+				+'&this=secret='
+				+'&that='+document.getElementById('pass').value
+				+'&key='+selection+'-mini-asterisk';
 
-//	downloadUrl(url,passwordReturn);
+	downloadUrl(url,passwordReturn);
 	
-		initialise();
 }
 
 function passwordReturn(doc,status) {
@@ -172,12 +172,13 @@ function passwordReturn(doc,status) {
 	}
 	);
 	
-	//   host=hostsip                         host=192.168.1.30
-    //   need to switch keywords based on selection
-	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=hostsip&that=' + document.getElementById('host').value ;
+	var url = '/cgi-bin/setlinekey2.cgi?file=/etc/asterisk/sip.conf'
+				+'&this=host='
+				+'&that='+document.getElementById('host').value
+				+'&key='+selection+'-mini-asterisk';
 
 	downloadUrl(url,hostReturn);
-}
+	}
 
 function hostReturn(doc,status) {
     loadHtmlTextFile(doc, function(line) {
