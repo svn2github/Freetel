@@ -8,6 +8,13 @@
 
 var update_time = 10;
 var selection = "";
+var lastselection="viop";
+var lasthost="";
+var lastuser="";
+var lastpasswd="";
+
+var providerfound = 0;
+
 
 // Called when we load page
 
@@ -37,12 +44,13 @@ function OnSipshowReturn(doc,status) {
     var tickicon = '<img src="tick.png" alt="Provider OK" />';
     var crossicon = '<img src="cross.png" alt="No provider found" />';
     var html = '';
-	var providerfound = 0;
 
 	// If a provider is registered, 
 	
     if (doc.indexOf("Registered") != -1) {
 		// provider is registered
+		providerfound = 1;
+
 		html += tickicon;
 		// get provider details from doc
 		var user = "";
@@ -56,6 +64,7 @@ function OnSipshowReturn(doc,status) {
 	} else {
 		// no provider or 
 		// provider is not registered
+		providerfound = 0;
 		html += crossicon;
 	}
 
@@ -80,7 +89,7 @@ function onClickApply() {
 	
 	// 1. Save sip.conf	
 	
-	
+	// 1.5 Maybe reset the sip.conf file
 	
 	// 2. Update sip.conf
 	
@@ -104,7 +113,11 @@ function uncommentregReturn(doc,status) {
 	var new_register = document.getElementById('user').value+":"+document.getElementById('pass').value+"@"+document.getElementById('host').value;
 	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=9876:password@mysipprovider.com&that=' + new_register + '&key=register-mini-asterisk';
 
-		
+	// save globals
+	lastuser = document.getElementById('user').value;
+	lasthost = document.getElementById('host').value;
+	lastpasswd = document.getElementById('pass').value;
+	
 	downloadUrl(url,updateregReturn);
 	
 	// 3. Modify extensions.conf for new provider
@@ -186,10 +199,14 @@ function hostReturn(doc,status) {
 	}
 	);
 	
-	//   3.9       exten => _1.,1,Dial(SIP/voip/${EXTEN:1})    becomes     exten => _1.,1,Dial(SIP/trev/${EXTEN:1}) 
+	//   3.9       exten => _1.,1,Dial(SIP/voip/${EXTEN:1})    becomes     exten => _1.,1,Dial(SIP/usersip/${EXTEN:1}) 
 
-	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/extensions.conf&this=voip&that=user' + selection ;
-
+	//  Need to recode this=voip to be generic
+	// Need to keep track of lastselection =selection
+	// What about betwween sessions ---> we need to read it from extensions.conf
+	
+	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/extensions.conf&this='+lastselection+'&that=user' + selection ;
+	lastselection = selection;
 	downloadUrl(url,extReturn);
 }
 
@@ -234,6 +251,10 @@ function changeProvider() {
 	// fill the host and username fields based on selection
 
 	selection = document.getElementById('provider').value;
+	
+	// Disable old provider if used
+	//
+	
 
 	if (selection == "none" ) {
 		// clear fields
@@ -247,6 +268,7 @@ function changeProvider() {
 		
 	} else if (selection == "sipnat" ) {
 		// fill sipnat
+		// we should really get this stuff from the sip.conf file....
 		document.getElementById('user').value = "user";
 		document.getElementById('host').value = "192.168.1.28";
 		document.getElementById('pass').value = "xxxxxx";
