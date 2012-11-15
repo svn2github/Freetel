@@ -50,7 +50,10 @@ function OnSipshowReturn(doc,status) {
     if (doc.indexOf("Registered") != -1) {
 		// provider is registered
 		providerfound = 1;
+		// Find the provider ip add
 
+		// Get details from sip.conf
+		//document.getElementById('provider').value = sip or sipnat or jazmin
 		html += tickicon;
 		// get provider details from doc
 		var user = "";

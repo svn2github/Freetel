@@ -1,0 +1,33 @@
+IP04 GUI2 To do notes
+Ian Roberts 
+
+*************************************************************************
+
+Nov 16 2012
+
+Dave added new cgis to use perl instead of sed.
+	- sed is broken under busybox 1.4.1
+	- perl is working fine.
+    - comment.cgi
+	- uncomment.cgi
+	- setlinekey2.cgi
+
+voip provider page
+
+  Test sip
+     - registering successfully with another asterisk box (use host=dynamic)
+	 - out bound calls ?
+	 - inbound calls ?
+  
+  Test jazmin
+	- do we get a successful registration ?
+	- can we make outbound voip calls ?
+	- are inbound voip calls working ?
+  
+  
+*****************************************************************************  
+  
+
+
+*************************************************************************************
+
