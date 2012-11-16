@@ -8,7 +8,7 @@
 
 var update_time = 10;
 var selection = "";
-var lastselection="viop";
+var lastselection="voip";
 var lasthost="";
 var lastuser="";
 var lastpasswd="";
