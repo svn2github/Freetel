@@ -129,24 +129,30 @@ function loadSipConf(doc,status) {
 			}
 			if (line.indexOf("sipnormal-mini-asterisk") != -1) {
 				if (line.indexOf("username") != -1) {
-					sipnormal_user = ""; //  save user
+					var s = line.split(myregexp);
+					sipnormal_user = s[1]; //  save user
 				}
-				if (line.indexOf("secret") != -1) {
-					sipnormal_secret = ""; //  save secret
+				else if (line.indexOf("secret") != -1) {
+					var s = line.split(myregexp);
+					sipnormal_secret = s[1]; //  save secret
 				}
-				if (line.indexOf("host") != -1) {
-					sipnormal_host = ""; //  save host
+				else if (line.indexOf("host") != -1) {
+					var s = line.split(myregexp);
+					sipnormal_host = s[1]; //  save host
 				}
 			}
 			if (line.indexOf("jazmin-mini-asterisk") != -1) {
 				if (line.indexOf("username") != -1) {
-					sipjazmin_user = ""; //  save user
-				} else
-				if (line.indexOf("secret") != -1) {
-					sipjazmin_secret = ""; //  save secret
-				} else
-				if (line.indexOf("host") != -1) {
-					sipjazmin_host = ""; //  save host
+					var s = line.split(myregexp);
+					sipjazmin_user = s[1]; //  save user
+				} 
+				else if (line.indexOf("secret") != -1) {
+					var s = line.split(myregexp);
+					sipjazmin_secret = s[1]; //  save secret
+				}
+				else if (line.indexOf("host") != -1) {
+					var s = line.split(myregexp);
+					sipjazmin_host = s[1]; //  save host
 				}
 			}
 		}
