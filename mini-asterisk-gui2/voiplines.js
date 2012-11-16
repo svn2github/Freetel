@@ -13,11 +13,22 @@ var lasthost="";
 var lastuser="";
 var lastpasswd="";
 var lastreg="";
+
 var providerfound = 0;
 
+// Registration line from sip.conf
+var siprego_line="";
+
+// All from sip.conf
 var sipnat_user="";
 var sipnat_secret="";
 var sipnat_host="";
+var sipnormal_user="";
+var sipnormal_secret="";
+var sipnormal_host="";
+var sipjazmin_user="";
+var sipjazmin_secret="";
+var sipjazmin_host="";
 
 // Called when we load page
 
@@ -89,31 +100,43 @@ function loadSipConf(doc,status) {
 				if (line.indexOf(";") != 0) 
 				     registerflag = 1;
 					 //save rego user:pswd:host
+					 // maybe save this entire line because we are going to replace it later on
+					 siprego_line = line;
 				 else
 				     registerflag = 0;
 			}
 			if (line.indexOf("sipnat-mini-asterisk") != -1) {
 				if (line.indexOf("username") != -1) {
 					sipnat_user = ""; //  save user
-				}
+				} else
 				if (line.indexOf("secret") != -1) {
 					sipnat_secret = ""; //  save secret
-				}
+				} else
 				if (line.indexOf("host") != -1) {
 					sipnat_host = ""; //  save host
 				}
 			}
 			if (line.indexOf("sipnormal-mini-asterisk") != -1) {
-				// if uncommented
-				//     registerflag = 1;
-				// else
-				//     registerflag = 0;
+				if (line.indexOf("username") != -1) {
+					sipnormal_user = ""; //  save user
+				} else
+				if (line.indexOf("secret") != -1) {
+					sipnormal_secret = ""; //  save secret
+				} else
+				if (line.indexOf("host") != -1) {
+					sipnormal_host = ""; //  save host
+				}
 			}
 			if (line.indexOf("jazmin-mini-asterisk") != -1) {
-				// if uncommented
-				//     registerflag = 1;
-				// else
-				//     registerflag = 0;
+				if (line.indexOf("username") != -1) {
+					sipjazmin_user = ""; //  save user
+				} else
+				if (line.indexOf("secret") != -1) {
+					sipjazmin_secret = ""; //  save secret
+				} else
+				if (line.indexOf("host") != -1) {
+					sipjazmin_host = ""; //  save host
+				}
 			}
 		}
 	}
