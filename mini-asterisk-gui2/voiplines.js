@@ -108,21 +108,21 @@ function loadSipConf(doc,status) {
 			if (line.indexOf("sipnat-mini-asterisk") != -1) {
 				if (line.indexOf("username") != -1) {
 					sipnat_user = ""; //  save user
-				} else
-				if (line.indexOf("secret") != -1) {
+				} 
+				else if (line.indexOf("secret") != -1) {
 					sipnat_secret = ""; //  save secret
-				} else
-				if (line.indexOf("host") != -1) {
+				} 
+				else if (line.indexOf("host") != -1) {
 					sipnat_host = ""; //  save host
 				}
 			}
 			if (line.indexOf("sipnormal-mini-asterisk") != -1) {
 				if (line.indexOf("username") != -1) {
 					sipnormal_user = ""; //  save user
-				} else
+				}
 				if (line.indexOf("secret") != -1) {
 					sipnormal_secret = ""; //  save secret
-				} else
+				}
 				if (line.indexOf("host") != -1) {
 					sipnormal_host = ""; //  save host
 				}
