@@ -109,18 +109,22 @@ function loadSipConf(doc,status) {
 				     registerflag = 0;
 				}
 			}
+			
+			var myregexp = /\s|=/;	     // whitespace or equals .... for splitting out user,secret,host
+			
 			if (line.indexOf("sipnat-mini-asterisk") != -1) {
 				if (line.indexOf("username") != -1) {
-					var myregexp = /\s|=/;
+
 					var s = line.split(myregexp);
-					//var t = s[1].split[' '); 
-					sipnat_user = s[0]; //  save user1
+					sipnat_user = s[1]; //  save user
 				} 
 				else if (line.indexOf("secret") != -1) {
-					sipnat_secret = ""; //  save secret
+					var s = line.split(myregexp);
+					sipnat_secret = s[1]; //  save secret
 				} 
 				else if (line.indexOf("host") != -1) {
-					sipnat_host = ""; //  save host
+					var s = line.split(myregexp);
+					sipnat_host = s[1]; //  save host
 				}
 			}
 			if (line.indexOf("sipnormal-mini-asterisk") != -1) {
