@@ -86,7 +86,7 @@ function loadSipConf(doc,status) {
     loadHtmlTextFile(doc, function(line) {
 	    if (line.indexOf("mini-asterisk") != -1)  {
 			if (line.indexOf("register-mini-asterisk") != -1) {
-				if (line.indexOf(";") == 0) 
+				if (line.indexOf(";") != 0) 
 				     registerflag = 1;
 					 //save rego user:pswd:host
 				 else
