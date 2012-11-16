@@ -97,13 +97,15 @@ function loadSipConf(doc,status) {
     loadHtmlTextFile(doc, function(line) {
 	    if (line.indexOf("mini-asterisk") != -1)  {
 			if (line.indexOf("register-mini-asterisk") != -1) {
-				if (line.indexOf(";") != 0) 
+				if (line.indexOf(";") != 0) {
 				     registerflag = 1;
 					 //save rego user:pswd:host
 					 // maybe save this entire line because we are going to replace it later on
 					 siprego_line = line;
-				 else
+				}
+				 else {
 				     registerflag = 0;
+				}
 			}
 			if (line.indexOf("sipnat-mini-asterisk") != -1) {
 				if (line.indexOf("username") != -1) {
