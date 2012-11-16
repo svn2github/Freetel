@@ -111,7 +111,8 @@ function loadSipConf(doc,status) {
 			}
 			if (line.indexOf("sipnat-mini-asterisk") != -1) {
 				if (line.indexOf("username") != -1) {
-					var s = line.split("\s|=");
+					var myregexp = /\s|=/;
+					var s = line.split(myregexp);
 					//var t = s[1].split[' '); 
 					sipnat_user = s[0]; //  save user1
 				} 
