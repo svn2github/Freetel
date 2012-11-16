@@ -21,9 +21,13 @@ voip provider page
   
   Test jazmin
 	- do we get a successful registration ?
+		fails with none dropbox set ... read in current registration
+		fails with mulit changes...leave voip keyword intact (Done)
+		
 	- can we make outbound voip calls ?
 	- are inbound voip calls working ?
-  
+
+(Maybe add in voip line 2 page... later)
   
 *****************************************************************************  
   

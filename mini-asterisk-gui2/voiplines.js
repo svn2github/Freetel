@@ -8,7 +8,7 @@
 
 var update_time = 10;
 var selection = "";
-var lastselection="voip";
+var lastselection="";
 var lasthost="";
 var lastuser="";
 var lastpasswd="";
@@ -123,10 +123,6 @@ function uncommentregReturn(doc,status) {
 	
 	downloadUrl(url,updateregReturn);
 	
-	// 3. Modify extensions.conf for new provider
-	//          exten => _1.,1,Dial(SIP/voip/${EXTEN:1})    becomes     exten => _1.,1,Dial(SIP/trev/${EXTEN:1}) 
-	// 4. asterisk sip reload ....ORDER? beardy has this at position 4
-	// 5. asterisk dialplan reload
 
 }
 
@@ -202,13 +198,12 @@ function hostReturn(doc,status) {
 	}
 	);
 	
-	//   3.9       exten => _1.,1,Dial(SIP/voip/${EXTEN:1})    becomes     exten => _1.,1,Dial(SIP/usersip/${EXTEN:1}) 
+	//   3.9       [usersipnat]         becomes     [voip]
+	//				or [usersip]
+	//				or [userjazmin]
 
-	//  Need to recode this=voip to be generic
-	// Need to keep track of lastselection =selection
-	// What about betwween sessions ---> we need to read it from extensions.conf
 	
-	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/extensions.conf&this='+lastselection+'&that=user' + selection ;
+	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=user'+selection+'&that=voip';
 	lastselection = selection;
 	downloadUrl(url,extReturn);
 }
