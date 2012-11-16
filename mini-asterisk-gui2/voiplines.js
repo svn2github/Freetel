@@ -108,6 +108,8 @@ function loadSipConf(doc,status) {
 			}
 		}
 	}
+	);
+	
 }
 
 
