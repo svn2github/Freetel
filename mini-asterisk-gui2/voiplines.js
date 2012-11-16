@@ -15,6 +15,9 @@ var lastpasswd="";
 var lastreg="";
 var providerfound = 0;
 
+var sipnat_user="";
+var sipnat_secret="";
+var sipnat_host="";
 
 // Called when we load page
 
@@ -83,16 +86,22 @@ function loadSipConf(doc,status) {
     loadHtmlTextFile(doc, function(line) {
 	    if (line.indexOf("mini-asterisk") != -1)  {
 			if (line.indexOf("register-mini-asterisk") != -1) {
-				// if uncommented
-				//     registerflag = 1;
-				// else
-				//     registerflag = 0;
+				if (line.indexOf(";") == 0) 
+				     registerflag = 1;
+					 //save rego user:pswd:host
+				 else
+				     registerflag = 0;
 			}
 			if (line.indexOf("sipnat-mini-asterisk") != -1) {
-				// if uncommented
-				//     registerflag = 1;
-				// else
-				//     registerflag = 0;
+				if (line.indexOf("username") != -1) {
+					sipnat_user = ""; //  save user
+				}
+				if (line.indexOf("secret") != -1) {
+					sipnat_secret = ""; //  save secret
+				}
+				if (line.indexOf("host") != -1) {
+					sipnat_host = ""; //  save host
+				}
 			}
 			if (line.indexOf("sipnormal-mini-asterisk") != -1) {
 				// if uncommented
