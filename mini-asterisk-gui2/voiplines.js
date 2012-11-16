@@ -97,11 +97,13 @@ function loadSipConf(doc,status) {
     loadHtmlTextFile(doc, function(line) {
 	    if (line.indexOf("mini-asterisk") != -1)  {
 			if (line.indexOf("register-mini-asterisk") != -1) {
+			
+				// maybe save this entire line because we are going to replace it later on
+				siprego_line = line;
+				
 				if (line.indexOf(";") != 0) {
 				     registerflag = 1;
 					 //save rego user:pswd:host
-					 // maybe save this entire line because we are going to replace it later on
-					 siprego_line = line;
 				}
 				 else {
 				     registerflag = 0;
@@ -109,7 +111,8 @@ function loadSipConf(doc,status) {
 			}
 			if (line.indexOf("sipnat-mini-asterisk") != -1) {
 				if (line.indexOf("username") != -1) {
-					sipnat_user = ""; //  save user
+					var s = line.split('=');
+					sipnat_user = s[1]; //  save user
 				} 
 				else if (line.indexOf("secret") != -1) {
 					sipnat_secret = ""; //  save secret
