@@ -72,8 +72,44 @@ function OnSipshowReturn(doc,status) {
 	}
 
     document.getElementById("voiplinestatus").innerHTML = html;
+	
+	// Load sip.conf
+	
+	 downloadUrl("/cgi-bin/getconf.cgi?file=sip.conf", loadSipConf);
 
 }
+
+function loadSipConf(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    if (line.indexOf("mini-asterisk") != -1)  {
+			if (line.indexOf("register-mini-asterisk") != -1) {
+				// if uncommented
+				//     registerflag = 1;
+				// else
+				//     registerflag = 0;
+			}
+			if (line.indexOf("sipnat-mini-asterisk") != -1) {
+				// if uncommented
+				//     registerflag = 1;
+				// else
+				//     registerflag = 0;
+			}
+			if (line.indexOf("sipnormal-mini-asterisk") != -1) {
+				// if uncommented
+				//     registerflag = 1;
+				// else
+				//     registerflag = 0;
+			}
+			if (line.indexOf("jazmin-mini-asterisk") != -1) {
+				// if uncommented
+				//     registerflag = 1;
+				// else
+				//     registerflag = 0;
+			}
+		}
+	}
+}
+
 
 function onClickApply() {
 
@@ -92,9 +128,6 @@ function onClickApply() {
 	
 	// 1. Save sip.conf	
 	
-	// 1.5 Maybe reset the sip.conf file
-	
-	// 2. Update sip.conf
 	
 	// 2.0 uncomment sip register
 	var url = '/cgi-bin/uncommentkey.cgi?file=/etc/asterisk/sip.conf&key=register-mini-asterisk';
