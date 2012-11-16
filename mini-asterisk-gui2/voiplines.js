@@ -12,7 +12,7 @@ var lastselection="";
 var lasthost="";
 var lastuser="";
 var lastpasswd="";
-
+var lastreg="";
 var providerfound = 0;
 
 
@@ -120,6 +120,7 @@ function uncommentregReturn(doc,status) {
 	lastuser = document.getElementById('user').value;
 	lasthost = document.getElementById('host').value;
 	lastpasswd = document.getElementById('pass').value;
+	lastreg = new_register;
 	
 	downloadUrl(url,updateregReturn);
 	
