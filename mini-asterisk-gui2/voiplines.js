@@ -150,7 +150,7 @@ function uncommenttrunkReturn(doc,status) {
 	);
 	//  2.2	update sip trunk details  ... user pw host
 
-	//          username=usersip                     username=trev
+	//          username=usersipnormal                     username=trev
 	//          secret=passwordsip                   secret=password
 	//          host=hostsip                         host=192.168.1.30
 	
@@ -271,7 +271,7 @@ function changeProvider() {
 		document.getElementById('host').value = "192.168.1.28";
 		document.getElementById('pass').value = "xxxxxx";
 		document.getElementById('info').textContent = "You reach your ITSP via a NAT router ...the most common setup";
-	} else if (selection == "sip" ) {
+	} else if (selection == "sipnormal" ) {
 	    // fill sip
 		document.getElementById('user').value = "trev";
 		document.getElementById('host').value = "192.168.1.30";
