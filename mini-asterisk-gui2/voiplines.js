@@ -63,7 +63,7 @@ function initialisePage() {
 	
 	// sip info now loaded
 
-	if(sipregoline.indexOf(';') == 0) { 
+	if(siprego_line.indexOf(';') == 0) { 
 		// commented out mean no rego selected
 		selection = "none";
 		document.getElementById('user').value = "";
@@ -71,7 +71,7 @@ function initialisePage() {
 		document.getElementById('pass').value = "";
 		document.getElementById('info').textContent = sipnone_info;
 	} 
-	else if (sipregoline.indexOf(sipnat_user) != -1) {
+	else if (siprego.indexOf(sipnat_user) != -1) {
 		// rego line has sipnat 
 		selection = "sipnat";
 		document.getElementById('user').value = sipnat_user;
@@ -79,7 +79,7 @@ function initialisePage() {
 		document.getElementById('pass').value = sipnat_secret;
 		document.getElementById('info').textContent = sipnat_info;
 	}
-	else if (sipregoline.indexOf(sipnormal_user) != -1) {
+	else if (siprego.indexOf(sipnormal_user) != -1) {
 		// rego line has sipnormal
 		selection = "sipnormal";
 		document.getElementById('user').value = sipnormal_user;
@@ -87,7 +87,7 @@ function initialisePage() {
 		document.getElementById('pass').value = sipnormal_secret;
 		document.getElementById('info').textContent = sipnormal_info;
 	}
-	else if (sipregoline.indexOf(sipjazmin_user) != -1) {
+	else if (siprego.indexOf(sipjazmin_user) != -1) {
 		// rego line has sipjazmin
 		selection = "sipjazmin";
 		document.getElementById('user').value = sipjazmin_user;
