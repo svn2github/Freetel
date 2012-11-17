@@ -473,19 +473,19 @@ function changeProvider() {
 		document.getElementById('pass').value = "";
 		document.getElementById('info').textContent = sipnone_info;
 		
-	} else if (selection == "sipnat" ) {
+	} else if (sell == "sipnat" ) {
 		// fill sipnat
 		document.getElementById('user').value = sipnat_user;
 		document.getElementById('host').value = sipnat_host;
 		document.getElementById('pass').value = sipnat_secret;
 		document.getElementById('info').textContent = sipnat_info;
-	} else if (selection == "sipnormal" ) {
+	} else if (sell == "sipnormal" ) {
 	    // fill sipnormal
 		document.getElementById('user').value = sipnormal_user;
 		document.getElementById('host').value = sipnormal_host;
 		document.getElementById('pass').value = sipnormal_secret;		
 		document.getElementById('info').textContent = sipnormal_info;
-	} else if (selection == "jazmin" ) {
+	} else if (sell == "jazmin" ) {
 		// fill sipjazmin
 		document.getElementById('user').value = sipjazmin_user;
 		document.getElementById('host').value = sipjazmin_host;
