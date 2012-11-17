@@ -307,6 +307,9 @@ function resetVoipLabelReturn(doc,status) {
 		if (lastselection == selection) {
 			initialise();		
 		}
+		else if (selection == "none") {
+				initialise();				
+		}
 		else {
 			// uncomment new stuff
 			// fillout
