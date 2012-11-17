@@ -176,7 +176,7 @@ function loadSipConf(doc,status) {
 
 		if(siprego_line[0] == ';') { 
 			// commented out mean no rego selected
-			selection = "none";
+			lastselection = "none";
 			document.getElementById('user').value = "";
 			document.getElementById('host').value = "";
 			document.getElementById('pass').value = "";
@@ -184,7 +184,7 @@ function loadSipConf(doc,status) {
 		} 
 		else if (siprego.indexOf(sipnat_user) != -1) {
 			// rego line has sipnat 
-			selection = "sipnat";
+			lastselection = "sipnat";
 			document.getElementById('user').value = sipnat_user;
 			document.getElementById('host').value = sipnat_host;
 			document.getElementById('pass').value = sipnat_secret;
@@ -192,7 +192,7 @@ function loadSipConf(doc,status) {
 		}
 		else if (siprego.indexOf(sipnormal_user) != -1) {
 			// rego line has sipnormal
-			selection = "sipnormal";
+			lastselection = "sipnormal";
 			document.getElementById('user').value = sipnormal_user;
 			document.getElementById('host').value = sipnormal_host;
 			document.getElementById('pass').value = sipnormal_secret;
@@ -200,7 +200,7 @@ function loadSipConf(doc,status) {
 		}
 		else if (siprego.indexOf(sipjazmin_user) != -1) {
 			// rego line has sipjazmin
-			selection = "sipjazmin";
+			lastselection = "sipjazmin";
 			document.getElementById('user').value = sipjazmin_user;
 			document.getElementById('host').value = sipjazmin_host;
 			document.getElementById('pass').value = sipjazmin_secret;
