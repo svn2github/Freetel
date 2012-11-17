@@ -258,21 +258,20 @@ function onClickApply() {
 
 		
 		}
-		else {
-			if ( firsttime == 0) {
-				// go to uncomment stuff
-				firsttime = 1;
+		else if (lastselection=="none") {
+				// straight into uncomment
 				var url = '/cgi-bin/uncommentkey.cgi?file=/etc/asterisk/sip.conf&key=register-mini-asterisk';
 				downloadUrl(url,uncommentregReturn);		
-
-			}
-			else {
-				// comment old stuff 
+		
+		
+		}
+		else {
+				// comment old stuff out then straight on
 				var url = '/cgi-bin/commentkey.cgi?file=/etc/asterisk/sip.conf&key=register-mini-asterisk';
 				downloadUrl(url,commentregReturn);			
-			}
-
 		}
+
+		
 	}
 }	
 	
