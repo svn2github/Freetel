@@ -8,6 +8,8 @@
 
 var update_time = 10;
 
+var firsttime=0;
+
 var selection = "none";
 var user = "";
 var host = "";
@@ -255,10 +257,18 @@ function onClickApply() {
 		
 		}
 		else {
-			// comment old stuff 
-			var url = '/cgi-bin/commentkey.cgi?file=/etc/asterisk/sip.conf&key=register-mini-asterisk';
-			downloadUrl(url,commentregReturn);			
-			
+			if ( firsttime == 0) {
+				// go to uncomment stuff
+				firsttime = 1;
+				var url = '/cgi-bin/uncommentkey.cgi?file=/etc/asterisk/sip.conf&key=register-mini-asterisk';
+				downloadUrl(url,uncommentregReturn);		
+
+			}
+			else {
+				// comment old stuff 
+				var url = '/cgi-bin/commentkey.cgi?file=/etc/asterisk/sip.conf&key=register-mini-asterisk';
+				downloadUrl(url,commentregReturn);			
+			}
 
 		}
 	}
