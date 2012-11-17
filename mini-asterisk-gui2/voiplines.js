@@ -37,10 +37,10 @@ var sipjazmin_user="";
 var sipjazmin_secret="";
 var sipjazmin_host="";
 
-static sipnone_info = "No provider selected";
-static sipnat_info = "You reach your ITSP via a NAT router ...the most common setup";
-static sipnormal_info = "No NAT router between your Phone system and your ITSP";
-static sipjazmin_info = "Jazmin are a South Australian ITSP";
+var sipnone_info = "No provider selected";
+var sipnat_info = "You reach your ITSP via a NAT router ...the most common setup";
+var sipnormal_info = "No NAT router between your Phone system and your ITSP";
+var sipjazmin_info = "Jazmin are a South Australian ITSP";
 
 // Called when we load page
 
