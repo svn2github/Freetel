@@ -165,6 +165,11 @@ function loadSipConf(doc,status) {
 			}
 		}
 		
+
+		
+	}
+	);
+	
 		// sip info now loaded
 
 		if(siprego_line[0] == ';') { 
@@ -198,11 +203,7 @@ function loadSipConf(doc,status) {
 			document.getElementById('host').value = sipjazmin_host;
 			document.getElementById('pass').value = sipjazmin_secret;
 			document.getElementById('info').textContent = sipjazmin_info;
-		}		
-		
-	}
-	);
-	
+		}			
 }
 
 
