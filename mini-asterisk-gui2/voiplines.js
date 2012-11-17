@@ -458,13 +458,13 @@ function changeProvider() {
 
 	// fill the host and username fields based on selection
 
-	selection = document.getElementById('provider').value;
+	var sell = document.getElementById('provider').value;
 	
 	// Disable old provider if used
 	//
 	
 
-	if (selection == "none" ) {
+	if (sell == "none" ) {
 		// clear fields
 		document.getElementById('user').value = "";
 		document.getElementById('host').value = "";
