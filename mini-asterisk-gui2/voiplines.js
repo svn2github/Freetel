@@ -8,7 +8,7 @@
 
 var update_time = 10;
 
-var selection = "";
+var selection = "none";
 var user = "";
 var host = "";
 var passwd = "";
@@ -212,8 +212,14 @@ function onClickApply() {
 	// All this stuff is synchronous. Must happen in order specified.
 	// You will need to cascade calls to downloadUrl
 
+	// save globals
+	lastselection = selection;
+	lastuser = user;
+	lasthost = host;
+	lastpasswd = passwd;
+	lastreg = new_register;
+	
 	// take provider, username, password and host. 
-
 	selection = document.getElementById('provider').value;
 	user = document.getElementById('user').value;
 	host = document.getElementById('host').value;
@@ -221,15 +227,84 @@ function onClickApply() {
 	
 	// 1. Save sip.conf	
 	
+
 	
 	// 2.0 uncomment sip register
-	var url = '/cgi-bin/uncommentkey.cgi?file=/etc/asterisk/sip.conf&key=register-mini-asterisk';
-		
-	downloadUrl(url,uncommentregReturn);	
+	if(selection == "none") {
 	
+		if(lastselection == "none") {
+			// do nothing but restart
+			initialise();
+		}
+		else {
+			// comment out old rego line
+			var url = '/cgi-bin/commentkey.cgi?file=/etc/asterisk/sip.conf&key=register-mini-asterisk';
+			downloadUrl(url,commentregReturn);			
+		}
+	
+	} 
+	else {
+		if(lastselection==selection) {
+			// fillout
+			// restart
+				var new_register = user+":"+passwd+"@"+host;
+				var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=' + siprego + '&that=' 
+							+ new_register + '&key=register-mini-asterisk';
+				downloadUrl(url,uncommenttrunkReturn);	
+
+		
+		}
+		else {
+			// comment old stuff 
+			var url = '/cgi-bin/commentkey.cgi?file=/etc/asterisk/sip.conf&key=register-mini-asterisk';
+			downloadUrl(url,commentregReturn);			
+			
+
+		}
+	}
 }	
 	
+function commentregReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+		// comment out old selection	
 
+		var url = '/cgi-bin/commentkey.cgi?file=/etc/asterisk/sip.conf&key='+lastselection+'-mini-asterisk';
+		downloadUrl(url,commentTrunkReturn);	
+}
+
+function commentTrunckReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+		// reset voip label	
+
+		var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=voip&that=user'+lastselection;
+		downloadUrl(url,resetVoipLabelReturn);	
+}
+
+function resetVoipLabelReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+		// init
+		if (lastselection == selection) {
+			initialise();		
+		}
+		else {
+			// uncomment new stuff
+			// fillout
+			// restart
+			var url = '/cgi-bin/uncommentkey.cgi?file=/etc/asterisk/sip.conf&key=register-mini-asterisk';
+			downloadUrl(url,uncommentregReturn);		
+		}
+
+
+}
 
 function uncommentregReturn(doc,status) {
     loadHtmlTextFile(doc, function(line) {
@@ -239,18 +314,11 @@ function uncommentregReturn(doc,status) {
 	//  2.1	insert register command  
 	//          ;register => 1234:password@mysipprovider.com   becomes     register => trev:password@192.168.1.30 
 	
-	var new_register = document.getElementById('user').value+":"+document.getElementById('pass').value+"@"+document.getElementById('host').value;
+	var new_register = user+":"+passwd+"@"+host;
 	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=' + siprego + '&that=' + new_register + '&key=register-mini-asterisk';
 
-	// save globals
-	lastuser = document.getElementById('user').value;
-	lasthost = document.getElementById('host').value;
-	lastpasswd = document.getElementById('pass').value;
-	lastreg = new_register;
 	
 	downloadUrl(url,updateregReturn);
-	
-
 }
 
 function updateregReturn(doc,status) {
@@ -283,7 +351,7 @@ function uncommenttrunkReturn(doc,status) {
 	
 	var url = '/cgi-bin/setlinekey2.cgi?file=/etc/asterisk/sip.conf'
 				+'&this=username='
-				+'&that='+document.getElementById('user').value
+				+'&that='+user
 				+'&key='+selection+'-mini-asterisk';
 
 	downloadUrl(url,usernameReturn);
@@ -298,7 +366,7 @@ function usernameReturn(doc,status) {
 	
 	var url = '/cgi-bin/setlinekey2.cgi?file=/etc/asterisk/sip.conf'
 				+'&this=secret='
-				+'&that='+document.getElementById('pass').value
+				+'&that='+passwd
 				+'&key='+selection+'-mini-asterisk';
 
 	downloadUrl(url,passwordReturn);
@@ -313,7 +381,7 @@ function passwordReturn(doc,status) {
 	
 	var url = '/cgi-bin/setlinekey2.cgi?file=/etc/asterisk/sip.conf'
 				+'&this=host='
-				+'&that='+document.getElementById('host').value
+				+'&that='+host
 				+'&key='+selection+'-mini-asterisk';
 
 	downloadUrl(url,hostReturn);
@@ -336,7 +404,7 @@ function hostReturn(doc,status) {
 
 	
 	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=user'+selection+'&that=voip';
-	lastselection = selection;
+
 	downloadUrl(url,extReturn);
 }
 
