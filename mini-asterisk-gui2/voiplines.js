@@ -61,40 +61,7 @@ function initialisePage() {
 	
 	downloadUrl("/cgi-bin/asterisk.cgi?cli=sip show registry",OnSipshowReturn);
 	
-	// sip info now loaded
 
-	if(siprego_line[0] == ';') { 
-		// commented out mean no rego selected
-		selection = "none";
-		document.getElementById('user').value = "";
-		document.getElementById('host').value = "";
-		document.getElementById('pass').value = "";
-		document.getElementById('info').textContent = sipnone_info;
-	} 
-	else if (siprego.indexOf(sipnat_user) != -1) {
-		// rego line has sipnat 
-		selection = "sipnat";
-		document.getElementById('user').value = sipnat_user;
-		document.getElementById('host').value = sipnat_host;
-		document.getElementById('pass').value = sipnat_secret;
-		document.getElementById('info').textContent = sipnat_info;
-	}
-	else if (siprego.indexOf(sipnormal_user) != -1) {
-		// rego line has sipnormal
-		selection = "sipnormal";
-		document.getElementById('user').value = sipnormal_user;
-		document.getElementById('host').value = sipnormal_host;
-		document.getElementById('pass').value = sipnormal_secret;
-		document.getElementById('info').textContent = sipnormal_info;
-	}
-	else if (siprego.indexOf(sipjazmin_user) != -1) {
-		// rego line has sipjazmin
-		selection = "sipjazmin";
-		document.getElementById('user').value = sipjazmin_user;
-		document.getElementById('host').value = sipjazmin_host;
-		document.getElementById('pass').value = sipjazmin_secret;
-		document.getElementById('info').textContent = sipjazmin_info;
-	}
 	
 }
 
@@ -197,6 +164,42 @@ function loadSipConf(doc,status) {
 				}
 			}
 		}
+		
+		// sip info now loaded
+
+		if(siprego_line[0] == ';') { 
+			// commented out mean no rego selected
+			selection = "none";
+			document.getElementById('user').value = "";
+			document.getElementById('host').value = "";
+			document.getElementById('pass').value = "";
+			document.getElementById('info').textContent = sipnone_info;
+		} 
+		else if (siprego.indexOf(sipnat_user) != -1) {
+			// rego line has sipnat 
+			selection = "sipnat";
+			document.getElementById('user').value = sipnat_user;
+			document.getElementById('host').value = sipnat_host;
+			document.getElementById('pass').value = sipnat_secret;
+			document.getElementById('info').textContent = sipnat_info;
+		}
+		else if (siprego.indexOf(sipnormal_user) != -1) {
+			// rego line has sipnormal
+			selection = "sipnormal";
+			document.getElementById('user').value = sipnormal_user;
+			document.getElementById('host').value = sipnormal_host;
+			document.getElementById('pass').value = sipnormal_secret;
+			document.getElementById('info').textContent = sipnormal_info;
+		}
+		else if (siprego.indexOf(sipjazmin_user) != -1) {
+			// rego line has sipjazmin
+			selection = "sipjazmin";
+			document.getElementById('user').value = sipjazmin_user;
+			document.getElementById('host').value = sipjazmin_host;
+			document.getElementById('pass').value = sipjazmin_secret;
+			document.getElementById('info').textContent = sipjazmin_info;
+		}		
+		
 	}
 	);
 	
