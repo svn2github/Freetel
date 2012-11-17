@@ -63,7 +63,7 @@ function initialisePage() {
 	
 	// sip info now loaded
 
-	if(sipregoline[0] == ';') { 
+	if(sipregoline.indexOf(';') == 0) { 
 		// commented out mean no rego selected
 		selection = "none";
 		document.getElementById('user').value = "";
