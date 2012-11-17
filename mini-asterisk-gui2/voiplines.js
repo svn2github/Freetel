@@ -275,7 +275,7 @@ function commentregReturn(doc,status) {
 		downloadUrl(url,commentTrunkReturn);	
 }
 
-function commentTrunckReturn(doc,status) {
+function commentTrunkReturn(doc,status) {
     loadHtmlTextFile(doc, function(line) {
 	    //parseSipShowPeers(line);
 	}
