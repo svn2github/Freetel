@@ -61,6 +61,8 @@ function initialisePage() {
 	//     asterisk sip show registry
 	//     cascades thru to load sip.conf info
 	
+	document.getElementById('provider').value = "none";
+	
 	downloadUrl("/cgi-bin/asterisk.cgi?cli=sip show registry",OnSipshowReturn);
 	
 
