@@ -7,7 +7,13 @@
 */
 
 var update_time = 10;
+
 var selection = "";
+var user = "";
+var host = "";
+var passwd = "";
+
+
 var lastselection="";
 var lasthost="";
 var lastuser="";
@@ -18,6 +24,7 @@ var providerfound = 0;
 
 // Registration line from sip.conf
 var siprego_line="";
+var siprego="";
 
 // All from sip.conf
 var sipnat_user="";
@@ -29,6 +36,11 @@ var sipnormal_host="";
 var sipjazmin_user="";
 var sipjazmin_secret="";
 var sipjazmin_host="";
+
+static sipnone_info = "No provider selected";
+static sipnat_info = "You reach your ITSP via a NAT router ...the most common setup";
+static sipnormal_info = "No NAT router between your Phone system and your ITSP";
+static sipjazmin_info = "Jazmin are a South Australian ITSP";
 
 // Called when we load page
 
@@ -45,8 +57,45 @@ function initialisePage() {
 	
 	// Check if provider is up
 	//     asterisk sip show registry
+	//     cascades thru to load sip.conf info
+	
 	downloadUrl("/cgi-bin/asterisk.cgi?cli=sip show registry",OnSipshowReturn);
+	
+	// sip info now loaded
 
+	if(sipregoline[0] == ';') { 
+		// commented out mean no rego selected
+		selection = "none";
+		document.getElementById('user').value = "";
+		document.getElementById('host').value = "";
+		document.getElementById('pass').value = "";
+		document.getElementById('info').textContent = sipnone_info;
+	} 
+	else if (sipregoline.indexOf(sipnat_user) != -1) {
+		// rego line has sipnat 
+		selection = "sipnat";
+		document.getElementById('user').value = sipnat_user;
+		document.getElementById('host').value = sipnat_host;
+		document.getElementById('pass').value = sipnat_secret;
+		document.getElementById('info').textContent = sipnat_info;
+	}
+	else if (sipregoline.indexOf(sipnormal_user) != -1) {
+		// rego line has sipnormal
+		selection = "sipnormal";
+		document.getElementById('user').value = sipnormal_user;
+		document.getElementById('host').value = sipnormal_host;
+		document.getElementById('pass').value = sipnormal_secret;
+		document.getElementById('info').textContent = sipnormal_info;
+	}
+	else if (sipregoline.indexOf(sipjazmin_user) != -1) {
+		// rego line has sipjazmin
+		selection = "sipjazmin";
+		document.getElementById('user').value = sipjazmin_user;
+		document.getElementById('host').value = sipjazmin_host;
+		document.getElementById('pass').value = sipjazmin_secret;
+		document.getElementById('info').textContent = sipjazmin_info;
+	}
+	
 }
 
 function OnSipshowReturn(doc,status) {
@@ -63,24 +112,15 @@ function OnSipshowReturn(doc,status) {
 	
     if (doc.indexOf("Registered") != -1) {
 		// provider is registered
+		
 		providerfound = 1;
-		// Find the provider ip add
-
-		// Get details from sip.conf
-		//document.getElementById('provider').value = sip or sipnat or jazmin
 		html += tickicon;
-		// get provider details from doc
-		var user = "";
-		var host = "";
-		//var pass = "";
-		// fill out form on page
-		//document.getElementById('user').value = user;
-		//document.getElementById('host').value = host;
-		//document.getElementById('pass').value = pass;
+	
 		
 	} else {
 		// no provider or 
 		// provider is not registered
+		
 		providerfound = 0;
 		html += crossicon;
 	}
@@ -98,12 +138,13 @@ function loadSipConf(doc,status) {
 	    if (line.indexOf("mini-asterisk") != -1)  {
 			if (line.indexOf("register-mini-asterisk") != -1) {
 			
-				// maybe save this entire line because we are going to replace it later on
+				// save this entire line because we are going to replace it later on
 				siprego_line = line;
-				
+				var s = line.split(' ');
+				siprego = s[2];    //  save registration string
+		
 				if (line.indexOf(";") != 0) {
 				     registerflag = 1;
-					 //save rego user:pswd:host
 				}
 				 else {
 				     registerflag = 0;
@@ -168,9 +209,6 @@ function onClickApply() {
 	// You will need to cascade calls to downloadUrl
 
 	// take provider, username, password and host. 
-	var user = "";
-	var host = "";
-	var passwd = "";
 
 	selection = document.getElementById('provider').value;
 	user = document.getElementById('user').value;
@@ -198,7 +236,7 @@ function uncommentregReturn(doc,status) {
 	//          ;register => 1234:password@mysipprovider.com   becomes     register => trev:password@192.168.1.30 
 	
 	var new_register = document.getElementById('user').value+":"+document.getElementById('pass').value+"@"+document.getElementById('host').value;
-	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=9876:password@mysipprovider.com&that=' + new_register + '&key=register-mini-asterisk';
+	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=' + siprego + '&that=' + new_register + '&key=register-mini-asterisk';
 
 	// save globals
 	lastuser = document.getElementById('user').value;
@@ -283,9 +321,14 @@ function hostReturn(doc,status) {
 	}
 	);
 	
-	//   3.9       [usersipnat]         becomes     [voip]
-	//				or [usersip]
+	//   3.8      if new provider
+	//                replace old [voip] entry back to original [usersipnormal] or [usersipnat] or [userjazmin]
+	
+	//   3.9      if new provider
+	//				[usersipnat]         becomes     [voip]
+	//				or [usersipnormal]
 	//				or [userjazmin]
+	
 
 	
 	var url = '/cgi-bin/setword.cgi?file=/etc/asterisk/sip.conf&this=user'+selection+'&that=voip';
@@ -344,30 +387,26 @@ function changeProvider() {
 		document.getElementById('user').value = "";
 		document.getElementById('host').value = "";
 		document.getElementById('pass').value = "";
-		var temp = document.getElementById('info');
-		document.getElementById('info').textContent = "No provider selected";
-		
-		// may need to comment out previous sip.conf activity
+		document.getElementById('info').textContent = sipnone_info;
 		
 	} else if (selection == "sipnat" ) {
 		// fill sipnat
-		// we should really get this stuff from the sip.conf file....
-		document.getElementById('user').value = "user";
-		document.getElementById('host').value = "192.168.1.28";
-		document.getElementById('pass').value = "xxxxxx";
-		document.getElementById('info').textContent = "You reach your ITSP via a NAT router ...the most common setup";
+		document.getElementById('user').value = sipnat_user;
+		document.getElementById('host').value = sipnat_host;
+		document.getElementById('pass').value = sipnat_secret;
+		document.getElementById('info').textContent = sipnat_info;
 	} else if (selection == "sipnormal" ) {
-	    // fill sip
-		document.getElementById('user').value = "trev";
-		document.getElementById('host').value = "192.168.1.30";
-		document.getElementById('pass').value = "supertrev";		
-		document.getElementById('info').textContent = "No NAT router between your Phone system and your ITSP";
+	    // fill sipnormal
+		document.getElementById('user').value = sipnormal_user;
+		document.getElementById('host').value = sipnormal_host;
+		document.getElementById('pass').value = sipnormal_secret;		
+		document.getElementById('info').textContent = sipnormal_info;
 	} else if (selection == "jazmin" ) {
-		// fill jazmin
-		document.getElementById('user').value = "username";
-		document.getElementById('host').value = "sip.jazmin.net.au";
-		document.getElementById('pass').value = "xxxxxx";		
-		document.getElementById('info').textContent = "Jazmin are a South Australian ITSP";
+		// fill sipjazmin
+		document.getElementById('user').value = sipjazmin_user;
+		document.getElementById('host').value = sipjazmin_host;
+		document.getElementById('pass').value = sipjazmin_secret;		
+		document.getElementById('info').textContent = sipjazmin_info;
 	} else {
 		// something weird happened
 	}
