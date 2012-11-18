@@ -54,20 +54,31 @@ function initialise() {
 
 
 function initialisePage() {
-    // 
     
+
+	// Sip reload 	
 	
+	downloadUrl("/cgi-bin/asterisk.cgi?cli=sip reload",InitSipReloadReturn);
+	
+}
+
+function InitSipReloadReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+	
+	// Check sip registry
 	// Check if provider is up
 	//     asterisk sip show registry
 	//     cascades thru to load sip.conf info
-	
-	//document.getElementById('provider').value = "none";
-	
-	downloadUrl("/cgi-bin/asterisk.cgi?cli=sip show registry",OnSipshowReturn);
-	
 
-	
+	downloadUrl("/cgi-bin/asterisk.cgi?cli=sip show registry",OnSipshowReturn);
+
+
 }
+
+
 
 function OnSipshowReturn(doc,status) {
     loadHtmlTextFile(doc, function(line) {
