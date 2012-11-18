@@ -174,40 +174,44 @@ function loadSipConf(doc,status) {
 	}
 	);
 	
-		// sip info now loaded
+	// sip info now loaded
 
-		if(siprego_line[0] == ';') { 
-			// commented out mean no rego selected
-			lastselection = "none";
-			document.getElementById('user').value = "";
-			document.getElementById('host').value = "";
-			document.getElementById('pass').value = "";
-			document.getElementById('info').textContent = sipnone_info;
-		} 
-		else if (siprego.indexOf(sipnat_user) != -1) {
-			// rego line has sipnat 
-			lastselection = "sipnat";
-			document.getElementById('user').value = sipnat_user;
-			document.getElementById('host').value = sipnat_host;
-			document.getElementById('pass').value = sipnat_secret;
-			document.getElementById('info').textContent = sipnat_info;
-		}
-		else if (siprego.indexOf(sipnormal_user) != -1) {
-			// rego line has sipnormal
-			lastselection = "sipnormal";
-			document.getElementById('user').value = sipnormal_user;
-			document.getElementById('host').value = sipnormal_host;
-			document.getElementById('pass').value = sipnormal_secret;
-			document.getElementById('info').textContent = sipnormal_info;
-		}
-		else if (siprego.indexOf(sipjazmin_user) != -1) {
-			// rego line has sipjazmin
-			lastselection = "sipjazmin";
-			document.getElementById('user').value = sipjazmin_user;
-			document.getElementById('host').value = sipjazmin_host;
-			document.getElementById('pass').value = sipjazmin_secret;
-			document.getElementById('info').textContent = sipjazmin_info;
-		}			
+	if(siprego_line[0] == ';') { 
+		// commented out mean no rego selected
+		lastselection = "none";
+		document.getElementById('user').value = "";
+		document.getElementById('host').value = "";
+		document.getElementById('pass').value = "";
+		document.getElementById('info').textContent = sipnone_info;
+		document.getElementById('provider').value="none";
+	} 
+	else if (siprego.indexOf(sipnat_user) != -1) {
+		// rego line has sipnat 
+		lastselection = "sipnat";
+		document.getElementById('user').value = sipnat_user;
+		document.getElementById('host').value = sipnat_host;
+		document.getElementById('pass').value = sipnat_secret;
+		document.getElementById('info').textContent = sipnat_info;
+		document.getElementById('provider').value="sipnat";
+	}
+	else if (siprego.indexOf(sipnormal_user) != -1) {
+		// rego line has sipnormal
+		lastselection = "sipnormal";
+		document.getElementById('user').value = sipnormal_user;
+		document.getElementById('host').value = sipnormal_host;
+		document.getElementById('pass').value = sipnormal_secret;
+		document.getElementById('info').textContent = sipnormal_info;
+		document.getElementById('provider').value="sipnormal";
+	}
+	else if (siprego.indexOf(sipjazmin_user) != -1) {
+		// rego line has sipjazmin
+		lastselection = "sipjazmin";
+		document.getElementById('user').value = sipjazmin_user;
+		document.getElementById('host').value = sipjazmin_host;
+		document.getElementById('pass').value = sipjazmin_secret;
+		document.getElementById('info').textContent = sipjazmin_info;
+		document.getElementById('provider').value="jazmin";
+	}			
 }
 
 
@@ -242,6 +246,7 @@ function onClickApply() {
 		}
 		else {
 			// comment out old rego line
+			// reload and restart
 			var url = '/cgi-bin/commentkey.cgi?file=/etc/asterisk/sip.conf&key=register-mini-asterisk';
 			downloadUrl(url,commentregReturn);			
 		}
@@ -302,16 +307,19 @@ function resetVoipLabelReturn(doc,status) {
 	    //parseSipShowPeers(line);
 	}
 	);
-		// init
+		
 		if (lastselection == selection) {
-			initialise();		
+			// asterisk sip reload ..
+			// ....check this may have to load new parms
+			downloadUrl("/cgi-bin/asterisk.cgi?cli=sip reload",sipReloadReturn);
 		}
 		else if (selection == "none") {
-				initialise();				
+			// asterisk sip reload  to remove old registration
+			downloadUrl("/cgi-bin/asterisk.cgi?cli=sip reload",sipReloadReturn);
 		}
 		else {
-			// uncomment new stuff
-			// fillout
+			// uncomment new selection
+			// fillout new parms
 			// restart
 			var url = '/cgi-bin/uncommentkey.cgi?file=/etc/asterisk/sip.conf&key=register-mini-asterisk';
 			downloadUrl(url,uncommentregReturn);		
