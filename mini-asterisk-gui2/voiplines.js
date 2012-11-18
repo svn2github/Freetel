@@ -242,7 +242,7 @@ function onClickApply() {
 	
 		if(lastselection == "none") {
 			// do nothing but restart
-			initialise();
+			downloadUrl("/cgi-bin/asterisk.cgi?cli=sip reload",sipReloadReturn);
 		}
 		else {
 			// comment out old rego line
