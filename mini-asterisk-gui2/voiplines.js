@@ -8,14 +8,11 @@
 
 var update_time = 10;
 
-var firsttime=0;
-
-var selection = "none";
 var user = "";
 var host = "";
 var passwd = "";
 
-
+var selection = "none";
 var lastselection="";
 
 // Registration line from sip.conf
