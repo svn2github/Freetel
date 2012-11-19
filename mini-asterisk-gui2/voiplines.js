@@ -17,10 +17,6 @@ var passwd = "";
 
 
 var lastselection="";
-var lasthost="";
-var lastuser="";
-var lastpasswd="";
-var lastreg="";
 
 var providerfound = 0;
 
@@ -232,11 +228,7 @@ function onClickApply() {
 	// You will need to cascade calls to downloadUrl
 
 	// save globals
-	lastselection = selection;
-	lastuser = user;
-	lasthost = host;
-	lastpasswd = passwd;
-	lastreg = new_register;
+	//lastselection = selection;
 	
 	// take provider, username, password and host. 
 	selection = document.getElementById('provider').value;
@@ -482,9 +474,6 @@ function changeProvider() {
 	// fill the host and username fields based on selection
 
 	var sell = document.getElementById('provider').value;
-	
-	// Disable old provider if used
-	//
 	
 
 	if (sell == "none" ) {
