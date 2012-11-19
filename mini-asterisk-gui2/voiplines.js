@@ -220,6 +220,9 @@ function onClickApply() {
 	// save globals
 	//lastselection = selection;               This causes a bug under firefox, but not chrome ... why?
 	
+    document.getElementById("voiplinestatus").innerHTML = '<td>Checking... </td>';
+	
+	
 	// take provider, username, password and host. 
 	selection = document.getElementById('provider').value;
 	user = document.getElementById('user').value;
