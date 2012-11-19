@@ -42,7 +42,7 @@ var sipjazmin_host="";
 var sipnone_info = "No provider selected";
 var sipnat_info = "You reach your ITSP via a NAT router ...the most common setup";
 var sipnormal_info = "No NAT router between your Phone system and your ITSP";
-var sipjazmin_info = "Jazmin are a South Australian ITSP";
+var sipjazmin_info = "Enter your provider details";
 
 // Called when we load page
 
