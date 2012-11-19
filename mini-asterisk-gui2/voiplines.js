@@ -18,8 +18,6 @@ var passwd = "";
 
 var lastselection="";
 
-var providerfound = 0;
-
 // Registration line from sip.conf
 var siprego_line="";
 var siprego="";
@@ -35,6 +33,7 @@ var sipjazmin_user="";
 var sipjazmin_secret="";
 var sipjazmin_host="";
 
+// Statics
 var sipnone_info = "No provider selected";
 var sipnat_info = "You reach your ITSP via a NAT router ...the most common setup";
 var sipnormal_info = "No NAT router between your Phone system and your ITSP";
@@ -90,16 +89,10 @@ function OnSipshowReturn(doc,status) {
 	
     if (doc.indexOf("Registered") != -1) {
 		// provider is registered
-		
-		providerfound = 1;
 		html += tickicon;
-	
-		
 	} else {
 		// no provider or 
 		// provider is not registered
-		
-		providerfound = 0;
 		html += crossicon;
 	}
 
@@ -211,8 +204,8 @@ function loadSipConf(doc,status) {
 		document.getElementById('provider').value="sipnormal";
 	}
 	else if (siprego.indexOf(sipjazmin_user) != -1) {
-		// rego line has sipjazmin
-		lastselection = "sipjazmin";
+		// rego line has jazmin
+		lastselection = "jazmin";
 		document.getElementById('user').value = sipjazmin_user;
 		document.getElementById('host').value = sipjazmin_host;
 		document.getElementById('pass').value = sipjazmin_secret;
@@ -228,7 +221,7 @@ function onClickApply() {
 	// You will need to cascade calls to downloadUrl
 
 	// save globals
-	//lastselection = selection;
+	//lastselection = selection;               This causes a bug under firefox, but not chrome ... why?
 	
 	// take provider, username, password and host. 
 	selection = document.getElementById('provider').value;
@@ -496,7 +489,7 @@ function changeProvider() {
 		document.getElementById('pass').value = sipnormal_secret;		
 		document.getElementById('info').textContent = sipnormal_info;
 	} else if (sell == "jazmin" ) {
-		// fill sipjazmin
+		// fill jazmin
 		document.getElementById('user').value = sipjazmin_user;
 		document.getElementById('host').value = sipjazmin_host;
 		document.getElementById('pass').value = sipjazmin_secret;		
