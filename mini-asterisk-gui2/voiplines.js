@@ -271,7 +271,7 @@ function onClickApply() {
 	host = document.getElementById('host').value;
 	passwd = document.getElementById('pass').value;
 	fromuser = document.getElementById('fromuser').value;
-	passwd = document.getElementById('fromdomain').value;
+	fromdomain = document.getElementById('fromdomain').value;
 	
 	// 1. Save sip.conf	
 	
