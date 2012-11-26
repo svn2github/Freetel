@@ -446,10 +446,38 @@ function passwordReturn(doc,status) {
 				+'&that='+host
 				+'&key='+selection+'-mini-asterisk';
 
-	downloadUrl(url,hostReturn);
-	}
+	downloadUrl(url,fromhostReturn);
+}
 
-function hostReturn(doc,status) {
+function fromhostReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+	
+	var url = '/cgi-bin/setlinekey2.cgi?file=/etc/asterisk/sip.conf'
+				+'&this=fromuser='
+				+'&that='+fromuser
+				+'&key='+selection+'-mini-asterisk';
+
+	downloadUrl(url,fromuserReturn);
+}
+
+function fromuserReturn(doc,status) {
+    loadHtmlTextFile(doc, function(line) {
+	    //parseSipShowPeers(line);
+	}
+	);
+	
+	var url = '/cgi-bin/setlinekey2.cgi?file=/etc/asterisk/sip.conf'
+				+'&this=fromdomain='
+				+'&that='+fromdomain
+				+'&key='+selection+'-mini-asterisk';
+
+	downloadUrl(url,fromdomainReturn);
+}
+	
+function fromdomainReturn(doc,status) {
     loadHtmlTextFile(doc, function(line) {
 	    //parseSipShowPeers(line);
 	}
