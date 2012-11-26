@@ -11,6 +11,8 @@ var update_time = 10;
 var user = "";
 var host = "";
 var passwd = "";
+var fromuser= "";
+var fromdomain= "";
 
 var selection = "none";
 var lastselection="";
@@ -143,6 +145,14 @@ function loadSipConf(doc,status) {
 					var s = line.split(myregexp);
 					sipnat_host = s[1]; //  save host
 				}
+				else if (line.indexOf("fromuser") != -1) {
+					var s = line.split(myregexp);
+					sipnat_fromuser = s[1]; //  save 
+				}
+				else if (line.indexOf("fromdomain") != -1) {
+					var s = line.split(myregexp);
+					sipnat_fromdomain = s[1]; //  save 
+				}
 			}
 			if (line.indexOf("sipnormal-mini-asterisk") != -1) {
 				if (line.indexOf("username") != -1) {
@@ -157,6 +167,14 @@ function loadSipConf(doc,status) {
 					var s = line.split(myregexp);
 					sipnormal_host = s[1]; //  save host
 				}
+				else if (line.indexOf("fromuser") != -1) {
+					var s = line.split(myregexp);
+					sipnormal_fromuser = s[1]; //  save 
+				}
+				else if (line.indexOf("fromdomain") != -1) {
+					var s = line.split(myregexp);
+					sipnormal_fromdomain = s[1]; //  save
+				}
 			}
 			if (line.indexOf("jazmin-mini-asterisk") != -1) {
 				if (line.indexOf("username") != -1) {
@@ -170,6 +188,14 @@ function loadSipConf(doc,status) {
 				else if (line.indexOf("host") != -1) {
 					var s = line.split(myregexp);
 					sipjazmin_host = s[1]; //  save host
+				}
+				else if (line.indexOf("fromuser") != -1) {
+					var s = line.split(myregexp);
+					sipjazmin_fromuser = s[1]; //  save 
+				}
+				else if (line.indexOf("fromdomain") != -1) {
+					var s = line.split(myregexp);
+					sipjazmin_fromdomain = s[1]; //  save
 				}
 			}
 		}
@@ -187,6 +213,8 @@ function loadSipConf(doc,status) {
 		document.getElementById('user').value = "";
 		document.getElementById('host').value = "";
 		document.getElementById('pass').value = "";
+		document.getElementById('fromuser').value = "";
+		document.getElementById('fromdomain').value = "";
 		document.getElementById('info').textContent = sipnone_info;
 		document.getElementById('provider').value="none";
 	} 
@@ -196,6 +224,8 @@ function loadSipConf(doc,status) {
 		document.getElementById('user').value = sipnat_user;
 		document.getElementById('host').value = sipnat_host;
 		document.getElementById('pass').value = sipnat_secret;
+		document.getElementById('fromuser').value = sipnat_fromuser;
+		document.getElementById('fromdomain').value = sipnat_fromdomain;
 		document.getElementById('info').textContent = sipnat_info;
 		document.getElementById('provider').value="sipnat";
 	}
@@ -205,6 +235,8 @@ function loadSipConf(doc,status) {
 		document.getElementById('user').value = sipnormal_user;
 		document.getElementById('host').value = sipnormal_host;
 		document.getElementById('pass').value = sipnormal_secret;
+		document.getElementById('fromuser').value = sipnormal_fromuser;
+		document.getElementById('fromdomain').value = sipnormal_fromdomain;
 		document.getElementById('info').textContent = sipnormal_info;
 		document.getElementById('provider').value="sipnormal";
 	}
@@ -214,6 +246,8 @@ function loadSipConf(doc,status) {
 		document.getElementById('user').value = sipjazmin_user;
 		document.getElementById('host').value = sipjazmin_host;
 		document.getElementById('pass').value = sipjazmin_secret;
+		document.getElementById('fromuser').value = sipjazmin_fromuser;
+		document.getElementById('fromdomain').value = sipjazmin_fromdomain;
 		document.getElementById('info').textContent = sipjazmin_info;
 		document.getElementById('provider').value="jazmin";
 	}			
@@ -236,6 +270,8 @@ function onClickApply() {
 	user = document.getElementById('user').value;
 	host = document.getElementById('host').value;
 	passwd = document.getElementById('pass').value;
+	fromuser = document.getElementById('fromuser').value;
+	passwd = document.getElementById('fromdomain').value;
 	
 	// 1. Save sip.conf	
 	
@@ -491,18 +527,24 @@ function changeProvider() {
 		document.getElementById('user').value = sipnat_user;
 		document.getElementById('host').value = sipnat_host;
 		document.getElementById('pass').value = sipnat_secret;
+		document.getElementById('fromuser').value = sipnat_fromuser;
+		document.getElementById('fromdomain').value = sipnat_fromdomain;
 		document.getElementById('info').textContent = sipnat_info;
 	} else if (sell == "sipnormal" ) {
 	    // fill sipnormal
 		document.getElementById('user').value = sipnormal_user;
 		document.getElementById('host').value = sipnormal_host;
 		document.getElementById('pass').value = sipnormal_secret;		
+		document.getElementById('fromuser').value = sipnormal_fromuser;
+		document.getElementById('fromdomain').value = sipnormal_fromdomain;
 		document.getElementById('info').textContent = sipnormal_info;
 	} else if (sell == "jazmin" ) {
 		// fill jazmin
 		document.getElementById('user').value = sipjazmin_user;
 		document.getElementById('host').value = sipjazmin_host;
 		document.getElementById('pass').value = sipjazmin_secret;		
+		document.getElementById('fromuser').value = sipjazmin_fromuser;
+		document.getElementById('fromdomain').value = sipjazmin_fromdomain;
 		document.getElementById('info').textContent = sipjazmin_info;
 	} else {
 		// something weird happened
