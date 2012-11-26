@@ -23,12 +23,20 @@ var siprego="";
 var sipnat_user="";
 var sipnat_secret="";
 var sipnat_host="";
+var sipnat_fromuser="";
+var sipnat_fromdomain="";
+
 var sipnormal_user="";
 var sipnormal_secret="";
 var sipnormal_host="";
+var sipnormal_fromuser="";
+var sipnormal_fromdomain="";
+
 var sipjazmin_user="";
 var sipjazmin_secret="";
 var sipjazmin_host="";
+var sipjazmin_fromuser="";
+var sipjazmin_fromdomain="";
 
 // Statics
 var sipnone_info = "No provider selected";
@@ -474,6 +482,8 @@ function changeProvider() {
 		document.getElementById('user').value = "";
 		document.getElementById('host').value = "";
 		document.getElementById('pass').value = "";
+		document.getElementById('fromuser').value = "";
+		document.getElementById('fromdomain').value = "";
 		document.getElementById('info').textContent = sipnone_info;
 		
 	} else if (sell == "sipnat" ) {
