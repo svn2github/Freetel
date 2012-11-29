@@ -30,8 +30,31 @@ voip provider page
 (Maybe add in voip line 2 page... later)
   
 *****************************************************************************  
-  
+ 
+ 
+ Nov 29 2012
+ 
+ voip line (sip trunk) page is now working.
+	- reads settings from sip.conf 
+	- there are four options for sip trunk... none, sip, sip with nat, and provider
+	- you can change user, password, host, fromuser, and fromdomain
+	- these changes get saved back into sip.conf when you press the ok
+ 
+ testing
+    - sip		registers	ok
+				outbound	ok
+				inbound		not tested yet
 
+    - sipnat	registers	not tested yet
+				outbound	not tested yet
+				inbound		not tested yet
 
+    - provider	registers	ok      voip.oeg.com.au
+				outbound	ok      (adelaide ok, wgong fails)
+				inbound		not tested yet
+
+	- none		clears rego	ok
+
+	
 *************************************************************************************
 
