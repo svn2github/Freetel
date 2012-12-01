@@ -39,15 +39,18 @@ function initialisePage() {
     for (j in ip_ext) {
         if (ip_ext[j] != '') {
             html += "<tr>";
-	        html += "<td>" + j + "</td>" + "<td>" + "IP Phone" + "</td>";
+	        html += "<td>" + j + "</td>" ;
 	        html += "<td>" + ip_ext[j] + "</td>";
-
             html += "<td>" + tick + "</td>";
-
-
-            html += "</td>";
-
-	    }
+            html += "</tr>";
+	    } 
+		else {
+            html += "<tr>";
+	        html += "<td>" + j + "</td>" ;
+	        html += "<td>" + "available" + "</td>";
+            html += "<td>" + cross + "</td>";
+            html += "</tr>";
+		}
     }
 
     html += '</table>';
