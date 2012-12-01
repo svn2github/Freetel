@@ -53,7 +53,7 @@ function initialisePage() {
     html += '</table>';
 	
     html += '</form>';
-    document.getElementById("ipphones_table").innerHTML += html;
+    document.getElementById("ipphones_table").innerHTML = html;
 
 }
 
