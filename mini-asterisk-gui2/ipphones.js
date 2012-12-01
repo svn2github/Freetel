@@ -14,11 +14,51 @@ var update_time = 10;
 function initialise() {
     mainMenu();
 
-    initialisePage();
+    // kick off cascading CGIs, initialisePage() will be called when complete
+
+    loadExtensions();
 }
 
-
+ 
 function initialisePage() {
+    // 
+     var tick = '<img src="tick.png" alt="IP phone detected" />';
+     var cross = '<img src="cross.png" alt="No phone detected" />';
+    var html = '';
+    var j = 0;
+	
+    html += '<form name="phones" method="get">';
+
+    html += '<table align="right" width=600 cellspacing=2>';
+
+    // print out IP phones
+    //  j is 6011,6012 etc
+
+    for (j in ip_ext) {
+        if (ip_ext[j] != '') {
+            html += "<tr>";
+	        html += "<td>" + j + "</td>" + "<td>" + "IP Phone" + "</td>";
+	        html += "<td>" + ip_ext[j] + "</td>";
+
+            html += "<td>" + tick + "</td>";
+
+
+            html += "</td>";
+
+ //           html += "</tr>";
+	    }
+    }
+
+ //   html += "</tr>";
+
+    html += '</table>';
+	
+    html += '</form>';
+    document.getElementById("ipphones_table").innerHTML += html;
+
+}
+
+function somefunction() {
     // 
     
     var icon = '<img src="tick.png" alt="Analog Phone OK" />';
@@ -40,6 +80,4 @@ function initialisePage() {
 //    document.getElementById("ipphones").innerHTML += html;
 
 }
-
-
 
