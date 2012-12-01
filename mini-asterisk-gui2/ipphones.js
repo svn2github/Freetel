@@ -14,8 +14,10 @@ var update_time = 10;
 function initialise() {
     mainMenu();
 
-    // kick off cascading CGIs, initialisePage() will be called when complete
+    document.getElementById("ipphones_table").innerHTML = "Checking....";
 
+     // kick off cascading CGIs, initialisePage() will be called when complete
+	 
     loadExtensions();
 }
 
@@ -45,11 +47,8 @@ function initialisePage() {
 
             html += "</td>";
 
- //           html += "</tr>";
 	    }
     }
-
- //   html += "</tr>";
 
     html += '</table>';
 	
