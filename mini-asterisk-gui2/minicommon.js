@@ -6,6 +6,8 @@
   Common functions used by Mini Asterisk GUI.
 */
 
+var	logged_in = 0;
+
 // index Zaptel port number (1,2,...), value extension (6001,6002...)
 
 var analog_ext = [];
@@ -411,5 +413,17 @@ function downloadUrl2(url, callback) {
 
 }
 
+function onClickLogin() {
+
+	// load password from file
+	
+	// Test submit against pw
+
+	// If ok then
+	logged_in = 1;
+	// else
+	
+	// fail
+}
 
 
