@@ -421,6 +421,7 @@ function onClickLogin() {
 
 	// If ok then
 	logged_in = 1;
+	window.location.assign("http://gui2/phones.html");	
 	// else
 	
 	// fail
