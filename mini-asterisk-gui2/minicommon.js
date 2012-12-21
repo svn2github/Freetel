@@ -420,8 +420,11 @@ function onClickLogin() {
 	// Test submit against pw
 
 	// If ok then
+	var href = "";
+	href = location.href;
+	
 	logged_in = 1;
-	window.location.assign("http://gui2/phones.html");	
+	window.location.assign("phones.html");	
 	// else
 	
 	// fail
