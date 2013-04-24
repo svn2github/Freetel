@@ -7,13 +7,15 @@
 #define _CONFIGURATION_HEADER_GUARD_H_
 
 #define SIZEOF_INT @SIZEOF_INT@
-#cmakedefine HAVE_LIMITS_H @HAVE_LIMITS_H@
-#cmakedefine HAVE_STDINT_H @HAVE_STDINT_H@
-#cmakedefine HAVE_STDDEF_H @HAVE_STDDEF_H@
 #cmakedefine HAVE_STDLIB_H @HAVE_STDLIB_H@
 #cmakedefine HAVE_STRING_H @HAVE_STRING_H@
-#cmakedefine HAVE_FLOOR @HAVE_FLOOR@
-#cmakedefine HAVE_MEMSET @HAVE_MEMSET@
-#cmakedefine HAVE_POW @HAVE_POW@
-#cmakedefine HAVE_SQRT @HAVE_SQRT@
+#cmakedefine HAVE_FLOOR    @HAVE_FLOOR@
+#cmakedefine HAVE_CEIL     @HAVE_CEIL@
+#cmakedefine HAVE_MEMSET   @HAVE_MEMSET@
+#cmakedefine HAVE_POW      @HAVE_POW@
+#cmakedefine HAVE_SQRT     @HAVE_SQRT@
+#cmakedefine HAVE_SIN      @HAVE_SIN@
+#cmakedefine HAVE_COS      @HAVE_COS@
+#cmakedefine HAVE_ATAN2    @HAVE_ATAN2@
+#cmakedefine HAVE_LOG10    @HAVE_LOG10@
 #endif
