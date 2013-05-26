@@ -47,7 +47,7 @@
   var bearing = 0.0;
 
   var bearings  = []; // database of bearings we keep in memory
-                      // mirrors breaings.txt
+                      // mirrors bearings.txt
 
 
   // Called when we load page
@@ -152,31 +152,36 @@
     //  newMarker.setAnimation(google.maps.Animation.BOUNCE);
     //}
 
-    // add to bearings array
-    // idea: add time stamp to info window?  Signal strength? Order
-
     var newInfoWindow = new google.maps.InfoWindow(
       { content: "put some info here"
       });
-    var newBearing = {marker : newMarker, 
-                      bearing: newBearing, 
-                      infowindow: newInfoWindow};
-    bearings.push(newBearing); 
 
-    // draw bearing as polyline 
+    // creat bearing line coords
 
     var location2 =  bearingToLocation(location, bearing, 100000);
     var coords = [
       location,
       location2
     ];
-    var path = new google.maps.Polyline({
+
+    // draw line
+
+    var newPath = new google.maps.Polyline({
             path: coords,
             strokeColor: "#080000",
             strokeOpacity: 0.5,
             strokeWeight: 5
     });
-    path.setMap(map);
+    newPath.setMap(map);
+
+    // add to bearings array
+    // idea: add time stamp to info window?  Signal strength? Order
+
+    var newBearing = {marker :    newMarker, 
+                      bearing:    newBearing, 
+                      infowindow: newInfoWindow,
+                      path:       newPath};
+    bearings.push(newBearing); 
 
     google.maps.event.addListener(newMarker, "click", function() {
 
@@ -197,6 +202,8 @@
         if (bearings[j].marker.position != newMarker.position) {
           new_bearings.push(bearings[j]);
         }
+        else
+          bearings[j].path.setMap(null);
       }
       bearings = new_bearings;
 
@@ -254,7 +261,7 @@
         lat = parseFloat(bits[0]);
         lng = parseFloat(bits[1]);
         myzoom = parseInt(bits[2]);
-        debug_enable = parseInt(bits[6]);
+        debug_enable = parseInt(bits[3]);
       }
     } 
   }
@@ -375,6 +382,16 @@
     // call CGI to rm bearings.txt
 
     downloadUrl("/cgi-bin/cleardb.cgi",function(doc){});
+
+    // delete all existing bearings
+      
+    if (bearings) {
+      for (j in bearings) {
+        bearings[j].marker.setMap(null);
+        bearings[j].path.setMap(null);
+      }
+    }
+    bearings = [];
   }
 
   function debugClicked() {
@@ -404,19 +421,14 @@
       <form name="control_panel">
         <table>
 	<tr>
-          <td width="5%">
           <td>Bearing</td>
-          <td colspan="2"><input type="text" name="bearing" value="0" size="15"></td>
+          <td><input type="text" name="bearing" value="0" size="15"></td>
         </tr>
         <tr>
-          <td></td>
 	  <td>Clear Database</td>
-          <td></td>
-          <td width="30%"></td>
           <td width="60"><input type="button" value="Clear" onclick="clearDatabase()"></td>
         </tr>
         <tr>
-	  <td></td>
           <td>Debug Messages</td>
           <td><input type="checkbox" name="debug_enable" onclick="debugClicked()"></td>
         </tr>
