@@ -6,7 +6,11 @@ May 25 2013
 Introduction
 ------------
 
-Simple Google Maps application to plot Fox Hunt bearings.
+Simple Google Maps application to plot Fox Hunt bearings.  When run on
+a phone it automatically detects position and compass bearing. Placing
+Bearings can be placed with a mouse click on non-mobile devices. The
+bearings are stored in a text file database so can be shared by anyone
+who can reach the server.
 
 * Screen shot: foxy_screenshot.png
 
@@ -18,16 +22,36 @@ Simple Google Maps application to plot Fox Hunt bearings.
   on any machine.  Installation involves copying a few files and
   setting a few permissions.
 
+* Foxy will stand alone without the server & CGIs, but bearing storage
+  won't be persistent and bearings can't be shared.  Good for demos or
+  when you can't reach the Internet.
+
+BUGS
+----
+
+On mobile devices:
++ Click to add bearings places the bearing at a location offset from the tap location
++ Double click doesn't remove bearings on mobile devices.
 
 Using Foxy
 ----------
 
 1/ Point your browser at http://yourserver/foxy.html
 
-2/ Enter the bearing in the text box and left click to add a bearing.
+2/ If running on your phone your bearing will be updated
+automatically.  Click on add bearing to add a bearing from your
+current position to the map.
 
-3/ Left click on a bearing to get information.  Right click to delete
-a bearing.
+3/ The "where Am I" button re-centers the map on your current
+position.  This is useful when scroll and zooming moves your position.
+
+4/ The "Click to Add Bearing" check box allow manual placement of
+bearings with a mouse click.  Useful for demo and development on
+non-mobile devices such as desktops and laptops. This should be
+unchecked on mobile devices as pinching/scrolling often generates
+spurious "click" events leading to unwanted bearings.
+
+5/ Double click on a bearing to delete it.
 
 
 Implementation Notes
@@ -41,21 +65,21 @@ to access the bearing database.
 A browser cookie is used to store config information like the current
 map centre.
 
-All the CGI scripts assume a hard coded path of /var/www/bearings for
-the bearings.txt database.
+All the CGI scripts assume a hard coded to a path of
+/var/www/foxy/bearings.txt for the bearings.txt database.
 
 
 Files
 -----
 
-  foxy.html        - Javascript code for Foxy
+  foxy.html        - Javascript & HTML code for Foxy
   foxy.css         - style sheet
 
 "cgi-bin" directory:
 
   addbearing.cgi   - adds a bearing to bearings.txt
   delbearing.cgi   - deletes a bearing from bearings.txt
-  getbearings.cgi   - reads bearings.txt database
+  getbearings.cgi  - reads bearings.txt database
   cleardb.cgi      - clears database, removing all bearings
 
 

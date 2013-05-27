@@ -11,7 +11,7 @@
 <title>Foxy</title>
 
 <link rel="stylesheet" type="text/css" href="foxy.css">
-<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script>
+<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
 
 <script type="text/javascript">
  
@@ -49,18 +49,46 @@
   var bearings  = []; // database of bearings we keep in memory
                       // mirrors bearings.txt
 
+  var geolocationSupport;
+  var geolat = 0;
+  var geolng = 0;
+  var hasCompass;
+  var currentHeading;
+
+  //
+  // Initialisation ----------------------------------------------------------------
+  //
 
   // Called when we load page
 
   function initialize() {
 
-    // we use our cookie as a mini-databse for map location, 
+    // if geolocation supported get our location 
+
+    if(navigator.geolocation) {
+      geolocationSupport = true;
+      navigator.geolocation.getCurrentPosition(function(position) {
+        lat = geolat = position.coords.latitude;
+        lng = geolng = position.coords.longitude;
+      }, function() {
+        geolocationSupport = false;
+      });
+    }
+
+    // if we have a compass use it to get bearing
+
+    testForCompass();
+
+    // we use our cookie as persistant storage for map location, 
     // control panel values etc
  
     getCookie();
 
+    // init map
+
     var myLatlng = new google.maps.LatLng(lat, lng);
     var myOptions = {
+      disableDoubleClickZoom: true,
       zoom: myzoom,
       center: myLatlng,
       scaleControl: true,
@@ -68,11 +96,18 @@
     }
     map = new google.maps.Map(document.getElementById("main-map"), myOptions);
 
-    google.maps.event.addListener(map, 'click', function (event) {
-       bearing = parseFloat(document.control_panel.bearing.value);
-       placeMarker(event.latLng, bearing, false);
-    });
+    // For testing on a desk top it's useful to left click to add
+    // bearings.  This sucks on mobile as a pinch or drag can generate a
+    // click event and you get spurious bearings.  So it can be disabled
+    // with the 'Click to add bearing' check box
 
+    google.maps.event.addListener(map, 'click', function (event) {
+       if (document.control_panel.click_bearing.checked) {
+         bearing = parseFloat(document.control_panel.bearing.value);
+         placeMarker(event.latLng, bearing, false);
+       }
+    });
+    
     document.control_panel.debug_enable.checked = debug_enable;
 
     // read from bearings.txt database text file on server and init map
@@ -110,12 +145,74 @@
   }
 
 
+  //
+  // Compass Support ----------------------------------------------------------------
+  //
+
+  function startCompass()
+  {
+    window.addEventListener('deviceorientation', onDeviceOrientationChange); // Gyroscope
+  }
+
+  function testForCompass()
+  {
+    var ua = navigator.userAgent.toLowerCase();
+    // Let's do _something_ for unsupported browsers.
+    if (ua.indexOf('firefox') != -1 || ua.indexOf('opera') != -1 || ua.indexOf('msie') != -1)
+    {
+        hasCompass = false;
+        startCompass();
+    }
+    else if (ua.indexOf('iphone os 4') != -1)
+    {
+        hasCompass = false;
+        startCompass();
+    }
+    else if (window.DeviceOrientationEvent)
+    {
+        window.addEventListener('deviceorientation', compassTest);
+    }
+    else
+    {
+        hasCompass = false;
+        startCompass();
+    }
+  }
+
+  function compassTest(event)
+  {
+    window.removeEventListener('deviceorientation', compassTest);
+    if (event.webkitCompassHeading != undefined || event.alpha != null) // Device does have a compass
+    {
+        hasCompass = true;
+    }
+    else
+    {
+        hasCompass = false;
+    }
+    startCompass();
+  }
+
+  // this gets called (a lot) when device orientation changes
+
+  function onDeviceOrientationChange(event) {
+    if (event.webkitCompassHeading != undefined)
+      currentHeading = (360 - event.webkitCompassHeading);
+    else if (event.alpha != null)
+      currentHeading = (270 - event.alpha) * -1;
+    document.control_panel.bearing.value = Math.round(currentHeading);
+  } 
+
   // remove leading and trailing whitespace from a string
 
   function trim(stringToTrim) {
 	return stringToTrim.replace(/^\s+|\s+$/g,"");
   }
 
+
+  //
+  // Helper Funtions  ----------------------------------------------------------------
+  //
 
   // calculate distance between two points
 
@@ -134,9 +231,102 @@
     return d.toFixed(3);
   }
 
+  // Converts numeric degrees to radians
+
+  function toRad(deg) {
+    return deg * Math.PI / 180;
+  }
+
+  // Converts radians to numeric (signed) degrees
+
+  function toDeg(rad) {
+    return rad * 180 / Math.PI;
+  }
+ 
+  // given a bearing and distance calculate end location
+
+  function bearingToLocation(location1, bearing, d) {
+    var lat1 = toRad(location1.lat());
+    var lon1 = toRad(location1.lng());
+    var bearing_rad = toRad(bearing);
+    var R = 6378137;
+
+    var lat2 = Math.asin( Math.sin(lat1)*Math.cos(d/R) + 
+              Math.cos(lat1)*Math.sin(d/R)*Math.cos(bearing_rad) );
+    var lon2 = lon1 + Math.atan2(Math.sin(bearing_rad)*Math.sin(d/R)*Math.cos(lat1), 
+                     Math.cos(d/R)-Math.sin(lat1)*Math.sin(lat2));
+
+    var location2 = new google.maps.LatLng(toDeg(lat2), toDeg(lon2));
+    return location2;    
+  }
+                            
+  function log(message) {
+    if (debug_enable == 1) {
+      message_list = document.getElementById("debugging_messages");
+      log_message = document.createTextNode(message);
+      log_list_item = document.createElement('li');
+      log_list_item.appendChild(log_message);
+      message_list.appendChild(log_list_item);
+    }
+  }
+
+
+  //
+  // GUI Call Backs  ----------------------------------------------------------------
+  //
+
+  function addBearing2() {
+    if (geolocationSupport) {
+       if (hasCompass) {
+         bearing = currentHeading;
+       }
+       else {
+         bearing = document.control_panel.bearing.value;
+       }
+       var latlng = new google.maps.LatLng(geolat, geolng);
+       placeMarker(latlng, bearing, false);
+       map.setCenter(latlng);
+    }
+  }
+
+  // rec-center map on curent location if scroll/pinch events screw us up
+
+  function whereAmI() {
+       var latlng = new google.maps.LatLng(geolat, geolng);
+       map.setCenter(latlng);
+  }
 
   // sets up map for a new bearings
   // adds bearing to bearings[] array but doesn't write to text file
+
+  function clearDatabase() {
+
+    // call CGI to rm bearings.txt
+
+    downloadUrl("/cgi-bin/cleardb.cgi",function(doc){});
+
+    // delete all existing bearings
+      
+    if (bearings) {
+      for (j in bearings) {
+        bearings[j].marker.setMap(null);
+        bearings[j].path.setMap(null);
+      }
+    }
+    bearings = [];
+  }
+
+  function debugClicked() {
+    if (document.control_panel.debug_enable.checked)
+      debug_enable = 1;
+    else
+      debug_enable = 0;
+  }
+
+
+  //
+  // Adding a new Bearing  ---------------------------------------------------------
+  //
 
   function addNewBearing(lat, lng, bearing, isNewBearing) {
 
@@ -183,17 +373,7 @@
                       path:       newPath};
     bearings.push(newBearing); 
 
-    google.maps.event.addListener(newMarker, "click", function() {
-
-      for (var j=0; j<bearings.length; j++) {
-        if (bearings[j].marker.position == newMarker.position) {
-          bearings[j].infowindow.open(map, newMarker);
-        }
-      }    
-
-    });
-
-    google.maps.event.addListener(newMarker, "rightclick", function() {
+    google.maps.event.addListener(newMarker, "dblclick", function() {
 
       // remove bearing from bearings array
 
@@ -218,6 +398,10 @@
 
   }
 
+
+  //
+  // Cookie Support  ----------------------------------------------------------------
+  //
 
   // save state (config info) to our cookie
 
@@ -267,35 +451,6 @@
   }
 
   
-  // Converts numeric degrees to radians
-
-  function toRad(deg) {
-    return deg * Math.PI / 180;
-  }
-
-  // Converts radians to numeric (signed) degrees
-
-  function toDeg(rad) {
-    return rad * 180 / Math.PI;
-  }
- 
-  // given a bearing and distance calculate end location
-
-  function bearingToLocation(location1, bearing, d) {
-    var lat1 = toRad(location1.lat());
-    var lon1 = toRad(location1.lng());
-    var bearing_rad = toRad(bearing);
-    var R = 6378137;
-
-    var lat2 = Math.asin( Math.sin(lat1)*Math.cos(d/R) + 
-              Math.cos(lat1)*Math.sin(d/R)*Math.cos(bearing_rad) );
-    var lon2 = lon1 + Math.atan2(Math.sin(bearing_rad)*Math.sin(d/R)*Math.cos(lat1), 
-                     Math.cos(d/R)-Math.sin(lat1)*Math.sin(lat2));
-
-    var location2 = new google.maps.LatLng(toDeg(lat2), toDeg(lon2));
-    return location2;    
-  }
-                            
   // called when we click to add a bearing on map
 
   function placeMarker(location, bearing, isNewBearing) {
@@ -313,6 +468,10 @@
   }
   
  
+  //
+  // Async html request foo  ----------------------------------------------------------------
+  //
+
   /**
   * Returns an XMLHttp instance to use for asynchronous
   * downloading. This method will never throw an exception, but will
@@ -367,39 +526,6 @@
     }
   };
 
-  function log(message) {
-    if (debug_enable == 1) {
-      message_list = document.getElementById("debugging_messages");
-      log_message = document.createTextNode(message);
-      log_list_item = document.createElement('li');
-      log_list_item.appendChild(log_message);
-      message_list.appendChild(log_list_item);
-    }
-  }
-
-  function clearDatabase() {
-
-    // call CGI to rm bearings.txt
-
-    downloadUrl("/cgi-bin/cleardb.cgi",function(doc){});
-
-    // delete all existing bearings
-      
-    if (bearings) {
-      for (j in bearings) {
-        bearings[j].marker.setMap(null);
-        bearings[j].path.setMap(null);
-      }
-    }
-    bearings = [];
-  }
-
-  function debugClicked() {
-    if (document.control_panel.debug_enable.checked)
-      debug_enable = 1;
-    else
-      debug_enable = 0;
-  }
 
 </script>
 
@@ -409,41 +535,45 @@
   <div id="main-map">
   </div>
 
-  <div id="side">
+  <div id="bottom">
 
-    <h3>Help</h3>
-      <table>
-        <tr><td width="5%"></td><td><a href="https://freetel.svn.sourceforge.net/svnroot/freetel/foxy/README.txt">Foxy README</a></td></tr>
-      </table>
-
-    <div id="control" style="width: 100%;">
-      <h3>Contol Panel</h3>
+    <div id="control">
       <form name="control_panel">
         <table>
 	<tr>
-          <td>Bearing</td>
-          <td><input type="text" name="bearing" value="0" size="15"></td>
+          <td><input type="button" value="Add Bearing" onclick="addBearing2()"></td>
+          <td><input type="text" name="bearing" value="0" size="10" ></td>
+          <td><input type="button" value="Where Am I" onclick="whereAmI()"></td>
         </tr>
         <tr>
 	  <td>Clear Database</td>
-          <td width="60"><input type="button" value="Clear" onclick="clearDatabase()"></td>
+          <td><input type="button" value="Clear" onclick="clearDatabase()"></td>
+        </tr>
+        <tr>
+          <td>Click to Add Bearing</td>
+          <td><input type="checkbox" name="click_bearing"></td>
         </tr>
         <tr>
           <td>Debug Messages</td>
           <td><input type="checkbox" name="debug_enable" onclick="debugClicked()"></td>
         </tr>
+        <tr>
+          <td>Help</td>
+          <td><a href="https://freetel.svn.sourceforge.net/svnroot/freetel/foxy/README.txt">Foxy README</a></td>
+        </tr>
         </table>
       </form>
+    </div>
 
 
-    <div id="tests" style="width: 100%;">
+    <div id="tests">
       <h3>Tests</h3>
       <ol>
 	<li><a href="/cgi-bin/getbearings.cgi">Test bearings.txt database</a><br>
       </ol>
     </div>
 
-    <div id="debugging_output" style="width: 100%;">
+    <div id="debugging_output">
       <h3>Debugging Output</h3>
       <ol id="debugging_messages">
       </ol>
