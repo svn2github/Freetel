@@ -70,11 +70,15 @@
       navigator.geolocation.getCurrentPosition(function(position) {
         lat = geolat = position.coords.latitude;
         lng = geolng = position.coords.longitude;
+        continueInit();
       }, function() {
         geolocationSupport = false;
+        continueInit();
       });
     }
+  }
 
+  function continueInit() {
     // if we have a compass use it to get bearing
 
     testForCompass();
@@ -427,6 +431,7 @@
   function getCookie() {
 			
     if (document.cookie.length > 0) {
+      log("cookie found");
       cookieStart = document.cookie.indexOf(cookiename + "=");
 
       // lets see if our cookie exists
@@ -448,10 +453,11 @@
         debug_enable = parseInt(bits[3]);
       }
     }
-    else {      
+    else {  
       lat = geolat;
       lng = geolng;
-      myzoom = 10;
+      myzoom = 12;
+      log("no cookie, lat = " + lat + "lng = " + lng);
     }
 
   }
@@ -536,7 +542,7 @@
 </script>
 
 </head>
-<body onload="initialize()" >
+<body onload="initialize()" onunload="setCookie()">
 
   <div id="main-map">
   </div>
