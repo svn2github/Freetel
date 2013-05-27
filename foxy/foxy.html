@@ -83,7 +83,7 @@
     // control panel values etc
  
     getCookie();
-
+      
     // init map
 
     var myLatlng = new google.maps.LatLng(lat, lng);
@@ -447,7 +447,13 @@
         myzoom = parseInt(bits[2]);
         debug_enable = parseInt(bits[3]);
       }
-    } 
+    }
+    else {      
+      lat = geolat;
+      lng = geolng;
+      myzoom = 8;
+    }
+
   }
 
   
