@@ -45,7 +45,7 @@
   var debug_enable  = 1;  
   var known_location = true;
   var bearing = 0.0;
-
+  
   var bearings  = []; // database of bearings we keep in memory
                       // mirrors bearings.txt
 
@@ -54,6 +54,7 @@
   var geolng = 0;
   var hasCompass;
   var currentHeading;
+  var posMarker;
 
   //
   // Initialisation ----------------------------------------------------------------
@@ -63,18 +64,20 @@
 
   function initialize() {
 
-    // if geolocation supported get our location 
+    // if geolocation supported get our initial location 
 
-    if(navigator.geolocation) {
+     if(navigator.geolocation) {
       geolocationSupport = true;
+
       navigator.geolocation.getCurrentPosition(function(position) {
+        log("getCurrentPosition");
         lat = geolat = position.coords.latitude;
         lng = geolng = position.coords.longitude;
+
         continueInit();
       }, function() {
-        geolocationSupport = false;
         continueInit();
-      });
+      }, {timeout:5});
     }
   }
 
@@ -113,6 +116,13 @@
     });
     
     document.control_panel.debug_enable.checked = debug_enable;
+
+    if (geolocationSupport) {
+      posMarker = new google.maps.Marker(
+        {position: myLatlng, 
+        map: map});
+      navigator.geolocation.watchPosition(showPosition);
+    }
 
     // read from bearings.txt database text file on server and init map
     
@@ -274,6 +284,16 @@
     }
   }
 
+  // this function calls itself every update_time seconds
+  // used for peridoic updates (polling) of network stats
+
+  function showPosition(position) {
+    lat = geolat = position.coords.latitude;
+    lng = geolng = position.coords.longitude;
+    log("showPosition lat=" + lat + " lng=" + lng);                                      
+
+    posMarker.setPosition( new google.maps.LatLng( lat, lng ) );
+  }
 
   //
   // GUI Call Backs  ----------------------------------------------------------------
@@ -341,7 +361,7 @@
       {position: location, 
        map: map});
 
-    // idea: might be useful fore "new" bearing indicator
+    // idea: might be useful for "new" bearing indicator
     // if (isNewBearing) {
     //  newMarker.setAnimation(google.maps.Animation.BOUNCE);
     //}
@@ -457,7 +477,7 @@
       lat = geolat;
       lng = geolng;
       myzoom = 12;
-      log("no cookie, lat = " + lat + "lng = " + lng);
+      log("no cookie, lat = " + lat + " lng = " + lng);
     }
 
   }
