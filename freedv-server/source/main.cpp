@@ -104,10 +104,14 @@ main(int argc, char * * argv)
       case 'x':
         char * const colon(index(optarg, ':'));
 
-        if ( colon == 0 || *colon == 0 ) {
+        if ( colon == 0 || colon[0] != ':' || colon[1] == 0 ) {
           cerr << argv[optind - 1] << ": Missing colon. Argument must be of the form \"<driver>:<parameter>\"" << endl;
           exit(1);
         }
+	
+        *colon = 0;
+        vector[0] = optarg;
+        vector[1] = &colon[1];
       }
 
       switch (command) {
