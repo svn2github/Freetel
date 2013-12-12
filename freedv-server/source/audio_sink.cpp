@@ -1,0 +1,63 @@
+#include "drivers.h"
+#include <iostream>
+
+// Audio output "sink", discards the audio, for testing.
+
+namespace FreeDV {
+  class AudioSink : public AudioOutput {
+  public:
+
+  		AudioSink(const char *);
+		~AudioSink();
+
+	// Get the current audio level, normalized to the range of 0.0 to 1.0.
+	float	level();
+
+	// Set the current audio level within the range of 0.0 to 1.0.
+	float	level(float value);
+
+        // Write audio into the "short" type.
+	size_t	write_short(short * array, size_t length);
+  };
+
+  AudioSink::AudioSink(const char *)
+  {
+  }
+
+  AudioSink::~AudioSink()
+  {
+  }
+
+  float
+  AudioSink::level()
+  {
+    return 0;
+  }
+
+  float
+  AudioSink::level(float value)
+  {
+    return value;
+  }
+
+  // Write audio into the "short" type.
+  size_t
+  AudioSink::write_short(short * array, size_t length)
+  {
+    return 0;
+  }
+
+  static AudioOutput *
+  creator(const char * parameter)
+  {
+    return new AudioSink(parameter);
+  }
+
+  static bool
+  initializer()
+  {
+    driver_manager.register_audio_output("sink", creator);
+    return true;
+  }
+  static const bool initialized = initializer();
+};

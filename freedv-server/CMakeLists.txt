@@ -82,7 +82,17 @@ set(CMAKE_CXX_FLAGS, ${Param.cxx-flags})
 set(CMAKE_C_FLAGS, ${Param.c-flags})
 
 set(Compile.sources
+  source/audio_input.cpp
+  source/audio_output.cpp
+  source/audio_sink.cpp
+  source/driver_manager.cpp
+  source/keying.cpp
+  source/keying_sink.cpp
   source/main.cpp
+  source/ptt_input.cpp
+  source/text_input.cpp
+  source/tone.cpp
+  source/user_interface.cpp
 )
 
 add_executable(freedv-server ${Compile.sources})
