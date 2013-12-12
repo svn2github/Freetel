@@ -10,7 +10,10 @@
 #include <codec2.h>
 #include <codec2_fdmdv.h>
 
+#include "drivers.h"
+
 using namespace std;
+using namespace FreeDV;
 
 static void drivers()
 {
