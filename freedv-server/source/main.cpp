@@ -39,11 +39,11 @@ static void help(const char * name)
     "\n\tLong flags with parameters are in the form of --<flag>=<parameter>\n"
     "\tShort flags with parameters are in the form of -<letter> <parameter>\n"
     "\n\tFor example, both of these flags have the same effect:\n"
-    "\t\t-m 1600\n"
+    "\t\t-n 1600\n"
     "\t\t--mode=1600\n"
     "\n\tMode may be one of:\n"
-    "\t\t--mode=1600\t\tNormal 1600 bit-per-second in 1.275 kHz RF bandwidth.\n"
-    "\t\t--mode=1600-wide\t1600 bit-per-second in 2.125 kHz, wider guard-bands for improved\n"
+    "\t\t1600\t\tNormal 1600 bit-per-second in 1.275 kHz RF bandwidth.\n"
+    "\t\t1600-wide\t1600 bit-per-second in 2.125 kHz, wider guard-bands for improved\n"
     "\t\t\t\t\tDX performance.\n"
     "\n\tFlags used to select devices must have a \"<driver>:<parameter>\" argument\n"
     "\twhere <driver> is the name of a device driver for the selected input/output device,\n"
@@ -64,6 +64,17 @@ struct parameters {
 	const char * * receiver;
 	const char * * text;
 	const char * * transmitter;
+};
+
+struct interfaces {
+	UserInterface *	interface;
+	Keying *	keying;
+	AudioOutput *	loudspeaker;
+	AudioInput *	microphone;
+	PTTInput *	ptt;
+	AudioInput *	receiver;
+	TextInput *	text;
+	AudioOutput *	transmitter;
 };
 
 static int run(struct parameters * p)
