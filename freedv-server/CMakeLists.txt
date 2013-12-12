@@ -85,11 +85,14 @@ set(Compile.sources
   source/audio_input.cpp
   source/audio_output.cpp
   source/audio_sink.cpp
+  source/blank_panel.cpp
   source/driver_manager.cpp
   source/keying.cpp
   source/keying_sink.cpp
   source/main.cpp
   source/ptt_input.cpp
+  source/ptt_constant.cpp
+  source/text_constant.cpp
   source/text_input.cpp
   source/tone.cpp
   source/user_interface.cpp

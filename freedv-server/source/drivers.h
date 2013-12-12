@@ -116,19 +116,19 @@ namespace FreeDV {
   public:
 	// If this interface prodvides its own microphone driver, return it. Otherwise return 0.
 	// This is guaranteed to return the same object every time, for the lifetime of this object.
-	virtual AudioInput *	microphone() = 0;
+	virtual AudioInput *	microphone();
 
 	// If this interface prodvides its own loudspeaker driver, return it. Otherwise return 0.
 	// This is guaranteed to return the same object every time, for the lifetime of this object.
-	virtual AudioOutput *	loudspeaker() = 0;
+	virtual AudioOutput *	loudspeaker();
 
 	// If this interface prodvides its own text input driver, return it. Otherwise return 0.
 	// This is guaranteed to return the same object every time, for the lifetime of this object.
-	virtual TextInput *	text_input() = 0;
+	virtual TextInput *	text_input();
 
 	// If this interface prodvides its own push-to-talk input driver, return it. Otherwise return 0.
 	// This is guaranteed to return the same object every time, for the lifetime of this object.
-	virtual PTTInput *	ptt_input() = 0;
+	virtual PTTInput *	ptt_input();
   };
 
   class DriverManager {
