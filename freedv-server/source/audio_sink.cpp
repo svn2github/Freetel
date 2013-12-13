@@ -1,5 +1,4 @@
 #include "drivers.h"
-#include <iostream>
 
 // Audio output "sink", discards the audio, for testing.
 
@@ -17,7 +16,7 @@ namespace FreeDV {
 	float	level(float value);
 
         // Write audio into the "short" type.
-	size_t	write_short(short * array, size_t length);
+	int	write_short(short * array, int length);
   };
 
   AudioSink::AudioSink(const char *)
@@ -41,12 +40,13 @@ namespace FreeDV {
   }
 
   // Write audio into the "short" type.
-  size_t
-  AudioSink::write_short(short * array, size_t length)
+  int
+  AudioSink::write_short(short * array, int length)
   {
     return 0;
   }
 
+#ifndef NO_INITIALIZERS
   static AudioOutput *
   creator(const char * parameter)
   {
@@ -60,4 +60,5 @@ namespace FreeDV {
     return true;
   }
   static const bool initialized = initializer();
+#endif
 }

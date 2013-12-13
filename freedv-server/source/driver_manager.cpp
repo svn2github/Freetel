@@ -1,3 +1,7 @@
+#ifndef NO_INITIALIZERS
+/*
+ * Don't use DriverManager and main.cpp in space-limited applications. STL stuff it uses is too large.
+ */
 #include <iostream>
 #include "drivers.h"
 
@@ -26,16 +30,24 @@ namespace FreeDV {
     for (auto i = audio_output_drivers.begin(); i != audio_output_drivers.end(); i++ )
       s << i->first << " ";
     s << endl;
+    s << "Codec: ";
+    for (auto i = codecs.begin(); i != codecs.end(); i++ )
+      s << i->first << " ";
+    s << endl;
     s << "Keying: ";
     for (auto i = keying_drivers.begin(); i != keying_drivers.end(); i++ )
       s << i->first << " ";
     s << endl;
-    s << "TextInput: ";
-    for (auto i = text_input_drivers.begin(); i != text_input_drivers.end(); i++ )
+    s << "Modem: ";
+    for (auto i = modems.begin(); i != modems.end(); i++ )
       s << i->first << " ";
     s << endl;
     s << "PTTInput: ";
     for (auto i = ptt_input_drivers.begin(); i != ptt_input_drivers.end(); i++ )
+      s << i->first << " ";
+    s << endl;
+    s << "TextInput: ";
+    for (auto i = text_input_drivers.begin(); i != text_input_drivers.end(); i++ )
       s << i->first << " ";
     s << endl;
     s << "UserInterface: ";
@@ -60,10 +72,32 @@ namespace FreeDV {
   {
   }
  
+  Codec *
+  DriverManager::codec(const char * driver, const char * parameter)
+  {
+    Codec * (* const creator)(const char * parameter) = codecs[driver];
+
+    if(creator)
+      return creator(parameter);
+    else
+      return 0;
+  }
+ 
   Keying *
   DriverManager::keying(const char * driver, const char * parameter)
   {
     Keying * (* const creator)(const char * parameter) = keying_drivers[driver];
+
+    if(creator)
+      return creator(parameter);
+    else
+      return 0;
+  }
+ 
+  Modem *
+  DriverManager::modem(const char * driver, const char * parameter)
+  {
+    Modem * (* const creator)(const char * parameter) = modems[driver];
 
     if(creator)
       return creator(parameter);
@@ -117,9 +151,21 @@ namespace FreeDV {
   }
 
   void
+  DriverManager::register_codec(const char * driver, Codec * (*creator)(const char *))
+  {
+    codecs[driver] = creator;
+  }
+
+  void
   DriverManager::register_keying(const char * driver, Keying * (*creator)(const char *))
   {
     keying_drivers[driver] = creator;
+  }
+
+  void
+  DriverManager::register_modem(const char * driver, Modem * (*creator)(const char *))
+  {
+    modems[driver] = creator;
   }
 
   void
@@ -151,3 +197,4 @@ namespace FreeDV {
 
   DriverManager & driver_manager = init_driver_manager();
 }
+#endif

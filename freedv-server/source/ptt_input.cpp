@@ -1,5 +1,4 @@
 #include "drivers.h"
-#include <iostream>
 
 namespace FreeDV {
   PTTInput::PTTInput()

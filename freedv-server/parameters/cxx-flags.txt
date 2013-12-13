@@ -1,1 +1,1 @@
--std=c++11 -g
+-std=c++11 -g -pedantic

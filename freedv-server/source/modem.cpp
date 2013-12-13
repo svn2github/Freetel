@@ -1,11 +1,11 @@
 #include "drivers.h"
 
 namespace FreeDV {
-  Keying::Keying()
+  Modem::Modem()
   {
   }
 
-  Keying::~Keying()
+  Modem::~Modem()
   {
   }
 }

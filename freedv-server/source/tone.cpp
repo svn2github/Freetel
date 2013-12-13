@@ -1,5 +1,4 @@
 #include "drivers.h"
-#include <iostream>
 
 // This is a test driver that provides tones.
 namespace FreeDV {
@@ -15,7 +14,7 @@ namespace FreeDV {
     virtual float	level(float value);
     
     // Read audio into the "short" type.
-    virtual size_t	read_short(short * array, size_t length);
+    virtual int	read_short(short * array, int length);
   };
 
   Tone::Tone(const char * parameter)
@@ -38,12 +37,13 @@ namespace FreeDV {
     return value;
   }
 
-  size_t
-  Tone::read_short(short * array, size_t length)
+  int
+  Tone::read_short(short * array, int length)
   {
     return 0;
   }
 
+#ifndef NO_INITIALIZERS
   static AudioInput *
   creator(const char * parameter)
   {
@@ -57,4 +57,5 @@ namespace FreeDV {
     return true;
   }
   static const bool initialized = initializer();
+#endif
 }

@@ -1,5 +1,4 @@
 #include "drivers.h"
-#include <iostream>
 
 // PTT driver that is constant transmit or constant receive. For testing.
 namespace FreeDV {
@@ -18,6 +17,7 @@ namespace FreeDV {
   {
   }
 
+#ifndef NO_INITIALIZERS
   static PTTInput *
   creator(const char * parameter)
   {
@@ -31,4 +31,5 @@ namespace FreeDV {
     return true;
   }
   static const bool initialized = initializer();
+#endif
 }

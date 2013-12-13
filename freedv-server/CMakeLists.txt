@@ -5,6 +5,13 @@
 # for the original Qt FreeDV.
 # Hacked to bits for command-line/server version by Bruce Perens K6BP.
 #
+# Note: There is an embedded and not-embedded version of FreeDV built here.
+# The embedded version avoids use of the C++ standard template library,
+# templates, and anything that would make it large. It uses tiny_main.
+# The non-embedded version uses big_main and driver_manager. It uses
+# STL templates, and iostreams, and probably has a tremendous user interface
+# driver so none of this matters.
+#
 # Please report questions, comments, problems, or patches to the freetel
 # mailing list: https://lists.sourceforge.net/lists/listinfo/freetel-codec2
 #
@@ -77,26 +84,32 @@ message(STATUS "${Param.build-type} ${Version.major}.${Version.minor}.${Version.
 #
 # Set cmake internal variables from parameters.
 #
-load_parameters(cxx-flags c-flags)
-set(CMAKE_CXX_FLAGS, ${Param.cxx-flags})
-set(CMAKE_C_FLAGS, ${Param.c-flags})
-
 set(Compile.sources
   source/audio_input.cpp
   source/audio_output.cpp
   source/audio_sink.cpp
+  source/big_main.cpp
   source/blank_panel.cpp
+  source/codec.cpp
+  source/codec_noop.cpp
   source/driver_manager.cpp
   source/keying.cpp
   source/keying_sink.cpp
-  source/main.cpp
+  source/modem.cpp
+  source/modem_noop.cpp
   source/ptt_input.cpp
   source/ptt_constant.cpp
+  source/run.cpp
   source/text_constant.cpp
   source/text_input.cpp
+  source/tiny_main.cpp
   source/tone.cpp
   source/user_interface.cpp
 )
+
+load_parameters(cxx-flags)
+set_source_files_properties(${Compile.sources} PROPERTIES COMPILE_FLAGS "${Param.cxx-flags}")
+
 
 add_executable(freedv-server ${Compile.sources})
 

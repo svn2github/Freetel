@@ -1,11 +1,11 @@
 #include "drivers.h"
 
 namespace FreeDV {
-  Keying::Keying()
+  Codec::Codec()
   {
   }
 
-  Keying::~Keying()
+  Codec::~Codec()
   {
   }
 }

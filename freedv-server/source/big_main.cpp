@@ -1,4 +1,10 @@
+#ifndef NO_INITIALIZERS
 /*
+ * This is the main program for applications that are not space-limited.
+ * Any application that is space limited should have its own main that wires drivers to the
+ * Interfaces class without using DriverManager. Thus, you can get rid of all of the STL
+ * template use, etc.
+ *
  * For the sake of correctness and optimization, I have written whatever I can to be without
  * side-effects, a style inherited from functional programming. Thus, the excessive use of
  * "const". - Bruce
@@ -29,13 +35,14 @@ static void help(const char * name)
   static const char message[] = 
     " [options]\n"
     "\n\tWhere options are these flags:\n\n"
+    "\t\t--codec or -c\t\tSelect the voice codec.\n"
     "\t\t--drivers or -d\t\tPrint a list of the available device drivers.\n"
     "\t\t--help or -h\t\tPrint this message.\n"
     "\t\t--interface or -i\tSelect the user-interface (graphical or otherwise).\n"
     "\t\t--keying or -k\t\tSelect the transmitter keying interface.\n"
     "\t\t--loudspeaker or -l\tSelect the operator audio output interface.\n"
     "\t\t--microphone or -m\tSelect the operator audio input interface.\n"
-    "\t\t--mode or -n\t\tSelect the codec mode and modulation.\n"
+    "\t\t--modem or -M\t\tSelect RF modem.\n"
     "\t\t--ptt or -p\t\tSelect the push-to-talk input interface.\n"
     "\t\t--receiver or -r\tSelect the interface for audio input from the receiver.\n"
     "\t\t--text or -x\t\tSelect the interface for text to be transmitted.\n"
@@ -43,15 +50,10 @@ static void help(const char * name)
     "\n\tLong flags with parameters are in the form of --<flag>=<parameter>\n"
     "\tShort flags with parameters are in the form of -<letter> <parameter>\n"
     "\n\tFor example, both of these flags have the same effect:\n"
-    "\t\t-n 1600\n"
-    "\t\t--mode=1600\n"
-    "\n\tMode may be one of:\n"
-    "\t\t1600\t\tNormal 1600 bit-per-second in 1.275 kHz RF bandwidth.\n"
-    "\t\t1600-wide\t1600 bit-per-second in 2.125 kHz, wider guard-bands for improved\n"
-    "\t\t\t\t\tDX performance.\n"
-    "\n\tFlags used to select devices must have a \"<driver>:<parameter>\" argument\n"
-    "\twhere <driver> is the name of a device driver for the selected input/output device,\n"
-    "\tand <parameter> is the name or address of the selected device.\n"
+    "\t\t-M codec2:1600\n"
+    "\t\t--modem=codec2:1600\n"
+    "\n\tAll of the flags except for -h or --help must have a \"<driver>:<parameter>\" argument\n"
+    "\twhere <driver> is the name of a device driver and <parameter> is specific to the driver.\n"
     "\n\tExample:\n"
     "\t\t --loudspeaker=alsa:default\n"
   ;
@@ -59,13 +61,14 @@ static void help(const char * name)
 }
 
 static const struct option options[] = {
+  { "codec",		required_argument, 0, 'c' },
   { "drivers",		no_argument,	   0, 'd' },
   { "help",		no_argument,	   0, 'h' },
   { "interface",	required_argument, 0, 'i' },
   { "keying",		required_argument, 0, 'k' },
   { "loudspeaker",	required_argument, 0, 'l' },
   { "microphone",	required_argument, 0, 'm' },
-  { "mode",		required_argument, 0, 'n' },
+  { "modem",		required_argument, 0, 'M' },
   { "ptt",		required_argument, 0, 'p' },
   { "receiver",		required_argument, 0, 'r' },
   { "text",		required_argument, 0, 'x' },
@@ -82,7 +85,7 @@ main(int argc, char * * argv)
   const char *	parameter;
 
   if ( argc > 1 ) {
-    while ((command = getopt_long(argc, argv, "dhi:k:l:m:n:p:r:t:x:", options, NULL)) != -1) {
+    while ((command = getopt_long(argc, argv, "c:dhi:k:l:m:M:n:p:r:t:x:", options, NULL)) != -1) {
       switch (command) {
       case 'i':
       case 'k':
@@ -105,6 +108,9 @@ main(int argc, char * * argv)
       }
 
       switch (command) {
+      case 'c':
+        i.codec = driver_manager.codec(driver, parameter);
+        break;
       case 'd':
         drivers();
         exit(0);
@@ -113,9 +119,6 @@ main(int argc, char * * argv)
       case 'h':
         help(argv[0]);
         exit(1);
-        break;
-      case 'i':
-        i.user_interface = driver_manager.user_interface(driver, parameter);
         break;
       case 'k':
         i.keying = driver_manager.keying(driver, parameter);
@@ -126,8 +129,8 @@ main(int argc, char * * argv)
       case 'm':
         i.microphone = driver_manager.audio_input(driver, parameter);
         break;
-      case 'n':
-        i.mode = optarg;
+      case 'M':
+        i.modem = driver_manager.modem(driver, parameter);
         break;
       case 'p':
         i.ptt = driver_manager.ptt_input(driver, parameter);
@@ -152,3 +155,4 @@ main(int argc, char * * argv)
   }
   return run(&i);
 }
+#endif

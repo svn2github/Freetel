@@ -1,5 +1,4 @@
 #include "drivers.h"
-#include <iostream>
 
 // This is a test driver that provides tones.
 namespace FreeDV {
@@ -18,6 +17,7 @@ namespace FreeDV {
   {
   }
 
+#ifndef NO_INITIALIZERS
   static UserInterface *
   creator(const char * parameter)
   {
@@ -31,4 +31,5 @@ namespace FreeDV {
     return true;
   }
   static const bool initialized = initializer();
+#endif
 }

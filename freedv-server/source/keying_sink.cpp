@@ -1,5 +1,4 @@
 #include "drivers.h"
-#include <iostream>
 
 // Keying output "sink", doesn't key anything. For testing or use with VOX.
 namespace FreeDV {
@@ -26,7 +25,7 @@ namespace FreeDV {
   {
   }
 
-
+#ifndef NO_INITIALIZERS
   static Keying *
   creator(const char * parameter)
   {
@@ -40,4 +39,5 @@ namespace FreeDV {
     return true;
   }
   static const bool initialized = initializer();
+#endif
 }

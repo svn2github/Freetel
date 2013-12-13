@@ -2,10 +2,6 @@
  * FreeDV driver interface definitions.
  */
 
-#include <stdlib.h>
-#include <iostream>
-#include <map>
-#include <string>
 
 
 namespace FreeDV {
@@ -30,7 +26,7 @@ namespace FreeDV {
 	virtual float	level(float value) = 0;
 
         // Read audio into the "short" type.
-	virtual size_t	read_short(short * array, size_t length) = 0;
+	virtual int	read_short(short * array, int length) = 0;
   };
 
   class AudioOutput {
@@ -54,7 +50,17 @@ namespace FreeDV {
 	virtual float	level(float value) = 0;
 
         // Write audio into the "short" type.
-	virtual size_t	write_short(short * array, size_t length) = 0;
+	virtual int	write_short(short * array, int length) = 0;
+  };
+
+  class Codec {
+  protected:
+	// Create a codec instance.
+
+  			Codec();
+	virtual		~Codec() = 0;
+
+  public:
   };
 
   class Keying {
@@ -67,6 +73,16 @@ namespace FreeDV {
   public:
 	// If true, key the transmitter. If false, unkey.
 	virtual void	key(bool value) = 0;
+  };
+
+  class Modem {
+  protected:
+	// Create a modem instance.
+
+  			Modem();
+	virtual		~Modem() = 0;
+
+  public:
   };
 
   class PTTInput {
@@ -137,27 +153,36 @@ namespace FreeDV {
 
   class Interfaces {
     public:
-   			Interfaces() : user_interface(0), keying(0), loudspeaker(0), microphone(0),
-					ptt(0), receiver(0), text(0), transmitter(0), mode(0)
+   			Interfaces() : codec(0), keying(0), loudspeaker(0), microphone(0), modem(0), ptt(0),
+                         receiver(0), text(0), transmitter(0), user_interface(0)
 			{
 			}
 
-    UserInterface *	user_interface;
+    Codec *		codec;
     Keying *		keying;
     AudioOutput *	loudspeaker;
     AudioInput *	microphone;
+    Modem *		modem;
     PTTInput *		ptt;
-    AudioInput *	receiver;
     TextInput *		text;
     AudioOutput *	transmitter;
-    const char *	mode;
+    AudioInput *	receiver;
+    UserInterface *	user_interface;
   };
+}
 
+#ifndef NO_INITIALIZERS
+#include <iostream>
+#include <map>
+#include <string>
+namespace FreeDV {
   class DriverManager {
   private:
 			std::map<std::string, AudioInput *(*)(const char *)> audio_input_drivers;
 			std::map<std::string, AudioOutput *(*)(const char *)> audio_output_drivers;
+			std::map<std::string, Codec *(*)(const char *)> codecs;
 			std::map<std::string, Keying *(*)(const char *)> keying_drivers;
+			std::map<std::string, Modem *(*)(const char *)> modems;
 			std::map<std::string, PTTInput *(*)(const char *)> ptt_input_drivers;
 			std::map<std::string, TextInput *(*)(const char *)> text_input_drivers;
 			std::map<std::string, UserInterface *(*)(const char *)> user_interface_drivers;
@@ -169,14 +194,18 @@ namespace FreeDV {
 
 	AudioInput *	audio_input(const char * driver, const char * parameter);
 	AudioOutput *	audio_output(const char * driver, const char * parameter);
+	Codec *		codec(const char * driver, const char * parameter);
 	Keying *	keying(const char * driver, const char * parameter);
+	Modem *		modem(const char * driver, const char * parameter);
 	PTTInput *	ptt_input(const char * driver, const char * parameter);
 	TextInput *	text_input(const char * driver, const char * parameter);
 	UserInterface *	user_interface(const char * driver, const char * parameter);
 
 	void		register_audio_input(const char * driver, AudioInput * (*creator)(const char *));
 	void		register_audio_output(const char * driver, AudioOutput * (*creator)(const char *));
+	void		register_codec(const char * driver, Codec * (*creator)(const char *));
 	void		register_keying(const char * driver, Keying * (*creator)(const char *));
+	void		register_modem(const char * driver, Modem * (*creator)(const char *));
 	void		register_ptt_input(const char * driver, PTTInput * (*creator)(const char *));
 	void		register_text_input(const char * driver, TextInput * (*creator)(const char *));
 	void		register_user_interface(const char * driver, UserInterface * (*creator)(const char *));
@@ -185,4 +214,5 @@ namespace FreeDV {
   extern DriverManager & driver_manager;
   // This version has to be called from static initializers.
   extern DriverManager & init_driver_manager();
+#endif
 }
