@@ -3,6 +3,10 @@
  */
 
 #include <stdlib.h>
+#include <iostream>
+#include <map>
+#include <string>
+
 
 namespace FreeDV {
   class AudioInput {
@@ -131,10 +135,37 @@ namespace FreeDV {
 	virtual PTTInput *	ptt_input();
   };
 
+  class Interfaces {
+    public:
+   			Interfaces() : user_interface(0), keying(0), loudspeaker(0), microphone(0),
+					ptt(0), receiver(0), text(0), transmitter(0), mode(0)
+			{
+			}
+
+    UserInterface *	user_interface;
+    Keying *		keying;
+    AudioOutput *	loudspeaker;
+    AudioInput *	microphone;
+    PTTInput *		ptt;
+    AudioInput *	receiver;
+    TextInput *		text;
+    AudioOutput *	transmitter;
+    const char *	mode;
+  };
+
   class DriverManager {
+  private:
+			std::map<std::string, AudioInput *(*)(const char *)> audio_input_drivers;
+			std::map<std::string, AudioOutput *(*)(const char *)> audio_output_drivers;
+			std::map<std::string, Keying *(*)(const char *)> keying_drivers;
+			std::map<std::string, PTTInput *(*)(const char *)> ptt_input_drivers;
+			std::map<std::string, TextInput *(*)(const char *)> text_input_drivers;
+			std::map<std::string, UserInterface *(*)(const char *)> user_interface_drivers;
   public:
 			DriverManager();
 			~DriverManager();
+
+        void		print(std::ostream &);
 
 	AudioInput *	audio_input(const char * driver, const char * parameter);
 	AudioOutput *	audio_output(const char * driver, const char * parameter);
@@ -151,5 +182,7 @@ namespace FreeDV {
 	void		register_user_interface(const char * driver, UserInterface * (*creator)(const char *));
   };
 
-  extern DriverManager driver_manager;
-};
+  extern DriverManager & driver_manager;
+  // This version has to be called from static initializers.
+  extern DriverManager & init_driver_manager();
+}

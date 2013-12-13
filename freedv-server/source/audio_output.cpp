@@ -15,4 +15,4 @@ namespace FreeDV {
   {
     return false;
   }
-};
+}

@@ -36,8 +36,8 @@ namespace FreeDV {
   static bool
   initializer()
   {
-    driver_manager.register_keying("sink", creator);
+    init_driver_manager().register_keying("sink", creator);
     return true;
   }
   static const bool initialized = initializer();
-};
+}

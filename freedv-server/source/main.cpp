@@ -13,11 +13,15 @@
 #include "drivers.h"
 
 using namespace std;
+namespace FreeDV {
+  extern int run(struct Interfaces *);
+}
 using namespace FreeDV;
+
 
 static void drivers()
 {
-  cout << "To be implemented." << endl;
+  driver_manager.print(cout);
 }
 
 static void help(const char * name)
@@ -54,58 +58,30 @@ static void help(const char * name)
   cerr << "\nUsage: " << name << message << endl;
 }
 
-struct parameters {
-	const char * * interface;
-	const char * * keying;
-	const char * * loudspeaker;
-	const char * * microphone;
-	const char *   mode;
-	const char * * ptt;
-	const char * * receiver;
-	const char * * text;
-	const char * * transmitter;
+static const struct option options[] = {
+  { "drivers",		no_argument,	   0, 'd' },
+  { "help",		no_argument,	   0, 'h' },
+  { "interface",	required_argument, 0, 'i' },
+  { "keying",		required_argument, 0, 'k' },
+  { "loudspeaker",	required_argument, 0, 'l' },
+  { "microphone",	required_argument, 0, 'm' },
+  { "mode",		required_argument, 0, 'n' },
+  { "ptt",		required_argument, 0, 'p' },
+  { "receiver",		required_argument, 0, 'r' },
+  { "text",		required_argument, 0, 'x' },
+  { "transmitter",	required_argument, 0, 't' },
+  { 0, 0, 0, 0 }
 };
-
-struct interfaces {
-	UserInterface *	interface;
-	Keying *	keying;
-	AudioOutput *	loudspeaker;
-	AudioInput *	microphone;
-	PTTInput *	ptt;
-	AudioInput *	receiver;
-	TextInput *	text;
-	AudioOutput *	transmitter;
-};
-
-static int run(struct parameters * p)
-{
-  return 0;
-}
 
 int
 main(int argc, char * * argv)
 {
-  int command;
-  struct parameters p = { 0,0,0,0,0,0,0,0,0 };
-
-  static const struct option options[] = {
-   { "drivers",		no_argument,	   0, 'd' },
-   { "help",		no_argument,	   0, 'h' },
-   { "interface",	required_argument, 0, 'i' },
-   { "keying",		required_argument, 0, 'k' },
-   { "loudspeaker",	required_argument, 0, 'l' },
-   { "microphone",	required_argument, 0, 'm' },
-   { "mode",		required_argument, 0, 'n' },
-   { "ptt",		required_argument, 0, 'p' },
-   { "receiver",	required_argument, 0, 'r' },
-   { "text",		required_argument, 0, 'x' },
-   { "transmitter",	required_argument, 0, 't' },
-   { 0, 0, 0, 0 }
-  };
+  int		command;
+  Interfaces	i;
+  const char *	driver;
+  const char *	parameter;
 
   if ( argc > 1 ) {
-    const char * * vector(new const char *[2]);
-
     while ((command = getopt_long(argc, argv, "dhi:k:l:m:n:p:r:t:x:", options, NULL)) != -1) {
       switch (command) {
       case 'i':
@@ -124,8 +100,8 @@ main(int argc, char * * argv)
         }
 	
         *colon = 0;
-        vector[0] = optarg;
-        vector[1] = &colon[1];
+        driver = optarg;
+        parameter = &colon[1];
       }
 
       switch (command) {
@@ -139,31 +115,31 @@ main(int argc, char * * argv)
         exit(1);
         break;
       case 'i':
-        p.interface = vector;
+        i.user_interface = driver_manager.user_interface(driver, parameter);
         break;
       case 'k':
-        p.keying = vector;
+        i.keying = driver_manager.keying(driver, parameter);
         break;
       case 'l':
-        p.loudspeaker = vector;
+        i.loudspeaker = driver_manager.audio_output(driver, parameter);
         break;
       case 'm':
-        p.microphone = vector;
+        i.microphone = driver_manager.audio_input(driver, parameter);
         break;
       case 'n':
-        p.mode = optarg;
+        i.mode = optarg;
         break;
       case 'p':
-        p.ptt = vector;
+        i.ptt = driver_manager.ptt_input(driver, parameter);
         break;
       case 'r':
-        p.receiver = vector;
+        i.receiver = driver_manager.audio_input(driver, parameter);
         break;
       case 't':
-        p.transmitter = vector;
+        i.transmitter = driver_manager.audio_output(driver, parameter);
         break;
       case 'x':
-        p.text = vector;
+        i.text = driver_manager.text_input(driver, parameter);
         break;
       case 0:
         break;
@@ -174,6 +150,5 @@ main(int argc, char * * argv)
     help(argv[0]);
     exit(1);
   }
-  run(&p);
-  return 0;
+  return run(&i);
 }

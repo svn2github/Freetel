@@ -33,4 +33,4 @@ namespace FreeDV {
   {
     return 0;
   }
-};
+}

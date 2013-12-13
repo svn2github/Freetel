@@ -53,8 +53,8 @@ namespace FreeDV {
   static bool
   initializer()
   {
-    driver_manager.register_audio_input("tone", creator);
+    init_driver_manager().register_audio_input("tone", creator);
     return true;
   }
   static const bool initialized = initializer();
-};
+}

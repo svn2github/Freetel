@@ -27,8 +27,8 @@ namespace FreeDV {
   static bool
   initializer()
   {
-    driver_manager.register_ptt_input("constant", creator);
+    init_driver_manager().register_ptt_input("constant", creator);
     return true;
   }
   static const bool initialized = initializer();
-};
+}

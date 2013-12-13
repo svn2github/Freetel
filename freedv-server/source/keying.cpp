@@ -9,4 +9,4 @@ namespace FreeDV {
   Keying::~Keying()
   {
   }
-};
+}

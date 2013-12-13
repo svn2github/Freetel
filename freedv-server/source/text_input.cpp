@@ -20,4 +20,4 @@ namespace FreeDV {
   TextInput::set(const char *)
   {
   }
-};
+}
