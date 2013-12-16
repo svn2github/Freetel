@@ -13,9 +13,11 @@ cmake_minimum_required(VERSION 2.8)
 # files manually.
 set(CMAKE_DISABLE_SOURCE_CHANGES ON)
 set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
-if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
-   message(FATAL_ERROR "In-source builds are not allowed.")
-endif("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
+if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
+  message(FATAL_ERROR "In-source builds in ${CMAKE_BINARY_DIR} are not "   
+   "allowed, please remove ./CMakeCache.txt and ./CMakeFiles/, create a "
+   "separate build directory and run cmake from there.")
+endif("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
 
 project(FreeDV)
 
@@ -68,14 +70,6 @@ set(USE_STATIC_CODEC2 FALSE CACHE BOOL
     "Download and build static codec2 instead of the system library.")
 set(BOOTSTRAP_WXWIDGETS FALSE CACHE BOOL
     "Download and build static wxWidgets instead of the system library.")
-# If we're bootstrapping wxWidgets then this must be set true.
-if(BOOTSTRAP_WXWIDGETS)
-    set(USE_STATIC_WXWIDGETS TRUE CACHE BOOL
-    "Perform bootstrap build of wxWidgets, see README.cmake for more details.")
-else(BOOTSTRAP_WXWIDGETS)
-    set(USE_STATIC_WXWIDGETS FALSE CACHE BOOL
-    "Perform bootstrap build of wxWidgets, see README.cmake for more details.")
-endif(BOOTSTRAP_WXWIDGETS)
 
 if(USE_STATIC_DEPS)
     set(USE_STATIC_PORTAUDIO TRUE FORCE)
@@ -90,19 +84,20 @@ endif(USE_STATIC_DEPS)
 # Pull in external wxWidgets target if performing static build.
 #
 if(BOOTSTRAP_WXWIDGETS)
+    message(STATUS "Adding wxWidgets build target...")
     include(cmake/BuildWxWidgets.cmake)
 endif(BOOTSTRAP_WXWIDGETS)
 
 #
 # Perform bootstrap build of wxWidgets
 #
-if(BOOTSTRAP_WXWIDGETS AND NOT TARGET wxWidgets)
+if(BOOTSTRAP_WXWIDGETS AND NOT EXISTS ${WXCONFIG})
     message(STATUS "Will perform bootstrap build of wxWidgets.
    After make step completes, re-run cmake and make again to perform FreeDV build.")
 #
 # Continue normal build if not bootstrapping wxWidgets or already built it.
 #
-else(BOOTSTRAP_WXWIDGETS AND NOT TARGET wxWidgets)
+else(BOOTSTRAP_WXWIDGETS AND NOT EXISTS ${WXCONFIG})
 
 # Setup empty list to append to.
 set(FREEDV_LINK_LIBS "")
@@ -336,14 +331,15 @@ endif(NOT USE_STATIC_SOX)
 #
 # Find wxWidgets
 #
-set(WXCONFIG "" CACHE FILEPATH "Location of wx-config binary.")
-set(WXRC "" CACHE FILEPATH "Location of wxrc binary.")
-if(USE_STATIC_WXWIDGETS)
-    set(WXCONFIG "${CMAKE_BINARY_DIR}/external/dist/bin/wx-config")
-    set(WXRC "${CMAKE_BINARY_DIR}/external/dist/bin/wxrc")
-    #set(wxWidgets_CONFIG_OPTIONS --linkdeps)
-    list(APPEND FREEDV_STATIC_DEPS wxWidgets)
-endif(USE_STATIC_WXWIDGETS)
+if(NOT BOOTSTRAP_WXWIDGETS)
+    set(WXCONFIG "" CACHE FILEPATH "Location of wx-config binary.")
+    set(WXRC "" CACHE FILEPATH "Location of wxrc binary.")
+endif(NOT BOOTSTRAP_WXWIDGETS)
+#if(BOOTSTRAP_WXWIDGETS)
+#    set(WXCONFIG "${CMAKE_BINARY_DIR}/external/dist/bin/wx-config")
+#    set(WXRC "${CMAKE_BINARY_DIR}/external/dist/bin/wxrc")
+#    list(APPEND FREEDV_STATIC_DEPS wxWidgets)
+#endif(BOOTSTRAP_WXWIDGETS)
 message(STATUS "Looking for wxWidgets...")
 if(WXCONFIG)
     message(STATUS "wx-config: ${WXCONFIG}")
@@ -353,7 +349,7 @@ if(WXRC)
     message(STATUS "wxrc: ${WXRC}")
     set(wxWidgets_wxrc_EXECUTABLE ${WXRC})
 endif(WXRC)
-set(WX_VERSION_MIN 2.9.0)
+set(WX_VERSION_MIN 3.0.0)
 find_package(wxWidgets REQUIRED core base aui html net adv)
 execute_process(COMMAND sh "${wxWidgets_CONFIG_EXECUTABLE}" --version
     OUTPUT_VARIABLE WX_VERSION)
@@ -474,4 +470,4 @@ if(WIN32)
     include(CPack)
 endif(WIN32)
 
-endif(BOOTSTRAP_WXWIDGETS AND NOT TARGET wxWidgets)
+endif(BOOTSTRAP_WXWIDGETS AND NOT EXISTS ${WXCONFIG})
