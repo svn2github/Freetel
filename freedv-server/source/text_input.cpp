@@ -1,7 +1,7 @@
 #include "drivers.h"
 
 namespace FreeDV {
-  TextInput::TextInput()
+  TextInput::TextInput(const char * parameters)
   {
   }
 
@@ -9,8 +9,8 @@ namespace FreeDV {
   {
   }
 
-  bool
-  TextInput::captive()
+  bool const
+  TextInput::captive() const
   {
     return false;
   }

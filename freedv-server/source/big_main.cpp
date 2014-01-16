@@ -1,13 +1,13 @@
 #ifndef NO_INITIALIZERS
 /*
  * This is the main program for applications that are not space-limited.
- * Any application that is space limited should have its own main that wires drivers to the
- * Interfaces class without using DriverManager. Thus, you can get rid of all of the STL
- * template use, etc.
+ * Any application that is space limited should have its own main that
+ * wires drivers to the Interfaces class without using DriverManager.
+ * Thus, you can get rid of all of the STL template use, etc.
  *
- * For the sake of correctness and optimization, I have written whatever I can to be without
- * side-effects, a style inherited from functional programming. Thus, the excessive use of
- * "const". - Bruce
+ * For the sake of correctness and optimization, I have written whatever I
+ * can to be without side-effects, a style inherited from functional programming.
+ * Thus, the excessive use of "const". - Bruce
  */
 #include <stdlib.h>
 #include <string.h>
@@ -34,28 +34,35 @@ static void help(const char * name)
 {
   static const char message[] = 
     " [options]\n"
-    "\n\tWhere options are these flags:\n\n"
-    "\t\t--codec or -c\t\tSelect the voice codec.\n"
-    "\t\t--drivers or -d\t\tPrint a list of the available device drivers.\n"
-    "\t\t--help or -h\t\tPrint this message.\n"
-    "\t\t--interface or -i\tSelect the user-interface (graphical or otherwise).\n"
-    "\t\t--keying or -k\t\tSelect the transmitter keying interface.\n"
-    "\t\t--loudspeaker or -l\tSelect the operator audio output interface.\n"
-    "\t\t--microphone or -m\tSelect the operator audio input interface.\n"
-    "\t\t--modem or -M\t\tSelect RF modem.\n"
-    "\t\t--ptt or -p\t\tSelect the push-to-talk input interface.\n"
-    "\t\t--receiver or -r\tSelect the interface for audio input from the receiver.\n"
-    "\t\t--text or -x\t\tSelect the interface for text to be transmitted.\n"
-    "\t\t--transmitter or -t\tSelect the interface for audio output to the transmitter.\n"
-    "\n\tLong flags with parameters are in the form of --<flag>=<parameter>\n"
-    "\tShort flags with parameters are in the form of -<letter> <parameter>\n"
-    "\n\tFor example, both of these flags have the same effect:\n"
-    "\t\t-M codec2:1600\n"
-    "\t\t--modem=codec2:1600\n"
-    "\n\tAll of the flags except for -h or --help must have a \"<driver>:<parameter>\" argument\n"
-    "\twhere <driver> is the name of a device driver and <parameter> is specific to the driver.\n"
-    "\n\tExample:\n"
-    "\t\t --loudspeaker=alsa:default\n"
+    "\nWhere options are these flags:\n\n"
+    "--codec or -c\t\tSelect the voice codec.\n"
+    "--drivers or -d\t\tPrint a list of the available device drivers.\n"
+    "--help or -h\t\tPrint this message.\n"
+    "--interface or -i\tSelect the user-interface (graphical or otherwise).\n"
+    "--keying or -k\t\tSelect the transmitter keying interface.\n"
+    "--loudspeaker or -l\tSelect the operator audio output interface.\n"
+    "--microphone or -m\tSelect the operator audio input interface.\n"
+    "--modem or -M\t\tSelect RF modem.\n"
+    "--ptt-digital or -p\tSelect the push-to-talk input interface for "
+    "digital voice.\n"
+    "--ptt-ssb or -P\t\tSelect the push-to-talk input interface for "
+    "SSB.\n"
+    "--receiver or -r\tSelect the interface for audio input from the "
+    "receiver.\n"
+    "--text or -x\t\tSelect the interface for text to be transmitted.\n"
+    "--transmitter or -t\tSelect the interface for audio output to the "
+    "transmitter.\n"
+    "\nLong flags with parameters are in the form of --<flag>=<parameter>\n"
+    "Short flags with parameters are in the form of -<letter> <parameter>\n"
+    "\nFor example, both of these flags have the same effect:\n"
+    "\t-M codec2:1600\n"
+    "\t--modem=codec2:1600\n"
+    "\nAll of the flags except for -h or --help must have a "
+    "\"<driver>:<parameter>\"\n"
+    "argument, where <driver> is the name of a device driver and <parameter> is\n"
+    "specific to the driver.\n"
+    "\nExample:\n"
+    "\t --loudspeaker=alsa:default\n"
   ;
   cerr << "\nUsage: " << name << message << endl;
 }
@@ -69,7 +76,8 @@ static const struct option options[] = {
   { "loudspeaker",	required_argument, 0, 'l' },
   { "microphone",	required_argument, 0, 'm' },
   { "modem",		required_argument, 0, 'M' },
-  { "ptt",		required_argument, 0, 'p' },
+  { "ptt-digital",	required_argument, 0, 'p' },
+  { "ptt-ssb",		required_argument, 0, 'P' },
   { "receiver",		required_argument, 0, 'r' },
   { "text",		required_argument, 0, 'x' },
   { "transmitter",	required_argument, 0, 't' },
@@ -92,6 +100,7 @@ main(int argc, char * * argv)
       case 'l':
       case 'm':
       case 'p':
+      case 'P':
       case 'r':
       case 't':
       case 'x':
@@ -121,7 +130,7 @@ main(int argc, char * * argv)
         exit(1);
         break;
       case 'k':
-        i.keying = driver_manager.keying(driver, parameter);
+        i.keying_output = driver_manager.keying_output(driver, parameter);
         break;
       case 'l':
         i.loudspeaker = driver_manager.audio_output(driver, parameter);
@@ -133,7 +142,10 @@ main(int argc, char * * argv)
         i.modem = driver_manager.modem(driver, parameter);
         break;
       case 'p':
-        i.ptt = driver_manager.ptt_input(driver, parameter);
+        i.ptt_input_digital = driver_manager.ptt_input(driver, parameter);
+        break;
+      case 'P':
+        i.ptt_input_ssb = driver_manager.ptt_input(driver, parameter);
         break;
       case 'r':
         i.receiver = driver_manager.audio_input(driver, parameter);

@@ -1,15 +1,15 @@
 #include "drivers.h"
 
-// This is a test driver that provides tones.
 namespace FreeDV {
   class BlankPanel : public UserInterface {
   public:
-    			BlankPanel(const char * parameter);
+    			BlankPanel(const char * parameter, Interfaces * interfaces);
     virtual		~BlankPanel();
     
   };
 
-  BlankPanel::BlankPanel(const char * parameter)
+  BlankPanel::BlankPanel(const char * parameter, Interfaces * interfaces)
+  : UserInterface(parameter, interfaces)
   {
   }
 
@@ -19,9 +19,9 @@ namespace FreeDV {
 
 #ifndef NO_INITIALIZERS
   static UserInterface *
-  creator(const char * parameter)
+  creator(const char * parameter, Interfaces * interfaces)
   {
-    return new BlankPanel(parameter);
+    return new BlankPanel(parameter, interfaces);
   }
 
   static bool

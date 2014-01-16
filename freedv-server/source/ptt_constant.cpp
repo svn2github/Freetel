@@ -4,12 +4,13 @@
 namespace FreeDV {
   class PTTConstant : public PTTInput {
   public:
-    			PTTConstant(const char * parameter);
+    			PTTConstant(const char * parameters);
     virtual		~PTTConstant();
     
   };
 
-  PTTConstant::PTTConstant(const char * parameter)
+  PTTConstant::PTTConstant(const char * parameters)
+  : PTTInput(parameters)
   {
   }
 

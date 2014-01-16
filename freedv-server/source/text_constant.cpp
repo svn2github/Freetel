@@ -9,7 +9,8 @@ namespace FreeDV {
     
   };
 
-  TextConstant::TextConstant(const char * parameter)
+  TextConstant::TextConstant(const char * parameters)
+  : TextInput(parameters)
   {
   }
 

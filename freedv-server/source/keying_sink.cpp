@@ -12,7 +12,8 @@ namespace FreeDV {
 
   };
 
-  KeyingSink::KeyingSink(const char *)
+  KeyingSink::KeyingSink(const char * parameters)
+  : Keying(parameters)
   {
   }
 
@@ -35,7 +36,7 @@ namespace FreeDV {
   static bool
   initializer()
   {
-    init_driver_manager().register_keying("sink", creator);
+    init_driver_manager().register_keying_output("sink", creator);
     return true;
   }
   static const bool initialized = initializer();

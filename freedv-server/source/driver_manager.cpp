@@ -1,6 +1,7 @@
 #ifndef NO_INITIALIZERS
 /*
- * Don't use DriverManager and main.cpp in space-limited applications. STL stuff it uses is too large.
+ * Don't use DriverManager and main.cpp in space-limited applications.
+ * STL stuff it uses is too large.
  */
 #include <iostream>
 #include "drivers.h"
@@ -35,7 +36,7 @@ namespace FreeDV {
       s << i->first << " ";
     s << endl;
     s << "Keying: ";
-    for (auto i = keying_drivers.begin(); i != keying_drivers.end(); i++ )
+    for (auto i = keying_output_drivers.begin(); i != keying_output_drivers.end(); i++ )
       s << i->first << " ";
     s << endl;
     s << "Modem: ";
@@ -84,9 +85,9 @@ namespace FreeDV {
   }
  
   Keying *
-  DriverManager::keying(const char * driver, const char * parameter)
+  DriverManager::keying_output(const char * driver, const char * parameter)
   {
-    Keying * (* const creator)(const char * parameter) = keying_drivers[driver];
+    Keying * (* const creator)(const char * parameter) = keying_output_drivers[driver];
 
     if(creator)
       return creator(parameter);
@@ -128,12 +129,12 @@ namespace FreeDV {
   }
  
   UserInterface *
-  DriverManager::user_interface(const char * driver, const char * parameter)
+  DriverManager::user_interface(const char * driver, const char * parameter, Interfaces * interfaces)
   {
-    UserInterface * (* const creator)(const char * parameter) = user_interface_drivers[driver];
+    UserInterface * (* const creator)(const char * parameters, Interfaces *) = user_interface_drivers[driver];
 
     if(creator)
-      return creator(parameter);
+      return creator(parameter, interfaces);
     else
       return 0;
   }
@@ -157,9 +158,9 @@ namespace FreeDV {
   }
 
   void
-  DriverManager::register_keying(const char * driver, Keying * (*creator)(const char *))
+  DriverManager::register_keying_output(const char * driver, Keying * (*creator)(const char *))
   {
-    keying_drivers[driver] = creator;
+    keying_output_drivers[driver] = creator;
   }
 
   void
@@ -182,7 +183,7 @@ namespace FreeDV {
   }
 
   void
-  DriverManager::register_user_interface(const char * driver, UserInterface * (*creator)(const char *))
+  DriverManager::register_user_interface(const char * driver, UserInterface * (*creator)(const char *, Interfaces *))
   {
     user_interface_drivers[driver] = creator;
   }

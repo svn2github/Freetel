@@ -1,7 +1,7 @@
 #include "drivers.h"
 
 namespace FreeDV {
-  AudioOutput::AudioOutput()
+  AudioOutput::AudioOutput(const char * parameters)
   {
   }
 
@@ -9,8 +9,8 @@ namespace FreeDV {
   {
   }
 
-  bool
-  AudioOutput::captive()
+  bool const
+  AudioOutput::captive() const
   {
     return false;
   }

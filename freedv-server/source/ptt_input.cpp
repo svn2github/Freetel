@@ -1,7 +1,7 @@
 #include "drivers.h"
 
 namespace FreeDV {
-  PTTInput::PTTInput()
+  PTTInput::PTTInput(const char * parameters)
   {
   }
 
@@ -9,9 +9,22 @@ namespace FreeDV {
   {
   }
 
-  bool
-  PTTInput::captive()
+  bool const
+  PTTInput::captive() const
   {
     return false;
+  }
+
+  void
+  PTTInput::changed(bool value)
+  {
+    if ( callback )
+      (*callback)(value);
+  }
+
+  void
+  PTTInput::set_callback(void (*c)(bool))
+  {
+    callback = c;
   }
 }

@@ -12,7 +12,8 @@ namespace FreeDV {
 
   };
 
-  ModemNoOp::ModemNoOp(const char *)
+  ModemNoOp::ModemNoOp(const char * parameters)
+  : Modem(parameters)
   {
   }
 

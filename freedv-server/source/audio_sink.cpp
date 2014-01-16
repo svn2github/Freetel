@@ -6,7 +6,7 @@ namespace FreeDV {
   class AudioSink : public AudioOutput {
   public:
 
-  		AudioSink(const char *);
+  		AudioSink(const char * parameters);
 		~AudioSink();
 
 	// Get the current audio level, normalized to the range of 0.0 to 1.0.
@@ -16,10 +16,12 @@ namespace FreeDV {
 	float	level(float value);
 
         // Write audio into the "short" type.
-	int	write_short(short * array, int length);
+	std::size_t
+		write16(const int16_t * array, std::size_t length);
   };
 
-  AudioSink::AudioSink(const char *)
+  AudioSink::AudioSink(const char * parameters)
+  : AudioOutput(parameters)
   {
   }
 
@@ -40,8 +42,8 @@ namespace FreeDV {
   }
 
   // Write audio into the "short" type.
-  int
-  AudioSink::write_short(short * array, int length)
+  std::size_t
+  AudioSink::write16(const int16_t * array, std::size_t length)
   {
     return 0;
   }
