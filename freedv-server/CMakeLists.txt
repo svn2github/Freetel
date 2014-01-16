@@ -116,10 +116,15 @@ set_source_files_properties(${Compile.sources} ${Optional.sources} PROPERTIES CO
 
 
 add_executable(freedv-server ${Compile.sources} source/big_main.cpp)
+
+# Googletest unit testing.
 add_subdirectory(googletest)
-add_executable(freedv-test ${Compile.sources})
-set_target_properties(freedv-test PROPERTIES LINK_FLAGS "-L googletest")
-target_link_libraries(freedv-test gtest_main.a libgtest.a -lpthread)
+add_executable(freedv-gtest ${Compile.sources})
+set_target_properties(freedv-gtest PROPERTIES LINK_FLAGS "-L googletest")
+target_link_libraries(freedv-gtest gtest_main.a libgtest.a -lpthread)
+add_dependencies(freedv-gtest gtest gtest_main)
+enable_testing()
+add_test(freedv-gtest "./freedv-gtest")
 
 find_path(Codec2.include codec2.h PATH_SUFFIXES codec2)
 find_library(Codec2.lib NAMES codec2)
