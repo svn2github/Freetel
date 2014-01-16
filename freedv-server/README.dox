@@ -1,47 +1,49 @@
-FreeDV Server
-
-By Bruce Perens <bruce@perens.com>
-
-LICENSING
-
-Copyright (C) Algoram.
-Contact us via Bruce Perens <bruce@perens.com>
-
-This program is dual-licensed. You can purchase a commercial license from
-Algoram. We use commercial licensing to fund the further development
-of Free Software, and we make each version of this program available under
-both a commercial license and the Affero GPL Version 3. If you have not
-explicitly purchased a commercial license from us, the terms of the Affero
-GPL Version 3 apply to this program.
-
-You are welcome to incorporate this program into commercial products under
-the Affero GPL Version 3, but you must comply with all of its terms, including
-those that require you to publish the source code of your own software
-under a compatible license.
-
-Alternatively, you may purchase a commercial license from Algoram, in which
-case you need not publish your own source code. Be advised that Algoram does
-not own the entire copyright of this program, specifically the codec library.
-The portions of this program that we do not own are under less restrictive
-licenses like LGPL version 2, and we will work with your attorney and engineers
-to help you to deal with the intellectual property due diligence requirements
-of those licenses in a way that protects you from being obligated to publish
-your own source code.
-
-Algoram is not a law firm and in general we work with your attorney. Only your
-attorney can provide you with legal advice.
-
-Contributions to this software must be handled specially due to the dual
-licensing. We request that developers sign all rights in their modifications
-over to us by sending us their contribution along with this statement.
-
-	I swear that this addition or modification to an existing program
-	is my original work, and that I have the right to convey the rights
-	in this work. I convey all rights in this work to Algoram.
-	- your-name-here.
-
-In return, we commit to continue to release subsequent development
-of this program under The Affero GPL Version 3 or a less restrictive license
-for a period of three years from your contribution, or we will remove your
-contribution from our version. We feel that our committment to continuation of
-Free Software development is an appropriate reward for developer contributions.
+/// \mainpage FreeDV Server
+/// 
+/// By Bruce Perens <bruce@perens.com>
+/// 
+/// \section licensing LICENSING
+/// 
+/// Copyright (C) Algoram.  Contact us via Bruce Perens <bruce@perens.com>
+/// +1 510-473-7367.
+/// 
+/// This program is dual-licensed. You can purchase a commercial license from
+/// Algoram. We use commercial licensing to fund the further development
+/// of Free Software, and we make each version of this program available
+/// under both a commercial license and the Affero GPL Version 3. If you
+/// have not explicitly purchased a commercial license from us, the terms
+/// of the Affero GPL Version 3 apply to this program.
+/// 
+/// You are welcome to incorporate this program into commercial products
+/// under the Affero GPL Version 3, but you must comply with all of its terms,
+/// including those that require you to publish the source code of your own
+/// software under a compatible license.
+/// 
+/// Alternatively, you may purchase a commercial license from Algoram, in
+/// which case you need not publish your own source code. Be advised that
+/// Algoram does not own the entire copyright of this program, specifically
+/// the codec library.  The portions of this program that we do not own are
+/// under less restrictive licenses like LGPL version 2, and we will work with
+/// your attorney and engineers to help you to deal with the intellectual
+/// property due diligence requirements of those licenses in a way that
+/// protects you from being obligated to publish your own source code.
+/// 
+/// Algoram is not a law firm and in general we work with your attorney. Only
+/// your attorney can provide you with legal advice.
+/// 
+/// Contributions to this software must be handled specially due to the
+/// dual licensing. We request that developers sign all rights in their
+/// modifications over to us by sending us their contribution along with
+/// this statement.
+/// 
+/// 	I swear that this addition or modification to an existing program
+/// 	is my original work, and that I have the right to convey the
+/// 	rights in this work. I convey all rights in this work to Algoram.
+/// 	- your-name-here.
+/// 
+/// In return, we commit to continue to release subsequent development
+/// of this program under The Affero GPL Version 3 or a less restrictive
+/// license for a period of three years from your contribution, or we will
+/// remove your contribution from our version. We feel that our committment
+/// to continuation of Free Software development is an appropriate reward
+/// for developer contributions.
