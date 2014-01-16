@@ -1,9 +1,10 @@
 #include "drivers.h"
 
-// This is a test driver that provides tones.
 namespace FreeDV {
+  /// This is a test driver that provides tones.
   class Tone : public AudioInput {
   public:
+    /// Instantiate the tone driver.
     			Tone(const char * parameter);
     virtual		~Tone();
     

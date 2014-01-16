@@ -1,9 +1,10 @@
 #include "drivers.h"
 
-// This is a test driver that provides tones.
 namespace FreeDV {
+  /// This driver provides constant text.
   class TextConstant : public TextInput {
   public:
+    /// Instantiate the constant text driver.
     			TextConstant(const char * parameter);
     virtual		~TextConstant();
     

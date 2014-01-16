@@ -1,14 +1,16 @@
 #include "drivers.h"
 
-// Keying output "sink", doesn't key anything. For testing or use with VOX.
 namespace FreeDV {
+  /// Keying output "sink", doesn't key anything. For testing or use with VOX.
   class KeyingSink : public Keying {
   public:
 
+	/// Instantiate keying sink driver.
   		KeyingSink(const char *);
-		~KeyingSink();
+	virtual	~KeyingSink();
 
-	void	key(bool value);
+	virtual void
+		key(bool value);
 
   };
 

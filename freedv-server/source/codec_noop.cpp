@@ -1,10 +1,11 @@
 #include "drivers.h"
 
-// Codec "no-op", just copies its input to its output. For plain SSB voice, and for testing.
 namespace FreeDV {
+  /// Codec "no-op", just copies its input to its output. For plain SSB voice, and for testing.
   class CodecNoOp : public Codec {
   public:
 
+	/// Instantiate the no-op codec.
   		CodecNoOp(const char *);
 		~CodecNoOp();
 
@@ -14,6 +15,8 @@ namespace FreeDV {
 	/// \param i The array of audio samples to be encoded, in an array
 	/// of signed 16-bit integers.
 	/// \param o The encoded data, in an array of unsigned 8-bit integers.
+	/// \param length The number of audio samples to be encoded.
+	///  This  must be a multiple of frame_size().
 	/// \return The number of uint8_t elements in the encoded array.
 	virtual std::size_t
 		encode16(const int16_t * i, uint8_t * o, \

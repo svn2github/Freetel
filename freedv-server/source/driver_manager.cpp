@@ -188,7 +188,9 @@ namespace FreeDV {
     user_interface_drivers[driver] = creator;
   }
 
-  // This has to be a function to get around the static initalization order problem.
+  /// Automatic initializer for the driver manager.
+  /// This has to be a function to get around the static initalization order
+  /// problem.
   DriverManager &
   init_driver_manager()
   {
@@ -196,6 +198,7 @@ namespace FreeDV {
     return manager;
   }
 
+  /// Global reference to the driver manager instance.
   DriverManager & driver_manager = init_driver_manager();
 }
 #endif

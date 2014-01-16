@@ -30,6 +30,8 @@ set(CMAKE_DISABLE_SOURCE_CHANGES ON)
 set(CMAKE_DISABLE_IN_SOURCE_BUILD ON)
 project(freedv-server)
 
+include(cmake/UseDoxygen.cmake)
+
 # Parameters are stored as .txt files in the parameters/ subdirectory.
 # They use semicolon to separate arguments, because this is what cmake uses
 # in its list type. Thus, parameters/version.txt looks like this:

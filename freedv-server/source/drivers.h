@@ -64,7 +64,7 @@ namespace FreeDV {
 
 	/// Set the current audio level.
 	/// The value must be within the range of 0.0 to 1.0.
-	virtual float	level(float value) = 0;
+	virtual void	level(float value) = 0;
 
         /// Write audio from an array of the signed 16-bit integer type.
 	virtual std::size_t
@@ -88,6 +88,7 @@ namespace FreeDV {
 	/// \param i The array of audio samples to be encoded, in an array
 	/// of signed 16-bit integers.
 	/// \param o The encoded data, in an array of unsigned 8-bit integers.
+	/// \param length The number of audio samples to be encoded.
 	/// \return The number of uint8_t elements in the encoded array.
 	virtual std::size_t
 			encode16(const int16_t * i, uint8_t * o, \
@@ -140,7 +141,11 @@ namespace FreeDV {
 	/// This is a simplification on all of the values that POSIX
 	/// poll() can return. Events that aren't read or write are mapped
 	/// to one of those.
+
+	/// File being monitored is readable or has read error.
 	const unsigned int Read = 1;
+
+	/// File being monitored is writable or has write error.
 	const unsigned int Write = 2;
 
 	/// Create an event handler instance.
@@ -150,6 +155,9 @@ namespace FreeDV {
 			}
 	virtual		~EventHandler() = 0;
 
+	/// If set_exit() has been called, return true once.
+	/// \return True if set_exit has been called. The next and subsequent
+	///  calls will return false until set_exit() is called again.
 	inline bool	get_exit() {
 			  if ( do_exit ) {
 			    do_exit = false;
@@ -167,6 +175,7 @@ namespace FreeDV {
 	/// implementation of loop() must not call iterate().
 	void		iterate();
 
+	/// Cause get_exit() to return true the next time it is called.
 	inline void	set_exit() { do_exit = true; }
   public:
 	/// Return true if this object is owned by a UserInterface object.
@@ -240,17 +249,21 @@ namespace FreeDV {
   /// Push-to-talk input driver.
   class PTTInput {
   private:
+	/// Coroutine to be called when the sense of the push-to-talk switch
+	/// changes.
 	void	(*callback)(bool);
 
   protected:
-	// The driver calls this member to inform FreeDV that the PTT switch value has changed.
-	// the value is true for key-down, false for key-up.
+	/// The driver calls this member to inform FreeDV that the PTT switch
+	/// sense has changed. The value is true for key-down,
+	/// false for key-up.
+	/// \param value True for key-down, false for key-up.
 	void		changed(bool value);
 
 	/// Create a push-to-talk switch instance.
 	/// \param parameters Driver-specific configuration parameters.
-
   			PTTInput(const char * parameters);
+
 	virtual		~PTTInput() = 0;
 
   public:
@@ -263,13 +276,15 @@ namespace FreeDV {
 	virtual bool const
 			captive() const;
 
+	/// Set the function that will be called when the push-to-talk input
+	/// changes its value.
 	void		set_callback(void (*value)(bool));
   };
 
   /// Driver for the text message source function.
   class TextInput {
   protected:
-	// The driver calls this member to set the text.
+	/// The child class calls this member in its parent to set the text.
 	void		set(const char * text);
 
 
@@ -326,17 +341,29 @@ namespace FreeDV {
 			{
 			}
 
+    /// The voice codec in use.
     Codec *		codec;
+    /// The event loop handler. This is specific to a GUI, or POSIX.
     EventHandler *	event_handler;
+    /// The output used to key the transmitter.
     Keying *		keying_output;
+    /// The audio output which drives the loudspeaker or headphone.
     AudioOutput *	loudspeaker;
+    /// The audio input from the microphone.
     AudioInput *	microphone;
+    /// The softmodem.
     Modem *		modem;
+    /// The PTT input that indicates the transmission is to be digital audio.
     PTTInput *		ptt_input_digital;
+    /// The PTT input that indicates the transmission is to be SSB.
     PTTInput *		ptt_input_ssb;
+    /// The text to be transmitted in our text side-channel.
     TextInput *		text;
+    /// The audio output that drives the transmitter.
     AudioOutput *	transmitter;
+    /// The audio input from the receiver.
     AudioInput *	receiver;
+    /// The user interface driver. Used for GUIs.
     UserInterface *	user_interface;
   };
 }
@@ -361,32 +388,90 @@ namespace FreeDV {
 			std::map<std::string, TextInput *(*)(const char *)> text_input_drivers;
 			std::map<std::string, UserInterface *(*)(const char *, Interfaces *)> user_interface_drivers;
   public:
+
+	/// Initialize the driver manager.
 			DriverManager();
 			~DriverManager();
 
-        void		print(std::ostream &);
+	/// Print the available drivers to the argument stream.
+	/// \param stream A reference to an instance of ostream on which the
+	///  information is to be printed.
+        void		print(std::ostream & stream);
 
-	AudioInput *	audio_input(const char * driver, const char * parameter);
-	AudioOutput *	audio_output(const char * driver, const char * parameter);
-	Codec *		codec(const char * driver, const char * parameter);
-	Keying *	keying_output(const char * driver, const char * parameter);
-	Modem *		modem(const char * driver, const char * parameter);
-	PTTInput *	ptt_input(const char * driver, const char * parameter);
-	TextInput *	text_input(const char * driver, const char * parameter);
-	UserInterface *	user_interface(const char * driver, const char * parameter, Interfaces * interfaces);
+	/// Instantiate an AudioInput driver.
+	/// \param driver The name of the driver.
+	/// \param parameters Driver-specific configuration parameters.
+	AudioInput *	audio_input(const char * driver, const char * parameters);
+	/// Instantiate an AudioOutput driver.
+	/// \param driver The name of the driver.
+	/// \param parameters Driver-specific configuration parameters.
+	AudioOutput *	audio_output(const char * driver, const char * parameters);
+	/// Instantiate a Codec.
+	/// \param driver The name of the driver.
+	/// \param parameters Driver-specific configuration parameters.
+	Codec *		codec(const char * driver, const char * parameters);
+	/// Instantiate a Keying driver.
+	/// \param driver The name of the driver.
+	/// \param parameters Driver-specific configuration parameters.
+	Keying *	keying_output(const char * driver, const char * parameters);
+	/// Instantiate a softmodem.
+	/// \param driver The name of the driver.
+	/// \param parameters Driver-specific configuration parameters.
+	Modem *		modem(const char * driver, const char * parameters);
+	/// Instantiate a PTT input driver.
+	/// \param driver The name of the driver.
+	/// \param parameters Driver-specific configuration parameters.
+	PTTInput *	ptt_input(const char * driver, const char * parameters);
+	/// Instantiate a text input driver.
+	/// \param driver The name of the driver.
+	/// \param parameters Driver-specific configuration parameters.
+	TextInput *	text_input(const char * driver, const char * parameters);
+	/// Instantiate a user interface driver.
+	/// \param driver The name of the driver.
+	/// \param parameters Driver-specific configuration parameters.
+	/// \param interfaces Interfaces object used to hold all of the
+	///  current device driver instances.
+	UserInterface *	user_interface(const char * driver, const char * parameters, Interfaces * interfaces);
 
+	/// Register an audio input driver.
+	/// \param driver The name of the driver.
+	/// \param creator The coroutine that will instantiate the driver.
 	void		register_audio_input(const char * driver, AudioInput * (*creator)(const char *));
+	/// Register an audio input driver.
+	/// \param driver The name of the driver.
+	/// \param creator The coroutine that will instantiate the driver.
 	void		register_audio_output(const char * driver, AudioOutput * (*creator)(const char *));
+	/// Register an audio input driver.
+	/// \param driver The name of the driver.
+	/// \param creator The coroutine that will instantiate the driver.
 	void		register_codec(const char * driver, Codec * (*creator)(const char *));
+	/// Register an audio input driver.
+	/// \param driver The name of the driver.
+	/// \param creator The coroutine that will instantiate the driver.
 	void		register_keying_output(const char * driver, Keying * (*creator)(const char *));
+	/// Register an audio input driver.
+	/// \param driver The name of the driver.
+	/// \param creator The coroutine that will instantiate the driver.
 	void		register_modem(const char * driver, Modem * (*creator)(const char *));
+	/// Register an audio input driver.
+	/// \param driver The name of the driver.
+	/// \param creator The coroutine that will instantiate the driver.
 	void		register_ptt_input(const char * driver, PTTInput * (*creator)(const char *));
+	/// Register an audio input driver.
+	/// \param driver The name of the driver.
+	/// \param creator The coroutine that will instantiate the driver.
 	void		register_text_input(const char * driver, TextInput * (*creator)(const char *));
+	/// Register an audio input driver.
+	/// \param driver The name of the driver.
+	/// \param creator The coroutine that will instantiate the driver.
 	void		register_user_interface(const char * driver, UserInterface * (*creator)(const char *, Interfaces *));
   };
 
+  /// Global reference to the driver manager.
   extern DriverManager & driver_manager;
-  // This version has to be called from static initializers.
+
+  /// Return a reference to the driver manager instance.
+  /// This is a function because it is called in static initializers.
   extern DriverManager & init_driver_manager();
 #endif
 }

@@ -1,14 +1,13 @@
 #ifndef NO_INITIALIZERS
-/*
- * This is the main program for applications that are not space-limited.
- * Any application that is space limited should have its own main that
- * wires drivers to the Interfaces class without using DriverManager.
- * Thus, you can get rid of all of the STL template use, etc.
- *
- * For the sake of correctness and optimization, I have written whatever I
- * can to be without side-effects, a style inherited from functional programming.
- * Thus, the excessive use of "const". - Bruce
- */
+/// This is the main program for applications that are not space-limited.
+/// Any application that is space limited should have its own main that
+/// wires drivers to the Interfaces class without using DriverManager.
+/// Thus, you can get rid of all of the STL template use, etc.
+///
+/// For the sake of correctness and optimization, I have written whatever I
+/// can to be without side-effects, a style inherited from functional
+/// programming. Thus, the excessive use of "const". - Bruce
+
 #include <stdlib.h>
 #include <string.h>
 #include <iostream>
@@ -20,6 +19,7 @@
 
 using namespace std;
 namespace FreeDV {
+  /// Run the main loop of the program, this is called after arguments are set.
   extern int run(struct Interfaces *);
 }
 using namespace FreeDV;

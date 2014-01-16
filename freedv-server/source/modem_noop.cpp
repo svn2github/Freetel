@@ -1,15 +1,14 @@
 #include "drivers.h"
 
-// Modem "no-op", just copies its input to its output. For plain SSB voice, and for testing.
 namespace FreeDV {
+  /// Modem "no-op", just copies its input to its output.
+  /// For plain SSB voice, and for testing.
   class ModemNoOp : public Modem {
   public:
 
+	/// Instantiate the no-op modem.
   		ModemNoOp(const char *);
-		~ModemNoOp();
-
-	void	key(bool value);
-
+	virtual	~ModemNoOp();
   };
 
   ModemNoOp::ModemNoOp(const char * parameters)

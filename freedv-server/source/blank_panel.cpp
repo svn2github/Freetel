@@ -1,8 +1,11 @@
 #include "drivers.h"
 
 namespace FreeDV {
+  /// This is control-less GUI driver, for testing.
   class BlankPanel : public UserInterface {
   public:
+
+    /// Instantiate the blank panel GUI driver.
     			BlankPanel(const char * parameter, Interfaces * interfaces);
     virtual		~BlankPanel();
     

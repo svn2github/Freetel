@@ -1,22 +1,24 @@
 #include "drivers.h"
 
-// Audio output "sink", discards the audio, for testing.
-
 namespace FreeDV {
+  /// Audio output "sink", discards the audio, for testing.
   class AudioSink : public AudioOutput {
   public:
 
+	/// Instantiate the audio sink.
   		AudioSink(const char * parameters);
 		~AudioSink();
 
-	// Get the current audio level, normalized to the range of 0.0 to 1.0.
-	float	level();
+	/// Get the current audio level, normalized to the range of 0.0 to 1.0.
+	virtual float
+		level();
 
-	// Set the current audio level within the range of 0.0 to 1.0.
-	float	level(float value);
+	/// Set the current audio level within the range of 0.0 to 1.0.
+	virtual void
+		level(float value);
 
-        // Write audio into the "short" type.
-	std::size_t
+        /// Write audio into the "short" type.
+	virtual std::size_t
 		write16(const int16_t * array, std::size_t length);
   };
 
@@ -35,10 +37,9 @@ namespace FreeDV {
     return 0;
   }
 
-  float
+  void
   AudioSink::level(float value)
   {
-    return value;
   }
 
   // Write audio into the "short" type.
