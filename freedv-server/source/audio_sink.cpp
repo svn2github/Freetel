@@ -1,3 +1,5 @@
+/// The AudioSink driver, called as "sink", discards the audio, for testing.
+
 #include "drivers.h"
 
 namespace FreeDV {

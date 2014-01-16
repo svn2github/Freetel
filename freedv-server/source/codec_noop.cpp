@@ -1,3 +1,5 @@
+/// The No-Op Codec, for testing and plain SSB voice.
+
 #include "drivers.h"
 
 namespace FreeDV {

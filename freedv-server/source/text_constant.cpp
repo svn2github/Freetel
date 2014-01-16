@@ -1,3 +1,5 @@
+/// The constant text driver, just outputs the same text over and over.
+
 #include "drivers.h"
 
 namespace FreeDV {

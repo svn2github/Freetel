@@ -1,3 +1,5 @@
+/// The virtual base class of PTT input drivers.
+
 #include "drivers.h"
 
 namespace FreeDV {

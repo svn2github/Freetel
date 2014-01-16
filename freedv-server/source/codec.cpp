@@ -1,3 +1,5 @@
+/// The Codec base class.
+
 #include "drivers.h"
 
 namespace FreeDV {

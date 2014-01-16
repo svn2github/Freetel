@@ -1,3 +1,5 @@
+/// The no-op modem, for plain SSB voice and testing.
+
 #include "drivers.h"
 
 namespace FreeDV {

@@ -1,3 +1,5 @@
+/// The AudioOutput class.
+
 #include "drivers.h"
 
 namespace FreeDV {

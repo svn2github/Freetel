@@ -1,3 +1,6 @@
+/// The KeyingSink class, called as "sink", doesn't key anything, for testing
+/// or use with VOX.
+
 #include "drivers.h"
 
 namespace FreeDV {

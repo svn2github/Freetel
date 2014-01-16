@@ -1,3 +1,5 @@
+/// Keying driver.
+
 #include "drivers.h"
 
 namespace FreeDV {

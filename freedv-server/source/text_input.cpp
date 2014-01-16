@@ -1,3 +1,5 @@
+/// The virtual base class for text input drivers.
+
 #include "drivers.h"
 
 namespace FreeDV {

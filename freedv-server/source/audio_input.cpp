@@ -1,3 +1,5 @@
+/// The AudioInput class.
+
 #include "drivers.h"
 
 namespace FreeDV {

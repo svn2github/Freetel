@@ -1,3 +1,5 @@
+/// The constant PTT driver, for testing.
+
 #include "drivers.h"
 
 namespace FreeDV {

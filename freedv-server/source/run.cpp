@@ -1,3 +1,5 @@
+/// The main loop of the program.
+
 #include "drivers.h"
 
 namespace FreeDV {

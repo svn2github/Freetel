@@ -1,3 +1,5 @@
+/// The tone audio input driver, for testing.
+
 #include "drivers.h"
 
 namespace FreeDV {

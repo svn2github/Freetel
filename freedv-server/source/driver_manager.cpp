@@ -1,8 +1,8 @@
+/// Device driver manager.
+/// Don't use DriverManager and big_main.cpp in space-limited applications.
+/// The STL templates it uses are too large.
+
 #ifndef NO_INITIALIZERS
-/*
- * Don't use DriverManager and main.cpp in space-limited applications.
- * STL stuff it uses is too large.
- */
 #include <iostream>
 #include "drivers.h"
 

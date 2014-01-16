@@ -1,3 +1,5 @@
+/// The "blank panel" GUI driver, for testing.
+
 #include "drivers.h"
 
 namespace FreeDV {

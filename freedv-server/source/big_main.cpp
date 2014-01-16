@@ -1,4 +1,3 @@
-#ifndef NO_INITIALIZERS
 /// This is the main program for applications that are not space-limited.
 /// Any application that is space limited should have its own main that
 /// wires drivers to the Interfaces class without using DriverManager.
@@ -7,6 +6,8 @@
 /// For the sake of correctness and optimization, I have written whatever I
 /// can to be without side-effects, a style inherited from functional
 /// programming. Thus, the excessive use of "const". - Bruce
+
+#ifndef NO_INITIALIZERS
 
 #include <stdlib.h>
 #include <string.h>

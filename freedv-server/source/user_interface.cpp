@@ -1,3 +1,5 @@
+/// The virtual base class for user interface drivers.
+
 #include "drivers.h"
 
 namespace FreeDV {
