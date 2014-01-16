@@ -90,7 +90,6 @@ set(Compile.sources
   source/audio_input.cpp
   source/audio_output.cpp
   source/audio_sink.cpp
-  source/big_main.cpp
   source/blank_panel.cpp
   source/codec.cpp
   source/codec_noop.cpp
@@ -104,17 +103,23 @@ set(Compile.sources
   source/run.cpp
   source/text_constant.cpp
   source/text_input.cpp
-  source/tiny_main.cpp
   source/tone.cpp
   source/user_interface.cpp
 )
 
+set(Optional.sources
+  source/big_main.cpp
+  source/tiny_main.cpp
+)
 load_parameters(cxx-flags)
-set_source_files_properties(${Compile.sources} PROPERTIES COMPILE_FLAGS "${Param.cxx-flags}")
+set_source_files_properties(${Compile.sources} ${Optional.sources} PROPERTIES COMPILE_FLAGS "-std=c++11")
 
 
-add_executable(freedv-server ${Compile.sources})
+add_executable(freedv-server ${Compile.sources} source/big_main.cpp)
 add_subdirectory(googletest)
+add_executable(freedv-test ${Compile.sources})
+set_target_properties(freedv-test PROPERTIES LINK_FLAGS "-L googletest")
+target_link_libraries(freedv-test gtest_main.a libgtest.a -lpthread)
 
 find_path(Codec2.include codec2.h PATH_SUFFIXES codec2)
 find_library(Codec2.lib NAMES codec2)
