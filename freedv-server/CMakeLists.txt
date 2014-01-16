@@ -114,6 +114,7 @@ set_source_files_properties(${Compile.sources} PROPERTIES COMPILE_FLAGS "${Param
 
 
 add_executable(freedv-server ${Compile.sources})
+add_subdirectory(googletest)
 
 find_path(Codec2.include codec2.h PATH_SUFFIXES codec2)
 find_library(Codec2.lib NAMES codec2)

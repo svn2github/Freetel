@@ -1,2 +1,0 @@
-/home/bruce/freedv/freetel-code/freedv-server/googletest/CMakeFiles/gtest.dir
-/home/bruce/freedv/freetel-code/freedv-server/googletest/CMakeFiles/gtest_main.dir

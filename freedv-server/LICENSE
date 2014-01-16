@@ -1,7 +1,3 @@
-FreeDV Server
-
-By Bruce Perens <bruce@perens.com>
-
 LICENSING
 
 Copyright (C) Algoram.
@@ -33,7 +29,7 @@ attorney can provide you with legal advice.
 
 Contributions to this software must be handled specially due to the dual
 licensing. We request that developers sign all rights in their modifications
-over to us by sending us their contribution along with this statement.
+over to us by sending us their contribution along with this statement:
 
 	I swear that this addition or modification to an existing program
 	is my original work, and that I have the right to convey the rights
