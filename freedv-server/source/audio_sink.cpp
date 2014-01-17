@@ -24,8 +24,8 @@ namespace FreeDV {
 		write16(const int16_t * array, std::size_t length);
   };
 
-  AudioSink::AudioSink(const char * parameters)
-  : AudioOutput(parameters)
+  AudioSink::AudioSink(const char * p)
+  : AudioOutput("sink", p)
   {
   }
 

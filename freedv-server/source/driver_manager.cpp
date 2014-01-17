@@ -188,6 +188,12 @@ namespace FreeDV {
     user_interface_drivers[driver] = creator;
   }
 
+  std::ostream &
+  DriverManager::operator << (std::ostream & stream) const
+  {
+    return stream;
+  }
+
   /// Automatic initializer for the driver manager.
   /// This has to be a function to get around the static initalization order
   /// problem.

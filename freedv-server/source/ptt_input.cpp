@@ -3,18 +3,13 @@
 #include "drivers.h"
 
 namespace FreeDV {
-  PTTInput::PTTInput(const char * parameters)
+  PTTInput::PTTInput(const char * name, const char * parameters)
+  : Base(name, parameters)
   {
   }
 
   PTTInput::~PTTInput()
   {
-  }
-
-  bool const
-  PTTInput::captive() const
-  {
-    return false;
   }
 
   void

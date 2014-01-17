@@ -3,7 +3,8 @@
 #include "drivers.h"
 
 namespace FreeDV {
-  UserInterface::UserInterface(const char * parameters, Interfaces * interfaces)
+  UserInterface::UserInterface(const char * name, const char * parameters, Interfaces * interfaces)
+  : Base(name, parameters)
   {
   }
 

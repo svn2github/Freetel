@@ -3,7 +3,8 @@
 #include "drivers.h"
 
 namespace FreeDV {
-  Modem::Modem(const char * parameters)
+  Modem::Modem(const char * name, const char * parameters)
+  : Base(name, parameters)
   {
   }
 

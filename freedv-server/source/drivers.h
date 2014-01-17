@@ -1,29 +1,79 @@
 /// FreeDV driver interface definitions.
 #include <cstdint>
+#include <iostream>
 
 
 /// Namespace used for all code in this program.
 namespace FreeDV {
 
+  /// Allocate memory and copy a string into it, so that it is permanently
+  /// stored.
+  /// \param s The string to be copied.
+  /// \return The new copy. It's the caller's responsibility to free this data,
+  ///  or a memory leak will occurr.
+  char * copy_string(const char * s);
+
+  class Base {
+  private:
+	/// The copy constructor is private to prevent it from being used.
+	/// \param that Not used.
+			Base(const Base & that);
+	
+	/// The assignment operator is private to prevent it from being used.
+	/// \param that Not used.
+	Base &		operator = (const Base & that);
+
+  protected:
+	/// The name of the driver. This must be the same as the name it
+	/// is registered under. It's expected to be from a per-class static
+	/// string and thus should not be deleted.
+	const char * const
+			name;
+
+	/// The parameters to this instance of the driver. They are
+	/// copied here so that we can print them later in operator<<() .
+	/// the copy is deleted when in the ~Base() destructor.
+	const char * const
+			parameters;
+
+	/// Constructor for the virtual base class.
+	/// \param _name Name of the driver. This is expected to be a single
+	///  constant static string per driver class.
+	/// \param _parameters Driver-specific configuration parameters.
+			Base(const char * _name, const char * _parameters);
+
+	/// Destroy the base class.
+	virtual		~Base();
+
+  public:
+	/// Return true if the object is owned by a UserInterface object and
+	/// should not be destroyed separately.
+	/// The return value is invariant for a particular object (or possibly
+	/// class).
+	virtual bool const
+			captive() const;
+
+	/// Write the driver information onto a stream, for debugging and
+	/// for dumping the configuration information.
+	/// \param stream A reference to an instance of ostream upon which the
+	///  object information is to be rendered.
+	/// \return A reference to the provided stream, meant for the
+	///  usual successive call paradigm of ostream operator << .
+	virtual std::ostream &
+			operator << (std::ostream &) const;
+  };
+
   /// Virtual base class for audio input drivers.
-  class AudioInput {
+  class AudioInput : public ::FreeDV::Base {
   protected:
 	/// Create an AudioInput device instance.
 	/// \param parameters Driver-specific configuration parameters.
-  			AudioInput(const char * parameters);
+  			AudioInput(const char * name, const char * parameters);
 
 	/// Destroy an AudioInput device instance.
 	virtual		~AudioInput() = 0;
 
   public:
-	/// Return true if this object is owned by a UserInterface object.
-	/// In that case we should not destroy it separately.
-	/// The default implementation always returns false.
-	/// \return True if this object is owned by a UserInterface object.
-	/// The return value is invariant for the particular object.
-	virtual bool const
-			captive() const;
-
 	/// Get the current audio level.
 	/// \return The current audio level.
 	/// The value is normalized to the range of 0.0 to 1.0.
@@ -40,24 +90,16 @@ namespace FreeDV {
   };
 
   /// Virtual base class for audio output drivers.
-  class AudioOutput {
+  class AudioOutput : public ::FreeDV::Base {
   protected:
 	/// Create an AudioOutput device instance.
 	/// \param parameters Driver-specific configuration parameters.
-  			AudioOutput(const char * parameters);
+  			AudioOutput(const char * name, const char * parameters);
 
 	/// Destroy an AudioOutput device instance.
 	virtual		~AudioOutput() = 0;
 
   public:
-	/// Return true if this object is owned by a UserInterface object.
-	/// In that case we should not destroy it separately.
-	/// The default implementation always returns false.
-	/// \return True if this object is owned by a UserInterface object.
-	/// The return value is invariant for the particular object.
-	virtual bool const
-			captive() const;
-
 	/// Get the current audio level.
 	/// The value is normalized to the range of 0.0 to 1.0.
 	virtual float	level() = 0;
@@ -72,11 +114,13 @@ namespace FreeDV {
   };
 
   /// Virtual base class for codecs.
-  class Codec {
+  class Codec : public ::FreeDV::Base {
   protected:
 	/// Create a codec instance.
+	/// \param name Name of the driver. This is expected to be a single
+	///  constant static string per driver class.
 	/// \param parameters Driver-specific configuration parameters.
-  			Codec(const char * parameters);
+  			Codec(const char * name, const char * parameters);
 
 	/// Destroy a codec instance.
 	virtual		~Codec() = 0;
@@ -126,7 +170,6 @@ namespace FreeDV {
 	/// frame.
 	virtual std::size_t const
 			samples_per_frame() const = 0;
-
   };
 
   /// Event handler class, indirects the event handler of the particular GUI
@@ -178,14 +221,6 @@ namespace FreeDV {
 	/// Cause get_exit() to return true the next time it is called.
 	inline void	set_exit() { do_exit = true; }
   public:
-	/// Return true if this object is owned by a UserInterface object.
-	/// In that case we should not destroy it separately.
-	/// The default implementation always returns false.
-	/// \return True if this object is owned by a UserInterface object.
-	/// The return value is invariant for the particular object.
-	virtual bool const
-			captive() const;
-
 	/// Run the event loop.
 	/// The default implementation iterates checking get_exit(), returning
 	/// if its value is true and otherwise and calling iterate().
@@ -216,14 +251,21 @@ namespace FreeDV {
 	/// loop handler.
 	/// \param fd The file descriptor to be removed from monitoring.
 	virtual void	unmonitor(int fd) = 0;
+
+	/// Write the driver information onto a stream, for debugging and
+	/// for dumping the configuration information.
+	/// \param stream A reference to an instance of ostream on which the
+	std::ostream &	operator << (std::ostream &);
   };
 
   /// Radio device keying driver.
-  class Keying {
+  class Keying : public ::FreeDV::Base {
   protected:
-	/// Create an radio keying device instance.
+	/// Create an radio keying output device instance.
+	/// \param name Name of the driver. This is expected to be a single
+	///  constant static string per driver class.
 	/// \param parameters Driver-specific configuration parameters.
-  			Keying(const char * parameters);
+  			Keying(const char * name, const char * parameters);
 
 	/// Destroy the radio keying device instance.
 	virtual		~Keying() = 0;
@@ -235,19 +277,19 @@ namespace FreeDV {
   };
 
   /// Softmodem driver.
-  class Modem {
+  class Modem : public ::FreeDV::Base {
   protected:
-	/// Create a modem instance.
+	/// Create a softmodem device instance.
+	/// \param name Name of the driver. This is expected to be a single
+	///  constant static string per driver class.
 	/// \param parameters Driver-specific configuration parameters.
+  			Modem(const char * name, const char * parameters);
 
-  			Modem(const char * parameters);
 	virtual		~Modem() = 0;
-
-  public:
   };
 
   /// Push-to-talk input driver.
-  class PTTInput {
+  class PTTInput : public ::FreeDV::Base {
   private:
 	/// Coroutine to be called when the sense of the push-to-talk switch
 	/// changes.
@@ -261,48 +303,33 @@ namespace FreeDV {
 	void		changed(bool value);
 
 	/// Create a push-to-talk switch instance.
+	/// \param name Name of the driver. This is expected to be a single
+	///  constant static string per driver class.
 	/// \param parameters Driver-specific configuration parameters.
-  			PTTInput(const char * parameters);
+  			PTTInput(const char * name, const char * parameters);
 
 	virtual		~PTTInput() = 0;
 
   public:
-	/// Return true if this object is owned by a
-	/// UserInterface object. In that case we should
-	/// not destroy it separately.
-	/// The default implementation always returns false.
-	/// \return True if this object is owned by a UserInterface object.
-	/// The return value is invariant for the particular object.
-	virtual bool const
-			captive() const;
-
 	/// Set the function that will be called when the push-to-talk input
 	/// changes its value.
 	void		set_callback(void (*value)(bool));
   };
 
   /// Driver for the text message source function.
-  class TextInput {
+  class TextInput : public ::FreeDV::Base {
   protected:
 	/// The child class calls this member in its parent to set the text.
 	void		set(const char * text);
 
 
 	/// Create a text source instance.
+	/// \param name Name of the driver. This is expected to be a single
+	///  constant static string per driver class.
 	/// \param parameters Driver-specific configuration parameters.
+  			TextInput(const char * name, const char * parameters);
 
-  			TextInput(const char * parameters);
 	virtual		~TextInput() = 0;
-
-  public:
-	/// Return true if this object is owned by a
-	/// UserInterface object. In that case we should
-	/// not destroy it separately.
-	/// The default implementation always returns false.
-	/// \return True if this object is owned by a UserInterface object.
-	/// The return value is invariant for the particular object.
-	virtual bool const
-			captive() const;
   };
 
   class Interfaces;
@@ -314,18 +341,23 @@ namespace FreeDV {
   /// There must be inputs and callbacks for many things here.
   /// UserInterfaces may provide their own drivers for microphone,
   /// loudspeaker, TextInput, both forms of PTT, and EventHandler.
-  class UserInterface {
+  class UserInterface : public ::FreeDV::Base {
   protected:
+	/// The external Interfaces object.
+	Interfaces *
+		interfaces;
+
 	/// Create an instance of the UserInterface object.
+	/// \param name Name of the driver. This is expected to be a single
+	///  constant static string per driver class.
 	/// \param parameters Driver-specific configuration parameters.
 	/// \param interfaces An Interface object. The UserInterface object
 	/// may set various fields of Interface to be its own captive driver
 	/// objects, and they may change during operation if the user changes
 	/// device driver parameters.
-  				UserInterface(const char * parameters, Interfaces * interfaces);
-	virtual			~UserInterface() = 0;
+  				UserInterface(const char * name, const char * parameters, Interfaces * _interfaces);
 
-  public:
+	virtual			~UserInterface() = 0;
   };
 
   /// Structure used to pass all of the drivers. Can be modified from
@@ -365,11 +397,16 @@ namespace FreeDV {
     AudioInput *	receiver;
     /// The user interface driver. Used for GUIs.
     UserInterface *	user_interface;
+
+    /// Write the command-line flags necessary to configure the drivers as 
+    /// they are presently configured to the stream. This is used to save
+    /// the configuration or debug the program.
+    /// \param stream A reference to an instance of ostream on which the
+    std::ostream &	operator << (std::ostream &) const;
   };
 }
 
 #ifndef NO_INITIALIZERS
-#include <iostream>
 #include <map>
 #include <string>
 
@@ -465,6 +502,11 @@ namespace FreeDV {
 	/// \param driver The name of the driver.
 	/// \param creator The coroutine that will instantiate the driver.
 	void		register_user_interface(const char * driver, UserInterface * (*creator)(const char *, Interfaces *));
+
+	/// Print the available drivers to the argument stream.
+	/// \param stream A reference to an instance of ostream on which the
+	///  information is to be printed.
+	std::ostream &	operator << (std::ostream &) const;
   };
 
   /// Global reference to the driver manager.

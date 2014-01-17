@@ -3,7 +3,8 @@
 #include "drivers.h"
 
 namespace FreeDV {
-  Codec::Codec(const char * parameters)
+  Codec::Codec(const char * name, const char * parameters)
+  : Base(name, parameters)
   {
   }
 

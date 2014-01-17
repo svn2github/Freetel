@@ -14,7 +14,7 @@ namespace FreeDV {
   };
 
   BlankPanel::BlankPanel(const char * parameter, Interfaces * interfaces)
-  : UserInterface(parameter, interfaces)
+  : UserInterface("blank-panel", parameter, interfaces)
   {
   }
 

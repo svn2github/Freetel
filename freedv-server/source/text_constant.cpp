@@ -13,7 +13,7 @@ namespace FreeDV {
   };
 
   TextConstant::TextConstant(const char * parameters)
-  : TextInput(parameters)
+  : TextInput("constant", parameters)
   {
   }
 

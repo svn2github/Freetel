@@ -18,7 +18,7 @@ namespace FreeDV {
   };
 
   KeyingSink::KeyingSink(const char * parameters)
-  : Keying(parameters)
+  : Keying("sink", parameters)
   {
   }
 

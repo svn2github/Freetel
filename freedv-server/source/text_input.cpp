@@ -3,18 +3,13 @@
 #include "drivers.h"
 
 namespace FreeDV {
-  TextInput::TextInput(const char * parameters)
+  TextInput::TextInput(const char * name, const char * parameters)
+  : Base(name, parameters)
   {
   }
 
   TextInput::~TextInput()
   {
-  }
-
-  bool const
-  TextInput::captive() const
-  {
-    return false;
   }
 
   void

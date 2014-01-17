@@ -13,7 +13,7 @@ namespace FreeDV {
   };
 
   PTTConstant::PTTConstant(const char * parameters)
-  : PTTInput(parameters)
+  : PTTInput("constant", parameters)
   {
   }
 

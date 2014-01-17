@@ -60,7 +60,7 @@ namespace FreeDV {
   };
 
   CodecNoOp::CodecNoOp(const char * parameters)
-  : Codec(parameters)
+  : Codec("no-op", parameters)
   {
   }
 

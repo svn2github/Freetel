@@ -90,6 +90,7 @@ set(Compile.sources
   source/audio_input.cpp
   source/audio_output.cpp
   source/audio_sink.cpp
+  source/base.cpp
   source/blank_panel.cpp
   source/codec.cpp
   source/codec_noop.cpp
@@ -104,6 +105,7 @@ set(Compile.sources
   source/text_constant.cpp
   source/text_input.cpp
   source/tone.cpp
+  source/utility.cpp
   source/user_interface.cpp
 )
 

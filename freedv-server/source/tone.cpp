@@ -21,7 +21,7 @@ namespace FreeDV {
   };
 
   Tone::Tone(const char * parameters)
-  : AudioInput(parameters)
+  : AudioInput("tone", parameters)
   {
   }
 
