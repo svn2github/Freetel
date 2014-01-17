@@ -13,6 +13,7 @@ namespace FreeDV {
   ///  or a memory leak will occurr.
   char * copy_string(const char * s);
 
+  /// Virtual base class for all driver classes.
   class Base {
   private:
 	/// The copy constructor is private to prevent it from being used.
@@ -66,6 +67,7 @@ namespace FreeDV {
   /// for debugging and dumping the configuration information.
   /// \param stream A reference to an instance of ostream upon which the
   ///  object information is to be rendered.
+  /// \param base A reference to the Base class providing the information.
   /// \return A reference to the provided stream, meant for the
   ///  usual successive call paradigm of ostream operator << .
   inline std::ostream &
@@ -77,6 +79,8 @@ namespace FreeDV {
   class AudioInput : public ::FreeDV::Base {
   protected:
 	/// Create an AudioInput device instance.
+	/// \param name The name of the child driver. This is expected to be a
+	/// static string.
 	/// \param parameters Driver-specific configuration parameters.
   			AudioInput(const char * name, const char * parameters);
 
@@ -103,6 +107,8 @@ namespace FreeDV {
   class AudioOutput : public ::FreeDV::Base {
   protected:
 	/// Create an AudioOutput device instance.
+	/// \param name The name of the child driver. This is expected to be a
+	/// static string.
 	/// \param parameters Driver-specific configuration parameters.
   			AudioOutput(const char * name, const char * parameters);
 
@@ -202,6 +208,9 @@ namespace FreeDV {
 	const unsigned int Write = 2;
 
 	/// Create an event handler instance.
+	/// \param name Name of the driver. This is expected to be a single
+	///  constant static string per driver class.
+	/// \param parameters Driver-specific configuration parameters.
 			EventHandler(const char * name, const char * parameters)
 			: Base(name, parameters), do_exit(false)
 			{
@@ -356,7 +365,7 @@ namespace FreeDV {
 	/// \param name Name of the driver. This is expected to be a single
 	///  constant static string per driver class.
 	/// \param parameters Driver-specific configuration parameters.
-	/// \param interfaces An Interface object. The UserInterface object
+	/// \param _interfaces An Interface object. The UserInterface object
 	/// may set various fields of Interface to be its own captive driver
 	/// objects, and they may change during operation if the user changes
 	/// device driver parameters.
@@ -413,12 +422,14 @@ namespace FreeDV {
     /// \return A reference to the provided stream, meant for the
     ///  usual successive call paradigm of ostream operator << .
     virtual std::ostream &
-			print(std::ostream &) const;
+			print(std::ostream & stream) const;
   };
   /// Write the driver information from the Interfaces object onto a stream,
   /// for debugging and dumping the configuration information.
   /// \param stream A reference to an instance of ostream upon which the
   ///  object information is to be rendered.
+  /// \param interfaces a reference to an Interfaces object providing the
+  ///  information.
   /// \return A reference to the provided stream, meant for the
   ///  usual successive call paradigm of ostream operator << .
   inline std::ostream &
@@ -540,6 +551,7 @@ namespace FreeDV {
   /// for debugging and dumping the configuration information.
   /// \param stream A reference to an instance of ostream upon which the
   ///  object information is to be rendered.
+  /// \param d A reference to the DriverManager class providing the information.
   /// \return A reference to the provided stream, meant for the
   ///  usual successive call paradigm of ostream operator << .
   inline std::ostream &
