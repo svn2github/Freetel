@@ -116,15 +116,32 @@ set(Optional.sources
   source/big_main.cpp
   source/tiny_main.cpp
 )
+
+set(Optional.sources
+  source/big_main.cpp
+  source/tiny_main.cpp
+)
+
+set(Test.sources
+  source/test/base.cpp
+)
+
+set(Test.headers
+  googletest/include/gtest/gtest.h
+)
+
 load_parameters(cxx-flags)
-set_source_files_properties(${Compile.sources} ${Optional.sources} PROPERTIES COMPILE_FLAGS "-std=c++11")
+set_source_files_properties(${Compile.sources} ${Optional.sources} ${Test.sources} PROPERTIES COMPILE_FLAGS "-std=c++11")
+set_source_files_properties(${Compile.sources} ${Optional.sources} ${Test.sources} PROPERTIES COMPILE_FLAGS "-std=c++11")
 
 
 add_executable(freedv-server ${Compile.sources} source/big_main.cpp)
 
 # Googletest unit testing.
 add_subdirectory(googletest)
-add_executable(freedv-gtest ${Compile.sources})
+include_directories(googletest/include)
+include_directories(source)
+add_executable(freedv-gtest ${Compile.sources} ${Test.sources} ${Test.headers})
 set_target_properties(freedv-gtest PROPERTIES LINK_FLAGS "-L googletest")
 target_link_libraries(freedv-gtest gtest_main.a libgtest.a pthread)
 add_dependencies(freedv-gtest gtest gtest_main)

@@ -43,10 +43,10 @@ namespace FreeDV {
 	/// \param _parameters Driver-specific configuration parameters.
 			Base(const char * _name, const char * _parameters);
 
-	/// Destroy the base class.
-	virtual		~Base();
-
   public:
+	/// Destroy the base class.
+	virtual		~Base() = 0;
+
 	/// Return true if the object is owned by a UserInterface object and
 	/// should not be destroyed separately.
 	/// The return value is invariant for a particular object (or possibly
@@ -84,10 +84,10 @@ namespace FreeDV {
 	/// \param parameters Driver-specific configuration parameters.
   			AudioInput(const char * name, const char * parameters);
 
+  public:
 	/// Destroy an AudioInput device instance.
 	virtual		~AudioInput() = 0;
 
-  public:
 	/// Get the current audio level.
 	/// \return The current audio level.
 	/// The value is normalized to the range of 0.0 to 1.0.
@@ -112,10 +112,10 @@ namespace FreeDV {
 	/// \param parameters Driver-specific configuration parameters.
   			AudioOutput(const char * name, const char * parameters);
 
+  public:
 	/// Destroy an AudioOutput device instance.
 	virtual		~AudioOutput() = 0;
 
-  public:
 	/// Get the current audio level.
 	/// The value is normalized to the range of 0.0 to 1.0.
 	virtual float	level() = 0;
@@ -138,10 +138,10 @@ namespace FreeDV {
 	/// \param parameters Driver-specific configuration parameters.
   			Codec(const char * name, const char * parameters);
 
+  public:
 	/// Destroy a codec instance.
 	virtual		~Codec() = 0;
 
-  public:
 	/// Encode from an array of the signed 16-bit integer type to an
 	/// array of the unsigned 8-bit integer type (this is usually
 	/// implemented as unsigned char).
@@ -215,7 +215,6 @@ namespace FreeDV {
 			: Base(name, parameters), do_exit(false)
 			{
 			}
-	virtual		~EventHandler() = 0;
 
 	/// If set_exit() has been called, return true once.
 	/// \return True if set_exit has been called. The next and subsequent
@@ -240,6 +239,8 @@ namespace FreeDV {
 	/// Cause get_exit() to return true the next time it is called.
 	inline void	set_exit() { do_exit = true; }
   public:
+	virtual		~EventHandler() = 0;
+
 	/// Run the event loop.
 	/// The default implementation iterates checking get_exit(), returning
 	/// if its value is true and otherwise and calling iterate().
@@ -281,10 +282,10 @@ namespace FreeDV {
 	/// \param parameters Driver-specific configuration parameters.
   			Keying(const char * name, const char * parameters);
 
+  public:
 	/// Destroy the radio keying device instance.
 	virtual		~Keying() = 0;
 
-  public:
 	/// Key or un-key the transmitter.
 	/// \param value If true, key the transmitter. If false, un-key.
 	virtual void	key(bool value) = 0;
@@ -299,6 +300,7 @@ namespace FreeDV {
 	/// \param parameters Driver-specific configuration parameters.
   			Modem(const char * name, const char * parameters);
 
+  public:
 	virtual		~Modem() = 0;
   };
 
@@ -322,9 +324,10 @@ namespace FreeDV {
 	/// \param parameters Driver-specific configuration parameters.
   			PTTInput(const char * name, const char * parameters);
 
-	virtual		~PTTInput() = 0;
 
   public:
+	virtual		~PTTInput() = 0;
+
 	/// Set the function that will be called when the push-to-talk input
 	/// changes its value.
 	void		set_callback(void (*value)(bool));
@@ -343,6 +346,7 @@ namespace FreeDV {
 	/// \param parameters Driver-specific configuration parameters.
   			TextInput(const char * name, const char * parameters);
 
+  public:
 	virtual		~TextInput() = 0;
   };
 
@@ -371,6 +375,7 @@ namespace FreeDV {
 	/// device driver parameters.
   				UserInterface(const char * name, const char * parameters, Interfaces * _interfaces);
 
+  public:
 	virtual			~UserInterface() = 0;
   };
 
