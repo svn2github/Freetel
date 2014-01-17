@@ -4,16 +4,16 @@
 
 namespace FreeDV {
   /// Event handler class for POSIX.
-  class EventHandlerPOSIX : public EventHandler {
+  class LibEvent : public EventHandler {
   protected:
 	/// Run one iteration of the event handler.
 	void		iterate();
 
   public:
 	/// Create an event handler instance.
-			EventHandlerPOSIX(const char * parameters);
+			LibEvent(const char * parameters);
 
-	virtual		~EventHandlerPOSIX();
+	virtual		~LibEvent();
 
 	/// Monitor a file descriptor in the event loop. Call a function if the
 	/// file descriptor is ready for I/O.
@@ -38,34 +38,34 @@ namespace FreeDV {
 	virtual void	unmonitor(int fd);
   };
 
-  EventHandlerPOSIX::EventHandlerPOSIX(const char * parameters)
+  LibEvent::LibEvent(const char * parameters)
   : EventHandler("posix", parameters)
   {
   }
 
-  EventHandlerPOSIX::~EventHandlerPOSIX()
+  LibEvent::~LibEvent()
   {
   }
 
   void
-  EventHandlerPOSIX::iterate()
+  LibEvent::iterate()
   {
   }
 
   EventHandler *
-  Driver::EventHandlerPOSIX(const char * parameter)
+  Driver::LibEvent(const char * parameter)
   {
-    return new ::FreeDV::EventHandlerPOSIX(parameter);
+    return new ::FreeDV::LibEvent(parameter);
   }
 
   void
-  EventHandlerPOSIX::monitor(int fd, unsigned int type, void * private_data,
+  LibEvent::monitor(int fd, unsigned int type, void * private_data,
    void (*event)(int fd, unsigned int type, void * private_data))
   {
   }
 
   void
-  EventHandlerPOSIX::unmonitor(int fd)
+  LibEvent::unmonitor(int fd)
   {
   }
 

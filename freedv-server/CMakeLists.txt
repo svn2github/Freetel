@@ -96,10 +96,10 @@ set(Compile.sources
   source/codec_noop.cpp
   source/driver_manager.cpp
   source/event_handler.cpp
-  source/event_posix.cpp
   source/interfaces.cpp
   source/keying.cpp
   source/keying_sink.cpp
+  source/libevent.cpp
   source/modem.cpp
   source/modem_noop.cpp
   source/ptt_constant.cpp
