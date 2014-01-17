@@ -430,6 +430,7 @@ namespace FreeDV {
     AudioInput *	Tone(const char * parameter);
     AudioOutput *	AudioSink(const char * parameter);
     Codec *		CodecNoOp(const char * parameter);
+    EventHandler *	EventHandlerPOSIX(const char * parameter);
     Keying *		KeyingSink(const char * parameter);
     Modem *		ModemNoOp(const char * parameter);
     PTTInput *		PTTConstant(const char * parameter);

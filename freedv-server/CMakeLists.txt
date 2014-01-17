@@ -95,19 +95,21 @@ set(Compile.sources
   source/codec.cpp
   source/codec_noop.cpp
   source/driver_manager.cpp
+  source/event_handler.cpp
+  source/event_posix.cpp
   source/interfaces.cpp
   source/keying.cpp
   source/keying_sink.cpp
   source/modem.cpp
   source/modem_noop.cpp
-  source/ptt_input.cpp
   source/ptt_constant.cpp
+  source/ptt_input.cpp
   source/run.cpp
   source/text_constant.cpp
   source/text_input.cpp
   source/tone.cpp
-  source/utility.cpp
   source/user_interface.cpp
+  source/utility.cpp
 )
 
 set(Optional.sources
