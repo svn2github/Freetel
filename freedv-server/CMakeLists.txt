@@ -95,6 +95,7 @@ set(Compile.sources
   source/codec.cpp
   source/codec_noop.cpp
   source/driver_manager.cpp
+  source/interfaces.cpp
   source/keying.cpp
   source/keying_sink.cpp
   source/modem.cpp

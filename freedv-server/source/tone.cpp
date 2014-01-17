@@ -46,17 +46,17 @@ namespace FreeDV {
     return 0;
   }
 
-#ifndef NO_INITIALIZERS
-  static AudioInput *
-  creator(const char * parameter)
+  AudioInput *
+  Driver::Tone(const char * parameter)
   {
-    return new Tone(parameter);
+    return new ::FreeDV::Tone(parameter);
   }
 
+#ifndef NO_INITIALIZERS
   static bool
   initializer()
   {
-    init_driver_manager().register_audio_input("tone", creator);
+    init_driver_manager().register_audio_input("tone", Driver::Tone);
     return true;
   }
   static const bool initialized = initializer();

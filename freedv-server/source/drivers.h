@@ -59,10 +59,20 @@ namespace FreeDV {
 	///  object information is to be rendered.
 	/// \return A reference to the provided stream, meant for the
 	///  usual successive call paradigm of ostream operator << .
-	virtual std::ostream &
-			operator << (std::ostream &) const;
+	std::ostream &	print(std::ostream &) const;
   };
 
+  /// Write the driver information from the Base object onto a stream,
+  /// for debugging and dumping the configuration information.
+  /// \param stream A reference to an instance of ostream upon which the
+  ///  object information is to be rendered.
+  /// \return A reference to the provided stream, meant for the
+  ///  usual successive call paradigm of ostream operator << .
+  inline std::ostream &
+  operator << (std::ostream & stream, const Base & base) {
+    return base.print(stream);
+  }
+  
   /// Virtual base class for audio input drivers.
   class AudioInput : public ::FreeDV::Base {
   protected:
@@ -174,7 +184,7 @@ namespace FreeDV {
 
   /// Event handler class, indirects the event handler of the particular GUI
   /// software or POSIX.
-  class EventHandler {
+  class EventHandler : public ::FreeDV::Base {
   private:
 	bool		do_exit;
 
@@ -192,8 +202,8 @@ namespace FreeDV {
 	const unsigned int Write = 2;
 
 	/// Create an event handler instance.
-			EventHandler()
-			: do_exit(false)
+			EventHandler(const char * name, const char * parameters)
+			: Base(name, parameters), do_exit(false)
 			{
 			}
 	virtual		~EventHandler() = 0;
@@ -251,11 +261,6 @@ namespace FreeDV {
 	/// loop handler.
 	/// \param fd The file descriptor to be removed from monitoring.
 	virtual void	unmonitor(int fd) = 0;
-
-	/// Write the driver information onto a stream, for debugging and
-	/// for dumping the configuration information.
-	/// \param stream A reference to an instance of ostream on which the
-	std::ostream &	operator << (std::ostream &);
   };
 
   /// Radio device keying driver.
@@ -368,7 +373,7 @@ namespace FreeDV {
    			Interfaces() : codec(0), event_handler(0),
 			 keying_output(0), loudspeaker(0), microphone(0),
 			 modem(0), ptt_input_digital(0), ptt_input_ssb(0),
-                         receiver(0), text(0), transmitter(0),
+                         receiver(0), text_input(0), transmitter(0),
 			 user_interface(0)
 			{
 			}
@@ -390,7 +395,7 @@ namespace FreeDV {
     /// The PTT input that indicates the transmission is to be SSB.
     PTTInput *		ptt_input_ssb;
     /// The text to be transmitted in our text side-channel.
-    TextInput *		text;
+    TextInput *		text_input;
     /// The audio output that drives the transmitter.
     AudioOutput *	transmitter;
     /// The audio input from the receiver.
@@ -398,11 +403,38 @@ namespace FreeDV {
     /// The user interface driver. Used for GUIs.
     UserInterface *	user_interface;
 
+    /// Fill in default drivers if the user or UserInterface hasn't set any.
+    void		fill_in();
+
     /// Write the command-line flags necessary to configure the drivers as 
     /// they are presently configured to the stream. This is used to save
     /// the configuration or debug the program.
     /// \param stream A reference to an instance of ostream on which the
-    std::ostream &	operator << (std::ostream &) const;
+    /// \return A reference to the provided stream, meant for the
+    ///  usual successive call paradigm of ostream operator << .
+    virtual std::ostream &
+			print(std::ostream &) const;
+  };
+  /// Write the driver information from the Interfaces object onto a stream,
+  /// for debugging and dumping the configuration information.
+  /// \param stream A reference to an instance of ostream upon which the
+  ///  object information is to be rendered.
+  /// \return A reference to the provided stream, meant for the
+  ///  usual successive call paradigm of ostream operator << .
+  inline std::ostream &
+  operator << (std::ostream & stream, const Interfaces & interfaces) {
+    return interfaces.print(stream);
+  }
+
+  namespace Driver {
+    AudioInput *	Tone(const char * parameter);
+    AudioOutput *	AudioSink(const char * parameter);
+    Codec *		CodecNoOp(const char * parameter);
+    Keying *		KeyingSink(const char * parameter);
+    Modem *		ModemNoOp(const char * parameter);
+    PTTInput *		PTTConstant(const char * parameter);
+    TextInput *		TextConstant(const char * parameter);
+    UserInterface *	BlankPanel(const char * parameter, Interfaces *);
   };
 }
 
@@ -433,7 +465,7 @@ namespace FreeDV {
 	/// Print the available drivers to the argument stream.
 	/// \param stream A reference to an instance of ostream on which the
 	///  information is to be printed.
-        void		print(std::ostream & stream);
+        std::ostream &	print(std::ostream & stream) const;
 
 	/// Instantiate an AudioInput driver.
 	/// \param driver The name of the driver.
@@ -502,12 +534,18 @@ namespace FreeDV {
 	/// \param driver The name of the driver.
 	/// \param creator The coroutine that will instantiate the driver.
 	void		register_user_interface(const char * driver, UserInterface * (*creator)(const char *, Interfaces *));
-
-	/// Print the available drivers to the argument stream.
-	/// \param stream A reference to an instance of ostream on which the
-	///  information is to be printed.
-	std::ostream &	operator << (std::ostream &) const;
   };
+  /// Write the driver information from the DriverManager object onto a stream,
+  /// for debugging and dumping the configuration information.
+  /// \param stream A reference to an instance of ostream upon which the
+  ///  object information is to be rendered.
+  /// \return A reference to the provided stream, meant for the
+  ///  usual successive call paradigm of ostream operator << .
+  inline std::ostream &
+  operator << (std::ostream & stream, const DriverManager & d) {
+    return d.print(stream);
+  }
+  
 
   /// Global reference to the driver manager.
   extern DriverManager & driver_manager;

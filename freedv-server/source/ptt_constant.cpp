@@ -21,17 +21,17 @@ namespace FreeDV {
   {
   }
 
-#ifndef NO_INITIALIZERS
-  static PTTInput *
-  creator(const char * parameter)
+  PTTInput *
+  Driver::PTTConstant(const char * parameter)
   {
-    return new PTTConstant(parameter);
+    return new ::FreeDV::PTTConstant(parameter);
   }
 
+#ifndef NO_INITIALIZERS
   static bool
   initializer()
   {
-    init_driver_manager().register_ptt_input("constant", creator);
+    init_driver_manager().register_ptt_input("constant", Driver::PTTConstant);
     return true;
   }
   static const bool initialized = initializer();

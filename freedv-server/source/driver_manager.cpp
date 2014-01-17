@@ -20,8 +20,8 @@ namespace FreeDV {
   {
   }
 
-  void
-  DriverManager::print(ostream & s)
+  ostream &
+  DriverManager::print(ostream & s) const
   {
     s << "AudioInput: ";
     for (auto i = audio_input_drivers.begin(); i != audio_input_drivers.end(); i++ )
@@ -55,6 +55,7 @@ namespace FreeDV {
     for (auto i = user_interface_drivers.begin(); i != user_interface_drivers.end(); i++ )
       s << i->first << " ";
     s << endl;
+    return s;
   }
 
   AudioInput *
@@ -186,12 +187,6 @@ namespace FreeDV {
   DriverManager::register_user_interface(const char * driver, UserInterface * (*creator)(const char *, Interfaces *))
   {
     user_interface_drivers[driver] = creator;
-  }
-
-  std::ostream &
-  DriverManager::operator << (std::ostream & stream) const
-  {
-    return stream;
   }
 
   /// Automatic initializer for the driver manager.

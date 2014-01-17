@@ -21,17 +21,17 @@ namespace FreeDV {
   {
   }
 
-#ifndef NO_INITIALIZERS
-  static TextInput *
-  creator(const char * parameter)
+  TextInput *
+  Driver::TextConstant(const char * parameter)
   {
-    return new TextConstant(parameter);
+    return new ::FreeDV::TextConstant(parameter);
   }
 
+#ifndef NO_INITIALIZERS
   static bool
   initializer()
   {
-    init_driver_manager().register_text_input("constant", creator);
+    init_driver_manager().register_text_input("constant", Driver::TextConstant);
     return true;
   }
   static const bool initialized = initializer();

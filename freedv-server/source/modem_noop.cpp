@@ -22,17 +22,17 @@ namespace FreeDV {
   {
   }
 
-#ifndef NO_INITIALIZERS
-  static Modem *
-  creator(const char * parameter)
+  Modem *
+  Driver::ModemNoOp(const char * parameter)
   {
-    return new ModemNoOp(parameter);
+    return new ::FreeDV::ModemNoOp(parameter);
   }
 
+#ifndef NO_INITIALIZERS
   static bool
   initializer()
   {
-    init_driver_manager().register_modem("no-op", creator);
+    init_driver_manager().register_modem("no-op", Driver::ModemNoOp);
     return true;
   }
   static const bool initialized = initializer();

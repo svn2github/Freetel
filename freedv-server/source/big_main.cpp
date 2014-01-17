@@ -38,6 +38,7 @@ static void help(const char * name)
     "\nWhere options are these flags:\n\n"
     "--codec or -c\t\tSelect the voice codec.\n"
     "--drivers or -d\t\tPrint a list of the available device drivers.\n"
+    "--gui or -g\t\tSelect the graphical user interface.\n"
     "--help or -h\t\tPrint this message.\n"
     "--interface or -i\tSelect the user-interface (graphical or otherwise).\n"
     "--keying or -k\t\tSelect the transmitter keying interface.\n"
@@ -71,6 +72,7 @@ static void help(const char * name)
 static const struct option options[] = {
   { "codec",		required_argument, 0, 'c' },
   { "drivers",		no_argument,	   0, 'd' },
+  { "gui",		required_argument, 0, 'g' },
   { "help",		no_argument,	   0, 'h' },
   { "interface",	required_argument, 0, 'i' },
   { "keying",		required_argument, 0, 'k' },
@@ -82,6 +84,7 @@ static const struct option options[] = {
   { "receiver",		required_argument, 0, 'r' },
   { "text",		required_argument, 0, 'x' },
   { "transmitter",	required_argument, 0, 't' },
+  { "config",		no_argument,	   0, 'C' },
   { 0, 0, 0, 0 }
 };
 
@@ -96,6 +99,7 @@ main(int argc, char * * argv)
   if ( argc > 1 ) {
     while ((command = getopt_long(argc, argv, "c:dhi:k:l:m:M:n:p:r:t:x:", options, NULL)) != -1) {
       switch (command) {
+      case 'g':
       case 'i':
       case 'k':
       case 'l':
@@ -124,6 +128,9 @@ main(int argc, char * * argv)
       case 'd':
         drivers();
         exit(0);
+        break;
+      case 'g':
+        i.user_interface = driver_manager.user_interface(driver, parameter, &i);
         break;
       default:
       case 'h':
@@ -155,8 +162,12 @@ main(int argc, char * * argv)
         i.transmitter = driver_manager.audio_output(driver, parameter);
         break;
       case 'x':
-        i.text = driver_manager.text_input(driver, parameter);
+        i.text_input = driver_manager.text_input(driver, parameter);
         break;
+      case 'C':
+	i.fill_in();
+	// FIX: Operator overload doesn't work here.
+        i.print(cout) << endl;
       case 0:
         break;
       }

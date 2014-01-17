@@ -31,17 +31,17 @@ namespace FreeDV {
   {
   }
 
-#ifndef NO_INITIALIZERS
-  static Keying *
-  creator(const char * parameter)
+  Keying *
+  Driver::KeyingSink(const char * parameter)
   {
-    return new KeyingSink(parameter);
+    return new ::FreeDV::KeyingSink(parameter);
   }
 
+#ifndef NO_INITIALIZERS
   static bool
   initializer()
   {
-    init_driver_manager().register_keying_output("sink", creator);
+    init_driver_manager().register_keying_output("sink", Driver::KeyingSink);
     return true;
   }
   static const bool initialized = initializer();

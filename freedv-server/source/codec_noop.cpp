@@ -99,17 +99,17 @@ namespace FreeDV {
     return 0;
   }
 
-#ifndef NO_INITIALIZERS
-  static Codec *
-  creator(const char * parameter)
+  Codec *
+  Driver::CodecNoOp(const char * parameter)
   {
-    return new CodecNoOp(parameter);
+    return new ::FreeDV::CodecNoOp(parameter);
   }
 
+#ifndef NO_INITIALIZERS
   static bool
   initializer()
   {
-    init_driver_manager().register_codec("no-op", creator);
+    init_driver_manager().register_codec("no-op", Driver::CodecNoOp);
     return true;
   }
   static const bool initialized = initializer();

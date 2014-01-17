@@ -22,17 +22,17 @@ namespace FreeDV {
   {
   }
 
-#ifndef NO_INITIALIZERS
-  static UserInterface *
-  creator(const char * parameter, Interfaces * interfaces)
+  UserInterface *
+  Driver::BlankPanel(const char * parameter, Interfaces * interfaces)
   {
-    return new BlankPanel(parameter, interfaces);
+    return new ::FreeDV::BlankPanel(parameter, interfaces);
   }
 
+#ifndef NO_INITIALIZERS
   static bool
   initializer()
   {
-    init_driver_manager().register_user_interface("blank-panel", creator);
+    init_driver_manager().register_user_interface("blank-panel", Driver::BlankPanel);
     return true;
   }
   static const bool initialized = initializer();
