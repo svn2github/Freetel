@@ -1,10 +1,14 @@
 /// The tone audio input driver, for testing.
 
 #include "drivers.h"
+#include <stdexcept>
 
 namespace FreeDV {
   /// This is a test driver that provides tones.
   class Tone : public AudioInput {
+  private:
+    float		volume;
+
   public:
     /// Instantiate the tone driver.
     			Tone(const char * parameter);
@@ -21,7 +25,7 @@ namespace FreeDV {
   };
 
   Tone::Tone(const char * parameters)
-  : AudioInput("tone", parameters)
+  : AudioInput("tone", parameters), volume(1.0)
   {
   }
 
@@ -32,12 +36,16 @@ namespace FreeDV {
   float
   Tone::level()
   {
-    return 0;
+    return volume;
   }
 
   void
   Tone::level(float value)
   {
+    if ( value < 0.0 || value > 1.0 )
+      throw std::runtime_error(
+       "Level set to value outside of the range 0.0..1.0");
+    volume = value;
   }
 
   std::size_t

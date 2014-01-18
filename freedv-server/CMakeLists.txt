@@ -124,6 +124,7 @@ set(Optional.sources
 
 set(Test.sources
   source/test/base.cpp
+  source/test/tone.cpp
 )
 
 set(Test.headers
