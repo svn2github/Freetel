@@ -131,8 +131,7 @@ set(Test.headers
 )
 
 load_parameters(cxx-flags)
-set_source_files_properties(${Compile.sources} ${Optional.sources} ${Test.sources} PROPERTIES COMPILE_FLAGS "-std=c++11")
-set_source_files_properties(${Compile.sources} ${Optional.sources} ${Test.sources} PROPERTIES COMPILE_FLAGS "-std=c++11")
+set_source_files_properties(${Compile.sources} ${Optional.sources} ${Test.sources} PROPERTIES COMPILE_FLAGS ${Param.cxx-flags})
 
 
 add_executable(freedv-server ${Compile.sources} source/big_main.cpp)

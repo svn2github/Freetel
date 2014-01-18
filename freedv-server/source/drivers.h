@@ -452,7 +452,7 @@ namespace FreeDV {
     PTTInput *		PTTConstant(const char * parameter);
     TextInput *		TextConstant(const char * parameter);
     UserInterface *	BlankPanel(const char * parameter, Interfaces *);
-  };
+  }
 }
 
 #ifndef NO_INITIALIZERS
