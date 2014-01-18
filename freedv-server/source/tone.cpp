@@ -58,10 +58,6 @@ namespace FreeDV {
     virtual std::size_t	read16(int16_t * array, std::size_t length);
   };
 
-  void
-  breakme()
-  {
-  }
 
   Tone::Tone(const char * parameters)
   : AudioInput("tone", parameters), clock(0), master_amplitude(1.0)
@@ -69,8 +65,6 @@ namespace FreeDV {
     unsigned int	index = 0;
     unsigned int	input = 0;
     std::stringstream	p(parameters);
-
-    breakme();
 
     while ( !p.eof() ) {
       float frequency = 0.0;
