@@ -13,11 +13,11 @@ namespace FreeDV {
 
 	/// Get the current audio level, normalized to the range of 0.0 to 1.0.
 	virtual float
-		level();
+		amplitude();
 
 	/// Set the current audio level within the range of 0.0 to 1.0.
 	virtual void
-		level(float value);
+		amplitude(float value);
 
         /// Write audio into the "short" type.
 	virtual std::size_t
@@ -34,13 +34,13 @@ namespace FreeDV {
   }
 
   float
-  AudioSink::level()
+  AudioSink::amplitude()
   {
     return 0;
   }
 
   void
-  AudioSink::level(float value)
+  AudioSink::amplitude(float value)
   {
   }
 

@@ -6,6 +6,13 @@
 /// Namespace used for all code in this program.
 namespace FreeDV {
 
+  /// The sample rate used by all audio interfaces in the program.
+  /// the sound cards are in general driven at 48000 because that's
+  /// the only reliable sample rate they all have in common. SampleRate
+  /// may be lower than that and thus there may be resampling in the
+  /// drivers.
+  const unsigned int	SampleRate = 8000;
+
   /// Allocate memory and copy a string into it, so that it is permanently
   /// stored.
   /// \param s The string to be copied.
@@ -91,12 +98,12 @@ namespace FreeDV {
 	/// Get the current audio level.
 	/// \return The current audio level.
 	/// The value is normalized to the range of 0.0 to 1.0.
-	virtual float	level() = 0;
+	virtual float	amplitude() = 0;
 
 	/// Set the current audio level.
 	/// \param value The new value for the current audio level.
 	/// The value must be normalized within the range of 0.0 to 1.0.
-	virtual void	level(float value) = 0;
+	virtual void	amplitude(float value) = 0;
 
         /// Read audio into an array of the signed 16-bit integer type.
 	virtual std::size_t
@@ -118,11 +125,11 @@ namespace FreeDV {
 
 	/// Get the current audio level.
 	/// The value is normalized to the range of 0.0 to 1.0.
-	virtual float	level() = 0;
+	virtual float	amplitude() = 0;
 
 	/// Set the current audio level.
 	/// The value must be within the range of 0.0 to 1.0.
-	virtual void	level(float value) = 0;
+	virtual void	amplitude(float value) = 0;
 
         /// Write audio from an array of the signed 16-bit integer type.
 	virtual std::size_t
