@@ -50,14 +50,30 @@ const int16_t	MaxS16((1 << 15) - 1);
 // Half of the maximum positive value of a signed 16-bit integer.
 const int16_t	HalfS16(1 << 14);
 
-TEST(ToneTest1, AtNyquistLimit) {
+class ToneTest2 : public ::testing::Test {
+protected:
+	AudioInput *	i;
+
+	ToneTest2()
+	: i(0)
+	{
+	}
+
+  void	SetUp() {
+    std::stringstream	stream;
+  
+    stream << SampleRate / 2 << ",1";
+  
+    i = Driver::Tone(stream.str().c_str());
+  }
+
+  void	TearDown() {
+    delete i;
+  }
+};
+
+TEST_F(ToneTest2, AtNyquistLimit) {
   int16_t	buffer[4];
-
-  std::stringstream	stream;
-
-  stream << SampleRate / 2 << ",1";
-
-  AudioInput *		i = Driver::Tone(stream.str().c_str());
 
   i->read16(buffer, sizeof(buffer) / sizeof(*buffer));
 
@@ -65,11 +81,33 @@ TEST(ToneTest1, AtNyquistLimit) {
   EXPECT_EQ(-MaxS16, buffer[1]);
   EXPECT_EQ(MaxS16, buffer[2]);
   EXPECT_EQ(-MaxS16, buffer[3]);
-
-  delete i;
 }
 
-TEST(ToneTest1, AtHalfNyquistLimit) {
+TEST_F(ToneTest2, MasterAmplitudeIsZero) {
+  int16_t	buffer[4];
+
+  i->amplitude(0);
+  i->read16(buffer, sizeof(buffer) / sizeof(*buffer));
+
+  EXPECT_EQ(0, buffer[0]);
+  EXPECT_EQ(0, buffer[1]);
+  EXPECT_EQ(0, buffer[2]);
+  EXPECT_EQ(0, buffer[3]);
+}
+
+TEST_F(ToneTest2, MasterAmplitudeIsZeroPointFive) {
+  int16_t	buffer[4];
+
+  i->amplitude(0.5);
+  i->read16(buffer, sizeof(buffer) / sizeof(*buffer));
+
+  EXPECT_EQ(HalfS16, buffer[0]);
+  EXPECT_EQ(-HalfS16, buffer[1]);
+  EXPECT_EQ(HalfS16, buffer[2]);
+  EXPECT_EQ(-HalfS16, buffer[3]);
+}
+
+TEST(ToneTest3, AtHalfNyquistLimit) {
   int16_t	buffer[8];
 
   std::stringstream	stream;
@@ -92,7 +130,7 @@ TEST(ToneTest1, AtHalfNyquistLimit) {
   delete i;
 }
 
-TEST(ToneTest1, FrequencyIsZero) {
+TEST(ToneTest3, FrequencyIsZero) {
   int16_t	buffer[4];
 
   AudioInput *		i = Driver::Tone("0,1");
@@ -107,7 +145,7 @@ TEST(ToneTest1, FrequencyIsZero) {
   delete i;
 }
 
-TEST(ToneTest1, AmplitudeIsZero) {
+TEST(ToneTest3, ToneAmplitudeIsZero) {
   int16_t	buffer[4];
 
   AudioInput *		i = Driver::Tone("1000,0");
@@ -122,7 +160,7 @@ TEST(ToneTest1, AmplitudeIsZero) {
   delete i;
 }
 
-TEST(ToneTest1, WavesSumCorrectly) {
+TEST(ToneTest3, WavesSumCorrectly) {
   int16_t	buffer[8];
 
   std::stringstream	stream;
@@ -146,7 +184,7 @@ TEST(ToneTest1, WavesSumCorrectly) {
   delete i;
 }
 
-TEST(ToneTest1, SumOfAmplitudesIsNormalizedCorrectly) {
+TEST(ToneTest3, SumOfAmplitudesIsNormalizedCorrectly) {
   int16_t	buffer[8];
 
   std::stringstream	stream;

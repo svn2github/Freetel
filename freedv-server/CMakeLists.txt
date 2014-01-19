@@ -87,6 +87,7 @@ message(STATUS "${Param.build-type} ${Version.major}.${Version.minor}.${Version.
 # Set cmake internal variables from parameters.
 #
 set(Compile.sources
+  source/audio_device.cpp
   source/audio_input.cpp
   source/audio_output.cpp
   source/audio_sink.cpp

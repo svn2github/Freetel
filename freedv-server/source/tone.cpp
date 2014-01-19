@@ -1,7 +1,6 @@
 /// The tone audio input driver, for testing.
 
 #include "drivers.h"
-#include <stdexcept>
 #include <sstream>
 #define _USE_MATH_DEFINES
 #include <cmath>
@@ -10,7 +9,6 @@ namespace FreeDV {
   /// This is a test driver that provides tones.
   class Tone : public AudioInput {
   private:
-    float		master_amplitude;
     unsigned int	clock;
 
     struct tone_info {
@@ -48,19 +46,13 @@ namespace FreeDV {
     			Tone(const char * parameter);
     virtual		~Tone();
     
-    // Get the current audio amplitude, normalized to the range of 0.0 to 1.0.
-    virtual float	amplitude();
-    
-    // Set the current audio amplitude within the range of 0.0 to 1.0.
-    virtual void	amplitude(float value);
-    
     // Read audio into the "short" type.
     virtual std::size_t	read16(int16_t * array, std::size_t length);
   };
 
 
   Tone::Tone(const char * parameters)
-  : AudioInput("tone", parameters), clock(0), master_amplitude(1.0)
+  : AudioInput("tone", parameters), clock(0)
   {
     unsigned int	index = 0;
     unsigned int	input = 0;
@@ -119,21 +111,6 @@ namespace FreeDV {
   {
   }
 
-  float
-  Tone::amplitude()
-  {
-    return master_amplitude;
-  }
-
-  void
-  Tone::amplitude(float value)
-  {
-    if ( value < 0.0 || value > 1.0 )
-      throw std::runtime_error(
-       "Amplitude set to value outside of the range 0.0..1.0");
-    master_amplitude = value;
-  }
-
   std::size_t
   Tone::read16(int16_t * array, std::size_t length)
   {
@@ -153,7 +130,7 @@ namespace FreeDV {
       // sum of amplitudes is 1.0.
       if ( sumOfAmplitudes > 1.0 )
         value /= sumOfAmplitudes;
-      array[i] = (int16_t)rint((value * ((1 << 15) - 1)));
+      array[i] = (int16_t)rint(value * master_amplitude * ((1 << 15) - 1));
     }
     clock = (clock + length) % SampleRate;
   }
