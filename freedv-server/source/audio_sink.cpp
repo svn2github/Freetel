@@ -11,14 +11,6 @@ namespace FreeDV {
   		AudioSink(const char * parameters);
 		~AudioSink();
 
-	/// Get the current audio level, normalized to the range of 0.0 to 1.0.
-	virtual float
-		amplitude();
-
-	/// Set the current audio level within the range of 0.0 to 1.0.
-	virtual void
-		amplitude(float value);
-
         /// Write audio into the "short" type.
 	virtual std::size_t
 		write16(const int16_t * array, std::size_t length);
@@ -33,22 +25,11 @@ namespace FreeDV {
   {
   }
 
-  float
-  AudioSink::amplitude()
-  {
-    return 0;
-  }
-
-  void
-  AudioSink::amplitude(float value)
-  {
-  }
-
   // Write audio into the "short" type.
   std::size_t
   AudioSink::write16(const int16_t * array, std::size_t length)
   {
-    return 0;
+    return length;
   }
 
   AudioOutput *

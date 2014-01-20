@@ -2,23 +2,23 @@
 /// or use with VOX.
 
 #include "drivers.h"
+#include <iostream>
 
 namespace FreeDV {
-  /// Keying output "sink", doesn't key anything. For testing or use with VOX.
-  class KeyingSink : public Keying {
+  /// KeyingOutput output "sink", doesn't key anything. For testing or use with VOX.
+  class KeyingSink : public KeyingOutput {
   public:
 
 	/// Instantiate keying sink driver.
   		KeyingSink(const char *);
 	virtual	~KeyingSink();
 
-	virtual void
-		key(bool value);
-
+	/// If the value is true, transmit. Otherwise receive.
+	void	key(bool value);
   };
 
   KeyingSink::KeyingSink(const char * parameters)
-  : Keying("sink", parameters)
+  : KeyingOutput("sink", parameters)
   {
   }
 
@@ -29,9 +29,13 @@ namespace FreeDV {
   void
   KeyingSink::key(bool value)
   {
+    if ( value )
+      std::cerr << "keying: TRANSMIT" << std::endl;
+    else
+      std::cerr << "keying: RECEIVE" << std::endl;
   }
 
-  Keying *
+  KeyingOutput *
   Driver::KeyingSink(const char * parameter)
   {
     return new ::FreeDV::KeyingSink(parameter);

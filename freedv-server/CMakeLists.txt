@@ -124,7 +124,9 @@ set(Optional.sources
 )
 
 set(Test.sources
+  source/test/audio_sink.cpp
   source/test/base.cpp
+  source/test/keying_sink.cpp
   source/test/tone.cpp
 )
 

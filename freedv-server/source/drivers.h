@@ -81,9 +81,10 @@ namespace FreeDV {
     return base.print(stream);
   }
   
-  // Virtual base class for AudioInput and AudioOutput.
+  /// Virtual base class for AudioInput and AudioOutput.
   class AudioDevice : public ::FreeDV::Base {
   protected:
+    /// The master volume control for the device.
     float		master_amplitude;
 
     /// Create an AudioDevice instance.
@@ -288,17 +289,17 @@ namespace FreeDV {
   };
 
   /// Radio device keying driver.
-  class Keying : public ::FreeDV::Base {
+  class KeyingOutput : public ::FreeDV::Base {
   protected:
     /// Create an radio keying output device instance.
     /// \param name Name of the driver. This is expected to be a single
     ///  constant static string per driver class.
     /// \param parameters Driver-specific configuration parameters.
-  			Keying(const char * name, const char * parameters);
+  			KeyingOutput(const char * name, const char * parameters);
 
   public:
     /// Destroy the radio keying device instance.
-    virtual		~Keying() = 0;
+    virtual		~KeyingOutput() = 0;
 
     /// Key or un-key the transmitter.
     /// \param value If true, key the transmitter. If false, un-key.
@@ -406,7 +407,7 @@ namespace FreeDV {
     /// The event loop handler. This is specific to a GUI, or POSIX.
     EventHandler *	event_handler;
     /// The output used to key the transmitter.
-    Keying *		keying_output;
+    KeyingOutput *	keying_output;
     /// The audio output which drives the loudspeaker or headphone.
     AudioOutput *	loudspeaker;
     /// The audio input from the microphone.
@@ -455,7 +456,7 @@ namespace FreeDV {
     AudioInput *	Tone(const char * parameter);
     AudioOutput *	AudioSink(const char * parameter);
     Codec *		CodecNoOp(const char * parameter);
-    Keying *		KeyingSink(const char * parameter);
+    KeyingOutput *	KeyingSink(const char * parameter);
     EventHandler *	LibEvent(const char * parameter);
     Modem *		ModemNoOp(const char * parameter);
     PTTInput *		PTTConstant(const char * parameter);
@@ -483,7 +484,7 @@ namespace FreeDV {
     std::map<std::string, Codec *(*)(const char *)>
 			codecs;
 
-    std::map<std::string, Keying *(*)(const char *)>
+    std::map<std::string, KeyingOutput *(*)(const char *)>
 			keying_output_drivers;
 
     std::map<std::string, Modem *(*)(const char *)>
@@ -524,7 +525,7 @@ namespace FreeDV {
     /// Instantiate a Keying driver.
     /// \param driver The name of the driver.
     /// \param parameters Driver-specific configuration parameters.
-    Keying *	keying_output(const char * driver, const char * parameters);
+    KeyingOutput *	keying_output(const char * driver, const char * parameters);
     /// Instantiate a softmodem.
     /// \param driver The name of the driver.
     /// \param parameters Driver-specific configuration parameters.
@@ -559,7 +560,7 @@ namespace FreeDV {
     /// Register an audio input driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
-    void		register_keying_output(const char * driver, Keying * (*creator)(const char *));
+    void		register_keying_output(const char * driver, KeyingOutput * (*creator)(const char *));
     /// Register an audio input driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.

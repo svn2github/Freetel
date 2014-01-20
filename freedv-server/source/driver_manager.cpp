@@ -35,7 +35,7 @@ namespace FreeDV {
     for (auto i = codecs.begin(); i != codecs.end(); i++ )
       s << i->first << " ";
     s << endl;
-    s << "Keying: ";
+    s << "KeyingOutput: ";
     for (auto i = keying_output_drivers.begin(); i != keying_output_drivers.end(); i++ )
       s << i->first << " ";
     s << endl;
@@ -85,10 +85,10 @@ namespace FreeDV {
       return 0;
   }
  
-  Keying *
+  KeyingOutput *
   DriverManager::keying_output(const char * driver, const char * parameter)
   {
-    Keying * (* const creator)(const char * parameter) = keying_output_drivers[driver];
+    KeyingOutput * (* const creator)(const char * parameter) = keying_output_drivers[driver];
 
     if(creator)
       return creator(parameter);
@@ -159,7 +159,7 @@ namespace FreeDV {
   }
 
   void
-  DriverManager::register_keying_output(const char * driver, Keying * (*creator)(const char *))
+  DriverManager::register_keying_output(const char * driver, KeyingOutput * (*creator)(const char *))
   {
     keying_output_drivers[driver] = creator;
   }

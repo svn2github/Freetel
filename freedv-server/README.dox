@@ -2,6 +2,40 @@
 /// 
 /// By Bruce Perens <bruce@perens.com>
 /// 
+///
+/// \section overview OVERVIEW
+/// FreeDV-Server continues the Free Amateur Radio Digital Voice system
+/// created by David Rowe and Dave Witten. This version is a substantial
+/// rewrite, preserving the codec and modem, and it's currently my intent
+/// to save the existing WxWidgets GUI as a separate program that drives
+/// this program as a backend.
+///
+/// This version is intended to work from the command line in server mode,
+/// as the backend of a GUI program, or as embedded software in a hardware
+/// device. Thus, there is a very versatile system for selecting and
+/// configuring device drivers, and there are "test" drivers such as tone
+/// generators and audio sinks for testing all parts of the program as well
+/// as drivers for actual hardware.
+///
+/// The intent at this time is to base the event system on libevent and the
+/// audio drivers on portaudio 2.0's "blocking" interface (which provides an
+/// "I/O ready" indication and thus doesn't actually have to block). There
+/// will probably be a need to extend portaudio so that it can tie into
+/// libevent.
+///
+/// All of this software is developed using test-driven-development, with
+/// googletest as the unit test framework. The test-driven paradigm immediately
+/// showed its usefulness, as it made a few design mistakes immediately obvious.
+///
+// Doxygen is used as the documentation system.
+///
+/// \section sponsorship SPONSORSHIP
+///
+/// The current use of this program is HF, but it is also intended to work as
+/// part of a VHF/UHF SDR HT being developed by Algoram, the company founded
+/// by Chris Testa and myself. Its development is currently part of my personal
+/// investment in Algoram.
+///
 /// \section licensing LICENSING
 /// 
 /// Copyright (C) Algoram.  Contact us via Bruce Perens <bruce@perens.com>

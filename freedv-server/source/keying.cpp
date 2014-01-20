@@ -1,14 +1,14 @@
-/// Keying driver.
+/// KeyingOutput driver.
 
 #include "drivers.h"
 
 namespace FreeDV {
-  Keying::Keying(const char * name, const char * parameters)
+  KeyingOutput::KeyingOutput(const char * name, const char * parameters)
   : Base(name, parameters)
   {
   }
 
-  Keying::~Keying()
+  KeyingOutput::~KeyingOutput()
   {
   }
 }
