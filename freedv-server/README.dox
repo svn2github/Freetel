@@ -4,6 +4,7 @@
 /// 
 ///
 /// \section overview OVERVIEW
+///
 /// FreeDV-Server continues the Free Amateur Radio Digital Voice system
 /// created by David Rowe and Dave Witten. This version is a substantial
 /// rewrite, preserving the codec and modem, and it's currently my intent
@@ -27,7 +28,7 @@
 /// googletest as the unit test framework. The test-driven paradigm immediately
 /// showed its usefulness, as it made a few design mistakes immediately obvious.
 ///
-// Doxygen is used as the documentation system.
+/// Doxygen is used as the documentation system.
 ///
 /// \section sponsorship SPONSORSHIP
 ///
