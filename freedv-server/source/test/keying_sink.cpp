@@ -23,7 +23,10 @@ protected:
 };
 
 TEST_F(KeyingSinkTest, CanCallKey) {
-
   k->key(true);
   k->key(false);
+}
+
+TEST_F(KeyingSinkTest, AlwaysReady) {
+  EXPECT_EQ(SIZE_MAX, k->ready());
 }

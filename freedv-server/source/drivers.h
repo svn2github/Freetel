@@ -82,11 +82,14 @@ namespace FreeDV {
   }
   
   /// Virtual base class for all drivers that perform non-blocking I/O.
-  /// These are AudioInput and AudioOutput, PTTInput, TextInput, and
-  /// UserInterface.
-  /// Keying is assumed to never need to block.
+  /// These are AudioInput and AudioOutput, PTTInput, TextInput,
+  /// KeyingOutput and UserInterface.
   class IODevice : public ::FreeDV::Base {
   protected:
+    /// Construct an I/O device.
+    /// \param _name Name of the driver. This is expected to be a single
+    ///  constant static string per driver class.
+    /// \param _parameters Driver-specific configuration parameters.
 			IODevice(const char * name, const char * parameters);
 
   public:
@@ -327,6 +330,9 @@ namespace FreeDV {
     /// Key or un-key the transmitter.
     /// \param value If true, key the transmitter. If false, un-key.
     virtual void	key(bool value) = 0;
+
+    /// Return the amount of bytes ready to write.
+    virtual size_t	ready() = 0;
   };
 
   /// Softmodem driver.

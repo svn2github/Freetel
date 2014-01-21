@@ -8,13 +8,16 @@ namespace FreeDV {
   /// KeyingOutput output "sink", doesn't key anything. For testing or use with VOX.
   class KeyingSink : public KeyingOutput {
   public:
+    /// Instantiate keying sink driver.
+			KeyingSink(const char *);
+    virtual		~KeyingSink();
 
-	/// Instantiate keying sink driver.
-  		KeyingSink(const char *);
-	virtual	~KeyingSink();
+    /// If the value is true, transmit. Otherwise receive.
+    void		key(bool value);
 
-	/// If the value is true, transmit. Otherwise receive.
-	void	key(bool value);
+    /// Return the amount of bytes ready for read. In this case, it always
+    /// returns SIZE_MAX.
+    size_t		ready();
   };
 
   KeyingSink::KeyingSink(const char * parameters)
@@ -33,6 +36,12 @@ namespace FreeDV {
       std::cerr << "keying: TRANSMIT" << std::endl;
     else
       std::cerr << "keying: RECEIVE" << std::endl;
+  }
+
+  size_t
+  KeyingSink::ready()
+  {
+    return SIZE_MAX;
   }
 
   KeyingOutput *
