@@ -1,6 +1,7 @@
 // Tests for the AudioSink class.
 #include <drivers.h>
 #include <gtest/gtest.h>
+#include <climits>
 
 using namespace FreeDV;
 
@@ -21,6 +22,10 @@ protected:
     delete o;
   }
 };
+
+TEST_F(AudioSinkTest, AlwaysReady) {
+  EXPECT_EQ(SIZE_MAX, o->ready());
+}
 
 TEST_F(AudioSinkTest, WriteReturnsSize) {
   int16_t	buffer[8];

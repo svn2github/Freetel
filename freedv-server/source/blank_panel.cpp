@@ -11,6 +11,9 @@ namespace FreeDV {
     			BlankPanel(const char * parameter, Interfaces * interfaces);
     virtual		~BlankPanel();
     
+    /// Return the amount of bytes ready for read. In this case, it always
+    /// returns 0.
+    size_t	ready();
   };
 
   BlankPanel::BlankPanel(const char * parameter, Interfaces * interfaces)
@@ -20,6 +23,12 @@ namespace FreeDV {
 
   BlankPanel::~BlankPanel()
   {
+  }
+
+  size_t
+  BlankPanel::ready()
+  {
+    return 0;
   }
 
   UserInterface *

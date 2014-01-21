@@ -1,6 +1,7 @@
 /// The AudioSink driver, called as "sink", discards the audio, for testing.
 
 #include "drivers.h"
+#include <climits>
 
 namespace FreeDV {
   /// Audio output "sink", discards the audio, for testing.
@@ -10,6 +11,11 @@ namespace FreeDV {
 	/// Instantiate the audio sink.
   		AudioSink(const char * parameters);
 		~AudioSink();
+
+	/// Return the number of audio samples the device can handle in
+	/// a write without blocking. This version always returns SIZE_MAX.
+        virtual size_t
+		ready();
 
         /// Write audio into the "short" type.
 	virtual std::size_t
@@ -36,6 +42,12 @@ namespace FreeDV {
   Driver::AudioSink(const char * parameter)
   {
     return new ::FreeDV::AudioSink(parameter);
+  }
+
+  size_t
+  AudioSink::ready()
+  {
+    return SIZE_MAX;
   }
 
 #ifndef NO_INITIALIZERS

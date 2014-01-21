@@ -4,7 +4,7 @@
 
 namespace FreeDV {
   UserInterface::UserInterface(const char * name, const char * parameters, Interfaces * interfaces)
-  : Base(name, parameters)
+  : IODevice(name, parameters)
   {
   }
 

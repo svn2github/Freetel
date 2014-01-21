@@ -10,6 +10,8 @@ namespace FreeDV {
     			PTTConstant(const char * parameters);
     virtual		~PTTConstant();
     
+    /// Return the amount of bytes ready for read.
+    size_t	ready();
   };
 
   PTTConstant::PTTConstant(const char * parameters)
@@ -19,6 +21,12 @@ namespace FreeDV {
 
   PTTConstant::~PTTConstant()
   {
+  }
+
+  size_t
+  PTTConstant::ready()
+  {
+    return SIZE_MAX;
   }
 
   PTTInput *

@@ -98,6 +98,7 @@ set(Compile.sources
   source/driver_manager.cpp
   source/event_handler.cpp
   source/interfaces.cpp
+  source/io_device.cpp
   source/keying.cpp
   source/keying_sink.cpp
   source/libevent.cpp
@@ -126,6 +127,7 @@ set(Optional.sources
 set(Test.sources
   source/test/audio_sink.cpp
   source/test/base.cpp
+  source/test/blank_panel.cpp
   source/test/keying_sink.cpp
   source/test/tone.cpp
 )

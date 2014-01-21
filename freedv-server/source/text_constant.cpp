@@ -10,6 +10,9 @@ namespace FreeDV {
     			TextConstant(const char * parameter);
     virtual		~TextConstant();
     
+    /// Return the amount of bytes ready for read. In this case, it always
+    /// returns SIZE_MAX.
+    size_t	ready();
   };
 
   TextConstant::TextConstant(const char * parameters)
@@ -19,6 +22,12 @@ namespace FreeDV {
 
   TextConstant::~TextConstant()
   {
+  }
+
+  size_t
+  TextConstant::ready()
+  {
+    return SIZE_MAX;
   }
 
   TextInput *

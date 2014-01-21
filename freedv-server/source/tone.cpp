@@ -18,38 +18,21 @@ namespace FreeDV {
 
     tone_info	tones[101];
 
+    /// Return the amount of audio samples for read. In this case, it always
+    /// returns SIZE_MAX.
+    size_t	ready();
+
     /// Generate a sine wave.
-    float
-    sine_wave(float frequency, unsigned int step)
-    {
-      // The number of samples per cycle for the given frequency and sample
-      // rate.
-      const float	samplesPerCycle = SampleRate / frequency;
-
-      // Add 1/4 turn to the step so that at the Nyquist frequency we
-      // render the peaks rather than the zero crossings.
-      const float	bias = step + (samplesPerCycle / 4);
-
-      // Angular measure where 1.0 = 360 degrees.
-      const float	portionOfCycle = fmod(bias, samplesPerCycle) / samplesPerCycle;
-
-      // Convert to radians.
-      const float radians = portionOfCycle * M_PI * 2;
-
-      const float sine = sin(radians);
-
-      return sine;
-    }
-
+    float	sine_wave(float frequency, unsigned int step);
   public:
     /// Instantiate the tone driver.
-    			Tone(const char * parameter);
+    			Tone(const char * parameters);
+
     virtual		~Tone();
     
     // Read audio into the "short" type.
     virtual std::size_t	read16(int16_t * array, std::size_t length);
   };
-
 
   Tone::Tone(const char * parameters)
   : AudioInput("tone", parameters), clock(0)
@@ -133,6 +116,34 @@ namespace FreeDV {
       array[i] = (int16_t)rint(value * master_amplitude * ((1 << 15) - 1));
     }
     clock = (clock + length) % SampleRate;
+  }
+
+  size_t
+  Tone::ready()
+  {
+    return SIZE_MAX;
+  }
+
+  float
+  Tone::sine_wave(float frequency, unsigned int step)
+  {
+    // The number of samples per cycle for the given frequency and sample
+    // rate.
+    const float	samplesPerCycle = SampleRate / frequency;
+
+    // Add 1/4 turn to the step so that at the Nyquist frequency we
+    // render the peaks rather than the zero crossings.
+    const float	bias = step + (samplesPerCycle / 4);
+
+    // Angular measure where 1.0 = 360 degrees.
+    const float	portionOfCycle = fmod(bias, samplesPerCycle) / samplesPerCycle;
+
+    // Convert to radians.
+    const float radians = portionOfCycle * M_PI * 2;
+
+    const float sine = sin(radians);
+
+    return sine;
   }
 
   AudioInput *

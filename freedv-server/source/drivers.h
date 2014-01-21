@@ -81,8 +81,31 @@ namespace FreeDV {
     return base.print(stream);
   }
   
+  /// Virtual base class for all drivers that perform non-blocking I/O.
+  /// These are AudioInput and AudioOutput, PTTInput, TextInput, and
+  /// UserInterface.
+  /// Keying is assumed to never need to block.
+  class IODevice : public ::FreeDV::Base {
+  protected:
+			IODevice(const char * name, const char * parameters);
+
+  public:
+    /// Return the number of audio samples, or bytes for devices other than
+    /// audio interfaces, that can be read or written. Return zero if there
+    /// is not enough readable or writable data to do some work, for example
+    /// if the device is a PTT input and the internal driver detects less
+    /// readable data than necessary to read the HID status.
+    ///
+    /// All drivers present a unidirectional interface.
+    /// If the underlying device is bidirectional that detail is hidden and
+    /// we present one or more separate read and write drivers.
+    virtual size_t	ready() = 0;
+
+    virtual		~IODevice() = 0;
+  };
+
   /// Virtual base class for AudioInput and AudioOutput.
-  class AudioDevice : public ::FreeDV::Base {
+  class AudioDevice : public ::FreeDV::IODevice {
   protected:
     /// The master volume control for the device.
     float		master_amplitude;
@@ -320,7 +343,7 @@ namespace FreeDV {
   };
 
   /// Push-to-talk input driver.
-  class PTTInput : public ::FreeDV::Base {
+  class PTTInput : public ::FreeDV::IODevice {
   private:
     /// Coroutine to be called when the sense of the push-to-talk switch
     /// changes.
@@ -347,7 +370,7 @@ namespace FreeDV {
   };
 
   /// Driver for the text message source function.
-  class TextInput : public ::FreeDV::Base {
+  class TextInput : public ::FreeDV::IODevice {
   protected:
     /// The child class calls this member in its parent to set the text.
     void		set(const char * text);
@@ -372,7 +395,7 @@ namespace FreeDV {
   /// There must be inputs and callbacks for many things here.
   /// UserInterfaces may provide their own drivers for microphone,
   /// loudspeaker, TextInput, both forms of PTT, and EventHandler.
-  class UserInterface : public ::FreeDV::Base {
+  class UserInterface : public ::FreeDV::IODevice {
   protected:
     /// The external Interfaces object.
     Interfaces *	interfaces;

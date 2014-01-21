@@ -4,7 +4,7 @@
 
 namespace FreeDV {
   PTTInput::PTTInput(const char * name, const char * parameters)
-  : Base(name, parameters)
+  : IODevice(name, parameters)
   {
   }
 

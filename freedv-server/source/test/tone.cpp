@@ -3,6 +3,7 @@
 #include <gtest/gtest.h>
 #include <sstream>
 #include <iostream>
+#include <climits>
 
 using namespace FreeDV;
 
@@ -43,6 +44,10 @@ TEST_F(ToneTest, EnforcesNormalization) {
   EXPECT_NO_THROW(i->amplitude(0.0));
   EXPECT_NO_THROW(i->amplitude(0.5));
   EXPECT_NO_THROW(i->amplitude(1.0));
+}
+
+TEST_F(ToneTest, AlwaysReady) {
+  EXPECT_EQ(SIZE_MAX, i->ready());
 }
 
 // Maximum positive value of a signed 16-bit integer.
