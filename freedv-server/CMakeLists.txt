@@ -86,7 +86,18 @@ message(STATUS "${Param.build-type} ${Version.major}.${Version.minor}.${Version.
 #
 # Set cmake internal variables from parameters.
 #
+
+set(Compile.linux.sources
+  source/platform/linux/scheduler.cpp
+)
+
+# FIX: Add other platforms.
+if(Platform.name STREQUAL Linux)
+  set(Compile.platform.sources ${Compile.linux.sources})
+endif(Platform.name STREQUAL Linux)
+
 set(Compile.sources
+  ${Compile.platform.sources}
   source/audio_device.cpp
   source/audio_input.cpp
   source/audio_output.cpp

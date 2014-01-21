@@ -68,7 +68,7 @@ namespace FreeDV {
       else {
         receive(i);
       }
-      usleep(10000);
+      usleep(20000);
     }
   }
 

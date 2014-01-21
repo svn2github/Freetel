@@ -182,6 +182,7 @@ main(int argc, char * * argv)
     help(argv[0]);
     exit(1);
   }
+  set_scheduler();
   return run(&i);
 }
 #endif

@@ -17,7 +17,11 @@ namespace FreeDV {
   /// \param s The string to be copied.
   /// \return The new copy. It's the caller's responsibility to free this data,
   ///  or a memory leak will occurr.
-  char * copy_string(const char * s);
+  char *	copy_string(const char * s);
+
+  /// Set the real-time parameters in the scheduler before running our main
+  /// loop.
+  void		set_scheduler();
 
   /// Virtual base class for all driver classes.
   class Base {
