@@ -129,6 +129,8 @@ set(Test.sources
   source/test/base.cpp
   source/test/blank_panel.cpp
   source/test/keying_sink.cpp
+  source/test/ptt_constant.cpp
+  source/test/text_constant.cpp
   source/test/tone.cpp
 )
 

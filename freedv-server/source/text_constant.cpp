@@ -1,22 +1,30 @@
 /// The constant text driver, just outputs the same text over and over.
 
 #include "drivers.h"
+#include <stdexcept>
+#include <cstring>
 
 namespace FreeDV {
   /// This driver provides constant text.
   class TextConstant : public TextInput {
+  private:
+    const size_t	length;
+    size_t		index;
+
   public:
     /// Instantiate the constant text driver.
     			TextConstant(const char * parameter);
     virtual		~TextConstant();
     
-    /// Return the amount of bytes ready for read. In this case, it always
-    /// returns SIZE_MAX.
-    size_t	ready();
+    /// Read the text data.
+    size_t		read(char * buffer, size_t size);
+
+    /// Return the amount of bytes ready for read.
+    size_t		ready();
   };
 
   TextConstant::TextConstant(const char * parameters)
-  : TextInput("constant", parameters)
+  : TextInput("constant", parameters), index(0), length(strlen(parameters))
   {
   }
 
@@ -25,9 +33,29 @@ namespace FreeDV {
   }
 
   size_t
+  TextConstant::read(char * buffer, size_t size)
+  {
+    const size_t available = length - index;
+
+    if ( available == 0 ) {
+      /// A real I/O device would block if this happened, so throw an error.
+      throw std::runtime_error("Text constant: read with no I/O ready.");
+    }
+
+    if ( size > available )
+      size = available;
+
+    if ( size > 0 ) {
+      memcpy(buffer, &parameters[index], size);
+      index += size;
+    }
+    return size;
+  }
+
+  size_t
   TextConstant::ready()
   {
-    return SIZE_MAX;
+    return length - index;
   }
 
   TextInput *

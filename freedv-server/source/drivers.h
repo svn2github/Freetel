@@ -350,18 +350,7 @@ namespace FreeDV {
 
   /// Push-to-talk input driver.
   class PTTInput : public ::FreeDV::IODevice {
-  private:
-    /// Coroutine to be called when the sense of the push-to-talk switch
-    /// changes.
-    void		(*callback)(bool);
-
   protected:
-    /// The driver calls this member to inform FreeDV that the PTT switch
-    /// sense has changed. The value is true for key-down,
-    /// false for key-up.
-    /// \param value True for key-down, false for key-up.
-    void		changed(bool value);
-
     /// Create a push-to-talk switch instance.
     /// \param name Name of the driver. This is expected to be a single
     ///  constant static string per driver class.
@@ -370,9 +359,7 @@ namespace FreeDV {
   public:
     virtual		~PTTInput() = 0;
 
-    /// Set the function that will be called when the push-to-talk input
-    /// changes its value.
-    void		set_callback(void (*value)(bool));
+    virtual bool	state() = 0;
   };
 
   /// Driver for the text message source function.
@@ -389,6 +376,9 @@ namespace FreeDV {
   			TextInput(const char * name, const char * parameters);
 
   public:
+    /// Read the text data.
+    virtual size_t	read(char * buffer, size_t length) = 0;
+
     virtual		~TextInput() = 0;
   };
 
