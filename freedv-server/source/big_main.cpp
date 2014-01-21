@@ -71,7 +71,9 @@ static void help(const char * name)
 
 static const struct option options[] = {
   { "codec",		required_argument, 0, 'c' },
+  { "config",		no_argument,	   0, 'C' },
   { "drivers",		no_argument,	   0, 'd' },
+  { "default",		no_argument,	   0, 'D' },
   { "gui",		required_argument, 0, 'g' },
   { "help",		no_argument,	   0, 'h' },
   { "interface",	required_argument, 0, 'i' },
@@ -84,7 +86,6 @@ static const struct option options[] = {
   { "receiver",		required_argument, 0, 'r' },
   { "text",		required_argument, 0, 'x' },
   { "transmitter",	required_argument, 0, 't' },
-  { "config",		no_argument,	   0, 'C' },
   { 0, 0, 0, 0 }
 };
 
@@ -129,6 +130,9 @@ main(int argc, char * * argv)
         drivers();
         exit(0);
         break;
+      case 'D':
+        i.fill_in();
+        break;
       case 'g':
         i.user_interface = driver_manager.user_interface(driver, parameter, &i);
         break;
@@ -168,6 +172,7 @@ main(int argc, char * * argv)
 	i.fill_in();
 	// FIX: Operator overload doesn't work here.
         i.print(cout) << endl;
+        exit(0);
       case 0:
         break;
       }
