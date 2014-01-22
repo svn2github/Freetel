@@ -19,6 +19,19 @@ namespace FreeDV {
   ///  or a memory leak will occurr.
   char *	copy_string(const char * s);
 
+  /// Simple C++ circular buffer class. 
+  /// Written to avoid STL templates, Boost, etc. in order to keep down the
+  /// size of the embedded version of this program. 
+  class CircularBuffer {
+  private:
+    char *	buffer;
+    std::size_t	length;
+    char *	in;
+    char *	out;
+
+  public:
+  };
+
   /// Set the real-time parameters in the scheduler before running our main
   /// loop.
   void		set_scheduler();
@@ -106,7 +119,7 @@ namespace FreeDV {
     /// All drivers present a unidirectional interface.
     /// If the underlying device is bidirectional that detail is hidden and
     /// we present one or more separate read and write drivers.
-    virtual size_t	ready() = 0;
+    virtual std::size_t	ready() = 0;
 
     virtual		~IODevice() = 0;
   };
@@ -153,7 +166,7 @@ namespace FreeDV {
 
         /// Read audio into an array of the signed 16-bit integer type.
     virtual std::size_t
-    			read16(int16_t * array, std::size_t length) = 0;
+    			read16(std::int16_t * array, std::size_t length) = 0;
   };
 
   /// Virtual base class for audio output drivers.
@@ -171,7 +184,7 @@ namespace FreeDV {
 
         /// Write audio from an array of the signed 16-bit integer type.
     virtual std::size_t
-    			write16(const int16_t * array, std::size_t length) = 0;
+    			write16(const std::int16_t * array, std::size_t length) = 0;
   };
 
   /// Virtual base class for codecs.
@@ -199,9 +212,9 @@ namespace FreeDV {
     /// \param o The array of audio samples after decoding, in an array
     /// of signed 16-bit integers.
     /// \param length The number of bytes of data to be decoded.
-    /// \return The number of int16_t elements in the decoded array.
+    /// \return The number of std::int16_t elements in the decoded array.
     virtual std::size_t
-    			decode16(const uint8_t * i, int16_t * o, \
+    			decode16(const std::uint8_t * i, std::int16_t * o, \
              		 std::size_t length) = 0;
 
 
@@ -210,9 +223,9 @@ namespace FreeDV {
     /// of signed 16-bit integers.
     /// \param o The encoded data, in an array of unsigned 8-bit integers.
     /// \param length The number of audio samples to be encoded.
-    /// \return The number of uint8_t elements in the encoded array.
+    /// \return The number of std::uint8_t elements in the encoded array.
     virtual std::size_t
-    			encode16(const int16_t * i, uint8_t * o, \
+    			encode16(const std::int16_t * i, std::uint8_t * o, \
              		 std::size_t length) = 0;
 
     /// Return the duration of a frame in milliseconds.
@@ -333,7 +346,7 @@ namespace FreeDV {
     virtual void	key(bool value) = 0;
 
     /// Return the amount of bytes ready to write.
-    virtual size_t	ready() = 0;
+    virtual std::size_t	ready() = 0;
   };
 
   /// Softmodem driver.
@@ -360,9 +373,9 @@ namespace FreeDV {
     /// of signed 16-bit integers.
     /// \param o The demodulated data, in an array of unsigned 8-bit integers.
     /// \param length The number of audio samples to be demodulated.
-    /// \return The number of uint8_t elements in the demodulated array.
+    /// \return The number of std::uint8_t elements in the demodulated array.
     virtual std::size_t
-    			demodulate16(const int16_t * i, uint8_t * o, \
+    			demodulate16(const std::int16_t * i, std::uint8_t * o, \
              		 std::size_t length) = 0;
 
     /// Modulate from data to audio samples.
@@ -370,9 +383,9 @@ namespace FreeDV {
     /// \param o The array of audio samples after modulation, in an array
     /// of signed 16-bit integers.
     /// \param length The number of bytes of data to be modulated.
-    /// \return The number of int16_t elements in the modulated array.
+    /// \return The number of std::int16_t elements in the modulated array.
     virtual std::size_t
-    			modulate16(const uint8_t * i, int16_t * o, \
+    			modulate16(const std::uint8_t * i, std::int16_t * o, \
              		 std::size_t length) = 0;
 
     /// Return the duration of a frame in milliseconds.
@@ -419,7 +432,7 @@ namespace FreeDV {
 
   public:
     /// Read the text data.
-    virtual size_t	read(char * buffer, size_t length) = 0;
+    virtual std::size_t	read(char * buffer, std::size_t length) = 0;
 
     virtual		~TextInput() = 0;
   };

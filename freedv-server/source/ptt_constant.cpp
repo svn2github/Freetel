@@ -17,7 +17,7 @@ namespace FreeDV {
     virtual		~PTTConstant();
     
     /// Return the amount of bytes ready for read.
-    size_t	ready();
+    std::size_t	ready();
 
     /// Return true if the PTT input is pressed.
     bool	state();
@@ -41,7 +41,7 @@ namespace FreeDV {
   {
   }
 
-  size_t
+  std::size_t
   PTTConstant::ready()
   {
     if ( ready_one_shot )

@@ -20,7 +20,7 @@ namespace FreeDV {
 
     /// Return the amount of audio samples for read. In this case, it always
     /// returns SIZE_MAX.
-    size_t	ready();
+    std::size_t	ready();
 
     /// Generate a sine wave.
     float	sine_wave(float frequency, unsigned int step);
@@ -31,7 +31,7 @@ namespace FreeDV {
     virtual		~Tone();
     
     // Read audio into the "short" type.
-    virtual std::size_t	read16(int16_t * array, std::size_t length);
+    virtual std::size_t	read16(std::int16_t * array, std::size_t length);
   };
 
   Tone::Tone(const char * parameters)
@@ -95,7 +95,7 @@ namespace FreeDV {
   }
 
   std::size_t
-  Tone::read16(int16_t * array, std::size_t length)
+  Tone::read16(std::int16_t * array, std::size_t length)
   {
     const unsigned int array_length = ((sizeof(tones) / sizeof(*tones)) - 1);
 
@@ -113,12 +113,12 @@ namespace FreeDV {
       // sum of amplitudes is 1.0.
       if ( sumOfAmplitudes > 1.0 )
         value /= sumOfAmplitudes;
-      array[i] = (int16_t)rint(value * master_amplitude * ((1 << 15) - 1));
+      array[i] = (std::int16_t)rint(value * master_amplitude * ((1 << 15) - 1));
     }
     clock = (clock + length) % SampleRate;
   }
 
-  size_t
+  std::size_t
   Tone::ready()
   {
     return SIZE_MAX;

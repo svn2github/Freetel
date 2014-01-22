@@ -14,12 +14,12 @@ namespace FreeDV {
 
 	/// Return the number of audio samples the device can handle in
 	/// a write without blocking. This version always returns SIZE_MAX.
-        virtual size_t
+        virtual std::size_t
 		ready();
 
         /// Write audio into the "short" type.
 	virtual std::size_t
-		write16(const int16_t * array, std::size_t length);
+		write16(const std::int16_t * array, std::size_t length);
   };
 
   AudioSink::AudioSink(const char * p)
@@ -33,7 +33,7 @@ namespace FreeDV {
 
   // Write audio into the "short" type.
   std::size_t
-  AudioSink::write16(const int16_t * array, std::size_t length)
+  AudioSink::write16(const std::int16_t * array, std::size_t length)
   {
     return length;
   }
@@ -44,7 +44,7 @@ namespace FreeDV {
     return new ::FreeDV::AudioSink(parameter);
   }
 
-  size_t
+  std::size_t
   AudioSink::ready()
   {
     return SIZE_MAX;

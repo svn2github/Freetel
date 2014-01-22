@@ -8,8 +8,8 @@ namespace FreeDV {
   /// This driver provides constant text.
   class TextConstant : public TextInput {
   private:
-    const size_t	length;
-    size_t		index;
+    const std::size_t	length;
+    std::size_t		index;
 
   public:
     /// Instantiate the constant text driver.
@@ -17,10 +17,10 @@ namespace FreeDV {
     virtual		~TextConstant();
     
     /// Read the text data.
-    size_t		read(char * buffer, size_t size);
+    std::size_t		read(char * buffer, std::size_t size);
 
     /// Return the amount of bytes ready for read.
-    size_t		ready();
+    std::size_t		ready();
   };
 
   TextConstant::TextConstant(const char * parameters)
@@ -32,10 +32,10 @@ namespace FreeDV {
   {
   }
 
-  size_t
-  TextConstant::read(char * buffer, size_t size)
+  std::size_t
+  TextConstant::read(char * buffer, std::size_t size)
   {
-    const size_t available = length - index;
+    const std::size_t available = length - index;
 
     if ( available == 0 ) {
       /// A real I/O device would block if this happened, so throw an error.
@@ -52,7 +52,7 @@ namespace FreeDV {
     return size;
   }
 
-  size_t
+  std::size_t
   TextConstant::ready()
   {
     return length - index;

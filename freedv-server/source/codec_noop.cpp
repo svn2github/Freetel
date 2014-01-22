@@ -23,9 +23,9 @@ namespace FreeDV {
     /// \param o The array of audio samples after decoding, in an array
     /// of signed 16-bit integers.
     /// \param length The number of bytes of data to be decoded.
-    /// \return The number of int16_t elements in the decoded array.
+    /// \return The number of std::int16_t elements in the decoded array.
     virtual std::size_t
-    			decode16(const uint8_t * i, int16_t * o, \
+    			decode16(const std::uint8_t * i, std::int16_t * o, \
              		 std::size_t length);
 
 
@@ -34,9 +34,9 @@ namespace FreeDV {
     /// of signed 16-bit integers.
     /// \param o The encoded data, in an array of unsigned 8-bit integers.
     /// \param length The number of audio samples to be encoded.
-    /// \return The number of uint8_t elements in the encoded array.
+    /// \return The number of std::uint8_t elements in the encoded array.
     virtual std::size_t
-    			encode16(const int16_t * i, uint8_t * o, \
+    			encode16(const std::int16_t * i, std::uint8_t * o, \
              		 std::size_t length);
 
     /// Return the duration of a frame in milliseconds.
@@ -66,17 +66,17 @@ namespace FreeDV {
   std::size_t const
   CodecNoOp::bytes_per_frame() const
   {
-    return sizeof(int16_t);
+    return sizeof(std::int16_t);
   }
 
   std::size_t
-  CodecNoOp::decode16(const uint8_t * i, int16_t * o, std::size_t length)
+  CodecNoOp::decode16(const std::uint8_t * i, std::int16_t * o, std::size_t length)
   {
     return length;
   }
 
   std::size_t
-  CodecNoOp::encode16(const int16_t * i, uint8_t * o, std::size_t length)
+  CodecNoOp::encode16(const std::int16_t * i, std::uint8_t * o, std::size_t length)
   {
     return length;
   }

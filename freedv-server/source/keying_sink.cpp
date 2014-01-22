@@ -17,7 +17,7 @@ namespace FreeDV {
 
     /// Return the amount of bytes ready for read. In this case, it always
     /// returns SIZE_MAX.
-    size_t		ready();
+    std::size_t		ready();
   };
 
   KeyingSink::KeyingSink(const char * parameters)
@@ -38,7 +38,7 @@ namespace FreeDV {
       std::cerr << "keying: RECEIVE" << std::endl;
   }
 
-  size_t
+  std::size_t
   KeyingSink::ready()
   {
     return SIZE_MAX;
