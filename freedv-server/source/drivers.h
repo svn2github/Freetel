@@ -19,15 +19,15 @@ namespace FreeDV {
   ///  or a memory leak will occurr.
   char *	copy_string(const char * s);
 
-  /// Simple C++ fifo buffer class with zero copy (most of the time).
+  /// Simple C++ FIFO buffer class with zero copy (most of the time).
   /// Not thread-safe on its own, you must have a mutex for access to it.
+  /// Doesn't grow, size is specified at instantiation.
   /// Written to avoid STL templates, Boost, etc. in order to keep down the
   /// size of the embedded version of this program. 
   class FIFO {
   private:
-    char *		buffer;
-    char *		buffer_end;
-    std::size_t		buffer_length;
+    char * const	buffer;
+    const char * const	buffer_end;
     char *		in;
     const char *	out;
 
