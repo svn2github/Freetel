@@ -26,29 +26,28 @@
 namespace FreeDV {
   class Run {
   private:
-    Interfaces *	in;
+    Interfaces *	i;
     bool		begin_transmit;
     bool		begin_receive;
     bool		ptt_digital;
     bool		ptt_ssb;
  
-    void		key_down(Interfaces * i);
-    void		key_up(Interfaces * i);
-    void		receive(Interfaces * i);
-    void		transmit_digital(Interfaces * i);
-    void		transmit_ssb(Interfaces * i);
+    void		key_down();
+    void		key_up();
+    void		receive();
+    void		transmit_digital();
+    void		transmit_ssb();
   public:
-    int			run(Interfaces * i);
+    int			run();
 
     			Run(Interfaces *);
     			~Run();
   };
   
   Run::Run(Interfaces * interfaces)
-  : begin_receive(true), begin_transmit(false), ptt_digital(false),
-    ptt_ssb(false)
+  : begin_receive(true), begin_transmit(false), i(interfaces),
+    ptt_digital(false), ptt_ssb(false)
   {
-    in = interfaces;
   }
 
   Run::~Run()
@@ -56,7 +55,7 @@ namespace FreeDV {
   }
 
   int
-  Run::run(Interfaces * i)
+  Run::run()
   {
     while ( true ) {
       if ( i->ptt_input_digital->ready() ) {
@@ -82,26 +81,26 @@ namespace FreeDV {
         }
       }
       if ( begin_transmit ) {
-        key_down(i);
+        key_down();
       }
       else if ( begin_receive ) {
-        key_up(i);
+        key_up();
       }
       else if ( ptt_digital ) {
-        transmit_digital(i);
+        transmit_digital();
       }
       else if ( ptt_ssb ) {
-        transmit_ssb(i);
+        transmit_ssb();
       }
       else {
-        receive(i);
+        receive();
       }
       usleep(20100);
     }
   }
 
   void
-  Run::key_down(Interfaces * i)
+  Run::key_down()
   {
     if ( i->keying_output->ready() ) {
       i->keying_output->key(true);
@@ -113,7 +112,7 @@ namespace FreeDV {
   }
   
   void
-  Run::key_up(Interfaces * i)
+  Run::key_up()
   {
     if ( i->keying_output->ready() ) {
       i->keying_output->key(false);
@@ -125,19 +124,19 @@ namespace FreeDV {
   }
   
   void
-  Run::receive(Interfaces * i)
+  Run::receive()
   {
     const std::size_t	samples_to_decode = i->receiver->ready()
 			 % i->modem->samples_per_frame();
   }
   
   void
-  Run::transmit_digital(Interfaces * i)
+  Run::transmit_digital()
   {
   }
   
   void
-  Run::transmit_ssb(Interfaces * i)
+  Run::transmit_ssb()
   {
   }
 
@@ -145,6 +144,6 @@ namespace FreeDV {
   run(Interfaces * i)
   {
     Run * r = new Run(i);
-    return r->run(i);
+    return r->run();
   }
 }
