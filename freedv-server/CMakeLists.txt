@@ -108,6 +108,7 @@ set(Compile.sources
   source/codec_noop.cpp
   source/driver_manager.cpp
   source/event_handler.cpp
+  source/fifo.cpp
   source/interfaces.cpp
   source/io_device.cpp
   source/keying.cpp

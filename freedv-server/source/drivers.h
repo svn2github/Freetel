@@ -23,7 +23,7 @@ namespace FreeDV {
   /// Not thread-safe on its own, you must have a mutex for access to it.
   /// Written to avoid STL templates, Boost, etc. in order to keep down the
   /// size of the embedded version of this program. 
-  class Fifo {
+  class FIFO {
   private:
     char *		buffer;
     char *		buffer_end;
@@ -32,14 +32,14 @@ namespace FreeDV {
     const char *	out;
 
     void		out_overrun(std::size_t length) const;
-    void		reorder(std::size_t length);
+    char *		reorder(std::size_t length);
 
   public:
-    /// Create the Fifo object.
+    /// Create the FIFO object.
     /// \param length The size of the fifo, in bytes.
-			Fifo(std::size_t length);
+			FIFO(std::size_t length);
 
-			~Fifo();
+			~FIFO();
 
     /// Return the address of an incoming data buffer of the requested size.
     /// Throws an error if we run the buffer out of space. Well-behaved code
@@ -54,8 +54,9 @@ namespace FreeDV {
 			  const char * io_end = in + io_length;
 
 			  if ( io_end >= buffer_end )
-                            reorder(io_length);
-			  return in;
+                            return reorder(io_length);
+			  else
+			    return in;
 			}
 
     /// Complete the I/O after incoming_buffer().
