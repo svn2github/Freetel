@@ -140,6 +140,7 @@ set(Test.sources
   source/test/audio_sink.cpp
   source/test/base.cpp
   source/test/blank_panel.cpp
+  source/test/fifo.cpp
   source/test/keying_sink.cpp
   source/test/ptt_constant.cpp
   source/test/text_constant.cpp

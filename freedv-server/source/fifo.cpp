@@ -4,9 +4,14 @@
 
 namespace FreeDV {
   FIFO::FIFO(std::size_t size)
-  : buffer(new char[size]), buffer_end(buffer + size)
+  : buffer(new char[size]), buffer_end(buffer + size), in(buffer), out(buffer)
   {
     
+  }
+
+  FIFO::~FIFO()
+  {
+    delete buffer;
   }
 
   char *
@@ -14,7 +19,7 @@ namespace FreeDV {
   {
     const std::size_t bytes = in - out;
 
-    if ( bytes > 0 ) {
+    if ( bytes > 0 && out > buffer ) {
 
       // memmove() is specified to handle overlap properly.
       memmove(buffer, out, bytes);

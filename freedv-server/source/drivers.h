@@ -41,6 +41,12 @@ namespace FreeDV {
 
 			~FIFO();
 
+    /// Returns the amount of space available for incoming data.
+    /// \return The amount of space, in bytes, available for incoming data.
+    inline std::size_t	incoming_available() const {
+			  return buffer_end - in + out - buffer;
+			}
+
     /// Return the address of an incoming data buffer of the requested size.
     /// Throws an error if we run the buffer out of space. Well-behaved code
     /// won't allocate a size that can't be drained before it is further
@@ -53,7 +59,7 @@ namespace FreeDV {
     inline char *	incoming_buffer(std::size_t io_length) {
 			  const char * io_end = in + io_length;
 
-			  if ( io_end >= buffer_end )
+			  if ( io_end > buffer_end )
                             return reorder(io_length);
 			  else
 			    return in;
@@ -64,12 +70,6 @@ namespace FreeDV {
     /// smaller than or equal to the length passed to incoming_buffer().
     inline void		incoming_done(std::size_t length) {
 			  in += length;
-			}
-
-    /// Returns the amount of space available for incoming data.
-    /// \return The amount of space, in bytes, available for incoming data.
-    inline std::size_t	incoming_space() const {
-			  return buffer_end - in + out - buffer;
 			}
 
     /// Returns the amount of data available to read.
