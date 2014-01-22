@@ -19,21 +19,89 @@ namespace FreeDV {
   ///  or a memory leak will occurr.
   char *	copy_string(const char * s);
 
-  /// Simple C++ circular buffer class. 
+  /// Simple C++ fifo buffer class with zero copy (most of the time).
+  /// Not thread-safe on its own, you must have a mutex for access to it.
   /// Written to avoid STL templates, Boost, etc. in order to keep down the
   /// size of the embedded version of this program. 
-  class CircularBuffer {
+  class Fifo {
   private:
-    char *	buffer;
-    std::size_t	length;
-    char *	in;
-    char *	out;
+    char *		buffer;
+    char *		buffer_end;
+    std::size_t		buffer_length;
+    char *		in;
+    const char *	out;
+
+    void		out_overrun(std::size_t length) const;
+    void		reorder(std::size_t length);
 
   public:
+    /// Create the Fifo object.
+    /// \param length The size of the fifo, in bytes.
+			Fifo(std::size_t length);
+
+			~Fifo();
+
+    /// Return the address of an incoming data buffer of the requested size.
+    /// Throws an error if we run the buffer out of space. Well-behaved code
+    /// won't allocate a size that can't be drained before it is further
+    /// written.
+    /// You must call incoming_done(length) when the I/O is completed.
+    /// The length passed to incoming_done() must be smaller than or equal
+    /// to the length passed to incoming_buffer().
+    /// \param io_length The size of buffer in chars requested.
+    /// \return The address of the buffer for incoming data.
+    inline char *	incoming_buffer(std::size_t io_length) {
+			  const char * io_end = in + io_length;
+
+			  if ( io_end >= buffer_end )
+                            reorder(io_length);
+			  return in;
+			}
+
+    /// Complete the I/O after incoming_buffer().
+    /// \param length The amount of data actually written. This must be
+    /// smaller than or equal to the length passed to incoming_buffer().
+    inline void		incoming_done(std::size_t length) {
+			  in += length;
+			}
+
+    /// Returns the amount of space available for incoming data.
+    /// \return The amount of space, in bytes, available for incoming data.
+    inline std::size_t	incoming_space() const {
+			  return buffer_end - in + out - buffer;
+			}
+
+    /// Returns the amount of data available to read.
+    /// \return The amount of data, in bytes, available to read.
+    inline std::size_t	outgoing_available() const {
+			  return in - out;
+			}
+
+    /// Return the address of output data of the requested length.
+    /// \param length The amount of data requested. This must be smaller
+    /// than or equal to the amount returned by outgoing_available().
+    /// \return The address of the data to be read.
+    inline const char *	outgoing_buffer(std::size_t length) {
+			  if ( length > in - out )
+			    out_overrun(length);
+			  return out;
+			}
+
+    /// Finish the I/O after outgoing_buffer().
+    /// \param length The amount of data, in bytes, actually read.
+    /// This must be smaller than or equal to the amount passed to
+    /// outgoing_buffer().
+    inline void		outgoing_done(std::size_t length) {
+			  out += length;
+			}
   };
 
   /// Set the real-time parameters in the scheduler before running our main
-  /// loop.
+  /// loop. This function call wraps a platform-dependent implementation.
+  /// This may effect more than one scheduler, for example the process
+  /// scheduler and - if there is one - the I/O scheduler.
+  /// Where facilities are not available or implemnented, or the process
+  /// has insufficient privilege, this may emit a warning and/or do nothing.
   void		set_scheduler();
 
   /// Virtual base class for all driver classes.
@@ -104,9 +172,9 @@ namespace FreeDV {
   class IODevice : public ::FreeDV::Base {
   protected:
     /// Construct an I/O device.
-    /// \param _name Name of the driver. This is expected to be a single
+    /// \param name Name of the driver. This is expected to be a single
     ///  constant static string per driver class.
-    /// \param _parameters Driver-specific configuration parameters.
+    /// \param parameters Driver-specific configuration parameters.
 			IODevice(const char * name, const char * parameters);
 
   public:
@@ -414,6 +482,9 @@ namespace FreeDV {
   public:
     virtual		~PTTInput() = 0;
 
+    /// Return true if the PTT is pressed.
+    /// ready() must return true before this member is called.
+    /// \return True if the PTT is pressed.
     virtual bool	state() = 0;
   };
 
