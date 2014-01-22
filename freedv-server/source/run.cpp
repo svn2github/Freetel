@@ -13,9 +13,9 @@
 ///
 /// End of Transmit:
 /// There is a lot to fill in for end-of-transmit.
-/// On PTT-up, we should be sending the remaining audio in the microphone
-/// device queue first, waiting for completion of its transmission, and then
-/// un-keying the transmitter.
+/// On PTT-up, we should read the remaining audio in the microphone
+/// device queue first, allow it all to drain out the transmitter, and then
+/// un-key the transmitter.
 ///
 /// Codec to Modem connection:
 /// We need a circular buffer between the codec and the modem. It's perfectly
@@ -24,21 +24,40 @@
 /// to work upon.
 
 namespace FreeDV {
-  static void key_down(Interfaces * i);
-  static void key_up(Interfaces * i);
-  static void receive(Interfaces * i);
-  static void transmit_digital(Interfaces * i);
-  static void transmit_ssb(Interfaces * i);
+  class Run {
+  private:
+    Interfaces *	in;
+    bool		begin_transmit;
+    bool		begin_receive;
+    bool		ptt_digital;
+    bool		ptt_ssb;
+ 
+    void		key_down(Interfaces * i);
+    void		key_up(Interfaces * i);
+    void		receive(Interfaces * i);
+    void		transmit_digital(Interfaces * i);
+    void		transmit_ssb(Interfaces * i);
+  public:
+    int			run(Interfaces * i);
+
+    			Run(Interfaces *);
+    			~Run();
+  };
   
-  static bool begin_transmit = false;
-  static bool begin_receive = true;
+  Run::Run(Interfaces * interfaces)
+  : begin_receive(true), begin_transmit(false), ptt_digital(false),
+    ptt_ssb(false)
+  {
+    in = interfaces;
+  }
+
+  Run::~Run()
+  {
+  }
 
   int
-  run(Interfaces * i)
+  Run::run(Interfaces * i)
   {
-    static bool ptt_digital = false;
-    static bool ptt_ssb = false;
-
     while ( true ) {
       if ( i->ptt_input_digital->ready() ) {
         bool state = i->ptt_input_digital->state();
@@ -81,8 +100,8 @@ namespace FreeDV {
     }
   }
 
-  static void
-  key_down(Interfaces * i)
+  void
+  Run::key_down(Interfaces * i)
   {
     if ( i->keying_output->ready() ) {
       i->keying_output->key(true);
@@ -93,8 +112,8 @@ namespace FreeDV {
     }
   }
   
-  static void
-  key_up(Interfaces * i)
+  void
+  Run::key_up(Interfaces * i)
   {
     if ( i->keying_output->ready() ) {
       i->keying_output->key(false);
@@ -105,20 +124,27 @@ namespace FreeDV {
     }
   }
   
-  static void
-  receive(Interfaces * i)
+  void
+  Run::receive(Interfaces * i)
   {
     const std::size_t	samples_to_decode = i->receiver->ready()
 			 % i->modem->samples_per_frame();
   }
   
-  static void
-  transmit_digital(Interfaces * i)
+  void
+  Run::transmit_digital(Interfaces * i)
   {
   }
   
-  static void
-  transmit_ssb(Interfaces * i)
+  void
+  Run::transmit_ssb(Interfaces * i)
   {
+  }
+
+  int
+  run(Interfaces * i)
+  {
+    Run * r = new Run(i);
+    return r->run(i);
   }
 }
