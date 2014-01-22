@@ -4,15 +4,24 @@
 #include <unistd.h>
 #include <iostream>
 
-/// FIX: Make the delay at start of transmit and end of transmit adjustable.
+/// FIX:
+///
+/// Start of Transmit:
+/// Make the delay at start of transmit and end of transmit adjustable.
 /// The radio in general takes some time to begin transmitting, and thus we
 /// should not send audio until that's done.
 ///
+/// End of Transmit:
 /// There is a lot to fill in for end-of-transmit.
 /// On PTT-up, we should be sending the remaining audio in the microphone
 /// device queue first, waiting for completion of its transmission, and then
 /// un-keying the transmitter.
 ///
+/// Codec to Modem connection:
+/// We need a circular buffer between the codec and the modem. It's perfectly
+/// possible for the modem to demodulate nothing, given an array of audio
+/// samples. We can't invoke the codec until we have an entire frame for it
+/// to work upon.
 
 namespace FreeDV {
   static void key_down(Interfaces * i);
@@ -100,8 +109,7 @@ namespace FreeDV {
   receive(Interfaces * i)
   {
     const size_t	samples_to_decode = i->receiver->ready()
-			 % i->codec_frame_size();
-    const size_t	
+			 % i->modem->samples_per_frame();
   }
   
   static void

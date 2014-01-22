@@ -7,56 +7,51 @@ namespace FreeDV {
   class CodecNoOp : public Codec {
   public:
 
-	/// Instantiate the no-op codec.
-  		CodecNoOp(const char *);
-		~CodecNoOp();
+    /// Instantiate the no-op codec.
+  			CodecNoOp(const char *);
+    			~CodecNoOp();
 
-	/// Encode from an array of the signed 16-bit integer type to an
-	/// array of the unsigned 8-bit integer type (this is usually
-	/// implemented as unsigned char).
-	/// \param i The array of audio samples to be encoded, in an array
-	/// of signed 16-bit integers.
-	/// \param o The encoded data, in an array of unsigned 8-bit integers.
-	/// \param length The number of audio samples to be encoded.
-	///  This  must be a multiple of frame_size().
-	/// \return The number of uint8_t elements in the encoded array.
-	virtual std::size_t
-		encode16(const int16_t * i, uint8_t * o, \
-         	 std::size_t length);
+    /// Return the number of data bytes that store a single codec frame.
+    /// Data Bytes provided to decode16 and encode16 must be a multiple
+    /// of this value. The result is invariant.
+    /// \return The number of data bytes necessary to store a codec frame.
+    virtual std::size_t const
+    			bytes_per_frame() const;
 
-	/// Return the size of uint8_t array necessary to encode the given
-	/// number of audio samples. Sample rate is 8K samples/second.
-	/// The result is invariant for a given input.
-	/// \param sample_count The number of audio samples to encode.
-	/// Must be a multiple of frame_size().
-	/// \return The size of uint8_t array necessary to encode the given
-	/// number of audio samples.
-	virtual std::size_t const	
-		encoded_buffer_size(std::size_t sample_count) const;
+    /// Decode from data bytes to audio samples.
+    /// \param i The encoded data, in an array of unsigned 8-bit integers.
+    /// \param o The array of audio samples after decoding, in an array
+    /// of signed 16-bit integers.
+    /// \param length The number of bytes of data to be decoded.
+    /// \return The number of int16_t elements in the decoded array.
+    virtual std::size_t
+    			decode16(const uint8_t * i, int16_t * o, \
+             		 std::size_t length);
 
-	/// Return the duration of a frame in milliseconds.
-	/// \return The duration of a frame in milliseconds.
-	virtual int const
-			frame_duration() const;
 
-	/// Return the number of audio samples necessary to decode the given
-	/// encoded buffer size. Sample rate is 8K samples/second.
-	/// \param buffer_size is the size of the encoded buffer. It must
-	///  encode a multiple of frame_size() audio samples.
-	/// \return The number of audio samples necessary to decode the given
-	/// encoded buffer size. The result is invariant for a given input.
-	virtual std::size_t const	
-		samples_per_buffer(std::size_t buffer_size) const;
+    /// Encode from audio samples to data bytes.
+    /// \param i The array of audio samples to be encoded, in an array
+    /// of signed 16-bit integers.
+    /// \param o The encoded data, in an array of unsigned 8-bit integers.
+    /// \param length The number of audio samples to be encoded.
+    /// \return The number of uint8_t elements in the encoded array.
+    virtual std::size_t
+    			encode16(const int16_t * i, uint8_t * o, \
+             		 std::size_t length);
 
-	/// Return the number of audio samples expected to create a codec
-	/// frame. Samples provided to encode_buffer_size must be a multiple
-	/// of this value. Sample rate is 8K samples/second.
-	/// The result for a particular input is invariant.
-	/// \return The number of audio samples expected to create a codec
-	/// frame.
-	virtual std::size_t const
-		samples_per_frame() const;
+    /// Return the duration of a frame in milliseconds.
+    /// \return The duration of a frame in milliseconds.
+    virtual int const
+    			frame_duration() const;
 
+    /// Return the number of audio samples expected to create a codec
+    /// frame at SampleRate. Samples provided to encode16 and decode16
+    /// must be a multiple of this value. The result is invariant for
+    /// a given SampleRate.
+    /// \return The number of audio samples expected to create a codec
+    /// frame.
+    virtual std::size_t const
+    			samples_per_frame() const;
   };
 
   CodecNoOp::CodecNoOp(const char * parameters)
@@ -68,16 +63,22 @@ namespace FreeDV {
   {
   }
 
+  std::size_t const
+  CodecNoOp::bytes_per_frame() const
+  {
+    return sizeof(int16_t);
+  }
+
+  std::size_t
+  CodecNoOp::decode16(const uint8_t * i, int16_t * o, std::size_t length)
+  {
+    return length;
+  }
+
   std::size_t
   CodecNoOp::encode16(const int16_t * i, uint8_t * o, std::size_t length)
   {
-    return 0;
-  }
-
-  std::size_t const	
-  CodecNoOp::encoded_buffer_size(std::size_t sample_count) const
-  {
-    return 0;
+    return length;
   }
 
   int const
@@ -86,17 +87,10 @@ namespace FreeDV {
     return 0;
   }
 
-  std::size_t const	
-  CodecNoOp::samples_per_buffer(std::size_t buffer_size) const
-  {
-    return 0;
-  }
- 
-
   std::size_t const
   CodecNoOp::samples_per_frame() const
   {
-    return 0;
+    return 1;
   }
 
   Codec *
