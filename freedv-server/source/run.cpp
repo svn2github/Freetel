@@ -99,6 +99,9 @@ namespace FreeDV {
   static void
   receive(Interfaces * i)
   {
+    const size_t	samples_to_decode = i->receiver->ready()
+			 % i->codec_frame_size();
+    const size_t	
   }
   
   static void

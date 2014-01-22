@@ -187,9 +187,19 @@ namespace FreeDV {
     /// Destroy a codec instance.
     virtual		~Codec() = 0;
 
+    /// Decode from an array of the unsigned 8-bit integer type to an
+    /// array of the signed 16-bit integer type.
+    /// \param i The encoded data, in an array of unsigned 8-bit integers.
+    /// \param o The array of audio samples after decoding, in an array
+    /// of signed 16-bit integers.
+    /// \param length The number of bytes of data to be decoded.
+    /// \return The number of int16_t elements in the decoded array.
+    virtual std::size_t
+    			decode16(const uint8_t * i, int16_t * o, \
+             		 std::size_t length) = 0;
+
     /// Encode from an array of the signed 16-bit integer type to an
-    /// array of the unsigned 8-bit integer type (this is usually
-    /// implemented as unsigned char).
+    /// array of the unsigned 8-bit integer type.
     /// \param i The array of audio samples to be encoded, in an array
     /// of signed 16-bit integers.
     /// \param o The encoded data, in an array of unsigned 8-bit integers.
@@ -200,7 +210,7 @@ namespace FreeDV {
              		 std::size_t length) = 0;
 
     /// Return the size of uint8_t array necessary to encode the given
-    /// number of audio samples. Sample rate is 8K samples/second.
+    /// number of audio samples at SampleRate.
     /// The result is invariant for a given input.
     /// \param sample_count The number of audio samples to encode.
     /// Must be a multiple of frame_size().
@@ -215,7 +225,7 @@ namespace FreeDV {
     			frame_duration() const = 0;
 
     /// Return the number of audio samples necessary to decode the given
-    /// encoded buffer size. Sample rate is 8K samples/second.
+    /// encoded buffer size at SampleRate.
     /// \param buffer_size is the size of the encoded buffer. It must
     ///  encode a multiple of frame_size() audio samples.
     /// \return The number of audio samples necessary to decode the given
@@ -224,8 +234,8 @@ namespace FreeDV {
     			samples_per_buffer(std::size_t buffer_size) const = 0;
 
     /// Return the number of audio samples expected to create a codec
-    /// frame. Samples provided to encode_buffer_size must be a multiple
-    /// of this value. Sample rate is 8K samples/second.
+    /// frame at SampleRate. Samples provided to encode_buffer_size
+    /// must be a multiple of this value.
     /// The result for a particular input is invariant.
     /// \return The number of audio samples expected to create a codec
     /// frame.
@@ -350,6 +360,61 @@ namespace FreeDV {
 
   public:
     virtual		~Modem() = 0;
+
+    /// Decode from an array of the signed 16-bit integer type to an
+    /// array of the unsigned 8-bit integer type.
+    /// \param i The array of audio samples to be decoded, in an array
+    /// of signed 16-bit integers.
+    /// \param o The decoded data, in an array of unsigned 8-bit integers.
+    /// \param length The number of audio samples to be decoded.
+    /// \return The number of uint8_t elements in the decoded array.
+    virtual std::size_t
+    			decode16(const int16_t * i, uint8_t * o, \
+             		 std::size_t length) = 0;
+
+    /// Encode from an array of the unsigned 8-bit integer type to an
+    /// array of the signed 16-bit integer type.
+    /// \param i The data, in an array of unsigned 8-bit integers.
+    /// \param o The array of audio samples after encoding, in an array
+    /// of signed 16-bit integers.
+    /// \param length The number of bytes of data to be encoded.
+    /// \return The number of int16_t elements in the encoded array.
+    virtual std::size_t
+    			encode16(const uint8_t * i, int16_t * o, \
+             		 std::size_t length) = 0;
+
+    /// Return the size of uint8_t array necessary to encode the given
+    /// number of audio samples at SampleRate.
+    /// The result is invariant for a given input.
+    /// \param sample_count The number of audio samples to encode.
+    /// Must be a multiple of frame_size().
+    /// \return The size of uint8_t array necessary to encode the given
+    /// number of audio samples.
+    virtual std::size_t const	
+    			encoded_buffer_size(std::size_t sample_count) const = 0;
+
+    /// Return the duration of a frame in milliseconds.
+    /// \return The duration of a frame in milliseconds.
+    virtual int const
+    			frame_duration() const = 0;
+
+    /// Return the number of audio samples necessary to decode the given
+    /// encoded buffer size at SampleRate.
+    /// \param buffer_size is the size of the encoded buffer. It must
+    ///  encode a multiple of frame_size() audio samples.
+    /// \return The number of audio samples necessary to decode the given
+    /// encoded buffer size. The result is invariant for a given input.
+    virtual std::size_t const	
+    			samples_per_buffer(std::size_t buffer_size) const = 0;
+
+    /// Return the number of audio samples expected to create a codec
+    /// frame at SampleRate. Samples provided to encode_buffer_size
+    /// must be a multiple of this value.
+    /// The result for a particular input is invariant.
+    /// \return The number of audio samples expected to create a codec
+    /// frame.
+    virtual std::size_t const
+    			samples_per_frame() const = 0;
   };
 
   /// Push-to-talk input driver.
