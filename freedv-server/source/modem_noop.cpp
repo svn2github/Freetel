@@ -1,6 +1,7 @@
 /// The no-op modem, for plain SSB voice and testing.
 
 #include "drivers.h"
+#include <string.h>
 
 namespace FreeDV {
   /// Modem "no-op", just copies its input to its output.
@@ -82,13 +83,19 @@ namespace FreeDV {
    std::size_t * sample_length,
    std::size_t data_length)
   {
-    return data_length;
+    const std::size_t length = std::min(data_length / 2, *sample_length);
+    memcpy(o, i, length * 2);
+    *sample_length = length * 2;
+    return length;
   }
 
   std::size_t
   ModemNoOp::modulate16(const std::uint8_t * i, std::int16_t * o, std::size_t length)
   {
-    return length;
+    length = length - (length % 2);
+
+    memcpy(o, i, length);
+    return length / 2;
   }
 
   int const
