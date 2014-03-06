@@ -274,7 +274,7 @@ namespace FreeDV {
 
     /// Return the number of data bytes that store a single codec frame.
     /// Data Bytes provided to decode16 and encode16 must be a multiple
-    /// of this value. The result is invariant.
+    /// of this value. The result is invariant for a particular configuration.
     /// \return The number of data bytes necessary to store a codec frame.
     virtual std::size_t const
     			bytes_per_frame() const = 0;
@@ -311,9 +311,9 @@ namespace FreeDV {
     			frame_duration() const = 0;
 
     /// Return the number of audio samples expected to create a codec
-    /// frame at SampleRate. Samples provided to encode16 and decode16
-    /// must be a multiple of this value. The result is invariant for
-    /// a given SampleRate.
+    /// frame at SampleRate. The result is invariant for a given SampleRate.
+    /// This number will be accurate for transmitted data, but not for received
+    /// data because of the potential for clock skew between stations.
     /// \return The number of audio samples expected to create a codec
     /// frame.
     virtual std::size_t const
@@ -405,6 +405,87 @@ namespace FreeDV {
 	virtual void	unmonitor(int fd) = 0;
   };
 
+  /// Virtual base class for protocol framers.
+  class Framer : public ::FreeDV::Base {
+  protected:
+    /// Create a framer instance.
+    /// \param name Name of the driver. This is expected to be a single
+    ///  constant static string per driver class.
+    /// \param parameters Driver-specific configuration parameters.
+      			Framer(const char * name, const char * parameters);
+
+  public:
+    /// Destroy a framer instance.
+    virtual		~Framer() = 0;
+
+    /// Decode from modem data to codec frames, removing the wrapping protocol.
+    /// \param i The encoded data, in an array of unsigned 8-bit integers.
+    /// \param o The array of codec data after decoding, in an array
+    /// of unsigned 8-bit integers.
+    /// \param input_length When called: The number of bytes of data that are
+    /// available to be unwrap. On return: the number of bytes of data
+    /// that were consumed.
+    /// \param output_length The number of codec data bytes that can be
+    /// unwrapped.
+    /// \return The number of data bytes that were actually decoded.
+    virtual std::size_t
+    			unwrap(const std::uint8_t * i,
+			 std::uint8_t * o,
+             		 std::size_t * input_length,
+			 std::size_t output_length) = 0;
+
+    /// Return the maximum number of data bytes expected to store the unwrapped
+    /// codec data. The result is invariant for a particular configuration.
+    /// \return The maximum number of data bytes expected to store the unwrapped
+    /// codec data.
+    /// frame.
+    virtual std::size_t const
+    			max_unwrapped_bytes_per_frame() const = 0;
+
+    /// Return the minimum number of data bytes expected to store the unwrapped
+    /// codec data. The result is invariant for a particular configuration.
+    /// \return The minimum number of data bytes expected to store the unwrapped
+    /// codec data.
+    /// frame.
+    virtual std::size_t const
+    			min_unwrapped_bytes_per_frame() const = 0;
+
+    /// Wrap codec data bytes in a protocol for transmission through the modem.
+    /// \param i The array of data bytes to be encoded, in an array
+    /// of unsigned 8-bit integers.
+    /// \param o The encoded data, in an array of unsigned 8-bit integers.
+    /// \param input_length The number of data bytes to be wrapped.
+    /// \param output_length The number of data bytes available to store the
+    /// wrapped data.
+    /// \return The number of std::uint8_t elements in the wrapped array.
+    virtual std::size_t
+    			wrap(
+			 const std::uint8_t * i,
+			 std::uint8_t * o,
+             		 std::size_t * input_length,
+			 std::size_t output_length) = 0;
+
+    /// Return the maximum number of data bytes expected to store a wrapped
+    /// protocol frame. The result is invariant for a particular configuration
+    /// which may include such things as length of addresses and protocol
+    /// options.
+    /// \return The maximum number of data bytes expected to store a wrapped
+    /// protocol frame.
+    /// frame.
+    virtual std::size_t const
+    			max_wrapped_bytes_per_frame() const = 0;
+
+    /// Return the minimum number of data bytes expected to store a wrapped
+    /// protocol frame. The result is invariant for a particular configuration
+    /// which may include such things as length of addresses and protocol
+    /// options.
+    /// \return The minimum number of data bytes expected to store a wrapped
+    /// protocol frame.
+    /// frame.
+    virtual std::size_t const
+    			min_wrapped_bytes_per_frame() const = 0;
+  };
+
   /// Radio device keying driver.
   class KeyingOutput : public ::FreeDV::Base {
   protected:
@@ -475,10 +556,10 @@ namespace FreeDV {
     virtual int const
     			frame_duration() const = 0;
 
-    /// Return the number of audio samples expected to create a codec
-    /// frame at SampleRate. Samples provided to modulate16 and
-    /// demodulate16 must be a multiple of this value. The result is
-    /// invariant for a given SampleRate.
+    /// Return the number of audio samples expected to create a modem
+    /// frame at SampleRate. The result is invariant for a given SampleRate.
+    /// The result will be accurate for transmitted data, but not for received
+    /// data due to the potential for clock skew between stations.
     /// \return The number of audio samples expected to create a codec
     /// frame.
     virtual std::size_t const
@@ -565,6 +646,10 @@ namespace FreeDV {
     Codec *		codec;
     /// The event loop handler. This is specific to a GUI, or POSIX.
     EventHandler *	event_handler;
+    /// The Framer handles the protocol which wraps the codec data.
+    /// It can decline to feed any audio on to the codec if the protocol says
+    /// that should not happen, for example if the data isn't addressed to us.
+    Framer * 		framer;
     /// The output used to key the transmitter.
     KeyingOutput *	keying_output;
     /// The audio output which drives the loudspeaker or headphone.
@@ -615,6 +700,7 @@ namespace FreeDV {
     AudioInput *	Tone(const char * parameter);
     AudioOutput *	AudioSink(const char * parameter);
     Codec *		CodecNoOp(const char * parameter);
+    Framer *		FramerNoOp(const char * parameter);
     KeyingOutput *	KeyingSink(const char * parameter);
     EventHandler *	LibEvent(const char * parameter);
     Modem *		ModemNoOp(const char * parameter);
@@ -642,6 +728,9 @@ namespace FreeDV {
 
     std::map<std::string, Codec *(*)(const char *)>
 			codecs;
+
+    std::map<std::string, Framer *(*)(const char *)>
+			framers;
 
     std::map<std::string, KeyingOutput *(*)(const char *)>
 			keying_output_drivers;
@@ -681,6 +770,12 @@ namespace FreeDV {
     /// \param driver The name of the driver.
     /// \param parameters Driver-specific configuration parameters.
     Codec *		codec(const char * driver, const char * parameters);
+
+    /// Instantiate a Framer.
+    /// \param driver The name of the driver.
+    /// \param parameters Driver-specific configuration parameters.
+    Framer *		framer(const char * driver, const char * parameters);
+
     /// Instantiate a Keying driver.
     /// \param driver The name of the driver.
     /// \param parameters Driver-specific configuration parameters.
@@ -689,10 +784,12 @@ namespace FreeDV {
     /// \param driver The name of the driver.
     /// \param parameters Driver-specific configuration parameters.
     Modem *		modem(const char * driver, const char * parameters);
+
     /// Instantiate a PTT input driver.
     /// \param driver The name of the driver.
     /// \param parameters Driver-specific configuration parameters.
     PTTInput *		ptt_input(const char * driver, const char * parameters);
+
     /// Instantiate a text input driver.
     /// \param driver The name of the driver.
     /// \param parameters Driver-specific configuration parameters.
@@ -708,35 +805,43 @@ namespace FreeDV {
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
     void		register_audio_input(const char * driver, AudioInput * (*creator)(const char *));
+
     /// Register an audio input driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
     void		register_audio_output(const char * driver, AudioOutput * (*creator)(const char *));
-    /// Register an audio input driver.
+
+    /// Register a codec.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
     void		register_codec(const char * driver, Codec * (*creator)(const char *));
-    /// Register an audio input driver.
+
+    /// Register a keying output driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
     void		register_keying_output(const char * driver, KeyingOutput * (*creator)(const char *));
-    /// Register an audio input driver.
+
+    /// Register a modem driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
     void		register_modem(const char * driver, Modem * (*creator)(const char *));
-    /// Register an audio input driver.
+
+    /// Register a PTT input driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
     void		register_ptt_input(const char * driver, PTTInput * (*creator)(const char *));
-    /// Register an audio input driver.
+
+    /// Register a text input driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
     void		register_text_input(const char * driver, TextInput * (*creator)(const char *));
-    /// Register an audio input driver.
+
+    /// Register a user interface driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
     void		register_user_interface(const char * driver, UserInterface * (*creator)(const char *, Interfaces *));
   };
+
   /// Write the driver information from the DriverManager object onto a stream,
   /// for debugging and dumping the configuration information.
   /// \param stream A reference to an instance of ostream upon which the
