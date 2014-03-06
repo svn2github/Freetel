@@ -74,6 +74,7 @@ static const struct option options[] = {
   { "config",		no_argument,	   0, 'C' },
   { "drivers",		no_argument,	   0, 'd' },
   { "default",		no_argument,	   0, 'D' },
+  { "framer",		required_argument, 0, 'f' },
   { "gui",		required_argument, 0, 'g' },
   { "help",		no_argument,	   0, 'h' },
   { "interface",	required_argument, 0, 'i' },
@@ -100,6 +101,7 @@ main(int argc, char * * argv)
   if ( argc > 1 ) {
     while ((command = getopt_long(argc, argv, "c:dhi:k:l:m:M:n:p:r:t:x:", options, NULL)) != -1) {
       switch (command) {
+      case 'f':
       case 'g':
       case 'i':
       case 'k':
@@ -132,6 +134,9 @@ main(int argc, char * * argv)
         break;
       case 'D':
         i.fill_in();
+        break;
+      case 'f':
+        i.framer = driver_manager.framer(driver, parameter);
         break;
       case 'g':
         i.user_interface = driver_manager.user_interface(driver, parameter, &i);

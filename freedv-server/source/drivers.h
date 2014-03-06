@@ -816,6 +816,11 @@ namespace FreeDV {
     /// \param creator The coroutine that will instantiate the driver.
     void		register_codec(const char * driver, Codec * (*creator)(const char *));
 
+    /// Register a protocol framer.
+    /// \param driver The name of the driver.
+    /// \param creator The coroutine that will instantiate the driver.
+    void		register_framer(const char * driver, Framer * (*creator)(const char *));
+
     /// Register a keying output driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.

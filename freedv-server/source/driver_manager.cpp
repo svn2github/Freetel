@@ -27,34 +27,47 @@ namespace FreeDV {
     for (auto i = audio_input_drivers.begin(); i != audio_input_drivers.end(); i++ )
       s << i->first << " ";
     s << endl;
+
     s << "AudioOutput: ";
     for (auto i = audio_output_drivers.begin(); i != audio_output_drivers.end(); i++ )
       s << i->first << " ";
     s << endl;
+
     s << "Codec: ";
     for (auto i = codecs.begin(); i != codecs.end(); i++ )
       s << i->first << " ";
     s << endl;
+
+    s << "Framer: ";
+    for (auto i = framers.begin(); i != framers.end(); i++ )
+      s << i->first << " ";
+    s << endl;
+
     s << "KeyingOutput: ";
     for (auto i = keying_output_drivers.begin(); i != keying_output_drivers.end(); i++ )
       s << i->first << " ";
     s << endl;
+
     s << "Modem: ";
     for (auto i = modems.begin(); i != modems.end(); i++ )
       s << i->first << " ";
     s << endl;
+
     s << "PTTInput: ";
     for (auto i = ptt_input_drivers.begin(); i != ptt_input_drivers.end(); i++ )
       s << i->first << " ";
     s << endl;
+
     s << "TextInput: ";
     for (auto i = text_input_drivers.begin(); i != text_input_drivers.end(); i++ )
       s << i->first << " ";
     s << endl;
+
     s << "UserInterface: ";
     for (auto i = user_interface_drivers.begin(); i != user_interface_drivers.end(); i++ )
       s << i->first << " ";
     s << endl;
+
     return s;
   }
 
@@ -78,6 +91,17 @@ namespace FreeDV {
   DriverManager::codec(const char * driver, const char * parameter)
   {
     Codec * (* const creator)(const char * parameter) = codecs[driver];
+
+    if(creator)
+      return creator(parameter);
+    else
+      return 0;
+  }
+ 
+  Framer *
+  DriverManager::framer(const char * driver, const char * parameter)
+  {
+    Framer * (* const creator)(const char * parameter) = framers[driver];
 
     if(creator)
       return creator(parameter);
@@ -156,6 +180,12 @@ namespace FreeDV {
   DriverManager::register_codec(const char * driver, Codec * (*creator)(const char *))
   {
     codecs[driver] = creator;
+  }
+
+  void
+  DriverManager::register_framer(const char * driver, Framer * (*creator)(const char *))
+  {
+    framers[driver] = creator;
   }
 
   void
