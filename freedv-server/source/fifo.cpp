@@ -4,9 +4,9 @@
 
 namespace FreeDV {
   FIFO::FIFO(std::size_t size)
-  : buffer(new char[size]), buffer_end(buffer + size), in(buffer), out(buffer)
+  : buffer(new uint8_t[size]), buffer_end(buffer + size)
   {
-    
+    reset();
   }
 
   FIFO::~FIFO()
@@ -14,7 +14,13 @@ namespace FreeDV {
     delete buffer;
   }
 
-  char *
+  void
+  FIFO::out_overrun(std::size_t size) const
+  {
+    throw std::runtime_error("FIFO outgoing data overrun.");
+  }
+
+  uint8_t *
   FIFO::reorder(std::size_t size)
   {
     const std::size_t bytes = in - out;
@@ -37,8 +43,9 @@ namespace FreeDV {
   }
 
   void
-  FIFO::out_overrun(std::size_t size) const
+  FIFO::reset()
   {
-    throw std::runtime_error("FIFO outgoing data overrun.");
+    in = buffer;
+    out = buffer;
   }
 }

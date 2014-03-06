@@ -24,11 +24,16 @@ namespace FreeDV {
     /// \param i The array of audio samples to be demodulated, in an array
     /// of signed 16-bit integers.
     /// \param o The demodulated data, in an array of unsigned 8-bit integers.
-    /// \param length The number of audio samples to be demodulated.
-    /// \return The number of std::uint8_t elements in the demodulated array.
+    /// \param sample_length On call: The number of audio samples to be
+    /// demodulated. On return: The number of audio samples consumed.
+    /// \param data_length The number of bytes of data that may be demodulated.
+    /// \return The number of bytes of data that were actually decoded.
     virtual std::size_t
-    			demodulate16(const std::int16_t * i, std::uint8_t * o, \
-             		 std::size_t length);
+    			demodulate16(
+			 const std::int16_t * i,
+			 std::uint8_t * o,
+             		 std::size_t * sample_length,
+			 std::size_t data_length);
 
     /// Modulate from data to audio samples.
     /// \param i The data, in an array of unsigned 8-bit integers.
@@ -71,9 +76,13 @@ namespace FreeDV {
   }
 
   std::size_t
-  ModemNoOp::demodulate16(const std::int16_t * i, std::uint8_t * o, std::size_t length)
+  ModemNoOp::demodulate16(
+   const std::int16_t * i,
+   std::uint8_t * o,
+   std::size_t * sample_length,
+   std::size_t data_length)
   {
-    return length;
+    return data_length;
   }
 
   std::size_t

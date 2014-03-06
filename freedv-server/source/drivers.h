@@ -26,13 +26,13 @@ namespace FreeDV {
   /// size of the embedded version of this program. 
   class FIFO {
   private:
-    char * const	buffer;
-    const char * const	buffer_end;
-    char *		in;
-    const char *	out;
+    uint8_t * const		buffer;
+    const uint8_t * const	buffer_end;
+    uint8_t *			in;
+    const uint8_t *		out;
 
     void		out_overrun(std::size_t length) const;
-    char *		reorder(std::size_t length);
+    uint8_t *		reorder(std::size_t length);
 
   public:
     /// Create the FIFO object.
@@ -56,8 +56,8 @@ namespace FreeDV {
     /// to the length passed to incoming_buffer().
     /// \param io_length The size of buffer in chars requested.
     /// \return The address of the buffer for incoming data.
-    inline char *	incoming_buffer(std::size_t io_length) {
-			  const char * io_end = in + io_length;
+    inline uint8_t *	incoming_buffer(std::size_t io_length) {
+			  const uint8_t * io_end = in + io_length;
 
 			  if ( io_end > buffer_end )
                             return reorder(io_length);
@@ -82,7 +82,7 @@ namespace FreeDV {
     /// \param length The amount of data requested. This must be smaller
     /// than or equal to the amount returned by outgoing_available().
     /// \return The address of the data to be read.
-    inline const char *	outgoing_buffer(std::size_t length) {
+    inline const uint8_t *	outgoing_buffer(std::size_t length) {
 			  if ( length > in - out )
 			    out_overrun(length);
 			  return out;
@@ -95,6 +95,9 @@ namespace FreeDV {
     inline void		outgoing_done(std::size_t length) {
 			  out += length;
 			}
+
+    /// Discard any buffered data.
+    void		reset();
   };
 
   /// Set the real-time parameters in the scheduler before running our main
@@ -280,11 +283,16 @@ namespace FreeDV {
     /// \param i The encoded data, in an array of unsigned 8-bit integers.
     /// \param o The array of audio samples after decoding, in an array
     /// of signed 16-bit integers.
-    /// \param length The number of bytes of data to be decoded.
-    /// \return The number of std::int16_t elements in the decoded array.
+    /// \param data_length When called: The number of bytes of data that are
+    /// available to be decoded. On return: the number of bytes of data
+    /// that were consumed.
+    /// \param sample_length The number of audio samples that may be decoded.
+    /// \return The number of audio samples that were actually decoded.
     virtual std::size_t
-    			decode16(const std::uint8_t * i, std::int16_t * o, \
-             		 std::size_t length) = 0;
+    			decode16(const std::uint8_t * i,
+			 std::int16_t * o,
+             		 std::size_t * data_length,
+			 std::size_t sample_length) = 0;
 
 
     /// Encode from audio samples to data bytes.
@@ -294,7 +302,7 @@ namespace FreeDV {
     /// \param length The number of audio samples to be encoded.
     /// \return The number of std::uint8_t elements in the encoded array.
     virtual std::size_t
-    			encode16(const std::int16_t * i, std::uint8_t * o, \
+    			encode16(const std::int16_t * i, std::uint8_t * o,
              		 std::size_t length) = 0;
 
     /// Return the duration of a frame in milliseconds.
@@ -441,11 +449,16 @@ namespace FreeDV {
     /// \param i The array of audio samples to be demodulated, in an array
     /// of signed 16-bit integers.
     /// \param o The demodulated data, in an array of unsigned 8-bit integers.
-    /// \param length The number of audio samples to be demodulated.
-    /// \return The number of std::uint8_t elements in the demodulated array.
+    /// \param sample_length On call: The number of audio samples to be
+    /// demodulated. On return: The number of audio samples consumed.
+    /// \param data_length The number of bytes of data that may be demodulated.
+    /// \return The number of bytes of data that were actually decoded.
     virtual std::size_t
-    			demodulate16(const std::int16_t * i, std::uint8_t * o, \
-             		 std::size_t length) = 0;
+    			demodulate16(
+			 const std::int16_t * i,
+			 std::uint8_t * o,
+             		 std::size_t * sample_length,
+			 std::size_t data_length) = 0;
 
     /// Modulate from data to audio samples.
     /// \param i The data, in an array of unsigned 8-bit integers.
@@ -454,7 +467,7 @@ namespace FreeDV {
     /// \param length The number of bytes of data to be modulated.
     /// \return The number of std::int16_t elements in the modulated array.
     virtual std::size_t
-    			modulate16(const std::uint8_t * i, std::int16_t * o, \
+    			modulate16(const std::uint8_t * i, std::int16_t * o,
              		 std::size_t length) = 0;
 
     /// Return the duration of a frame in milliseconds.
