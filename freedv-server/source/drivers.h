@@ -710,10 +710,6 @@ namespace FreeDV {
   }
 }
 
-#ifndef NO_INITIALIZERS
-#include <map>
-#include <string>
-
 /// Namespace used for the entire program.
 namespace FreeDV {
   /// Utility functions.
@@ -725,36 +721,24 @@ namespace FreeDV {
     a < b ? a : b;
   }
 
+  struct DriverList {
+    const char *	key;
+    FreeDV::Base *	(*value)(const char *);
+  };
+
   /// Device driver manager. Allows for registration and enumeration of device
   /// drivers. Instantiates device drivers on request.
   class DriverManager {
   private:
-    std::map<std::string, AudioInput *(*)(const char *)>
-			audio_input_drivers;
-
-    std::map<std::string, AudioOutput *(*)(const char *)>
-			audio_output_drivers;
-
-    std::map<std::string, Codec *(*)(const char *)>
-			codecs;
-
-    std::map<std::string, Framer *(*)(const char *)>
-			framers;
-
-    std::map<std::string, KeyingOutput *(*)(const char *)>
-			keying_output_drivers;
-
-    std::map<std::string, Modem *(*)(const char *)>
-			modems;
-
-    std::map<std::string, PTTInput *(*)(const char *)>
-			ptt_input_drivers;
-
-    std::map<std::string, TextInput *(*)(const char *)>
-			text_input_drivers;
-
-    std::map<std::string, UserInterface *(*)(const char *, Interfaces *)>
-			user_interface_drivers;
+    DriverList *	audio_input_drivers;
+    DriverList *	audio_output_drivers;
+    DriverList *	codecs;
+    DriverList *	framers;
+    DriverList *	keying_output_drivers;
+    DriverList *	modems;
+    DriverList *	ptt_input_drivers;
+    DriverList *	text_input_drivers;
+    DriverList *	user_interface_drivers;
 
   public:
 
@@ -875,5 +859,4 @@ namespace FreeDV {
   /// Return a reference to the driver manager instance.
   /// This is a function because it is called in static initializers.
   extern DriverManager & init_driver_manager();
-#endif
 }
