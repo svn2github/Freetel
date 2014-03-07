@@ -716,6 +716,15 @@ namespace FreeDV {
 
 /// Namespace used for the entire program.
 namespace FreeDV {
+  /// Utility functions.
+  
+  /// Non-template version of min().
+  inline std::size_t
+  min(std::size_t a, std::size_t b)
+  {
+    a < b ? a : b;
+  }
+
   /// Device driver manager. Allows for registration and enumeration of device
   /// drivers. Instantiates device drivers on request.
   class DriverManager {

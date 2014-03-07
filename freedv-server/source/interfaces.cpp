@@ -46,19 +46,17 @@ namespace FreeDV {
   std::ostream &
   Interfaces::print(std::ostream & stream) const
   {
-    using namespace std;
-
-    stream << "--codec=" << *codec << endl;
-    stream << "--gui=" << *user_interface << endl;
-    stream << "--keying=" << *keying_output << endl;
-    stream << "--loudspeaker=" << *loudspeaker << endl;
-    stream << "--microphone=" << *microphone << endl;
-    stream << "--modem=" << *modem << endl;
-    stream << "--ptt-digital=" << *ptt_input_digital << endl;
-    stream << "--ptt-ssb=" << *ptt_input_ssb << endl;
-    stream << "--receiver=" << *receiver << endl;
-    stream << "--text=" << *text_input << endl;
-    stream << "--transmitter=" << *transmitter << endl;
+    stream << "--codec=" << *codec << std::endl;
+    stream << "--gui=" << *user_interface << std::endl;
+    stream << "--keying=" << *keying_output << std::endl;
+    stream << "--loudspeaker=" << *loudspeaker << std::endl;
+    stream << "--microphone=" << *microphone << std::endl;
+    stream << "--modem=" << *modem << std::endl;
+    stream << "--ptt-digital=" << *ptt_input_digital << std::endl;
+    stream << "--ptt-ssb=" << *ptt_input_ssb << std::endl;
+    stream << "--receiver=" << *receiver << std::endl;
+    stream << "--text=" << *text_input << std::endl;
+    stream << "--transmitter=" << *transmitter << std::endl;
 
     return stream;
   }

@@ -6,8 +6,6 @@
 #include <iostream>
 #include "drivers.h"
 
-using namespace std;
-
 namespace FreeDV {
   // Global instance of the driver manager used to register
   // drivers and to create driver instances.
@@ -20,53 +18,53 @@ namespace FreeDV {
   {
   }
 
-  ostream &
-  DriverManager::print(ostream & s) const
+  std::ostream &
+  DriverManager::print(std::ostream & s) const
   {
     s << "AudioInput: ";
     for (auto i = audio_input_drivers.begin(); i != audio_input_drivers.end(); i++ )
       s << i->first << " ";
-    s << endl;
+    s << std::endl;
 
     s << "AudioOutput: ";
     for (auto i = audio_output_drivers.begin(); i != audio_output_drivers.end(); i++ )
       s << i->first << " ";
-    s << endl;
+    s << std::endl;
 
     s << "Codec: ";
     for (auto i = codecs.begin(); i != codecs.end(); i++ )
       s << i->first << " ";
-    s << endl;
+    s << std::endl;
 
     s << "Framer: ";
     for (auto i = framers.begin(); i != framers.end(); i++ )
       s << i->first << " ";
-    s << endl;
+    s << std::endl;
 
     s << "KeyingOutput: ";
     for (auto i = keying_output_drivers.begin(); i != keying_output_drivers.end(); i++ )
       s << i->first << " ";
-    s << endl;
+    s << std::endl;
 
     s << "Modem: ";
     for (auto i = modems.begin(); i != modems.end(); i++ )
       s << i->first << " ";
-    s << endl;
+    s << std::endl;
 
     s << "PTTInput: ";
     for (auto i = ptt_input_drivers.begin(); i != ptt_input_drivers.end(); i++ )
       s << i->first << " ";
-    s << endl;
+    s << std::endl;
 
     s << "TextInput: ";
     for (auto i = text_input_drivers.begin(); i != text_input_drivers.end(); i++ )
       s << i->first << " ";
-    s << endl;
+    s << std::endl;
 
     s << "UserInterface: ";
     for (auto i = user_interface_drivers.begin(); i != user_interface_drivers.end(); i++ )
       s << i->first << " ";
-    s << endl;
+    s << std::endl;
 
     return s;
   }
