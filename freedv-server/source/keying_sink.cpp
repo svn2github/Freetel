@@ -54,7 +54,7 @@ namespace FreeDV {
   static bool
   initializer()
   {
-    init_driver_manager().register_keying_output("sink", Driver::KeyingSink);
+    driver_manager()->register_keying_output("sink", Driver::KeyingSink);
     return true;
   }
   static const bool initialized = initializer();

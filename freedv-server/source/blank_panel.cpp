@@ -41,7 +41,7 @@ namespace FreeDV {
   static bool
   initializer()
   {
-    init_driver_manager().register_user_interface("blank-panel", Driver::BlankPanel);
+    driver_manager()->register_user_interface("blank-panel", Driver::BlankPanel);
     return true;
   }
   static const bool initialized = initializer();

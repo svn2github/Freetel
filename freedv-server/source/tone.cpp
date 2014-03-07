@@ -156,7 +156,7 @@ namespace FreeDV {
   static bool
   initializer()
   {
-    init_driver_manager().register_audio_input("tone", Driver::Tone);
+    driver_manager()->register_audio_input("tone", Driver::Tone);
     return true;
   }
   static const bool initialized = initializer();

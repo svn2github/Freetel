@@ -68,7 +68,7 @@ namespace FreeDV {
   static bool
   initializer()
   {
-    init_driver_manager().register_text_input("constant", Driver::TextConstant);
+    driver_manager()->register_text_input("constant", Driver::TextConstant);
     return true;
   }
   static const bool initialized = initializer();

@@ -754,45 +754,45 @@ namespace FreeDV {
     /// Instantiate an AudioInput driver.
     /// \param driver The name of the driver.
     /// \param parameters Driver-specific configuration parameters.
-    AudioInput *	audio_input(const char * driver, const char * parameters);
+    AudioInput *	audio_input(const char * driver, const char * parameters) const;
     /// Instantiate an AudioOutput driver.
     /// \param driver The name of the driver.
     /// \param parameters Driver-specific configuration parameters.
-    AudioOutput *	audio_output(const char * driver, const char * parameters);
+    AudioOutput *	audio_output(const char * driver, const char * parameters) const;
     /// Instantiate a Codec.
     /// \param driver The name of the driver.
     /// \param parameters Driver-specific configuration parameters.
-    Codec *		codec(const char * driver, const char * parameters);
+    Codec *		codec(const char * driver, const char * parameters) const;
 
     /// Instantiate a Framer.
     /// \param driver The name of the driver.
     /// \param parameters Driver-specific configuration parameters.
-    Framer *		framer(const char * driver, const char * parameters);
+    Framer *		framer(const char * driver, const char * parameters) const;
 
     /// Instantiate a Keying driver.
     /// \param driver The name of the driver.
     /// \param parameters Driver-specific configuration parameters.
-    KeyingOutput *	keying_output(const char * driver, const char * parameters);
+    KeyingOutput *	keying_output(const char * driver, const char * parameters) const;
     /// Instantiate a softmodem.
     /// \param driver The name of the driver.
     /// \param parameters Driver-specific configuration parameters.
-    Modem *		modem(const char * driver, const char * parameters);
+    Modem *		modem(const char * driver, const char * parameters) const;
 
     /// Instantiate a PTT input driver.
     /// \param driver The name of the driver.
     /// \param parameters Driver-specific configuration parameters.
-    PTTInput *		ptt_input(const char * driver, const char * parameters);
+    PTTInput *		ptt_input(const char * driver, const char * parameters) const;
 
     /// Instantiate a text input driver.
     /// \param driver The name of the driver.
     /// \param parameters Driver-specific configuration parameters.
-    TextInput *		text_input(const char * driver, const char * parameters);
+    TextInput *		text_input(const char * driver, const char * parameters) const;
     /// Instantiate a user interface driver.
     /// \param driver The name of the driver.
     /// \param parameters Driver-specific configuration parameters.
     /// \param interfaces Interfaces object used to hold all of the
     ///  current device driver instances.
-    UserInterface *	user_interface(const char * driver, const char * parameters, Interfaces * interfaces);
+    UserInterface *	user_interface(const char * driver, const char * parameters, Interfaces * interfaces) const;
 
     /// Register an audio input driver.
     /// \param driver The name of the driver.
@@ -852,11 +852,6 @@ namespace FreeDV {
     return d.print(stream);
   }
   
-
   /// Global reference to the driver manager.
-  extern DriverManager & driver_manager;
-
-  /// Return a reference to the driver manager instance.
-  /// This is a function because it is called in static initializers.
-  extern DriverManager & init_driver_manager();
+  extern DriverManager * const driver_manager();
 }

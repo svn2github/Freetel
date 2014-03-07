@@ -16,6 +16,9 @@ namespace FreeDV {
   static std::ostream &
   enumerate(std::ostream & stream, const DriverList * list)
   {
+    if ( list == 0 )
+      return stream;
+
     while ( list->key ) {
       stream << list->key << ' ';
       list++;
@@ -40,7 +43,7 @@ namespace FreeDV {
   {
     DriverList * next;
 
-    if ( list ) {
+    if ( *list ) {
       next = *list;
       while ( next->key )
 	next++;
@@ -104,55 +107,55 @@ namespace FreeDV {
   }
 
   AudioInput *
-  DriverManager::audio_input(const char * driver, const char * parameter)
+  DriverManager::audio_input(const char * driver, const char * parameter) const
   {
     return (AudioInput *)pick(driver, parameter, audio_input_drivers);
   }
  
   AudioOutput *
-  DriverManager::audio_output(const char * driver, const char * parameter)
+  DriverManager::audio_output(const char * driver, const char * parameter) const
   {
     return (AudioOutput *)pick(driver, parameter, audio_output_drivers);
   }
  
   Codec *
-  DriverManager::codec(const char * driver, const char * parameter)
+  DriverManager::codec(const char * driver, const char * parameter) const
   {
     return (Codec *)pick(driver, parameter, codecs);
   }
  
   Framer *
-  DriverManager::framer(const char * driver, const char * parameter)
+  DriverManager::framer(const char * driver, const char * parameter) const
   {
     return (Framer *)pick(driver, parameter, framers);
   }
  
   KeyingOutput *
-  DriverManager::keying_output(const char * driver, const char * parameter)
+  DriverManager::keying_output(const char * driver, const char * parameter) const
   {
     return (KeyingOutput *)pick(driver, parameter, keying_output_drivers);
   }
  
   Modem *
-  DriverManager::modem(const char * driver, const char * parameter)
+  DriverManager::modem(const char * driver, const char * parameter) const
   {
     return (Modem *)pick(driver, parameter, modems);
   }
  
   PTTInput *
-  DriverManager::ptt_input(const char * driver, const char * parameter)
+  DriverManager::ptt_input(const char * driver, const char * parameter) const
   {
     return (PTTInput *)pick(driver, parameter, ptt_input_drivers);
   }
  
   TextInput *
-  DriverManager::text_input(const char * driver, const char * parameter)
+  DriverManager::text_input(const char * driver, const char * parameter) const
   {
     return (TextInput *)pick(driver, parameter, text_input_drivers);
   }
  
   UserInterface *
-  DriverManager::user_interface(const char * driver, const char * parameter, Interfaces * interfaces)
+  DriverManager::user_interface(const char * driver, const char * parameter, Interfaces * interfaces) const
   {
     return (UserInterface *)pick(driver, parameter, user_interface_drivers);
   }
@@ -212,16 +215,10 @@ namespace FreeDV {
     place(driver, (base_creator)creator, &user_interface_drivers);
   }
 
-  /// Automatic initializer for the driver manager.
-  /// This has to be a function to get around the static initalization order
-  /// problem.
-  DriverManager &
-  init_driver_manager()
+  DriverManager * const
+  driver_manager()
   {
-    static DriverManager manager;
-    return manager;
+    static DriverManager * const d(new DriverManager());
+    return d;
   }
-
-  /// Global reference to the driver manager instance.
-  DriverManager & driver_manager = init_driver_manager();
 }

@@ -55,7 +55,7 @@ namespace FreeDV {
   static bool
   initializer()
   {
-    init_driver_manager().register_audio_output("sink", Driver::AudioSink);
+    driver_manager()->register_audio_output("sink", Driver::AudioSink);
     return true;
   }
   static const bool initialized = initializer();

@@ -120,7 +120,7 @@ namespace FreeDV {
   static bool
   initializer()
   {
-    init_driver_manager().register_modem("no-op", Driver::ModemNoOp);
+    driver_manager()->register_modem("no-op", Driver::ModemNoOp);
     return true;
   }
   static const bool initialized = initializer();

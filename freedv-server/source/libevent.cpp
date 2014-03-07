@@ -73,7 +73,7 @@ namespace FreeDV {
   static bool
   initializer()
   {
-    init_driver_manager().register_codec("no-op", Driver::CodecNoOp);
+    driver_manager()->register_codec("no-op", Driver::CodecNoOp);
     return true;
   }
   static const bool initialized = initializer();

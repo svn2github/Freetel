@@ -73,7 +73,7 @@ namespace FreeDV {
   static bool
   initializer()
   {
-    init_driver_manager().register_ptt_input("constant", Driver::PTTConstant);
+    driver_manager()->register_ptt_input("constant", Driver::PTTConstant);
     return true;
   }
   static const bool initialized = initializer();
