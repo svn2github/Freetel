@@ -7,8 +7,6 @@
 /// can to be without side-effects, a style inherited from functional
 /// programming. Thus, the excessive use of "const". - Bruce
 
-#ifndef NO_INITIALIZERS
-
 #include <stdlib.h>
 #include <string.h>
 #include <iostream>
@@ -192,4 +190,3 @@ main(int argc, char * * argv)
   set_scheduler();
   return run(&i);
 }
-#endif

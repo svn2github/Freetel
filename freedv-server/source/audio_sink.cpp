@@ -1,7 +1,6 @@
 /// The AudioSink driver, called as "sink", discards the audio, for testing.
 
 #include "drivers.h"
-#include <climits>
 
 namespace FreeDV {
   /// Audio output "sink", discards the audio, for testing.
@@ -50,8 +49,6 @@ namespace FreeDV {
     return SIZE_MAX;
   }
 
-#ifndef NO_INITIALIZERS
-
   static bool
   initializer()
   {
@@ -59,5 +56,4 @@ namespace FreeDV {
     return true;
   }
   static const bool initialized = initializer();
-#endif
 }

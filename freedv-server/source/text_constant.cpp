@@ -64,7 +64,6 @@ namespace FreeDV {
     return new ::FreeDV::TextConstant(parameter);
   }
 
-#ifndef NO_INITIALIZERS
   static bool
   initializer()
   {
@@ -72,5 +71,4 @@ namespace FreeDV {
     return true;
   }
   static const bool initialized = initializer();
-#endif
 }
