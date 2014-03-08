@@ -64,10 +64,16 @@ namespace FreeDV {
     return new ::FreeDV::TextConstant(parameter);
   }
 
+  std::ostream &
+  Enumerator::TextConstant(std::ostream & stream)
+  {
+    return stream;
+  }
+
   static bool
   initializer()
   {
-    driver_manager()->register_text_input("constant", Driver::TextConstant);
+    driver_manager()->register_text_input("constant", Driver::TextConstant, Enumerator::TextConstant);
     return true;
   }
   static const bool initialized = initializer();

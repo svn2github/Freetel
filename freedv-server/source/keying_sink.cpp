@@ -50,10 +50,16 @@ namespace FreeDV {
     return new ::FreeDV::KeyingSink(parameter);
   }
 
+  std::ostream &
+  Enumerator::KeyingSink(std::ostream & stream)
+  {
+    return stream;
+  }
+
   static bool
   initializer()
   {
-    driver_manager()->register_keying_output("sink", Driver::KeyingSink);
+    driver_manager()->register_keying_output("sink", Driver::KeyingSink, Enumerator::KeyingSink);
     return true;
   }
   static const bool initialized = initializer();

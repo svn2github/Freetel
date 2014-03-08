@@ -61,6 +61,12 @@ namespace FreeDV {
     return new ::FreeDV::AudioOutALSA(parameter);
   }
 
+  ostream &
+  Enumerator::AudioOutALSA(ostream & stream)
+  {
+    return stream;
+  }
+
   std::size_t
   AudioOutALSA::ready()
   {
@@ -70,7 +76,10 @@ namespace FreeDV {
   static bool
   initializer()
   {
-    driver_manager()->register_audio_output("alsa", Driver::AudioOutALSA);
+    driver_manager()->register_audio_output(
+     "alsa",
+     Driver::AudioOutALSA,
+     Enumerator::AudioOutALSA);
     return true;
   }
   static const bool initialized = initializer();

@@ -46,7 +46,7 @@ namespace FreeDV {
   }
 
   static void
-  place(const char * const key, FreeDV::Base * (*value)(const char *), DriverList * * const list)
+  place(const char * const key, FreeDV::Base * (*value)(const char *), std::ostream & (*enumerator)(std::ostream &), DriverList * * const list)
   {
     DriverList * next;
 
@@ -171,58 +171,58 @@ namespace FreeDV {
   }
 
   void
-  DriverManager::register_audio_input(const char * key, AudioInput * (*creator)(const char *))
+  DriverManager::register_audio_input(const char * key, AudioInput * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &))
   {
-    place(key, (base_creator)creator, &audio_input_drivers);
+    place(key, (base_creator)creator, enumerator, &audio_input_drivers);
   }
 
   void
-  DriverManager::register_audio_output(const char * key, AudioOutput * (*creator)(const char *))
+  DriverManager::register_audio_output(const char * key, AudioOutput * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &))
   {
-    place(key, (base_creator)creator, &audio_output_drivers);
+    place(key, (base_creator)creator, enumerator, &audio_output_drivers);
   }
 
   void
-  DriverManager::register_codec(const char * key, Codec * (*creator)(const char *))
+  DriverManager::register_codec(const char * key, Codec * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &))
   {
-    place(key, (base_creator)creator, &codecs);
+    place(key, (base_creator)creator, enumerator, &codecs);
   }
 
   void
-  DriverManager::register_framer(const char * key, Framer * (*creator)(const char *))
+  DriverManager::register_framer(const char * key, Framer * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &))
   {
-    place(key, (base_creator)creator, &framers);
+    place(key, (base_creator)creator, enumerator, &framers);
   }
 
   void
-  DriverManager::register_keying_output(const char * key, KeyingOutput * (*creator)(const char *))
+  DriverManager::register_keying_output(const char * key, KeyingOutput * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &))
   {
-    place(key, (base_creator)creator, &keying_output_drivers);
+    place(key, (base_creator)creator, enumerator, &keying_output_drivers);
   }
 
   void
-  DriverManager::register_modem(const char * key, Modem * (*creator)(const char *))
+  DriverManager::register_modem(const char * key, Modem * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &))
   {
-    place(key, (base_creator)creator, &modems);
+    place(key, (base_creator)creator, enumerator, &modems);
   }
 
   void
-  DriverManager::register_ptt_input(const char * key, PTTInput * (*creator)(const char *))
+  DriverManager::register_ptt_input(const char * key, PTTInput * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &))
   {
-    place(key, (base_creator)creator, &ptt_input_drivers);
+    place(key, (base_creator)creator, enumerator, &ptt_input_drivers);
   }
 
 
   void
-  DriverManager::register_text_input(const char * key, TextInput * (*creator)(const char *))
+  DriverManager::register_text_input(const char * key, TextInput * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &))
   {
-    place(key, (base_creator)creator, &text_input_drivers);
+    place(key, (base_creator)creator, enumerator, &text_input_drivers);
   }
 
   void
-  DriverManager::register_user_interface(const char * key, UserInterface * (*creator)(const char *, Interfaces *))
+  DriverManager::register_user_interface(const char * key, UserInterface * (*creator)(const char *, Interfaces *), std::ostream & (*enumerator)(std::ostream &))
   {
-    place(key, (base_creator)creator, &user_interface_drivers);
+    place(key, (base_creator)creator, enumerator, &user_interface_drivers);
   }
 
   DriverManager * const

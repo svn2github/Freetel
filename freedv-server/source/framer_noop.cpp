@@ -149,10 +149,16 @@ namespace FreeDV {
     return new ::FreeDV::FramerNoOp(parameter);
   }
 
+  std::ostream &
+  Enumerator::FramerNoOp(std::ostream & stream)
+  {
+    return stream;
+  }
+
   static bool
   initializer()
   {
-    driver_manager()->register_framer("no-op", Driver::FramerNoOp);
+    driver_manager()->register_framer("no-op", Driver::FramerNoOp, Enumerator::FramerNoOp);
     return true;
   }
   static const bool initialized = initializer();

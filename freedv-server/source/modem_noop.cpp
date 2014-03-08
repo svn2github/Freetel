@@ -116,10 +116,16 @@ namespace FreeDV {
     return new ::FreeDV::ModemNoOp(parameter);
   }
 
+  std::ostream &
+  Enumerator::ModemNoOp(std::ostream & stream)
+  {
+    return stream;
+  }
+
   static bool
   initializer()
   {
-    driver_manager()->register_modem("no-op", Driver::ModemNoOp);
+    driver_manager()->register_modem("no-op", Driver::ModemNoOp, Enumerator::ModemNoOp);
     return true;
   }
   static const bool initialized = initializer();

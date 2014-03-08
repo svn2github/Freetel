@@ -69,10 +69,16 @@ namespace FreeDV {
     return new ::FreeDV::PTTConstant(parameter);
   }
 
+  std::ostream &
+  Enumerator::PTTConstant(std::ostream & stream)
+  {
+    return stream;
+  }
+
   static bool
   initializer()
   {
-    driver_manager()->register_ptt_input("constant", Driver::PTTConstant);
+    driver_manager()->register_ptt_input("constant", Driver::PTTConstant, Enumerator::PTTConstant);
     return true;
   }
   static const bool initialized = initializer();

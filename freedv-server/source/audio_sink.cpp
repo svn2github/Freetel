@@ -37,22 +37,28 @@ namespace FreeDV {
     return length;
   }
 
-  AudioOutput *
-  Driver::AudioSink(const char * parameter)
-  {
-    return new ::FreeDV::AudioSink(parameter);
-  }
-
   std::size_t
   AudioSink::ready()
   {
     return SIZE_MAX;
   }
 
+  AudioOutput *
+  Driver::AudioSink(const char * parameter)
+  {
+    return new ::FreeDV::AudioSink(parameter);
+  }
+
+  std::ostream &
+  Enumerator::AudioSink(std::ostream & stream)
+  {
+    return stream;
+  }
+
   static bool
   initializer()
   {
-    driver_manager()->register_audio_output("sink", Driver::AudioSink);
+    driver_manager()->register_audio_output("sink", Driver::AudioSink, Enumerator::AudioSink);
     return true;
   }
   static const bool initialized = initializer();

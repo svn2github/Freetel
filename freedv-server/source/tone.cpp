@@ -152,10 +152,16 @@ namespace FreeDV {
     return new ::FreeDV::Tone(parameter);
   }
 
+  std::ostream &
+  Enumerator::Tone(std::ostream & stream)
+  {
+    return stream;
+  }
+
   static bool
   initializer()
   {
-    driver_manager()->register_audio_input("tone", Driver::Tone);
+    driver_manager()->register_audio_input("tone", Driver::Tone, Enumerator::Tone);
     return true;
   }
   static const bool initialized = initializer();

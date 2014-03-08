@@ -108,10 +108,16 @@ namespace FreeDV {
     return new ::FreeDV::CodecNoOp(parameter);
   }
 
+  std::ostream &
+  Enumerator::CodecNoOp(std::ostream & stream)
+  {
+    return stream;
+  }
+
   static bool
   initializer()
   {
-    driver_manager()->register_codec("no-op", Driver::CodecNoOp);
+    driver_manager()->register_codec("no-op", Driver::CodecNoOp, Enumerator::CodecNoOp);
     return true;
   }
   static const bool initialized = initializer();

@@ -37,10 +37,16 @@ namespace FreeDV {
     return new ::FreeDV::BlankPanel(parameter, interfaces);
   }
 
+  std::ostream &
+  Enumerator::BlankPanel(std::ostream & stream)
+  {
+    return stream;
+  }
+
   static bool
   initializer()
   {
-    driver_manager()->register_user_interface("blank-panel", Driver::BlankPanel);
+    driver_manager()->register_user_interface("blank-panel", Driver::BlankPanel, Enumerator::BlankPanel);
     return true;
   }
   static const bool initialized = initializer();

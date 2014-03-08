@@ -696,6 +696,10 @@ namespace FreeDV {
     return interfaces.print(stream);
   }
 
+  // The functions in the Driver and Enumerator namespaces are normally
+  // registered with the driver manager at run-time. There isn't a reason
+  // to reference them directly unless it's in a custom main for an embedded
+  // program.
   namespace Driver {
     AudioInput *	Tone(const char * parameter);
     AudioOutput *	AudioSink(const char * parameter);
@@ -707,6 +711,19 @@ namespace FreeDV {
     PTTInput *		PTTConstant(const char * parameter);
     TextInput *		TextConstant(const char * parameter);
     UserInterface *	BlankPanel(const char * parameter, Interfaces *);
+  }
+
+  namespace Enumerator {
+    std::ostream &	Tone(std::ostream &);
+    std::ostream &	AudioSink(std::ostream &);
+    std::ostream &	CodecNoOp(std::ostream &);
+    std::ostream &	FramerNoOp(std::ostream &);
+    std::ostream &	KeyingSink(std::ostream &);
+    std::ostream &	LibEvent(std::ostream &);
+    std::ostream &	ModemNoOp(std::ostream &);
+    std::ostream &	PTTConstant(std::ostream &);
+    std::ostream &	TextConstant(std::ostream &);
+    std::ostream &	BlankPanel(std::ostream &);
   }
 }
 
@@ -797,47 +814,47 @@ namespace FreeDV {
     /// Register an audio input driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
-    void		register_audio_input(const char * driver, AudioInput * (*creator)(const char *));
+    void		register_audio_input(const char * driver, AudioInput * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &));
 
     /// Register an audio input driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
-    void		register_audio_output(const char * driver, AudioOutput * (*creator)(const char *));
+    void		register_audio_output(const char * driver, AudioOutput * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &));
 
     /// Register a codec.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
-    void		register_codec(const char * driver, Codec * (*creator)(const char *));
+    void		register_codec(const char * driver, Codec * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &));
 
     /// Register a protocol framer.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
-    void		register_framer(const char * driver, Framer * (*creator)(const char *));
+    void		register_framer(const char * driver, Framer * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &));
 
     /// Register a keying output driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
-    void		register_keying_output(const char * driver, KeyingOutput * (*creator)(const char *));
+    void		register_keying_output(const char * driver, KeyingOutput * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &));
 
     /// Register a modem driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
-    void		register_modem(const char * driver, Modem * (*creator)(const char *));
+    void		register_modem(const char * driver, Modem * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &));
 
     /// Register a PTT input driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
-    void		register_ptt_input(const char * driver, PTTInput * (*creator)(const char *));
+    void		register_ptt_input(const char * driver, PTTInput * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &));
 
     /// Register a text input driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
-    void		register_text_input(const char * driver, TextInput * (*creator)(const char *));
+    void		register_text_input(const char * driver, TextInput * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &));
 
     /// Register a user interface driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
-    void		register_user_interface(const char * driver, UserInterface * (*creator)(const char *, Interfaces *));
+    void		register_user_interface(const char * driver, UserInterface * (*creator)(const char *, Interfaces *), std::ostream & (*enumerator)(std::ostream &));
   };
 
   /// Write the driver information from the DriverManager object onto a stream,

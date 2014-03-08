@@ -52,12 +52,6 @@ namespace FreeDV {
   {
   }
 
-  EventHandler *
-  Driver::LibEvent(const char * parameter)
-  {
-    return new ::FreeDV::LibEvent(parameter);
-  }
-
   void
   LibEvent::monitor(int fd, unsigned int type, void * private_data,
    void (*event)(int fd, unsigned int type, void * private_data))
@@ -69,10 +63,22 @@ namespace FreeDV {
   {
   }
 
+  EventHandler *
+  Driver::LibEvent(const char * parameter)
+  {
+    return new ::FreeDV::LibEvent(parameter);
+  }
+
+  std::ostream &
+  Enumerator::LibEvent(std::ostream & stream)
+  {
+    return stream;
+  }
+
   static bool
   initializer()
   {
-    driver_manager()->register_codec("no-op", Driver::CodecNoOp);
+    driver_manager()->register_codec("no-op", Driver::CodecNoOp, Enumerator::LibEvent);
     return true;
   }
   static const bool initialized = initializer();
