@@ -27,31 +27,41 @@ namespace FreeDV {
   }
 
   static FreeDV::Base *
-  pick(const char * key, const char * parameters, const DriverList * list)
+  pick(const char * key, const char * type, const char * const parameters, const DriverList * list)
   {
     while ( list->key ) {
       if ( strcmp(key, list->key) == 0 ) {
-        return (*(list->value))(parameters);
+	try {
+          return (*(list->value))(parameters);
+        }
+        catch(std::exception & e) {
+          std::cerr << "Open " << type << " \"" << key << "\": " << e.what() << std::endl;
+          return 0;
+        }
       }
       list++;
     }
+    std::cerr << "No " << type << " named \"" << key << "\"." << std::endl;
     return 0;
   }
 
   static void
-  place(const char * key, FreeDV::Base * (*value)(const char *), DriverList * * const list)
+  place(const char * const key, FreeDV::Base * (*value)(const char *), DriverList * * const list)
   {
     DriverList * next;
 
     if ( *list ) {
-      next = *list;
-      while ( next->key )
-	next++;
-      const std::size_t length = (next - *list);
+      DriverList * l;
+      l = *list;
+      while ( l->key )
+	l++;
 
-      DriverList * n = new DriverList[length + 2];
-      memcpy(n, *list, sizeof(*list) * length);
+      const std::size_t length = (l - *list);
+
+      DriverList * const n = new DriverList[length + 2];
+      memcpy(n, *list, sizeof(*n) * length);
       *list = n;
+      next = &n[length];
     }
     else
       *list = next = new DriverList[2];
@@ -107,112 +117,112 @@ namespace FreeDV {
   }
 
   AudioInput *
-  DriverManager::audio_input(const char * driver, const char * parameter) const
+  DriverManager::audio_input(const char * key, const char * parameter) const
   {
-    return (AudioInput *)pick(driver, parameter, audio_input_drivers);
+    return (AudioInput *)pick(key, "audio input", parameter, audio_input_drivers);
   }
  
   AudioOutput *
-  DriverManager::audio_output(const char * driver, const char * parameter) const
+  DriverManager::audio_output(const char * key, const char * parameter) const
   {
-    return (AudioOutput *)pick(driver, parameter, audio_output_drivers);
+    return (AudioOutput *)pick(key, "audio output", parameter, audio_output_drivers);
   }
  
   Codec *
-  DriverManager::codec(const char * driver, const char * parameter) const
+  DriverManager::codec(const char * key, const char * parameter) const
   {
-    return (Codec *)pick(driver, parameter, codecs);
+    return (Codec *)pick(key, "codec", parameter, codecs);
   }
  
   Framer *
-  DriverManager::framer(const char * driver, const char * parameter) const
+  DriverManager::framer(const char * key, const char * parameter) const
   {
-    return (Framer *)pick(driver, parameter, framers);
+    return (Framer *)pick(key, "protocol framer", parameter, framers);
   }
  
   KeyingOutput *
-  DriverManager::keying_output(const char * driver, const char * parameter) const
+  DriverManager::keying_output(const char * key, const char * parameter) const
   {
-    return (KeyingOutput *)pick(driver, parameter, keying_output_drivers);
+    return (KeyingOutput *)pick(key, "keying output", parameter, keying_output_drivers);
   }
  
   Modem *
-  DriverManager::modem(const char * driver, const char * parameter) const
+  DriverManager::modem(const char * key, const char * parameter) const
   {
-    return (Modem *)pick(driver, parameter, modems);
+    return (Modem *)pick(key, "modem", parameter, modems);
   }
  
   PTTInput *
-  DriverManager::ptt_input(const char * driver, const char * parameter) const
+  DriverManager::ptt_input(const char * key, const char * parameter) const
   {
-    return (PTTInput *)pick(driver, parameter, ptt_input_drivers);
+    return (PTTInput *)pick(key, "PTT input", parameter, ptt_input_drivers);
   }
  
   TextInput *
-  DriverManager::text_input(const char * driver, const char * parameter) const
+  DriverManager::text_input(const char * key, const char * parameter) const
   {
-    return (TextInput *)pick(driver, parameter, text_input_drivers);
+    return (TextInput *)pick(key, "text input", parameter, text_input_drivers);
   }
  
   UserInterface *
-  DriverManager::user_interface(const char * driver, const char * parameter, Interfaces * interfaces) const
+  DriverManager::user_interface(const char * key, const char * parameter, Interfaces * interfaces) const
   {
-    return (UserInterface *)pick(driver, parameter, user_interface_drivers);
+    return (UserInterface *)pick(key, "user interface", parameter, user_interface_drivers);
   }
 
   void
-  DriverManager::register_audio_input(const char * driver, AudioInput * (*creator)(const char *))
+  DriverManager::register_audio_input(const char * key, AudioInput * (*creator)(const char *))
   {
-    place(driver, (base_creator)creator, &audio_input_drivers);
+    place(key, (base_creator)creator, &audio_input_drivers);
   }
 
   void
-  DriverManager::register_audio_output(const char * driver, AudioOutput * (*creator)(const char *))
+  DriverManager::register_audio_output(const char * key, AudioOutput * (*creator)(const char *))
   {
-    place(driver, (base_creator)creator, &audio_output_drivers);
+    place(key, (base_creator)creator, &audio_output_drivers);
   }
 
   void
-  DriverManager::register_codec(const char * driver, Codec * (*creator)(const char *))
+  DriverManager::register_codec(const char * key, Codec * (*creator)(const char *))
   {
-    place(driver, (base_creator)creator, &codecs);
+    place(key, (base_creator)creator, &codecs);
   }
 
   void
-  DriverManager::register_framer(const char * driver, Framer * (*creator)(const char *))
+  DriverManager::register_framer(const char * key, Framer * (*creator)(const char *))
   {
-    place(driver, (base_creator)creator, &framers);
+    place(key, (base_creator)creator, &framers);
   }
 
   void
-  DriverManager::register_keying_output(const char * driver, KeyingOutput * (*creator)(const char *))
+  DriverManager::register_keying_output(const char * key, KeyingOutput * (*creator)(const char *))
   {
-    place(driver, (base_creator)creator, &keying_output_drivers);
+    place(key, (base_creator)creator, &keying_output_drivers);
   }
 
   void
-  DriverManager::register_modem(const char * driver, Modem * (*creator)(const char *))
+  DriverManager::register_modem(const char * key, Modem * (*creator)(const char *))
   {
-    place(driver, (base_creator)creator, &modems);
+    place(key, (base_creator)creator, &modems);
   }
 
   void
-  DriverManager::register_ptt_input(const char * driver, PTTInput * (*creator)(const char *))
+  DriverManager::register_ptt_input(const char * key, PTTInput * (*creator)(const char *))
   {
-    place(driver, (base_creator)creator, &ptt_input_drivers);
+    place(key, (base_creator)creator, &ptt_input_drivers);
   }
 
 
   void
-  DriverManager::register_text_input(const char * driver, TextInput * (*creator)(const char *))
+  DriverManager::register_text_input(const char * key, TextInput * (*creator)(const char *))
   {
-    place(driver, (base_creator)creator, &text_input_drivers);
+    place(key, (base_creator)creator, &text_input_drivers);
   }
 
   void
-  DriverManager::register_user_interface(const char * driver, UserInterface * (*creator)(const char *, Interfaces *))
+  DriverManager::register_user_interface(const char * key, UserInterface * (*creator)(const char *, Interfaces *))
   {
-    place(driver, (base_creator)creator, &user_interface_drivers);
+    place(key, (base_creator)creator, &user_interface_drivers);
   }
 
   DriverManager * const

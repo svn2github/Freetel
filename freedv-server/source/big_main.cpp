@@ -98,6 +98,8 @@ main(int argc, char * * argv)
   const char *	parameter;
   const DriverManager * const m = driver_manager();
 
+  i.fill_in();
+
   if ( argc > 1 ) {
     while ((command = getopt_long(argc, argv, "c:dhi:k:l:m:M:n:p:r:t:x:", options, NULL)) != -1) {
       switch (command) {
@@ -134,7 +136,6 @@ main(int argc, char * * argv)
         exit(0);
         break;
       case 'D':
-        i.fill_in();
         break;
       case 'f':
         set = i.framer = m->framer(driver, parameter);
@@ -175,7 +176,6 @@ main(int argc, char * * argv)
         set = i.text_input = m->text_input(driver, parameter);
         break;
       case 'C':
-	i.fill_in();
 	// FIX: Operator overload doesn't work here.
         i.print(cout) << endl;
         exit(0);
