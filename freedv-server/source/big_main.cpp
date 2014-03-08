@@ -124,9 +124,10 @@ main(int argc, char * * argv)
         parameter = &colon[1];
       }
 
+      Base * set = (Base *)1; 
       switch (command) {
       case 'c':
-        i.codec = m->codec(driver, parameter);
+        set = i.codec = m->codec(driver, parameter);
         break;
       case 'd':
         drivers();
@@ -136,10 +137,10 @@ main(int argc, char * * argv)
         i.fill_in();
         break;
       case 'f':
-        i.framer = m->framer(driver, parameter);
+        set = i.framer = m->framer(driver, parameter);
         break;
       case 'g':
-        i.user_interface = m->user_interface(driver, parameter, &i);
+        set = i.user_interface = m->user_interface(driver, parameter, &i);
         break;
       default:
       case 'h':
@@ -147,31 +148,31 @@ main(int argc, char * * argv)
         exit(1);
         break;
       case 'k':
-        i.keying_output = m->keying_output(driver, parameter);
+        set = i.keying_output = m->keying_output(driver, parameter);
         break;
       case 'l':
-        i.loudspeaker = m->audio_output(driver, parameter);
+        set = i.loudspeaker = m->audio_output(driver, parameter);
         break;
       case 'm':
-        i.microphone = m->audio_input(driver, parameter);
+        set = i.microphone = m->audio_input(driver, parameter);
         break;
       case 'M':
-        i.modem = m->modem(driver, parameter);
+        set = i.modem = m->modem(driver, parameter);
         break;
       case 'p':
-        i.ptt_input_digital = m->ptt_input(driver, parameter);
+        set = i.ptt_input_digital = m->ptt_input(driver, parameter);
         break;
       case 'P':
-        i.ptt_input_ssb = m->ptt_input(driver, parameter);
+        set = i.ptt_input_ssb = m->ptt_input(driver, parameter);
         break;
       case 'r':
-        i.receiver = m->audio_input(driver, parameter);
+        set = i.receiver = m->audio_input(driver, parameter);
         break;
       case 't':
-        i.transmitter = m->audio_output(driver, parameter);
+        set = i.transmitter = m->audio_output(driver, parameter);
         break;
       case 'x':
-        i.text_input = m->text_input(driver, parameter);
+        set = i.text_input = m->text_input(driver, parameter);
         break;
       case 'C':
 	i.fill_in();
@@ -181,6 +182,8 @@ main(int argc, char * * argv)
       case 0:
         break;
       }
+      if ( set == 0 )
+        exit(1);
     }
   }
   else { // argc <= 1
