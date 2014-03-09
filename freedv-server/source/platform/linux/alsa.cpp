@@ -70,4 +70,4 @@ namespace FreeDV {
   
     return stream;
   }
-};
+}

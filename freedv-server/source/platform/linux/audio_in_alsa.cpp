@@ -2,6 +2,7 @@
 
 #include "drivers.h"
 #include <alsa/asoundlib.h>
+#include <sys/ioctl.h>
 #include <sstream>
 #include <stdexcept>
 
@@ -15,12 +16,12 @@ namespace FreeDV {
 
   public:
 
-	/// Instantiate the audio sink.
+	/// Instantiate the ALSA audio input.
   		AudioInALSA(const char * parameters);
 		~AudioInALSA();
 
-	/// Return the number of audio samples the device can handle in
-	/// a write without blocking.
+	/// Return the number of audio samples the device can provide in
+	/// a read without blocking.
         virtual std::size_t
 		ready();
 
@@ -48,9 +49,9 @@ namespace FreeDV {
 
   AudioInALSA::~AudioInALSA()
   {
+    snd_pcm_close(handle);
   }
 
-  // Read audio into the "short" type.
   std::size_t
   AudioInALSA::read16(std::int16_t * array, std::size_t length)
   {
@@ -72,7 +73,12 @@ namespace FreeDV {
   std::size_t
   AudioInALSA::ready()
   {
-    return SIZE_MAX;
+    snd_pcm_sframes_t	available = 0;
+
+    if ( (available = snd_pcm_avail(handle)) <= 0 )
+      return available;
+    else
+      return 0;
   }
 
   static bool

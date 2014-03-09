@@ -2,20 +2,21 @@
 
 #include "drivers.h"
 #include <alsa/asoundlib.h>
+#include <sys/ioctl.h>
 #include <sstream>
 #include <stdexcept>
 
 namespace FreeDV {
   std::ostream & ALSAEnumerate(std::ostream & stream, snd_pcm_stream_t mode);
 
-  /// Audio output "sink", discards the audio, for testing.
+  /// Audio output "ALSA", Uses the Linux ALSA Audio API.
   class AudioOutALSA : public AudioOutput {
   private:
     snd_pcm_t * handle;
 
   public:
 
-	/// Instantiate the audio sink.
+	/// Instantiate the audio output.
   		AudioOutALSA(const char * parameters);
 		~AudioOutALSA();
 
@@ -24,7 +25,7 @@ namespace FreeDV {
         virtual std::size_t
 		ready();
 
-        /// Write audio into the "short" type.
+        /// Write audio from the "short" type.
 	virtual std::size_t
 		write16(const std::int16_t * array, std::size_t length);
   };
@@ -48,6 +49,7 @@ namespace FreeDV {
 
   AudioOutALSA::~AudioOutALSA()
   {
+    snd_pcm_close(handle);
   }
 
   // Write audio into the "short" type.
@@ -72,7 +74,12 @@ namespace FreeDV {
   std::size_t
   AudioOutALSA::ready()
   {
-    return SIZE_MAX;
+    snd_pcm_sframes_t	available = 0;
+
+    if ( (available = snd_pcm_avail(handle)) <= 0 )
+      return available;
+    else
+      return 0;
   }
 
   static bool
