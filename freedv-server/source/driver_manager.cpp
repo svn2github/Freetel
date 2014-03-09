@@ -14,13 +14,15 @@ namespace FreeDV {
   // embedded, it's worth some extra effort to avoid STL containers.
 
   static std::ostream &
-  enumerate(std::ostream & stream, const DriverList * list)
+  enumerate(std::ostream & stream, const char * name, const DriverList * list)
   {
     if ( list == 0 )
       return stream;
 
+    stream << "# " << name << std::endl;
+
     while ( list->key ) {
-      stream << list->key << ' ';
+      (*(list->enumerator))(stream);
       list++;
     }
     return stream;
@@ -32,7 +34,7 @@ namespace FreeDV {
     while ( list->key ) {
       if ( strcmp(key, list->key) == 0 ) {
 	try {
-          return (*(list->value))(parameters);
+          return (*(list->creator))(parameters);
         }
         catch(std::exception & e) {
           std::cerr << "Open " << type << " \"" << key << "\": " << e.what() << std::endl;
@@ -46,7 +48,11 @@ namespace FreeDV {
   }
 
   static void
-  place(const char * const key, FreeDV::Base * (*value)(const char *), std::ostream & (*enumerator)(std::ostream &), DriverList * * const list)
+  place(
+   const char * const key,
+   FreeDV::Base * (*creator)(const char *),
+   std::ostream & (*enumerator)(std::ostream &),
+   DriverList * * const list)
   {
     DriverList * next;
 
@@ -67,10 +73,12 @@ namespace FreeDV {
       *list = next = new DriverList[2];
 
     next->key = strdup(key);
-    next->value = value;
+    next->creator = creator;
+    next->enumerator = enumerator;
     ++next;
     next->key = 0;
-    next->value = 0;
+    next->creator = 0;
+    next->enumerator = 0;
   }
 
   // Global instance of the driver manager used to register
@@ -86,32 +94,15 @@ namespace FreeDV {
   std::ostream &
   DriverManager::print(std::ostream & s) const
   {
-    s << "Audio Input: ";
-    enumerate(s, audio_input_drivers) << std::endl;
-
-    s << "Audio Output: ";
-    enumerate(s, audio_output_drivers) << std::endl;
-
-    s << "Codec: ";
-    enumerate(s, codecs) << std::endl;
-
-    s << "Framer: ";
-    enumerate(s, framers) << std::endl;
-
-    s << "Keying Output: ";
-    enumerate(s, keying_output_drivers) << std::endl;
-
-    s << "Modem: ";
-    enumerate(s, modems) << std::endl;
-
-    s << "PTT Input: ";
-    enumerate(s, ptt_input_drivers) << std::endl;
-
-    s << "Text Input: ";
-    enumerate(s, text_input_drivers) << std::endl;
-
-    s << "User Interface: ";
-    enumerate(s, user_interface_drivers) << std::endl;
+    enumerate(s, "Audio Input", audio_input_drivers) << std::endl;
+    enumerate(s, "Audio Output", audio_output_drivers) << std::endl;
+    enumerate(s, "Codec", codecs) << std::endl;
+    enumerate(s, "Protocol Framer", framers) << std::endl;
+    enumerate(s, "Keying Output", keying_output_drivers) << std::endl;
+    enumerate(s, "Modem", modems) << std::endl;
+    enumerate(s, "PTT Input", ptt_input_drivers) << std::endl;
+    enumerate(s, "Text Input", text_input_drivers) << std::endl;
+    enumerate(s, "User Interface", user_interface_drivers) << std::endl;
 
     return s;
   }

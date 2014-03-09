@@ -6,6 +6,8 @@
 #include <stdexcept>
 
 namespace FreeDV {
+  std::ostream & ALSAEnumerate(std::ostream & stream, snd_pcm_stream_t mode);
+
   /// Audio output "sink", discards the audio, for testing.
   class AudioOutALSA : public AudioOutput {
   private:
@@ -61,10 +63,10 @@ namespace FreeDV {
     return new ::FreeDV::AudioOutALSA(parameter);
   }
 
-  ostream &
-  Enumerator::AudioOutALSA(ostream & stream)
+  std::ostream &
+  Enumerator::AudioOutALSA(std::ostream & stream)
   {
-    return stream;
+    return ALSAEnumerate(stream, SND_PCM_STREAM_PLAYBACK);
   }
 
   std::size_t

@@ -703,6 +703,7 @@ namespace FreeDV {
   namespace Driver {
     AudioInput *	Tone(const char * parameter);
     AudioOutput *	AudioSink(const char * parameter);
+    AudioOutput *	AudioOutALSA(const char * parameter);
     Codec *		CodecNoOp(const char * parameter);
     Framer *		FramerNoOp(const char * parameter);
     KeyingOutput *	KeyingSink(const char * parameter);
@@ -716,6 +717,7 @@ namespace FreeDV {
   namespace Enumerator {
     std::ostream &	Tone(std::ostream &);
     std::ostream &	AudioSink(std::ostream &);
+    std::ostream &	AudioOutALSA(std::ostream &);
     std::ostream &	CodecNoOp(std::ostream &);
     std::ostream &	FramerNoOp(std::ostream &);
     std::ostream &	KeyingSink(std::ostream &);
@@ -740,7 +742,8 @@ namespace FreeDV {
 
   struct DriverList {
     const char *	key;
-    FreeDV::Base *	(*value)(const char *);
+    FreeDV::Base *	(*creator)(const char *);
+    std::ostream &	(*enumerator)(std::ostream &);
   };
 
   /// Device driver manager. Allows for registration and enumeration of device
