@@ -26,6 +26,7 @@ using namespace FreeDV;
 
 static void drivers()
 {
+  check_privileges();
   driver_manager()->print(cout);
 }
 
@@ -191,5 +192,6 @@ main(int argc, char * * argv)
     exit(1);
   }
   set_scheduler();
+  check_privileges();
   return run(&i);
 }

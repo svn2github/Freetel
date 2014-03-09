@@ -108,6 +108,9 @@ namespace FreeDV {
   /// has insufficient privilege, this may emit a warning and/or do nothing.
   void		set_scheduler();
 
+  /// Check the user's privileges, and warn if they are inappropriate.
+  void		check_privileges();
+
   /// Virtual base class for all driver classes.
   class Base {
   private:
@@ -702,6 +705,7 @@ namespace FreeDV {
   // program.
   namespace Driver {
     AudioInput *	Tone(const char * parameter);
+    AudioInput *	AudioInALSA(const char * parameter);
     AudioOutput *	AudioSink(const char * parameter);
     AudioOutput *	AudioOutALSA(const char * parameter);
     Codec *		CodecNoOp(const char * parameter);
@@ -717,6 +721,7 @@ namespace FreeDV {
   namespace Enumerator {
     std::ostream &	Tone(std::ostream &);
     std::ostream &	AudioSink(std::ostream &);
+    std::ostream &	AudioInALSA(std::ostream &);
     std::ostream &	AudioOutALSA(std::ostream &);
     std::ostream &	CodecNoOp(std::ostream &);
     std::ostream &	FramerNoOp(std::ostream &);
