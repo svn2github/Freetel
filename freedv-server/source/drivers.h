@@ -699,15 +699,16 @@ namespace FreeDV {
     return interfaces.print(stream);
   }
 
-  // The functions in the Driver and Enumerator namespaces are normally
-  // registered with the driver manager at run-time. There isn't a reason
-  // to reference them directly unless it's in a custom main for an embedded
-  // program.
+  // Most of the functions in the Driver and Enumerator namespaces are
+  // registered with the driver manager at run-time. There won't be many
+  // reasons to reference them directly.
   namespace Driver {
     AudioInput *	Tone(const char * parameter);
     AudioInput *	AudioInALSA(const char * parameter);
+    AudioInput *	AudioInDefault();
     AudioOutput *	AudioSink(const char * parameter);
     AudioOutput *	AudioOutALSA(const char * parameter);
+    AudioOutput *	AudioOutDefault();
     Codec *		CodecNoOp(const char * parameter);
     Framer *		FramerNoOp(const char * parameter);
     KeyingOutput *	KeyingSink(const char * parameter);

@@ -16,7 +16,7 @@ namespace FreeDV {
       keying_output = Driver::KeyingSink(empty);
 
     if ( !loudspeaker )
-      loudspeaker = Driver::AudioSink(empty);
+      loudspeaker = Driver::AudioOutDefault();
 
     if ( !microphone )
       microphone = Driver::Tone(empty);
