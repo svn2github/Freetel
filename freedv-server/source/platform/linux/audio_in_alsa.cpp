@@ -55,7 +55,13 @@ namespace FreeDV {
   std::size_t
   AudioInALSA::read16(std::int16_t * array, std::size_t length)
   {
-    return length;
+    const int result = snd_pcm_writei(handle, array, length);
+    if ( result >= 0 )
+      return result;
+    else {
+      // FIX: do_throw(result, "Write");
+      return 0; // do_throw doesn't return.
+    }
   }
 
   AudioInput *

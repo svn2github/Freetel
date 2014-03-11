@@ -32,7 +32,7 @@ namespace FreeDV {
 
   // Write audio into the "short" type.
   std::size_t
-  AudioSink::write16(const std::int16_t * array, std::size_t length)
+  AudioSink::write16(const std::int16_t *, std::size_t length)
   {
     return length;
   }

@@ -6,6 +6,10 @@
 static const char empty[1] = { '\0' };
 
 namespace FreeDV {
+  Interfaces::~Interfaces()
+  {
+  }
+
   void
   Interfaces::fill_in()
   {
@@ -19,7 +23,7 @@ namespace FreeDV {
       loudspeaker = Driver::AudioOutDefault();
 
     if ( !microphone )
-      microphone = Driver::Tone(empty);
+      microphone = Driver::AudioInDefault();
 
     if ( !modem )
       modem = Driver::ModemNoOp(empty);

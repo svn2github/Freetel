@@ -29,12 +29,15 @@ namespace FreeDV {
   }
 
   static FreeDV::Base *
-  pick(const char * key, const char * type, const char * const parameters, const DriverList * list)
+  pick(const char * key, const char * type, const char * const parameters, const DriverList * list, Interfaces * interfaces = 0)
   {
     while ( list->key ) {
       if ( strcmp(key, list->key) == 0 ) {
 	try {
-          return (*(list->creator))(parameters);
+	  if ( interfaces )
+            return (*(list->creator_i))(parameters, interfaces);
+          else
+	    return (*(list->creator))(parameters);
         }
         catch(std::exception & e) {
           std::cerr << "Open " << type << " \"" << key << "\": " << e.what() << std::endl;
@@ -158,7 +161,7 @@ namespace FreeDV {
   UserInterface *
   DriverManager::user_interface(const char * key, const char * parameter, Interfaces * interfaces) const
   {
-    return (UserInterface *)pick(key, "user interface", parameter, user_interface_drivers);
+    return (UserInterface *)pick(key, "user interface", parameter, user_interface_drivers, interfaces);
   }
 
   void
@@ -216,7 +219,7 @@ namespace FreeDV {
     place(key, (base_creator)creator, enumerator, &user_interface_drivers);
   }
 
-  DriverManager * const
+  DriverManager *
   driver_manager()
   {
     static DriverManager * const d(new DriverManager());

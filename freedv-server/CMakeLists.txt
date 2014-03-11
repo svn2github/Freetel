@@ -88,18 +88,28 @@ message(STATUS "${Param.build-type} ${Version.major}.${Version.minor}.${Version.
 #
 
 set(Compile.linux.sources
+  source/platform/linux/alsa.cpp
+  source/platform/linux/audio_out_alsa.cpp
+  source/platform/linux/audio_in_alsa.cpp
   source/platform/linux/scheduler.cpp
+  source/platform/linux/privilege.cpp
+)
+set(Compile.linux.libraries
+  asound
 )
 
 # FIX: Add other platforms.
 if(Platform.name STREQUAL Linux)
   set(Compile.platform.sources ${Compile.linux.sources})
+  set(Compile.platform.libraries ${Compile.linux.libraries})
 endif(Platform.name STREQUAL Linux)
 
 set(Compile.sources
   ${Compile.platform.sources}
   source/audio_device.cpp
+  source/audio_in_default.cpp
   source/audio_input.cpp
+  source/audio_out_default.cpp
   source/audio_output.cpp
   source/audio_sink.cpp
   source/base.cpp
@@ -109,6 +119,8 @@ set(Compile.sources
   source/driver_manager.cpp
   source/event_handler.cpp
   source/fifo.cpp
+  source/framer.cpp
+  source/framer_noop.cpp
   source/interfaces.cpp
   source/io_device.cpp
   source/keying.cpp
@@ -177,5 +189,8 @@ if( Codec2.lib AND Codec2.include )
 else( Codec2.lib AND Codec2.include )
   message(FATAL_ERROR "Can't find Codec2 library.")
 endif( Codec2.lib AND Codec2.include )
+
+target_link_libraries(freedv-server ${Compile.platform.libraries})
+target_link_libraries(freedv-gtest ${Compile.platform.libraries})
 
 install(TARGETS freedv-server RUNTIME DESTINATION bin)

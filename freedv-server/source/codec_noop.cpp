@@ -16,7 +16,7 @@ namespace FreeDV {
     /// Data Bytes provided to decode16 and encode16 must be a multiple
     /// of this value. The result is invariant.
     /// \return The number of data bytes necessary to store a codec frame.
-    virtual std::size_t const
+    virtual std::size_t
     			bytes_per_frame() const;
 
     /// Decode from data bytes to audio samples.
@@ -46,7 +46,7 @@ namespace FreeDV {
 
     /// Return the duration of a frame in milliseconds.
     /// \return The duration of a frame in milliseconds.
-    virtual int const
+    virtual int
     			frame_duration() const;
 
     /// Return the number of audio samples expected to create a codec
@@ -55,7 +55,7 @@ namespace FreeDV {
     /// a given SampleRate.
     /// \return The number of audio samples expected to create a codec
     /// frame.
-    virtual std::size_t const
+    virtual std::size_t
     			samples_per_frame() const;
   };
 
@@ -68,7 +68,7 @@ namespace FreeDV {
   {
   }
 
-  std::size_t const
+  std::size_t
   CodecNoOp::bytes_per_frame() const
   {
     return sizeof(std::int16_t);
@@ -77,7 +77,7 @@ namespace FreeDV {
   std::size_t
   CodecNoOp::decode16(const std::uint8_t * i, std::int16_t * o, std::size_t * data_length, std::size_t sample_length)
   {
-    const std::size_t length = std::min(*data_length / 2, sample_length);
+    const std::size_t length = min(*data_length / 2, sample_length);
     memcpy(o, i, length * 2);
     *data_length = length * 2;
     return length;
@@ -90,13 +90,13 @@ namespace FreeDV {
     return length;
   }
 
-  int const
+  int
   CodecNoOp::frame_duration() const
   {
     return 1;
   }
 
-  std::size_t const
+  std::size_t
   CodecNoOp::samples_per_frame() const
   {
     return 1;

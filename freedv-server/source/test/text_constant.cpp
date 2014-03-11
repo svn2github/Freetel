@@ -31,11 +31,11 @@ TEST_F(TextConstantTest, ReadyAndRead) {
   char	buffer[1024];
 
   EXPECT_EQ(sizeof(text) - 1, i->ready());
-  EXPECT_EQ(10, i->read(buffer, 10));
+  EXPECT_EQ(10U, i->read(buffer, 10));
   EXPECT_EQ(sizeof(text) - 1 - 10, i->ready());
-  EXPECT_EQ(0, i->read(buffer, 0));
+  EXPECT_EQ(0U, i->read(buffer, 0));
   EXPECT_EQ(sizeof(text) - 1 - 10, i->ready());
   EXPECT_EQ(sizeof(text) - 1 - 10, i->read(buffer, sizeof(buffer)));
-  EXPECT_EQ(0, i->ready());
+  EXPECT_EQ(0U, i->ready());
   EXPECT_THROW(i->read(buffer, sizeof(buffer)), std::runtime_error);
 }

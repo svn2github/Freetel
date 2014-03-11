@@ -13,7 +13,7 @@ namespace FreeDV {
     delete parameters;
   }
 
-  bool const
+  bool
   Base::captive() const
   {
     return false;

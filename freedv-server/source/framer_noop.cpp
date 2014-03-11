@@ -24,7 +24,7 @@ namespace FreeDV {
     /// \return The maximum number of data bytes expected to store a wrapped
     /// protocol frame.
     /// frame.
-    virtual std::size_t const
+    virtual std::size_t
     			max_wrapped_bytes_per_frame() const;
 
     /// Return the maximum number of data bytes expected to store the unwrapped
@@ -32,7 +32,7 @@ namespace FreeDV {
     /// \return The maximum number of data bytes expected to store the unwrapped
     /// codec data.
     /// frame.
-    virtual std::size_t const
+    virtual std::size_t
     			max_unwrapped_bytes_per_frame() const;
 
     /// Return the minimum number of data bytes expected to store the unwrapped
@@ -40,7 +40,7 @@ namespace FreeDV {
     /// \return The minimum number of data bytes expected to store the unwrapped
     /// codec data.
     /// frame.
-    virtual std::size_t const
+    virtual std::size_t
     			min_unwrapped_bytes_per_frame() const;
 
     /// Return the minimum number of data bytes expected to store a wrapped
@@ -50,7 +50,7 @@ namespace FreeDV {
     /// \return The minimum number of data bytes expected to store a wrapped
     /// protocol frame.
     /// frame.
-    virtual std::size_t const
+    virtual std::size_t
     			min_wrapped_bytes_per_frame() const;
 
     /// Decode from modem data to codec frames, removing the wrapping protocol.
@@ -94,25 +94,25 @@ namespace FreeDV {
   {
   }
 
-  std::size_t const
+  std::size_t
   FramerNoOp::max_wrapped_bytes_per_frame() const
   {
     return 1;
   }
 
-  std::size_t const
+  std::size_t
   FramerNoOp::max_unwrapped_bytes_per_frame() const
   {
     return 1;
   }
 
-  std::size_t const
+  std::size_t
   FramerNoOp::min_unwrapped_bytes_per_frame() const
   {
     return 1;
   }
 
-  std::size_t const
+  std::size_t
   FramerNoOp::min_wrapped_bytes_per_frame() const
   {
     return 1;
@@ -124,7 +124,7 @@ namespace FreeDV {
    std::size_t * input_length,
    std::size_t output_length)
   {
-    const std::size_t length = std::min(*input_length, output_length);
+    const std::size_t length = min(*input_length, output_length);
     memcpy(o, i, length);
     *input_length = length;
     return length;
@@ -137,7 +137,7 @@ namespace FreeDV {
    std::size_t * input_length,
    std::size_t output_length)
   {
-    const std::size_t length = std::min(*input_length, output_length);
+    const std::size_t length = min(*input_length, output_length);
     memcpy(o, i, length);
     *input_length = length;
     return length;

@@ -16,7 +16,7 @@ namespace FreeDV {
     char * const	parameters;
     snd_pcm_t *		handle;
 
-    volatile void
+    void
     do_throw(const int error, const char * message = 0)
     {
       std::ostringstream str;
@@ -92,8 +92,10 @@ namespace FreeDV {
     const int result = snd_pcm_writei(handle, array, length);
     if ( result >= 0 )
       return result;
-    else
+    else {
       do_throw(result, "Write");
+      return 0; // do_throw doesn't return.
+    }
   }
 
   AudioOutput *
@@ -115,8 +117,10 @@ namespace FreeDV {
 
     if ( (available = snd_pcm_avail(handle)) >= 0 )
       return available;
-    else
+    else {
       do_throw(available, "Get Available Frames");
+      return 0; // do_throw doesn't return.
+    }
   }
 
   static bool

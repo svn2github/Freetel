@@ -1,1 +1,1 @@
--g -pedantic
+-g -pedantic -Wall -Wextra

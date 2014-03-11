@@ -53,13 +53,13 @@ namespace FreeDV {
   }
 
   void
-  LibEvent::monitor(int fd, unsigned int type, void * private_data,
-   void (*event)(int fd, unsigned int type, void * private_data))
+  LibEvent::monitor(int, unsigned int, void *,
+   void (*)(int, unsigned int, void *))
   {
   }
 
   void
-  LibEvent::unmonitor(int fd)
+  LibEvent::unmonitor(int)
   {
   }
 

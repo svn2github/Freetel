@@ -1,6 +1,7 @@
 /// FreeDV driver interface definitions.
 #include <cstdint>
 #include <iostream>
+#include <assert.h>
 
 /// Namespace used for all code in this program.
 namespace FreeDV {
@@ -31,8 +32,8 @@ namespace FreeDV {
     uint8_t *			in;
     const uint8_t *		out;
 
-    void		out_overrun(std::size_t length) const;
-    uint8_t *		reorder(std::size_t length);
+    void	out_overrun() const;
+    uint8_t *	reorder(std::size_t length);
 
   public:
     /// Create the FIFO object.
@@ -44,7 +45,7 @@ namespace FreeDV {
     /// Returns the amount of space available for incoming data.
     /// \return The amount of space, in bytes, available for incoming data.
     inline std::size_t	incoming_available() const {
-			  return buffer_end - in + out - buffer;
+			  return (buffer_end) - in + (out - buffer);
 			}
 
     /// Return the address of an incoming data buffer of the requested size.
@@ -70,6 +71,7 @@ namespace FreeDV {
     /// smaller than or equal to the length passed to incoming_buffer().
     inline void		incoming_done(std::size_t length) {
 			  in += length;
+ 			  assert(in >= buffer && in <= buffer_end);
 			}
 
     /// Returns the amount of data available to read.
@@ -83,8 +85,8 @@ namespace FreeDV {
     /// than or equal to the amount returned by outgoing_available().
     /// \return The address of the data to be read.
     inline const uint8_t *	outgoing_buffer(std::size_t length) {
-			  if ( length > in - out )
-			    out_overrun(length);
+			  if ( length > (std::size_t)(in - out) )
+			    out_overrun();
 			  return out;
 			}
 
@@ -94,6 +96,7 @@ namespace FreeDV {
     /// outgoing_buffer().
     inline void		outgoing_done(std::size_t length) {
 			  out += length;
+			  assert(out >= buffer && out <= buffer_end);
 			}
 
     /// Discard any buffered data.
@@ -126,13 +129,13 @@ namespace FreeDV {
 	/// The name of the driver. This must be the same as the name it
 	/// is registered under. It's expected to be from a per-class static
 	/// string and thus should not be deleted.
-	const char * const
+	const char *
 			name;
 
 	/// The parameters to this instance of the driver. They are
 	/// copied here so that we can print them later in operator<<() .
 	/// the copy is deleted when in the ~Base() destructor.
-	const char * const
+	const char *
 			parameters;
 
 	/// Constructor for the virtual base class.
@@ -149,7 +152,7 @@ namespace FreeDV {
 	/// should not be destroyed separately.
 	/// The result is invariant for a particular object (or possibly
 	/// class).
-	virtual bool const
+	virtual bool
 			captive() const;
 
 	/// Write the driver information onto a stream, for debugging and
@@ -279,7 +282,7 @@ namespace FreeDV {
     /// Data Bytes provided to decode16 and encode16 must be a multiple
     /// of this value. The result is invariant for a particular configuration.
     /// \return The number of data bytes necessary to store a codec frame.
-    virtual std::size_t const
+    virtual std::size_t
     			bytes_per_frame() const = 0;
 
     /// Decode from data bytes to audio samples.
@@ -310,7 +313,7 @@ namespace FreeDV {
 
     /// Return the duration of a frame in milliseconds.
     /// \return The duration of a frame in milliseconds.
-    virtual int const
+    virtual int
     			frame_duration() const = 0;
 
     /// Return the number of audio samples expected to create a codec
@@ -319,7 +322,7 @@ namespace FreeDV {
     /// data because of the potential for clock skew between stations.
     /// \return The number of audio samples expected to create a codec
     /// frame.
-    virtual std::size_t const
+    virtual std::size_t
     			samples_per_frame() const = 0;
   };
 
@@ -442,7 +445,7 @@ namespace FreeDV {
     /// \return The maximum number of data bytes expected to store the unwrapped
     /// codec data.
     /// frame.
-    virtual std::size_t const
+    virtual std::size_t
     			max_unwrapped_bytes_per_frame() const = 0;
 
     /// Return the minimum number of data bytes expected to store the unwrapped
@@ -450,7 +453,7 @@ namespace FreeDV {
     /// \return The minimum number of data bytes expected to store the unwrapped
     /// codec data.
     /// frame.
-    virtual std::size_t const
+    virtual std::size_t
     			min_unwrapped_bytes_per_frame() const = 0;
 
     /// Wrap codec data bytes in a protocol for transmission through the modem.
@@ -475,7 +478,7 @@ namespace FreeDV {
     /// \return The maximum number of data bytes expected to store a wrapped
     /// protocol frame.
     /// frame.
-    virtual std::size_t const
+    virtual std::size_t
     			max_wrapped_bytes_per_frame() const = 0;
 
     /// Return the minimum number of data bytes expected to store a wrapped
@@ -485,7 +488,7 @@ namespace FreeDV {
     /// \return The minimum number of data bytes expected to store a wrapped
     /// protocol frame.
     /// frame.
-    virtual std::size_t const
+    virtual std::size_t
     			min_wrapped_bytes_per_frame() const = 0;
   };
 
@@ -526,7 +529,7 @@ namespace FreeDV {
     /// The data buffer provided to demodulate16 must be a multiple of
     /// this value. The result is invariant.
     /// \return The number of data bytes necessary to store a modem frame.
-    virtual std::size_t const
+    virtual std::size_t
     			bytes_per_frame() const = 0;
 
     /// Demodulate from audio samples to data.
@@ -556,7 +559,7 @@ namespace FreeDV {
 
     /// Return the duration of a frame in milliseconds.
     /// \return The duration of a frame in milliseconds.
-    virtual int const
+    virtual int
     			frame_duration() const = 0;
 
     /// Return the number of audio samples expected to create a modem
@@ -565,7 +568,7 @@ namespace FreeDV {
     /// data due to the potential for clock skew between stations.
     /// \return The number of audio samples expected to create a codec
     /// frame.
-    virtual std::size_t const
+    virtual std::size_t
     			samples_per_frame() const = 0;
   };
 
@@ -638,12 +641,14 @@ namespace FreeDV {
   class Interfaces {
     public:
 			Interfaces() : codec(0), event_handler(0),
-			 keying_output(0), loudspeaker(0), microphone(0),
-			 modem(0), ptt_input_digital(0), ptt_input_ssb(0),
-			 receiver(0), text_input(0), transmitter(0),
-			 user_interface(0)
+			 framer(0), keying_output(0), loudspeaker(0),
+			 microphone(0), modem(0), ptt_input_digital(0),
+			 ptt_input_ssb(0), receiver(0), text_input(0),
+			 transmitter(0), user_interface(0)
 			{
 			}
+
+    virtual		~Interfaces() final;
 
     /// The voice codec in use.
     Codec *		codec;
@@ -665,12 +670,12 @@ namespace FreeDV {
     PTTInput *		ptt_input_digital;
     /// The PTT input that indicates the transmission is to be SSB.
     PTTInput *		ptt_input_ssb;
+    /// The audio input from the receiver.
+    AudioInput *	receiver;
     /// The text to be transmitted in our text side-channel.
     TextInput *		text_input;
     /// The audio output that drives the transmitter.
     AudioOutput *	transmitter;
-    /// The audio input from the receiver.
-    AudioInput *	receiver;
     /// The user interface driver. Used for GUIs.
     UserInterface *	user_interface;
 
@@ -686,6 +691,7 @@ namespace FreeDV {
     virtual std::ostream &
     			print(std::ostream & stream) const;
   };
+
   /// Write the driver information from the Interfaces object onto a stream,
   /// for debugging and dumping the configuration information.
   /// \param stream A reference to an instance of ostream upon which the
@@ -743,12 +749,15 @@ namespace FreeDV {
   inline std::size_t
   min(std::size_t a, std::size_t b)
   {
-    a < b ? a : b;
+    return a < b ? a : b;
   }
 
   struct DriverList {
     const char *	key;
-    FreeDV::Base *	(*creator)(const char *);
+    union {
+      FreeDV::Base *	(*creator)(const char *);
+      FreeDV::Base *	(*creator_i)(const char *, Interfaces *);
+    };
     std::ostream &	(*enumerator)(std::ostream &);
   };
 
@@ -879,5 +888,5 @@ namespace FreeDV {
   }
   
   /// Global reference to the driver manager.
-  extern DriverManager * const driver_manager();
+  extern DriverManager * driver_manager();
 }

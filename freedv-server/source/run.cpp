@@ -25,10 +25,10 @@ namespace FreeDV {
   private:
     const std::size_t	TempSize = 2048;
     Interfaces * const	i;
-    bool		begin_transmit;
     bool		begin_receive;
-    FIFO		input_fifo;
+    bool		begin_transmit;
     FIFO		codec_fifo;
+    FIFO		input_fifo;
     FIFO		output_fifo;
     bool		ptt_digital;
     bool		ptt_ssb;
@@ -40,16 +40,16 @@ namespace FreeDV {
     void		transmit_digital();
     void		transmit_ssb();
   public:
-    int			run();
-
     			Run(Interfaces *);
     			~Run();
+
+    void		run();
   };
   
   Run::Run(Interfaces * interfaces)
-  : begin_receive(true), begin_transmit(false), i(interfaces),
-    ptt_digital(false), ptt_ssb(false),
-    input_fifo(TempSize * 2), codec_fifo(TempSize * 2), output_fifo(TempSize * 2)
+  : i(interfaces), begin_receive(true), begin_transmit(false),
+    codec_fifo(TempSize * 2), input_fifo(TempSize * 2),
+    output_fifo(TempSize * 2), ptt_digital(false), ptt_ssb(false)
   {
   }
 
@@ -63,53 +63,6 @@ namespace FreeDV {
     input_fifo.reset();
     codec_fifo.reset();
     output_fifo.reset();
-  }
-
-  int
-  Run::run()
-  {
-    while ( true ) {
-      if ( i->ptt_input_digital->ready() ) {
-        bool state = i->ptt_input_digital->state();
-        if ( state && !ptt_digital && !ptt_ssb ) {
-          ptt_digital = true;
-          begin_transmit = true;
-        }
-        else if ( !state && ptt_digital ) {
-          begin_receive = true;
-          ptt_digital = false;
-        }
-      }
-      if ( i->ptt_input_ssb->ready() ) {
-        bool state = i->ptt_input_ssb->state();
-        if ( state && !ptt_digital && !ptt_ssb ) {
-          ptt_ssb = true;
-          begin_transmit = true;
-        }
-        else if ( !state && ptt_ssb ) {
-          begin_receive = true;
-          ptt_ssb = false;
-        }
-      }
-      if ( begin_transmit ) {
-        reset_fifos();
-        key_down();
-      }
-      else if ( begin_receive ) {
-        reset_fifos();
-        key_up();
-      }
-      else if ( ptt_digital ) {
-        transmit_digital();
-      }
-      else if ( ptt_ssb ) {
-        transmit_ssb();
-      }
-      else {
-        receive();
-      }
-      usleep(20100);
-    }
   }
 
   void
@@ -141,14 +94,14 @@ namespace FreeDV {
   Run::receive()
   {
     // Drain any data that the loudspeaker can take.
-    const std::size_t	output_samples = std::min(
+    const std::size_t	output_samples = min(
 			 i->loudspeaker->ready(),
 			 (output_fifo.outgoing_available() / 2));
 
     if ( output_samples ) {
       const std::size_t result = i->loudspeaker->write16(
-      				  (std::int16_t *)output_fifo.outgoing_buffer
-				   (output_samples * 2),
+      				  (std::int16_t *)output_fifo.outgoing_buffer(
+				   output_samples * 2),
 				  output_samples);
 
       if ( result > 0 )
@@ -158,7 +111,7 @@ namespace FreeDV {
     }
     
     // Fill any data that the receiver can provide.
-    const std::size_t	input_samples = std::min(
+    const std::size_t	input_samples = min(
 			 i->receiver->ready(),
     			 (input_fifo.incoming_available() / 2));
 
@@ -168,7 +121,7 @@ namespace FreeDV {
         input_samples);
 
       if ( result > 0 )
-        output_fifo.outgoing_done(result * 2);
+        input_fifo.incoming_done(result * 2);
       else
 	std::cerr << "Loudspeaker I/O error: " << strerror(errno) << std::endl;
     }
@@ -193,7 +146,7 @@ namespace FreeDV {
         input_fifo.outgoing_done(samples_to_demodulate * 2);
 
       if ( result > 0 )
-        output_fifo.incoming_done(result * i->modem->bytes_per_frame());
+        codec_fifo.incoming_done(result);
     }
 
     const std::size_t	frames_to_decode = 
@@ -223,6 +176,14 @@ namespace FreeDV {
   }
   
   void
+  Run::run()
+  {
+    while ( true ) {
+      receive();
+    }
+  }
+
+  void
   Run::transmit_digital()
   {
   }
@@ -236,6 +197,7 @@ namespace FreeDV {
   run(Interfaces * i)
   {
     Run * r = new Run(i);
-    return r->run();
+    r->run();
+    return 0;
   }
 }

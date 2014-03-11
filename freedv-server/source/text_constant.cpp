@@ -8,8 +8,8 @@ namespace FreeDV {
   /// This driver provides constant text.
   class TextConstant : public TextInput {
   private:
-    const std::size_t	length;
     std::size_t		index;
+    const std::size_t	length;
 
   public:
     /// Instantiate the constant text driver.

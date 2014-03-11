@@ -27,5 +27,5 @@ protected:
 };
 
 TEST_F(BlankPanelTest, NeverReady) {
-  EXPECT_EQ(0, u->ready());
+  EXPECT_EQ(0U, u->ready());
 }

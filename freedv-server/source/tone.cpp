@@ -116,6 +116,8 @@ namespace FreeDV {
       array[i] = (std::int16_t)rint(value * master_amplitude * ((1 << 15) - 1));
     }
     clock = (clock + length) % SampleRate;
+
+    return length;
   }
 
   std::size_t

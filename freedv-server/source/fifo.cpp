@@ -15,7 +15,7 @@ namespace FreeDV {
   }
 
   void
-  FIFO::out_overrun(std::size_t size) const
+  FIFO::out_overrun() const
   {
     throw std::runtime_error("FIFO outgoing data overrun.");
   }
@@ -30,13 +30,17 @@ namespace FreeDV {
       // memmove() is specified to handle overlap properly.
       memmove(buffer, out, bytes);
 #ifdef DEBUG
-      std::cerr << "FIFO reorder with copy." << std::endl;
+      std::cerr << "FIFO reorder with copy. Size = " << size
+       << ", buffer = " << (void *)buffer << ", buffer_end = "
+       << (void *)buffer_end << ", in = " << (void *)in
+       << ", out = " << (void *)out
+       << std::endl;
 #endif
     }
     out = buffer;
     in = buffer + bytes;
 
-    if ( size > buffer_end - in )
+    if ( size > (std::size_t)(buffer_end - in) )
       throw std::runtime_error("FIFO incoming data overrun.");
 
     return in;

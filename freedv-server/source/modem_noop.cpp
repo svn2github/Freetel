@@ -18,7 +18,7 @@ namespace FreeDV {
     /// The data buffer provided to demodulate16 must be a multiple of
     /// this value. The result is invariant.
     /// \return The number of data bytes necessary to store a modem frame.
-    virtual std::size_t const
+    virtual std::size_t
     			bytes_per_frame() const;
 
     /// Demodulate from audio samples to data.
@@ -48,7 +48,7 @@ namespace FreeDV {
 
     /// Return the duration of a frame in milliseconds.
     /// \return The duration of a frame in milliseconds.
-    virtual int const
+    virtual int
     			frame_duration() const;
 
     /// Return the number of audio samples expected to create a codec
@@ -57,7 +57,7 @@ namespace FreeDV {
     /// invariant for a given SampleRate.
     /// \return The number of audio samples expected to create a codec
     /// frame.
-    virtual std::size_t const
+    virtual std::size_t
     			samples_per_frame() const;
   };
 
@@ -70,7 +70,7 @@ namespace FreeDV {
   {
   }
 
-  std::size_t const
+  std::size_t
   ModemNoOp::bytes_per_frame() const
   {
     return sizeof(std::int16_t);
@@ -83,9 +83,9 @@ namespace FreeDV {
    std::size_t * sample_length,
    std::size_t data_length)
   {
-    const std::size_t length = std::min(data_length / 2, *sample_length);
+    const std::size_t length = min(data_length / 2, *sample_length);
     memcpy(o, i, length * 2);
-    *sample_length = length * 2;
+    *sample_length = length;
     return length;
   }
 
@@ -98,13 +98,13 @@ namespace FreeDV {
     return length / 2;
   }
 
-  int const
+  int
   ModemNoOp::frame_duration() const
   {
     return 1;
   }
 
-  std::size_t const
+  std::size_t
   ModemNoOp::samples_per_frame() const
   {
     return 1;

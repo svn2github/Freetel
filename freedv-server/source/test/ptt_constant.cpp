@@ -46,19 +46,19 @@ protected:
 };
 
 TEST_F(PTTInputTransmitTest, ReadyAndRead) {
-  EXPECT_EQ(1, i->ready());
-  EXPECT_EQ(1, i->ready());
+  EXPECT_EQ(1U, i->ready());
+  EXPECT_EQ(1U, i->ready());
   EXPECT_TRUE(i->state());
-  EXPECT_EQ(0, i->ready());
-  EXPECT_EQ(0, i->ready());
+  EXPECT_EQ(0U, i->ready());
+  EXPECT_EQ(0U, i->ready());
   EXPECT_THROW(i->state(), std::runtime_error);
 }
 
 TEST_F(PTTInputReceiveTest, ReadyAndRead) {
-  EXPECT_EQ(1, i->ready());
-  EXPECT_EQ(1, i->ready());
+  EXPECT_EQ(1U, i->ready());
+  EXPECT_EQ(1U, i->ready());
   EXPECT_FALSE(i->state());
-  EXPECT_EQ(0, i->ready());
-  EXPECT_EQ(0, i->ready());
+  EXPECT_EQ(0U, i->ready());
+  EXPECT_EQ(0U, i->ready());
   EXPECT_THROW(i->state(), std::runtime_error);
 }

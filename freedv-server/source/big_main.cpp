@@ -36,9 +36,9 @@ static void help(const char * name)
     " [options]\n"
     "\nWhere options are these flags:\n\n"
     "--codec or -c\t\tSelect the voice codec.\n"
+    "--config or -c\t\tPrint the configuration.\n"
     "--drivers or -d\t\tPrint a list of the available device drivers.\n"
     "--framer or -f\t\tSelect the communications protocol framer.\n"
-    "--gui or -g\t\tSelect the graphical user interface.\n"
     "--help or -h\t\tPrint this message.\n"
     "--interface or -i\tSelect the user-interface (graphical or otherwise).\n"
     "--keying or -k\t\tSelect the transmitter keying interface.\n"
@@ -73,7 +73,6 @@ static const struct option options[] = {
   { "codec",		required_argument, 0, 'c' },
   { "config",		no_argument,	   0, 'C' },
   { "drivers",		no_argument,	   0, 'd' },
-  { "default",		no_argument,	   0, 'D' },
   { "framer",		required_argument, 0, 'f' },
   { "help",		no_argument,	   0, 'h' },
   { "interface",	required_argument, 0, 'i' },
@@ -92,95 +91,92 @@ static const struct option options[] = {
 int
 main(int argc, char * * argv)
 {
-  int		command;
   Interfaces	i;
-  const char *	driver;
-  const char *	parameter;
   const DriverManager * const m = driver_manager();
 
   i.fill_in();
 
   if ( argc > 1 ) {
-    while ((command = getopt_long(argc, argv, "c:dhi:k:l:m:M:n:p:r:t:x:", options, NULL)) != -1) {
-      switch (command) {
-      case 'f':
-      case 'i':
-      case 'k':
-      case 'l':
-      case 'm':
-      case 'p':
-      case 'P':
-      case 'r':
-      case 't':
-      case 'x':
-        char * const colon(index(optarg, ':'));
-
-        if ( colon == 0 || colon[0] != ':' || colon[1] == 0 ) {
-          cerr << argv[optind - 1] << ": Missing colon. Argument must be of the form \"<driver>:<parameter>\"" << endl;
-          exit(1);
-        }
-	
-        *colon = 0;
-        driver = optarg;
-        parameter = &colon[1];
-      }
-
-      Base * set = (Base *)1; 
+    int command;
+    while ((command = getopt_long(argc, argv, "c:Cdf:hi:k:l:m:M:p:P:r:t:x:", options, NULL)) != -1 ) {
       switch (command) {
       case 'c':
-        set = i.codec = m->codec(driver, parameter);
-        break;
-      case 'd':
-        drivers();
-        exit(0);
-      case 'D':
-        break;
       case 'f':
-        set = i.framer = m->framer(driver, parameter);
-        break;
-      default:
-      case 'h':
-        help(argv[0]);
-        exit(1);
       case 'i':
-        set = i.user_interface = m->user_interface(driver, parameter, &i);
-        break;
       case 'k':
-        set = i.keying_output = m->keying_output(driver, parameter);
-        break;
       case 'l':
-        set = i.loudspeaker = m->audio_output(driver, parameter);
-        break;
       case 'm':
-        set = i.microphone = m->audio_input(driver, parameter);
-        break;
       case 'M':
-        set = i.modem = m->modem(driver, parameter);
-        break;
       case 'p':
-        set = i.ptt_input_digital = m->ptt_input(driver, parameter);
-        break;
       case 'P':
-        set = i.ptt_input_ssb = m->ptt_input(driver, parameter);
-        break;
       case 'r':
-        set = i.receiver = m->audio_input(driver, parameter);
-        break;
       case 't':
-        set = i.transmitter = m->audio_output(driver, parameter);
-        break;
       case 'x':
-        set = i.text_input = m->text_input(driver, parameter);
-        break;
-      case 'C':
-	// FIX: Operator overload doesn't work here.
-        i.print(cout) << endl;
-        exit(0);
-      case 0:
-        break;
+        const char * const	driver = optarg;
+        char * const		colon = index(optarg, ':');
+        const char *		parameter = "";
+  
+        if ( colon ) {
+          *colon = 0;
+          parameter = colon + 1;
+        }
+  
+        Base * set = (Base *)1; 
+  
+        switch (command) {
+        case 'c':
+          set = i.codec = m->codec(driver, parameter);
+          break;
+        case 'd':
+          drivers();
+          exit(0);
+        case 'f':
+          set = i.framer = m->framer(driver, parameter);
+          break;
+        default:
+        case 'h':
+          help(argv[0]);
+          exit(1);
+        case 'i':
+          set = i.user_interface = m->user_interface(driver, parameter, &i);
+          break;
+        case 'k':
+          set = i.keying_output = m->keying_output(driver, parameter);
+          break;
+        case 'l':
+          set = i.loudspeaker = m->audio_output(driver, parameter);
+          break;
+        case 'm':
+          set = i.microphone = m->audio_input(driver, parameter);
+          break;
+        case 'M':
+          set = i.modem = m->modem(driver, parameter);
+          break;
+        case 'p':
+          set = i.ptt_input_digital = m->ptt_input(driver, parameter);
+          break;
+        case 'P':
+          set = i.ptt_input_ssb = m->ptt_input(driver, parameter);
+          break;
+        case 'r':
+          set = i.receiver = m->audio_input(driver, parameter);
+          break;
+        case 't':
+          set = i.transmitter = m->audio_output(driver, parameter);
+          break;
+        case 'x':
+          set = i.text_input = m->text_input(driver, parameter);
+          break;
+        case 'C':
+  	// FIX: Operator overload doesn't work here.
+          i.print(cout) << endl;
+          exit(0);
+        case 0:
+          break;
+        }
+        if ( set == 0 )
+          exit(1);
       }
-      if ( set == 0 )
-        exit(1);
     }
   }
   else { // argc <= 1
