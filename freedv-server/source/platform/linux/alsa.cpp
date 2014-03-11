@@ -61,9 +61,9 @@ namespace FreeDV {
         stream << std::endl;
   
         if ( ctl_error == 0 ) {
-          snd_ctl_close(ctl_handle);
-    	if ( pcm_error == 0 )
+      	  if ( pcm_error == 0 )
             snd_pcm_close(pcm_handle);
+          snd_ctl_close(ctl_handle);
         }
       }
     }
