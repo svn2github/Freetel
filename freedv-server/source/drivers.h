@@ -32,7 +32,7 @@ namespace FreeDV {
     uint8_t *			in;
     const uint8_t *		out;
 
-    void	out_overrun() const;
+    void	get_overrun() const;
     uint8_t *	reorder(std::size_t length);
 
   public:
@@ -42,9 +42,36 @@ namespace FreeDV {
 
 			~FIFO();
 
+    /// Returns the amount of data available to read.
+    /// \return The amount of data, in bytes, available to read.
+    inline std::size_t	get_available() const {
+			  return in - out;
+			}
+
+    /// Return the address of output data of the requested length.
+    /// \param length The amount of data requested. This must be smaller
+    /// than or equal to the amount returned by get_available().
+    /// \return The address of the data to be read.
+    inline const uint8_t *	get(std::size_t length) {
+			  if ( length > (std::size_t)(in - out) )
+			    get_overrun();
+			  return out;
+			}
+
+    /// Finish the I/O after get().
+    /// \param length The amount of data, in bytes, actually read.
+    /// This must be smaller than or equal to the amount passed to
+    /// get().
+    inline void		get_done(std::size_t length) {
+			  out += length;
+			  assert(out >= buffer && out <= buffer_end);
+			  if ( out == in )
+			    out = in = buffer;
+			}
+
     /// Returns the amount of space available for incoming data.
     /// \return The amount of space, in bytes, available for incoming data.
-    inline std::size_t	incoming_available() const {
+    inline std::size_t	put_space() const {
 			  return (buffer_end) - in + (out - buffer);
 			}
 
@@ -52,12 +79,12 @@ namespace FreeDV {
     /// Throws an error if we run the buffer out of space. Well-behaved code
     /// won't allocate a size that can't be drained before it is further
     /// written.
-    /// You must call incoming_done(length) when the I/O is completed.
-    /// The length passed to incoming_done() must be smaller than or equal
-    /// to the length passed to incoming_buffer().
+    /// You must call put_done(length) when the I/O is completed.
+    /// The length passed to put_done() must be smaller than or equal
+    /// to the length passed to put().
     /// \param io_length The size of buffer in chars requested.
     /// \return The address of the buffer for incoming data.
-    inline uint8_t *	incoming_buffer(std::size_t io_length) {
+    inline uint8_t *	put(std::size_t io_length) {
 			  const uint8_t * io_end = in + io_length;
 
 			  if ( io_end > buffer_end )
@@ -66,37 +93,12 @@ namespace FreeDV {
 			    return in;
 			}
 
-    /// Complete the I/O after incoming_buffer().
+    /// Complete the I/O after put().
     /// \param length The amount of data actually written. This must be
-    /// smaller than or equal to the length passed to incoming_buffer().
-    inline void		incoming_done(std::size_t length) {
+    /// smaller than or equal to the length passed to put().
+    inline void		put_done(std::size_t length) {
 			  in += length;
  			  assert(in >= buffer && in <= buffer_end);
-			}
-
-    /// Returns the amount of data available to read.
-    /// \return The amount of data, in bytes, available to read.
-    inline std::size_t	outgoing_available() const {
-			  return in - out;
-			}
-
-    /// Return the address of output data of the requested length.
-    /// \param length The amount of data requested. This must be smaller
-    /// than or equal to the amount returned by outgoing_available().
-    /// \return The address of the data to be read.
-    inline const uint8_t *	outgoing_buffer(std::size_t length) {
-			  if ( length > (std::size_t)(in - out) )
-			    out_overrun();
-			  return out;
-			}
-
-    /// Finish the I/O after outgoing_buffer().
-    /// \param length The amount of data, in bytes, actually read.
-    /// This must be smaller than or equal to the amount passed to
-    /// outgoing_buffer().
-    inline void		outgoing_done(std::size_t length) {
-			  out += length;
-			  assert(out >= buffer && out <= buffer_end);
 			}
 
     /// Discard any buffered data.
@@ -689,7 +691,7 @@ namespace FreeDV {
     /// \return A reference to the provided stream, meant for the
     ///  usual successive call paradigm of ostream operator << .
     virtual std::ostream &
-    			print(std::ostream & stream) const;
+    			print(std::ostream & stream, const char * program_name) const;
   };
 
   /// Write the driver information from the Interfaces object onto a stream,
@@ -702,7 +704,7 @@ namespace FreeDV {
   ///  usual successive call paradigm of ostream operator << .
   inline std::ostream &
   operator << (std::ostream & stream, const Interfaces & interfaces) {
-    return interfaces.print(stream);
+    return interfaces.print(stream, 0);
   }
 
   // Most of the functions in the Driver and Enumerator namespaces are

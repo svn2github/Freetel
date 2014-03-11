@@ -100,6 +100,19 @@ main(int argc, char * * argv)
     int command;
     while ((command = getopt_long(argc, argv, "c:Cdf:hi:k:l:m:M:p:P:r:t:x:", options, NULL)) != -1 ) {
       switch (command) {
+      case 0:
+        break;
+      case 'd':
+        drivers();
+        exit(0);
+      default:
+      case 'h':
+        help(argv[0]);
+        exit(1);
+      case 'C':
+	// FIX: Operator overload doesn't work here.
+        i.print(cout, argv[0]) << endl;
+        exit(0);
       case 'c':
       case 'f':
       case 'i':
@@ -123,20 +136,14 @@ main(int argc, char * * argv)
   
         Base * set = (Base *)1; 
   
+
         switch (command) {
         case 'c':
           set = i.codec = m->codec(driver, parameter);
           break;
-        case 'd':
-          drivers();
-          exit(0);
         case 'f':
           set = i.framer = m->framer(driver, parameter);
           break;
-        default:
-        case 'h':
-          help(argv[0]);
-          exit(1);
         case 'i':
           set = i.user_interface = m->user_interface(driver, parameter, &i);
           break;
@@ -166,12 +173,6 @@ main(int argc, char * * argv)
           break;
         case 'x':
           set = i.text_input = m->text_input(driver, parameter);
-          break;
-        case 'C':
-  	// FIX: Operator overload doesn't work here.
-          i.print(cout) << endl;
-          exit(0);
-        case 0:
           break;
         }
         if ( set == 0 )

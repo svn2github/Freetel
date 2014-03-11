@@ -28,8 +28,8 @@ namespace FreeDV {
     bool		begin_receive;
     bool		begin_transmit;
     FIFO		codec_fifo;
-    FIFO		input_fifo;
-    FIFO		output_fifo;
+    FIFO		in_fifo;
+    FIFO		out_fifo;
     bool		ptt_digital;
     bool		ptt_ssb;
  
@@ -48,8 +48,8 @@ namespace FreeDV {
   
   Run::Run(Interfaces * interfaces)
   : i(interfaces), begin_receive(true), begin_transmit(false),
-    codec_fifo(TempSize * 2), input_fifo(TempSize * 2),
-    output_fifo(TempSize * 2), ptt_digital(false), ptt_ssb(false)
+    codec_fifo(TempSize * 2), in_fifo(TempSize * 2),
+    out_fifo(TempSize * 2), ptt_digital(false), ptt_ssb(false)
   {
   }
 
@@ -60,9 +60,9 @@ namespace FreeDV {
   void
   Run::reset_fifos()
   {
-    input_fifo.reset();
+    in_fifo.reset();
     codec_fifo.reset();
-    output_fifo.reset();
+    out_fifo.reset();
   }
 
   void
@@ -94,84 +94,78 @@ namespace FreeDV {
   Run::receive()
   {
     // Drain any data that the loudspeaker can take.
-    const std::size_t	output_samples = min(
+    const std::size_t	out_samples = min(
 			 i->loudspeaker->ready(),
-			 (output_fifo.outgoing_available() / 2));
+			 (out_fifo.get_available() / 2));
 
-    if ( output_samples ) {
+    if ( out_samples ) {
+        std::int16_t * s = (std::int16_t *)out_fifo.get(out_samples * 2);
+
+        for ( std::size_t i = 0; i < out_samples; i++ ) {
+          std::cerr << (double)s[i] / 32767.0 << ' ';
+	}
       const std::size_t result = i->loudspeaker->write16(
-      				  (std::int16_t *)output_fifo.outgoing_buffer(
-				   output_samples * 2),
-				  output_samples);
+      				  (std::int16_t *)out_fifo.get(
+				   out_samples * 2),
+				  out_samples);
 
       if ( result > 0 )
-        output_fifo.outgoing_done(result * 2);
+        out_fifo.get_done(result * 2);
       else
 	std::cerr << "Loudspeaker I/O error: " << strerror(errno) << std::endl;
     }
     
     // Fill any data that the receiver can provide.
-    const std::size_t	input_samples = min(
+    const std::size_t	in_samples = min(
 			 i->receiver->ready(),
-    			 (input_fifo.incoming_available() / 2));
+    			 (in_fifo.put_space() / 2));
 
-    if ( input_samples ) {
+    if ( in_samples ) {
       const std::size_t result = i->receiver->read16(
-        (std::int16_t *)input_fifo.incoming_buffer(input_samples * 2),
-        input_samples);
+        (std::int16_t *)in_fifo.put(in_samples * 2),
+        in_samples);
 
       if ( result > 0 )
-        input_fifo.incoming_done(result * 2);
+        in_fifo.put_done(result * 2);
       else
-	std::cerr << "Loudspeaker I/O error: " << strerror(errno) << std::endl;
+	std::cerr << "Receiver I/O error: " << strerror(errno) << std::endl;
     }
     
-    const std::size_t	frames_to_demodulate = (codec_fifo.incoming_available()
-			 / i->modem->bytes_per_frame());
-
-    if ( frames_to_demodulate && input_fifo.outgoing_available() > i->modem->bytes_per_frame()) {
-      std::size_t	samples_to_demodulate = input_fifo.outgoing_available()
-			 / 2;
-      const std::size_t	bytes_to_demodulate = frames_to_demodulate
-			 * i->modem->bytes_per_frame();
+    if ( in_fifo.get_available() > 0 ) {
+      std::size_t	samples_to_demodulate = in_fifo.get_available() / 2;
+      const std::size_t	bytes_to_demodulate = codec_fifo.put_space();
 
       std::size_t result = i->modem->demodulate16(
-			    (const std::int16_t *)input_fifo.outgoing_buffer(
+			    (const std::int16_t *)in_fifo.get(
 			     samples_to_demodulate * 2),
-			    codec_fifo.incoming_buffer(bytes_to_demodulate),
+			    codec_fifo.put(bytes_to_demodulate),
 			    &samples_to_demodulate,
 			    bytes_to_demodulate);
 
       if ( samples_to_demodulate > 0 )
-        input_fifo.outgoing_done(samples_to_demodulate * 2);
+        in_fifo.get_done(samples_to_demodulate * 2);
 
       if ( result > 0 )
-        codec_fifo.incoming_done(result);
+        codec_fifo.put_done(result);
     }
 
-    const std::size_t	frames_to_decode = 
-			 (output_fifo.incoming_available() / 2)
-			  / i->codec->samples_per_frame();
+    if ( codec_fifo.get_available() > 0 ) {
+      std::size_t bytes_to_decode = codec_fifo.get_available();
 
-    if ( frames_to_decode > 0
-     && codec_fifo.outgoing_available() > i->codec->bytes_per_frame() ) {
-      std::size_t bytes_to_decode = codec_fifo.outgoing_available();
-
-      const std::size_t samples_to_decode = frames_to_decode \
-					     * i->codec->samples_per_frame();
+      const std::size_t samples_to_decode = out_fifo.put_space() / 2;
 
       const std::size_t result = i->codec->decode16(
-				  codec_fifo.outgoing_buffer(bytes_to_decode),
-				  (std::int16_t *)output_fifo.incoming_buffer(
+				  codec_fifo.get(bytes_to_decode),
+				  (std::int16_t *)out_fifo.put(
                                    samples_to_decode * 2),
 				  &bytes_to_decode,
 				  samples_to_decode);
 
       if ( bytes_to_decode > 0 )
-        codec_fifo.outgoing_done(bytes_to_decode);
+        codec_fifo.get_done(bytes_to_decode);
 
       if ( result > 0 )
-        output_fifo.incoming_done(result * 2);
+        out_fifo.put_done(result * 2);
     }
   }
   

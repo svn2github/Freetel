@@ -84,6 +84,7 @@ namespace FreeDV {
    std::size_t data_length)
   {
     const std::size_t length = min(data_length / 2, *sample_length);
+
     memcpy(o, i, length * 2);
     *sample_length = length;
     return length;

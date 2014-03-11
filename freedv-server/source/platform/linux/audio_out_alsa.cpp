@@ -1,6 +1,7 @@
 /// The ALSA audio output driver. 
 
 #include <stdlib.h>
+#include <errno.h>
 #include "drivers.h"
 #include <alsa/asoundlib.h>
 #include <sys/ioctl.h>
@@ -89,7 +90,17 @@ namespace FreeDV {
   std::size_t
   AudioOutALSA::write16(const std::int16_t * array, std::size_t length)
   {
-    const int result = snd_pcm_writei(handle, array, length);
+    // for ( std::size_t i = 0 ; i < length ; i++ )
+      // std::cerr << array[i] << ' ';
+
+    int result = snd_pcm_writei(handle, array, length);
+    if ( result == -EPIPE ) {
+      snd_pcm_recover(handle, result, 1);
+      result = snd_pcm_writei(handle, array, length);
+      std::cerr << "ALSA write underrun." << std::endl;
+      if ( result == -EPIPE )
+        return 0;
+    }
     if ( result >= 0 )
       return result;
     else {
@@ -115,10 +126,18 @@ namespace FreeDV {
   {
     snd_pcm_sframes_t	available = 0;
 
-    if ( (available = snd_pcm_avail(handle)) >= 0 )
+    available = snd_pcm_avail(handle);
+    if ( available == -EPIPE ) {
+      snd_pcm_recover(handle, available, 1);
+      available = snd_pcm_avail(handle);
+      std::cerr << "ALSA write underrun." << std::endl;
+    }
+    if ( available >= 0 )
       return available;
+    else if ( available == -EPIPE )
+      return 0;
     else {
-      do_throw(available, "Get Available Frames");
+      do_throw(available, "Get Frames Available for Write");
       return 0; // do_throw doesn't return.
     }
   }

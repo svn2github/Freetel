@@ -41,26 +41,29 @@ namespace FreeDV {
       transmitter = Driver::AudioSink(empty);
 
     if ( !receiver )
-      receiver = Driver::Tone(empty);
+      receiver = Driver::Tone("1000,1.0");
 
     if ( !user_interface )
       user_interface = Driver::BlankPanel(empty, this);
   }
 
   std::ostream &
-  Interfaces::print(std::ostream & stream) const
+  Interfaces::print(std::ostream & stream, const char * program_name) const
   {
-    stream << "--codec=" << *codec << std::endl;
-    stream << "--gui=" << *user_interface << std::endl;
-    stream << "--keying=" << *keying_output << std::endl;
-    stream << "--loudspeaker=" << *loudspeaker << std::endl;
-    stream << "--microphone=" << *microphone << std::endl;
-    stream << "--modem=" << *modem << std::endl;
-    stream << "--ptt-digital=" << *ptt_input_digital << std::endl;
-    stream << "--ptt-ssb=" << *ptt_input_ssb << std::endl;
-    stream << "--receiver=" << *receiver << std::endl;
-    stream << "--text=" << *text_input << std::endl;
-    stream << "--transmitter=" << *transmitter << std::endl;
+    if ( program_name ) {
+      stream << program_name << " \\" << std::endl;
+    }
+    stream << "--codec=\"" << *codec << "\" \\" << std::endl;
+    stream << "--gui=\"" << *user_interface << "\" \\" << std::endl;
+    stream << "--keying=\"" << *keying_output << "\" \\" << std::endl;
+    stream << "--loudspeaker=\"" << *loudspeaker << "\" \\" << std::endl;
+    stream << "--microphone=\"" << *microphone << "\" \\" << std::endl;
+    stream << "--modem=\"" << *modem << "\" \\" << std::endl;
+    stream << "--ptt-digital=\"" << *ptt_input_digital << "\" \\" << std::endl;
+    stream << "--ptt-ssb=\"" << *ptt_input_ssb << "\" \\" << std::endl;
+    stream << "--receiver=\"" << *receiver << "\" \\" << std::endl;
+    stream << "--text=\"" << *text_input << "\" \\" << std::endl;
+    stream << "--transmitter=\"" << *transmitter << "\"" << std::endl;
 
     return stream;
   }
