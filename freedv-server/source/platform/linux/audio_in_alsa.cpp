@@ -15,7 +15,6 @@ namespace FreeDV {
   class AudioInALSA : public AudioInput {
   private:
     static const int	overlong_delay = 300;
-    static const int	delay_goal = 50;
 
     char * const	parameters;
     snd_pcm_t *		handle;
@@ -99,7 +98,7 @@ namespace FreeDV {
     if ( result == -EPIPE ) {
       snd_pcm_recover(handle, result, 1);
       result = snd_pcm_readi(handle, array, length);
-      std::cerr << "ALSA input: read underrun." << std::endl;
+      std::cerr << "ALSA input " << parameters << ": read underrun." << std::endl;
       if ( result == -EPIPE )
         return 0;
     }
@@ -144,14 +143,17 @@ namespace FreeDV {
       snd_pcm_start(handle);
 
       const double seconds = (double)delay / (double)SampleRate;
-      std::cerr << "ALSA input: program paused, dropped "
+
+      error = snd_pcm_avail_delay(handle, &available, &delay);
+
+      std::cerr << "ALSA input " << parameters << ": overlong delay, dropped "
        << seconds << " seconds of queued audio samples." << std::endl;
     }
 
     if ( error == -EPIPE ) {
       snd_pcm_recover(handle, error, 1);
       available = snd_pcm_avail_delay(handle, &available, &delay);
-      std::cerr << "ALSA input: read underrun." << std::endl;
+      std::cerr << "ALSA input " << parameters << ": read underrun." << std::endl;
     }
 
     if ( error >= 0 )

@@ -94,7 +94,7 @@ namespace FreeDV {
     if ( result == -EPIPE ) {
       snd_pcm_recover(handle, result, 1);
       result = snd_pcm_writei(handle, array, length);
-      std::cerr << "ALSA output: write underrun." << std::endl;
+      std::cerr << "ALSA output " << parameters << ": write underrun." << std::endl;
       if ( result == -EPIPE )
         return 0;
     }
@@ -129,7 +129,7 @@ namespace FreeDV {
     if ( error == -EPIPE ) {
       snd_pcm_recover(handle, error, 1);
       available = snd_pcm_avail_delay(handle, &available, &delay);
-      std::cerr << "ALSA output: write underrun." << std::endl;
+      std::cerr << "ALSA output " << parameters << ": write underrun." << std::endl;
     }
     if ( error == 0 )
       return available;
