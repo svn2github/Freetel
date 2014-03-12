@@ -17,41 +17,10 @@ namespace FreeDV {
     /// Destroy a framer instance.
     virtual		~FramerNoOp();
 
-    /// Return the maximum number of data bytes expected to store a wrapped
-    /// protocol frame. The result is invariant for a particular configuration
-    /// which may include such things as length of addresses and protocol
-    /// options.
-    /// \return The maximum number of data bytes expected to store a wrapped
-    /// protocol frame.
-    /// frame.
-    virtual std::size_t
-    			max_wrapped_bytes_per_frame() const;
-
-    /// Return the maximum number of data bytes expected to store the unwrapped
-    /// codec data. The result is invariant for a particular configuration.
-    /// \return The maximum number of data bytes expected to store the unwrapped
-    /// codec data.
-    /// frame.
-    virtual std::size_t
-    			max_unwrapped_bytes_per_frame() const;
-
-    /// Return the minimum number of data bytes expected to store the unwrapped
-    /// codec data. The result is invariant for a particular configuration.
-    /// \return The minimum number of data bytes expected to store the unwrapped
-    /// codec data.
-    /// frame.
-    virtual std::size_t
-    			min_unwrapped_bytes_per_frame() const;
-
-    /// Return the minimum number of data bytes expected to store a wrapped
-    /// protocol frame. The result is invariant for a particular configuration
-    /// which may include such things as length of addresses and protocol
-    /// options.
-    /// \return The minimum number of data bytes expected to store a wrapped
-    /// protocol frame.
-    /// frame.
-    virtual std::size_t
-    			min_wrapped_bytes_per_frame() const;
+    /// Return the minimum duration of a frame in milliseconds.
+    /// \return The minimum duration of a frame in milliseconds.
+    virtual int
+    			min_frame_duration() const;
 
     /// Decode from modem data to codec frames, removing the wrapping protocol.
     /// \param i The encoded data, in an array of unsigned 8-bit integers.
@@ -94,26 +63,8 @@ namespace FreeDV {
   {
   }
 
-  std::size_t
-  FramerNoOp::max_wrapped_bytes_per_frame() const
-  {
-    return 1;
-  }
-
-  std::size_t
-  FramerNoOp::max_unwrapped_bytes_per_frame() const
-  {
-    return 1;
-  }
-
-  std::size_t
-  FramerNoOp::min_unwrapped_bytes_per_frame() const
-  {
-    return 1;
-  }
-
-  std::size_t
-  FramerNoOp::min_wrapped_bytes_per_frame() const
+  int
+  FramerNoOp::min_frame_duration() const
   {
     return 1;
   }

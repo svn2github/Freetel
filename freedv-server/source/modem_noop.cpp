@@ -46,19 +46,10 @@ namespace FreeDV {
     			modulate16(const std::uint8_t * i, std::int16_t * o, \
              		 std::size_t length);
 
-    /// Return the duration of a frame in milliseconds.
-    /// \return The duration of a frame in milliseconds.
+    /// Return the minimum duration of a frame in milliseconds.
+    /// \return The minimum duration of a frame in milliseconds.
     virtual int
-    			frame_duration() const;
-
-    /// Return the number of audio samples expected to create a codec
-    /// frame at SampleRate. Samples provided to modulate16 and
-    /// demodulate16 must be a multiple of this value. The result is
-    /// invariant for a given SampleRate.
-    /// \return The number of audio samples expected to create a codec
-    /// frame.
-    virtual std::size_t
-    			samples_per_frame() const;
+    			min_frame_duration() const;
   };
 
   ModemNoOp::ModemNoOp(const char * parameters)
@@ -100,13 +91,7 @@ namespace FreeDV {
   }
 
   int
-  ModemNoOp::frame_duration() const
-  {
-    return 1;
-  }
-
-  std::size_t
-  ModemNoOp::samples_per_frame() const
+  ModemNoOp::min_frame_duration() const
   {
     return 1;
   }

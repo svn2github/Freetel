@@ -285,13 +285,6 @@ namespace FreeDV {
     /// Destroy a codec instance.
     virtual		~Codec() = 0;
 
-    /// Return the number of data bytes that store a single codec frame.
-    /// Data Bytes provided to decode16 and encode16 must be a multiple
-    /// of this value. The result is invariant for a particular configuration.
-    /// \return The number of data bytes necessary to store a codec frame.
-    virtual std::size_t
-    			bytes_per_frame() const = 0;
-
     /// Decode from data bytes to audio samples.
     /// \param i The encoded data, in an array of unsigned 8-bit integers.
     /// \param o The array of audio samples after decoding, in an array
@@ -318,19 +311,10 @@ namespace FreeDV {
     			encode16(const std::int16_t * i, std::uint8_t * o,
              		 std::size_t length) = 0;
 
-    /// Return the duration of a frame in milliseconds.
+    /// Return the minimum duration of a frame in milliseconds.
     /// \return The duration of a frame in milliseconds.
     virtual int
-    			frame_duration() const = 0;
-
-    /// Return the number of audio samples expected to create a codec
-    /// frame at SampleRate. The result is invariant for a given SampleRate.
-    /// This number will be accurate for transmitted data, but not for received
-    /// data because of the potential for clock skew between stations.
-    /// \return The number of audio samples expected to create a codec
-    /// frame.
-    virtual std::size_t
-    			samples_per_frame() const = 0;
+    			min_frame_duration() const = 0;
   };
 
   /// Event handler class, indirects the event handler of the particular GUI
@@ -431,6 +415,11 @@ namespace FreeDV {
     /// Destroy a framer instance.
     virtual		~Framer() = 0;
 
+    /// Return the minimum duration of a frame in milliseconds.
+    /// \return The minimum duration of a frame in milliseconds.
+    virtual int
+    			min_frame_duration() const = 0;
+
     /// Decode from modem data to codec frames, removing the wrapping protocol.
     /// \param i The encoded data, in an array of unsigned 8-bit integers.
     /// \param o The array of codec data after decoding, in an array
@@ -447,22 +436,6 @@ namespace FreeDV {
              		 std::size_t * input_length,
 			 std::size_t output_length) = 0;
 
-    /// Return the maximum number of data bytes expected to store the unwrapped
-    /// codec data. The result is invariant for a particular configuration.
-    /// \return The maximum number of data bytes expected to store the unwrapped
-    /// codec data.
-    /// frame.
-    virtual std::size_t
-    			max_unwrapped_bytes_per_frame() const = 0;
-
-    /// Return the minimum number of data bytes expected to store the unwrapped
-    /// codec data. The result is invariant for a particular configuration.
-    /// \return The minimum number of data bytes expected to store the unwrapped
-    /// codec data.
-    /// frame.
-    virtual std::size_t
-    			min_unwrapped_bytes_per_frame() const = 0;
-
     /// Wrap codec data bytes in a protocol for transmission through the modem.
     /// \param i The array of data bytes to be encoded, in an array
     /// of unsigned 8-bit integers.
@@ -477,26 +450,6 @@ namespace FreeDV {
 			 std::uint8_t * o,
              		 std::size_t * input_length,
 			 std::size_t output_length) = 0;
-
-    /// Return the maximum number of data bytes expected to store a wrapped
-    /// protocol frame. The result is invariant for a particular configuration
-    /// which may include such things as length of addresses and protocol
-    /// options.
-    /// \return The maximum number of data bytes expected to store a wrapped
-    /// protocol frame.
-    /// frame.
-    virtual std::size_t
-    			max_wrapped_bytes_per_frame() const = 0;
-
-    /// Return the minimum number of data bytes expected to store a wrapped
-    /// protocol frame. The result is invariant for a particular configuration
-    /// which may include such things as length of addresses and protocol
-    /// options.
-    /// \return The minimum number of data bytes expected to store a wrapped
-    /// protocol frame.
-    /// frame.
-    virtual std::size_t
-    			min_wrapped_bytes_per_frame() const = 0;
   };
 
   /// Radio device keying driver.
@@ -532,13 +485,6 @@ namespace FreeDV {
   public:
     virtual		~Modem() = 0;
 
-    /// Return the number of data bytes output in a single modem frame.
-    /// The data buffer provided to demodulate16 must be a multiple of
-    /// this value. The result is invariant.
-    /// \return The number of data bytes necessary to store a modem frame.
-    virtual std::size_t
-    			bytes_per_frame() const = 0;
-
     /// Demodulate from audio samples to data.
     /// \param i The array of audio samples to be demodulated, in an array
     /// of signed 16-bit integers.
@@ -564,19 +510,10 @@ namespace FreeDV {
     			modulate16(const std::uint8_t * i, std::int16_t * o,
              		 std::size_t length) = 0;
 
-    /// Return the duration of a frame in milliseconds.
-    /// \return The duration of a frame in milliseconds.
+    /// Return the minimum duration of a frame in milliseconds.
+    /// \return The minimum duration of a frame in milliseconds.
     virtual int
-    			frame_duration() const = 0;
-
-    /// Return the number of audio samples expected to create a modem
-    /// frame at SampleRate. The result is invariant for a given SampleRate.
-    /// The result will be accurate for transmitted data, but not for received
-    /// data due to the potential for clock skew between stations.
-    /// \return The number of audio samples expected to create a codec
-    /// frame.
-    virtual std::size_t
-    			samples_per_frame() const = 0;
+    			min_frame_duration() const = 0;
   };
 
   /// Push-to-talk input driver.

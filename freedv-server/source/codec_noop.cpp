@@ -12,13 +12,6 @@ namespace FreeDV {
   			CodecNoOp(const char *);
     			~CodecNoOp();
 
-    /// Return the number of data bytes that store a single codec frame.
-    /// Data Bytes provided to decode16 and encode16 must be a multiple
-    /// of this value. The result is invariant.
-    /// \return The number of data bytes necessary to store a codec frame.
-    virtual std::size_t
-    			bytes_per_frame() const;
-
     /// Decode from data bytes to audio samples.
     /// \param i The encoded data, in an array of unsigned 8-bit integers.
     /// \param o The array of audio samples after decoding, in an array
@@ -44,19 +37,10 @@ namespace FreeDV {
     			encode16(const std::int16_t * i, std::uint8_t * o, \
              		 std::size_t length);
 
-    /// Return the duration of a frame in milliseconds.
-    /// \return The duration of a frame in milliseconds.
+    /// Return the minimum duration of a frame in milliseconds.
+    /// \return The minimum duration of a frame in milliseconds.
     virtual int
-    			frame_duration() const;
-
-    /// Return the number of audio samples expected to create a codec
-    /// frame at SampleRate. Samples provided to encode16 and decode16
-    /// must be a multiple of this value. The result is invariant for
-    /// a given SampleRate.
-    /// \return The number of audio samples expected to create a codec
-    /// frame.
-    virtual std::size_t
-    			samples_per_frame() const;
+    			min_frame_duration() const;
   };
 
   CodecNoOp::CodecNoOp(const char * parameters)
@@ -66,12 +50,6 @@ namespace FreeDV {
 
   CodecNoOp::~CodecNoOp()
   {
-  }
-
-  std::size_t
-  CodecNoOp::bytes_per_frame() const
-  {
-    return sizeof(std::int16_t);
   }
 
   std::size_t
@@ -91,13 +69,7 @@ namespace FreeDV {
   }
 
   int
-  CodecNoOp::frame_duration() const
-  {
-    return 1;
-  }
-
-  std::size_t
-  CodecNoOp::samples_per_frame() const
+  CodecNoOp::min_frame_duration() const
   {
     return 1;
   }
