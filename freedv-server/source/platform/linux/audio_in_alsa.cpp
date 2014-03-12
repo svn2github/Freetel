@@ -99,7 +99,7 @@ namespace FreeDV {
     if ( result == -EPIPE ) {
       snd_pcm_recover(handle, result, 1);
       result = snd_pcm_readi(handle, array, length);
-      std::cerr << "ALSA read underrun." << std::endl;
+      std::cerr << "ALSA input: read underrun." << std::endl;
       if ( result == -EPIPE )
         return 0;
     }
@@ -139,28 +139,19 @@ namespace FreeDV {
     if ( delay >= overlong_delay && available > 0 ) {
       int dropped = 0;
 
-      while ( delay > delay_goal ) {
-        std::int16_t	buffer[1000];
+      snd_pcm_drop(handle);
+      snd_pcm_prepare(handle);
+      snd_pcm_start(handle);
 
-        int		samples = min(available, delay - delay_goal);
-        const int	length = min(sizeof(buffer) / sizeof(*buffer),
-			 samples);
-
-	if ( snd_pcm_readi(handle, buffer, length) < 0 )
-          break;
-        dropped += length;
-        if ( snd_pcm_avail_delay(handle, &available, &delay) < 0 )
-          break;
-      }
-      std::cerr << "ALSA input: long delay, dropped "
-       << dropped << " queued audio samples." << std::endl;
-
+      const double seconds = (double)delay / (double)SampleRate;
+      std::cerr << "ALSA input: program paused, dropped "
+       << seconds << " seconds of queued audio samples." << std::endl;
     }
 
     if ( error == -EPIPE ) {
       snd_pcm_recover(handle, error, 1);
       available = snd_pcm_avail_delay(handle, &available, &delay);
-      std::cerr << "ALSA read underrun." << std::endl;
+      std::cerr << "ALSA input: read underrun." << std::endl;
     }
 
     if ( error >= 0 )
