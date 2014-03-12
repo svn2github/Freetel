@@ -3,6 +3,7 @@
 #include "drivers.h"
 #include <unistd.h>
 #include <iostream>
+#include <fstream>
 #include <string.h>
 
 /// FIX:
@@ -87,7 +88,7 @@ namespace FreeDV {
       std::cerr << "Keying output is stalled." << std::endl;
     }
   }
-  
+
   // FIX: Parallelize the modem and codec into their own threads. Make the
   // FIFO do locking.
   void
@@ -99,11 +100,6 @@ namespace FreeDV {
 			 (out_fifo.get_available() / 2));
 
     if ( out_samples ) {
-        std::int16_t * s = (std::int16_t *)out_fifo.get(out_samples * 2);
-
-        for ( std::size_t i = 0; i < out_samples; i++ ) {
-          std::cerr << (double)s[i] / 32767.0 << ' ';
-	}
       const std::size_t result = i->loudspeaker->write16(
       				  (std::int16_t *)out_fifo.get(
 				   out_samples * 2),
@@ -142,6 +138,7 @@ namespace FreeDV {
 			    &samples_to_demodulate,
 			    bytes_to_demodulate);
 
+
       if ( samples_to_demodulate > 0 )
         in_fifo.get_done(samples_to_demodulate * 2);
 
@@ -173,6 +170,7 @@ namespace FreeDV {
   Run::run()
   {
     while ( true ) {
+      usleep(1000);
       receive();
     }
   }

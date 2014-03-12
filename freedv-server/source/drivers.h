@@ -11,7 +11,7 @@ namespace FreeDV {
   /// the only reliable sample rate they all have in common. SampleRate
   /// may be lower than that and thus there may be resampling in the
   /// drivers.
-  const unsigned int	SampleRate = 8000;
+  const unsigned int	SampleRate = 48000;
 
   /// Allocate memory and copy a string into it, so that it is permanently
   /// stored.
@@ -52,7 +52,9 @@ namespace FreeDV {
     /// \param length The amount of data requested. This must be smaller
     /// than or equal to the amount returned by get_available().
     /// \return The address of the data to be read.
-    inline const uint8_t *	get(std::size_t length) {
+    inline const uint8_t *
+			get(std::size_t length) {
+			  assert(length % 2 == 0);
 			  if ( length > (std::size_t)(in - out) )
 			    get_overrun();
 			  return out;
@@ -63,6 +65,7 @@ namespace FreeDV {
     /// This must be smaller than or equal to the amount passed to
     /// get().
     inline void		get_done(std::size_t length) {
+			  assert(length % 2 == 0);
 			  out += length;
 			  assert(out >= buffer && out <= buffer_end);
 			  if ( out == in )
@@ -82,13 +85,14 @@ namespace FreeDV {
     /// You must call put_done(length) when the I/O is completed.
     /// The length passed to put_done() must be smaller than or equal
     /// to the length passed to put().
-    /// \param io_length The size of buffer in chars requested.
+    /// \param length The size of buffer in chars requested.
     /// \return The address of the buffer for incoming data.
-    inline uint8_t *	put(std::size_t io_length) {
-			  const uint8_t * io_end = in + io_length;
+    inline uint8_t *	put(std::size_t length) {
+			  assert(length % 2 == 0);
+			  const uint8_t * io_end = in + length;
 
 			  if ( io_end > buffer_end )
-                            return reorder(io_length);
+                            return reorder(length);
 			  else
 			    return in;
 			}
@@ -97,6 +101,7 @@ namespace FreeDV {
     /// \param length The amount of data actually written. This must be
     /// smaller than or equal to the length passed to put().
     inline void		put_done(std::size_t length) {
+			  assert(length % 2 == 0);
 			  in += length;
  			  assert(in >= buffer && in <= buffer_end);
 			}

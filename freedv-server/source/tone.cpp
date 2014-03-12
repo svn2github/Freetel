@@ -5,6 +5,7 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
+
 namespace FreeDV {
   /// This is a test driver that provides tones.
   class Tone : public AudioInput {
@@ -70,7 +71,7 @@ namespace FreeDV {
         input++;
         continue;
       }
-      if ( frequency < 0.0 || frequency > SampleRate ) {
+      if ( frequency < 0.0 || frequency > (SampleRate / 2) ) {
         std::cerr << "tone: frequency must be in range of 0.0.."
          << SampleRate / 2 << ", is "
          << frequency << '.' << std::endl;
@@ -104,7 +105,7 @@ namespace FreeDV {
       float sumOfAmplitudes = 0;
       for ( unsigned int j = 0; j < array_length && tones[j].amplitude > 0.0;
        j++ ) {
-        value += (sine_wave(tones[j].frequency, i + clock)
+        value += (sine_wave(tones[j].frequency, clock + i)
          * tones[j].amplitude);
 	// FIX: Hoist this out of the inner loop after it's tested.
         sumOfAmplitudes += tones[j].amplitude;
@@ -113,7 +114,9 @@ namespace FreeDV {
       // sum of amplitudes is 1.0.
       if ( sumOfAmplitudes > 1.0 )
         value /= sumOfAmplitudes;
-      array[i] = (std::int16_t)rint(value * master_amplitude * ((1 << 15) - 1));
+      const std::int16_t v = (std::int16_t)rint(
+       value * master_amplitude * ((1 << 15) - 1));
+      array[i] = v;
     }
     clock = (clock + length) % SampleRate;
 

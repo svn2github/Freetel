@@ -87,7 +87,7 @@ namespace FreeDV {
 
     memcpy(o, i, length * 2);
     *sample_length = length;
-    return length;
+    return length * 2;
   }
 
   std::size_t
