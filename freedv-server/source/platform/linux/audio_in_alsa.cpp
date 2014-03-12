@@ -77,6 +77,8 @@ namespace FreeDV {
 
     if ( (error = snd_pcm_prepare(handle)) < 0 )
       do_throw(error, "Prepare");
+
+    snd_pcm_start(handle);
   }
 
   AudioInALSA::~AudioInALSA()
@@ -98,8 +100,9 @@ namespace FreeDV {
       if ( result == -EPIPE )
         return 0;
     }
-    if ( result >= 0 )
+    if ( result >= 0 ) {
       return result;
+    }
     else {
       do_throw(result, "Read");
       return 0; // do_throw doesn't return.
@@ -131,8 +134,9 @@ namespace FreeDV {
       available = snd_pcm_avail_delay(handle, &available, &delay);
       std::cerr << "ALSA read underrun." << std::endl;
     }
-    if ( error >= 0 )
+    if ( error >= 0 ) {
       return available;
+    }
     else if ( error == -EPIPE )
       return 0;
     else {
