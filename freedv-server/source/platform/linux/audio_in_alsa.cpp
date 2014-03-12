@@ -14,6 +14,9 @@ namespace FreeDV {
   /// Audio input "ALSA", Uses the Linux ALSA Audio API.
   class AudioInALSA : public AudioInput {
   private:
+    static const int	overlong_delay = 300;
+    static const int	delay_goal = 50;
+
     char * const	parameters;
     snd_pcm_t *		handle;
 
@@ -52,7 +55,7 @@ namespace FreeDV {
     const unsigned int  	channels = 1;
     const unsigned int  	rate = 48000;
     const int			soft_resample = 0;
-    const unsigned int  	latency = 10000;
+    const unsigned int  	latency = 0;
     int				error;
 
     handle = 0;
@@ -129,14 +132,40 @@ namespace FreeDV {
     int			error;
 
     error = snd_pcm_avail_delay(handle, &available, &delay);
+
+    // If the program has been paused, there will be a long queue of incoming
+    // audio samples and a corresponding delay. This can also happen if the
+    // incoming audio interface runs at a faster rate than the outgoing one.
+    if ( delay >= overlong_delay && available > 0 ) {
+      int dropped = 0;
+
+      while ( delay > delay_goal ) {
+        std::int16_t	buffer[1000];
+
+        int		samples = min(available, delay - delay_goal);
+        const int	length = min(sizeof(buffer) / sizeof(*buffer),
+			 samples);
+
+	if ( snd_pcm_readi(handle, buffer, length) < 0 )
+          break;
+        dropped += length;
+        if ( snd_pcm_avail_delay(handle, &available, &delay) < 0 )
+          break;
+      }
+      std::cerr << "ALSA input: long delay, dropped "
+       << dropped << " queued audio samples." << std::endl;
+
+    }
+
     if ( error == -EPIPE ) {
       snd_pcm_recover(handle, error, 1);
       available = snd_pcm_avail_delay(handle, &available, &delay);
       std::cerr << "ALSA read underrun." << std::endl;
     }
-    if ( error >= 0 ) {
+
+    if ( error >= 0 )
       return available;
-    }
+
     else if ( error == -EPIPE )
       return 0;
     else {
