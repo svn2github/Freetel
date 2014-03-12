@@ -1,5 +1,7 @@
-/// The ALSA audio output driver. 
+/// The ALSA audio input driver. 
 
+#include <stdlib.h>
+#include <errno.h>
 #include "drivers.h"
 #include <alsa/asoundlib.h>
 #include <sys/ioctl.h>
@@ -9,14 +11,26 @@
 namespace FreeDV {
   std::ostream & ALSAEnumerate(std::ostream & stream, snd_pcm_stream_t mode);
 
-  /// Audio output "sink", discards the audio, for testing.
+  /// Audio input "ALSA", Uses the Linux ALSA Audio API.
   class AudioInALSA : public AudioInput {
   private:
-    snd_pcm_t * handle;
+    char * const	parameters;
+    snd_pcm_t *		handle;
 
+    void
+    do_throw(const int error, const char * message = 0)
+    {
+      std::ostringstream str;
+
+      str << "Error on ALSA audio input " << parameters << ": ";
+       if ( message )
+         str << message << ": ";
+       str << snd_strerror(error);
+      throw std::runtime_error(str.str().c_str());
+    }
   public:
 
-	/// Instantiate the ALSA audio input.
+	/// Instantiate the audio input.
   		AudioInALSA(const char * parameters);
 		~AudioInALSA();
 
@@ -25,41 +39,69 @@ namespace FreeDV {
         virtual std::size_t
 		ready();
 
-        /// Read audio into the "short" type.
+        /// Read audio from the "short" type.
 	virtual std::size_t
 		read16(std::int16_t * array, std::size_t length);
   };
 
   AudioInALSA::AudioInALSA(const char * p)
-  : AudioInput("alsa", p)
+  : AudioInput("alsa", p), parameters(strdup(p))
   {
-    const int error = snd_pcm_open(
+    const snd_pcm_format_t  	format = SND_PCM_FORMAT_S16;
+    const snd_pcm_access_t  	access = SND_PCM_ACCESS_RW_INTERLEAVED;
+    const unsigned int  	channels = 1;
+    const unsigned int  	rate = 48000;
+    const int			soft_resample = 0;
+    const unsigned int  	latency = 10000;
+    int				error;
+
+    handle = 0;
+    error = snd_pcm_open(
      &handle,
      p,
      SND_PCM_STREAM_CAPTURE,
      0);
 
-    if ( error ) {
-      std::ostringstream str;
+    if ( error != 0 )
+      do_throw(error, "Open");
 
-      str << "Can't open audio device " << p << ": " << snd_strerror(error);
-      throw std::runtime_error(str.str().c_str());
-    }
+    if ( (error = snd_pcm_set_params(
+     handle,
+     format,
+     access,
+     channels,
+     rate,
+     soft_resample,
+     latency)) < 0 )
+      do_throw(error, "Set Parameters");
+
+    if ( (error = snd_pcm_prepare(handle)) < 0 )
+      do_throw(error, "Prepare");
   }
 
   AudioInALSA::~AudioInALSA()
   {
+    snd_pcm_drop(handle);
     snd_pcm_close(handle);
+    free(parameters);
   }
 
+  // Read audio into the "short" type.
   std::size_t
   AudioInALSA::read16(std::int16_t * array, std::size_t length)
   {
-    const int result = snd_pcm_writei(handle, array, length);
+    int result = snd_pcm_readi(handle, array, length);
+    if ( result == -EPIPE ) {
+      snd_pcm_recover(handle, result, 1);
+      result = snd_pcm_readi(handle, array, length);
+      std::cerr << "ALSA read underrun." << std::endl;
+      if ( result == -EPIPE )
+        return 0;
+    }
     if ( result >= 0 )
       return result;
     else {
-      // FIX: do_throw(result, "Write");
+      do_throw(result, "Read");
       return 0; // do_throw doesn't return.
     }
   }
@@ -80,11 +122,23 @@ namespace FreeDV {
   AudioInALSA::ready()
   {
     snd_pcm_sframes_t	available = 0;
+    snd_pcm_sframes_t	delay = 0;
+    int			error;
 
-    if ( (available = snd_pcm_avail(handle)) <= 0 )
+    error = snd_pcm_avail_delay(handle, &available, &delay);
+    if ( error == -EPIPE ) {
+      snd_pcm_recover(handle, error, 1);
+      available = snd_pcm_avail_delay(handle, &available, &delay);
+      std::cerr << "ALSA read underrun." << std::endl;
+    }
+    if ( error >= 0 )
       return available;
-    else
+    else if ( error == -EPIPE )
       return 0;
+    else {
+      do_throw(error, "Get Frames Available for Read");
+      return 0; // do_throw doesn't return.
+    }
   }
 
   static bool
