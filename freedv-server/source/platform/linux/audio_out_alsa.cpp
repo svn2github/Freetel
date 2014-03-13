@@ -17,7 +17,7 @@ namespace FreeDV {
   private:
     char * const	parameters;
     snd_pcm_t *		handle;
-    std::size_t		period_size;
+    std::size_t		min_frame_size;
     bool		started;
 
     void
@@ -49,7 +49,7 @@ namespace FreeDV {
 
   AudioOutALSA::AudioOutALSA(const char * p)
   : AudioOutput("alsa", p), parameters(strdup(p)),
-    period_size(
+    min_frame_size(
      (int)ceil(((double)SampleRate / 1000.0) * MinimumFrameDuration)),
     started(false)
   {
@@ -61,8 +61,9 @@ namespace FreeDV {
      SND_PCM_ACCESS_RW_INTERLEAVED,
      1,
      SampleRate,
-     period_size / 2,
-     (int)ceil(((double)SampleRate / 1000.0) * MaximumFrameDuration));
+     min_frame_size / 2,
+     min_frame_size * 8);
+    snd_pcm_pause(handle, 1);
   }
 
   AudioOutALSA::~AudioOutALSA()
@@ -112,16 +113,27 @@ namespace FreeDV {
     int			error;
 
     if ( !started )
-      return period_size * 2;
+      return min_frame_size;
 
     error = snd_pcm_avail_delay(handle, &available, &delay);
+    if ( delay > (((double)SampleRate / 1000.0) * MaximumFrameDuration) ) {
+      const double seconds = (double)delay / (double)SampleRate;
+
+      std::cerr << "ALSA output \"" << parameters
+       << "\": overlong delay, dropped  "
+       << seconds << " seconds of output." << std::endl;
+      snd_pcm_drop(handle);
+      snd_pcm_prepare(handle);
+      started = false;
+      return 0;
+    }
 
     if ( error == -EPIPE ) {
       std::cerr << "ALSA output \"" << parameters << "\": ready underrun." << std::endl;
       snd_pcm_recover(handle, error, 1);
       snd_pcm_pause(handle, 1);
       started = false;
-      return (int)ceil(((double)SampleRate / 1000.0) * MinimumFrameDuration);
+      return min_frame_size;
 
       if ( error < 0 )
         return 0;

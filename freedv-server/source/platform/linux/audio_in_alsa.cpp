@@ -60,7 +60,7 @@ namespace FreeDV {
      1,
      SampleRate,
      (int)ceil(((double)SampleRate / 1000.0) * MinimumFrameDuration / 2),
-     (int)ceil(((double)SampleRate / 1000.0) * MaximumFrameDuration * 2));
+     (int)ceil(((double)SampleRate / 1000.0) * MaximumFrameDuration));
 
     snd_pcm_start(handle);
   }
@@ -80,10 +80,9 @@ namespace FreeDV {
     started = true;
     if ( result == -EPIPE ) {
       snd_pcm_recover(handle, result, 1);
-      result = snd_pcm_readi(handle, array, length);
+      snd_pcm_start(handle);
       std::cerr << "ALSA input \"" << parameters << "\": read underrun." << std::endl;
-      if ( result == -EPIPE )
-        return 0;
+      return 0;
     }
     if ( result >= 0 ) {
       return result;
@@ -109,15 +108,17 @@ namespace FreeDV {
   std::size_t
   AudioInALSA::ready()
   {
-    static const int period_size = (int)ceil(
+    static const int min_frame_size = (int)ceil(
      ((double)SampleRate * 1000.0) * MinimumFrameDuration);
 
     snd_pcm_sframes_t	available = 0;
     snd_pcm_sframes_t	delay = 0;
     int			error;
 
-    if ( !started )
-      return period_size;
+    if ( !started ) {
+      snd_pcm_start(handle);
+      return min_frame_size;
+    }
 
     error = snd_pcm_avail_delay(handle, &available, &delay);
 
@@ -127,16 +128,16 @@ namespace FreeDV {
     if ( delay >= overlong_delay && available > 0 ) {
       snd_pcm_drop(handle);
       snd_pcm_prepare(handle);
-      started = false;
+      snd_pcm_start(handle);
 
       const double seconds = (double)delay / (double)SampleRate;
 
       error = snd_pcm_avail_delay(handle, &available, &delay);
 
       std::cerr << "ALSA input \"" << parameters << "\": overlong delay, dropped "
-       << seconds << " seconds of queued audio samples." << std::endl;
+       << seconds << " seconds of input." << std::endl;
 
-      return 0;
+      return min_frame_size / 2;
     }
 
     if ( error == -EPIPE ) {
