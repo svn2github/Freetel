@@ -59,7 +59,7 @@ namespace FreeDV {
      SND_PCM_ACCESS_RW_INTERLEAVED,
      1,
      SampleRate,
-     (int)ceil(((double)SampleRate / 1000.0) * MinimumFrameDuration),
+     (int)ceil(((double)SampleRate / 1000.0) * MinimumFrameDuration / 2),
      (int)ceil(((double)SampleRate / 1000.0) * MaximumFrameDuration * 2));
 
     snd_pcm_start(handle);

@@ -1,9 +1,10 @@
 /// The main loop of the program.
 
 #include "drivers.h"
-#include <unistd.h>
 #include <iostream>
-#include <fstream>
+#include <sstream>
+#include <stdexcept>
+#include <unistd.h>
 #include <string.h>
 #include <sys/time.h>
 
@@ -22,7 +23,6 @@
 ///
 
 namespace FreeDV {
-
   class Run {
   private:
     const std::size_t	TempSize = 10240;
@@ -197,14 +197,23 @@ namespace FreeDV {
   void
   Run::run()
   {
-    // The no-op codec, modem, and framer may have very small durations.
-    // So we set a minimum here.
-    min_frame_duration = 10;
+    min_frame_duration = MinimumFrameDuration;
     min_frame_duration = max(min_frame_duration, i->modem->min_frame_duration());
     min_frame_duration = max(min_frame_duration, i->codec->min_frame_duration());
     min_frame_duration = max(min_frame_duration, i->framer->min_frame_duration());
 
     std::cerr << "minimum frame duration is " << min_frame_duration << std::endl;
+    if ( min_frame_duration > MaximumFrameDuration ) {
+      std::ostringstream str;
+
+      str << "At " << __FILE__ << ":" << __LINE__ << std::endl;
+      str << "min_frame_duration of " << min_frame_duration;
+      str << " is larger than MaximumFrameDuration of ";
+      str << MaximumFrameDuration << '.' << std::endl;
+      str << "A Modem, Framer, or Codec returned min_frame_duration() that";
+      str << " was too large, or MaximumFrameDuration must be increased.";
+      throw std::runtime_error(str.str().c_str());
+    }
     assert(min_frame_duration < 1000000);
 
     while ( true ) {

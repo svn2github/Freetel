@@ -61,7 +61,7 @@ namespace FreeDV {
      SND_PCM_ACCESS_RW_INTERLEAVED,
      1,
      SampleRate,
-     period_size,
+     period_size / 2,
      (int)ceil(((double)SampleRate / 1000.0) * MaximumFrameDuration));
   }
 
