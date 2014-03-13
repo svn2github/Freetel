@@ -1,9 +1,9 @@
 /// The ALSA audio output driver. 
 
+#include "alsa.h"
 #include <stdlib.h>
 #include <errno.h>
 #include "drivers.h"
-#include <alsa/asoundlib.h>
 #include <sys/ioctl.h>
 #include <sstream>
 #include <stdexcept>
@@ -25,7 +25,7 @@ namespace FreeDV {
       str << "Error on ALSA audio output " << parameters << ": ";
        if ( message )
          str << message << ": ";
-       str << snd_strerror(error);
+       str << snd_strerror(error) << '.';
       throw std::runtime_error(str.str().c_str());
     }
   public:
@@ -50,33 +50,17 @@ namespace FreeDV {
     const snd_pcm_format_t  	format = SND_PCM_FORMAT_S16;
     const snd_pcm_access_t  	access = SND_PCM_ACCESS_RW_INTERLEAVED;
     const unsigned int  	channels = 1;
-    const unsigned int  	rate = 48000;
-    const int			soft_resample = 0;
-    const unsigned int  	latency = 10000;
-    int				error;
 
-    handle = 0;
-    error = snd_pcm_open(
-     &handle,
+    handle = ALSASetup(
      p,
      SND_PCM_STREAM_PLAYBACK,
-     0);
-
-    if ( error != 0 )
-      do_throw(error, "Open");
-
-    if ( (error = snd_pcm_set_params(
-     handle,
+     0,
      format,
      access,
      channels,
-     rate,
-     soft_resample,
-     latency)) < 0 )
-      do_throw(error, "Set Parameters");
-
-    if ( (error = snd_pcm_prepare(handle)) < 0 )
-      do_throw(error, "Prepare");
+     SampleRate,
+     SampleRate / 100,
+     SampleRate / 10);
   }
 
   AudioOutALSA::~AudioOutALSA()
@@ -90,18 +74,17 @@ namespace FreeDV {
   std::size_t
   AudioOutALSA::write16(const std::int16_t * array, std::size_t length)
   {
-    int result = snd_pcm_writei(handle, array, length);
-    if ( result == -EPIPE ) {
-      snd_pcm_recover(handle, result, 1);
-      result = snd_pcm_writei(handle, array, length);
+    int error = snd_pcm_writei(handle, array, length);
+    if ( error == -EPIPE ) {
       std::cerr << "ALSA output " << parameters << ": write underrun." << std::endl;
-      if ( result == -EPIPE )
-        return 0;
+      snd_pcm_recover(handle, error, 1);
+      error = snd_pcm_writei(handle, array, length);
     }
-    if ( result >= 0 )
-      return result;
+
+    if ( error >= 0 )
+      return error;
     else {
-      do_throw(result, "Write");
+      do_throw(error, "Write");
       return 0; // do_throw doesn't return.
     }
   }
@@ -126,17 +109,24 @@ namespace FreeDV {
     int			error;
 
     error = snd_pcm_avail_delay(handle, &available, &delay);
+    if ( error == -EIO )
+      return 10;
+
     if ( error == -EPIPE ) {
+      std::cerr << "ALSA output " << parameters << ": ready underrun." << std::endl;
       snd_pcm_recover(handle, error, 1);
-      available = snd_pcm_avail_delay(handle, &available, &delay);
-      std::cerr << "ALSA output " << parameters << ": write underrun." << std::endl;
+      snd_pcm_pause(handle, 1);
+      return 10;
+      if ( error < 0 )
+        return 0;
     }
+
     if ( error == 0 )
       return available;
     else if ( error == -EPIPE )
       return 0;
     else {
-      do_throw(available, "Get Frames Available for Write");
+      do_throw(error, "Get Frames Available for Write");
       return 0; // do_throw doesn't return.
     }
   }

@@ -696,6 +696,13 @@ namespace FreeDV {
     return a < b ? a : b;
   }
 
+  /// Non-template version of max().
+  inline std::size_t
+  max(std::size_t a, std::size_t b)
+  {
+    return a > b ? a : b;
+  }
+
   struct DriverList {
     const char *	key;
     union {

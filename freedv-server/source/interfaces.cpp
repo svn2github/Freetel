@@ -16,6 +16,9 @@ namespace FreeDV {
     if ( !codec )
       codec = Driver::CodecNoOp(empty);
 
+    if ( !framer )
+      framer = Driver::FramerNoOp(empty);
+
     if ( !keying_output )
       keying_output = Driver::KeyingSink(empty);
 
@@ -55,6 +58,7 @@ namespace FreeDV {
       stream << program_name << " \\" << std::endl;
     }
     stream << "--codec=\"" << *codec << "\" \\" << std::endl;
+    stream << "--framer=\"" << *framer << "\" \\" << std::endl;
     stream << "--gui=\"" << *user_interface << "\" \\" << std::endl;
     stream << "--keying=\"" << *keying_output << "\" \\" << std::endl;
     stream << "--loudspeaker=\"" << *loudspeaker << "\" \\" << std::endl;

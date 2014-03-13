@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <string.h>
+#include <sys/time.h>
 
 /// FIX:
 ///
@@ -33,11 +34,14 @@ namespace FreeDV {
     FIFO		out_fifo;
     bool		ptt_digital;
     bool		ptt_ssb;
+    std::size_t		min_frame_duration;
+    struct timespec	last_frame_time;
+    struct timespec	next_frame_time;
  
     void		key_down();
     void		key_up();
     void		receive();
-    void		reset_fifos();
+    void		reset();
     void		transmit_digital();
     void		transmit_ssb();
   public:
@@ -52,6 +56,7 @@ namespace FreeDV {
     codec_fifo(TempSize * 2), in_fifo(TempSize * 2),
     out_fifo(TempSize * 2), ptt_digital(false), ptt_ssb(false)
   {
+    reset();
   }
 
   Run::~Run()
@@ -59,8 +64,9 @@ namespace FreeDV {
   }
 
   void
-  Run::reset_fifos()
+  Run::reset()
   {
+    clock_gettime(CLOCK_MONOTONIC, &last_frame_time);
     in_fifo.reset();
     codec_fifo.reset();
     out_fifo.reset();
@@ -94,6 +100,9 @@ namespace FreeDV {
   void
   Run::receive()
   {
+    struct timespec	start_time;
+    clock_gettime(CLOCK_MONOTONIC, &start_time);
+
     // Drain any data that the loudspeaker can take.
     const std::size_t	out_samples = min(
 			 i->loudspeaker->ready(),
@@ -161,16 +170,42 @@ namespace FreeDV {
       if ( bytes_to_decode > 0 )
         codec_fifo.get_done(bytes_to_decode);
 
-      if ( result > 0 )
+      // TODO: We can do clock tuning here to maximize power saving, if it
+      // results in any noticable gain.
+      if ( result > 0 ) {
         out_fifo.put_done(result * 2);
+
+        last_frame_time = start_time;
+        const long duration = ((min_frame_duration - 1) * 1000000);
+
+        next_frame_time.tv_sec = last_frame_time.tv_sec;
+        next_frame_time.tv_nsec = last_frame_time.tv_nsec + duration;
+        next_frame_time.tv_sec += next_frame_time.tv_nsec / 1000000000;
+        next_frame_time.tv_nsec %= 1000000000;
+      }
+      else {
+	// Add a microsecond. We really could poll the I/O interfaces instead.
+        next_frame_time.tv_nsec += 1000000;
+        next_frame_time.tv_sec += next_frame_time.tv_nsec / 1000000000;
+        next_frame_time.tv_nsec %= 1000000000;
+      }
     }
   }
   
   void
   Run::run()
   {
+    // The no-op codec, modem, and framer may have very small durations.
+    // So we set a minimum here.
+    min_frame_duration = 1;
+    min_frame_duration = max(min_frame_duration, i->modem->min_frame_duration());
+    min_frame_duration = max(min_frame_duration, i->codec->min_frame_duration());
+    min_frame_duration = max(min_frame_duration, i->framer->min_frame_duration());
+
+    assert(min_frame_duration < 1000000);
+
     while ( true ) {
-      usleep(1000);
+      // clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &next_frame_time, 0);
       receive();
     }
   }
