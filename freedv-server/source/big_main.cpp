@@ -88,9 +88,14 @@ static const struct option options[] = {
   { 0, 0, 0, 0 }
 };
 
+namespace FreeDV {
+  const char * program_name = 0;
+};
+
 int
 main(int argc, char * * argv)
 {
+  FreeDV::program_name = argv[0];
   Interfaces	i;
   const DriverManager * const m = driver_manager();
 

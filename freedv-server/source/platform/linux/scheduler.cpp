@@ -1,34 +1,39 @@
+#include "drivers.h"
+#include <string>
+#include <cstring>
+#include <iostream>
 #include <unistd.h>
+#include <errno.h>
+
 #ifdef _POSIX_PRIORITY_SCHEDULING
 #include <sched.h>
 #endif
+
 #ifdef _POSIX_MEMLOCK_RANGE
 #include <sys/mman.h>
 #endif
-#include <errno.h>
-#include <cstring>
-#include <iostream>
-#include "drivers.h"
 
-static const char insufficient_privilege_message[] =
-"Warning: Insufficient privilege to set a real-time scheduling priority,\n"
-"or to lock memory.\n"
-"This could cause audio to be interrupted while other programs use the CPU.\n" 
-"To fix: As root, run\n"
-"\n"
-"\tsetcap cap_sys_nice+ep filename\n"
-"\tsetcap cap_ipc_lock+ep filename\n"
-"\n"
-"where filename is the executable file for this program.\n"
-"That will allow you to use a real-time scheduling priority and locked memory\n"
-"while running as any user.\n"
-"Alternatively, you can execute this program as root.\n";
 
-static const char old_kernel_message[] =
-"This kernel doesn't seem to have real-time facilities or memory locking.\n"
-"If audio is sometimes interrupted, try a newer kernel.\n";
 
 namespace FreeDV {
+  static const char privilege_message_a[] =
+  "Warning: Insufficient privilege to set a real-time scheduling priority,\n"
+  "or to lock memory.\n"
+  "This could cause audio to be interrupted while other programs use the CPU.\n" 
+  "To fix: As root, run\n"
+  "\n"
+  "\tsetcap cap_sys_nice+ep "; /* program_name */
+  static const char privilege_message_b[] = "\n\tsetcap cap_ipc_lock+ep ";
+  /* program_name */
+  static const char privilege_message_c[] = "\n\n"
+  "That will allow you to use a real-time scheduling priority and locked\n"
+  "memory while running as any user.\n"
+  "Alternatively, you can execute this program as root.\n\n";
+  
+  static const char old_kernel_message[] =
+  "This kernel doesn't seem to have real-time facilities or memory locking.\n"
+  "If audio is sometimes interrupted, try a newer kernel.\n";
+
   void
   set_scheduler()
   {
@@ -66,6 +71,10 @@ namespace FreeDV {
     if ( old_kernel )
       std::cerr << old_kernel_message;
     else if ( insufficient_privilege )
-      std::cerr << insufficient_privilege_message;
+      std::cerr << privilege_message_a;
+      std::cerr << program_name;
+      std::cerr << privilege_message_b;
+      std::cerr << program_name;
+      std::cerr << privilege_message_c;
   }
 }

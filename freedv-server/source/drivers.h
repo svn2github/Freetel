@@ -5,6 +5,8 @@
 
 /// Namespace used for all code in this program.
 namespace FreeDV {
+  /// This propogates argv[0] so that it can be used in error messages.
+  extern const char *	program_name;
 
   /// The sample rate used by all audio interfaces in the program.
   /// the sound cards are in general driven at 48000 because that's
