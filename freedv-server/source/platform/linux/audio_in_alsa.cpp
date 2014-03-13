@@ -81,7 +81,7 @@ namespace FreeDV {
     if ( result == -EPIPE ) {
       snd_pcm_recover(handle, result, 1);
       result = snd_pcm_readi(handle, array, length);
-      std::cerr << "ALSA input " << parameters << ": read underrun." << std::endl;
+      std::cerr << "ALSA input \"" << parameters << "\": read underrun." << std::endl;
       if ( result == -EPIPE )
         return 0;
     }
@@ -133,7 +133,7 @@ namespace FreeDV {
 
       error = snd_pcm_avail_delay(handle, &available, &delay);
 
-      std::cerr << "ALSA input " << parameters << ": overlong delay, dropped "
+      std::cerr << "ALSA input \"" << parameters << "\": overlong delay, dropped "
        << seconds << " seconds of queued audio samples." << std::endl;
 
       return 0;
@@ -142,7 +142,7 @@ namespace FreeDV {
     if ( error == -EPIPE ) {
       snd_pcm_recover(handle, error, 1);
       available = snd_pcm_avail_delay(handle, &available, &delay);
-      std::cerr << "ALSA input " << parameters << ": ready underrun." << std::endl;
+      std::cerr << "ALSA input \"" << parameters << "\": ready underrun." << std::endl;
     }
 
     if ( error >= 0 )
