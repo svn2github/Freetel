@@ -1,12 +1,13 @@
 /// The ALSA audio output driver. 
 
 #include "alsa.h"
-#include <stdlib.h>
-#include <errno.h>
 #include "drivers.h"
-#include <sys/ioctl.h>
 #include <sstream>
 #include <stdexcept>
+#include <string.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <math.h>
 
 namespace FreeDV {
   std::ostream & ALSAEnumerate(std::ostream & stream, snd_pcm_stream_t mode);
@@ -16,6 +17,8 @@ namespace FreeDV {
   private:
     char * const	parameters;
     snd_pcm_t *		handle;
+    std::size_t		period_size;
+    bool		started;
 
     void
     do_throw(const int error, const char * message = 0)
@@ -45,22 +48,21 @@ namespace FreeDV {
   };
 
   AudioOutALSA::AudioOutALSA(const char * p)
-  : AudioOutput("alsa", p), parameters(strdup(p))
+  : AudioOutput("alsa", p), parameters(strdup(p)),
+    period_size(
+     (int)ceil(((double)SampleRate / 1000.0) * MinimumFrameDuration)),
+    started(false)
   {
-    const snd_pcm_format_t  	format = SND_PCM_FORMAT_S16;
-    const snd_pcm_access_t  	access = SND_PCM_ACCESS_RW_INTERLEAVED;
-    const unsigned int  	channels = 1;
-
     handle = ALSASetup(
      p,
      SND_PCM_STREAM_PLAYBACK,
      0,
-     format,
-     access,
-     channels,
+     SND_PCM_FORMAT_S16,
+     SND_PCM_ACCESS_RW_INTERLEAVED,
+     1,
      SampleRate,
-     SampleRate / 100,
-     SampleRate / 10);
+     period_size,
+     (int)ceil(((double)SampleRate / 1000.0) * MaximumFrameDuration));
   }
 
   AudioOutALSA::~AudioOutALSA()
@@ -75,6 +77,7 @@ namespace FreeDV {
   AudioOutALSA::write16(const std::int16_t * array, std::size_t length)
   {
     int error = snd_pcm_writei(handle, array, length);
+    started = true;
     if ( error == -EPIPE ) {
       std::cerr << "ALSA output " << parameters << ": write underrun." << std::endl;
       snd_pcm_recover(handle, error, 1);
@@ -108,15 +111,18 @@ namespace FreeDV {
     snd_pcm_sframes_t	delay = 0;
     int			error;
 
+    if ( !started )
+      return period_size * 2;
+
     error = snd_pcm_avail_delay(handle, &available, &delay);
-    if ( error == -EIO )
-      return 10;
 
     if ( error == -EPIPE ) {
       std::cerr << "ALSA output " << parameters << ": ready underrun." << std::endl;
       snd_pcm_recover(handle, error, 1);
       snd_pcm_pause(handle, 1);
-      return 10;
+      started = false;
+      return (int)ceil(((double)SampleRate / 1000.0) * MinimumFrameDuration);
+
       if ( error < 0 )
         return 0;
     }

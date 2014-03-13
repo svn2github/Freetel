@@ -56,6 +56,10 @@ namespace FreeDV {
   CodecNoOp::decode16(const std::uint8_t * i, std::int16_t * o, std::size_t * data_length, std::size_t sample_length)
   {
     const std::size_t length = min(*data_length / 2, sample_length);
+    if ( length < (std::size_t)(((double)SampleRate / 1000.0) * 40) ) {
+      *data_length = 0;
+      return 0;
+    }
     memcpy(o, i, length * 2);
     *data_length = length * 2;
     return length;
@@ -71,7 +75,7 @@ namespace FreeDV {
   int
   CodecNoOp::min_frame_duration() const
   {
-    return 1;
+    return 40;
   }
 
   Codec *

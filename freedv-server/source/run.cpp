@@ -25,7 +25,7 @@ namespace FreeDV {
 
   class Run {
   private:
-    const std::size_t	TempSize = 2048;
+    const std::size_t	TempSize = 10240;
     Interfaces * const	i;
     bool		begin_receive;
     bool		begin_transmit;
@@ -109,14 +109,14 @@ namespace FreeDV {
 			 (out_fifo.get_available() / 2));
 
     if ( out_samples ) {
-      const std::size_t result = i->loudspeaker->write16(
+      const int result = i->loudspeaker->write16(
       				  (std::int16_t *)out_fifo.get(
 				   out_samples * 2),
 				  out_samples);
 
       if ( result > 0 )
         out_fifo.get_done(result * 2);
-      else
+      else if ( result < 0 )
 	std::cerr << "Loudspeaker I/O error: " << strerror(errno) << std::endl;
     }
     
@@ -126,13 +126,13 @@ namespace FreeDV {
     			 (in_fifo.put_space() / 2));
 
     if ( in_samples ) {
-      const std::size_t result = i->receiver->read16(
+      const int result = i->receiver->read16(
         (std::int16_t *)in_fifo.put(in_samples * 2),
         in_samples);
 
       if ( result > 0 )
         in_fifo.put_done(result * 2);
-      else
+      else if ( result < 0 )
 	std::cerr << "Receiver I/O error: " << strerror(errno) << std::endl;
     }
     
@@ -173,6 +173,7 @@ namespace FreeDV {
       // TODO: We can do clock tuning here to maximize power saving, if it
       // results in any noticable gain.
       if ( result > 0 ) {
+	// std::cerr << '.';
         out_fifo.put_done(result * 2);
 
         last_frame_time = start_time;
@@ -184,6 +185,7 @@ namespace FreeDV {
         next_frame_time.tv_nsec %= 1000000000;
       }
       else {
+	// std::cerr << '+';
 	// Add a microsecond. We really could poll the I/O interfaces instead.
         next_frame_time.tv_nsec += 1000000;
         next_frame_time.tv_sec += next_frame_time.tv_nsec / 1000000000;
@@ -197,16 +199,17 @@ namespace FreeDV {
   {
     // The no-op codec, modem, and framer may have very small durations.
     // So we set a minimum here.
-    min_frame_duration = 1;
+    min_frame_duration = 10;
     min_frame_duration = max(min_frame_duration, i->modem->min_frame_duration());
     min_frame_duration = max(min_frame_duration, i->codec->min_frame_duration());
     min_frame_duration = max(min_frame_duration, i->framer->min_frame_duration());
 
+    std::cerr << "minimum frame duration is " << min_frame_duration << std::endl;
     assert(min_frame_duration < 1000000);
 
     while ( true ) {
-      // clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &next_frame_time, 0);
       receive();
+      clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &next_frame_time, 0);
     }
   }
 
