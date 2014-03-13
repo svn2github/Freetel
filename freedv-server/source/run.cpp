@@ -35,7 +35,6 @@ namespace FreeDV {
     bool		ptt_digital;
     bool		ptt_ssb;
     std::size_t		min_frame_duration;
-    struct timespec	last_frame_time;
     struct timespec	next_frame_time;
  
     void		key_down();
@@ -66,7 +65,6 @@ namespace FreeDV {
   void
   Run::reset()
   {
-    clock_gettime(CLOCK_MONOTONIC, &last_frame_time);
     in_fifo.reset();
     codec_fifo.reset();
     out_fifo.reset();
@@ -170,23 +168,26 @@ namespace FreeDV {
       if ( bytes_to_decode > 0 )
         codec_fifo.get_done(bytes_to_decode);
 
-      // TODO: We can do clock tuning here to maximize power saving, if it
-      // results in any noticable gain.
       if ( result > 0 ) {
 	// std::cerr << '.';
         out_fifo.put_done(result * 2);
 
-        last_frame_time = start_time;
+        // Calculate a time one millisecond short of when the next frame
+        // should start. We can sleep until then.
         const long duration = ((min_frame_duration - 1) * 1000000);
 
-        next_frame_time.tv_sec = last_frame_time.tv_sec;
-        next_frame_time.tv_nsec = last_frame_time.tv_nsec + duration;
+        next_frame_time.tv_sec = start_time.tv_sec;
+        next_frame_time.tv_nsec = start_time.tv_nsec + duration;
         next_frame_time.tv_sec += next_frame_time.tv_nsec / 1000000000;
         next_frame_time.tv_nsec %= 1000000000;
       }
       else {
+
 	// std::cerr << '+';
-	// Add a microsecond. We really could poll the I/O interfaces instead.
+
+	// Go to sleep for a millisecond and try again. We could poll the
+        // I/O interfaces for ready instead.
+        next_frame_time = start_time;
         next_frame_time.tv_nsec += 1000000;
         next_frame_time.tv_sec += next_frame_time.tv_nsec / 1000000000;
         next_frame_time.tv_nsec %= 1000000000;
@@ -202,7 +203,8 @@ namespace FreeDV {
     min_frame_duration = max(min_frame_duration, i->codec->min_frame_duration());
     min_frame_duration = max(min_frame_duration, i->framer->min_frame_duration());
 
-    std::cerr << "minimum frame duration is " << min_frame_duration << std::endl;
+    std::cerr << "The minimum frame duration is "
+     << min_frame_duration << " milliseconds." << std::endl;
     if ( min_frame_duration > MaximumFrameDuration ) {
       std::ostringstream str;
 
@@ -211,7 +213,8 @@ namespace FreeDV {
       str << " is larger than MaximumFrameDuration of ";
       str << MaximumFrameDuration << '.' << std::endl;
       str << "A Modem, Framer, or Codec returned min_frame_duration() that";
-      str << " was too large, or MaximumFrameDuration must be increased.";
+      str << " was too large," << std::endl;
+      str << "or MaximumFrameDuration must be increased.";
       throw std::runtime_error(str.str().c_str());
     }
     assert(min_frame_duration < 1000000);

@@ -33,12 +33,13 @@ namespace FreeDV {
 
     if ( audio ) {
       gid_t	groups[NGROUPS_MAX];
-      int	length = sizeof(groups) / sizeof(*groups);
+      int	size = sizeof(groups) / sizeof(*groups);
+      int	length;
 
       if ( gid == audio->gr_gid || egid == audio->gr_gid )
         return;
 
-      if ( getgroups(length, groups) == 0 ) {
+      if ( (length = getgroups(size, groups)) > 0 ) {
         for ( int i = 0; i < length; i++ ) {
           if ( groups[i] == audio->gr_gid )
 	    return;

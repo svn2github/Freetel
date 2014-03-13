@@ -6,6 +6,8 @@
 namespace FreeDV {
   /// Codec "no-op", just copies its input to its output. For plain SSB voice, and for testing.
   class CodecNoOp : public Codec {
+    static const std::size_t	FrameDuration = 40;
+
   public:
 
     /// Instantiate the no-op codec.
@@ -56,7 +58,8 @@ namespace FreeDV {
   CodecNoOp::decode16(const std::uint8_t * i, std::int16_t * o, std::size_t * data_length, std::size_t sample_length)
   {
     const std::size_t length = min(*data_length / 2, sample_length);
-    if ( length < (std::size_t)(((double)SampleRate / 1000.0) * 40) ) {
+    if ( length < (std::size_t)(((double)SampleRate / 1000.0) * FrameDuration) )
+    {
       *data_length = 0;
       return 0;
     }
@@ -75,7 +78,7 @@ namespace FreeDV {
   int
   CodecNoOp::min_frame_duration() const
   {
-    return 40;
+    return FrameDuration;
   }
 
   Codec *
