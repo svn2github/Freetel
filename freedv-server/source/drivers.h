@@ -222,7 +222,12 @@ namespace FreeDV {
     /// All drivers present a unidirectional interface.
     /// If the underlying device is bidirectional that detail is hidden and
     /// we present one or more separate read and write drivers.
+    /// \return The number of audio samples or bytes that can be read or
+    /// written.
     virtual std::size_t	ready() = 0;
+
+    ///  
+    virtual int		poll_fds(struct pollfd * array, int space) = 0;
 
     virtual		~IODevice() = 0;
   };
