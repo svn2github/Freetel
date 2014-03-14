@@ -90,7 +90,7 @@ static const struct option options[] = {
 
 namespace FreeDV {
   const char * program_name = 0;
-};
+}
 
 int
 main(int argc, char * * argv)

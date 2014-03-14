@@ -21,15 +21,15 @@ namespace FreeDV {
   void
   check_privileges()
   {
-    const int uid = getuid();
-    const int euid = geteuid();
+    const uid_t uid = getuid();
+    const uid_t euid = geteuid();
 
     if ( uid == 0 || euid == 0 )
       return;
 
     const struct group *	audio = getgrnam("audio");
-    const int			gid = getgid();
-    const int			egid = getgid();
+    const gid_t			gid = getgid();
+    const gid_t			egid = getgid();
 
     if ( audio ) {
       gid_t	groups[NGROUPS_MAX];
@@ -40,7 +40,7 @@ namespace FreeDV {
         return;
 
       if ( (length = getgroups(size, groups)) > 0 ) {
-        for ( int i = 0; i < length; i++ ) {
+        for ( unsigned int i = 0; i < length; i++ ) {
           if ( groups[i] == audio->gr_gid )
 	    return;
         }
