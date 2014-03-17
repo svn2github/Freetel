@@ -1,0 +1,42 @@
+Configuration
+--------------
+
+1. User applies power (how?)
+
+2. User configures "to radio", "from radio" audio wires using patch panel (how?)  The "from radio" signal is connected to the speaker or audio output of the Radio.  The "to radio" signal is connected to the microphone or audio in of the Radio.
+
+3. User configures PTT line using patch panel (how?  Will this be open collector, opto, or RS232/USB rig control?)
+
+How to test?  Verify levels, connections are OK?  Common pitfalls?
+
+Configuration Menus
+-------------------
+
+TBC
+How to set mode?
+USB and RS232 connectivity
+Firmware uploads?
+
+Operation (rx)
+--------------
+
+When no FreeDV signal is present SmartMic acts in "pass through" mode - the analog audio on the "from radio" port is sent directly to the speaker. The nominal (factory set) "from radio" gain is such that analog signal is about the same level as the decoded digital speech.
+
+The operator tunes radio until a FreeDV modem signal is heard.  When within +/- 200Hz of the centre frequency the FreeDV rx system (demod and Codec 2 decoder) will become synchronised and digital voice will be output to the speaker.  
+
+When the FreeDV rx system is synchronised the "sync" LED will light.
+
+When the FreeDV rx system detects errors in the received signal the "bit error" LED will blink.
+
+When the "from radio" signal is too strong for the FreeDV rx the "clip" LED will blink.
+
+Operation (tx)
+--------------
+
+When the PTT button is pressed the Radio will be switched to transmit mode.  The Tx LED will light.
+
+When the level of speech in the microphone is correct the "clip" LED will blink occasionally.  If the clip LED stays on the microphone level is too high.  if the clip led never comes on the level is too low.
+
+The Radio ALC should be adjusted so that the ALC meter just moves.
+
+
