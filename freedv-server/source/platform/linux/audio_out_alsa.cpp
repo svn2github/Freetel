@@ -42,7 +42,7 @@ namespace FreeDV {
         /// \return The address of an array of integers containing the
 	/// file descriptors.
 	virtual int
-		poll_fds(struct pollfd * array, int space);
+		poll_fds(PollType * array, int space);
 
 	/// Return the number of audio samples the device can handle in
 	/// a write without blocking.
@@ -111,7 +111,7 @@ namespace FreeDV {
   }
 
   int
-  AudioOutALSA::poll_fds(struct pollfd * array, int space)
+  AudioOutALSA::poll_fds(PollType * array, int space)
   {
     const int size = snd_pcm_poll_descriptors_count(handle);
     

@@ -16,7 +16,7 @@ namespace FreeDV {
     /// with the number of file descriptors in the array.
     /// \return The address of an array of integers containing the
     /// file descriptors.
-    virtual int	poll_fds(struct pollfd * array, int space);
+    virtual int	poll_fds(PollType * array, int space);
 
     /// Return the amount of bytes ready for read. In this case, it always
     /// returns 0.
@@ -33,7 +33,7 @@ namespace FreeDV {
   }
 
   int
-  BlankPanel::poll_fds(struct pollfd *, int)
+  BlankPanel::poll_fds(PollType *, int)
   {
     return 0;
   }

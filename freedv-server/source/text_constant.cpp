@@ -21,7 +21,7 @@ namespace FreeDV {
     /// with the number of file descriptors in the array.
     /// \return The address of an array of integers containing the
     /// file descriptors.
-    virtual int		poll_fds(struct pollfd * array, int space);
+    virtual int		poll_fds(PollType * array, int space);
 
     /// Read the text data.
     std::size_t		read(char * buffer, std::size_t size);
@@ -40,7 +40,7 @@ namespace FreeDV {
   }
 
   int
-  TextConstant::poll_fds(struct pollfd *, int)
+  TextConstant::poll_fds(PollType *, int)
   {
     return 0;
   }

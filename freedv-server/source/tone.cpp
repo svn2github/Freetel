@@ -24,7 +24,7 @@ namespace FreeDV {
     /// with the number of file descriptors in the array.
     /// \return The address of an array of integers containing the
     /// file descriptors.
-    virtual int	poll_fds(struct pollfd * array, int space);
+    virtual int	poll_fds(PollType * array, int space);
 
     /// Return the amount of audio samples for read. In this case, it always
     /// returns SIZE_MAX.
@@ -132,7 +132,7 @@ namespace FreeDV {
   }
 
   int
-  Tone::poll_fds(struct pollfd *, int)
+  Tone::poll_fds(PollType *, int)
   {
     return 0;
   }

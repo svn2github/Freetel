@@ -223,8 +223,11 @@ public:
     /// written.
     virtual std::size_t	ready() = 0;
 
-    ///
-    virtual int		poll_fds(struct pollfd * array, int space) = 0;
+    /// Type used by poll_fds(). For portability to Windows.
+    typedef struct pollfd	PollType;
+
+    /// Poll file descriptors for available I/O.
+    virtual int		poll_fds(PollType * array, int space) = 0;
 
     virtual		~IODevice() = 0;
 };
