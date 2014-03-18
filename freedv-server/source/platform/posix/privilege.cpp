@@ -40,7 +40,7 @@ namespace FreeDV {
         return;
 
       if ( (length = getgroups(size, groups)) > 0 ) {
-        for ( unsigned int i = 0; i < length; i++ ) {
+        for ( int i = 0; i < length; i++ ) {
           if ( groups[i] == audio->gr_gid )
 	    return;
         }

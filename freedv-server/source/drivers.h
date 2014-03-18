@@ -340,93 +340,6 @@ public:
     min_frame_duration() const = 0;
 };
 
-/// Event handler class, indirects the event handler of the particular GUI
-/// software or POSIX.
-class EventHandler : public ::FreeDV::Base {
-private:
-    bool		do_exit;
-
-protected:
-    /// Bit field of status values for file descriptor events.
-    /// This is an argument to the coroutine called by monitor().
-    /// This is a simplification on all of the values that POSIX
-    /// poll() can return. Events that aren't read or write are mapped
-    /// to one of those.
-
-    /// File being monitored is readable or has read error.
-    const unsigned int	Read = 1;
-
-    /// File being monitored is writable or has write error.
-    const unsigned int	Write = 2;
-
-    /// Create an event handler instance.
-    /// \param name Name of the driver. This is expected to be a single
-    ///  constant static string per driver class.
-    /// \param parameters Driver-specific configuration parameters.
-    EventHandler(const char * name, const char * parameters)
-        : Base(name, parameters), do_exit(false)
-    {
-    }
-
-    /// If set_exit() has been called, return true once.
-    /// \return True if set_exit has been called. The next and subsequent
-    ///  calls will return false until set_exit() is called again.
-    inline bool		get_exit() {
-        if ( do_exit ) {
-            do_exit = false;
-            return true;
-        }
-        else
-            return false;
-    }
-
-    /// Run one iteration of the event handler.
-    /// The default implementation throws std::runtime_error.
-    ///
-    /// If iterate() is not implemented in the child class,
-    /// the child class must implement loop(), and the child class
-    /// implementation of loop() must not call iterate().
-    void		iterate();
-
-    /// Cause get_exit() to return true the next time it is called.
-    inline void		set_exit() {
-        do_exit = true;
-    }
-public:
-    virtual		~EventHandler() = 0;
-
-    /// Run the event loop.
-    /// The default implementation iterates checking get_exit(), returning
-    /// if its value is true and otherwise and calling iterate().
-    /// If you provide your own implementation of loop(), you must check
-    /// get_exit() and return from this method if its value is true.
-    /// If you provide your own implementation of loop(), it's your choice
-    /// whether or not to implement and call iterate().
-    void		loop();
-
-    /// Monitor a file descriptor in the event loop. Call a function if the
-    /// file descriptor is ready for I/O.
-    /// \param fd The file descriptor to monitor.
-    /// \param type A bit-field of values defined in this class,
-    ///  indicating the kinds of events to listen for.
-    /// \param private_data Private data to be passed to the event
-    ///  function.
-    /// \param event A coroutine to call when there is a status change
-    ///  on the file descriptor. The arguments of the coroutine are
-    ///  - fd: The file descriptor that has an event.
-    ///  - type: A bit-field of FDStatus values indicating the events
-    ///    received.
-    ///  - private: The address of opaque data to be passed to the driver.
-    virtual void	monitor(int fd, unsigned int type, void * private_data,
-                            void (*event)(int fd, unsigned int type, void * private_data)
-                        ) = 0;
-
-    /// Remove all monitoring of the given file descriptor by the event
-    /// loop handler.
-    /// \param fd The file descriptor to be removed from monitoring.
-    virtual void	unmonitor(int fd) = 0;
-};
-
 /// Virtual base class for protocol framers.
 class Framer : public ::FreeDV::Base {
 protected:
@@ -586,7 +499,7 @@ class Interfaces;
 /// software is embedded.
 /// There must be inputs and callbacks for many things here.
 /// UserInterfaces may provide their own drivers for microphone,
-/// loudspeaker, TextInput, both forms of PTT, and EventHandler.
+/// loudspeaker, TextInput, and both forms of PTT.
 class UserInterface : public ::FreeDV::IODevice {
 protected:
     /// The external Interfaces object.
@@ -609,7 +522,7 @@ public:
 /// Structure used to pass all of the drivers. Can be modified from
 class Interfaces {
 public:
-    Interfaces() : codec(0), event_handler(0),
+    Interfaces() : codec(0),
         framer(0), keying_output(0), loudspeaker(0),
         microphone(0), modem(0), ptt_input_digital(0),
         ptt_input_ssb(0), receiver(0), text_input(0),
@@ -621,8 +534,6 @@ public:
 
     /// The voice codec in use.
     Codec *		codec;
-    /// The event loop handler. This is specific to a GUI, or POSIX.
-    EventHandler *	event_handler;
     /// The Framer handles the protocol which wraps the codec data.
     /// It can decline to feed any audio on to the codec if the protocol says
     /// that should not happen, for example if the data isn't addressed to us.
@@ -687,7 +598,6 @@ AudioOutput *	AudioOutDefault();
 Codec *		CodecNoOp(const char * parameter);
 Framer *		FramerNoOp(const char * parameter);
 KeyingOutput *	KeyingSink(const char * parameter);
-EventHandler *	LibEvent(const char * parameter);
 Modem *		ModemNoOp(const char * parameter);
 PTTInput *		PTTConstant(const char * parameter);
 TextInput *		TextConstant(const char * parameter);
