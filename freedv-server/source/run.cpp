@@ -4,9 +4,7 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
-#include <unistd.h>
 #include <string.h>
-#include <sys/time.h>
 
 /// FIX:
 ///
@@ -96,9 +94,6 @@ namespace FreeDV {
   void
   Run::receive()
   {
-    struct timespec	start_time;
-    clock_gettime(CLOCK_MONOTONIC, &start_time);
-
     // Drain any data that the loudspeaker can take.
     const std::size_t	out_samples = min(
 			 i->loudspeaker->ready(),

@@ -227,6 +227,9 @@ public:
     typedef struct pollfd	PollType;
 
     /// Poll file descriptors for available I/O.
+    static  int		poll(PollType * array, int length, int timeout);
+
+    /// Get the file descriptors to be used to poll for available I/O.
     virtual int		poll_fds(PollType * array, int space) = 0;
 
     virtual		~IODevice() = 0;
