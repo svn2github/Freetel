@@ -16,21 +16,10 @@ extern const char *	program_name;
 /// drivers.
 const unsigned int	SampleRate = 48000;
 
-// The minimum frame duration in milliseconds. The audio interfaces will
-// use one half of this as a period size. It should be the smallest frame
-// we  expect a modem/protocol/codec combination to use. If it's too large,
-// latency will be overlong.
-const unsigned int	MinimumFrameDuration = 10;
-
-// The maximum frame duration in milliseconds. The audio interfaces will
-// use 2 times this as a buffer size. It must be an integer multiple of
-// MinimumFrameDuration, or ALSA will complain. It should be the largest
-// frame we expect a modem/protocol/codec combination to use.
-// If a modem/framer/codec combination specify a frame duration larger than
-// this, it's an error.
-// If it's too large, ALSA bugs surface (Or is it my lack of
-// understanding?) and cause long delays.
-const unsigned int	MaximumFrameDuration = 100;
+// The audio frame duration in milliseconds. The audio interfaces will
+// use this as a period size. It should be 1/2 of the smallest codec frame
+// size we expect to use.
+const unsigned int	AudioFrameDuration = 10;
 
 /// Allocate memory and copy a string into it, so that it is permanently
 /// stored.

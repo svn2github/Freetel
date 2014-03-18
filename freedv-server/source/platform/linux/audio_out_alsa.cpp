@@ -17,7 +17,6 @@ namespace FreeDV {
   private:
     char * const	parameters;
     snd_pcm_t *		handle;
-    std::size_t		min_frame_size;
     bool		started;
 
     void
@@ -57,8 +56,6 @@ namespace FreeDV {
 
   AudioOutALSA::AudioOutALSA(const char * p)
   : AudioOutput("alsa", p), parameters(strdup(p)),
-    min_frame_size(
-     (int)ceil(((double)SampleRate / 1000.0) * MinimumFrameDuration)),
     started(false)
   {
     handle = ALSASetup(
@@ -69,8 +66,8 @@ namespace FreeDV {
      SND_PCM_ACCESS_RW_INTERLEAVED,
      1,
      SampleRate,
-     min_frame_size / 2,
-     min_frame_size * 8);
+     (int)ceil((double)SampleRate / 1000.0) * AudioFrameDuration,
+     (int)ceil((double)SampleRate / 1000.0) * AudioFrameDuration);
     snd_pcm_pause(handle, 1);
   }
 
@@ -134,10 +131,10 @@ namespace FreeDV {
     int			error;
 
     if ( !started )
-      return min_frame_size;
+      return ((double)SampleRate / 1000.0) * AudioFrameDuration;
 
     error = snd_pcm_avail_delay(handle, &available, &delay);
-    if ( delay > (((double)SampleRate / 1000.0) * MaximumFrameDuration) ) {
+    if ( delay > (((double)SampleRate / 1000.0) * AudioFrameDuration * 2) ) {
       const double seconds = (double)delay / (double)SampleRate;
 
       std::cerr << "ALSA output \"" << parameters
@@ -154,7 +151,7 @@ namespace FreeDV {
       snd_pcm_recover(handle, error, 1);
       snd_pcm_pause(handle, 1);
       started = false;
-      return min_frame_size;
+      return 0;
 
       if ( error < 0 )
         return 0;

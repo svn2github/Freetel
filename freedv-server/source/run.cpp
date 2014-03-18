@@ -34,8 +34,6 @@ namespace FreeDV {
     FIFO		out_fifo;
     bool		ptt_digital;
     bool		ptt_ssb;
-    std::size_t		min_frame_duration;
-    struct timespec	next_frame_time;
  
     void		key_down();
     void		key_up();
@@ -168,60 +166,16 @@ namespace FreeDV {
       if ( bytes_to_decode > 0 )
         codec_fifo.get_done(bytes_to_decode);
 
-      if ( result > 0 ) {
-	// std::cerr << '.';
+      if ( result > 0 )
         out_fifo.put_done(result * 2);
-
-        // Calculate a time one millisecond short of when the next frame
-        // should start. We can sleep until then.
-        const long duration = ((min_frame_duration - 1) * 1000000);
-
-        next_frame_time.tv_sec = start_time.tv_sec;
-        next_frame_time.tv_nsec = start_time.tv_nsec + duration;
-        next_frame_time.tv_sec += next_frame_time.tv_nsec / 1000000000;
-        next_frame_time.tv_nsec %= 1000000000;
-      }
-      else {
-
-	// std::cerr << '+';
-
-	// Go to sleep for a millisecond and try again. We could poll the
-        // I/O interfaces for ready instead.
-        next_frame_time = start_time;
-        next_frame_time.tv_nsec += 1000000;
-        next_frame_time.tv_sec += next_frame_time.tv_nsec / 1000000000;
-        next_frame_time.tv_nsec %= 1000000000;
-      }
     }
   }
   
   void
   Run::run()
   {
-    min_frame_duration = MinimumFrameDuration;
-    min_frame_duration = max(min_frame_duration, i->modem->min_frame_duration());
-    min_frame_duration = max(min_frame_duration, i->codec->min_frame_duration());
-    min_frame_duration = max(min_frame_duration, i->framer->min_frame_duration());
-
-    std::cerr << "The minimum frame duration is "
-     << min_frame_duration << " milliseconds." << std::endl;
-    if ( min_frame_duration > MaximumFrameDuration ) {
-      std::ostringstream str;
-
-      str << "At " << __FILE__ << ":" << __LINE__ << std::endl;
-      str << "min_frame_duration of " << min_frame_duration;
-      str << " is larger than MaximumFrameDuration of ";
-      str << MaximumFrameDuration << '.' << std::endl;
-      str << "A Modem, Framer, or Codec returned min_frame_duration() that";
-      str << " was too large," << std::endl;
-      str << "or MaximumFrameDuration must be increased.";
-      throw std::runtime_error(str.str().c_str());
-    }
-    assert(min_frame_duration < 1000000);
-
     while ( true ) {
       receive();
-      clock_nanosleep(CLOCK_MONOTONIC, TIMER_ABSTIME, &next_frame_time, 0);
     }
   }
 

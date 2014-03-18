@@ -15,7 +15,7 @@ namespace FreeDV {
   class AudioInALSA : public AudioInput {
   private:
     static const int	overlong_delay = ((double)SampleRate / 1000.0)
-			 * MaximumFrameDuration;
+			 * AudioFrameDuration * 2;
 
     char * const	parameters;
     snd_pcm_t *		handle;
@@ -67,8 +67,8 @@ namespace FreeDV {
      SND_PCM_ACCESS_RW_INTERLEAVED,
      1,
      SampleRate,
-     (int)ceil(((double)SampleRate / 1000.0) * MinimumFrameDuration / 2),
-     (int)ceil(((double)SampleRate / 1000.0) * MaximumFrameDuration));
+     (int)ceil((double)SampleRate / 1000.0) * AudioFrameDuration,
+     (int)ceil((double)SampleRate / 1000.0) * AudioFrameDuration);
 
     snd_pcm_start(handle);
   }
@@ -129,16 +129,13 @@ namespace FreeDV {
   std::size_t
   AudioInALSA::ready()
   {
-    static const int min_frame_size = (int)ceil(
-     ((double)SampleRate * 1000.0) * MinimumFrameDuration);
-
     snd_pcm_sframes_t	available = 0;
     snd_pcm_sframes_t	delay = 0;
     int			error;
 
     if ( !started ) {
       snd_pcm_start(handle);
-      return min_frame_size;
+      return ((double)SampleRate / 1000.0) * AudioFrameDuration;
     }
 
     error = snd_pcm_avail_delay(handle, &available, &delay);
@@ -158,7 +155,7 @@ namespace FreeDV {
       std::cerr << "ALSA input \"" << parameters << "\": overlong delay, dropped "
        << seconds << " seconds of input." << std::endl;
 
-      return min_frame_size / 2;
+      return 0;
     }
 
     if ( error == -EPIPE ) {
