@@ -2,49 +2,50 @@
 #include <cstdint>
 #include <iostream>
 #include <assert.h>
+#include <poll.h>
 
 /// Namespace used for all code in this program.
 namespace FreeDV {
-  /// This propogates argv[0] so that it can be used in error messages.
-  extern const char *	program_name;
+/// This propogates argv[0] so that it can be used in error messages.
+extern const char *	program_name;
 
-  /// The sample rate used by all audio interfaces in the program.
-  /// the sound cards are in general driven at 48000 because that's
-  /// the only reliable sample rate they all have in common. SampleRate
-  /// may be lower than that and thus there may be resampling in the
-  /// drivers.
-  const unsigned int	SampleRate = 48000;
+/// The sample rate used by all audio interfaces in the program.
+/// the sound cards are in general driven at 48000 because that's
+/// the only reliable sample rate they all have in common. SampleRate
+/// may be lower than that and thus there may be resampling in the
+/// drivers.
+const unsigned int	SampleRate = 48000;
 
-  // The minimum frame duration in milliseconds. The audio interfaces will
-  // use one half of this as a period size. It should be the smallest frame
-  // we  expect a modem/protocol/codec combination to use. If it's too large,
-  // latency will be overlong.
-  const unsigned int	MinimumFrameDuration = 10;
+// The minimum frame duration in milliseconds. The audio interfaces will
+// use one half of this as a period size. It should be the smallest frame
+// we  expect a modem/protocol/codec combination to use. If it's too large,
+// latency will be overlong.
+const unsigned int	MinimumFrameDuration = 10;
 
-  // The maximum frame duration in milliseconds. The audio interfaces will
-  // use 2 times this as a buffer size. It must be an integer multiple of
-  // MinimumFrameDuration, or ALSA will complain. It should be the largest
-  // frame we expect a modem/protocol/codec combination to use.
-  // If a modem/framer/codec combination specify a frame duration larger than
-  // this, it's an error.
-  // If it's too large, ALSA bugs surface (Or is it my lack of
-  // understanding?) and cause long delays.
-  const unsigned int	MaximumFrameDuration = 100;
+// The maximum frame duration in milliseconds. The audio interfaces will
+// use 2 times this as a buffer size. It must be an integer multiple of
+// MinimumFrameDuration, or ALSA will complain. It should be the largest
+// frame we expect a modem/protocol/codec combination to use.
+// If a modem/framer/codec combination specify a frame duration larger than
+// this, it's an error.
+// If it's too large, ALSA bugs surface (Or is it my lack of
+// understanding?) and cause long delays.
+const unsigned int	MaximumFrameDuration = 100;
 
-  /// Allocate memory and copy a string into it, so that it is permanently
-  /// stored.
-  /// \param s The string to be copied.
-  /// \return The new copy. It's the caller's responsibility to free this data,
-  ///  or a memory leak will occurr.
-  char *	copy_string(const char * s);
+/// Allocate memory and copy a string into it, so that it is permanently
+/// stored.
+/// \param s The string to be copied.
+/// \return The new copy. It's the caller's responsibility to free this data,
+///  or a memory leak will occurr.
+char *	copy_string(const char * s);
 
-  /// Simple C++ FIFO buffer class with zero copy (most of the time).
-  /// Not thread-safe on its own, you must have a mutex for access to it.
-  /// Doesn't grow, size is specified at instantiation.
-  /// Written to avoid STL templates, Boost, etc. in order to keep down the
-  /// size of the embedded version of this program. 
-  class FIFO {
-  private:
+/// Simple C++ FIFO buffer class with zero copy (most of the time).
+/// Not thread-safe on its own, you must have a mutex for access to it.
+/// Doesn't grow, size is specified at instantiation.
+/// Written to avoid STL templates, Boost, etc. in order to keep down the
+/// size of the embedded version of this program.
+class FIFO {
+private:
     uint8_t * const		buffer;
     const uint8_t * const	buffer_end;
     uint8_t *			in;
@@ -53,48 +54,48 @@ namespace FreeDV {
     void	get_overrun() const;
     uint8_t *	reorder(std::size_t length);
 
-  public:
+public:
     /// Create the FIFO object.
     /// \param length The size of the fifo, in bytes.
-			FIFO(std::size_t length);
+    FIFO(std::size_t length);
 
-			~FIFO();
+    ~FIFO();
 
     /// Returns the amount of data available to read.
     /// \return The amount of data, in bytes, available to read.
     inline std::size_t	get_available() const {
-			  return in - out;
-			}
+        return in - out;
+    }
 
     /// Return the address of output data of the requested length.
     /// \param length The amount of data requested. This must be smaller
     /// than or equal to the amount returned by get_available().
     /// \return The address of the data to be read.
     inline const uint8_t *
-			get(std::size_t length) {
-			  assert(length % 2 == 0);
-			  if ( length > (std::size_t)(in - out) )
-			    get_overrun();
-			  return out;
-			}
+    get(std::size_t length) {
+        assert(length % 2 == 0);
+        if ( length > (std::size_t)(in - out) )
+            get_overrun();
+        return out;
+    }
 
     /// Finish the I/O after get().
     /// \param length The amount of data, in bytes, actually read.
     /// This must be smaller than or equal to the amount passed to
     /// get().
     inline void		get_done(std::size_t length) {
-			  assert(length % 2 == 0);
-			  out += length;
-			  assert(out >= buffer && out <= buffer_end);
-			  if ( out == in )
-			    out = in = buffer;
-			}
+        assert(length % 2 == 0);
+        out += length;
+        assert(out >= buffer && out <= buffer_end);
+        if ( out == in )
+            out = in = buffer;
+    }
 
     /// Returns the amount of space available for incoming data.
     /// \return The amount of space, in bytes, available for incoming data.
     inline std::size_t	put_space() const {
-			  return (buffer_end) - in + (out - buffer);
-			}
+        return (buffer_end) - in + (out - buffer);
+    }
 
     /// Return the address of an incoming data buffer of the requested size.
     /// Throws an error if we run the buffer out of space. Well-behaved code
@@ -106,113 +107,113 @@ namespace FreeDV {
     /// \param length The size of buffer in chars requested.
     /// \return The address of the buffer for incoming data.
     inline uint8_t *	put(std::size_t length) {
-			  assert(length % 2 == 0);
-			  const uint8_t * io_end = in + length;
+        assert(length % 2 == 0);
+        const uint8_t * io_end = in + length;
 
-			  if ( io_end > buffer_end )
-                            return reorder(length);
-			  else
-			    return in;
-			}
+        if ( io_end > buffer_end )
+            return reorder(length);
+        else
+            return in;
+    }
 
     /// Complete the I/O after put().
     /// \param length The amount of data actually written. This must be
     /// smaller than or equal to the length passed to put().
     inline void		put_done(std::size_t length) {
-			  assert(length % 2 == 0);
-			  in += length;
- 			  assert(in >= buffer && in <= buffer_end);
-			}
+        assert(length % 2 == 0);
+        in += length;
+        assert(in >= buffer && in <= buffer_end);
+    }
 
     /// Discard any buffered data.
     void		reset();
-  };
+};
 
-  /// Set the real-time parameters in the scheduler before running our main
-  /// loop. This function call wraps a platform-dependent implementation.
-  /// This may effect more than one scheduler, for example the process
-  /// scheduler and - if there is one - the I/O scheduler.
-  /// Where facilities are not available or implemnented, or the process
-  /// has insufficient privilege, this may emit a warning and/or do nothing.
-  void		set_scheduler();
+/// Set the real-time parameters in the scheduler before running our main
+/// loop. This function call wraps a platform-dependent implementation.
+/// This may effect more than one scheduler, for example the process
+/// scheduler and - if there is one - the I/O scheduler.
+/// Where facilities are not available or implemnented, or the process
+/// has insufficient privilege, this may emit a warning and/or do nothing.
+void		set_scheduler();
 
-  /// Check the user's privileges, and warn if they are inappropriate.
-  void		check_privileges();
+/// Check the user's privileges, and warn if they are inappropriate.
+void		check_privileges();
 
-  /// Virtual base class for all driver classes.
-  class Base {
-  private:
-	/// The copy constructor is private to prevent it from being used.
-	/// \param that Not used.
-			Base(const Base & that);
-	
-	/// The assignment operator is private to prevent it from being used.
-	/// \param that Not used.
-	Base &		operator = (const Base & that);
+/// Virtual base class for all driver classes.
+class Base {
+private:
+    /// The copy constructor is private to prevent it from being used.
+    /// \param that Not used.
+    Base(const Base & that);
 
-  protected:
-	/// The name of the driver. This must be the same as the name it
-	/// is registered under. It's expected to be from a per-class static
-	/// string and thus should not be deleted.
-	const char *
-			name;
+    /// The assignment operator is private to prevent it from being used.
+    /// \param that Not used.
+    Base &		operator = (const Base & that);
 
-	/// The parameters to this instance of the driver. They are
-	/// copied here so that we can print them later in operator<<() .
-	/// the copy is deleted when in the ~Base() destructor.
-	const char *
-			parameters;
+protected:
+    /// The name of the driver. This must be the same as the name it
+    /// is registered under. It's expected to be from a per-class static
+    /// string and thus should not be deleted.
+    const char *
+    name;
 
-	/// Constructor for the virtual base class.
-	/// \param _name Name of the driver. This is expected to be a single
-	///  constant static string per driver class.
-	/// \param _parameters Driver-specific configuration parameters.
-			Base(const char * _name, const char * _parameters);
+    /// The parameters to this instance of the driver. They are
+    /// copied here so that we can print them later in operator<<() .
+    /// the copy is deleted when in the ~Base() destructor.
+    const char *
+    parameters;
 
-  public:
-	/// Destroy the base class.
-	virtual		~Base() = 0;
+    /// Constructor for the virtual base class.
+    /// \param _name Name of the driver. This is expected to be a single
+    ///  constant static string per driver class.
+    /// \param _parameters Driver-specific configuration parameters.
+    Base(const char * _name, const char * _parameters);
 
-	/// Return true if the object is owned by a UserInterface object and
-	/// should not be destroyed separately.
-	/// The result is invariant for a particular object (or possibly
-	/// class).
-	virtual bool
-			captive() const;
+public:
+    /// Destroy the base class.
+    virtual		~Base() = 0;
 
-	/// Write the driver information onto a stream, for debugging and
-	/// for dumping the configuration information.
-	/// \param stream A reference to an instance of ostream upon which the
-	///  object information is to be rendered.
-	/// \return A reference to the provided stream, meant for the
-	///  usual successive call paradigm of ostream operator << .
-	std::ostream &	print(std::ostream &) const;
-  };
+    /// Return true if the object is owned by a UserInterface object and
+    /// should not be destroyed separately.
+    /// The result is invariant for a particular object (or possibly
+    /// class).
+    virtual bool
+    captive() const;
 
-  /// Write the driver information from the Base object onto a stream,
-  /// for debugging and dumping the configuration information.
-  /// \param stream A reference to an instance of ostream upon which the
-  ///  object information is to be rendered.
-  /// \param base A reference to the Base class providing the information.
-  /// \return A reference to the provided stream, meant for the
-  ///  usual successive call paradigm of ostream operator << .
-  inline std::ostream &
-  operator << (std::ostream & stream, const Base & base) {
+    /// Write the driver information onto a stream, for debugging and
+    /// for dumping the configuration information.
+    /// \param stream A reference to an instance of ostream upon which the
+    ///  object information is to be rendered.
+    /// \return A reference to the provided stream, meant for the
+    ///  usual successive call paradigm of ostream operator << .
+    std::ostream &	print(std::ostream &) const;
+};
+
+/// Write the driver information from the Base object onto a stream,
+/// for debugging and dumping the configuration information.
+/// \param stream A reference to an instance of ostream upon which the
+///  object information is to be rendered.
+/// \param base A reference to the Base class providing the information.
+/// \return A reference to the provided stream, meant for the
+///  usual successive call paradigm of ostream operator << .
+inline std::ostream &
+operator << (std::ostream & stream, const Base & base) {
     return base.print(stream);
-  }
-  
-  /// Virtual base class for all drivers that perform non-blocking I/O.
-  /// These are AudioInput and AudioOutput, PTTInput, TextInput,
-  /// KeyingOutput and UserInterface.
-  class IODevice : public ::FreeDV::Base {
-  protected:
+}
+
+/// Virtual base class for all drivers that perform non-blocking I/O.
+/// These are AudioInput and AudioOutput, PTTInput, TextInput,
+/// KeyingOutput and UserInterface.
+class IODevice : public ::FreeDV::Base {
+protected:
     /// Construct an I/O device.
     /// \param name Name of the driver. This is expected to be a single
     ///  constant static string per driver class.
     /// \param parameters Driver-specific configuration parameters.
-			IODevice(const char * name, const char * parameters);
+    IODevice(const char * name, const char * parameters);
 
-  public:
+public:
     /// Return the number of audio samples, or bytes for devices other than
     /// audio interfaces, that can be read or written. Return zero if there
     /// is not enough readable or writable data to do some work, for example
@@ -226,15 +227,15 @@ namespace FreeDV {
     /// written.
     virtual std::size_t	ready() = 0;
 
-    ///  
+    ///
     virtual int		poll_fds(struct pollfd * array, int space) = 0;
 
     virtual		~IODevice() = 0;
-  };
+};
 
-  /// Virtual base class for AudioInput and AudioOutput.
-  class AudioDevice : public ::FreeDV::IODevice {
-  protected:
+/// Virtual base class for AudioInput and AudioOutput.
+class AudioDevice : public ::FreeDV::IODevice {
+protected:
     /// The master volume control for the device.
     float		master_amplitude;
 
@@ -242,9 +243,9 @@ namespace FreeDV {
     /// \param name The name of the child driver. This is expected to be a
     /// static string.
     /// \param parameters Driver-specific configuration parameters.
-  			AudioDevice(const char * name, const char * parameters);
+    AudioDevice(const char * name, const char * parameters);
 
-  public:
+public:
     /// Destroy an AudioDevice instance.
     virtual		~AudioDevice() = 0;
 
@@ -257,54 +258,54 @@ namespace FreeDV {
     /// \param value The new value for the current audio level.
     /// The value must be normalized within the range of 0.0 to 1.0.
     virtual void	amplitude(float value);
-  };
+};
 
-  /// Virtual base class for audio input drivers.
-  class AudioInput : public ::FreeDV::AudioDevice {
-  protected:
+/// Virtual base class for audio input drivers.
+class AudioInput : public ::FreeDV::AudioDevice {
+protected:
     /// Create an AudioInput device instance.
     /// \param name The name of the child driver. This is expected to be a
     /// static string.
     /// \param parameters Driver-specific configuration parameters.
-      			AudioInput(const char * name, const char * parameters);
+    AudioInput(const char * name, const char * parameters);
 
-  public:
+public:
     /// Destroy an AudioInput device instance.
     virtual		~AudioInput() = 0;
 
-        /// Read audio into an array of the signed 16-bit integer type.
+    /// Read audio into an array of the signed 16-bit integer type.
     virtual std::size_t
-    			read16(std::int16_t * array, std::size_t length) = 0;
-  };
+    read16(std::int16_t * array, std::size_t length) = 0;
+};
 
-  /// Virtual base class for audio output drivers.
-  class AudioOutput : public ::FreeDV::AudioDevice {
-  protected:
+/// Virtual base class for audio output drivers.
+class AudioOutput : public ::FreeDV::AudioDevice {
+protected:
     /// Create an AudioOutput device instance.
     /// \param name The name of the child driver. This is expected to be a
     /// static string.
     /// \param parameters Driver-specific configuration parameters.
-  			AudioOutput(const char * name, const char * parameters);
+    AudioOutput(const char * name, const char * parameters);
 
-  public:
+public:
     /// Destroy an AudioOutput device instance.
     virtual		~AudioOutput() = 0;
 
-        /// Write audio from an array of the signed 16-bit integer type.
+    /// Write audio from an array of the signed 16-bit integer type.
     virtual std::size_t
-    			write16(const std::int16_t * array, std::size_t length) = 0;
-  };
+    write16(const std::int16_t * array, std::size_t length) = 0;
+};
 
-  /// Virtual base class for codecs.
-  class Codec : public ::FreeDV::Base {
-  protected:
+/// Virtual base class for codecs.
+class Codec : public ::FreeDV::Base {
+protected:
     /// Create a codec instance.
     /// \param name Name of the driver. This is expected to be a single
     ///  constant static string per driver class.
     /// \param parameters Driver-specific configuration parameters.
-      			Codec(const char * name, const char * parameters);
+    Codec(const char * name, const char * parameters);
 
-  public:
+public:
     /// Destroy a codec instance.
     virtual		~Codec() = 0;
 
@@ -318,10 +319,10 @@ namespace FreeDV {
     /// \param sample_length The number of audio samples that may be decoded.
     /// \return The number of audio samples that were actually decoded.
     virtual std::size_t
-    			decode16(const std::uint8_t * i,
-			 std::int16_t * o,
-             		 std::size_t * data_length,
-			 std::size_t sample_length) = 0;
+    decode16(const std::uint8_t * i,
+             std::int16_t * o,
+             std::size_t * data_length,
+             std::size_t sample_length) = 0;
 
 
     /// Encode from audio samples to data bytes.
@@ -331,22 +332,22 @@ namespace FreeDV {
     /// \param length The number of audio samples to be encoded.
     /// \return The number of std::uint8_t elements in the encoded array.
     virtual std::size_t
-    			encode16(const std::int16_t * i, std::uint8_t * o,
-             		 std::size_t length) = 0;
+    encode16(const std::int16_t * i, std::uint8_t * o,
+             std::size_t length) = 0;
 
     /// Return the minimum duration of a frame in milliseconds.
     /// \return The duration of a frame in milliseconds.
     virtual int
-    			min_frame_duration() const = 0;
-  };
+    min_frame_duration() const = 0;
+};
 
-  /// Event handler class, indirects the event handler of the particular GUI
-  /// software or POSIX.
-  class EventHandler : public ::FreeDV::Base {
-  private:
+/// Event handler class, indirects the event handler of the particular GUI
+/// software or POSIX.
+class EventHandler : public ::FreeDV::Base {
+private:
     bool		do_exit;
 
-  protected:
+protected:
     /// Bit field of status values for file descriptor events.
     /// This is an argument to the coroutine called by monitor().
     /// This is a simplification on all of the values that POSIX
@@ -363,22 +364,22 @@ namespace FreeDV {
     /// \param name Name of the driver. This is expected to be a single
     ///  constant static string per driver class.
     /// \param parameters Driver-specific configuration parameters.
-    			EventHandler(const char * name, const char * parameters)
-    			: Base(name, parameters), do_exit(false)
-    			{
-    			}
+    EventHandler(const char * name, const char * parameters)
+        : Base(name, parameters), do_exit(false)
+    {
+    }
 
     /// If set_exit() has been called, return true once.
     /// \return True if set_exit has been called. The next and subsequent
     ///  calls will return false until set_exit() is called again.
     inline bool		get_exit() {
-    		  	  if ( do_exit ) {
-    		    	  do_exit = false;
-    		    	  return true;
-    		  	}
-    		  	else
-    		    	  return false;
-    			}
+        if ( do_exit ) {
+            do_exit = false;
+            return true;
+        }
+        else
+            return false;
+    }
 
     /// Run one iteration of the event handler.
     /// The default implementation throws std::runtime_error.
@@ -389,59 +390,61 @@ namespace FreeDV {
     void		iterate();
 
     /// Cause get_exit() to return true the next time it is called.
-    inline void		set_exit() { do_exit = true; }
-  public:
-	virtual		~EventHandler() = 0;
+    inline void		set_exit() {
+        do_exit = true;
+    }
+public:
+    virtual		~EventHandler() = 0;
 
-	/// Run the event loop.
-	/// The default implementation iterates checking get_exit(), returning
-	/// if its value is true and otherwise and calling iterate().
-	/// If you provide your own implementation of loop(), you must check
-	/// get_exit() and return from this method if its value is true.
-	/// If you provide your own implementation of loop(), it's your choice
-	/// whether or not to implement and call iterate().
-	void		loop();
+    /// Run the event loop.
+    /// The default implementation iterates checking get_exit(), returning
+    /// if its value is true and otherwise and calling iterate().
+    /// If you provide your own implementation of loop(), you must check
+    /// get_exit() and return from this method if its value is true.
+    /// If you provide your own implementation of loop(), it's your choice
+    /// whether or not to implement and call iterate().
+    void		loop();
 
-	/// Monitor a file descriptor in the event loop. Call a function if the
-	/// file descriptor is ready for I/O.
-	/// \param fd The file descriptor to monitor.
-	/// \param type A bit-field of values defined in this class,
-	///  indicating the kinds of events to listen for.
-	/// \param private_data Private data to be passed to the event
-	///  function.
-	/// \param event A coroutine to call when there is a status change
-	///  on the file descriptor. The arguments of the coroutine are
-	///  - fd: The file descriptor that has an event.
-	///  - type: A bit-field of FDStatus values indicating the events
-	///    received.
-	///  - private: The address of opaque data to be passed to the driver.
-	virtual void	monitor(int fd, unsigned int type, void * private_data,
-			 void (*event)(int fd, unsigned int type, void * private_data)
-			 ) = 0;
+    /// Monitor a file descriptor in the event loop. Call a function if the
+    /// file descriptor is ready for I/O.
+    /// \param fd The file descriptor to monitor.
+    /// \param type A bit-field of values defined in this class,
+    ///  indicating the kinds of events to listen for.
+    /// \param private_data Private data to be passed to the event
+    ///  function.
+    /// \param event A coroutine to call when there is a status change
+    ///  on the file descriptor. The arguments of the coroutine are
+    ///  - fd: The file descriptor that has an event.
+    ///  - type: A bit-field of FDStatus values indicating the events
+    ///    received.
+    ///  - private: The address of opaque data to be passed to the driver.
+    virtual void	monitor(int fd, unsigned int type, void * private_data,
+                            void (*event)(int fd, unsigned int type, void * private_data)
+                        ) = 0;
 
-	/// Remove all monitoring of the given file descriptor by the event
-	/// loop handler.
-	/// \param fd The file descriptor to be removed from monitoring.
-	virtual void	unmonitor(int fd) = 0;
-  };
+    /// Remove all monitoring of the given file descriptor by the event
+    /// loop handler.
+    /// \param fd The file descriptor to be removed from monitoring.
+    virtual void	unmonitor(int fd) = 0;
+};
 
-  /// Virtual base class for protocol framers.
-  class Framer : public ::FreeDV::Base {
-  protected:
+/// Virtual base class for protocol framers.
+class Framer : public ::FreeDV::Base {
+protected:
     /// Create a framer instance.
     /// \param name Name of the driver. This is expected to be a single
     ///  constant static string per driver class.
     /// \param parameters Driver-specific configuration parameters.
-      			Framer(const char * name, const char * parameters);
+    Framer(const char * name, const char * parameters);
 
-  public:
+public:
     /// Destroy a framer instance.
     virtual		~Framer() = 0;
 
     /// Return the minimum duration of a frame in milliseconds.
     /// \return The minimum duration of a frame in milliseconds.
     virtual int
-    			min_frame_duration() const = 0;
+    min_frame_duration() const = 0;
 
     /// Decode from modem data to codec frames, removing the wrapping protocol.
     /// \param i The encoded data, in an array of unsigned 8-bit integers.
@@ -454,10 +457,10 @@ namespace FreeDV {
     /// unwrapped.
     /// \return The number of data bytes that were actually decoded.
     virtual std::size_t
-    			unwrap(const std::uint8_t * i,
-			 std::uint8_t * o,
-             		 std::size_t * input_length,
-			 std::size_t output_length) = 0;
+    unwrap(const std::uint8_t * i,
+           std::uint8_t * o,
+           std::size_t * input_length,
+           std::size_t output_length) = 0;
 
     /// Wrap codec data bytes in a protocol for transmission through the modem.
     /// \param i The array of data bytes to be encoded, in an array
@@ -468,23 +471,23 @@ namespace FreeDV {
     /// wrapped data.
     /// \return The number of std::uint8_t elements in the wrapped array.
     virtual std::size_t
-    			wrap(
-			 const std::uint8_t * i,
-			 std::uint8_t * o,
-             		 std::size_t * input_length,
-			 std::size_t output_length) = 0;
-  };
+    wrap(
+        const std::uint8_t * i,
+        std::uint8_t * o,
+        std::size_t * input_length,
+        std::size_t output_length) = 0;
+};
 
-  /// Radio device keying driver.
-  class KeyingOutput : public ::FreeDV::Base {
-  protected:
+/// Radio device keying driver.
+class KeyingOutput : public ::FreeDV::Base {
+protected:
     /// Create an radio keying output device instance.
     /// \param name Name of the driver. This is expected to be a single
     ///  constant static string per driver class.
     /// \param parameters Driver-specific configuration parameters.
-  			KeyingOutput(const char * name, const char * parameters);
+    KeyingOutput(const char * name, const char * parameters);
 
-  public:
+public:
     /// Destroy the radio keying device instance.
     virtual		~KeyingOutput() = 0;
 
@@ -494,18 +497,18 @@ namespace FreeDV {
 
     /// Return the amount of bytes ready to write.
     virtual std::size_t	ready() = 0;
-  };
+};
 
-  /// Softmodem driver.
-  class Modem : public ::FreeDV::Base {
-  protected:
+/// Softmodem driver.
+class Modem : public ::FreeDV::Base {
+protected:
     /// Create a softmodem device instance.
     /// \param name Name of the driver. This is expected to be a single
     ///  constant static string per driver class.
     /// \param parameters Driver-specific configuration parameters.
-  			Modem(const char * name, const char * parameters);
+    Modem(const char * name, const char * parameters);
 
-  public:
+public:
     virtual		~Modem() = 0;
 
     /// Demodulate from audio samples to data.
@@ -517,11 +520,11 @@ namespace FreeDV {
     /// \param data_length The number of bytes of data that may be demodulated.
     /// \return The number of bytes of data that were actually decoded.
     virtual std::size_t
-    			demodulate16(
-			 const std::int16_t * i,
-			 std::uint8_t * o,
-             		 std::size_t * sample_length,
-			 std::size_t data_length) = 0;
+    demodulate16(
+        const std::int16_t * i,
+        std::uint8_t * o,
+        std::size_t * sample_length,
+        std::size_t data_length) = 0;
 
     /// Modulate from data to audio samples.
     /// \param i The data, in an array of unsigned 8-bit integers.
@@ -530,35 +533,35 @@ namespace FreeDV {
     /// \param length The number of bytes of data to be modulated.
     /// \return The number of std::int16_t elements in the modulated array.
     virtual std::size_t
-    			modulate16(const std::uint8_t * i, std::int16_t * o,
-             		 std::size_t length) = 0;
+    modulate16(const std::uint8_t * i, std::int16_t * o,
+               std::size_t length) = 0;
 
     /// Return the minimum duration of a frame in milliseconds.
     /// \return The minimum duration of a frame in milliseconds.
     virtual int
-    			min_frame_duration() const = 0;
-  };
+    min_frame_duration() const = 0;
+};
 
-  /// Push-to-talk input driver.
-  class PTTInput : public ::FreeDV::IODevice {
-  protected:
+/// Push-to-talk input driver.
+class PTTInput : public ::FreeDV::IODevice {
+protected:
     /// Create a push-to-talk switch instance.
     /// \param name Name of the driver. This is expected to be a single
     ///  constant static string per driver class.
     /// \param parameters Driver-specific configuration parameters.
-  			PTTInput(const char * name, const char * parameters);
-  public:
+    PTTInput(const char * name, const char * parameters);
+public:
     virtual		~PTTInput() = 0;
 
     /// Return true if the PTT is pressed.
     /// ready() must return true before this member is called.
     /// \return True if the PTT is pressed.
     virtual bool	state() = 0;
-  };
+};
 
-  /// Driver for the text message source function.
-  class TextInput : public ::FreeDV::IODevice {
-  protected:
+/// Driver for the text message source function.
+class TextInput : public ::FreeDV::IODevice {
+protected:
     /// The child class calls this member in its parent to set the text.
     void		set(const char * text);
 
@@ -567,26 +570,26 @@ namespace FreeDV {
     /// \param name Name of the driver. This is expected to be a single
     ///  constant static string per driver class.
     /// \param parameters Driver-specific configuration parameters.
-  			TextInput(const char * name, const char * parameters);
+    TextInput(const char * name, const char * parameters);
 
-  public:
+public:
     /// Read the text data.
     virtual std::size_t	read(char * buffer, std::size_t length) = 0;
 
     virtual		~TextInput() = 0;
-  };
+};
 
-  class Interfaces;
+class Interfaces;
 
-  /// Generic base class for user interfaces.
-  /// They may be graphical, they may be server-client interfaces,
-  /// they may be specialized hardware devices, especially if this
-  /// software is embedded.
-  /// There must be inputs and callbacks for many things here.
-  /// UserInterfaces may provide their own drivers for microphone,
-  /// loudspeaker, TextInput, both forms of PTT, and EventHandler.
-  class UserInterface : public ::FreeDV::IODevice {
-  protected:
+/// Generic base class for user interfaces.
+/// They may be graphical, they may be server-client interfaces,
+/// they may be specialized hardware devices, especially if this
+/// software is embedded.
+/// There must be inputs and callbacks for many things here.
+/// UserInterfaces may provide their own drivers for microphone,
+/// loudspeaker, TextInput, both forms of PTT, and EventHandler.
+class UserInterface : public ::FreeDV::IODevice {
+protected:
     /// The external Interfaces object.
     Interfaces *	interfaces;
 
@@ -598,22 +601,22 @@ namespace FreeDV {
     /// may set various fields of Interface to be its own captive driver
     /// objects, and they may change during operation if the user changes
     /// device driver parameters.
-  			UserInterface(const char * name, const char * parameters, Interfaces * _interfaces);
+    UserInterface(const char * name, const char * parameters, Interfaces * _interfaces);
 
-  public:
+public:
     virtual		~UserInterface() = 0;
-  };
+};
 
-  /// Structure used to pass all of the drivers. Can be modified from
-  class Interfaces {
-    public:
-			Interfaces() : codec(0), event_handler(0),
-			 framer(0), keying_output(0), loudspeaker(0),
-			 microphone(0), modem(0), ptt_input_digital(0),
-			 ptt_input_ssb(0), receiver(0), text_input(0),
-			 transmitter(0), user_interface(0)
-			{
-			}
+/// Structure used to pass all of the drivers. Can be modified from
+class Interfaces {
+public:
+    Interfaces() : codec(0), event_handler(0),
+        framer(0), keying_output(0), loudspeaker(0),
+        microphone(0), modem(0), ptt_input_digital(0),
+        ptt_input_ssb(0), receiver(0), text_input(0),
+        transmitter(0), user_interface(0)
+    {
+    }
 
     virtual		~Interfaces() final;
 
@@ -649,96 +652,96 @@ namespace FreeDV {
     /// Fill in default drivers if the user or UserInterface hasn't set any.
     void		fill_in();
 
-    /// Write the command-line flags necessary to configure the drivers as 
+    /// Write the command-line flags necessary to configure the drivers as
     /// they are presently configured to the stream. This is used to save
     /// the configuration or debug the program.
     /// \param stream A reference to an instance of ostream on which the
     /// \return A reference to the provided stream, meant for the
     ///  usual successive call paradigm of ostream operator << .
     virtual std::ostream &
-    			print(std::ostream & stream, const char * program_name) const;
-  };
+    print(std::ostream & stream, const char * program_name) const;
+};
 
-  /// Write the driver information from the Interfaces object onto a stream,
-  /// for debugging and dumping the configuration information.
-  /// \param stream A reference to an instance of ostream upon which the
-  ///  object information is to be rendered.
-  /// \param interfaces a reference to an Interfaces object providing the
-  ///  information.
-  /// \return A reference to the provided stream, meant for the
-  ///  usual successive call paradigm of ostream operator << .
-  inline std::ostream &
-  operator << (std::ostream & stream, const Interfaces & interfaces) {
+/// Write the driver information from the Interfaces object onto a stream,
+/// for debugging and dumping the configuration information.
+/// \param stream A reference to an instance of ostream upon which the
+///  object information is to be rendered.
+/// \param interfaces a reference to an Interfaces object providing the
+///  information.
+/// \return A reference to the provided stream, meant for the
+///  usual successive call paradigm of ostream operator << .
+inline std::ostream &
+operator << (std::ostream & stream, const Interfaces & interfaces) {
     return interfaces.print(stream, 0);
-  }
+}
 
-  // Most of the functions in the Driver and Enumerator namespaces are
-  // registered with the driver manager at run-time. There won't be many
-  // reasons to reference them directly.
-  namespace Driver {
-    AudioInput *	Tone(const char * parameter);
-    AudioInput *	AudioInALSA(const char * parameter);
-    AudioInput *	AudioInDefault();
-    AudioOutput *	AudioSink(const char * parameter);
-    AudioOutput *	AudioOutALSA(const char * parameter);
-    AudioOutput *	AudioOutDefault();
-    Codec *		CodecNoOp(const char * parameter);
-    Framer *		FramerNoOp(const char * parameter);
-    KeyingOutput *	KeyingSink(const char * parameter);
-    EventHandler *	LibEvent(const char * parameter);
-    Modem *		ModemNoOp(const char * parameter);
-    PTTInput *		PTTConstant(const char * parameter);
-    TextInput *		TextConstant(const char * parameter);
-    UserInterface *	BlankPanel(const char * parameter, Interfaces *);
-  }
+// Most of the functions in the Driver and Enumerator namespaces are
+// registered with the driver manager at run-time. There won't be many
+// reasons to reference them directly.
+namespace Driver {
+AudioInput *	Tone(const char * parameter);
+AudioInput *	AudioInALSA(const char * parameter);
+AudioInput *	AudioInDefault();
+AudioOutput *	AudioSink(const char * parameter);
+AudioOutput *	AudioOutALSA(const char * parameter);
+AudioOutput *	AudioOutDefault();
+Codec *		CodecNoOp(const char * parameter);
+Framer *		FramerNoOp(const char * parameter);
+KeyingOutput *	KeyingSink(const char * parameter);
+EventHandler *	LibEvent(const char * parameter);
+Modem *		ModemNoOp(const char * parameter);
+PTTInput *		PTTConstant(const char * parameter);
+TextInput *		TextConstant(const char * parameter);
+UserInterface *	BlankPanel(const char * parameter, Interfaces *);
+}
 
-  namespace Enumerator {
-    std::ostream &	Tone(std::ostream &);
-    std::ostream &	AudioSink(std::ostream &);
-    std::ostream &	AudioInALSA(std::ostream &);
-    std::ostream &	AudioOutALSA(std::ostream &);
-    std::ostream &	CodecNoOp(std::ostream &);
-    std::ostream &	FramerNoOp(std::ostream &);
-    std::ostream &	KeyingSink(std::ostream &);
-    std::ostream &	LibEvent(std::ostream &);
-    std::ostream &	ModemNoOp(std::ostream &);
-    std::ostream &	PTTConstant(std::ostream &);
-    std::ostream &	TextConstant(std::ostream &);
-    std::ostream &	BlankPanel(std::ostream &);
-  }
+namespace Enumerator {
+std::ostream &	Tone(std::ostream &);
+std::ostream &	AudioSink(std::ostream &);
+std::ostream &	AudioInALSA(std::ostream &);
+std::ostream &	AudioOutALSA(std::ostream &);
+std::ostream &	CodecNoOp(std::ostream &);
+std::ostream &	FramerNoOp(std::ostream &);
+std::ostream &	KeyingSink(std::ostream &);
+std::ostream &	LibEvent(std::ostream &);
+std::ostream &	ModemNoOp(std::ostream &);
+std::ostream &	PTTConstant(std::ostream &);
+std::ostream &	TextConstant(std::ostream &);
+std::ostream &	BlankPanel(std::ostream &);
+}
 }
 
 /// Namespace used for the entire program.
 namespace FreeDV {
-  /// Utility functions.
-  
-  /// Non-template version of min().
-  inline std::size_t
-  min(std::size_t a, std::size_t b)
-  {
+/// Utility functions.
+
+/// Non-template version of min().
+inline std::size_t
+min(std::size_t a, std::size_t b)
+{
     return a < b ? a : b;
-  }
+}
 
-  /// Non-template version of max().
-  inline std::size_t
-  max(std::size_t a, std::size_t b)
-  {
+/// Non-template version of max().
+inline std::size_t
+max(std::size_t a, std::size_t b)
+{
     return a > b ? a : b;
-  }
+}
 
-  struct DriverList {
+struct DriverList {
     const char *	key;
     union {
-      FreeDV::Base *	(*creator)(const char *);
-      FreeDV::Base *	(*creator_i)(const char *, Interfaces *);
+        FreeDV::Base *	(*creator)(const char *);
+        FreeDV::Base *	(*creator_i)(const char *, Interfaces *);
     };
     std::ostream &	(*enumerator)(std::ostream &);
-  };
+};
 
-  /// Device driver manager. Allows for registration and enumeration of device
-  /// drivers. Instantiates device drivers on request.
-  class DriverManager {
-  private:
+/// Device driver manager. Allows for registration and enumeration of device
+/// drivers. Instantiates device drivers on request.
+class DriverManager {
+private:
     DriverList *	audio_input_drivers;
     DriverList *	audio_output_drivers;
     DriverList *	codecs;
@@ -749,16 +752,16 @@ namespace FreeDV {
     DriverList *	text_input_drivers;
     DriverList *	user_interface_drivers;
 
-  public:
+public:
 
     /// Initialize the driver manager.
-			DriverManager();
-			~DriverManager();
+    DriverManager();
+    ~DriverManager();
 
     /// Print the available drivers to the argument stream.
     /// \param stream A reference to an instance of ostream on which the
     ///  information is to be printed.
-        std::ostream &	print(std::ostream & stream) const;
+    std::ostream &	print(std::ostream & stream) const;
 
     /// Instantiate an AudioInput driver.
     /// \param driver The name of the driver.
@@ -847,20 +850,20 @@ namespace FreeDV {
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
     void		register_user_interface(const char * driver, UserInterface * (*creator)(const char *, Interfaces *), std::ostream & (*enumerator)(std::ostream &));
-  };
+};
 
-  /// Write the driver information from the DriverManager object onto a stream,
-  /// for debugging and dumping the configuration information.
-  /// \param stream A reference to an instance of ostream upon which the
-  ///  object information is to be rendered.
-  /// \param d A reference to the DriverManager class providing the information.
-  /// \return A reference to the provided stream, meant for the
-  ///  usual successive call paradigm of ostream operator << .
-  inline std::ostream &
-  operator << (std::ostream & stream, const DriverManager & d) {
+/// Write the driver information from the DriverManager object onto a stream,
+/// for debugging and dumping the configuration information.
+/// \param stream A reference to an instance of ostream upon which the
+///  object information is to be rendered.
+/// \param d A reference to the DriverManager class providing the information.
+/// \return A reference to the provided stream, meant for the
+///  usual successive call paradigm of ostream operator << .
+inline std::ostream &
+operator << (std::ostream & stream, const DriverManager & d) {
     return d.print(stream);
-  }
-  
-  /// Global reference to the driver manager.
-  extern DriverManager * driver_manager();
+}
+
+/// Global reference to the driver manager.
+extern DriverManager * driver_manager();
 }

@@ -16,6 +16,13 @@ namespace FreeDV {
     			TextConstant(const char * parameter);
     virtual		~TextConstant();
     
+    /// Return file descriptors for poll()
+    /// \param size The address of a variable that will be written
+    /// with the number of file descriptors in the array.
+    /// \return The address of an array of integers containing the
+    /// file descriptors.
+    virtual int		poll_fds(struct pollfd * array, int space);
+
     /// Read the text data.
     std::size_t		read(char * buffer, std::size_t size);
 
@@ -30,6 +37,12 @@ namespace FreeDV {
 
   TextConstant::~TextConstant()
   {
+  }
+
+  int
+  TextConstant::poll_fds(struct pollfd * array, int space)
+  {
+    return 0;
   }
 
   std::size_t

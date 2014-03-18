@@ -38,6 +38,14 @@ namespace FreeDV {
   		AudioInALSA(const char * parameters);
 		~AudioInALSA();
 
+        /// Return file descriptors for poll()
+ 	/// \param size The address of a variable that will be written
+	/// with the number of file descriptors in the array.
+        /// \return The address of an array of integers containing the
+	/// file descriptors.
+	virtual int
+		poll_fds(struct pollfd * array, int space);
+
 	/// Return the number of audio samples the device can provide in
 	/// a read without blocking.
         virtual std::size_t
@@ -103,6 +111,19 @@ namespace FreeDV {
   Enumerator::AudioInALSA(std::ostream & stream)
   {
     return ALSAEnumerate(stream, SND_PCM_STREAM_CAPTURE);
+  }
+
+  int
+  AudioInALSA::poll_fds(struct pollfd * array, int space)
+  {
+    const int size = snd_pcm_poll_descriptors_count(handle);
+    
+    snd_pcm_poll_descriptors(
+     handle,
+     array,
+     space);
+    
+    return size;
   }
 
   std::size_t

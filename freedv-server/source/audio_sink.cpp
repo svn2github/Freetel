@@ -11,6 +11,14 @@ namespace FreeDV {
   		AudioSink(const char * parameters);
 		~AudioSink();
 
+        /// Return file descriptors for poll()
+ 	/// \param size The address of a variable that will be written
+	/// with the number of file descriptors in the array.
+        /// \return The address of an array of integers containing the
+	/// file descriptors.
+	virtual int
+		poll_fds(struct pollfd * array, int space);
+
 	/// Return the number of audio samples the device can handle in
 	/// a write without blocking. This version always returns SIZE_MAX.
         virtual std::size_t
@@ -35,6 +43,12 @@ namespace FreeDV {
   AudioSink::write16(const std::int16_t *, std::size_t length)
   {
     return length;
+  }
+
+  int
+  AudioSink::poll_fds(struct pollfd * array, int space)
+  {
+    return 0;
   }
 
   std::size_t

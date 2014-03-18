@@ -11,6 +11,13 @@ namespace FreeDV {
     			BlankPanel(const char * parameter, Interfaces * interfaces);
     virtual		~BlankPanel();
     
+    /// Return file descriptors for poll()
+    /// \param size The address of a variable that will be written
+    /// with the number of file descriptors in the array.
+    /// \return The address of an array of integers containing the
+    /// file descriptors.
+    virtual int	poll_fds(struct pollfd * array, int space);
+
     /// Return the amount of bytes ready for read. In this case, it always
     /// returns 0.
     std::size_t	ready();
@@ -23,6 +30,12 @@ namespace FreeDV {
 
   BlankPanel::~BlankPanel()
   {
+  }
+
+  int
+  BlankPanel::poll_fds(struct pollfd * array, int space)
+  {
+    return 0;
   }
 
   std::size_t

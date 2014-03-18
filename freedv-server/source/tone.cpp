@@ -19,6 +19,13 @@ namespace FreeDV {
 
     tone_info	tones[101];
 
+    /// Return file descriptors for poll()
+    /// \param size The address of a variable that will be written
+    /// with the number of file descriptors in the array.
+    /// \return The address of an array of integers containing the
+    /// file descriptors.
+    virtual int	poll_fds(struct pollfd * array, int space);
+
     /// Return the amount of audio samples for read. In this case, it always
     /// returns SIZE_MAX.
     std::size_t	ready();
@@ -121,6 +128,12 @@ namespace FreeDV {
     clock = (clock + length) % SampleRate;
 
     return length;
+  }
+
+  int
+  Tone::poll_fds(struct pollfd * array, int space)
+  {
+    return 0;
   }
 
   std::size_t
