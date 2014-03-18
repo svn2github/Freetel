@@ -46,7 +46,7 @@ namespace FreeDV {
   }
 
   int
-  AudioSink::poll_fds(struct pollfd * array, int space)
+  AudioSink::poll_fds(struct pollfd *, int)
   {
     return 0;
   }

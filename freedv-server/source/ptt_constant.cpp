@@ -49,7 +49,7 @@ namespace FreeDV {
   }
 
   int
-  PTTConstant::poll_fds(struct pollfd * array, int space)
+  PTTConstant::poll_fds(struct pollfd *, int)
   {
     return 0;
   }

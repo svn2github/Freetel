@@ -16,10 +16,17 @@ extern const char *	program_name;
 /// drivers.
 const unsigned int	SampleRate = 48000;
 
+/// The number of audio samples per millisecond, at SampleRate.
+const unsigned int	SamplesPerMillisecond = ((double)SampleRate / 1000.0);
+
 // The audio frame duration in milliseconds. The audio interfaces will
 // use this as a period size. It should be 1/2 of the smallest codec frame
 // size we expect to use.
 const unsigned int	AudioFrameDuration = 10;
+
+/// The number of audio samples in an audio frame.
+const unsigned int	AudioFrameSamples = SamplesPerMillisecond
+			 * AudioFrameDuration;
 
 /// Allocate memory and copy a string into it, so that it is permanently
 /// stored.

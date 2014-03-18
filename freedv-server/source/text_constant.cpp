@@ -40,7 +40,7 @@ namespace FreeDV {
   }
 
   int
-  TextConstant::poll_fds(struct pollfd * array, int space)
+  TextConstant::poll_fds(struct pollfd *, int)
   {
     return 0;
   }

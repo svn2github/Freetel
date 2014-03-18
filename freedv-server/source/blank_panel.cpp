@@ -33,7 +33,7 @@ namespace FreeDV {
   }
 
   int
-  BlankPanel::poll_fds(struct pollfd * array, int space)
+  BlankPanel::poll_fds(struct pollfd *, int)
   {
     return 0;
   }

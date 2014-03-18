@@ -95,7 +95,7 @@ namespace FreeDV {
       input++;
     }
     tones[index].frequency = 0.0;
-    tones[index].amplitude = 0.0;
+    tones[index].amplitude = -1.0;
   }
 
   Tone::~Tone()
@@ -110,13 +110,14 @@ namespace FreeDV {
     for ( unsigned int i = 0; i < length; i++ ) {
       float value = 0;
       float sumOfAmplitudes = 0;
-      for ( unsigned int j = 0; j < array_length && tones[j].amplitude > 0.0;
+      for ( unsigned int j = 0; j < array_length && tones[j].amplitude >= 0.0;
        j++ ) {
         value += (sine_wave(tones[j].frequency, clock + i)
          * tones[j].amplitude);
 	// FIX: Hoist this out of the inner loop after it's tested.
         sumOfAmplitudes += tones[j].amplitude;
       }
+      // FIX: Hoist this out of the inner loop after it's tested.
       // If the sum of amplitudes is greater than 1.0, normalize so that the
       // sum of amplitudes is 1.0.
       if ( sumOfAmplitudes > 1.0 )
@@ -131,7 +132,7 @@ namespace FreeDV {
   }
 
   int
-  Tone::poll_fds(struct pollfd * array, int space)
+  Tone::poll_fds(struct pollfd *, int)
   {
     return 0;
   }
