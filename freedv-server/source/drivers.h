@@ -2,7 +2,7 @@
 #include <cstdint>
 #include <iostream>
 #include <assert.h>
-#include <poll.h>
+#include "platform.h"
 
 /// Namespace used for all code in this program.
 namespace FreeDV {

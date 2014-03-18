@@ -87,21 +87,30 @@ message(STATUS "${Param.build-type} ${Version.major}.${Version.minor}.${Version.
 # Set cmake internal variables from parameters.
 #
 
+set(Compile.posix.sources
+  source/platform/posix/scheduler.cpp
+  source/platform/posix/privilege.cpp
+)
 set(Compile.linux.sources
+  ${Compile.posix.sources}
   source/platform/linux/alsa.cpp
   source/platform/linux/audio_out_alsa.cpp
   source/platform/linux/audio_in_alsa.cpp
-  source/platform/linux/scheduler.cpp
-  source/platform/linux/privilege.cpp
 )
+
 set(Compile.linux.libraries
   asound
+)
+
+set(Compile.linux.header_dirs
+  source/platform/posix
 )
 
 # FIX: Add other platforms.
 if(Platform.name STREQUAL Linux)
   set(Compile.platform.sources ${Compile.linux.sources})
   set(Compile.platform.libraries ${Compile.linux.libraries})
+  set(Compile.platform.header_dirs ${Compile.linux.header_dirs})
 endif(Platform.name STREQUAL Linux)
 
 set(Compile.sources
@@ -113,11 +122,11 @@ set(Compile.sources
   source/audio_output.cpp
   source/audio_sink.cpp
   source/base.cpp
+  source/big_main.cpp
   source/blank_panel.cpp
   source/codec.cpp
   source/codec_noop.cpp
   source/driver_manager.cpp
-  source/event_handler.cpp
   source/fifo.cpp
   source/framer.cpp
   source/framer_noop.cpp
@@ -125,7 +134,6 @@ set(Compile.sources
   source/io_device.cpp
   source/keying.cpp
   source/keying_sink.cpp
-  source/libevent.cpp
   source/modem.cpp
   source/modem_noop.cpp
   source/ptt_constant.cpp
@@ -136,16 +144,6 @@ set(Compile.sources
   source/tone.cpp
   source/user_interface.cpp
   source/utility.cpp
-)
-
-set(Optional.sources
-  source/big_main.cpp
-  source/tiny_main.cpp
-)
-
-set(Optional.sources
-  source/big_main.cpp
-  source/tiny_main.cpp
 )
 
 set(Test.sources
@@ -164,10 +162,12 @@ set(Test.headers
 )
 
 load_parameters(cxx-flags)
-set_source_files_properties(${Compile.sources} ${Optional.sources} ${Test.sources} PROPERTIES COMPILE_FLAGS ${Param.cxx-flags})
+set_source_files_properties(${Compile.sources} ${Test.sources} PROPERTIES COMPILE_FLAGS ${Param.cxx-flags})
 
 
-add_executable(freedv-server ${Compile.sources} source/big_main.cpp)
+add_executable(freedv-server ${Compile.sources})
+
+include_directories(${Compile.platform.header_dirs})
 
 # Googletest unit testing.
 add_subdirectory(googletest)
