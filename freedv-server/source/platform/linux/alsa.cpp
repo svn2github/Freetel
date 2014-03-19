@@ -81,6 +81,34 @@ namespace FreeDV {
     return stream;
   }
 
+  static int
+  open_by_longname(
+   snd_pcm_t * *	handle,
+   const char *		name,
+   snd_pcm_stream_t	stream)
+  {
+    const int	length = strlen(name);
+    int		card_index = -1;
+
+    // Let the normal open handle "default".
+    if ( strcmp(name, "default") == 0 )
+      return -ENODEV;
+
+    while ( snd_card_next(&card_index) == 0 && card_index >= 0 ) {
+      char		device_name[20];
+      char *		longname = 0;
+  
+      if ( snd_card_get_longname(card_index, &longname) == 0 ) {
+        if ( strncmp(name, longname, length) == 0 ) {
+          sprintf(device_name, "hw:%d", card_index);
+          return snd_pcm_open(handle, device_name, stream, 0);
+        }
+      }
+    }
+  
+    return -ENODEV;
+  }
+
   static void
   do_throw(
    const int error,
@@ -120,14 +148,17 @@ namespace FreeDV {
     snd_pcm_t *		handle = 0;
     snd_pcm_hw_params_t *	hw_params = 0;
  
-    error = snd_pcm_open(
-     &handle,
-     name,
-     stream,
-     mode);
- 
-    if ( error < 0 )
-      return 0;
+    error = open_by_longname(&handle, name, stream);
+    if ( error < 0 ) {
+      error = snd_pcm_open(
+       &handle,
+       name,
+       stream,
+       0);
+
+       if ( error < 0 )
+         return 0;
+    }
  
     if ( (error = snd_pcm_hw_params_malloc(&hw_params)) < 0 ) {
       snd_pcm_close(handle);

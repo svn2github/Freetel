@@ -25,7 +25,7 @@ namespace FreeDV {
     {
       std::ostringstream str;
 
-      str << "Error on ALSA audio input " << parameters << ": ";
+      str << "Error on ALSA audio input \"" << parameters << "\": ";
        if ( message )
          str << message << ": ";
        str << snd_strerror(error) << '.';
@@ -68,6 +68,9 @@ namespace FreeDV {
      SampleRate,
      AudioFrameSamples / 2,
      AudioFrameSamples);
+
+    if ( handle == 0 )
+      do_throw(-ENODEV);
 
     snd_pcm_start(handle);
   }
