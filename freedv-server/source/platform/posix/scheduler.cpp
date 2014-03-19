@@ -70,11 +70,12 @@ namespace FreeDV {
 #endif
     if ( old_kernel )
       std::cerr << old_kernel_message;
-    else if ( insufficient_privilege )
+    else if ( insufficient_privilege ) {
       std::cerr << privilege_message_a;
       std::cerr << program_name;
       std::cerr << privilege_message_b;
       std::cerr << program_name;
       std::cerr << privilege_message_c;
+    }
   }
 }

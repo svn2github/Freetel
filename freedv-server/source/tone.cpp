@@ -140,7 +140,7 @@ namespace FreeDV {
   std::size_t
   Tone::ready()
   {
-    return SIZE_MAX;
+    return AudioFrameSamples;
   }
 
   float

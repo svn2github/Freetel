@@ -23,16 +23,21 @@
 namespace FreeDV {
   class Run {
   private:
-    const std::size_t	TempSize = 10240;
+    const std::size_t	FIFOSize = MaximumFrameSamples * sizeof(int16_t) * 2;
     Interfaces * const	i;
     bool		begin_receive;
     bool		begin_transmit;
     FIFO		codec_fifo;
     FIFO		in_fifo;
     FIFO		out_fifo;
+    int			poll_fd_count;
     bool		ptt_digital;
     bool		ptt_ssb;
+    bool		started;
+    PollType		poll_fds[100];
  
+    void		add_poll_device(IODevice * device);
+    void		do_throw(int error, const char * message);
     void		key_down();
     void		key_up();
     void		receive();
@@ -48,10 +53,18 @@ namespace FreeDV {
   
   Run::Run(Interfaces * interfaces)
   : i(interfaces), begin_receive(true), begin_transmit(false),
-    codec_fifo(TempSize * 2), in_fifo(TempSize * 2),
-    out_fifo(TempSize * 2), ptt_digital(false), ptt_ssb(false)
+    codec_fifo(FIFOSize), in_fifo(FIFOSize),
+    out_fifo(FIFOSize), poll_fd_count(0), ptt_digital(false), ptt_ssb(false),
+    started(false)
   {
     reset();
+    // add_poll_device(i->loudspeaker);
+    add_poll_device(i->receiver);
+    add_poll_device(i->microphone);
+    add_poll_device(i->ptt_input_digital);
+    add_poll_device(i->ptt_input_ssb);
+    add_poll_device(i->text_input);
+    add_poll_device(i->user_interface);
   }
 
   Run::~Run()
@@ -59,8 +72,50 @@ namespace FreeDV {
   }
 
   void
+  Run::add_poll_device(IODevice * device)
+  {
+    static const int	space = sizeof(poll_fds) / sizeof(*poll_fds);
+
+    const int result = device->poll_fds(
+     &poll_fds[poll_fd_count],
+     space - poll_fd_count);
+
+    if ( result >= 0 ) {
+      const int new_size = poll_fd_count + result;
+
+      if ( new_size < space )
+        poll_fd_count = new_size;
+      else
+        do_throw(0, "Too many file descriptors for poll");
+    }
+    else {
+      std::ostringstream	str;
+
+      device->print(str);
+      do_throw(result, str.str().c_str());
+    }
+  }
+
+  void
+  Run::do_throw(const int error, const char * message = 0)
+  {
+    std::ostringstream str;
+
+    str << "Main loop error: ";
+    if ( message )
+      str << message << ": ";
+    if ( error ) {
+      str << ": ";
+      str << strerror(error);
+    }
+    str << '.';
+    throw std::runtime_error(str.str().c_str());
+  }
+
+  void
   Run::reset()
   {
+    started = false;
     in_fifo.reset();
     codec_fifo.reset();
     out_fifo.reset();
@@ -94,29 +149,12 @@ namespace FreeDV {
   void
   Run::receive()
   {
-    // Drain any data that the loudspeaker can take.
-    const std::size_t	out_samples = min(
-			 i->loudspeaker->ready(),
-			 (out_fifo.get_available() / 2));
-
-    if ( out_samples ) {
-      const int result = i->loudspeaker->write16(
-      				  (std::int16_t *)out_fifo.get(
-				   out_samples * 2),
-				  out_samples);
-
-      if ( result > 0 )
-        out_fifo.get_done(result * 2);
-      else if ( result < 0 )
-	std::cerr << "Loudspeaker I/O error: " << strerror(errno) << std::endl;
-    }
-    
     // Fill any data that the receiver can provide.
     const std::size_t	in_samples = min(
 			 i->receiver->ready(),
     			 (in_fifo.put_space() / 2));
 
-    if ( in_samples ) {
+    if ( in_samples > 0 ) {
       const int result = i->receiver->read16(
         (std::int16_t *)in_fifo.put(in_samples * 2),
         in_samples);
@@ -127,8 +165,8 @@ namespace FreeDV {
 	std::cerr << "Receiver I/O error: " << strerror(errno) << std::endl;
     }
     
-    if ( in_fifo.get_available() > 0 ) {
-      std::size_t	samples_to_demodulate = in_fifo.get_available() / 2;
+    std::size_t	samples_to_demodulate = in_fifo.get_available() / 2;
+    if ( samples_to_demodulate > 0 ) {
       const std::size_t	bytes_to_demodulate = codec_fifo.put_space();
 
       std::size_t result = i->modem->demodulate16(
@@ -146,8 +184,8 @@ namespace FreeDV {
         codec_fifo.put_done(result);
     }
 
-    if ( codec_fifo.get_available() > 0 ) {
-      std::size_t bytes_to_decode = codec_fifo.get_available();
+    std::size_t bytes_to_decode = codec_fifo.get_available();
+    if ( bytes_to_decode > 0 ) {
 
       const std::size_t samples_to_decode = out_fifo.put_space() / 2;
 
@@ -164,13 +202,43 @@ namespace FreeDV {
       if ( result > 0 )
         out_fifo.put_done(result * 2);
     }
+
+    // Drain any data that the loudspeaker can take.
+    const std::size_t	out_samples = min(
+			 i->loudspeaker->ready(),
+			 (out_fifo.get_available() / 2));
+
+    if ( out_samples > 0 ) {
+      const int result = i->loudspeaker->write16(
+      				  (std::int16_t *)out_fifo.get(
+				   out_samples * 2),
+				  out_samples);
+
+      if ( result > 0 ) {
+        started = true;
+        out_fifo.get_done(result * 2);
+      }
+      else if ( result < 0 )
+	std::cerr << "Loudspeaker I/O error: " << strerror(errno) << std::endl;
+    }
   }
   
   void
   Run::run()
   {
-    while ( true ) {
+    for ( ; ; ) {
       receive();
+
+      for ( int i = 0; i < poll_fd_count; i++ )
+        poll_fds[i].revents = 0;
+
+      const int result = IODevice::poll(
+       poll_fds,
+       poll_fd_count,
+       AudioFrameDuration);
+
+      if ( result < 0 )
+        do_throw(result, "Poll");
     }
   }
 

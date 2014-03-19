@@ -28,6 +28,15 @@ const unsigned int	AudioFrameDuration = 10;
 const unsigned int	AudioFrameSamples = SamplesPerMillisecond
 			 * AudioFrameDuration;
 
+/// The maximum frame duration in milliseconds. This will be used to set
+/// buffer sizes. It must be larger than the frame duration used by your
+/// modem/framer/codec combination, or they will stall.
+const unsigned int	MaximumFrameDuration = 100;
+
+/// The number of audio samples in the maximum-duration frame.
+const unsigned int	MaximumFrameSamples = SamplesPerMillisecond
+			 * MaximumFrameDuration;
+
 /// Allocate memory and copy a string into it, so that it is permanently
 /// stored.
 /// \param s The string to be copied.

@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
+#include <string.h>
 
 namespace FreeDV {
   static std::ostream &
@@ -33,7 +34,7 @@ namespace FreeDV {
     const int error = snd_pcm_open(
      &pcm_handle,
      "default",
-     SND_PCM_STREAM_PLAYBACK,
+     mode,
      0);
   
     stream << "\"alsa:default\"";
@@ -42,9 +43,10 @@ namespace FreeDV {
   
     while ( snd_card_next(&card_index) == 0 && card_index >= 0 ) {
       char		device_name[20];
-      snd_ctl_t *		ctl_handle = 0;
-      int			pcm_error = 0;
+      snd_ctl_t *	ctl_handle = 0;
+      int		pcm_error = 0;
       char *		longname = 0;
+      char *		i;
   
       if ( snd_card_get_longname(card_index, &longname) == 0 ) {
         sprintf(device_name, "hw:%d", card_index);
@@ -56,6 +58,14 @@ namespace FreeDV {
           
         const int error = ctl_error ? ctl_error : pcm_error;
     
+        i = strstr(longname, ", full speed");
+        if ( i )
+          *i = '\0';
+       
+        i = strstr(longname, " irq ");
+        if ( i )
+          *i = '\0';
+
         stream << "\"alsa:" << longname << '"';
         error_message(stream, error);
         stream << std::endl;
@@ -75,11 +85,19 @@ namespace FreeDV {
   do_throw(
    const int error,
    const char * name,
+   snd_pcm_stream_t access,
    const char * message = 0)
   {
     std::ostringstream str;
 
-    str << "ALSA device \"" << name << "\" set-up error: ";
+    str << "ALSA ";
+
+    if ( access == SND_PCM_STREAM_CAPTURE )
+      str << "input";
+    else
+      str << "output";
+
+    str << " device \"" << name << "\" set-up error: ";
      if ( message )
        str << message << ": ";
      str << snd_strerror(error) << '.';
@@ -113,52 +131,52 @@ namespace FreeDV {
  
     if ( (error = snd_pcm_hw_params_malloc(&hw_params)) < 0 ) {
       snd_pcm_close(handle);
-      do_throw(error, name, "ALSA hardare parameter allocation");
+      do_throw(error, name, stream, "ALSA hardare parameter allocation");
     }
  
     if ( (error = snd_pcm_hw_params_any(handle, hw_params )) < 0 ) {
       snd_pcm_close(handle);
-      do_throw(error, name, "Get configuration space for device");
+      do_throw(error, name, stream, "Get configuration space for device");
     }
 
     if ( (error = snd_pcm_hw_params_set_format(handle, hw_params, format )) < 0 ) {
       snd_pcm_close(handle);
-      do_throw(error, name, "Set format");
+      do_throw(error, name, stream, "Set format");
     }
 
     if ( (error = snd_pcm_hw_params_set_access(handle, hw_params, access )) < 0 ) {
       snd_pcm_close(handle);
-      do_throw(error, name, "Set access");
+      do_throw(error, name, stream, "Set access");
     }
 
     if ( (error = snd_pcm_hw_params_set_channels(handle, hw_params, channels )) < 0 ) {
       snd_pcm_close(handle);
-      do_throw(error, name, "Set channels");
+      do_throw(error, name, stream, "Set channels");
     }
 
     if ( (error = snd_pcm_hw_params_set_rate(handle, hw_params, rate, 0 )) < 0 ) {
       snd_pcm_close(handle);
-      do_throw(error, name, "Set rate");
+      do_throw(error, name, stream, "Set rate");
     }
 
     if ( (error = snd_pcm_hw_params_set_rate_resample(handle, hw_params, 0)) < 0 ) {
       snd_pcm_close(handle);
-      do_throw(error, name, "Disable resampling");
+      do_throw(error, name, stream, "Disable resampling");
     }
 
-    if ( (error = snd_pcm_hw_params_set_period_size(handle, hw_params, period_size, 0)) < 0 ) {
+    if ( (error = snd_pcm_hw_params_set_period_size_near(handle, hw_params, &period_size, 0)) < 0 ) {
       snd_pcm_close(handle);
-      do_throw(error, name, "Set I/O period size");
+      do_throw(error, name, stream, "Set I/O period size");
     }
 
-    if ( (error = snd_pcm_hw_params_set_buffer_size(handle, hw_params, buffer_size)) < 0 ) {
+    if ( (error = snd_pcm_hw_params_set_buffer_size_near(handle, hw_params, &buffer_size)) < 0 ) {
       snd_pcm_close(handle);
-      do_throw(error, name, "Set I/O buffer size");
+      do_throw(error, name, stream, "Set I/O buffer size");
     }
  
     if ( (error = snd_pcm_hw_params(handle, hw_params)) < 0 ) {
       snd_pcm_close(handle);
-      do_throw(error, name, "ALSA hardware parameter select");
+      do_throw(error, name, stream, "ALSA hardware parameter select");
     }
  
     snd_pcm_hw_params_free(hw_params);

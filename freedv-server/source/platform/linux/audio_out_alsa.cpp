@@ -1,4 +1,4 @@
-/// The ALSA audio output driver. 
+// The ALSA audio output driver. 
 
 #include "alsa.h"
 #include "drivers.h"
@@ -66,9 +66,8 @@ namespace FreeDV {
      SND_PCM_ACCESS_RW_INTERLEAVED,
      1,
      SampleRate,
-     (int)ceil((double)SampleRate / 1000.0) * AudioFrameDuration,
-     (int)ceil((double)SampleRate / 1000.0) * AudioFrameDuration);
-    snd_pcm_pause(handle, 1);
+     AudioFrameSamples / 2,
+     AudioFrameSamples);
   }
 
   AudioOutALSA::~AudioOutALSA()
@@ -82,6 +81,23 @@ namespace FreeDV {
   std::size_t
   AudioOutALSA::write16(const std::int16_t * array, std::size_t length)
   {
+    if ( !started ) {
+      // Preload the audio output queue with one frame of silence. This makes
+      // underruns less likely. This delays the output by one frame from where
+      // we would otherwise have started it. Otherwise we tend to underrun
+      // repeatedly at startup time.
+      //
+      // Note that all inputs and outputs of the typical user do not run on
+      // a shared clock. There is the potential for overruns or underruns
+      // during long operation because of this. Professional studios use
+      // a shared clock, and the more expensive equipment that supports it,
+      // to avoid this problem.
+      //
+      int16_t	buf[AudioFrameSamples];
+      memset(buf, 0, sizeof(buf));
+      snd_pcm_writei(handle, buf, sizeof(buf) / sizeof(*buf));
+    }
+
     int error = snd_pcm_writei(handle, array, length);
     started = true;
     if ( error == -EPIPE ) {
@@ -131,10 +147,10 @@ namespace FreeDV {
     int			error;
 
     if ( !started )
-      return ((double)SampleRate / 1000.0) * AudioFrameDuration;
+      return AudioFrameSamples;
 
     error = snd_pcm_avail_delay(handle, &available, &delay);
-    if ( delay > (((double)SampleRate / 1000.0) * AudioFrameDuration * 2) ) {
+    if ( delay > (AudioFrameSamples * 2) ) {
       const double seconds = (double)delay / (double)SampleRate;
 
       std::cerr << "ALSA output \"" << parameters
@@ -142,8 +158,9 @@ namespace FreeDV {
        << seconds << " seconds of output." << std::endl;
       snd_pcm_drop(handle);
       snd_pcm_prepare(handle);
+      snd_pcm_pause(handle, 1);
       started = false;
-      return 0;
+      return AudioFrameSamples;
     }
 
     if ( error == -EPIPE ) {
@@ -151,16 +168,12 @@ namespace FreeDV {
       snd_pcm_recover(handle, error, 1);
       snd_pcm_pause(handle, 1);
       started = false;
-      return 0;
 
-      if ( error < 0 )
-        return 0;
+      return AudioFrameSamples;
     }
 
     if ( error == 0 )
       return available;
-    else if ( error == -EPIPE )
-      return 0;
     else {
       do_throw(error, "Get Frames Available for Write");
       return 0; // do_throw doesn't return.

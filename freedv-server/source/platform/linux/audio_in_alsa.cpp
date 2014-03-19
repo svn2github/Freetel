@@ -1,4 +1,4 @@
-/// The ALSA audio input driver. 
+// The ALSA audio input driver. 
 
 #include "drivers.h"
 #include "alsa.h"
@@ -14,8 +14,7 @@ namespace FreeDV {
   /// Audio input "ALSA", Uses the Linux ALSA Audio API.
   class AudioInALSA : public AudioInput {
   private:
-    static const int	overlong_delay = ((double)SampleRate / 1000.0)
-			 * AudioFrameDuration * 2;
+    static const int	overlong_delay = AudioFrameSamples * 2;
 
     char * const	parameters;
     snd_pcm_t *		handle;
@@ -67,8 +66,8 @@ namespace FreeDV {
      SND_PCM_ACCESS_RW_INTERLEAVED,
      1,
      SampleRate,
-     (int)ceil((double)SampleRate / 1000.0) * AudioFrameDuration,
-     (int)ceil((double)SampleRate / 1000.0) * AudioFrameDuration);
+     AudioFrameSamples / 2,
+     AudioFrameSamples);
 
     snd_pcm_start(handle);
   }
@@ -135,7 +134,8 @@ namespace FreeDV {
 
     if ( !started ) {
       snd_pcm_start(handle);
-      return ((double)SampleRate / 1000.0) * AudioFrameDuration;
+      started = true;
+      return AudioFrameSamples;
     }
 
     error = snd_pcm_avail_delay(handle, &available, &delay);
@@ -155,20 +155,17 @@ namespace FreeDV {
       std::cerr << "ALSA input \"" << parameters << "\": overlong delay, dropped "
        << seconds << " seconds of input." << std::endl;
 
-      return 0;
+      return 1;
     }
 
     if ( error == -EPIPE ) {
       snd_pcm_recover(handle, error, 1);
-      available = snd_pcm_avail_delay(handle, &available, &delay);
       std::cerr << "ALSA input \"" << parameters << "\": ready underrun." << std::endl;
+      return 0;
     }
 
     if ( error >= 0 )
       return available;
-
-    else if ( error == -EPIPE )
-      return 0;
     else {
       do_throw(error, "Get Frames Available for Read");
       return 0; // do_throw doesn't return.
