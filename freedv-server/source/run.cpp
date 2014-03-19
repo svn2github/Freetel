@@ -36,7 +36,7 @@ namespace FreeDV {
     bool		started;
     PollType		poll_fds[100];
  
-    void		add_poll_device(IODevice * device);
+    bool		add_poll_device(IODevice * device);
     void		do_throw(int error, const char * message);
     void		key_down();
     void		key_up();
@@ -58,9 +58,13 @@ namespace FreeDV {
     started(false)
   {
     reset();
-    // add_poll_device(i->loudspeaker);
-    add_poll_device(i->receiver);
-    add_poll_device(i->microphone);
+
+    // FIX: This needs to be done at the start of the receive or transmit
+    // loop, so that only the necessary devices will be polled.
+    if ( !add_poll_device(i->receiver) )
+      add_poll_device(i->loudspeaker);
+    if ( !add_poll_device(i->microphone) )
+      add_poll_device(i->transmitter);
     add_poll_device(i->ptt_input_digital);
     add_poll_device(i->ptt_input_ssb);
     add_poll_device(i->text_input);
@@ -71,7 +75,7 @@ namespace FreeDV {
   {
   }
 
-  void
+  bool
   Run::add_poll_device(IODevice * device)
   {
     static const int	space = sizeof(poll_fds) / sizeof(*poll_fds);
@@ -83,16 +87,21 @@ namespace FreeDV {
     if ( result >= 0 ) {
       const int new_size = poll_fd_count + result;
 
-      if ( new_size < space )
+      if ( new_size < space ) {
         poll_fd_count = new_size;
-      else
+        return new_size > 0;
+      }
+      else {
         do_throw(0, "Too many file descriptors for poll");
+        return false; // do_throw() does not return.
+      }
     }
     else {
       std::ostringstream	str;
 
       device->print(str);
       do_throw(result, str.str().c_str());
+      return false; // do_throw() does not return.
     }
   }
 
