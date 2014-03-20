@@ -97,15 +97,20 @@ namespace FreeDV {
   std::ostream &
   DriverManager::print(std::ostream & s) const
   {
-    enumerate(s, "Audio Input", audio_input_drivers) << std::endl;
-    enumerate(s, "Audio Output", audio_output_drivers) << std::endl;
-    enumerate(s, "Codec", codecs) << std::endl;
-    enumerate(s, "Protocol Framer", framers) << std::endl;
-    enumerate(s, "Keying Output", keying_output_drivers) << std::endl;
-    enumerate(s, "Modem", modems) << std::endl;
-    enumerate(s, "PTT Input", ptt_input_drivers) << std::endl;
-    enumerate(s, "Text Input", text_input_drivers) << std::endl;
-    enumerate(s, "User Interface", user_interface_drivers) << std::endl;
+    enumerate(s, "Audio Input (--receiver, --microphone)", audio_input_drivers)
+     << std::endl;
+    enumerate(s, "Audio Output (--transmitter, --loudspeaker)",
+     audio_output_drivers)
+     << std::endl;
+    enumerate(s, "Codec (--codec)", codecs) << std::endl;
+    enumerate(s, "Protocol Framer (--framer)", framers) << std::endl;
+    enumerate(s, "Keying Output (--keying)", keying_output_drivers)
+     << std::endl;
+    enumerate(s, "Modem (--modem)", modems) << std::endl;
+    enumerate(s, "PTT Input (--ptt-digital, --ptt-ssb)", ptt_input_drivers)
+     << std::endl;
+    enumerate(s, "Text Input (--text)", text_input_drivers) << std::endl;
+    enumerate(s, "User Interface (--gui)", user_interface_drivers) << std::endl;
 
     return s;
   }

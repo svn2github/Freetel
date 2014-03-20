@@ -36,7 +36,7 @@ static void help(const char * name)
     " [options]\n"
     "\nWhere options are these flags:\n\n"
     "--codec or -c\t\tSelect the voice codec.\n"
-    "--config or -c\t\tPrint the configuration.\n"
+    "--config or -C\t\tPrint the configuration.\n"
     "--drivers or -d\t\tPrint a list of the available device drivers.\n"
     "--framer or -f\t\tSelect the communications protocol framer.\n"
     "--help or -h\t\tPrint this message.\n"
