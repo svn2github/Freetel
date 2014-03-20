@@ -71,8 +71,6 @@ namespace FreeDV {
 
     if ( handle == 0 )
       do_throw(-ENODEV);
-
-    snd_pcm_start(handle);
   }
 
   AudioInALSA::~AudioInALSA()
@@ -136,6 +134,8 @@ namespace FreeDV {
     int			error;
 
     if ( !started ) {
+      snd_pcm_drop(handle);
+      snd_pcm_prepare(handle);
       snd_pcm_start(handle);
       started = true;
       return AudioFrameSamples;
