@@ -85,7 +85,8 @@ namespace FreeDV {
   open_by_longname(
    snd_pcm_t * *	handle,
    const char *		name,
-   snd_pcm_stream_t	stream)
+   snd_pcm_stream_t	stream,
+   int			mode)
   {
     const int	length = strlen(name);
     int		card_index = -1;
@@ -100,8 +101,8 @@ namespace FreeDV {
   
       if ( snd_card_get_longname(card_index, &longname) == 0 ) {
         if ( strncmp(name, longname, length) == 0 ) {
-          sprintf(device_name, "hw:%d", card_index);
-          return snd_pcm_open(handle, device_name, stream, 0);
+          sprintf(device_name, "plughw:%d", card_index);
+          return snd_pcm_open(handle, device_name, stream, mode);
         }
       }
     }
@@ -148,13 +149,13 @@ namespace FreeDV {
     snd_pcm_t *		handle = 0;
     snd_pcm_hw_params_t *	hw_params = 0;
  
-    error = open_by_longname(&handle, name, stream);
+    error = open_by_longname(&handle, name, stream, mode);
     if ( error < 0 ) {
       error = snd_pcm_open(
        &handle,
        name,
        stream,
-       0);
+       mode);
 
        if ( error < 0 )
          return 0;

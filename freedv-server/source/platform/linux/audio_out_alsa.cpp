@@ -66,8 +66,8 @@ namespace FreeDV {
      SND_PCM_ACCESS_RW_INTERLEAVED,
      1,
      SampleRate,
-     AudioFrameSamples / 2,
-     AudioFrameSamples);
+     AudioFrameSamples,
+     AudioFrameSamples * 2);
 
     if ( handle == 0 )
       do_throw(-ENODEV);
@@ -85,10 +85,10 @@ namespace FreeDV {
   AudioOutALSA::write16(const std::int16_t * array, std::size_t length)
   {
     if ( !started ) {
-      // Preload the audio output queue with one frame of silence. This makes
-      // underruns less likely. This delays the output by one frame from where
-      // we would otherwise have started it. Otherwise we tend to underrun
-      // repeatedly at startup time.
+      // Preload the audio output queue with two frames of silence. This makes
+      // underruns less likely. This delays the output from where we would
+      // otherwise have started it. Otherwise we tend to underrun repeatedly
+      // at startup time.
       //
       // Note that all inputs and outputs of the typical user do not run on
       // a shared clock. There is the potential for overruns or underruns
@@ -96,7 +96,7 @@ namespace FreeDV {
       // a shared clock, and the more expensive equipment that supports it,
       // to avoid this problem.
       //
-      int16_t	buf[AudioFrameSamples];
+      int16_t	buf[AudioFrameSamples * 2];
       memset(buf, 0, sizeof(buf));
       snd_pcm_writei(handle, buf, sizeof(buf) / sizeof(*buf));
     }
@@ -153,7 +153,7 @@ namespace FreeDV {
       return AudioFrameSamples;
 
     error = snd_pcm_avail_delay(handle, &available, &delay);
-    if ( delay > (AudioFrameSamples * 3) ) {
+    if ( delay > (AudioFrameSamples * 10) ) {
       const double seconds = (double)delay / (double)SampleRate;
 
       std::cerr << "ALSA output \"" << parameters
