@@ -90,6 +90,7 @@ message(STATUS "${Param.build-type} ${Version.major}.${Version.minor}.${Version.
 set(Compile.posix.sources
   source/platform/posix/scheduler.cpp
   source/platform/posix/privilege.cpp
+  source/platform/posix/poll.cpp
 )
 set(Compile.linux.sources
   ${Compile.posix.sources}
@@ -175,7 +176,7 @@ include_directories(googletest/include)
 include_directories(source)
 add_executable(freedv-gtest ${Compile.sources} ${Test.sources} ${Test.headers})
 set_target_properties(freedv-gtest PROPERTIES LINK_FLAGS "-L googletest")
-target_link_libraries(freedv-gtest gtest_main.a libgtest.a pthread)
+target_link_libraries(freedv-gtest gtest_main.a libgtest.a)
 add_dependencies(freedv-gtest gtest gtest_main)
 enable_testing()
 add_test(freedv-gtest "./freedv-gtest")
