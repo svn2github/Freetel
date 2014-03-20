@@ -153,7 +153,7 @@ namespace FreeDV {
       return AudioFrameSamples;
 
     error = snd_pcm_avail_delay(handle, &available, &delay);
-    if ( delay > (AudioFrameSamples * 10) ) {
+    if ( delay > (AudioFrameSamples * 4) ) {
       const double seconds = (double)delay / (double)SampleRate;
 
       std::cerr << "ALSA output \"" << parameters

@@ -14,7 +14,7 @@ namespace FreeDV {
   /// Audio input "ALSA", Uses the Linux ALSA Audio API.
   class AudioInALSA : public AudioInput {
   private:
-    static const int	overlong_delay = AudioFrameSamples * 10;
+    static const int	overlong_delay = AudioFrameSamples * 4;
 
     char * const	parameters;
     snd_pcm_t *		handle;
