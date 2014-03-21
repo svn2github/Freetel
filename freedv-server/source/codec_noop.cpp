@@ -40,11 +40,16 @@ namespace FreeDV {
     /// \param i The array of audio samples to be encoded, in an array
     /// of signed 16-bit integers.
     /// \param o The encoded data, in an array of unsigned 8-bit integers.
-    /// \param length The number of audio samples to be encoded.
-    /// \return The number of std::uint8_t elements in the encoded array.
+    /// \param data_length The number of 8-bit data to be encoded.
+    /// \param sample_length On call: The number of 16-bit audio samples to
+    /// be encoded. On return: the number of samples that were consumed.
+    /// \return The number of 8-bit data elements in the encoded array.
     virtual std::size_t
-    			encode16(const std::int16_t * i, std::uint8_t * o, \
-             		 std::size_t length);
+    			encode16(
+			 const std::int16_t * i,
+			 std::uint8_t * o, \
+			 std::size_t data_length,
+             		 std::size_t *sample_length);
 
     /// Return the minimum duration of a frame in milliseconds.
     /// \return The minimum duration of a frame in milliseconds.
@@ -67,8 +72,7 @@ namespace FreeDV {
     std::size_t length = min(*data_length / 2, sample_length);
     length -= length % FrameSamples;
 
-    if ( length < FrameSamples )
-    {
+    if ( length < FrameSamples ) {
       *data_length = 0;
       return 0;
     }
@@ -78,9 +82,21 @@ namespace FreeDV {
   }
 
   std::size_t
-  CodecNoOp::encode16(const std::int16_t * i, std::uint8_t * o, std::size_t length)
+  CodecNoOp::encode16(
+   const std::int16_t * i,
+   std::uint8_t * o,
+   std::size_t data_length,
+   std::size_t *sample_length)
   {
-    memcpy(o, i, length);
+    std::size_t length = min(data_length / 2, *sample_length);
+    length -= length % FrameSamples;
+
+    if ( length < FrameSamples ) {
+      *sample_length = 0;
+      return 0;
+    }
+    memcpy(o, i, length * 2);
+    *sample_length = length / 2;
     return length;
   }
 

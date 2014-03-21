@@ -188,8 +188,8 @@ namespace FreeDV {
 			    (const std::int16_t *)in_fifo.get(
 			     samples_to_demodulate * 2),
 			    codec_fifo.put(bytes_to_demodulate),
-			    &samples_to_demodulate,
-			    bytes_to_demodulate);
+			    bytes_to_demodulate,
+			    &samples_to_demodulate);
 
 
       if ( samples_to_demodulate > 0 )

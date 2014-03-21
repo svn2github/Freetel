@@ -336,7 +336,13 @@ public:
     virtual		~AudioInput() = 0;
 
     /// Read audio into an array of the signed 16-bit integer type.
-    ///
+    /// Depending on the underlying device and its non-blocking status,
+    /// this may write fewer bytes than requested. It's permissible for
+    /// it to write no bytes and return 0.
+    /// \param array The array of audio samples to be read.
+    /// \param length The number of 16-bit audio samples which are to be read.
+    /// \return The number of 16-bit audio samples that were actually read.
+    /// This may be smaller than *length*, or it may be zero.
     virtual std::size_t
     read16(std::int16_t * array, std::size_t length) = 0;
 };
@@ -357,7 +363,14 @@ public:
     virtual		~AudioOutput() = 0;
 
     /// Write audio from an array of the signed 16-bit integer type.
-    ///
+    /// Depending on the underlying device and its non-blocking status,
+    /// this may write fewer bytes than requested. It's permissible for
+    /// it to write no bytes and return 0.
+    /// \param array The array of audio samples to be written.
+    /// \param length The number of 16-bit audio samples which are to be
+    /// written.
+    /// \return The number of 16-bit audio samples that were actually written.
+    /// This may be smaller than *length*, or it may be zero.
     virtual std::size_t
     write16(const std::int16_t * array, std::size_t length) = 0;
 };
@@ -378,6 +391,11 @@ public:
     virtual		~Codec() = 0;
 
     /// Decode from data bytes to audio samples.
+    /// Depending on the internal frame size for this particular codec
+    /// and the status of the incoming signal, this may consume and produce
+    /// less data than requested. It need not consume any data until it is
+    /// presented with enough to produce a full frame. It may throw away
+    /// as much incoming data as it likes without producing any.
     /// \param i The encoded data, in an array of unsigned 8-bit integers.
     /// \param o The array of audio samples after decoding, in an array
     /// of signed 16-bit integers.
@@ -387,24 +405,34 @@ public:
     /// \param sample_length The number of audio samples that may be decoded.
     /// \return The number of audio samples that were actually decoded.
     virtual std::size_t
-    decode16(const std::uint8_t * i,
-             std::int16_t * o,
-             std::size_t * data_length,
-             std::size_t sample_length) = 0;
+    decode16(
+     const std::uint8_t * i,
+     std::int16_t * o,
+     std::size_t * data_length,
+     std::size_t sample_length) = 0;
 
 
     /// Encode from audio samples to data bytes.
+    /// Depending on the internal frame size for this particular codec,
+    /// this may consume and produce less data than requested. It need not
+    /// consume any data until it is presented with enough to produce a full
+    /// frame.
     /// \param i The array of audio samples to be encoded, in an array
     /// of signed 16-bit integers.
     /// \param o The encoded data, in an array of unsigned 8-bit integers.
-    /// \param length The number of audio samples to be encoded.
+    /// \param sample_length On call: The number of audio samples to be
+    /// encoded. On return: The number of 16-bit audio samples that were
+    /// consumed.
     /// \return The number of std::uint8_t elements in the encoded array.
     virtual std::size_t
-    encode16(const std::int16_t * i, std::uint8_t * o,
-             std::size_t length) = 0;
+    encode16(
+     const std::int16_t * i,
+     std::uint8_t * o,
+     std::size_t data_length,
+     std::size_t * sample_length) = 0;
 
     /// Return the minimum duration of a frame in milliseconds.
-    /// \return The duration of a frame in milliseconds.
+    /// \return The minimum duration of a frame in milliseconds.
     virtual int
     min_frame_duration() const = 0;
 };
@@ -495,29 +523,44 @@ public:
     virtual		~Modem() = 0;
 
     /// Demodulate from audio samples to data.
+    /// Depending on the internal frame size for this particular modem and
+    /// the status of the incoming signal, this may consume and produce less
+    /// data than requested. It need not consume any data until it is
+    /// presented with enough to produce a full frame. It may throw away as
+    /// much incoming data as it likes without producing any.
     /// \param i The array of audio samples to be demodulated, in an array
     /// of signed 16-bit integers.
     /// \param o The demodulated data, in an array of unsigned 8-bit integers.
+    /// \param data_length The number of bytes of data that may be demodulated.
     /// \param sample_length On call: The number of audio samples to be
     /// demodulated. On return: The number of audio samples consumed.
-    /// \param data_length The number of bytes of data that may be demodulated.
     /// \return The number of bytes of data that were actually decoded.
     virtual std::size_t
     demodulate16(
         const std::int16_t * i,
         std::uint8_t * o,
-        std::size_t * sample_length,
-        std::size_t data_length) = 0;
+        std::size_t data_length,
+        std::size_t * sample_length) = 0;
 
     /// Modulate from data to audio samples.
+    /// Depending on the internal frame size for this particular modem,
+    /// this may consume and produce less data than requested. It need not
+    /// consume any data until it is presented with enough to produce a full
+    /// frame.
     /// \param i The data, in an array of unsigned 8-bit integers.
     /// \param o The array of audio samples after modulation, in an array
     /// of signed 16-bit integers.
-    /// \param length The number of bytes of data to be modulated.
-    /// \return The number of std::int16_t elements in the modulated array.
+    /// \param data_length On call: The number of bytes of data to be
+    /// modulated. On return: the number of bytes that were consumed.
+    /// \param sample_length On call: The number of audio samples to be
+    /// modulated.
+    /// \return The number of 16-bit audio samples that were produced.
     virtual std::size_t
-    modulate16(const std::uint8_t * i, std::int16_t * o,
-               std::size_t length) = 0;
+    modulate16(
+     const std::uint8_t * i,
+     std::int16_t * o,
+     std::size_t * data_length,
+     std::size_t sample_length) = 0;
 
     /// Return the minimum duration of a frame in milliseconds.
     /// \return The minimum duration of a frame in milliseconds.
