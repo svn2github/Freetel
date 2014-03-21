@@ -1,7 +1,7 @@
 /// \file platform/linux/audio_out_alsa.cpp
 /// ALSA audio output device driver, for use on Linux.
 /// There is at least one other operating system that supports an ALSA-like
-/// interfaces, Nucleus, but at this writing (early 2014) this driver is
+/// interface, Nucleus, but at this writing (early 2014) this driver is
 /// untested on that system.
 ///
 /// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
