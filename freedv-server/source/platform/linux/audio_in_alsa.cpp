@@ -1,9 +1,8 @@
 /// \file platform/linux/audio_in_alsa.cpp
 /// ALSA audio input device driver, for use on Linux.
-///
 /// There is at least one other operating systems that supports an ALSA-like
 /// interfaces, Nucleus, but at this writing (early 2014) this driver is
-/// untested on that.
+/// untested on that system.
 ///
 /// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
 ///

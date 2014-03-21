@@ -10,19 +10,17 @@
 #include <stdexcept>
 #include <string.h>
 
-/// FIX:
-///
-/// Start of Transmit:
-/// Make the delay at start of transmit and end of transmit adjustable.
-/// The radio in general takes some time to begin transmitting, and thus we
-/// should not send audio until that's done.
-///
-/// End of Transmit:
-/// There is a lot to fill in for end-of-transmit.
-/// On PTT-up, we should read the remaining audio in the microphone
-/// device queue first, allow it all to drain out the transmitter, and then
-/// un-key the transmitter.
-///
+// Start of Transmit:
+// Make the delay at start of transmit and end of transmit adjustable.
+// The radio in general takes some time to begin transmitting, and thus we
+// should not send audio until that's done.
+//
+// End of Transmit:
+// There is a lot to fill in for end-of-transmit.
+// On PTT-up, we should read the remaining audio in the microphone
+// device queue first, allow it all to drain out the transmitter, and then
+// un-key the transmitter.
+//
 
 namespace FreeDV {
   /// This class implements the main loop of the FreeDV program.

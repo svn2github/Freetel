@@ -40,7 +40,7 @@
 # endif
 #endif
 
-/// \namespace FreeDV Namespace used for all code in this program.
+/// \namespace FreeDV Namespace used for all code in the FreeDV program.
 ///
 namespace FreeDV {
 /// This propogates argv[0] so that it can be used in error messages.
@@ -321,6 +321,7 @@ public:
 };
 
 /// Virtual base class for audio input drivers.
+///
 class AudioInput : public ::FreeDV::AudioDevice {
 protected:
     /// Create an AudioInput device instance.
@@ -341,6 +342,7 @@ public:
 };
 
 /// Virtual base class for audio output drivers.
+///
 class AudioOutput : public ::FreeDV::AudioDevice {
 protected:
     /// Create an AudioOutput device instance.
@@ -361,6 +363,7 @@ public:
 };
 
 /// Virtual base class for codecs.
+///
 class Codec : public ::FreeDV::Base {
 protected:
     /// Create a codec instance.
@@ -407,6 +410,7 @@ public:
 };
 
 /// Virtual base class for protocol framers.
+///
 class Framer : public ::FreeDV::Base {
 protected:
     /// Create a framer instance.
@@ -458,6 +462,7 @@ public:
 };
 
 /// Radio device keying driver.
+///
 class KeyingOutput : public ::FreeDV::Base {
 protected:
     /// Create an radio keying output device instance.
@@ -481,6 +486,7 @@ public:
 };
 
 /// Softmodem driver.
+///
 class Modem : public ::FreeDV::Base {
 protected:
     /// Create a softmodem device instance.
@@ -524,6 +530,7 @@ public:
 };
 
 /// Push-to-talk input driver.
+///
 class PTTInput : public ::FreeDV::IODevice {
 protected:
     /// Create a push-to-talk switch instance.
@@ -541,6 +548,7 @@ public:
 };
 
 /// Driver for the text message source function.
+///
 class TextInput : public ::FreeDV::IODevice {
 protected:
     /// The child class calls this member in its parent to set the text.
@@ -785,8 +793,8 @@ TextInput *	TextConstant(const char * parameter);
 UserInterface *	BlankPanel(const char * parameter, Interfaces * interfaces);
 }
 
-/// Utility functions.
-///
+// Utility functions.
+//
 
 /// Non-template version of min().
 ///
