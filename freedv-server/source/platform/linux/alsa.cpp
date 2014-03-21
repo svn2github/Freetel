@@ -74,7 +74,7 @@ namespace FreeDV {
           pcm_error = snd_pcm_open(&pcm_handle, device_name, mode, 0);
         }
           
-        const int error = ctl_error ? ctl_error : pcm_error;
+        const int card_error = ctl_error ? ctl_error : pcm_error;
     
         i = strstr(longname, ", full speed");
         if ( i )
@@ -85,7 +85,7 @@ namespace FreeDV {
           *i = '\0';
 
         stream << "\"alsa:" << longname << '"';
-        error_message(stream, error);
+        error_message(stream, card_error);
         stream << std::endl;
   
         if ( ctl_error == 0 ) {

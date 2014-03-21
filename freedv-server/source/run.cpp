@@ -180,43 +180,71 @@ namespace FreeDV {
 	std::cerr << "Receiver I/O error: " << strerror(errno) << std::endl;
     }
     
+    std::size_t bytes_demodulated = 0;
     std::size_t	samples_to_demodulate = in_fifo.get_available() / 2;
     if ( samples_to_demodulate > 0 ) {
       const std::size_t	bytes_to_demodulate = codec_fifo.put_space();
 
-      std::size_t result = i->modem->demodulate16(
-			    (const std::int16_t *)in_fifo.get(
-			     samples_to_demodulate * 2),
-			    codec_fifo.put(bytes_to_demodulate),
-			    bytes_to_demodulate,
-			    &samples_to_demodulate);
+      bytes_demodulated = i->modem->demodulate16(
+       (const std::int16_t *)in_fifo.get(
+       samples_to_demodulate * 2),
+       codec_fifo.put(bytes_to_demodulate),
+       bytes_to_demodulate,
+       &samples_to_demodulate);
 
 
-      if ( samples_to_demodulate > 0 )
-        in_fifo.get_done(samples_to_demodulate * 2);
-
-      if ( result > 0 )
-        codec_fifo.put_done(result);
+      if ( bytes_demodulated > 0 )
+        codec_fifo.put_done(bytes_demodulated);
     }
 
-    std::size_t bytes_to_decode = codec_fifo.get_available();
-    if ( bytes_to_decode > 0 ) {
-
-      const std::size_t samples_to_decode = out_fifo.put_space() / 2;
-
-      const std::size_t result = i->codec->decode16(
-				  codec_fifo.get(bytes_to_decode),
-				  (std::int16_t *)out_fifo.put(
-                                   samples_to_decode * 2),
-				  &bytes_to_decode,
-				  samples_to_decode);
-
-      if ( bytes_to_decode > 0 )
-        codec_fifo.get_done(bytes_to_decode);
-
-      if ( result > 0 )
-        out_fifo.put_done(result * 2);
+    if ( bytes_demodulated > 0 ) {
+      std::size_t bytes_to_decode = codec_fifo.get_available();
+      if ( bytes_to_decode > 0 ) {
+  
+        const std::size_t samples_to_decode = out_fifo.put_space() / 2;
+  
+        const std::size_t result = i->codec->decode16(
+  				  codec_fifo.get(bytes_to_decode),
+  				  (std::int16_t *)out_fifo.put(
+                                     samples_to_decode * 2),
+  				  &bytes_to_decode,
+  				  samples_to_decode);
+  
+        if ( bytes_to_decode > 0 )
+          codec_fifo.get_done(bytes_to_decode);
+  
+        if ( result > 0 )
+          out_fifo.put_done(result * 2);
+      }
     }
+    else {
+      std::size_t length = samples_to_demodulate * 2;
+      // Did not demodulate any data. Push it to the loudspeaker.
+      //
+      // For this to work, we need the modem to:
+      // * Consume input samples demodulating no data.
+      // or
+      // * Consume input samples demodulating them all as data.
+      // and
+      // * Never consume input samples demodulating less than the complete
+      //   amount consumed as data.
+      // So, the modem should return before it either starts demodulating data
+      // or stops doing so.
+      // 
+      // The problem is that we wish to continue to send to the loudspeaker
+      // the correct number of samples per second regardless of what is
+      // happening. And we want the time sequence of non-demodulated analog
+      // signal (or noise) and demodulated digital data to be in the correct
+      // order.
+      //
+      // FIX: Squelch here.
+      const uint8_t * in = in_fifo.get(length);
+      uint8_t * out = out_fifo.put(length);
+      memcpy(out, in, length);
+      out_fifo.put_done(length);
+    }
+    if ( samples_to_demodulate > 0 )
+      in_fifo.get_done(samples_to_demodulate * 2);
 
     // Drain any data that the loudspeaker can take.
     const std::size_t	out_samples = min(
@@ -244,8 +272,8 @@ namespace FreeDV {
     for ( ; ; ) {
       receive();
 
-      for ( int i = 0; i < poll_fd_count; i++ )
-        poll_fds[i].revents = 0;
+      for ( int j = 0; j < poll_fd_count; j++ )
+        poll_fds[j].revents = 0;
 
       const int result = IODevice::poll(
        poll_fds,

@@ -1,1 +1,1 @@
--g -pedantic -Wall -Wextra
+-g -pedantic -Wall -Wextra -Wshadow -DDEBUG

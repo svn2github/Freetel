@@ -57,8 +57,8 @@ namespace FreeDV {
     			min_frame_duration() const;
   };
 
-  CodecNoOp::CodecNoOp(const char * parameters)
-  : Codec("no-op", parameters)
+  CodecNoOp::CodecNoOp(const char * _parameters)
+  : Codec("no-op", _parameters)
   {
   }
 

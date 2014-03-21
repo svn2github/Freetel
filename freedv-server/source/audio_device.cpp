@@ -9,8 +9,8 @@
 #include <stdexcept>
 
 namespace FreeDV {
-  AudioDevice::AudioDevice(const char * name, const char * parameters)
-  : IODevice(name, parameters), master_amplitude(1.0)
+  AudioDevice::AudioDevice(const char * _name, const char * _parameters)
+  : IODevice(_name, _parameters), master_amplitude(1.0)
   {
   }
 

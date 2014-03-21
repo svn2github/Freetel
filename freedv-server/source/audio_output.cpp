@@ -7,8 +7,8 @@
 #include "drivers.h"
 
 namespace FreeDV {
-  AudioOutput::AudioOutput(const char * name, const char * parameters)
-  : AudioDevice(name, parameters)
+  AudioOutput::AudioOutput(const char * _name, const char * _parameters)
+  : AudioDevice(_name, _parameters)
   {
   }
 

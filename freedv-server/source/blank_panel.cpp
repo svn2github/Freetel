@@ -29,8 +29,8 @@ namespace FreeDV {
     std::size_t	ready();
   };
 
-  BlankPanel::BlankPanel(const char * parameter, Interfaces * interfaces)
-  : UserInterface("blank-panel", parameter, interfaces)
+  BlankPanel::BlankPanel(const char * _parameter, Interfaces * _interfaces)
+  : UserInterface("blank-panel", _parameter, _interfaces)
   {
   }
 
