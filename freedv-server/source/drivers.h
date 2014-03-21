@@ -463,7 +463,7 @@ public:
 
 /// Radio device keying driver.
 ///
-class KeyingOutput : public ::FreeDV::Base {
+class KeyingOutput : public ::FreeDV::IODevice {
 protected:
     /// Create an radio keying output device instance.
     /// \param name Name of the driver. This is expected to be a single
@@ -479,10 +479,6 @@ public:
     /// Key or un-key the transmitter.
     /// \param value If true, key the transmitter. If false, un-key.
     virtual void	key(bool value) = 0;
-
-    /// Return the amount of bytes ready to write.
-    ///
-    virtual std::size_t	ready() = 0;
 };
 
 /// Softmodem driver.

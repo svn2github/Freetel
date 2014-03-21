@@ -8,7 +8,7 @@
 
 namespace FreeDV {
   KeyingOutput::KeyingOutput(const char * name, const char * parameters)
-  : Base(name, parameters)
+  : IODevice(name, parameters)
   {
   }
 

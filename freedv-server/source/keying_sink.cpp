@@ -19,6 +19,14 @@ namespace FreeDV {
 			KeyingSink(const char *);
     virtual		~KeyingSink();
 
+    /// Return file descriptors for poll()
+    /// \param array The address of an array that will be written
+    /// with a sequence of file descriptors.
+    /// \param space The maximum number of file descriptors that may be
+    /// stored in the array.
+    /// \return The number of file descriptors written to the array.
+    int			poll_fds(PollType *, int);
+
     /// If the value is true, transmit. Otherwise receive.
     ///
     void		key(bool value);
@@ -44,6 +52,12 @@ namespace FreeDV {
       std::cerr << "keying: TRANSMIT" << std::endl;
     else
       std::cerr << "keying: RECEIVE" << std::endl;
+  }
+
+  int
+  KeyingSink::poll_fds(PollType *, int)
+  {
+    return 0;
   }
 
   std::size_t
