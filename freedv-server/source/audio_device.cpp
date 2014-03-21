@@ -1,4 +1,9 @@
-/// The AudioDevice class.
+/// \file audio_device.cpp
+/// Implementation of AudioDevice, which is the base class for all audio
+/// devices.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
 
 #include "drivers.h"
 #include <stdexcept>

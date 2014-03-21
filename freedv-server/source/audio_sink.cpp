@@ -1,21 +1,29 @@
-/// The AudioSink driver, called as "sink", discards the audio, for testing.
+/// \file audio_sink.cpp Audio Sink Driver.
+/// The AudioSink driver, called as --loudspeaker="sink" or
+/// --transmitter="sink". It discards the audio, for testing.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
 
 #include "drivers.h"
 
 namespace FreeDV {
   /// Audio output "sink", discards the audio, for testing.
+  ///
   class AudioSink : public AudioOutput {
   public:
 
 	/// Instantiate the audio sink.
+ 	///
   		AudioSink(const char * parameters);
 		~AudioSink();
 
         /// Return file descriptors for poll()
- 	/// \param size The address of a variable that will be written
-	/// with the number of file descriptors in the array.
-        /// \return The address of an array of integers containing the
-	/// file descriptors.
+ 	/// \param array The address of an array that will be written
+	/// with a sequence of file descriptors.
+        /// \param space The maximum number of file descriptors that may be
+        /// stored in the array.
+        /// \return The number of file descriptors written to the array.
 	virtual int
 		poll_fds(PollType * array, int space);
 
@@ -38,13 +46,13 @@ namespace FreeDV {
   {
   }
 
-  // Write audio into the "short" type.
   std::size_t
   AudioSink::write16(const std::int16_t *, std::size_t length)
   {
     return length;
   }
 
+  // 
   int
   AudioSink::poll_fds(PollType *, int)
   {
@@ -63,8 +71,12 @@ namespace FreeDV {
     return new ::FreeDV::AudioSink(parameter);
   }
 
-  std::ostream &
-  Enumerator::AudioSink(std::ostream & stream)
+  /// Enumerate the AudioSink driver, for displaying the available device
+  /// drivers to the user.
+  /// This version is silent, because "sink" is for testing rather than
+  /// normal use.
+  static std::ostream &
+  AudioSinkEnumerator(std::ostream & stream)
   {
     return stream;
   }
@@ -72,8 +84,11 @@ namespace FreeDV {
   static bool
   initializer()
   {
-    driver_manager()->register_audio_output("sink", Driver::AudioSink, Enumerator::AudioSink);
+    driver_manager()->register_audio_output(
+     "sink",
+     Driver::AudioSink,
+     AudioSinkEnumerator);
     return true;
   }
-  static const bool initialized = initializer();
+  static const bool UNUSED initialized = initializer();
 }

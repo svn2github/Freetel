@@ -1,3 +1,9 @@
+/// \file fifo.cpp
+/// Implementation of the FIFO class.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
+
 #include "drivers.h"
 #include <stdexcept>
 #include <cstring>

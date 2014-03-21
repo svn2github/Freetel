@@ -1,4 +1,8 @@
-/// The Codec base class.
+/// \file codec.cpp
+/// The base class for all codec drivers.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
 
 #include "drivers.h"
 

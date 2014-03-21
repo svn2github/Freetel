@@ -1,9 +1,14 @@
+/// \file blank_panel.cpp
 /// The "blank panel" GUI driver, for testing.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
 
 #include "drivers.h"
 
 namespace FreeDV {
-  /// This is control-less GUI driver, for testing.
+  /// This is a control-less GUI driver, for testing.
+  ///
   class BlankPanel : public UserInterface {
   public:
 
@@ -12,10 +17,11 @@ namespace FreeDV {
     virtual		~BlankPanel();
     
     /// Return file descriptors for poll()
-    /// \param size The address of a variable that will be written
-    /// with the number of file descriptors in the array.
-    /// \return The address of an array of integers containing the
-    /// file descriptors.
+    /// \param array The address of an array that will be written
+    /// with a sequence of file descriptors.
+    /// \param space The maximum number of file descriptors that may be
+    /// stored in the array.
+    /// \return The number of file descriptors written to the array.
     virtual int	poll_fds(PollType * array, int space);
 
     /// Return the amount of bytes ready for read. In this case, it always
@@ -50,8 +56,8 @@ namespace FreeDV {
     return new ::FreeDV::BlankPanel(parameter, interfaces);
   }
 
-  std::ostream &
-  Enumerator::BlankPanel(std::ostream & stream)
+  static std::ostream &
+  BlankPanelEnumerator(std::ostream & stream)
   {
     return stream;
   }
@@ -59,8 +65,11 @@ namespace FreeDV {
   static bool
   initializer()
   {
-    driver_manager()->register_user_interface("blank-panel", Driver::BlankPanel, Enumerator::BlankPanel);
+    driver_manager()->register_user_interface(
+     "blank-panel",
+     Driver::BlankPanel,
+     BlankPanelEnumerator);
     return true;
   }
-  static const bool initialized = initializer();
+  static const bool UNUSED initialized = initializer();
 }

@@ -1,4 +1,8 @@
+/// \file modem_noop.cpp
 /// The no-op modem, for plain SSB voice and testing.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
 
 #include "drivers.h"
 #include <string.h>
@@ -10,6 +14,7 @@ namespace FreeDV {
   public:
 
 	/// Instantiate the no-op modem.
+	///
   			ModemNoOp(const char *);
 
 	virtual		~ModemNoOp();
@@ -102,8 +107,8 @@ namespace FreeDV {
     return new ::FreeDV::ModemNoOp(parameter);
   }
 
-  std::ostream &
-  Enumerator::ModemNoOp(std::ostream & stream)
+  static std::ostream &
+  ModemNoOpEnumerator(std::ostream & stream)
   {
     return stream;
   }
@@ -111,8 +116,8 @@ namespace FreeDV {
   static bool
   initializer()
   {
-    driver_manager()->register_modem("no-op", Driver::ModemNoOp, Enumerator::ModemNoOp);
+    driver_manager()->register_modem("no-op", Driver::ModemNoOp, ModemNoOpEnumerator);
     return true;
   }
-  static const bool initialized = initializer();
+  static const bool UNUSED initialized = initializer();
 }

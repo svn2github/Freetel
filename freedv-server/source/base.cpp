@@ -1,4 +1,9 @@
-/// The general base class for drivers.
+/// \file base.cpp
+/// Implementation of the general base class for drivers, both algorithm
+/// drivers like Modem and device drivers like AudioInput.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
 
 #include "drivers.h"
 

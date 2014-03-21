@@ -1,10 +1,15 @@
+/// \file codec_noop.cpp
 /// The No-Op Codec, for testing and plain SSB voice.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
 
 #include "drivers.h"
 #include <string.h>
 
 namespace FreeDV {
-  /// Codec "no-op", just copies its input to its output. For plain SSB voice, and for testing.
+  /// Codec "no-op", just copies its input to its output.a
+  /// For plain SSB voice, and for testing.
   class CodecNoOp : public Codec {
     static const std::size_t	FrameDuration = 40;
     static const std::size_t	FrameSamples = SamplesPerMillisecond
@@ -91,8 +96,8 @@ namespace FreeDV {
     return new ::FreeDV::CodecNoOp(parameter);
   }
 
-  std::ostream &
-  Enumerator::CodecNoOp(std::ostream & stream)
+  static std::ostream &
+  CodecNoOpEnumerator(std::ostream & stream)
   {
     return stream;
   }
@@ -100,8 +105,8 @@ namespace FreeDV {
   static bool
   initializer()
   {
-    driver_manager()->register_codec("no-op", Driver::CodecNoOp, Enumerator::CodecNoOp);
+    driver_manager()->register_codec("no-op", Driver::CodecNoOp, CodecNoOpEnumerator);
     return true;
   }
-  static const bool initialized = initializer();
+  static const bool UNUSED initialized = initializer();
 }

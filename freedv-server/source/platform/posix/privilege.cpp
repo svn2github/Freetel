@@ -1,3 +1,9 @@
+/// \file platform/posix/privilege.cpp
+/// Privilege tests and warnings on POSIX.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
+
 #include <iostream>
 #include <unistd.h>
 #include <limits.h>

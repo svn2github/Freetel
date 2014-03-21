@@ -1,11 +1,12 @@
-/// This is the main program for applications that are not space-limited.
-/// Any application that is space limited should have its own main that
-/// wires drivers to the Interfaces class without using DriverManager.
-/// Thus, you can get rid of all of the STL template use, etc.
+/// \file big_main.cpp
+/// Version of main for programs that are not space-limited.
 ///
-/// For the sake of correctness and optimization, I have written whatever I
-/// can to be without side-effects, a style inherited from functional
-/// programming. Thus, the excessive use of "const". - Bruce
+/// To save space, any application that is space limited should have its own
+/// main() that wires drivers to the Interfaces class without using
+/// DriverManager.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
 
 #include <stdlib.h>
 #include <string.h>
@@ -19,6 +20,7 @@
 using namespace std;
 namespace FreeDV {
   /// Run the main loop of the program, this is called after arguments are set.
+  ///
   extern int run(struct Interfaces *);
 }
 using namespace FreeDV;
@@ -92,6 +94,9 @@ namespace FreeDV {
   const char * program_name = 0;
 }
 
+/// The main loop for large programs.
+/// This parses a long list of arguments using getopt_long().
+///
 int
 main(int argc, char * * argv)
 {

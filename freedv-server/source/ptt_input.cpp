@@ -1,4 +1,8 @@
-/// The virtual base class of PTT input drivers.
+/// \file ptt_input.cpp
+/// Implement the virtual base class of PTT input device drivers.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
 
 #include "drivers.h"
 

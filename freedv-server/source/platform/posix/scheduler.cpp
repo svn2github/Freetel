@@ -1,3 +1,9 @@
+/// \file platform/posix/scheduler.cpp
+/// Implementation of real-time scheduler tuning and memory locking on POSIX.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
+
 #include "drivers.h"
 #include <string>
 #include <cstring>
@@ -12,8 +18,6 @@
 #ifdef _POSIX_MEMLOCK_RANGE
 #include <sys/mman.h>
 #endif
-
-
 
 namespace FreeDV {
   static const char privilege_message_a[] =

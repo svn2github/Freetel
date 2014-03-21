@@ -1,20 +1,24 @@
+/// \file framer_noop.cpp
 /// The No-Op Framer, for digital voice that is not framed in a protocol.
-/// FreeDV would be the obvious example.
+/// FreeDV (as of this writing early 2014) would be the obvious example.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
 
 #include "drivers.h"
 #include <string.h>
 
 namespace FreeDV {
   /// Framer "no-op", just copies its input to its output.
+  ///
   class FramerNoOp : public ::FreeDV::Framer {
   public:
     /// Create a framer instance.
-    /// \param name Name of the driver. This is expected to be a single
-    ///  constant static string per driver class.
-    /// \param parameters Driver-specific configuration parameters.
+    /// \param parameters Not used.
       			FramerNoOp(const char * parameters);
 
     /// Destroy a framer instance.
+    ///
     virtual		~FramerNoOp();
 
     /// Return the minimum duration of a frame in milliseconds.
@@ -100,8 +104,8 @@ namespace FreeDV {
     return new ::FreeDV::FramerNoOp(parameter);
   }
 
-  std::ostream &
-  Enumerator::FramerNoOp(std::ostream & stream)
+  static std::ostream &
+  FramerNoOpEnumerator(std::ostream & stream)
   {
     return stream;
   }
@@ -109,8 +113,8 @@ namespace FreeDV {
   static bool
   initializer()
   {
-    driver_manager()->register_framer("no-op", Driver::FramerNoOp, Enumerator::FramerNoOp);
+    driver_manager()->register_framer("no-op", Driver::FramerNoOp, FramerNoOpEnumerator);
     return true;
   }
-  static const bool initialized = initializer();
+  static const bool UNUSED initialized = initializer();
 }

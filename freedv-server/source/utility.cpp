@@ -1,3 +1,9 @@
+/// \file utility.cpp
+/// Catch-all for utility functions.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
+
 #include "drivers.h"
 #include <string.h>
 

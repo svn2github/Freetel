@@ -1,4 +1,8 @@
+/// \file run.cpp
 /// The main loop of the program.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
 
 #include "drivers.h"
 #include <iostream>
@@ -21,6 +25,8 @@
 ///
 
 namespace FreeDV {
+  /// This class implements the main loop of the FreeDV program.
+  ///
   class Run {
   private:
     const std::size_t	FIFOSize = MaximumFrameSamples * sizeof(int16_t) * 2;
@@ -37,7 +43,7 @@ namespace FreeDV {
     PollType		poll_fds[100];
  
     bool		add_poll_device(IODevice * device);
-    void		do_throw(int error, const char * message);
+    NORETURN void	do_throw(int error, const char * message);
     void		key_down();
     void		key_up();
     void		receive();
@@ -45,9 +51,14 @@ namespace FreeDV {
     void		transmit_digital();
     void		transmit_ssb();
   public:
-    			Run(Interfaces *);
+    /// Construct the context for the main loop of FreeDV.
+    /// \param interfaces the address of an Interfaces instance containing
+    /// information on all of the selected device and algorithm drivers.
+    			Run(Interfaces * interfaces);
     			~Run();
 
+    /// Run the main loop of FreeDV.
+    ///
     void		run();
   };
   
@@ -91,21 +102,18 @@ namespace FreeDV {
         poll_fd_count = new_size;
         return new_size > 0;
       }
-      else {
+      else
         do_throw(0, "Too many file descriptors for poll");
-        return false; // do_throw() does not return.
-      }
     }
     else {
       std::ostringstream	str;
 
       device->print(str);
       do_throw(result, str.str().c_str());
-      return false; // do_throw() does not return.
     }
   }
 
-  void
+  NORETURN void
   Run::do_throw(const int error, const char * message = 0)
   {
     std::ostringstream str;

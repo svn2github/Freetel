@@ -1,17 +1,35 @@
+/// \file driver_manager.cpp
 /// Device driver manager.
 /// Don't use DriverManager and big_main.cpp in space-limited applications.
-/// The STL templates it uses are too large.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
 
 #include <iostream>
 #include <string.h>
 #include "drivers.h"
 
 namespace FreeDV {
+  /// Creator functions passed to the various driver registration functions
+  /// will be cast to this value.
   typedef Base * (*base_creator)(const char *);
 
-  // Ad-hoc list management functions are much smaller, and indeed faster for
-  // our tiny data sets, than the STL containers. Since this program is
-  // embedded, it's worth some extra effort to avoid STL containers.
+  /// Internal structure which holds a list of device drivers. 
+  ///
+  struct DriverList {
+      /// The name of the driver.
+      ///
+      const char *	key;
+      union {
+	  /// Instantiate a device driver.
+          ///
+          FreeDV::Base *	(*creator)(const char *);
+          FreeDV::Base *	(*creator_i)(const char *, Interfaces *);
+      };
+      /// Enumerate the available device drivers.
+      ///
+      std::ostream &		(*enumerator)(std::ostream &);
+  };
 
   static std::ostream &
   enumerate(std::ostream & stream, const char * name, const DriverList * list)
@@ -28,6 +46,9 @@ namespace FreeDV {
     return stream;
   }
 
+  // Ad-hoc list management functions are much smaller, and indeed faster for
+  // our tiny data sets, than the STL containers. Since this program is
+  // embedded, it's worth some extra effort to avoid STL containers.
   static FreeDV::Base *
   pick(const char * key, const char * type, const char * const parameters, const DriverList * list, Interfaces * interfaces = 0)
   {

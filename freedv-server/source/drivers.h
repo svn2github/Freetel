@@ -1,12 +1,50 @@
+/// \file drivers.h
 /// FreeDV driver interface definitions.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
+
+
 #include <cstdint>
 #include <iostream>
 #include <assert.h>
 #include "platform.h"
 
-/// Namespace used for all code in this program.
+/// Portable way to use the [[unused]] C++11 attribute before all compilers
+/// have caught up with C++11.
+///
+#ifndef	UNUSED
+# if __cplusplus > 199711L
+#  if __GNUC__ && ( __GNUC_MAJOR__ <= 4 || __GNUC_MINOR__ >= 8 )
+#   define UNUSED __attribute__((unused))
+#  else
+#   define UNUSED [[unused]]
+#  endif
+# else
+#  define UNUSED
+# endif
+#endif
+
+/// Portable way to use the [[noreturn]] C++11 attribute before all compilers
+/// have caught up with C++11.
+///
+#ifndef	NORETURN
+# if __cplusplus > 199711L
+#  if __GNUC__ && ( __GNUC_MAJOR__ <= 4 || __GNUC_MINOR__ >= 8 )
+#   define NORETURN __attribute__((noreturn))
+#  else
+#   define NORETURN [[noreturn]]
+#  endif
+# else
+#  define NORETURN
+# endif
+#endif
+
+/// \namespace FreeDV Namespace used for all code in this program.
+///
 namespace FreeDV {
 /// This propogates argv[0] so that it can be used in error messages.
+///
 extern const char *	program_name;
 
 /// The sample rate used by all audio interfaces in the program.
@@ -17,14 +55,16 @@ extern const char *	program_name;
 const unsigned int	SampleRate = 48000;
 
 /// The number of audio samples per millisecond, at SampleRate.
+///
 const unsigned int	SamplesPerMillisecond = ((double)SampleRate / 1000.0);
 
-// The audio frame duration in milliseconds. The audio interfaces will
-// use this as a period size. It should be 1/2 of the smallest codec frame
-// size we expect to use.
+/// The audio frame duration in milliseconds. The audio interfaces will
+/// use this as a period size. It should be 1/2 of the smallest codec frame
+/// size we expect to use.
 const unsigned int	AudioFrameDuration = 10;
 
 /// The number of audio samples in an audio frame.
+///
 const unsigned int	AudioFrameSamples = SamplesPerMillisecond
 			 * AudioFrameDuration;
 
@@ -34,6 +74,7 @@ const unsigned int	AudioFrameSamples = SamplesPerMillisecond
 const unsigned int	MaximumFrameDuration = 100;
 
 /// The number of audio samples in the maximum-duration frame.
+///
 const unsigned int	MaximumFrameSamples = SamplesPerMillisecond
 			 * MaximumFrameDuration;
 
@@ -131,6 +172,7 @@ public:
     }
 
     /// Discard any buffered data.
+    ///
     void		reset();
 };
 
@@ -143,9 +185,11 @@ public:
 void		set_scheduler();
 
 /// Check the user's privileges, and warn if they are inappropriate.
+///
 void		check_privileges();
 
 /// Virtual base class for all driver classes.
+///
 class Base {
 private:
     /// The copy constructor is private to prevent it from being used.
@@ -192,7 +236,7 @@ public:
     ///  object information is to be rendered.
     /// \return A reference to the provided stream, meant for the
     ///  usual successive call paradigm of ostream operator << .
-    std::ostream &	print(std::ostream &) const;
+    std::ostream &	print(std::ostream & stream) const;
 };
 
 /// Write the driver information from the Base object onto a stream,
@@ -233,21 +277,26 @@ public:
     virtual std::size_t	ready() = 0;
 
     /// Type used by poll_fds(). For portability to Windows.
+    ///
     typedef struct pollfd	PollType;
 
     /// Poll file descriptors for available I/O.
+    ///
     static  int		poll(PollType * array, int length, int timeout);
 
     /// Get the file descriptors to be used to poll for available I/O.
+    ///
     virtual int		poll_fds(PollType * array, int space) = 0;
 
     virtual		~IODevice() = 0;
 };
 
 /// Virtual base class for AudioInput and AudioOutput.
+///
 class AudioDevice : public ::FreeDV::IODevice {
 protected:
     /// The master volume control for the device.
+    ///
     float		master_amplitude;
 
     /// Create an AudioDevice instance.
@@ -282,9 +331,11 @@ protected:
 
 public:
     /// Destroy an AudioInput device instance.
+    ///
     virtual		~AudioInput() = 0;
 
     /// Read audio into an array of the signed 16-bit integer type.
+    ///
     virtual std::size_t
     read16(std::int16_t * array, std::size_t length) = 0;
 };
@@ -300,9 +351,11 @@ protected:
 
 public:
     /// Destroy an AudioOutput device instance.
+    ///
     virtual		~AudioOutput() = 0;
 
     /// Write audio from an array of the signed 16-bit integer type.
+    ///
     virtual std::size_t
     write16(const std::int16_t * array, std::size_t length) = 0;
 };
@@ -318,6 +371,7 @@ protected:
 
 public:
     /// Destroy a codec instance.
+    ///
     virtual		~Codec() = 0;
 
     /// Decode from data bytes to audio samples.
@@ -363,6 +417,7 @@ protected:
 
 public:
     /// Destroy a framer instance.
+    ///
     virtual		~Framer() = 0;
 
     /// Return the minimum duration of a frame in milliseconds.
@@ -413,6 +468,7 @@ protected:
 
 public:
     /// Destroy the radio keying device instance.
+    ///
     virtual		~KeyingOutput() = 0;
 
     /// Key or un-key the transmitter.
@@ -420,6 +476,7 @@ public:
     virtual void	key(bool value) = 0;
 
     /// Return the amount of bytes ready to write.
+    ///
     virtual std::size_t	ready() = 0;
 };
 
@@ -487,6 +544,7 @@ public:
 class TextInput : public ::FreeDV::IODevice {
 protected:
     /// The child class calls this member in its parent to set the text.
+    ///
     void		set(const char * text);
 
 
@@ -498,6 +556,7 @@ protected:
 
 public:
     /// Read the text data.
+    ///
     virtual std::size_t	read(char * buffer, std::size_t length) = 0;
 
     virtual		~TextInput() = 0;
@@ -515,6 +574,7 @@ class Interfaces;
 class UserInterface : public ::FreeDV::IODevice {
 protected:
     /// The external Interfaces object.
+    ///
     Interfaces *	interfaces;
 
     /// Create an instance of the UserInterface object.
@@ -531,7 +591,8 @@ public:
     virtual		~UserInterface() = 0;
 };
 
-/// Structure used to pass all of the drivers. Can be modified from
+/// Structure used to pass all of the drivers. Can be modified while the
+/// program is running.
 class Interfaces {
 public:
     Interfaces() : codec(0),
@@ -545,41 +606,55 @@ public:
     virtual		~Interfaces() final;
 
     /// The voice codec in use.
+    ///
     Codec *		codec;
     /// The Framer handles the protocol which wraps the codec data.
     /// It can decline to feed any audio on to the codec if the protocol says
     /// that should not happen, for example if the data isn't addressed to us.
     Framer * 		framer;
     /// The output used to key the transmitter.
+    ///
     KeyingOutput *	keying_output;
     /// The audio output which drives the loudspeaker or headphone.
+    ///
     AudioOutput *	loudspeaker;
     /// The audio input from the microphone.
+    ///
     AudioInput *	microphone;
     /// The softmodem.
+    ///
     Modem *		modem;
     /// The PTT input that indicates the transmission is to be digital audio.
+    ///
     PTTInput *		ptt_input_digital;
     /// The PTT input that indicates the transmission is to be SSB.
+    ///
     PTTInput *		ptt_input_ssb;
     /// The audio input from the receiver.
+    ///
     AudioInput *	receiver;
     /// The text to be transmitted in our text side-channel.
+    ///
     TextInput *		text_input;
     /// The audio output that drives the transmitter.
+    ///
     AudioOutput *	transmitter;
     /// The user interface driver. Used for GUIs.
+    ///
     UserInterface *	user_interface;
 
     /// Fill in default drivers if the user or UserInterface hasn't set any.
+    ///
     void		fill_in();
 
     /// Write the command-line flags necessary to configure the drivers as
     /// they are presently configured to the stream. This is used to save
     /// the configuration or debug the program.
     /// \param stream A reference to an instance of ostream on which the
+    /// \param program_name The name of the executable file for this program.
     /// \return A reference to the provided stream, meant for the
     ///  usual successive call paradigm of ostream operator << .
+    ///
     virtual std::ostream &
     print(std::ostream & stream, const char * program_name) const;
 };
@@ -588,55 +663,133 @@ public:
 /// for debugging and dumping the configuration information.
 /// \param stream A reference to an instance of ostream upon which the
 ///  object information is to be rendered.
-/// \param interfaces a reference to an Interfaces object providing the
-///  information.
+/// \param interfaces a reference to an Interfaces object providing
+///  information about the device and algorithm drivers to be used.
 /// \return A reference to the provided stream, meant for the
 ///  usual successive call paradigm of ostream operator << .
+///
 inline std::ostream &
 operator << (std::ostream & stream, const Interfaces & interfaces) {
     return interfaces.print(stream, 0);
 }
 
-// Most of the functions in the Driver and Enumerator namespaces are
-// registered with the driver manager at run-time. There won't be many
-// reasons to reference them directly.
+/// Functions for opening device drivers.
+/// Most of the functions in the Driver and Enumerator namespaces are
+/// registered with the driver manager at run-time. Only embedded programs
+/// that do not use big_main.cpp and driver_manager.cpp will need to reference
+/// them.
 namespace Driver {
+/// The "tone" audio input driver, which plays a combination of multiple sine
+/// waves at user-selected frequencies and amplitudes, for testing.
+/// \param parameter A list of frequencies and amplitudes which the driver
+/// shall synthesize. For example, "1000,0.5;60,0.5" would play a 1 kHz tone
+/// and a 60 Hz tone at equal levels. The frequency specified must be greater
+/// than zero and less than or equal to 1/2 of SampleRate. The amplitudes
+/// selected should add up to 1.0 or less.
+/// \return A pointer to the AudioInput instance for the tone generator.
+///
 AudioInput *	Tone(const char * parameter);
+
+/// An ALSA audio input driver for use on Linux.
+/// \param parameter The name of the sound device to open, in the form of
+/// "hw:*n*", "plughw:*n*" or a "longname" as returned by
+/// sound_pcm_card_get_longname() or a shortened version of that name
+/// anchored at the start and with an arbitrary portion of the end removed.
+/// In the case of shortened names, the first device with a longname that
+/// matches the shortened name provided (anchored at the start of the longname
+/// and proceeding for the length of the provided string but not beyond it)
+/// will be opened.
+/// \return A pointer to the AudioInput instance for the ALSA device selected.
+///
 AudioInput *	AudioInALSA(const char * parameter);
+
+/// Opens the default audio input interface of the operating system.
+/// \return A pointer to an AudioInput instance for the default audio input
+/// device.
+///
 AudioInput *	AudioInDefault();
+
+/// The "sink" audio output driver, which discards all audio sent to it,
+/// for testing.
+/// \param parameter Not used.
+/// \return A pointer to an AudioInput instance for the audio sink.
+///
 AudioOutput *	AudioSink(const char * parameter);
+
+/// An ALSA audio output driver for use on Linux.
+/// \param parameter The name of the sound device to open, in the form of
+/// "hw:*n*", "plughw:*n*" or a "longname" as returned by
+/// sound_pcm_card_get_longname() or a shortened version of that name
+/// anchored at the start and with an arbitrary portion of the end removed.
+/// In the case of shortened names, the first device with a longname that
+/// matches the shortened name provided (anchored at the start of the longname
+/// and proceeding for the length of the provided string but not beyond it)
+/// will be opened.
+/// \return A pointer to the AudioInput instance for the ALSA device selected.
+///
 AudioOutput *	AudioOutALSA(const char * parameter);
+
+/// Opens the default audio output interface of the operating system.
+///
 AudioOutput *	AudioOutDefault();
+
+/// Opens a no-op codec, which copies its input to its output unmodified,
+/// for testing.
+/// \param parameter Not used.
+/// \return A pointer to the Codec instance for the no-op codec.
+///
 Codec *		CodecNoOp(const char * parameter);
-Framer *		FramerNoOp(const char * parameter);
+
+/// Opens a no-op protocol framer, which copies its input to its output
+/// unmodified, for testing.
+/// \param parameter Not used.
+/// \return A pointer to the Framer instance for the no-op codec.
+///
+Framer *	FramerNoOp(const char * parameter);
+
+/// Opens a "sink" keying device, which doesn't key anything, for testing.
+/// \param parameter Not used.
+/// \return A pointer to the KeyingOutput instance for the device.
+///
 KeyingOutput *	KeyingSink(const char * parameter);
+
+/// Opens a no-op modem, which copies its input to its output unmodified,
+/// for testing.
+/// \param parameter Not used.
+/// \return A pointer to the Modem instance for the no-op modem.
+///
 Modem *		ModemNoOp(const char * parameter);
-PTTInput *		PTTConstant(const char * parameter);
-TextInput *		TextConstant(const char * parameter);
-UserInterface *	BlankPanel(const char * parameter, Interfaces *);
+
+/// Opens a "constant" push-to-talk device, which has a constant value of
+/// pushed or not pushed, for testing.
+/// \param parameter "1" if the device is to emit the "pushed" state, "0" if
+/// the device is to emit the not-pushed state.
+/// \return A pointer to the PTTInput instance for the device.
+///
+PTTInput *	PTTConstant(const char * parameter);
+
+/// Opens a "constant" text ionput device, which has a constant text value
+/// which is to be transmitted as ancillary data.
+/// \param parameter The text to be transmitted.
+/// \return A pointer to the TextInput instance for the device.
+///
+TextInput *	TextConstant(const char * parameter);
+
+/// Opens a "blank" user interface device, which has no displays or controls,
+/// for testing.
+/// \param parameter Not used.
+/// \param interfaces a reference to an Interfaces object providing
+///  information about the device and algorithm drivers to be used.
+/// \return A pointer to the UserInterface instance for the device.
+///
+UserInterface *	BlankPanel(const char * parameter, Interfaces * interfaces);
 }
 
-namespace Enumerator {
-std::ostream &	Tone(std::ostream &);
-std::ostream &	AudioSink(std::ostream &);
-std::ostream &	AudioInALSA(std::ostream &);
-std::ostream &	AudioOutALSA(std::ostream &);
-std::ostream &	CodecNoOp(std::ostream &);
-std::ostream &	FramerNoOp(std::ostream &);
-std::ostream &	KeyingSink(std::ostream &);
-std::ostream &	LibEvent(std::ostream &);
-std::ostream &	ModemNoOp(std::ostream &);
-std::ostream &	PTTConstant(std::ostream &);
-std::ostream &	TextConstant(std::ostream &);
-std::ostream &	BlankPanel(std::ostream &);
-}
-}
-
-/// Namespace used for the entire program.
-namespace FreeDV {
 /// Utility functions.
+///
 
 /// Non-template version of min().
+///
 inline std::size_t
 min(std::size_t a, std::size_t b)
 {
@@ -644,20 +797,16 @@ min(std::size_t a, std::size_t b)
 }
 
 /// Non-template version of max().
+///
 inline std::size_t
 max(std::size_t a, std::size_t b)
 {
     return a > b ? a : b;
 }
 
-struct DriverList {
-    const char *	key;
-    union {
-        FreeDV::Base *	(*creator)(const char *);
-        FreeDV::Base *	(*creator_i)(const char *, Interfaces *);
-    };
-    std::ostream &	(*enumerator)(std::ostream &);
-};
+/// Internal structure to DriverManager, used to keep a list of device
+/// or protocol drivers.
+struct DriverList;
 
 /// Device driver manager. Allows for registration and enumeration of device
 /// drivers. Instantiates device drivers on request.
@@ -676,6 +825,7 @@ private:
 public:
 
     /// Initialize the driver manager.
+    ///
     DriverManager();
     ~DriverManager();
 
@@ -730,46 +880,64 @@ public:
     /// Register an audio input driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
+    /// \param enumerator The coroutine that will enumerate the available
+    /// driver interfaces for the user.
     void		register_audio_input(const char * driver, AudioInput * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &));
 
     /// Register an audio input driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
+    /// \param enumerator The coroutine that will enumerate the available
+    /// driver interfaces for the user.
     void		register_audio_output(const char * driver, AudioOutput * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &));
 
     /// Register a codec.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
+    /// \param enumerator The coroutine that will enumerate the available
+    /// driver interfaces for the user.
     void		register_codec(const char * driver, Codec * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &));
 
     /// Register a protocol framer.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
+    /// \param enumerator The coroutine that will enumerate the available
+    /// driver interfaces for the user.
     void		register_framer(const char * driver, Framer * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &));
 
     /// Register a keying output driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
+    /// \param enumerator The coroutine that will enumerate the available
+    /// driver interfaces for the user.
     void		register_keying_output(const char * driver, KeyingOutput * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &));
 
     /// Register a modem driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
+    /// \param enumerator The coroutine that will enumerate the available
+    /// driver interfaces for the user.
     void		register_modem(const char * driver, Modem * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &));
 
     /// Register a PTT input driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
+    /// \param enumerator The coroutine that will enumerate the available
+    /// driver interfaces for the user.
     void		register_ptt_input(const char * driver, PTTInput * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &));
 
     /// Register a text input driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
+    /// \param enumerator The coroutine that will enumerate the available
+    /// driver interfaces for the user.
     void		register_text_input(const char * driver, TextInput * (*creator)(const char *), std::ostream & (*enumerator)(std::ostream &));
 
     /// Register a user interface driver.
     /// \param driver The name of the driver.
     /// \param creator The coroutine that will instantiate the driver.
+    /// \param enumerator The coroutine that will enumerate the available
+    /// driver interfaces for the user.
     void		register_user_interface(const char * driver, UserInterface * (*creator)(const char *, Interfaces *), std::ostream & (*enumerator)(std::ostream &));
 };
 
@@ -786,5 +954,6 @@ operator << (std::ostream & stream, const DriverManager & d) {
 }
 
 /// Global reference to the driver manager.
+///
 extern DriverManager * driver_manager();
 }

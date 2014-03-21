@@ -1,32 +1,42 @@
-/// The constant PTT driver, for testing.
+/// \file ptt_constant.cpp
+/// Implementation of the constant PTT driver, for testing.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
 
 #include "drivers.h"
 #include <iostream>
 #include <stdexcept>
 
 namespace FreeDV {
-   /// PTT driver that is constant transmit or constant receive. For testing.
+  /// PTT driver that is constant transmit or constant receive. For testing.
+  ///
   class PTTConstant : public PTTInput {
   private:
     /// This is true if ready has not yet been sent.
+    ///
     bool		ready_one_shot;
     bool		pressed;
   public:
     /// Instantiate push-to-talk source with constant input, for testing.
+    ///
     			PTTConstant(const char * parameters);
     virtual		~PTTConstant();
     
     /// Return file descriptors for poll()
-    /// \param size The address of a variable that will be written
-    /// with the number of file descriptors in the array.
-    /// \return The address of an array of integers containing the
-    /// file descriptors.
+    /// \param array The address of an array that will be written
+    /// with a sequence of file descriptors.
+    /// \param space The maximum number of file descriptors that may be
+    /// stored in the array.
+    /// \return The number of file descriptors written to the array.
     virtual int	poll_fds(PollType * array, int space);
 
     /// Return the amount of bytes ready for read.
+    ///
     std::size_t	ready();
 
     /// Return true if the PTT input is pressed.
+    ///
     bool	state();
   };
 
@@ -82,8 +92,8 @@ namespace FreeDV {
     return new ::FreeDV::PTTConstant(parameter);
   }
 
-  std::ostream &
-  Enumerator::PTTConstant(std::ostream & stream)
+  static std::ostream &
+  PTTConstantEnumerator(std::ostream & stream)
   {
     return stream;
   }
@@ -91,8 +101,8 @@ namespace FreeDV {
   static bool
   initializer()
   {
-    driver_manager()->register_ptt_input("constant", Driver::PTTConstant, Enumerator::PTTConstant);
+    driver_manager()->register_ptt_input("constant", Driver::PTTConstant, PTTConstantEnumerator);
     return true;
   }
-  static const bool initialized = initializer();
+  static const bool UNUSED initialized = initializer();
 }

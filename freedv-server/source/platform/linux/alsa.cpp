@@ -1,3 +1,15 @@
+/// \file platform/linux/alsa.cpp
+/// Functions to support the ALSA audio input and output device drivers on
+/// Linux.
+///
+/// There is at least one other operating systems that supports an ALSA-like
+// interfaces, Nucleus, but at this writing (early 2014) this driver is
+/// untested on that.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
+
+#include "drivers.h"
 #include "alsa.h"
 #include <iostream>
 #include <sstream>
@@ -25,6 +37,13 @@ namespace FreeDV {
     return stream;
   }
   
+  /// Enumerate all of the ALSA device drivers available on the system for
+  /// the user.
+  /// \param stream The stream upon which information will be rendered.
+  /// \param mode The access mode of the stream, either SND_PCM_STREAM_CAPTURE
+  ///  or SND_PCM_STREAM_PLAYBACK. 
+  /// \return The stream that was passed as an argument, as is the convention
+  /// for iostreams inserters.
   std::ostream &
   ALSAEnumerate(std::ostream & stream, snd_pcm_stream_t mode)
   {
@@ -110,7 +129,7 @@ namespace FreeDV {
     return -ENODEV;
   }
 
-  static void
+  NORETURN static void
   do_throw(
    const int error,
    const char * name,
@@ -133,6 +152,66 @@ namespace FreeDV {
     throw std::runtime_error(str.str().c_str());
   }
 
+  /// Open an ALSA device and set all of the configuration parameters on that
+  /// device. This version opens by ALSA name (hw:*n* or plughw:*n*), or
+  /// "longname", which is a possibly-shortened version of the name returned
+  /// by snd_card_get_longname() that has previously been rendered to the user
+  /// using ALSAEnumerate().
+  ///
+  /// All of the parameters are passed to ALSA functions, and are documented
+  /// in the documentation for the ALSA functions mentioned below.
+  ///
+  /// \param name The name of the ALSA device to open, or its *longname* in
+  /// a form previously rendered to the user using ALSAEnumerate(). This will
+  /// be passed to snd_pcm_open().
+  /// 
+  /// \param stream One of SND_PCM_STREAM_CAPTURE or SND_PCM_STREAM_PLAYBACK,
+  /// indicates whether to capture or play the audio stream. This will be
+  /// passed to snd_pcm_open().
+  /// 
+  /// \param mode  One of SND_PCM_NONBLOCK or SND_PCM_ASYNC, or 0.
+  /// 0 indicates to use conventional blocking I/O. SND_PCM_NONBLOCK
+  /// indicates to use POSIX non-blocking I/O, and SND_PCM_ASYNC indicates
+  /// to use non-blocking I/O with completion notification. This value will 
+  /// be passed to snd_pcm_open().
+  ///
+  /// \param format The format of the audio stream, selected from a large set 
+  /// of date type and width selections defined for the ALSA snd_pcm_format_t
+  /// type. This will be passed to snd_pcm_set_hw_params_format().
+  ///
+  /// \param access Selected from the set of values defined for
+  /// snd_pcm_access_t. This designates if access to the device will be through
+  /// mapped memory, or through read and write functions, and whether the
+  /// arrangement of the data will be interleaved by channel, sequential arrays
+  /// of values per channel (non-interleaved), or "complex". This will be
+  /// passed to snd_pcm_set_hw_params_access().
+  /// 
+  /// \param channels The number of channels desired in the audio stream. Note
+  /// that ALSA provides a channel-map API which can be used to determine the
+  /// expected loudspeaker placement (relative to the listener) for each
+  /// channel. This value is passed to snd_pcm_hw_params_set_channels().
+  ///
+  /// \param rate The number of audio frames per second. An ALSA audio frame
+  /// consists of one sample for each channel that is in use. This value is
+  /// passed to snd_pcm_hw_params_set_rate().
+  ///
+  /// \param period_size The number of ALSA frames to capture or play between
+  /// each hardware interrupt. This facilitates the use of poll() for
+  /// event-driven operation. This value will be passed to
+  /// snd_pcm_hw_params_set_period_*near*(). We aren't guaranteed the exact
+  /// value passed in, because the hardware only supports a specific set of
+  /// period and buffer-size combinations.
+  ///
+  /// \param buffer_size The number of ALSA frames to buffer for playback
+  /// before the program must write more. The effect of this value on capture
+  /// is uncertain, the programmer's system seems to be able to buffer a
+  /// long duration of ALSA frames regardless of this value.
+  ///
+  /// \return A sound_pcm_t pointer containing context for the selected audio
+  /// device, as returned by snd_pcm_open(), or 0 in case the device name
+  /// passed can't be found in the system or the device can not be opened due
+  /// to privilege or contention.
+  ///
   snd_pcm_t *
   ALSASetup(
    const char *		name,
@@ -145,8 +224,8 @@ namespace FreeDV {
    snd_pcm_uframes_t 	period_size,
    snd_pcm_uframes_t 	buffer_size)
   {
-    int			error;
-    snd_pcm_t *		handle = 0;
+    int				error;
+    snd_pcm_t *			handle = 0;
     snd_pcm_hw_params_t *	hw_params = 0;
  
     error = open_by_longname(&handle, name, stream, mode);

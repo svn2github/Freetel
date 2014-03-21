@@ -1,4 +1,8 @@
+/// \file text_constant.cpp
 /// The constant text driver, just outputs the same text over and over.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
 
 #include "drivers.h"
 #include <stdexcept>
@@ -6,6 +10,7 @@
 
 namespace FreeDV {
   /// This driver provides constant text.
+  ///
   class TextConstant : public TextInput {
   private:
     std::size_t		index;
@@ -17,10 +22,11 @@ namespace FreeDV {
     virtual		~TextConstant();
     
     /// Return file descriptors for poll()
-    /// \param size The address of a variable that will be written
-    /// with the number of file descriptors in the array.
-    /// \return The address of an array of integers containing the
-    /// file descriptors.
+    /// \param array The address of an array that will be written
+    /// with a sequence of file descriptors.
+    /// \param space The maximum number of file descriptors that may be
+    /// stored in the array.
+    /// \return The number of file descriptors written to the array.
     virtual int		poll_fds(PollType * array, int space);
 
     /// Read the text data.
@@ -77,8 +83,8 @@ namespace FreeDV {
     return new ::FreeDV::TextConstant(parameter);
   }
 
-  std::ostream &
-  Enumerator::TextConstant(std::ostream & stream)
+  static std::ostream &
+  TextConstantEnumerator(std::ostream & stream)
   {
     return stream;
   }
@@ -86,8 +92,8 @@ namespace FreeDV {
   static bool
   initializer()
   {
-    driver_manager()->register_text_input("constant", Driver::TextConstant, Enumerator::TextConstant);
+    driver_manager()->register_text_input("constant", Driver::TextConstant, TextConstantEnumerator);
     return true;
   }
-  static const bool initialized = initializer();
+  static const bool UNUSED initialized = initializer();
 }

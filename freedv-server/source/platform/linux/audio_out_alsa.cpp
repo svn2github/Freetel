@@ -1,4 +1,12 @@
-// The ALSA audio output driver. 
+/// \file platform/linux/audio_out_alsa.cpp
+/// ALSA audio output device driver, for use on Linux.
+///
+/// There is at least one other operating system that supports an ALSA-like
+/// interfaces, Nucleus, but at this writing (early 2014) this driver is
+/// untested on that.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
 
 #include "alsa.h"
 #include "drivers.h"
@@ -13,13 +21,14 @@ namespace FreeDV {
   std::ostream & ALSAEnumerate(std::ostream & stream, snd_pcm_stream_t mode);
 
   /// Audio output "ALSA", Uses the Linux ALSA Audio API.
+  ///
   class AudioOutALSA : public AudioOutput {
   private:
     char * const	parameters;
     snd_pcm_t *		handle;
     bool		started;
 
-    void
+    NORETURN void
     do_throw(const int error, const char * message = 0)
     {
       std::ostringstream str;
@@ -37,10 +46,11 @@ namespace FreeDV {
 		~AudioOutALSA();
 
         /// Return file descriptors for poll()
- 	/// \param size The address of a variable that will be written
-	/// with the number of file descriptors in the array.
-        /// \return The address of an array of integers containing the
-	/// file descriptors.
+ 	/// \param array The address of an array that will be written
+	/// with a sequence of file descriptors.
+        /// \param space The maximum number of file descriptors that may be
+        /// stored in the array.
+        /// \return The number of file descriptors written to the array.
 	virtual int
 		poll_fds(PollType * array, int space);
 
@@ -111,10 +121,8 @@ namespace FreeDV {
 
     if ( error >= 0 )
       return error;
-    else {
+    else
       do_throw(error, "Write");
-      return 0; // do_throw doesn't return.
-    }
   }
 
   AudioOutput *
@@ -123,8 +131,8 @@ namespace FreeDV {
     return new ::FreeDV::AudioOutALSA(parameter);
   }
 
-  std::ostream &
-  Enumerator::AudioOutALSA(std::ostream & stream)
+  static std::ostream &
+  AudioOutALSAEnumerator(std::ostream & stream)
   {
     return ALSAEnumerate(stream, SND_PCM_STREAM_PLAYBACK);
   }
@@ -177,10 +185,8 @@ namespace FreeDV {
 
     if ( error == 0 )
       return available;
-    else {
+    else
       do_throw(error, "Get Frames Available for Write");
-      return 0; // do_throw doesn't return.
-    }
   }
 
   static bool
@@ -189,7 +195,7 @@ namespace FreeDV {
     driver_manager()->register_audio_output(
      "alsa",
      Driver::AudioOutALSA,
-     Enumerator::AudioOutALSA);
+     AudioOutALSAEnumerator);
     return true;
   }
   static const bool initialized = initializer();

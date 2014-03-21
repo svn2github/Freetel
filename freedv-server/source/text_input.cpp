@@ -1,4 +1,8 @@
-/// The virtual base class for text input drivers.
+/// \file
+/// Implement the virtual base class for text input drivers.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
 
 #include "drivers.h"
 

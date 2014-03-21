@@ -1,4 +1,8 @@
-/// KeyingOutput driver.
+/// \file keying.cpp
+/// Implementation of the KeyingOutput device driver class.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
 
 #include "drivers.h"
 

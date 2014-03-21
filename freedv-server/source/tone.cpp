@@ -1,4 +1,9 @@
+/// \file tone.cpp
 /// The tone audio input driver, for testing.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
+
 
 #include "drivers.h"
 #include <sstream>
@@ -8,6 +13,7 @@
 
 namespace FreeDV {
   /// This is a test driver that provides tones.
+  ///
   class Tone : public AudioInput {
   private:
     unsigned int	clock;
@@ -171,8 +177,8 @@ namespace FreeDV {
     return new ::FreeDV::Tone(parameter);
   }
 
-  std::ostream &
-  Enumerator::Tone(std::ostream & stream)
+  static std::ostream &
+  ToneEnumerator(std::ostream & stream)
   {
     return stream;
   }
@@ -180,8 +186,8 @@ namespace FreeDV {
   static bool
   initializer()
   {
-    driver_manager()->register_audio_input("tone", Driver::Tone, Enumerator::Tone);
+    driver_manager()->register_audio_input("tone", Driver::Tone, ToneEnumerator);
     return true;
   }
-  static const bool initialized = initializer();
+  static const bool UNUSED initialized = initializer();
 }
