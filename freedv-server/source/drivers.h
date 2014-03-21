@@ -682,10 +682,10 @@ operator << (std::ostream & stream, const Interfaces & interfaces) {
 }
 
 /// Functions for opening device drivers.
-/// Most of the functions in the Driver and Enumerator namespaces are
-/// registered with the driver manager at run-time. Only embedded programs
-/// that do not use big_main.cpp and driver_manager.cpp will need to reference
-/// them.
+/// Most of the functions in the Driver namespace are registered with the
+/// driver manager at run-time. Only embedded programs that do not use
+/// big_main.cpp and driver_manager.cpp will need to reference them.
+///
 namespace Driver {
 /// The "tone" audio input driver, which plays a combination of multiple sine
 /// waves at user-selected frequencies and amplitudes, for testing.
