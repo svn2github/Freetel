@@ -91,7 +91,7 @@ static const struct option options[] = {
 };
 
 namespace FreeDV {
-  const char * program_name = 0;
+  extern const char * program_name;
 }
 
 /// The main loop for large programs.

@@ -257,7 +257,8 @@ namespace FreeDV {
   DriverManager *
   driver_manager()
   {
-    static DriverManager * const d(new DriverManager());
-    return d;
+    extern DriverManager * _globalDriverManager;
+
+    return _globalDriverManager;
   }
 }
