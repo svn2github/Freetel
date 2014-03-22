@@ -36,8 +36,8 @@ namespace FreeDV {
     std::size_t		ready();
   };
 
-  KeyingSink::KeyingSink(const char * parameters)
-  : KeyingOutput("sink", parameters)
+  KeyingSink::KeyingSink(const char * _parameters)
+  : KeyingOutput("sink", _parameters)
   {
   }
 

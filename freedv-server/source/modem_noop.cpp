@@ -61,8 +61,8 @@ namespace FreeDV {
     			min_frame_duration() const;
   };
 
-  ModemNoOp::ModemNoOp(const char * parameters)
-  : Modem("no-op", parameters)
+  ModemNoOp::ModemNoOp(const char * _parameters)
+  : Modem("no-op", _parameters)
   {
   }
 

@@ -7,8 +7,8 @@
 #include "drivers.h"
 
 namespace FreeDV {
-  UserInterface::UserInterface(const char * name, const char * parameters, Interfaces *)
-  : IODevice(name, parameters)
+  UserInterface::UserInterface(const char * _name, const char * _parameters, Interfaces * _interfaces)
+  : IODevice(_name, _parameters), interfaces(_interfaces)
   {
   }
 

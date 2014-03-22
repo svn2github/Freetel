@@ -100,6 +100,9 @@ private:
     void	get_overrun() const;
     uint8_t *	reorder(std::size_t length);
 
+    // Copy constructor and operator =() disabled.
+    FIFO(const FIFO &);
+    FIFO & operator=(const FIFO &);
 public:
     /// Create the FIFO object.
     /// \param length The size of the fifo, in bytes.
@@ -619,6 +622,10 @@ class Interfaces;
 /// UserInterfaces may provide their own drivers for microphone,
 /// loudspeaker, TextInput, and both forms of PTT.
 class UserInterface : public ::FreeDV::IODevice {
+private:
+    // Copy constructor and operator =() disabled.
+    UserInterface(const UserInterface &);
+    UserInterface & operator=(const UserInterface &);
 protected:
     /// The external Interfaces object.
     ///
@@ -641,6 +648,10 @@ public:
 /// Structure used to pass all of the drivers. Can be modified while the
 /// program is running.
 class Interfaces {
+private:
+    // Copy constructor and operator=() disabled.
+    Interfaces(const Interfaces &);
+    Interfaces & operator=(const Interfaces &);
 public:
     Interfaces() : codec(0),
         framer(0), keying_output(0), loudspeaker(0),
@@ -869,6 +880,9 @@ private:
     DriverList *	text_input_drivers;
     DriverList *	user_interface_drivers;
 
+    // Copy constructor and operator=() disabled.
+    DriverManager(const DriverManager &);
+    DriverManager & operator=(const DriverManager &);
 public:
 
     /// Initialize the driver manager.

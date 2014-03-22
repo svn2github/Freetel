@@ -15,8 +15,8 @@ namespace FreeDV {
   private:
     /// This is true if ready has not yet been sent.
     ///
-    bool		ready_one_shot;
     bool		pressed;
+    bool		ready_one_shot;
   public:
     /// Instantiate push-to-talk source with constant input, for testing.
     ///
@@ -40,8 +40,8 @@ namespace FreeDV {
     bool	state();
   };
 
-  PTTConstant::PTTConstant(const char * parameters)
-  : PTTInput("constant", parameters), ready_one_shot(true)
+  PTTConstant::PTTConstant(const char * _parameters)
+  : PTTInput("constant", _parameters), pressed(false), ready_one_shot(true)
   {
     if ( *parameters == 't' )
       pressed = true;

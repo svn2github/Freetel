@@ -10,7 +10,7 @@
 
 namespace FreeDV {
   FIFO::FIFO(std::size_t size)
-  : buffer(new uint8_t[size]), buffer_end(buffer + size)
+  : buffer(new uint8_t[size]), buffer_end(buffer + size), in(buffer), out(buffer)
   {
     reset();
   }

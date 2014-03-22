@@ -163,7 +163,10 @@ set(Test.headers
 )
 
 load_parameters(cxx-flags)
-set_source_files_properties(${Compile.sources} ${Test.sources} PROPERTIES COMPILE_FLAGS ${Param.cxx-flags})
+load_parameters(cxx-flags-gtest)
+set_source_files_properties(${Compile.sources} PROPERTIES COMPILE_FLAGS ${Param.cxx-flags})
+# Googletest would have -Weffc++ warnings.
+set_source_files_properties(${Test.sources} PROPERTIES COMPILE_FLAGS ${Param.cxx-flags-gtest})
 
 
 add_executable(freedv-server ${Compile.sources})

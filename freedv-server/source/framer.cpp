@@ -7,8 +7,8 @@
 #include "drivers.h"
 
 namespace FreeDV {
-  Framer::Framer(const char * name, const char * parameters)
-  : Base(name, parameters)
+  Framer::Framer(const char * _name, const char * _parameters)
+  : Base(_name, _parameters)
   {
   }
 

@@ -7,8 +7,8 @@
 #include "drivers.h"
 
 namespace FreeDV {
-  IODevice::IODevice(const char * name, const char * parameters)
-  : Base(name, parameters)
+  IODevice::IODevice(const char * _name, const char * _parameters)
+  : Base(_name, _parameters)
   {
   }
 

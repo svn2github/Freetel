@@ -23,9 +23,13 @@ namespace FreeDV {
   ///
   class AudioOutALSA : public AudioOutput {
   private:
-    char * const	parameters;
     snd_pcm_t *		handle;
+    char * const	parameters;
     bool		started;
+
+    // Copy constructor and operator=() disabled.
+    AudioOutALSA(const AudioOutALSA &);
+    AudioOutALSA & operator=(const AudioOutALSA &);
 
     NORETURN void
     do_throw(const int error, const char * message = 0)
@@ -64,8 +68,7 @@ namespace FreeDV {
   };
 
   AudioOutALSA::AudioOutALSA(const char * p)
-  : AudioOutput("alsa", p), parameters(strdup(p)),
-    started(false)
+  : AudioOutput("alsa", p), handle(0), parameters(strdup(p)), started(false)
   {
     handle = ALSASetup(
      p,

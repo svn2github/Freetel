@@ -7,8 +7,8 @@
 #include "drivers.h"
 
 namespace FreeDV {
-  PTTInput::PTTInput(const char * name, const char * parameters)
-  : IODevice(name, parameters)
+  PTTInput::PTTInput(const char * _name, const char * _parameters)
+  : IODevice(_name, _parameters)
   {
   }
 

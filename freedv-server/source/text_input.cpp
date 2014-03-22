@@ -7,8 +7,8 @@
 #include "drivers.h"
 
 namespace FreeDV {
-  TextInput::TextInput(const char * name, const char * parameters)
-  : IODevice(name, parameters)
+  TextInput::TextInput(const char * _name, const char * _parameters)
+  : IODevice(_name, _parameters)
   {
   }
 

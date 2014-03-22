@@ -108,6 +108,15 @@ namespace FreeDV {
   // Global instance of the driver manager used to register
   // drivers and to create driver instances.
   DriverManager::DriverManager()
+  : audio_input_drivers(0),
+    audio_output_drivers(0),
+    codecs(0),
+    framers(0),
+    keying_output_drivers(0),
+    modems(0),
+    ptt_input_drivers(0),
+    text_input_drivers(0),
+    user_interface_drivers(0)
   {
   }
 

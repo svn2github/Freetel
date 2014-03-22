@@ -1,1 +1,1 @@
--std=c++11 -g -pedantic -Wall -Wextra -Wshadow -DDEBUG
+-std=c++11 -g -pedantic -Wall -Wextra -Wshadow -Weffc++ -DDEBUG

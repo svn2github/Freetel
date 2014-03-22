@@ -24,9 +24,13 @@ namespace FreeDV {
   private:
     static const int	overlong_delay = AudioFrameSamples * 4;
 
-    char * const	parameters;
     snd_pcm_t *		handle;
+    char * const	parameters;
     bool		started;
+
+    // Copy constructor and operator=() disabled.
+    AudioInALSA(const AudioInALSA &);
+    AudioInALSA & operator=(const AudioInALSA &);
 
     NORETURN void
     do_throw(const int error, const char * message = 0)
@@ -65,7 +69,7 @@ namespace FreeDV {
   };
 
   AudioInALSA::AudioInALSA(const char * p)
-  : AudioInput("alsa", p), parameters(strdup(p)), started(false)
+  : AudioInput("alsa", p), handle(0), parameters(strdup(p)), started(false)
   {
     handle = ALSASetup(
      p,

@@ -56,9 +56,9 @@ namespace FreeDV {
   }
 
   std::ostream &
-  Interfaces::print(std::ostream & stream, const char * program_name) const
+  Interfaces::print(std::ostream & stream, const char * _program_name) const
   {
-    if ( program_name ) {
+    if ( _program_name ) {
       stream << program_name << " \\" << std::endl;
     }
     stream << "--codec=\"" << *codec << "\" \\" << std::endl;

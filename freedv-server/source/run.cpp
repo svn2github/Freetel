@@ -40,6 +40,10 @@ namespace FreeDV {
     bool		started;
     PollType		poll_fds[100];
  
+    // Disable copy constructor and operator=().
+    Run(const Run &);
+    Run &		operator=(const Run &);
+
     bool		add_poll_device(IODevice * device);
     NORETURN void	do_throw(int error, const char * message);
     void		key_down();

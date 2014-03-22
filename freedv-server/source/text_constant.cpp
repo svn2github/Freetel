@@ -36,8 +36,8 @@ namespace FreeDV {
     std::size_t		ready();
   };
 
-  TextConstant::TextConstant(const char * parameters)
-  : TextInput("constant", parameters), index(0), length(strlen(parameters))
+  TextConstant::TextConstant(const char * _parameters)
+  : TextInput("constant", _parameters), index(0), length(strlen(_parameters))
   {
   }
 

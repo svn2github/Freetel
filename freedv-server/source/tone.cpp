@@ -48,8 +48,8 @@ namespace FreeDV {
     virtual std::size_t	read16(std::int16_t * array, std::size_t length);
   };
 
-  Tone::Tone(const char * parameters)
-  : AudioInput("tone", parameters), clock(0)
+  Tone::Tone(const char * _parameters)
+  : AudioInput("tone", _parameters), clock(0)
   {
     unsigned int	index = 0;
     unsigned int	input = 0;
@@ -57,7 +57,7 @@ namespace FreeDV {
 
     while ( !p.eof() ) {
       float frequency = 0.0;
-      float amplitude = 1.0;
+      float _amplitude = 1.0;
 
       if ( index >= ((sizeof(tones) / sizeof(*tones)) - 1) ) {
         std::cerr << "Too many tones, number " << index
@@ -68,7 +68,7 @@ namespace FreeDV {
         char c;
 	p >> c;
         if ( !p.fail() && c == ',' ) {
-          p >> amplitude;
+          p >> _amplitude;
           if ( !p.fail() ) {
 	    c = '\0';
             p >> c;
@@ -80,7 +80,7 @@ namespace FreeDV {
           break;
         }
       }
-      if ( frequency == 0.0 || amplitude == 0.0 ) {
+      if ( frequency == 0.0 || _amplitude == 0.0 ) {
         input++;
         continue;
       }
@@ -90,13 +90,13 @@ namespace FreeDV {
          << frequency << '.' << std::endl;
 	break;
       }
-      if ( amplitude < 0.0 || amplitude > 1.0 ) {
+      if ( _amplitude < 0.0 || _amplitude > 1.0 ) {
         std::cerr << "tone: amplitude must be in range of 0.0..1.0, is "
-         << frequency << '.' << std::endl;
+         << _amplitude << '.' << std::endl;
 	break;
       }
       tones[index].frequency = frequency;
-      tones[index].amplitude = amplitude;
+      tones[index].amplitude = _amplitude;
       index++;
       input++;
     }

@@ -58,8 +58,8 @@ namespace FreeDV {
 			 std::size_t output_length);
   };
 
-  FramerNoOp::FramerNoOp(const char * parameters)
-  : Framer("no-op", parameters)
+  FramerNoOp::FramerNoOp(const char * _parameters)
+  : Framer("no-op", _parameters)
   {
   }
 
