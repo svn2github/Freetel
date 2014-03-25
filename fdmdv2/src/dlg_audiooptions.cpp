@@ -923,12 +923,13 @@ void AudioOptsDialog::OnTxOutDeviceSelect(wxListEvent& evt)
 //-------------------------------------------------------------------------
 void AudioOptsDialog::plotDeviceInputForAFewSecs(int devNum, PlotScalar *plotScalar) {
     PaStreamParameters  inputParameters;
+    const PaDeviceInfo *deviceInfo = NULL;
     PaStream           *stream = NULL;
     PaError             err;
     short               in48k_stereo_short[2*TEST_BUF_SIZE];
     short               in48k_short[TEST_BUF_SIZE];
     short               in8k_short[TEST_BUF_SIZE];
-    int                 numDevices, nBufs, i, j, src_error;
+    int                 numDevices, nBufs, i, j, src_error,inputChannels;
     float               t;
     SRC_STATE          *src;
     FIFO               *fifo;
@@ -944,14 +945,28 @@ void AudioOptsDialog::plotDeviceInputForAFewSecs(int devNum, PlotScalar *plotSca
     fifo = fifo_create((int)(DT*TEST_WAVEFORM_PLOT_FS*2)); assert(fifo != NULL);
     src = src_new(SRC_SINC_FASTEST, 1, &src_error); assert(src != NULL);
 
+    // work out how many input channels this device supports.
+
+    deviceInfo = Pa_GetDeviceInfo(g_soundCard1InDeviceNum);
+    if (deviceInfo == NULL) {
+        wxMessageBox(wxT("Couldn't get device info from Port Audio for Sound Card "), wxT("Error"), wxOK);
+        return;
+    }
+    if (deviceInfo->maxInputChannels == 1)
+        inputChannels = 1;
+    else
+        inputChannels = 2;
+
+    // open device
+
     inputParameters.device = devNum;
-    inputParameters.channelCount = 2;
+    inputParameters.channelCount = inputChannels;
     inputParameters.sampleFormat = paInt16;
     inputParameters.suggestedLatency = Pa_GetDeviceInfo( inputParameters.device )->defaultHighInputLatency;
     inputParameters.hostApiSpecificStreamInfo = NULL;
 
     nBufs = TEST_WAVEFORM_PLOT_TIME*TEST_FS/TEST_BUF_SIZE;
-    printf("nBufs %d\n", nBufs);
+    printf("inputChannels: %d nBufs %d\n", inputChannels, nBufs);
 
     err = Pa_OpenStream(
               &stream,
@@ -975,8 +990,14 @@ void AudioOptsDialog::plotDeviceInputForAFewSecs(int devNum, PlotScalar *plotSca
 
     for(i=0, t=0.0; i<nBufs; i++, t+=(float)TEST_BUF_SIZE/TEST_FS) {
         Pa_ReadStream(stream, in48k_stereo_short, TEST_BUF_SIZE);
-        for(j=0; j<TEST_BUF_SIZE; j++)
-            in48k_short[j] = in48k_stereo_short[2*j]; // left channel only
+        if (inputChannels == 2) {
+            for(j=0; j<TEST_BUF_SIZE; j++)
+                in48k_short[j] = in48k_stereo_short[2*j]; // left channel only
+        }
+        else {
+            for(j=0; j<TEST_BUF_SIZE; j++)
+                in48k_short[j] = in48k_stereo_short[j]; 
+        }
         int n8k = resample(src, in8k_short, in48k_short, 8000, TEST_FS, TEST_BUF_SIZE, TEST_BUF_SIZE);
         resample_for_plot(fifo, in8k_short, n8k);
 
