@@ -11,6 +11,7 @@
 #include "drivers.h"
 #include <sstream>
 #include <stdexcept>
+#include <iostream>
 #include <string.h>
 #include <stdlib.h>
 #include <errno.h>

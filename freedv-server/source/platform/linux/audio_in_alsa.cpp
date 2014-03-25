@@ -11,6 +11,7 @@
 #include "alsa.h"
 #include <sstream>
 #include <stdexcept>
+#include <iostream>
 #include <stdlib.h>
 #include <errno.h>
 #include <math.h>

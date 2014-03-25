@@ -6,7 +6,7 @@
 
 
 #include <cstdint>
-#include <iostream>
+#include <ostream>
 #include <assert.h>
 #include "platform.h"
 
