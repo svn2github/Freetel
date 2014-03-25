@@ -258,6 +258,8 @@ namespace FreeDV {
   driver_manager()
   {
     extern DriverManager * _globalDriverManager;
+    if ( _globalDriverManager == 0 )
+      _globalDriverManager = new DriverManager();
 
     return _globalDriverManager;
   }

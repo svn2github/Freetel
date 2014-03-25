@@ -2,5 +2,5 @@
 
 namespace FreeDV {
   const char * program_name = 0;
-  DriverManager * _globalDriverManager = new DriverManager();
+  DriverManager * _globalDriverManager = 0;
 }
