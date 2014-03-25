@@ -10,6 +10,15 @@
 static const char empty[1] = { '\0' };
 
 namespace FreeDV {
+  Interfaces::Interfaces()
+   : codec(0),
+   framer(0), keying_output(0), loudspeaker(0),
+   microphone(0), modem(0), ptt_input_digital(0),
+   ptt_input_ssb(0), receiver(0), text_input(0),
+   transmitter(0), user_interface(0)
+  {
+  }
+
   Interfaces::~Interfaces()
   {
   }

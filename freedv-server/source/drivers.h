@@ -120,29 +120,18 @@ public:
     /// \param length The amount of data requested. This must be smaller
     /// than or equal to the amount returned by get_available().
     /// \return The address of the data to be read.
-    inline const uint8_t *
-    get(std::size_t length) {
-        assert(length % 2 == 0);
-        if ( length > (std::size_t)(in - out) )
-            get_overrun();
-        return out;
-    }
+    const uint8_t *
+    get(std::size_t length);
 
     /// Finish the I/O after get().
     /// \param length The amount of data, in bytes, actually read.
     /// This must be smaller than or equal to the amount passed to
     /// get().
-    inline void		get_done(std::size_t length) {
-        assert(length % 2 == 0);
-        out += length;
-        assert(out >= buffer && out <= buffer_end);
-        if ( out == in )
-            out = in = buffer;
-    }
+    void		get_done(std::size_t length);
 
     /// Returns the amount of space available for incoming data.
     /// \return The amount of space, in bytes, available for incoming data.
-    inline std::size_t	put_space() const {
+    std::size_t	put_space() const {
         return (buffer_end) - in + (out - buffer);
     }
 
@@ -155,24 +144,12 @@ public:
     /// to the length passed to put().
     /// \param length The size of buffer in chars requested.
     /// \return The address of the buffer for incoming data.
-    inline uint8_t *	put(std::size_t length) {
-        assert(length % 2 == 0);
-        const uint8_t * io_end = in + length;
-
-        if ( io_end > buffer_end )
-            return reorder(length);
-        else
-            return in;
-    }
+    uint8_t *	put(std::size_t length);
 
     /// Complete the I/O after put().
     /// \param length The amount of data actually written. This must be
     /// smaller than or equal to the length passed to put().
-    inline void		put_done(std::size_t length) {
-        assert(length % 2 == 0);
-        in += length;
-        assert(in >= buffer && in <= buffer_end);
-    }
+    void		put_done(std::size_t length);
 
     /// Discard any buffered data.
     ///
@@ -650,18 +627,11 @@ public:
 class Interfaces {
 private:
     // Copy constructor and operator=() disabled.
-    Interfaces(const Interfaces &);
-    Interfaces & operator=(const Interfaces &);
+    		Interfaces(const Interfaces &);
+    		Interfaces & operator=(const Interfaces &);
 public:
-    Interfaces() : codec(0),
-        framer(0), keying_output(0), loudspeaker(0),
-        microphone(0), modem(0), ptt_input_digital(0),
-        ptt_input_ssb(0), receiver(0), text_input(0),
-        transmitter(0), user_interface(0)
-    {
-    }
-
-    virtual		~Interfaces() final;
+    		Interfaces();
+    virtual	~Interfaces() final;
 
     /// The voice codec in use.
     ///

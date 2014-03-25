@@ -20,10 +20,45 @@ namespace FreeDV {
     delete buffer;
   }
 
+  const uint8_t *
+  FIFO::get(std::size_t length) {
+      assert(length % 2 == 0);
+      if ( length > (std::size_t)(in - out) )
+          get_overrun();
+      return out;
+  }
+
+  void
+  FIFO::get_done(std::size_t length) {
+      assert(length % 2 == 0);
+      out += length;
+      assert(out >= buffer && out <= buffer_end);
+      if ( out == in )
+          out = in = buffer;
+  }
+
   void
   FIFO::get_overrun() const
   {
     throw std::runtime_error("FIFO outgoing data overrun.");
+  }
+
+  uint8_t *
+  FIFO::put(std::size_t length) {
+    assert(length % 2 == 0);
+    const uint8_t * io_end = in + length;
+
+    if ( io_end > buffer_end )
+      return reorder(length);
+    else
+      return in;
+  }
+
+  void
+  FIFO::put_done(std::size_t length) {
+    assert(length % 2 == 0);
+    in += length;
+    assert(in >= buffer && in <= buffer_end);
   }
 
   uint8_t *

@@ -34,16 +34,7 @@ namespace FreeDV {
     AudioInALSA & operator=(const AudioInALSA &);
 
     NORETURN void
-    do_throw(const int error, const char * message = 0)
-    {
-      std::ostringstream str;
-
-      str << "Error on ALSA audio input \"" << parameters << "\": ";
-       if ( message )
-         str << message << ": ";
-       str << snd_strerror(error) << '.';
-      throw std::runtime_error(str.str().c_str());
-    }
+    do_throw(const int error, const char * message = 0);
   public:
 
 	/// Instantiate the audio input.
@@ -94,6 +85,18 @@ namespace FreeDV {
     snd_pcm_drop(handle);
     snd_pcm_close(handle);
     free(parameters);
+  }
+
+  NORETURN void
+  AudioInALSA::do_throw(const int error, const char * message)
+  {
+    std::ostringstream str;
+
+    str << "Error on ALSA audio input \"" << parameters << "\": ";
+     if ( message )
+       str << message << ": ";
+     str << snd_strerror(error) << '.';
+    throw std::runtime_error(str.str().c_str());
   }
 
   // Read audio into the "short" type.
