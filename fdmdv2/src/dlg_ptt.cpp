@@ -25,6 +25,10 @@
 #ifdef __WIN32__
 #include <wx/msw/registry.h>
 #endif
+#ifdef __FreeBSD__
+#include <glob.h>
+#include <string.h>
+#endif
 
 #include <sstream>
 
@@ -113,8 +117,8 @@ ComPortsDlg::ComPortsDlg(wxWindow* parent, wxWindowID id, const wxString& title,
     m_staticText12->Wrap(-1);
     gridSizer200->Add(m_staticText12, 1,wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 2);
 
-    m_txtCtlDevicePath = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
-    gridSizer200->Add(m_txtCtlDevicePath, 1, wxEXPAND|wxALIGN_CENTER|wxALIGN_RIGHT, 2);
+    m_cbCtlDevicePath = new wxComboBox(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(140, -1), 0, NULL, wxCB_DROPDOWN);
+    gridSizer200->Add(m_cbCtlDevicePath, 1, wxEXPAND|wxALIGN_CENTER|wxALIGN_RIGHT, 2);
     
     bSizer83->Add(gridSizer200, 0, wxALIGN_CENTER_VERTICAL | wxALIGN_LEFT | wxALL, 2);
     staticBoxSizer31->Add(bSizer83, 1, wxALIGN_CENTER_VERTICAL|wxALL, 1);
@@ -252,19 +256,46 @@ void ComPortsDlg::populatePortList()
     m_cbSerialPort->Append(aStr);
 #endif
 #ifdef __WXGTK__
-    /* TODO(Joel): http://stackoverflow.com/questions/2530096/how-to-find-all-serial-devices-ttys-ttyusb-on-linux-without-opening-them */
     m_cbSerialPort->Clear();
+    m_cbCtlDevicePath->Clear();
+#ifdef __FreeBSD__
+	glob_t	gl;
+	if(glob("/dev/tty*", GLOB_MARK, NULL, &gl)==0) {
+		for(unsigned int i=0; i<gl.gl_pathc; i++) {
+			if(gl.gl_pathv[i][strlen(gl.gl_pathv[i])-1]=='/')
+				continue;
+				
+			/* Exclude pseudo TTYs */
+			if(gl.gl_pathv[i][8] >= 'l' && gl.gl_pathv[i][8] <= 's')
+				continue;
+			if(gl.gl_pathv[i][8] >= 'L' && gl.gl_pathv[i][8] <= 'S')
+				continue;
+
+			/* Exclude virtual TTYs */
+			if(gl.gl_pathv[i][8] == 'v')
+				continue;
+
+			/* Exclude initial-state and lock-state devices */
+			if(strchr(gl.gl_pathv[i], '.') != NULL)
+				continue;
+
+			m_cbSerialPort->Append(gl.gl_pathv[i]);
+			m_cbCtlDevicePath->Append(gl.gl_pathv[i]);
+		}
+		globfree(&gl);
+	}
+#else
+    /* TODO(Joel): http://stackoverflow.com/questions/2530096/how-to-find-all-serial-devices-ttys-ttyusb-on-linux-without-opening-them */
     m_cbSerialPort->Append("/dev/ttyUSB0");
     m_cbSerialPort->Append("/dev/ttyUSB1");
     m_cbSerialPort->Append("/dev/ttyS0");
     m_cbSerialPort->Append("/dev/ttyS1");
-    /*
-    m_txtCtlDevicePath->Clear();
-    m_txtCtlDevicePath->Append("/dev/ttyUSB0");
-    m_txtCtlDevicePath->Append("/dev/ttyUSB1");
-    m_txtCtlDevicePath->Append("/dev/ttyS0");
-    m_txtCtlDevicePath->Append("/dev/ttyS1");
-    */
+    m_cbCtlDevicePath->Clear();
+    m_cbCtlDevicePath->Append("/dev/ttyUSB0");
+    m_cbCtlDevicePath->Append("/dev/ttyUSB1");
+    m_cbCtlDevicePath->Append("/dev/ttyS0");
+    m_cbCtlDevicePath->Append("/dev/ttyS1");
+#endif
 #endif
 }
 
@@ -290,7 +321,7 @@ void ComPortsDlg::ExchangeData(int inout)
         m_listCtrlPorts->SetStringSelection(str);
 #endif
 #ifdef __WXGTK__
-        m_txtCtlDevicePath->SetValue(str);
+        m_cbCtlDevicePath->SetValue(str);
 #endif
         m_rbUseRTS->SetValue(wxGetApp().m_boolUseRTS);
         m_ckRTSPos->SetValue(wxGetApp().m_boolRTSPos);
@@ -319,7 +350,7 @@ void ComPortsDlg::ExchangeData(int inout)
         wxGetApp().m_strRigCtrlPort             = m_listCtrlPorts->GetStringSelection();
 #endif
 #ifdef __WXGTK__
-        wxGetApp().m_strRigCtrlPort             = m_txtCtlDevicePath->GetValue();
+        wxGetApp().m_strRigCtrlPort             = m_cbCtlDevicePath->GetValue();
 #endif
         wxGetApp().m_boolUseRTS                 = m_rbUseRTS->GetValue();
         wxGetApp().m_boolRTSPos                 = m_ckRTSPos->IsChecked();

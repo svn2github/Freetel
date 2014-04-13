@@ -44,8 +44,25 @@ endif(NOT CMAKE_BUILD_TYPE)
 message(STATUS "FreeDV version: ${FREEDV_VERSION}")
 
 # Work around for not using a svn working copy.
-add_definitions(-DSVN_REVISION="Unversioned directory")
 add_definitions(-D_NO_AUTOTOOLS_)
+find_program(SVNVERSION_PATH svnversion)
+if(SVNVERSION_PATH)
+    execute_process(COMMAND ${SVNVERSION_PATH} .
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        RESULT_VARIABLE SVN_REVISION_RESULT
+        OUTPUT_VARIABLE SVN_CURRENT_REVISION
+        ERROR_QUIET
+    )
+else()
+    set(SVN_REVISION_RESULT 1)
+endif()
+if(SVN_REVISION_RESULT EQUAL 0)
+string(STRIP ${SVN_CURRENT_REVISION} SVN_REVISION)
+add_definitions(-DSVN_REVISION="${SVN_REVISION}")
+else()
+add_definitions(-DSVN_REVISION="Unversioned directory")
+endif()
+    
 
 
 # Set default build flags.
@@ -64,8 +81,6 @@ set(USE_STATIC_SAMPLERATE FALSE CACHE BOOL
     "Download and build static samplerate instead of the system library.")
 set(USE_STATIC_SOX FALSE CACHE BOOL
     "Download and build static sox instead of the system library.")
-set(USE_STATIC_LIBCTB FALSE CACHE BOOL
-    "Download and build static libctb instead of the system library.")
 set(USE_STATIC_CODEC2 FALSE CACHE BOOL
     "Download and build static codec2 instead of the system library.")
 set(BOOTSTRAP_WXWIDGETS FALSE CACHE BOOL
@@ -76,7 +91,6 @@ if(USE_STATIC_DEPS)
     set(USE_STATIC_SNDFILE TRUE FORCE)
     set(USE_STATIC_SAMPLERATE TRUE FORCE)
     set(USE_STATIC_SOX TRUE FORCE)
-    set(USE_STATIC_LIBCTB TRUE FORCE)
     set(USE_STATIC_CODEC2 TRUE FORCE)
 endif(USE_STATIC_DEPS)
 
@@ -133,7 +147,6 @@ if(MINGW)
         libcodec2.dll
         libportaudio-2.dll
         libportaudiocpp-0.dll
-        libctb-0.16.dll
         libsox-2.dll
         zlib1.dll
         libusb0.dll
@@ -207,8 +220,8 @@ message(STATUS "Threads library flags: ${CMAKE_THREAD_LIBS_INIT}")
 #
 if(NOT USE_STATIC_PORTAUDIO)
     message(STATUS "Looking for portaudio...")
-    find_library(PORTAUDIO_LIBS NAMES libportaudio-2.dll portaudio)
-    find_path(PORTAUDIO_INCLUDE_DIR portaudio.h)
+    find_library(PORTAUDIO_LIBS NAMES libportaudio-2.dll portaudio HINTS /usr/local/lib/portaudio2)
+    find_path(PORTAUDIO_INCLUDE_DIR portaudio.h HINTS /usr/local/include/portaudio2)
     message(STATUS "  portaudio library: ${PORTAUDIO_LIBS}")
     message(STATUS "  portaudio headers: ${PORTAUDIO_INCLUDE_DIR}")
     if(PORTAUDIO_LIBS AND PORTAUDIO_INCLUDE_DIR)
@@ -394,46 +407,6 @@ else(NOT USE_STATIC_CODEC2)
     message(STATUS "Will attempt static build of codec2.")
     include(cmake/BuildCodec2.cmake)
 endif(NOT USE_STATIC_CODEC2)
-
-#
-# Find libctb. Assumes version 0.16
-#
-if(NOT USE_STATIC_LIBCTB)
-    message(STATUS "Looking for libctb...")
-    find_path(LIBCTB_INCLUDE_DIR NAMES ctb.h ctb-0.16/ctb.h)
-    find_library(LIBCTB_LIBRARY NAMES ctb ctb-0.16)
-    message(STATUS "  libctb library: ${LIBCTB_LIBRARY}")
-    message(STATUS "  libctb headers: ${LIBCTB_INCLUDE_DIR}")
-    if(LIBCTB_LIBRARY AND LIBCTB_INCLUDE_DIR)
-        set(CMAKE_REQUIRED_LIBRARIES ${LIBCTB_LIBRARY})
-        if(NOT CMAKE_CROSSCOMPILING)
-            # Check to make sure linking with libctb works.
-            include(CheckCXXSourceCompiles)
-            check_cxx_source_compiles("
-                #include <ctb-0.16/ctb.h>
-                int main() {
-                ctb::SerialPort*        m_serialPort;
-                m_serialPort = new ctb::SerialPort();
-                };"
-                LIBCTB_LINKS)
-            if(NOT LIBCTB_LINKS)
-                message(FATAL_ERROR "Linking libctb failed.")
-            endif(NOT LIBCTB_LINKS)
-        endif(NOT CMAKE_CROSSCOMPILING)
-    else(LIBCTB_LIBRARY AND LIBCTB_INCLUDE_DIR)
-        message(FATAL_ERROR "libctb not found.
-Linux:
-  libctb may not be available in your distribution. Either build and install or use the cmake option to build statically.
-Windws:
-It's easiest to use the cmake option: USE_STATIC_LIBCTB"
-            )
-    endif(LIBCTB_LIBRARY AND LIBCTB_INCLUDE_DIR)
-else(NOT USE_STATIC_LIBCTB)
-    include(cmake/BuildLibctb.cmake)
-endif(NOT USE_STATIC_LIBCTB)
-
-include_directories(${LIBCTB_INCLUDE_DIR})
-list(APPEND FREEDV_LINK_LIBS ${LIBCTB_LIBRARY})
 
 
 # Freedv 
