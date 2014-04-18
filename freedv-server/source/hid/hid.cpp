@@ -1,7 +1,12 @@
-#include <iostream>
+#include <errno.h>
 #include <iomanip>
+#include <iostream>
 #include <stdexcept>
 #include <stdint.h>
+#include <stdio.h>
+#include <string.h>
+#include <usb.h>
+
 
 #ifdef	__INT64_TYPE__
 #define	INTEGER_64
@@ -513,34 +518,157 @@ HIDRaw::print_main(std::ostream & stream) const
   return stream;
 }
 
-main()
+const char *
+get_string(usb_dev_handle * handle, unsigned int index)
 {
-  static const unsigned char descriptor[] = {
-    0x05, 0x01, 0x09, 0x04, 0xA1, 0x01, 0xA1, 0x02,
-    0x85, 0x01, 0x75, 0x08, 0x95, 0x01, 0x15, 0x00,
-    0x26, 0xFF, 0x00, 0x81, 0x03, 0x75, 0x01, 0x95,
-    0x13, 0x15, 0x00, 0x25, 0x01, 0x35, 0x00, 0x45,
-    0x01, 0x05, 0x09, 0x19, 0x01, 0x29, 0x13, 0x81,
-    0x02, 0x75, 0x01, 0x95, 0x0D, 0x06, 0x00, 0xFF,
-    0x81, 0x03, 0x15, 0x00, 0x26, 0xFF, 0x00, 0x05,
-    0x01, 0x09, 0x01, 0xA1, 0x00, 0x75, 0x08, 0x95,
-    0x04, 0x35, 0x00, 0x46, 0xFF, 0x00, 0x09, 0x30,
-    0x09, 0x31, 0x09, 0x32, 0x09, 0x35, 0x81, 0x02,
-    0xC0, 0x05, 0x01, 0x75, 0x08, 0x95, 0x27, 0x09,
-    0x01, 0x81, 0x02, 0x75, 0x08, 0x95, 0x30, 0x09,
-    0x01, 0x91, 0x02, 0x75, 0x08, 0x95, 0x30, 0x09,
-    0x01, 0xB1, 0x02, 0xC0, 0xA1, 0x02, 0x85, 0x02,
-    0x75, 0x08, 0x95, 0x30, 0x09, 0x01, 0xB1, 0x02,
-    0xC0, 0xA1, 0x02, 0x85, 0xEE, 0x75, 0x08, 0x95,
-    0x30, 0x09, 0x01, 0xB1, 0x02, 0xC0, 0xA1, 0x02,
-    0x85, 0xEF, 0x75, 0x08, 0x95, 0x30, 0x09, 0x01,
-    0xB1, 0x02, 0xC0, 0xC0
-  };
+  char	buf[256];
 
-  for ( unsigned int	i = 0; i < sizeof(descriptor); ) {
-    const HIDRaw * raw = (HIDRaw *)&descriptor[i];
-    raw->print(std::cout);
-    i += raw->item_length();
+  if ( index ) {
+    const int length = usb_get_string_simple(
+     handle,
+     index,
+     buf,
+     sizeof(buf));
+
+    // Some devices leave trailing spaces in USB strings.
+    if ( length > 0 ) {
+      char *end = &buf[length - 1];
+      while ( end > buf && *end == ' ' )
+        *end-- = '\0';
+      
+      return strdup(buf);
+    }
   }
+  return 0;
+}
+
+const char *
+get_driver(usb_dev_handle * handle, unsigned int interface_number)
+{
+  char	buf[256];
+  if ( usb_get_driver_np(
+   handle,
+   interface_number,
+   buf,
+   sizeof(buf)) == 0 )
+    return strdup(buf);
+  else
+    return 0;
+}
+
+void
+process_hid(struct usb_device * const dev, unsigned int interface_number)
+{
+  const unsigned int	vendor = dev->descriptor.idVendor;
+  const unsigned int	product = dev->descriptor.idProduct;
+  const char *		manufacturer_name = 0;
+  const char *		product_name = 0;
+  const char *		serial_number = 0;
+  const char *		driver_name = 0;
+  char			buf[1024];
+
+  std::cout
+   << std::hex
+   << vendor
+   << ':'
+   << product
+   << ' ';
+
+  struct usb_dev_handle * const handle = usb_open(dev);
+
+  if ( handle == 0 ) {
+    std::cout << std::endl << std::flush;
+    std::cerr
+     << "Can't open USB device: "
+     << strerror(errno)
+     << std::endl;
+    return;
+  }
+
+  manufacturer_name = get_string(handle, dev->descriptor.iManufacturer);
+  product_name = get_string(handle, dev->descriptor.iProduct);
+  serial_number = get_string(handle, dev->descriptor.iSerialNumber);
+  driver_name = get_driver(handle, interface_number);
+
+  if ( manufacturer_name )
+    std::cout << manufacturer_name << " ";
+  if ( product_name )
+    std::cout << product_name << ' ';
+  if ( serial_number )
+    std::cout << serial_number << ' ';
+  if ( driver_name )
+    std::cout << "(Controlled by " << driver_name << ") ";
+  std::cout << std::endl;
+
+  if ( usb_claim_interface(handle, interface_number) == 0 ) {
+    memset(buf, 0, sizeof(buf));
+    int result = usb_control_msg(
+    handle,
+    USB_ENDPOINT_IN+1,
+    USB_REQ_GET_DESCRIPTOR,
+    (USB_DT_REPORT << 8),
+    interface_number,
+    buf,
+    sizeof(buf),
+    1000); 
+  
+    // I have a poorly programmed Microchip PIC USB HID device in a car power
+    // supply. usb_control_msg() returns ffffffb9 when I ask for its HID
+    // descriptor. Thus the maximum-size check here.
+    if ( result > 0 && result <= sizeof(buf) ) {
+      for ( unsigned int i = 0; i < result; ) {
+        const HIDRaw * raw = (HIDRaw *)&buf[i];
+        raw->print(std::cout);
+        i += raw->item_length();
+      }
+    }
+
+    usb_release_interface(handle, interface_number);
+  }
+  else {
+    std::cout << "Can't claim interface." << std::endl;
+  }
+  usb_close(handle);
+}
+
+int main(int argc, char *argv[])
+{
+  struct usb_bus *bus;
+
+  usb_init();
+  usb_set_debug(0);
+
+  usb_find_busses();
+  usb_find_devices();
+
+  for (bus = usb_get_busses(); bus; bus = bus->next) {
+    struct usb_device *dev;
+
+    if (bus->devices) {
+      for (dev = bus->devices; dev; dev = dev->next) {
+        if (dev->descriptor.bDeviceClass ==
+          USB_CLASS_PER_INTERFACE) {
+          for (int i = 0; i < dev->descriptor.bNumConfigurations;
+             i++) {
+            struct usb_config_descriptor *const config =
+              &dev->config[i];
+            for (int j = 0; j < config->bNumInterfaces; j++) {
+              struct usb_interface *const
+                interface = &config->interface[j];
+              for (int k = 0; k < interface->num_altsetting;
+                 k++) {
+                struct usb_interface_descriptor *const d =
+                  &interface->altsetting[k];
+                if (d->bInterfaceClass == USB_CLASS_HID) {
+                  process_hid(dev, k);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   return 0;
 }
