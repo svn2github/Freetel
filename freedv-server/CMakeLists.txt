@@ -131,6 +131,7 @@ set(Compile.sources
   source/fifo.cpp
   source/framer.cpp
   source/framer_noop.cpp
+  source/global.cpp
   source/interfaces.cpp
   source/io_device.cpp
   source/keying.cpp
