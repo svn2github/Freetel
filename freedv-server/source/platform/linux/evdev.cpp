@@ -10,6 +10,12 @@
 #include <fcntl.h>
 #include <sstream>
 
+static bool
+bit_set(unsigned int bit, const uint8_t * field)
+{
+  return ((field[bit / 8] & (1 << (bit % 8))) != 0);
+}
+
 namespace FreeDV {
   // Remove extra spaces from string, in place.
   char *
@@ -53,7 +59,7 @@ namespace FreeDV {
   struct EvDev::device_enumeration *
   EvDev::enumerate(std::size_t & count)
   {
-    struct device_enumeration	devices[100];
+    struct device_enumeration	devices[64];
   
     count = 0;
   
@@ -107,38 +113,12 @@ namespace FreeDV {
   
     device.name = strdup(str.str().c_str());
   
-    if ( test_bit(EV_KEY, device.event_types) == 0
+    if ( bit_set(EV_KEY, device.event_types) == 0
     || ioctl(fd, EVIOCGBIT(EV_KEY, sizeof(device.buttons)), device.buttons)
      < 0 )
       memset(device.buttons, 0, sizeof(device.buttons));
 
     return true;
-  }
-  
-  char * *
-  EvDev::EnumerateButtonDevices()
-  {
-    std::size_t			count = 0;
-    std::size_t			length = 0;
-    device_enumeration * const	devices = enumerate(count);
-  
-    for ( std::size_t i = 0; i < count; i++ ) {
-      if ( test_bit(EV_KEY, devices[i].event_types) )
-        length++;
-    }
-  
-    char * * names = new char * [length + 1];
-  
-    std::size_t	j = 0;
-    for ( std::size_t i = 0; i < count; i++ ) {
-      if ( test_bit(EV_KEY, devices[i].event_types) )
-        names[j++] = devices[i].name;
-        devices[i].name = 0;
-    }
-    names[j] = 0;
-  
-    delete_enumeration(devices, count);
-    return names;
   }
   
   EvDev::EvDev(const char *)

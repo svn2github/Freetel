@@ -9,6 +9,12 @@
 #include <iostream>
 #include <stdexcept>
 
+static bool
+bit_set(unsigned int bit, const uint8_t * field)
+{
+  return ((field[bit / 8] & (1 << (bit % 8))) != 0);
+}
+
 namespace FreeDV {
   /// PTT driver using Linux evdev.
   ///
@@ -80,20 +86,38 @@ namespace FreeDV {
   static std::ostream &
   PTT_EvDevEnumerator(std::ostream & stream)
   {
-    char * *	devices = EvDev::EnumerateButtonDevices();
+    std::size_t				count = 0;
+    EvDev::device_enumeration * const	devices = EvDev::enumerate(count);
+  
+    for ( std::size_t i = 0; i < count; i++ ) {
+      if ( bit_set(EV_KEY, devices[i].event_types) ) {
+        int	low = -1;
+        int	high = -1;
 
-    char * *	d = devices;
-
-    while ( *d != 0 )
-      stream << "\"evdev:" << *d++ << '\"' << std::endl;
-
-    d = devices;
-
-    while ( *d != 0 )
-      delete *d++;
-
-    delete devices;
-
+        for ( int j = KEY_F1; j <= KEY_MAX; j++ ) {
+          if ( bit_set(j, devices[i].buttons) ) {
+            low = j;
+            break;
+          }
+        }
+        for ( int j = KEY_MAX; j >= KEY_F1; j-- ) {
+          if ( bit_set(j, devices[i].buttons) ) {
+            high = j;
+            break;
+          }
+        }
+        if ( low >= 0 ) {
+          stream << '\"' << devices[i].name << ',' << low << '\"';
+         
+          if ( high > low )
+            stream << " (" << low << '-' << high << ')';
+  
+          stream << std::endl;
+        }
+      }
+    }
+  
+    EvDev::delete_enumeration(devices, count);
     return stream;
   }
 
