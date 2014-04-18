@@ -796,6 +796,12 @@ Modem *		ModemNoOp(const char * parameter);
 ///
 PTTInput *	PTTConstant(const char * parameter);
 
+/// Opens a push-to-talk device based on Linux evdev.
+/// \param parameter
+/// \return A pointer to the PTT_EvDev instance for the device.
+///
+PTTInput *	PTT_EvDev(const char * parameter);
+
 /// Opens a "constant" text ionput device, which has a constant text value
 /// which is to be transmitted as ancillary data.
 /// \param parameter The text to be transmitted.
