@@ -84,9 +84,11 @@ namespace FreeDV {
         if ( i )
           *i = '\0';
 
-        stream << "\"alsa:" << longname << '"';
-        error_message(stream, card_error);
-        stream << std::endl;
+        if ( card_error != -ENOENT ) {
+          stream << "\"alsa:" << longname << '"';
+          error_message(stream, card_error);
+          stream << std::endl;
+        }
   
         if ( ctl_error == 0 ) {
       	  if ( pcm_error == 0 )

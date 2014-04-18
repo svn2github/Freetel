@@ -107,7 +107,7 @@ namespace FreeDV {
           }
         }
         if ( low >= 0 ) {
-          stream << '\"' << devices[i].name << ',' << low << '\"';
+          stream << "\"evdev:" << devices[i].name << ',' << low << '\"';
          
           if ( high > low )
             stream << " (" << low << '-' << high << ')';
