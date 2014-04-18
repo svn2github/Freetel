@@ -1,4 +1,5 @@
 #include "evdev.h"
+#include <stdexcept>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,16 +10,42 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <sstream>
-
-static bool
-bit_set(unsigned int bit, const uint8_t * field)
-{
-  return ((field[bit / 8] & (1 << (bit % 8))) != 0);
-}
+#include <assert.h>
 
 namespace FreeDV {
+  static bool
+  bit_set(unsigned int bit, const uint8_t * field)
+  {
+    return ((field[bit / 8] & (1 << (bit % 8))) != 0);
+  }
+
+  NORETURN static void
+  do_throw(
+   const int error,
+   const char * name,
+   const char * special_file,
+   const char * message = 0)
+  {
+    std::ostringstream str;
+
+    str << "EVDEV ";
+
+    str << '\"' << name << "\" device \"" << special_file
+     << "\" set-up error: ";
+    if ( message ) {
+      str << message;
+      if ( error )
+        str << ": ";
+    }
+    if ( error )
+      str << strerror(error);
+
+    str << '.';
+    throw std::runtime_error(str.str().c_str());
+  }
+
   // Remove extra spaces from string, in place.
-  char *
+  static char *
   clean_string(char * string)
   {
     char * s = string;
@@ -121,11 +148,68 @@ namespace FreeDV {
     return true;
   }
   
-  EvDev::EvDev(const char *)
+  int
+  EvDev::poll_fds(PollType * array, int length)
   {
+    if ( length >= 0 ) {
+      array[0].fd = fd;
+      return 1;
+    }
+    else
+      throw std::invalid_argument("poll_fds() called with zero-size array.");
+  }
+
+  std::size_t
+  EvDev::ready()
+  {
+    int length = 0;
+
+    if ( ioctl(fd, FIONREAD, &length) < 0 )
+      do_throw(errno, name, special_file, "ioctl FIONREAD");
+
+    return length;
+  }
+
+  std::size_t
+  EvDev::read_events(input_event * data, std::size_t count)
+  {
+    const int result = read(fd, data, count * sizeof(*data));
+    if ( result < 0 )
+      do_throw(errno, name, special_file, "read");
+    return result / sizeof(*data);
+  }
+
+  EvDev::EvDev(const char * _name)
+  : fd(-1), name(strdup(_name)), special_file(0)
+  {
+    static std::size_t		count;
+    static device_enumeration *	enumeration = 0;
+
+    if ( (fd = open(name, O_RDWR) >= 0 ) ) {
+      special_file = strdup(name);
+      return;
+    }
+
+    if ( enumeration == 0 )
+      enumeration = enumerate(count);
+
+    std::size_t length = strlen(name);
+
+    for ( std::size_t i = 0; i < count; i++ ) {
+      if ( strncmp(name, enumeration[i].name, length) == 0 ) {
+        special_file = strdup(enumeration[i].special_file);
+        fd = open(special_file, O_RDWR);
+
+        if ( fd < 0 )
+          do_throw(errno, name, special_file, "open");
+      }
+    } 
   }
   
   EvDev::~EvDev()
   {
+    close(fd);
+    delete name;
+    delete special_file;
   }
 }

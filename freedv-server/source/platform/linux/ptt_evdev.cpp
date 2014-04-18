@@ -5,7 +5,6 @@
 ///
 
 #include "evdev.h"
-#include "drivers.h"
 #include <iostream>
 #include <stdexcept>
 
