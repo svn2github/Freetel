@@ -15,6 +15,7 @@ namespace FreeDV {
       char *	special_file;
       char *	name;
       uint8_t	event_types[(EV_MAX + 7) / 8];
+      uint8_t	buttons[(KEY_MAX + 7) / 8];
     };
   
   private:

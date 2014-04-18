@@ -97,6 +97,8 @@ set(Compile.linux.sources
   source/platform/linux/alsa.cpp
   source/platform/linux/audio_out_alsa.cpp
   source/platform/linux/audio_in_alsa.cpp
+  source/platform/linux/evdev.cpp
+  source/platform/linux/ptt_evdev.cpp
 )
 
 set(Compile.linux.libraries

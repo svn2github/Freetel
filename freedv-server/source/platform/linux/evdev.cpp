@@ -107,6 +107,11 @@ namespace FreeDV {
   
     device.name = strdup(str.str().c_str());
   
+    if ( test_bit(EV_KEY, device.event_types) == 0
+    || ioctl(fd, EVIOCGBIT(EV_KEY, sizeof(device.buttons)), device.buttons)
+     < 0 )
+      memset(device.buttons, 0, sizeof(device.buttons));
+
     return true;
   }
   
