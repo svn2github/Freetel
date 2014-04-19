@@ -5,24 +5,51 @@
 ///
 
 #include "evdev.h"
+#include <stdlib.h>
+#include <string.h>
 #include <iostream>
 #include <stdexcept>
-
-static bool
-bit_set(unsigned int bit, const uint8_t * field)
-{
-  return ((field[bit / 8] & (1 << (bit % 8))) != 0);
-}
+#include <sstream>
 
 namespace FreeDV {
+  NORETURN static void
+  do_throw(
+   const char * name,
+   const char * message = 0)
+  {
+    std::ostringstream str;
+
+    str << "EVDEV ";
+
+    str << '\"' << name << "\": ";
+    if ( message ) {
+      str << message;
+    }
+
+    str << '.';
+    throw std::runtime_error(str.str().c_str());
+  }
+
+  inline static bool
+  bit_is_set(unsigned int bit, const uint8_t * field)
+  {
+    return ((field[bit / 8] & (1 << (bit % 8))) != 0);
+  }
+  
   /// PTT driver using Linux evdev.
   ///
   class PTT_EvDev : public PTTInput {
   private:
-    /// This is true if ready has not yet been sent.
-    ///
+    EvDev		* dev;
+    int			button_index;
     bool		pressed;
-    bool		ready_one_shot;
+    bool		changed;
+
+    			PTT_EvDev(const PTT_EvDev &);
+    			PTT_EvDev & operator =(const PTT_EvDev &);
+
+    void		process_events();
+
   public:
     /// Instantiate.
     ///
@@ -37,7 +64,7 @@ namespace FreeDV {
     /// \return The number of file descriptors written to the array.
     virtual int	poll_fds(PollType * array, int space);
 
-    /// Return the amount of bytes ready for read.
+    /// Return the amount of events ready for read.
     ///
     std::size_t	ready();
 
@@ -47,33 +74,90 @@ namespace FreeDV {
   };
 
   PTT_EvDev::PTT_EvDev(const char * _parameters)
-  : PTTInput("constant", _parameters), pressed(false), ready_one_shot(true)
+  : PTTInput("evdev", _parameters), dev(0), button_index(0), pressed(false),
+    changed(false)
   {
+    char *	p = strdup(parameters);
+    char *	number = index(p, ',');
+
+    if ( number == 0 )
+      do_throw(
+       parameters,
+       "The device name must be followed by a comma and a button number."); 
+
+    *number++ = '\0';
+
+    button_index = atoi(number);
+    
+    dev = new EvDev(p);
+    delete p;
+
+    if ( !dev->has_button(button_index) ) {
+      std::ostringstream str;
+
+      str << "There is no button " << button_index << " in this device.";
+
+      do_throw(parameters, str.str().c_str());
+    }
+
+    pressed = dev->button_state(button_index);
   }
 
   PTT_EvDev::~PTT_EvDev()
   {
+    delete dev;
   }
 
   int
-  PTT_EvDev::poll_fds(PollType *, int)
+  PTT_EvDev::poll_fds(PollType * array, int count)
   {
-    return 0;
+    return dev->poll_fds(array, count);
+  }
+
+  void
+  PTT_EvDev::process_events()
+  {
+    while ( dev->ready() > 0 ) {
+      input_event	events[10];
+
+      const std::size_t count = dev->read_events(
+       events,
+       sizeof(events) / sizeof(*events));
+
+      for ( std::size_t i = 0; i < count; i++ ) {
+        const input_event * const event = &events[i];
+        if ( event->type == EV_KEY && event->code == button_index ) {
+          switch ( event->value ) {
+          case 0:
+            if ( pressed )
+	      changed = true;
+	    pressed = false;
+            break;
+          case 1:
+            if ( !pressed )
+	      changed = true;
+            pressed = true;
+            break;
+	  default:
+	    ;
+	  }
+        }
+      }
+    }
   }
 
   std::size_t
   PTT_EvDev::ready()
   {
-    if ( ready_one_shot )
-      return 1;
-    else
-      return 0;
+    return dev->ready();
   }
 
   bool
   PTT_EvDev::state()
   {
-    return false;
+    process_events();
+    changed = false;
+    return pressed;
   }
 
   PTTInput *
@@ -89,18 +173,18 @@ namespace FreeDV {
     EvDev::device_enumeration * const	devices = EvDev::enumerate(count);
   
     for ( std::size_t i = 0; i < count; i++ ) {
-      if ( bit_set(EV_KEY, devices[i].event_types) ) {
+      if ( bit_is_set(EV_KEY, devices[i].event_types) ) {
         int	low = -1;
         int	high = -1;
 
         for ( int j = KEY_F1; j <= KEY_MAX; j++ ) {
-          if ( bit_set(j, devices[i].buttons) ) {
+          if ( bit_is_set(j, devices[i].buttons) ) {
             low = j;
             break;
           }
         }
         for ( int j = KEY_MAX; j >= KEY_F1; j-- ) {
-          if ( bit_set(j, devices[i].buttons) ) {
+          if ( bit_is_set(j, devices[i].buttons) ) {
             high = j;
             break;
           }

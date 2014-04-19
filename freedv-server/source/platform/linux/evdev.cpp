@@ -13,8 +13,8 @@
 #include <assert.h>
 
 namespace FreeDV {
-  static bool
-  bit_set(unsigned int bit, const uint8_t * field)
+  inline static bool
+  bit_is_set(unsigned int bit, const uint8_t * field)
   {
     return ((field[bit / 8] & (1 << (bit % 8))) != 0);
   }
@@ -69,6 +69,18 @@ namespace FreeDV {
     return string;
   }
   
+  bool
+  EvDev::button_state(unsigned int index)
+  {
+    uint8_t	buttons[(KEY_MAX + 7) / 8];
+
+    
+    if ( ioctl(fd, EVIOCGKEY(sizeof(buttons)), buttons) < 0 )
+      do_throw(errno, name, special_file, "ioctl EVIOCGKEY");
+
+    return bit_is_set(index, buttons);
+  }
+
   void
   EvDev::delete_enumeration(
    EvDev::device_enumeration *	data,
@@ -140,7 +152,7 @@ namespace FreeDV {
   
     device.name = strdup(str.str().c_str());
   
-    if ( bit_set(EV_KEY, device.event_types) == 0
+    if ( bit_is_set(EV_KEY, device.event_types) == 0
     || ioctl(fd, EVIOCGBIT(EV_KEY, sizeof(device.buttons)), device.buttons)
      < 0 )
       memset(device.buttons, 0, sizeof(device.buttons));
@@ -148,6 +160,17 @@ namespace FreeDV {
     return true;
   }
   
+  bool
+  EvDev::has_button(unsigned int index)
+  {
+    uint8_t	buttons[(KEY_MAX + 7) / 8];
+
+    if ( ioctl(fd, EVIOCGBIT(EV_KEY, sizeof(buttons)), buttons) < 0 )
+      return false;
+
+    return bit_is_set(index, buttons);
+  }
+
   int
   EvDev::poll_fds(PollType * array, int length)
   {
@@ -167,7 +190,7 @@ namespace FreeDV {
     if ( ioctl(fd, FIONREAD, &length) < 0 )
       do_throw(errno, name, special_file, "ioctl FIONREAD");
 
-    return length;
+    return length / sizeof(input_event);
   }
 
   std::size_t

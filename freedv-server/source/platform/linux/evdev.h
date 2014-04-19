@@ -26,6 +26,8 @@ namespace FreeDV {
   			 struct device_enumeration &	device);
   
   public:
+    bool		button_state(unsigned int index);
+
     static void		delete_enumeration(
    			 device_enumeration *	data,
   			 std::size_t		count);
@@ -33,11 +35,17 @@ namespace FreeDV {
     static device_enumeration *
   			enumerate(std::size_t & count);
   
+    bool		has_button(unsigned int index);
+
+    const char *	long_name() { return name; }
+
     int			poll_fds(PollType *, int);
 
     std::size_t		ready();
 
     std::size_t		read_events(input_event * data, std::size_t count);
+
+    const char *	device_name() { return special_file; }
 
     			EvDev(const char * name);
   			~EvDev();
