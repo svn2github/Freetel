@@ -130,12 +130,16 @@ namespace FreeDV {
         if ( event->type == EV_KEY && event->code == button_index ) {
           switch ( event->value ) {
           case 0:
-  	    changed = true;
-  	    pressed = false;
+            if ( pressed ) {
+  	      changed = true;
+  	      pressed = false;
+            }
             break;
           case 1:
-  	    changed = true;
-            pressed = true;
+            if ( !pressed ) {
+  	      changed = true;
+              pressed = true;
+            }
             break;
   	  default:
   	    ;
