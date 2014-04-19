@@ -1,3 +1,8 @@
+/// \file evdev.cpp
+/// Implementation of the evdev PTT driver.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
 #include "evdev.h"
 #include <stdexcept>
 #include <stdint.h>

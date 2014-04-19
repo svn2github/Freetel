@@ -1,3 +1,8 @@
+/// \file evdev.h
+/// Implementation of the evdev PTT driver.
+///
+/// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.
+///
 #include <cstdint>
 #include <linux/input.h>
 #include "drivers.h"
@@ -32,6 +37,8 @@ namespace FreeDV {
    			 device_enumeration *	data,
   			 std::size_t		count);
   
+    const char *	device_name() { return special_file; }
+
     static device_enumeration *
   			enumerate(std::size_t & count);
   
@@ -44,8 +51,6 @@ namespace FreeDV {
     std::size_t		ready();
 
     std::size_t		read_events(input_event * data, std::size_t count);
-
-    const char *	device_name() { return special_file; }
 
     			EvDev(const char * name);
   			~EvDev();
