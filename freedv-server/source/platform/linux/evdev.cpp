@@ -5,6 +5,7 @@
 ///
 #include "evdev.h"
 #include <stdexcept>
+#include <iostream>
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
@@ -188,23 +189,18 @@ namespace FreeDV {
   }
 
   std::size_t
-  EvDev::ready()
-  {
-    int length = 0;
-
-    if ( ioctl(fd, FIONREAD, &length) < 0 )
-      do_throw(errno, name, special_file, "ioctl FIONREAD");
-
-    return length / sizeof(input_event);
-  }
-
-  std::size_t
   EvDev::read_events(input_event * data, std::size_t count)
   {
     const int result = read(fd, data, count * sizeof(*data));
-    if ( result < 0 )
-      do_throw(errno, name, special_file, "read");
-    return result / sizeof(*data);
+    if ( result < 0 ) {
+      if ( errno == EAGAIN ) {
+        return 0;
+      }
+      else
+        do_throw(errno, name, special_file, "read");
+    }
+    else
+      return result / sizeof(*data);
   }
 
   EvDev::EvDev(const char * _name)
@@ -213,7 +209,7 @@ namespace FreeDV {
     static std::size_t		count;
     static device_enumeration *	enumeration = 0;
 
-    if ( (fd = open(name, O_RDWR) >= 0 ) ) {
+    if ( (fd = open(name, O_RDWR|O_NONBLOCK) >= 0 ) ) {
       special_file = strdup(name);
       return;
     }
@@ -226,7 +222,7 @@ namespace FreeDV {
     for ( std::size_t i = 0; i < count; i++ ) {
       if ( strncmp(name, enumeration[i].name, length) == 0 ) {
         special_file = strdup(enumeration[i].special_file);
-        fd = open(special_file, O_RDWR);
+        fd = open(special_file, O_RDWR|O_NONBLOCK);
 
         if ( fd < 0 )
           do_throw(errno, name, special_file, "open");

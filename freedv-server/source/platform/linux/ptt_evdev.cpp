@@ -75,7 +75,7 @@ namespace FreeDV {
 
   PTT_EvDev::PTT_EvDev(const char * _parameters)
   : PTTInput("evdev", _parameters), dev(0), button_index(0), pressed(false),
-    changed(false)
+    changed(true)
   {
     char *	p = strdup(parameters);
     char *	number = index(p, ',');
@@ -117,30 +117,29 @@ namespace FreeDV {
   void
   PTT_EvDev::process_events()
   {
-    while ( dev->ready() > 0 ) {
-      input_event	events[10];
+    int		count;
+    input_event	events[10];
 
-      const std::size_t count = dev->read_events(
-       events,
-       sizeof(events) / sizeof(*events));
-
+    while ( (count = dev->read_events(
+     events,
+     sizeof(events) / sizeof(*events)))
+     > 0 ) {
+  
       for ( std::size_t i = 0; i < count; i++ ) {
         const input_event * const event = &events[i];
         if ( event->type == EV_KEY && event->code == button_index ) {
           switch ( event->value ) {
           case 0:
-            if ( pressed )
-	      changed = true;
-	    pressed = false;
+  	    changed = true;
+  	    pressed = false;
             break;
           case 1:
-            if ( !pressed )
-	      changed = true;
+  	    changed = true;
             pressed = true;
             break;
-	  default:
-	    ;
-	  }
+  	  default:
+  	    ;
+  	  }
         }
       }
     }
@@ -149,13 +148,16 @@ namespace FreeDV {
   std::size_t
   PTT_EvDev::ready()
   {
-    return dev->ready();
+    process_events();
+    if ( changed )
+      return 1;
+    else
+      return 0;
   }
 
   bool
   PTT_EvDev::state()
   {
-    process_events();
     changed = false;
     return pressed;
   }

@@ -48,8 +48,6 @@ namespace FreeDV {
 
     int			poll_fds(PollType *, int);
 
-    std::size_t		ready();
-
     std::size_t		read_events(input_event * data, std::size_t count);
 
     			EvDev(const char * name);

@@ -29,15 +29,10 @@ namespace FreeDV {
   private:
     const std::size_t	FIFOSize = MaximumFrameSamples * sizeof(int16_t) * 2;
     Interfaces * const	i;
-    bool		begin_receive;
-    bool		begin_transmit;
     FIFO		codec_fifo;
     FIFO		in_fifo;
     FIFO		out_fifo;
     int			poll_fd_count;
-    bool		ptt_digital;
-    bool		ptt_ssb;
-    bool		started;
     PollType		poll_fds[100];
  
     // Disable copy constructor and operator=().
@@ -46,8 +41,6 @@ namespace FreeDV {
 
     bool		add_poll_device(IODevice * device);
     NORETURN void	do_throw(int error, const char * message);
-    void		key_down();
-    void		key_up();
     void		receive();
     void		reset();
     void		transmit_digital();
@@ -65,23 +58,11 @@ namespace FreeDV {
   };
   
   Run::Run(Interfaces * interfaces)
-  : i(interfaces), begin_receive(true), begin_transmit(false),
+  : i(interfaces),
     codec_fifo(FIFOSize), in_fifo(FIFOSize),
-    out_fifo(FIFOSize), poll_fd_count(0), ptt_digital(false), ptt_ssb(false),
-    started(false)
+    out_fifo(FIFOSize), poll_fd_count(0)
   {
     reset();
-
-    // FIX: This needs to be done at the start of the receive or transmit
-    // loop, so that only the necessary devices will be polled.
-    if ( !add_poll_device(i->receiver) )
-      add_poll_device(i->loudspeaker);
-    if ( !add_poll_device(i->microphone) )
-      add_poll_device(i->transmitter);
-    add_poll_device(i->ptt_input_digital);
-    add_poll_device(i->ptt_input_ssb);
-    add_poll_device(i->text_input);
-    add_poll_device(i->user_interface);
   }
 
   Run::~Run()
@@ -97,17 +78,9 @@ namespace FreeDV {
      &poll_fds[poll_fd_count],
      space - poll_fd_count);
 
-    if ( result >= 0 ) {
-      const int new_size = poll_fd_count + result;
-
-      if ( new_size < space ) {
-        poll_fd_count = new_size;
-        return new_size > 0;
-      }
-      else
-        do_throw(0, "Too many file descriptors for poll");
-    }
-    else {
+    if ( result > 0 )
+      poll_fd_count += result;
+    else if ( result < 0 ) {
       std::ostringstream	str;
 
       device->print(str);
@@ -134,33 +107,9 @@ namespace FreeDV {
   void
   Run::reset()
   {
-    started = false;
     in_fifo.reset();
     codec_fifo.reset();
     out_fifo.reset();
-  }
-
-  void
-  Run::key_down() {
-    if ( i->keying_output->ready() ) {
-      i->keying_output->key(true);
-      begin_transmit = false;
-    }
-    else {
-      std::cerr << "Keying output is stalled." << std::endl;
-    }
-  }
-  
-  void
-  Run::key_up()
-  {
-    if ( i->keying_output->ready() ) {
-      i->keying_output->key(false);
-      begin_receive = false;
-    }
-    else {
-      std::cerr << "Keying output is stalled." << std::endl;
-    }
   }
 
   // FIX: Parallelize the modem and codec into their own threads. Make the
@@ -261,10 +210,8 @@ namespace FreeDV {
 				   out_samples * 2),
 				  out_samples);
 
-      if ( result > 0 ) {
-        started = true;
+      if ( result > 0 )
         out_fifo.get_done(result * 2);
-      }
       else if ( result < 0 )
 	std::cerr << "Loudspeaker I/O error: " << strerror(errno) << std::endl;
     }
@@ -273,19 +220,27 @@ namespace FreeDV {
   void
   Run::run()
   {
+    add_poll_device(i->ptt_input_digital);
+    add_poll_device(i->ptt_input_ssb);
+
     for ( ; ; ) {
-      receive();
-
-      for ( int j = 0; j < poll_fd_count; j++ )
+      for ( int j = 0; j < poll_fd_count; j++ ) {
         poll_fds[j].revents = 0;
+        poll_fds[j].events = POLLIN;
+      }
 
-      const int result = IODevice::poll(
-       poll_fds,
-       poll_fd_count,
-       AudioFrameDuration);
+      
+      const int result = IODevice::poll(poll_fds, poll_fd_count, 1000);
 
       if ( result < 0 )
         do_throw(result, "Poll");
+
+      if ( i->ptt_input_digital->ready() ) {
+        std::cerr << "Digital: " << i->ptt_input_digital->state() << std::endl;
+      }
+      if ( i->ptt_input_ssb->ready() ) {
+        std::cerr << "SSB: " << i->ptt_input_ssb->state() << std::endl;
+      }
     }
   }
 
