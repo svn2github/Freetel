@@ -3246,6 +3246,9 @@ In this library the device names are the same as the pin names of the symbols, t
 <text x="137.16" y="73.66" size="2.54" layer="94" ratio="10">STM32F407 PWR CIRCUIT</text>
 <text x="347.472" y="17.272" size="3.81" layer="94" ratio="10">SmartMic Circuit Board</text>
 <text x="420.624" y="6.35" size="3.81" layer="94" ratio="10">.2</text>
+<text x="358.14" y="274.32" size="1.4224" layer="94" ratio="10">04/21/14</text>
+<text x="370.84" y="274.32" size="1.4224" layer="94" ratio="10">Added to SourceForge Repository</text>
+<text x="426.72" y="274.32" size="1.4224" layer="94" ratio="10">RGB</text>
 </plain>
 <instances>
 <instance part="U4" gate="G$1" x="254" y="25.4"/>
