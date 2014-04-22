@@ -58,6 +58,17 @@ namespace FreeDV {
         /// Read audio from the "short" type.
 	virtual std::size_t
 		read16(std::int16_t * array, std::size_t length);
+
+        /// Start the audio device.
+        /// Input devices: start digitizing samples for the program to
+	/// subsequently read.
+        virtual void
+		start();
+    
+        /// Stop the audio device.
+        /// Input devices: stop digitizing samples.
+        virtual void
+		stop();
   };
 
   AudioInALSA::AudioInALSA(const char * p)
@@ -151,10 +162,7 @@ namespace FreeDV {
     int			error;
 
     if ( !started ) {
-      snd_pcm_drop(handle);
-      snd_pcm_prepare(handle);
-      snd_pcm_start(handle);
-      started = true;
+      start();
       return AudioFrameSamples;
     }
 
@@ -188,6 +196,21 @@ namespace FreeDV {
       return available;
     else
       do_throw(error, "Get Frames Available for Read");
+  }
+
+  void
+  AudioInALSA::start()
+  {
+    snd_pcm_drop(handle);
+    snd_pcm_prepare(handle);
+    snd_pcm_start(handle);
+    started = true;
+  }
+
+  void
+  AudioInALSA::stop()
+  {
+    snd_pcm_drop(handle);
   }
 
   static bool

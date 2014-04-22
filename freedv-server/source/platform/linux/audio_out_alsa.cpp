@@ -54,6 +54,16 @@ namespace FreeDV {
         virtual std::size_t
 		ready();
 
+        /// Start the audio device.
+        /// Output devices: prepare for samples to be sent.
+        virtual void
+		start();
+    
+        /// Stop the audio device.
+        /// Output devices: stop playing samples.
+        virtual void
+		stop();
+
         /// Write audio from the "short" type.
 	virtual std::size_t
 		write16(const std::int16_t * array, std::size_t length);
@@ -193,6 +203,20 @@ namespace FreeDV {
       return available;
     else
       do_throw(error, "Get Frames Available for Write");
+  }
+
+  void
+  AudioOutALSA::start()
+  {
+    snd_pcm_drop(handle);
+    snd_pcm_prepare(handle);
+    started = true;
+  }
+
+  void
+  AudioOutALSA::stop()
+  {
+    snd_pcm_drop(handle);
   }
 
   static bool
