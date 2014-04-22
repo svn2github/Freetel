@@ -41,10 +41,19 @@ namespace FreeDV {
 
     bool		add_poll_device(IODevice * device);
     NORETURN void	do_throw(int error, const char * message);
-    void		receive();
     void		reset();
+
+    bool		drain_digital();
+    bool		drain_ssb();
+    void		key();
+    void		receive();
+    void		start_receive();
+    void		start_transmit_digital();
+    void		start_transmit_ssb();
+    void		stop_receive();
     void		transmit_digital();
     void		transmit_ssb();
+    void		un_key();
   public:
     /// Construct the context for the main loop of FreeDV.
     /// \param interfaces the address of an Interfaces instance containing
@@ -78,14 +87,17 @@ namespace FreeDV {
      &poll_fds[poll_fd_count],
      space - poll_fd_count);
 
-    if ( result > 0 )
+    if ( result > 0 ) {
       poll_fd_count += result;
+      return true;
+    }
     else if ( result < 0 ) {
       std::ostringstream	str;
 
       device->print(str);
       do_throw(result, str.str().c_str());
     }
+    return false;
   }
 
   NORETURN void
@@ -112,11 +124,46 @@ namespace FreeDV {
     out_fifo.reset();
   }
 
+  bool
+  Run::drain_digital()
+  {
+    static bool	done = false;
+    if ( !done ) {
+      done = true;
+      return false;
+    }
+    else {
+      done = false;
+      return true;
+    }
+  }
+
+  bool
+  Run::drain_ssb()
+  {
+    static bool	done = false;
+    if ( !done ) {
+      done = true;
+      return false;
+    }
+    else {
+      done = false;
+      return true;
+    }
+  }
+
+  void
+  Run::key()
+  {
+  }
+
   // FIX: Parallelize the modem and codec into their own threads. Make the
   // FIFO do locking.
   void
   Run::receive()
   {
+    return;
+
     // Fill any data that the receiver can provide.
     const std::size_t	in_samples = min(
 			 i->receiver->ready(),
@@ -220,6 +267,20 @@ namespace FreeDV {
   void
   Run::run()
   {
+    enum TRState {
+      DrainDigital,
+      DrainSSB,
+      Receive,
+      StartReceive,
+      TransmitDigital,
+      TransmitSSB,
+      UnKey
+    };
+
+    TRState	state = StartReceive;
+    bool	ptt_digital = false;
+    bool	ptt_ssb = false;
+
     add_poll_device(i->ptt_input_digital);
     add_poll_device(i->ptt_input_ssb);
 
@@ -228,20 +289,105 @@ namespace FreeDV {
         poll_fds[j].revents = 0;
         poll_fds[j].events = POLLIN;
       }
-
       
       const int result = IODevice::poll(poll_fds, poll_fd_count, 1000);
 
       if ( result < 0 )
         do_throw(result, "Poll");
 
-      if ( i->ptt_input_digital->ready() ) {
-        std::cerr << "Digital: " << i->ptt_input_digital->state() << std::endl;
-      }
-      if ( i->ptt_input_ssb->ready() ) {
-        std::cerr << "SSB: " << i->ptt_input_ssb->state() << std::endl;
+      if ( i->ptt_input_digital->ready() )
+        ptt_digital = i->ptt_input_digital->state();
+      if ( i->ptt_input_ssb->ready() )
+        ptt_ssb = i->ptt_input_ssb->state();
+
+      switch ( state ) {
+      case DrainDigital:
+        if ( drain_digital() )
+          state = UnKey;
+        break;
+      case DrainSSB:
+        if ( drain_ssb() )
+          state = UnKey;
+        break;
+      case Receive:
+      case StartReceive:
+        if ( ptt_digital || ptt_ssb ) {
+          if ( state == Receive )
+            stop_receive();
+
+          key();
+          if ( ptt_digital ) {
+            state = TransmitDigital;
+            start_transmit_digital();
+	  }
+          else {
+            state = TransmitSSB;
+            start_transmit_ssb();
+          }
+        }
+        else {
+          switch ( state ) {
+          case StartReceive:
+            start_receive();
+            state = Receive;
+            break;
+          case Receive:
+            receive();
+            break;
+          default:
+            throw std::runtime_error("Bad case in switch.");
+          }
+        }
+        break;
+      case TransmitDigital:
+        if ( ptt_digital == false )
+          state = DrainDigital;
+        else
+          transmit_digital();
+        break;
+      case TransmitSSB:
+        if ( ptt_ssb == false )
+          state = DrainSSB;
+        else
+          transmit_ssb();
+        break;
+      case UnKey:
+        if ( ptt_digital || ptt_ssb ) {
+          if ( ptt_digital ) {
+            state = TransmitDigital;
+            start_transmit_digital();
+	  }
+          else {
+            state = TransmitSSB;
+            start_transmit_ssb();
+          }
+        }
+        else {
+          un_key();
+          state = StartReceive;
+        }
       }
     }
+  }
+
+  void	
+  Run::start_receive()
+  {
+  }
+
+  void
+  Run::start_transmit_digital()
+  {
+  }
+
+  void
+  Run::start_transmit_ssb()
+  {
+  }
+
+  void
+  Run::stop_receive()
+  {
   }
 
   void
@@ -251,6 +397,11 @@ namespace FreeDV {
   
   void
   Run::transmit_ssb()
+  {
+  }
+
+  void
+  Run::un_key()
   {
   }
 

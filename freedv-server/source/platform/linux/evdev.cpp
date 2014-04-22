@@ -50,12 +50,15 @@ namespace FreeDV {
     throw std::runtime_error(str.str().c_str());
   }
 
-  // Remove extra spaces from string, in place.
+  // Remove redundant elements from string.
   static char *
   clean_string(char * string)
   {
-    char * s = string;
+    // Remove trailing space.
+    std::size_t	length = strlen(string);
+    char *	s = string;
   
+    // Remove extra spaces from string, in place.
     while ( *s != 0 ) {
       if ( *s == ' ' && s[1] == ' ' ) {
         s++;
@@ -67,11 +70,25 @@ namespace FreeDV {
       s++;
     }
   
-    const std::size_t length = strlen(string);
-  
+    // Remove trailing space.
+    length = strlen(string);
     if ( length > 1 && string[length - 1] == ' ' )
       string[length - 1] = '\0';
   
+    // If a segment of a string ending with a space or tab is repeated
+    // immediately afterward, as with the Manufacturer field and the
+    // Product field containing the same initial string, remove the
+    // initial part. This gets rid of repeated manufacturer names.
+    for ( unsigned int i = 1; i < length; i++ ) {
+      if ( string[i] == ' ' || string[i] == '\t' && string[i+1] != '\0' ) {
+        if ( strncmp(string, &string[i + 1], i + 1) == 0 ) {
+          memmove(string, &string[i + 1], length - i);
+          length = (length - i) - 1;
+          i = 0;
+        }
+      }
+    }
+
     return string;
   }
   
