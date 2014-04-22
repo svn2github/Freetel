@@ -80,7 +80,7 @@ namespace FreeDV {
     // Product field containing the same initial string, remove the
     // initial part. This gets rid of repeated manufacturer names.
     for ( unsigned int i = 1; i < length; i++ ) {
-      if ( string[i] == ' ' || string[i] == '\t' && string[i+1] != '\0' ) {
+      if ( (string[i] == ' ' || string[i] == '\t') && string[i+1] != '\0' ) {
         if ( strncmp(string, &string[i + 1], i + 1) == 0 ) {
           memmove(string, &string[i + 1], length - i);
           length = (length - i) - 1;
