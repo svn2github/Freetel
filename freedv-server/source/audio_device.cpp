@@ -32,4 +32,15 @@ namespace FreeDV {
        "Amplitude set to value outside of the range 0.0..1.0");
     master_amplitude = value;
   }
+
+  void
+  AudioDevice::start()
+  {
+  }
+
+  void
+  AudioDevice::stop()
+  {
+  }
+
 }

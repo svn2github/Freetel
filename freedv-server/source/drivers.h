@@ -298,6 +298,19 @@ public:
     /// \param value The new value for the current audio level.
     /// The value must be normalized within the range of 0.0 to 1.0.
     virtual void	amplitude(float value);
+
+    /// Start the audio device.
+    /// Input devices: start digitizing samples for the program to subsequently
+    /// read.
+    /// Output devices: prepare for samples to be sent.
+    /// The default implementation of this function does nothing.
+    virtual void	start();
+
+    /// Stop the audio device.
+    /// Input devices: stop digitizing samples.
+    /// Output devices: stop playing samples.
+    /// The default implementation of this function does nothing.
+    virtual void	stop();
 };
 
 /// Virtual base class for audio input drivers.
@@ -324,6 +337,7 @@ public:
     /// \return The number of 16-bit audio samples that were actually read.
     /// This may be smaller than *length*, or it may be zero.
     virtual std::size_t
+
     read16(std::int16_t * array, std::size_t length) = 0;
 };
 
