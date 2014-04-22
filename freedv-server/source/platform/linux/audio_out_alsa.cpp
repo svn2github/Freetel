@@ -210,13 +210,16 @@ namespace FreeDV {
   {
     snd_pcm_drop(handle);
     snd_pcm_prepare(handle);
-    started = true;
+    snd_pcm_pause(handle, 1);
   }
 
   void
   AudioOutALSA::stop()
   {
     snd_pcm_drop(handle);
+    snd_pcm_prepare(handle);
+    snd_pcm_pause(handle, 1);
+    started = false;
   }
 
   static bool

@@ -199,6 +199,7 @@ namespace FreeDV {
   {
     if ( length >= 0 ) {
       array[0].fd = fd;
+      array[0].events = POLLIN|POLLERR|POLLNVAL;
       return 1;
     }
     else

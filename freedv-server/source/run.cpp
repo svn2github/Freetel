@@ -5,10 +5,11 @@
 ///
 
 #include "drivers.h"
+#include <string.h>
+#include <time.h>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
-#include <string.h>
 
 // Start of Transmit:
 // Make the delay at start of transmit and end of transmit adjustable.
@@ -129,29 +130,13 @@ namespace FreeDV {
   bool
   Run::drain_digital()
   {
-    static bool	done = false;
-    if ( !done ) {
-      done = true;
-      return false;
-    }
-    else {
-      done = false;
-      return true;
-    }
+    return true;
   }
 
   bool
   Run::drain_ssb()
   {
-    static bool	done = false;
-    if ( !done ) {
-      done = true;
-      return false;
-    }
-    else {
-      done = false;
-      return true;
-    }
+    return true;
   }
 
   void
@@ -298,16 +283,26 @@ namespace FreeDV {
     // we'll catch up.
     un_key();
     start_receive();
+    i->receiver->start();
+    i->loudspeaker->start();
     if ( !add_poll_device(i->receiver) )
       add_poll_device(i->loudspeaker);
 
     for ( ; ; ) {
       for ( int j = 0; j < poll_fd_count; j++ ) {
         poll_fds[j].revents = 0;
-        poll_fds[j].events = POLLIN;
       }
       
-      const int result = IODevice::poll(poll_fds, poll_fd_count, 1000);
+      int result = 0;
+
+      if ( poll_fd_count > poll_fd_base )
+        result = IODevice::poll(poll_fds, poll_fd_count, 1000);
+      else {
+        struct timespec	request;
+        request.tv_sec = 0;
+        request.tv_nsec = AudioFrameDuration * 100000;
+        nanosleep(&request, 0);
+      }
 
       if ( result < 0 )
         do_throw(result, "Poll");
@@ -388,6 +383,14 @@ namespace FreeDV {
         break;
       case UnKey:
         if ( ptt_digital || ptt_ssb ) {
+	  // Reset polling from the Drain operation.
+          poll_fd_count = poll_fd_base;
+
+          i->microphone->start();
+          // Start polling the transmitter devices.
+          if ( !add_poll_device(i->microphone) )
+            add_poll_device(i->transmitter);
+
           if ( ptt_digital ) {
             state = TransmitDigital;
             start_transmit_digital();
@@ -411,7 +414,6 @@ namespace FreeDV {
 	  // Start polling the receiver devices.
           if ( !add_poll_device(i->receiver) )
             add_poll_device(i->loudspeaker);
-
         }
         break;
       }
