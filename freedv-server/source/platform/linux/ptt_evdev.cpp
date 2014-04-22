@@ -125,11 +125,9 @@ namespace FreeDV {
      sizeof(events) / sizeof(*events)))
      > 0 ) {
   
-      for ( std::size_t i = 0; i < count; i++ ) {
+      for ( int i = 0; i < count; i++ ) {
         const input_event * const event = &events[i];
-        if ( event->type == EV_KEY ) {
-          std::cerr << event->code << std::endl;
-        }
+
         if ( event->type == EV_KEY && event->code == button_index ) {
           switch ( event->value ) {
           case 0:

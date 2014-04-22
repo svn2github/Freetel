@@ -29,11 +29,13 @@ namespace FreeDV {
   private:
     const std::size_t	FIFOSize = MaximumFrameSamples * sizeof(int16_t) * 2;
     Interfaces * const	i;
+    int			poll_fd_count;
+    int			poll_fd_base;
+    PollType		poll_fds[100];
+
     FIFO		codec_fifo;
     FIFO		in_fifo;
     FIFO		out_fifo;
-    int			poll_fd_count;
-    PollType		poll_fds[100];
  
     // Disable copy constructor and operator=().
     Run(const Run &);
@@ -67,9 +69,9 @@ namespace FreeDV {
   };
   
   Run::Run(Interfaces * interfaces)
-  : i(interfaces),
+  : i(interfaces), poll_fd_count(0), poll_fd_base(0),
     codec_fifo(FIFOSize), in_fifo(FIFOSize),
-    out_fifo(FIFOSize), poll_fd_count(0)
+    out_fifo(FIFOSize)
   {
     reset();
   }
@@ -162,8 +164,6 @@ namespace FreeDV {
   void
   Run::receive()
   {
-    return;
-
     // Fill any data that the receiver can provide.
     const std::size_t	in_samples = min(
 			 i->receiver->ready(),
@@ -263,7 +263,10 @@ namespace FreeDV {
 	std::cerr << "Loudspeaker I/O error: " << strerror(errno) << std::endl;
     }
   }
-  
+   
+  // FIX: Once everything else has been tested, make this program work with
+  // three T/R devices for each of Digital and SSB. This accounts for the
+  // GUI, a pedal, and a hand switch.
   void
   Run::run()
   {
@@ -271,18 +274,32 @@ namespace FreeDV {
       DrainDigital,
       DrainSSB,
       Receive,
-      StartReceive,
       TransmitDigital,
       TransmitSSB,
       UnKey
     };
 
-    TRState	state = StartReceive;
+
+    TRState	state = Receive;
     bool	ptt_digital = false;
     bool	ptt_ssb = false;
 
+    // Start polling the T/R devices.
     add_poll_device(i->ptt_input_digital);
     add_poll_device(i->ptt_input_ssb);
+
+    // Any time we set poll_fd_count to poll_fd_base, it will stop polling
+    // of the receive or transmit devices, and then we can set up what devices
+    // we would like to poll now. We will do this when we switch from transmit
+    // to receive, and when we switch from transmit to drain.
+    poll_fd_base = poll_fd_count;
+
+    // Always start in receive mode. If the T/R switches are pressed,
+    // we'll catch up.
+    un_key();
+    start_receive();
+    if ( !add_poll_device(i->receiver) )
+      add_poll_device(i->loudspeaker);
 
     for ( ; ; ) {
       for ( int j = 0; j < poll_fd_count; j++ ) {
@@ -302,20 +319,23 @@ namespace FreeDV {
 
       switch ( state ) {
       case DrainDigital:
-        if ( drain_digital() )
+        if ( drain_digital() ) {
+          poll_fd_count = poll_fd_base;
           state = UnKey;
+        }
         break;
       case DrainSSB:
-        if ( drain_ssb() )
+        if ( drain_ssb() ) {
+          poll_fd_count = poll_fd_base;
           state = UnKey;
+        }
         break;
       case Receive:
-      case StartReceive:
         if ( ptt_digital || ptt_ssb ) {
-          if ( state == Receive )
-            stop_receive();
+          stop_receive();
 
           key();
+
           if ( ptt_digital ) {
             state = TransmitDigital;
             start_transmit_digital();
@@ -324,30 +344,39 @@ namespace FreeDV {
             state = TransmitSSB;
             start_transmit_ssb();
           }
+
+	  // Stop polling the receiver devices.
+          poll_fd_count = poll_fd_base;
+
+          // Start polling the transmitter devices.
+          if ( !add_poll_device(i->microphone) )
+            add_poll_device(i->transmitter);
         }
-        else {
-          switch ( state ) {
-          case StartReceive:
-            start_receive();
-            state = Receive;
-            break;
-          case Receive:
-            receive();
-            break;
-          default:
-            throw std::runtime_error("Bad case in switch.");
-          }
-        }
+        else
+          receive();
+
         break;
       case TransmitDigital:
-        if ( ptt_digital == false )
+        if ( ptt_digital == false ) {
           state = DrainDigital;
+          // Stop polling the microphone.
+          poll_fd_count = poll_fd_base;
+
+	  // Poll the transmitter until it's drained.
+	  add_poll_device(i->transmitter);
+        }
         else
           transmit_digital();
         break;
       case TransmitSSB:
-        if ( ptt_ssb == false )
+        if ( ptt_ssb == false ) {
           state = DrainSSB;
+          // Stop polling the microphone.
+          poll_fd_count = poll_fd_base;
+
+	  // Poll the transmitter until it's drained.
+	  add_poll_device(i->transmitter);
+        }
         else
           transmit_ssb();
         break;
@@ -363,9 +392,19 @@ namespace FreeDV {
           }
         }
         else {
+	  // Stop polling the transmitter devices.
+          poll_fd_count = poll_fd_base;
+
           un_key();
-          state = StartReceive;
+          state = Receive;
+          start_receive();
+
+	  // Start polling the receiver devices.
+          if ( !add_poll_device(i->receiver) )
+            add_poll_device(i->loudspeaker);
+
         }
+        break;
       }
     }
   }
