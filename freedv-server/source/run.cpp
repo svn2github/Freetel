@@ -63,9 +63,9 @@ namespace FreeDV {
     			Run(Interfaces * interfaces);
     			~Run();
 
-    /// Run the main loop of FreeDV.
+    /// Run the main loop of FreeDV in half-duplex mode.
     ///
-    void		run();
+    void		half_duplex();
   };
   
   Run::Run(Interfaces * interfaces)
@@ -268,7 +268,7 @@ namespace FreeDV {
   // three T/R devices for each of Digital and SSB. This accounts for the
   // GUI, a pedal, and a hand switch.
   void
-  Run::run()
+  Run::half_duplex()
   {
     enum TRState {
       DrainDigital,
@@ -448,7 +448,7 @@ namespace FreeDV {
   run(Interfaces * i)
   {
     Run * r = new Run(i);
-    r->run();
+    r->half_duplex();
     return 0;
   }
 }
