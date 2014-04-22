@@ -332,6 +332,8 @@ namespace FreeDV {
         break;
       case Receive:
         if ( ptt_digital || ptt_ssb ) {
+	  i->receiver->stop();
+          i->loudspeaker->stop();
           stop_receive();
 
           key();
@@ -348,6 +350,8 @@ namespace FreeDV {
 	  // Stop polling the receiver devices.
           poll_fd_count = poll_fd_base;
 
+          i->microphone->start();
+          i->transmitter->start();
           // Start polling the transmitter devices.
           if ( !add_poll_device(i->microphone) )
             add_poll_device(i->transmitter);
@@ -359,6 +363,7 @@ namespace FreeDV {
       case TransmitDigital:
         if ( ptt_digital == false ) {
           state = DrainDigital;
+          i->microphone->stop();
           // Stop polling the microphone.
           poll_fd_count = poll_fd_base;
 
@@ -371,6 +376,7 @@ namespace FreeDV {
       case TransmitSSB:
         if ( ptt_ssb == false ) {
           state = DrainSSB;
+          i->microphone->stop();
           // Stop polling the microphone.
           poll_fd_count = poll_fd_base;
 
@@ -392,12 +398,15 @@ namespace FreeDV {
           }
         }
         else {
+          i->transmitter->stop();
 	  // Stop polling the transmitter devices.
           poll_fd_count = poll_fd_base;
 
           un_key();
           state = Receive;
           start_receive();
+          i->receiver->start();
+          i->loudspeaker->start();
 
 	  // Start polling the receiver devices.
           if ( !add_poll_device(i->receiver) )
