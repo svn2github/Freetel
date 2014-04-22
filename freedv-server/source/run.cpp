@@ -295,9 +295,19 @@ namespace FreeDV {
       
       int result = 0;
 
+      // Sometimes there are not any poll-capable devices to wake us when
+      // it's time to transmit the next audio frame. This happens when using
+      // the testing drivers for both input and output, and during the UnKey
+      // state. Testing drivers will run faster than the real rate if something
+      // doesn't limit then.
+      //
+      // FIX: Instead of nanosleep(), use a wall-clock sleep that wakes up when
+      // it is time for the next packet to arrive. This can more easily take
+      // compute time into account, and can properly time the testing drivers.
+      //
       if ( poll_fd_count > poll_fd_base )
         result = IODevice::poll(poll_fds, poll_fd_count, 1000);
-      else {
+      else if ( state != UnKey ) {
         struct timespec	request;
         request.tv_sec = 0;
         request.tv_nsec = AudioFrameDuration * 100000;
