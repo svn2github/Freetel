@@ -171,15 +171,12 @@ namespace FreeDV {
     // FIX: Implement soft squelch.
 
     if ( samples_to_demodulate > 0 && bytes_to_demodulate > 0 ) {
-      std::size_t bytes_demodulated = 0;
-
-      bytes_demodulated = i->modem->demodulate16(
+      const std::size_t bytes_demodulated = i->modem->demodulate16(
        (const std::int16_t *)in_fifo.get(
        samples_to_demodulate * 2),
        codec_fifo.put(bytes_to_demodulate),
        bytes_to_demodulate,
        &samples_to_demodulate);
-
 
       if ( bytes_demodulated > 0 )
         codec_fifo.put_done(bytes_demodulated);
@@ -213,9 +210,9 @@ namespace FreeDV {
 
     if ( out_samples > 0 ) {
       const int result = i->loudspeaker->write16(
-      				  (std::int16_t *)out_fifo.get(
-				   out_samples * 2),
-				  out_samples);
+      			  (std::int16_t *)out_fifo.get(
+			  out_samples * 2),
+			  out_samples);
 
       if ( result > 0 )
         out_fifo.get_done(result * 2);
@@ -474,9 +471,7 @@ namespace FreeDV {
     const std::size_t	samples_to_modulate = out_fifo.put_space() / 2;
 
     if ( bytes_to_modulate > 0 && samples_to_modulate > 0 ) {
-      std::size_t samples_modulated = 0;
-
-      samples_modulated = i->modem->modulate16(
+      const std::size_t samples_modulated = i->modem->modulate16(
        codec_fifo.get(bytes_to_modulate),
        (std::int16_t *)out_fifo.put(samples_to_modulate * 2),
        &bytes_to_modulate,
@@ -509,8 +504,39 @@ namespace FreeDV {
   void
   Run::transmit_ssb()
   {
-  }
+    // Fill any data that the microphone can provide.
+    const std::size_t	in_samples = min(
+			 i->microphone->ready(),
+    			 (in_fifo.put_space() / 2));
 
+    if ( in_samples > 0 ) {
+      const int result = i->microphone->read16(
+        (std::int16_t *)in_fifo.put(in_samples * 2),
+        in_samples);
+
+      if ( result > 0 )
+        in_fifo.put_done(result * 2);
+      else if ( result < 0 )
+	std::cerr << "Microphone I/O error: " << strerror(errno) << std::endl;
+    }
+    
+    // Drain any data that the transmitter can take.
+    const std::size_t	out_samples = min(
+			 i->transmitter->ready(),
+			 (in_fifo.get_available() / 2));
+
+    if ( out_samples > 0 ) {
+      const int result = i->transmitter->write16(
+      				  (std::int16_t *)in_fifo.get(out_samples * 2),
+				  out_samples);
+
+      if ( result > 0 )
+        in_fifo.get_done(result * 2);
+      else if ( result < 0 )
+	std::cerr << "Transmitter I/O error: " << strerror(errno) << std::endl;
+    }
+  }
+   
   void
   Run::un_key()
   {
