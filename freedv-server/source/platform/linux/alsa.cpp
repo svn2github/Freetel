@@ -271,11 +271,6 @@ namespace FreeDV {
       do_throw(error, name, stream, "Set rate");
     }
 
-    if ( (error = snd_pcm_hw_params_set_rate_resample(handle, hw_params, 0)) < 0 ) {
-      snd_pcm_close(handle);
-      do_throw(error, name, stream, "Disable resampling");
-    }
-
     if ( (error = snd_pcm_hw_params_set_period_size_near(handle, hw_params, &period_size, 0)) < 0 ) {
       snd_pcm_close(handle);
       do_throw(error, name, stream, "Set I/O period size");
