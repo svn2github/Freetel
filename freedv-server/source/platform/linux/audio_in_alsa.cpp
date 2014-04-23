@@ -201,7 +201,6 @@ namespace FreeDV {
   void
   AudioInALSA::start()
   {
-    std::cerr << "Input start " << parameters << std::endl;
     snd_pcm_drop(handle);
     snd_pcm_prepare(handle);
     snd_pcm_start(handle);
@@ -211,7 +210,6 @@ namespace FreeDV {
   void
   AudioInALSA::stop()
   {
-    std::cerr << "Input stop " << parameters << std::endl;
     snd_pcm_drop(handle);
     snd_pcm_prepare(handle);
     snd_pcm_pause(handle, 1);

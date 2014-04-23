@@ -111,10 +111,10 @@ namespace FreeDV {
   AudioOutALSA::write16(const std::int16_t * array, std::size_t length)
   {
     if ( !started ) {
-      // Preload the audio output queue with two frames of silence. This makes
-      // underruns less likely. This delays the output from where we would
-      // otherwise have started it. Otherwise we tend to underrun repeatedly
-      // at startup time.
+      // Preload the audio output queue with a fraction of a frame of silence.
+      // This makes underruns less likely.
+      // This delays the output from where we would otherwise have started it.
+      // Otherwise we tend to underrun repeatedly at startup time.
       //
       // Note that all inputs and outputs of the typical user do not run on
       // a shared clock. There is the potential for overruns or underruns
@@ -122,7 +122,7 @@ namespace FreeDV {
       // a shared clock, and the more expensive equipment that supports it,
       // to avoid this problem.
       //
-      int16_t	buf[AudioFrameSamples * 2];
+      int16_t	buf[AudioFrameSamples / 100];
       memset(buf, 0, sizeof(buf));
       snd_pcm_writei(handle, buf, sizeof(buf) / sizeof(*buf));
     }
