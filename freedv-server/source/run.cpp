@@ -149,7 +149,7 @@ namespace FreeDV {
   void
   Run::receive()
   {
-    // Fill any data that the receiver can provide.
+    // Read any data that the receiver can provide.
     const std::size_t	in_samples = min(
 			 i->receiver->ready(),
     			 (in_fifo.put_space() / 2));
@@ -165,10 +165,13 @@ namespace FreeDV {
 	std::cerr << "Receiver I/O error: " << strerror(errno) << std::endl;
     }
     
-    std::size_t bytes_demodulated = 0;
-    std::size_t	samples_to_demodulate = in_fifo.get_available() / 2;
-    if ( samples_to_demodulate > 0 ) {
-      const std::size_t	bytes_to_demodulate = codec_fifo.put_space();
+    std::size_t		samples_to_demodulate = in_fifo.get_available() / 2;
+    const std::size_t	bytes_to_demodulate = codec_fifo.put_space();
+
+    // FIX: Implement soft squelch.
+
+    if ( samples_to_demodulate > 0 && bytes_to_demodulate > 0 ) {
+      std::size_t bytes_demodulated = 0;
 
       bytes_demodulated = i->modem->demodulate16(
        (const std::int16_t *)in_fifo.get(
@@ -180,56 +183,28 @@ namespace FreeDV {
 
       if ( bytes_demodulated > 0 )
         codec_fifo.put_done(bytes_demodulated);
+
+      if ( samples_to_demodulate > 0 )
+        in_fifo.get_done(samples_to_demodulate * 2);
     }
 
-    if ( bytes_demodulated > 0 ) {
-      std::size_t bytes_to_decode = codec_fifo.get_available();
-      if ( bytes_to_decode > 0 ) {
-  
-        const std::size_t samples_to_decode = out_fifo.put_space() / 2;
-  
-        const std::size_t result = i->codec->decode16(
-  				  codec_fifo.get(bytes_to_decode),
-  				  (std::int16_t *)out_fifo.put(
-                                     samples_to_decode * 2),
-  				  &bytes_to_decode,
-  				  samples_to_decode);
-  
-        if ( bytes_to_decode > 0 )
-          codec_fifo.get_done(bytes_to_decode);
-  
-        if ( result > 0 )
-          out_fifo.put_done(result * 2);
-      }
+    std::size_t		bytes_to_decode = codec_fifo.get_available();
+    const std::size_t	samples_to_decode = out_fifo.put_space() / 2;
+
+    if ( bytes_to_decode > 0 && samples_to_decode > 0 ) {
+      size_t samples_decoded = i->codec->decode16(
+				  codec_fifo.get(bytes_to_decode),
+				  (std::int16_t *)out_fifo.put(
+                                   samples_to_decode * 2),
+				  &bytes_to_decode,
+				  samples_to_decode);
+
+      if ( bytes_to_decode > 0 )
+        codec_fifo.get_done(bytes_to_decode);
+
+      if ( samples_decoded > 0 )
+        out_fifo.put_done(samples_decoded * 2);
     }
-    else {
-      std::size_t length = samples_to_demodulate * 2;
-      // Did not demodulate any data. Push it to the loudspeaker.
-      //
-      // For this to work, we need the modem to:
-      // * Consume input samples demodulating no data.
-      // or
-      // * Consume input samples demodulating them all as data.
-      // and
-      // * Never consume input samples demodulating less than the complete
-      //   amount consumed as data.
-      // So, the modem should return before it either starts demodulating data
-      // or stops doing so.
-      // 
-      // The problem is that we wish to continue to send to the loudspeaker
-      // the correct number of samples per second regardless of what is
-      // happening. And we want the time sequence of non-demodulated analog
-      // signal (or noise) and demodulated digital data to be in the correct
-      // order.
-      //
-      // FIX: Squelch here.
-      const uint8_t * in = in_fifo.get(length);
-      uint8_t * out = out_fifo.put(length);
-      memcpy(out, in, length);
-      out_fifo.put_done(length);
-    }
-    if ( samples_to_demodulate > 0 )
-      in_fifo.get_done(samples_to_demodulate * 2);
 
     // Drain any data that the loudspeaker can take.
     const std::size_t	out_samples = min(
@@ -341,6 +316,12 @@ namespace FreeDV {
           i->loudspeaker->stop();
           stop_receive();
 
+	  // Stop polling the receiver devices.
+          poll_fd_count = poll_fd_base;
+
+	  // Flush all of the FIFO data.
+	  reset();
+
           key();
 
           if ( ptt_digital ) {
@@ -352,11 +333,9 @@ namespace FreeDV {
             start_transmit_ssb();
           }
 
-	  // Stop polling the receiver devices.
-          poll_fd_count = poll_fd_base;
-
           i->microphone->start();
           i->transmitter->start();
+
           // Start polling the transmitter devices.
           if ( !add_poll_device(i->microphone) )
             add_poll_device(i->transmitter);
@@ -416,6 +395,10 @@ namespace FreeDV {
           poll_fd_count = poll_fd_base;
 
           un_key();
+
+	  // Flush all of the FIFO data.
+          reset();
+
           state = Receive;
           start_receive();
           i->receiver->start();
@@ -453,8 +436,76 @@ namespace FreeDV {
   void
   Run::transmit_digital()
   {
+    // Fill any data that the microphone can provide.
+    const std::size_t	in_samples = min(
+			 i->microphone->ready(),
+    			 (in_fifo.put_space() / 2));
+
+    if ( in_samples > 0 ) {
+      const int result = i->microphone->read16(
+        (std::int16_t *)in_fifo.put(in_samples * 2),
+        in_samples);
+
+      if ( result > 0 )
+        in_fifo.put_done(result * 2);
+      else if ( result < 0 )
+	std::cerr << "Microphone I/O error: " << strerror(errno) << std::endl;
+    }
+    
+    std::size_t		samples_to_encode = in_fifo.get_available() / 2;
+    const std::size_t	bytes_to_encode = codec_fifo.put_space();
+
+    if ( samples_to_encode > 0 && bytes_to_encode > 0 ) {
+      const std::size_t bytes_encoded = i->codec->encode16(
+				  (std::int16_t *)in_fifo.get(
+                                   samples_to_encode * 2),
+				  codec_fifo.put(bytes_to_encode),
+				  bytes_to_encode,
+				  &samples_to_encode);
+
+      if ( samples_to_encode > 0 )
+        in_fifo.get_done(samples_to_encode * 2);
+
+      if ( bytes_encoded > 0 )
+        codec_fifo.put_done(bytes_encoded);
+    }
+
+    std::size_t		bytes_to_modulate = codec_fifo.get_available();
+    const std::size_t	samples_to_modulate = out_fifo.put_space() / 2;
+
+    if ( bytes_to_modulate > 0 && samples_to_modulate > 0 ) {
+      std::size_t samples_modulated = 0;
+
+      samples_modulated = i->modem->modulate16(
+       codec_fifo.get(bytes_to_modulate),
+       (std::int16_t *)out_fifo.put(samples_to_modulate * 2),
+       &bytes_to_modulate,
+       samples_to_modulate);
+
+
+      if ( bytes_to_modulate > 0 )
+        codec_fifo.get_done(bytes_to_modulate);
+
+      if ( samples_modulated > 0 )
+        out_fifo.put_done(samples_modulated * 2);
+    }
+    // Drain any data that the transmitter can take.
+    const std::size_t	out_samples = min(
+			 i->transmitter->ready(),
+			 (out_fifo.get_available() / 2));
+
+    if ( out_samples > 0 ) {
+      const int result = i->transmitter->write16(
+      				  (std::int16_t *)out_fifo.get(out_samples * 2),
+				  out_samples);
+
+      if ( result > 0 )
+        out_fifo.get_done(result * 2);
+      else if ( result < 0 )
+	std::cerr << "Transmitter I/O error: " << strerror(errno) << std::endl;
+    }
   }
-  
+   
   void
   Run::transmit_ssb()
   {
