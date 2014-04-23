@@ -39,8 +39,7 @@ namespace FreeDV {
       loudspeaker = Driver::AudioOutDefault();
 
     if ( !microphone )
-      // microphone = Driver::AudioInDefault();
-      microphone = Driver::Tone("1000,1.0");
+      microphone = Driver::AudioInDefault();
 
     if ( !modem )
       modem = Driver::ModemNoOp(empty);
