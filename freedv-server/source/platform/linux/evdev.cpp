@@ -29,15 +29,18 @@ namespace FreeDV {
   do_throw(
    const int error,
    const char * name,
-   const char * special_file,
+   const char * special_file = 0,
    const char * message = 0)
   {
     std::ostringstream str;
 
     str << "EVDEV ";
 
-    str << '\"' << name << "\" device \"" << special_file
-     << "\" set-up error: ";
+    str << "\"evdev:" << name << '\"';
+    if ( special_file ) 
+      str << " device \"" << special_file << '\"';
+
+    str << " set-up error: ";
     if ( message ) {
       str << message;
       if ( error )
@@ -244,8 +247,14 @@ namespace FreeDV {
 
         if ( fd < 0 )
           do_throw(errno, name, special_file, "open");
+
+        return;
       }
     } 
+    throw std::runtime_error(
+     "No device was found that matched the provided name." \
+     " The device may not be attached," \
+     " or root privileges may be required to access it");
   }
   
   EvDev::~EvDev()

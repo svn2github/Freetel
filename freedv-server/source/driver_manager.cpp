@@ -61,7 +61,7 @@ namespace FreeDV {
 	    return (*(list->creator))(parameters);
         }
         catch(std::exception & e) {
-          std::cerr << "Open " << type << " \"" << key << "\": " << e.what() << std::endl;
+          std::cerr << "Open " << type << " \"" << key << ':' << parameters << "\": " << e.what() << std::endl;
           return 0;
         }
       }
