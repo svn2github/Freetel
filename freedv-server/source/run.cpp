@@ -385,7 +385,7 @@ namespace FreeDV {
         struct timespec	request;
         struct timespec remainder;
         request.tv_sec = 0;
-        request.tv_nsec = AudioFrameDuration * 100000000;
+        request.tv_nsec = AudioFrameDuration * 1000000;
         nanosleep(&request, &remainder);
       }
 
