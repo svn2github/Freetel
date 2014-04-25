@@ -47,8 +47,7 @@ namespace FreeDV {
     void		reset();
 
     bool		drain_digital();
-    bool		drain_ssb();
-    void		key();
+    bool		drain_ssb(bool final);
     void		receive();
     void		start_receive();
     void		start_transmit_digital();
@@ -56,7 +55,6 @@ namespace FreeDV {
     void		stop_receive();
     void		transmit_digital();
     void		transmit_ssb();
-    void		un_key();
   public:
     /// Construct the context for the main loop of FreeDV.
     /// \param interfaces the address of an Interfaces instance containing
@@ -134,14 +132,29 @@ namespace FreeDV {
   }
 
   bool
-  Run::drain_ssb()
+  Run::drain_ssb(bool final)
   {
-    return true;
-  }
+    if ( final && in_fifo.get_available() == 0 ) {
+      // FIX: Must wait for the output to drain.
+      return true;
+    }
 
-  void
-  Run::key()
-  {
+    // Drain any data that the transmitter can take.
+    const std::size_t	out_samples = min(
+			 i->transmitter->ready(),
+			 (in_fifo.get_available() / 2));
+
+    if ( out_samples > 0 ) {
+      const int result = i->transmitter->write16(
+      				  (std::int16_t *)in_fifo.get(out_samples * 2),
+				  out_samples);
+
+      if ( result > 0 )
+        in_fifo.get_done(result * 2);
+      else if ( result < 0 )
+	std::cerr << "Transmitter I/O error: " << strerror(errno) << std::endl;
+    }
+    return false;
   }
 
   // FIX: Parallelize the modem and codec into their own threads. Make the
@@ -253,7 +266,7 @@ namespace FreeDV {
 
     // Always start in receive mode. If the T/R switches are pressed,
     // we'll catch up.
-    un_key();
+    i->keying_output->key(0);
     start_receive();
     i->receiver->start();
     i->loudspeaker->start();
@@ -302,7 +315,7 @@ namespace FreeDV {
         }
         break;
       case DrainSSB:
-        if ( drain_ssb() ) {
+        if ( drain_ssb(true) ) {
           poll_fd_count = poll_fd_base;
           state = UnKey;
         }
@@ -319,7 +332,7 @@ namespace FreeDV {
 	  // Flush all of the FIFO data.
 	  reset();
 
-          key();
+          i->keying_output->key(1);
 
           if ( ptt_digital ) {
             state = TransmitDigital;
@@ -391,7 +404,7 @@ namespace FreeDV {
 	  // Stop polling the transmitter devices.
           poll_fd_count = poll_fd_base;
 
-          un_key();
+          i->keying_output->key(0);
 
 	  // Flush all of the FIFO data.
           reset();
@@ -521,27 +534,9 @@ namespace FreeDV {
     }
     
     // Drain any data that the transmitter can take.
-    const std::size_t	out_samples = min(
-			 i->transmitter->ready(),
-			 (in_fifo.get_available() / 2));
-
-    if ( out_samples > 0 ) {
-      const int result = i->transmitter->write16(
-      				  (std::int16_t *)in_fifo.get(out_samples * 2),
-				  out_samples);
-
-      if ( result > 0 )
-        in_fifo.get_done(result * 2);
-      else if ( result < 0 )
-	std::cerr << "Transmitter I/O error: " << strerror(errno) << std::endl;
-    }
+    drain_ssb(false);
   }
    
-  void
-  Run::un_key()
-  {
-  }
-
   int
   run(Interfaces * i)
   {
