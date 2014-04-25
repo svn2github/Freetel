@@ -117,10 +117,10 @@ namespace FreeDV {
     int result = snd_pcm_readi(handle, array, length);
     started = true;
     if ( result == -EPIPE ) {
-      snd_pcm_recover(handle, result, 1);
+      snd_pcm_drop(handle);
       snd_pcm_start(handle);
       std::cerr << "ALSA input \"" << parameters << "\": read underrun." << std::endl;
-      return 0;
+      return length;
     }
     if ( result >= 0 ) {
       return result;
@@ -187,7 +187,7 @@ namespace FreeDV {
     }
 
     if ( error == -EPIPE ) {
-      snd_pcm_recover(handle, error, 1);
+      snd_pcm_drop(handle);
       snd_pcm_start(handle);
       std::cerr << "ALSA input \"" << parameters << "\": ready underrun." << std::endl;
       return 0;
@@ -212,8 +212,6 @@ namespace FreeDV {
   AudioInALSA::stop()
   {
     snd_pcm_drop(handle);
-    snd_pcm_prepare(handle);
-    snd_pcm_pause(handle, 1);
     started = false;
   }
 

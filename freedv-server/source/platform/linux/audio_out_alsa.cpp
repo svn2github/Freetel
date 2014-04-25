@@ -130,6 +130,8 @@ namespace FreeDV {
   std::size_t
   AudioOutALSA::write16(const std::int16_t * array, std::size_t length)
   {
+    int16_t	buf[AudioFrameSamples * FillFrames];
+
     if ( !started ) {
       // Preload the audio output queue with some silence.
       // This makes underruns less likely.
@@ -143,7 +145,6 @@ namespace FreeDV {
       // to avoid this problem.
       //
       snd_pcm_prepare(handle);
-      int16_t	buf[AudioFrameSamples * FillFrames];
       memset(buf, 0, sizeof(buf));
       snd_pcm_writei(handle, buf, sizeof(buf) / sizeof(*buf));
     }
@@ -152,12 +153,27 @@ namespace FreeDV {
     started = true;
     if ( error == -EPIPE ) {
       std::cerr << "ALSA output \"" << parameters << "\": write underrun." << std::endl;
-      snd_pcm_recover(handle, error, 1);
+      snd_pcm_drop(handle);
+      snd_pcm_prepare(handle);
+      memset(buf, 0, sizeof(buf));
+      snd_pcm_writei(handle, buf, sizeof(buf) / sizeof(*buf));
       error = snd_pcm_writei(handle, array, length);
     }
 
     if ( error >= 0 )
       return error;
+    else if ( error == -EPIPE ) {
+      // This is an unlikely condition, but should not be allowed to abort
+      // the program.
+      // About the only reason this might happen would be a failure of
+      // real-time schduling, for example a system management interrupt
+      // outside of the control of the operating system, or a problem with
+      // the sound hardware or driver. Punt and hope it gets better the next
+      // time.
+      std::cerr << "ALSA output \"" << parameters
+       << "\": double write underrun." << std::endl;
+      return 0;
+    }
     else
       do_throw(error, "Write");
   }
