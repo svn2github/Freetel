@@ -50,9 +50,6 @@ namespace FreeDV {
     bool		drain_ssb(bool final);
     void		receive();
     void		start_receive();
-    void		start_transmit_digital();
-    void		start_transmit_ssb();
-    void		stop_receive();
     void		transmit_digital();
     void		transmit_ssb();
   public:
@@ -360,7 +357,6 @@ namespace FreeDV {
     // Always start in receive mode. If the T/R switches are pressed,
     // we'll catch up.
     i->keying_output->key(0);
-    start_receive();
     i->receiver->start();
     i->loudspeaker->start();
     if ( !add_poll_device(i->receiver) )
@@ -387,9 +383,10 @@ namespace FreeDV {
         result = IODevice::poll(poll_fds, poll_fd_count, 1000);
       else if ( state != UnKey ) {
         struct timespec	request;
+        struct timespec remainder;
         request.tv_sec = 0;
-        request.tv_nsec = AudioFrameDuration * 100000;
-        nanosleep(&request, 0);
+        request.tv_nsec = AudioFrameDuration * 100000000;
+        nanosleep(&request, &remainder);
       }
 
       if ( result < 0 )
@@ -416,8 +413,8 @@ namespace FreeDV {
       case Receive:
         if ( ptt_digital || ptt_ssb ) {
 	  i->receiver->stop();
+          i->loudspeaker->drain();
           i->loudspeaker->stop();
-          stop_receive();
 
 	  // Stop polling the receiver devices.
           poll_fd_count = poll_fd_base;
@@ -427,16 +424,17 @@ namespace FreeDV {
 
           i->keying_output->key(1);
 
-          if ( ptt_digital ) {
-            state = TransmitDigital;
-            start_transmit_digital();
-	  }
-          else {
-            state = TransmitSSB;
-            start_transmit_ssb();
-          }
-
+	  // We could really start the microphone before we finish keying the
+	  // transmitter, but at this writing ALSA snd_pcm_wait() doesn't
+	  // really wait until the end of playback, and thus we hear the echo
+	  // of the receiver if we start the microphone too early.
           i->microphone->start();
+
+          if ( ptt_digital )
+            state = TransmitDigital;
+          else
+            state = TransmitSSB;
+
           i->transmitter->start();
 
           // Start polling the transmitter devices.
@@ -483,27 +481,22 @@ namespace FreeDV {
           if ( !add_poll_device(i->microphone) )
             add_poll_device(i->transmitter);
 
-          if ( ptt_digital ) {
+          if ( ptt_digital )
             state = TransmitDigital;
-            start_transmit_digital();
-	  }
-          else {
+          else
             state = TransmitSSB;
-            start_transmit_ssb();
-          }
         }
         else {
           i->transmitter->stop();
 	  // Stop polling the transmitter devices.
           poll_fd_count = poll_fd_base;
 
-          i->keying_output->key(0);
-
 	  // Flush all of the FIFO data.
           reset();
 
+          i->keying_output->key(0);
+
           state = Receive;
-          start_receive();
           i->receiver->start();
           i->loudspeaker->start();
 
@@ -514,26 +507,6 @@ namespace FreeDV {
         break;
       }
     }
-  }
-
-  void	
-  Run::start_receive()
-  {
-  }
-
-  void
-  Run::start_transmit_digital()
-  {
-  }
-
-  void
-  Run::start_transmit_ssb()
-  {
-  }
-
-  void
-  Run::stop_receive()
-  {
   }
 
   void
