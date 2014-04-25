@@ -190,41 +190,14 @@ namespace FreeDV {
   std::size_t
   AudioOutALSA::ready()
   {
-    for ( unsigned int loop = 0; loop < 10; loop++ ) {
-      snd_pcm_sframes_t	available = 0;
-      snd_pcm_sframes_t	delay = 0;
-  
-      const int error = snd_pcm_avail_delay(handle, &available, &delay);
-  
-      // If we've not started, allow the first write to be large, but
-      // not so large that we'll active the overlong-delay code.
-      if ( !started )
-        return AudioFrameSamples * MaximumDelayFrames - FillFrames - 1;
-  
-      if ( error ) {
-        if ( error == -EPIPE ) {
-          std::cerr << "ALSA output \"" << parameters << "\": ready underrun." << std::endl;
-          snd_pcm_drop(handle);
-          started = false;
-        }
-        else
-          do_throw(error, "Get Frames Available for Write");
-      }
-      else if ( delay > (AudioFrameSamples * MaximumDelayFrames) ) {
-        const double seconds = (double)delay / (double)SampleRate;
-  
-        std::cerr << "ALSA output \"" << parameters
-         << "\": overlong delay, dropped  "
-         << seconds << " seconds of output." << std::endl;
-        snd_pcm_drop(handle);
-        started = false;
-        continue;
-      }
-      else
-	return available;
-    }
-    do_throw(0, "Audio output stuck in ready()");
-    return 0; // NOTREACHED.
+    const snd_pcm_sframes_t	available = snd_pcm_avail_update(handle);
+
+    // If we've not started, allow the first write to be large, but
+    // not so large that we'll active the overlong-delay code.
+    if ( !started )
+      return AudioFrameSamples * MaximumDelayFrames - FillFrames - 1;
+    else
+      return available;
   }
 
   void
