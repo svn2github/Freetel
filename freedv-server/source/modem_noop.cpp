@@ -54,11 +54,6 @@ namespace FreeDV {
 			 std::int16_t * o, \
              		 std::size_t *data_length,
 			 std::size_t sample_length);
-
-    /// Return the minimum duration of a frame in milliseconds.
-    /// \return The minimum duration of a frame in milliseconds.
-    virtual int
-    			min_frame_duration() const;
   };
 
   ModemNoOp::ModemNoOp(const char * _parameters)
@@ -102,12 +97,6 @@ namespace FreeDV {
     memcpy(o, i, length * 2);
     *data_length = length * 2;
     return length;
-  }
-
-  int
-  ModemNoOp::min_frame_duration() const
-  {
-    return 1;
   }
 
   Modem *

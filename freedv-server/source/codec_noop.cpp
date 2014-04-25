@@ -51,10 +51,10 @@ namespace FreeDV {
 			 std::size_t data_length,
              		 std::size_t *sample_length);
 
-    /// Return the minimum duration of a frame in milliseconds.
-    /// \return The minimum duration of a frame in milliseconds.
-    virtual int
-    			min_frame_duration() const;
+    /// \return The number of samples required to encode a frame in the
+    /// currently-selected mode.
+    virtual std::size_t
+    samples_per_frame() const;
   };
 
   CodecNoOp::CodecNoOp(const char * _parameters)
@@ -96,14 +96,14 @@ namespace FreeDV {
       return 0;
     }
     memcpy(o, i, length * 2);
-    *sample_length = length / 2;
-    return length;
+    *sample_length = length;
+    return length * 2;
   }
 
-  int
-  CodecNoOp::min_frame_duration() const
+  std::size_t
+  CodecNoOp::samples_per_frame() const
   {
-    return FrameDuration;
+    return FrameSamples;
   }
 
   Codec *

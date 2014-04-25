@@ -128,18 +128,25 @@ namespace FreeDV {
   bool
   Run::drain_digital(bool final)
   {
-    if ( final ) {
-      if ( in_fifo.get_available() == 0
-       &&  codec_fifo.get_available() == 0
-       &&  out_fifo.get_available() == 0 ) {
-        i->transmitter->drain();
-        std::cerr << "Drain digital returning TRUE." << std::endl;
-        return true;
-      }
-    }
 
     std::size_t		samples_to_encode = in_fifo.get_available() / 2;
     const std::size_t	bytes_to_encode = codec_fifo.put_space();
+
+    // If draining the last frame, make sure we have enough samples to encode
+    // the last codec frame. Fill with zero if necessary.
+    // FIX: Replace this with a state before un-key which fades out the
+    // microphone, ending at a codec frame boundary, thus avoiding the click
+    // we make here.
+    if ( final ) {
+      const std::size_t samples_per_frame = i->codec->samples_per_frame();
+      if ( samples_to_encode < samples_per_frame && samples_to_encode > 0 ) {
+        const std::size_t fill = samples_per_frame - samples_to_encode;
+        const std::size_t bytes = fill * 2;
+        memset(in_fifo.put(bytes), 0, bytes);
+        in_fifo.put_done(bytes);
+        samples_to_encode += fill;
+      }
+    }
 
     if ( samples_to_encode > 0 && bytes_to_encode > 0 ) {
       const std::size_t bytes_encoded = i->codec->encode16(
@@ -154,15 +161,26 @@ namespace FreeDV {
         if ( bytes_encoded > 0 )
           codec_fifo.put_done(bytes_encoded);
       }
-      else if ( final && samples_to_encode == 0 ) {
-        // The remainder of the samples in the codec queue are insufficient to
-        // fill a codec frame.
-        return true;
-      }
     }
 
     std::size_t		bytes_to_modulate = codec_fifo.get_available();
     const std::size_t	samples_to_modulate = out_fifo.put_space() / 2;
+
+    // If the codec is drained and we are draining the last modem frame,
+    // make sure we have enough bytes to encode the last modem frame.
+    // Fill with zero if necessary.
+    if ( final && in_fifo.get_available() == 0 ) {
+      const std::size_t bytes_per_frame = i->modem->bytes_per_frame();
+      if ( bytes_to_modulate < bytes_per_frame && bytes_to_modulate > 0 ) {
+        const std::size_t fill = bytes_per_frame - bytes_to_modulate;
+        memset(codec_fifo.put(fill), 0, fill);
+        codec_fifo.put_done(fill);
+        bytes_to_modulate += fill;
+        // Leave this debugging message in place until I have a codec with
+        // a frame size less than a modem frame, and can test this block.
+        std::cerr << "Fill modem." << std::endl;
+      }
+    }
 
     if ( bytes_to_modulate > 0 && samples_to_modulate > 0 ) {
       const std::size_t samples_modulated = i->modem->modulate16(
@@ -171,17 +189,11 @@ namespace FreeDV {
        &bytes_to_modulate,
        samples_to_modulate);
 
-
       if ( bytes_to_modulate > 0 ) {
         codec_fifo.get_done(bytes_to_modulate);
 
         if ( samples_modulated > 0 )
           out_fifo.put_done(samples_modulated * 2);
-      }
-      else if ( final && bytes_to_modulate == 0 ) {
-        // The remainder of the samples in the modem queue are insufficient to
-        // fill a modem frame.
-        return true;
       }
     }
     // Drain any data that the transmitter can take.
@@ -199,6 +211,16 @@ namespace FreeDV {
       else if ( result < 0 )
 	std::cerr << "Transmitter I/O error: " << strerror(errno) << std::endl;
     }
+
+    if ( final ) {
+      if ( in_fifo.get_available() == 0
+       &&  codec_fifo.get_available() == 0
+       &&  out_fifo.get_available() == 0 ) {
+        i->transmitter->drain();
+        return true;
+      }
+    }
+
     return false;
   }
 

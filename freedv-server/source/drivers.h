@@ -425,10 +425,10 @@ public:
      std::size_t data_length,
      std::size_t * sample_length) = 0;
 
-    /// Return the minimum duration of a frame in milliseconds.
-    /// \return The minimum duration of a frame in milliseconds.
-    virtual int
-    min_frame_duration() const = 0;
+    /// \return The number of samples required to encode a frame in the
+    /// currently-selected mode.
+    virtual std::size_t
+    samples_per_frame() const = 0;
 };
 
 /// Virtual base class for protocol framers.
@@ -556,10 +556,10 @@ public:
      std::size_t * data_length,
      std::size_t sample_length) = 0;
 
-    /// Return the minimum duration of a frame in milliseconds.
-    /// \return The minimum duration of a frame in milliseconds.
-    virtual int
-    min_frame_duration() const = 0;
+    /// \return The number of bytes required to encode a frame in the current
+    /// mode.
+    virtual std::size_t
+    bytes_per_frame() const = 0;
 };
 
 /// Push-to-talk input driver.
