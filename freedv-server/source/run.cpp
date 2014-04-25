@@ -122,6 +122,11 @@ namespace FreeDV {
     out_fifo.reset();
   }
 
+  /// Write any possible output to the transmitter: digital voice version.
+  /// Does not wait for the audio device to complete, we call
+  /// i->transmitter->drain() in the UnKey state.
+  /// \return True if final is set and all possible data has been sent,
+  /// otherwise false.
   bool
   Run::drain_digital(bool final)
   {
@@ -212,22 +217,23 @@ namespace FreeDV {
     if ( final ) {
       if ( in_fifo.get_available() == 0
        &&  codec_fifo.get_available() == 0
-       &&  out_fifo.get_available() == 0 ) {
-        i->transmitter->drain();
+       &&  out_fifo.get_available() == 0 )
         return true;
-      }
     }
 
     return false;
   }
 
+  /// Write any possible output to the transmitter: SSB version.
+  /// Does not wait for the audio device to complete, we call
+  /// i->transmitter->drain() in the UnKey state.
+  /// \return True if final is set and all possible data has been sent,
+  /// otherwise false.
   bool
   Run::drain_ssb(bool final)
   {
-    if ( final && in_fifo.get_available() == 0 ) {
+    if ( final && in_fifo.get_available() == 0 )
       i->transmitter->drain();
-      return true;
-    }
 
     // Drain any data that the transmitter can take.
     const std::size_t	out_samples = min(
@@ -412,29 +418,28 @@ namespace FreeDV {
         break;
       case Receive:
         if ( ptt_digital || ptt_ssb ) {
+	  // Stop polling the receiver devices.
+          poll_fd_count = poll_fd_base;
+
+	  // Reset the FIFO state.
+	  reset();
+
 	  i->receiver->stop();
           i->loudspeaker->drain();
           i->loudspeaker->stop();
 
-	  // Stop polling the receiver devices.
-          poll_fd_count = poll_fd_base;
-
-	  // Flush all of the FIFO data.
-	  reset();
-
 	  // Start accumulating the audio samples for the first codec frame
-	  // before we've finished keying the transmitter.
+	  // before we've finished keying the transmitter. That way, we'll
+          // have closer to a whole frame's worth of samples when it's time to
+	  // run the codec and modem.
           i->microphone->start();
-
           i->keying_output->key(1);
-
+          i->transmitter->start();
 
           if ( ptt_digital )
             state = TransmitDigital;
           else
             state = TransmitSSB;
-
-          i->transmitter->start();
 
           // Start polling the transmitter devices.
           if ( !add_poll_device(i->microphone) )
@@ -486,15 +491,15 @@ namespace FreeDV {
             state = TransmitSSB;
         }
         else {
-          i->transmitter->stop();
 	  // Stop polling the transmitter devices.
           poll_fd_count = poll_fd_base;
 
-	  // Flush all of the FIFO data.
+	  // Reset the FIFO state.
           reset();
 
+          i->transmitter->drain();
+          i->transmitter->stop();
           i->keying_output->key(0);
-
           state = Receive;
           i->receiver->start();
           i->loudspeaker->start();
