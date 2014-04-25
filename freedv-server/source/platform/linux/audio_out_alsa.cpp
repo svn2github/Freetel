@@ -133,7 +133,8 @@ namespace FreeDV {
       // a shared clock, and the more expensive equipment that supports it,
       // to avoid this problem.
       //
-      int16_t	buf[AudioFrameSamples];
+      snd_pcm_prepare(handle);
+      int16_t	buf[AudioFrameSamples * 2];
       memset(buf, 0, sizeof(buf));
       snd_pcm_writei(handle, buf, sizeof(buf) / sizeof(*buf));
     }
@@ -180,56 +181,55 @@ namespace FreeDV {
   std::size_t
   AudioOutALSA::ready()
   {
-    snd_pcm_sframes_t	available = 0;
-    snd_pcm_sframes_t	delay = 0;
-    int			error;
+    const unsigned int	MaximumDelayFrames = 8;
 
-    if ( !started )
-      return AudioFrameSamples;
-
-    error = snd_pcm_avail_delay(handle, &available, &delay);
-    if ( delay > (AudioFrameSamples * 8) ) {
-      const double seconds = (double)delay / (double)SampleRate;
-
-      std::cerr << "ALSA output \"" << parameters
-       << "\": overlong delay, dropped  "
-       << seconds << " seconds of output." << std::endl;
-      snd_pcm_drop(handle);
-      snd_pcm_prepare(handle);
-      snd_pcm_pause(handle, 1);
-      started = false;
-      return AudioFrameSamples;
+    for ( unsigned int loop = 0; loop < 10; loop++ ) {
+      snd_pcm_sframes_t	available = 0;
+      snd_pcm_sframes_t	delay = 0;
+  
+      const int error = snd_pcm_avail_delay(handle, &available, &delay);
+  
+      // If we've not started, allow the first write to be large, but
+      // not as large as the MaximumDelayFrames + the preload frame size.
+      if ( !started )
+        return AudioFrameSamples * MaximumDelayFrames - 3;
+  
+      if ( error ) {
+        if ( error == -EPIPE ) {
+          std::cerr << "ALSA output \"" << parameters << "\": ready underrun." << std::endl;
+          snd_pcm_drop(handle);
+          started = false;
+        }
+        else
+          do_throw(error, "Get Frames Available for Write");
+      }
+      else if ( delay > (AudioFrameSamples * MaximumDelayFrames) ) {
+        const double seconds = (double)delay / (double)SampleRate;
+  
+        std::cerr << "ALSA output \"" << parameters
+         << "\": overlong delay, dropped  "
+         << seconds << " seconds of output." << std::endl;
+        snd_pcm_drop(handle);
+        started = false;
+        continue;
+      }
+      else
+	return available;
     }
-
-    if ( error == -EPIPE ) {
-      std::cerr << "ALSA output \"" << parameters << "\": ready underrun." << std::endl;
-      snd_pcm_recover(handle, error, 1);
-      snd_pcm_pause(handle, 1);
-      started = false;
-
-      return AudioFrameSamples;
-    }
-
-    if ( error == 0 )
-      return available;
-    else
-      do_throw(error, "Get Frames Available for Write");
+    do_throw(0, "Audio output stuck in ready()");
+    return 0; // NOTREACHED.
   }
 
   void
   AudioOutALSA::start()
   {
     snd_pcm_drop(handle);
-    snd_pcm_prepare(handle);
-    snd_pcm_pause(handle, 1);
   }
 
   void
   AudioOutALSA::stop()
   {
     snd_pcm_drop(handle);
-    snd_pcm_prepare(handle);
-    snd_pcm_pause(handle, 1);
     started = false;
   }
 
