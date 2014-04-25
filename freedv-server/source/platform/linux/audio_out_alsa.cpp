@@ -123,7 +123,7 @@ namespace FreeDV {
   void
   AudioOutALSA::drain()
   {
-    snd_pcm_wait(handle, 1000);
+    snd_pcm_drain(handle);
   }
 
   // Write audio into the "short" type.
