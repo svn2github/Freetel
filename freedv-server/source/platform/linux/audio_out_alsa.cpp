@@ -20,6 +20,15 @@
 namespace FreeDV {
   std::ostream & ALSAEnumerate(std::ostream & stream, snd_pcm_stream_t mode);
 
+  // If more than this number of frames are queued for audio output, the
+  // latency is too high. Flush the output and print an overlong-delay message.
+  const unsigned int	MaximumDelayFrames = 8;
+
+  // At the start of playback, preload the audio output with this many
+  // frames of zero data. This delays the output enough to avoid later
+  // buffer-overrun problems.
+  const unsigned int	FillFrames = 2;
+
   /// Audio output "ALSA", Uses the Linux ALSA Audio API.
   ///
   class AudioOutALSA : public AudioOutput {
@@ -134,7 +143,7 @@ namespace FreeDV {
       // to avoid this problem.
       //
       snd_pcm_prepare(handle);
-      int16_t	buf[AudioFrameSamples * 2];
+      int16_t	buf[AudioFrameSamples * FillFrames];
       memset(buf, 0, sizeof(buf));
       snd_pcm_writei(handle, buf, sizeof(buf) / sizeof(*buf));
     }
@@ -181,8 +190,6 @@ namespace FreeDV {
   std::size_t
   AudioOutALSA::ready()
   {
-    const unsigned int	MaximumDelayFrames = 8;
-
     for ( unsigned int loop = 0; loop < 10; loop++ ) {
       snd_pcm_sframes_t	available = 0;
       snd_pcm_sframes_t	delay = 0;
@@ -190,9 +197,9 @@ namespace FreeDV {
       const int error = snd_pcm_avail_delay(handle, &available, &delay);
   
       // If we've not started, allow the first write to be large, but
-      // not as large as the MaximumDelayFrames + the preload frame size.
+      // not so large that we'll active the overlong-delay code.
       if ( !started )
-        return AudioFrameSamples * MaximumDelayFrames - 3;
+        return AudioFrameSamples * MaximumDelayFrames - FillFrames - 1;
   
       if ( error ) {
         if ( error == -EPIPE ) {
