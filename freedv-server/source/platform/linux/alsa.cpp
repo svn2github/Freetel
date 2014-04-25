@@ -14,6 +14,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <string.h>
+#include <stdio.h>
 
 namespace FreeDV {
   static std::ostream &
@@ -299,6 +300,14 @@ namespace FreeDV {
       if ((error = snd_pcm_sw_params(handle, sw_params)) < 0)
         do_throw(error, name, stream, "ALSA set software parameters");
       
+#if 0
+      // Dump sound parameters, for debugging.
+      snd_output_t * output = 0;
+      snd_output_stdio_attach(&output, stderr, 0);
+      fprintf(stderr, "%s\n", name);
+      snd_pcm_dump_setup(handle, output);
+#endif
+
       snd_pcm_sw_params_free(sw_params);
 
       if ((error = snd_pcm_prepare(handle)) < 0)
