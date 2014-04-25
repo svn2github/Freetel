@@ -422,13 +422,12 @@ namespace FreeDV {
 	  // Flush all of the FIFO data.
 	  reset();
 
+	  // Start accumulating the audio samples for the first codec frame
+	  // before we've finished keying the transmitter.
+          i->microphone->start();
+
           i->keying_output->key(1);
 
-	  // We could really start the microphone before we finish keying the
-	  // transmitter, but at this writing ALSA snd_pcm_wait() doesn't
-	  // really wait until the end of playback, and thus we hear the echo
-	  // of the receiver if we start the microphone too early.
-          i->microphone->start();
 
           if ( ptt_digital )
             state = TransmitDigital;
