@@ -122,7 +122,7 @@ namespace FreeDV {
       // a shared clock, and the more expensive equipment that supports it,
       // to avoid this problem.
       //
-      int16_t	buf[AudioFrameSamples / 100];
+      int16_t	buf[AudioFrameSamples];
       memset(buf, 0, sizeof(buf));
       snd_pcm_writei(handle, buf, sizeof(buf) / sizeof(*buf));
     }
@@ -177,7 +177,7 @@ namespace FreeDV {
       return AudioFrameSamples;
 
     error = snd_pcm_avail_delay(handle, &available, &delay);
-    if ( delay > (AudioFrameSamples * 4) ) {
+    if ( delay > (AudioFrameSamples * 8) ) {
       const double seconds = (double)delay / (double)SampleRate;
 
       std::cerr << "ALSA output \"" << parameters

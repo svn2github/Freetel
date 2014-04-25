@@ -82,7 +82,7 @@ namespace FreeDV {
      SND_PCM_ACCESS_RW_INTERLEAVED,
      1,
      SampleRate,
-     AudioFrameSamples,
+     AudioFrameSamples, 
      AudioFrameSamples * 2);
 
     if ( handle == 0 )
@@ -188,6 +188,7 @@ namespace FreeDV {
 
     if ( error == -EPIPE ) {
       snd_pcm_recover(handle, error, 1);
+      snd_pcm_start(handle);
       std::cerr << "ALSA input \"" << parameters << "\": ready underrun." << std::endl;
       return 0;
     }

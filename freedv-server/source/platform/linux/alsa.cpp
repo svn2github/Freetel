@@ -228,6 +228,7 @@ namespace FreeDV {
     int				error;
     snd_pcm_t *			handle = 0;
     snd_pcm_hw_params_t *	hw_params = 0;
+    snd_pcm_sw_params_t *	sw_params = 0;
  
     error = open_by_longname(&handle, name, stream, mode);
     if ( error < 0 ) {
@@ -241,53 +242,73 @@ namespace FreeDV {
          return 0;
     }
  
-    if ( (error = snd_pcm_hw_params_malloc(&hw_params)) < 0 ) {
-      snd_pcm_close(handle);
-      do_throw(error, name, stream, "ALSA hardare parameter allocation");
-    }
- 
-    if ( (error = snd_pcm_hw_params_any(handle, hw_params )) < 0 ) {
-      snd_pcm_close(handle);
-      do_throw(error, name, stream, "Get configuration space for device");
-    }
+    try {
+      if ( (error = snd_pcm_hw_params_malloc(&hw_params)) < 0 )
+        do_throw(error, name, stream, "ALSA hardare parameter allocation");
+   
+      if ( (error = snd_pcm_hw_params_any(handle, hw_params )) < 0 )
+        do_throw(error, name, stream, "Get configuration space for device");
+  
+      if ( (error = snd_pcm_hw_params_set_format(handle, hw_params, format )) < 0 )
+        do_throw(error, name, stream, "Set format");
+  
+      if ( (error = snd_pcm_hw_params_set_access(handle, hw_params, access )) < 0 )
+        do_throw(error, name, stream, "Set access");
+  
+      if ( (error = snd_pcm_hw_params_set_channels(handle, hw_params, channels )) < 0 )
+        do_throw(error, name, stream, "Set channels");
+  
+      if ( (error = snd_pcm_hw_params_set_rate(handle, hw_params, rate, 0 )) < 0 )
+        do_throw(error, name, stream, "Set rate");
+  
+      if ( (error = snd_pcm_hw_params_set_period_size_near(handle, hw_params, &period_size, 0)) < 0 )
+        do_throw(error, name, stream, "Set I/O period size");
+  
+      if ( (error = snd_pcm_hw_params_set_buffer_size_near(handle, hw_params, &buffer_size)) < 0 )
+        do_throw(error, name, stream, "Set I/O buffer size");
+   
+      if ( (error = snd_pcm_hw_params(handle, hw_params)) < 0 )
+        do_throw(error, name, stream, "ALSA hardware parameter select");
+   
+      snd_pcm_hw_params_free(hw_params);
+   
+      if ((error = snd_pcm_sw_params_malloc(&sw_params)) < 0)
+        do_throw(error, name, stream, "ALSA software parameter allocate");
+  
+      if ((error = snd_pcm_sw_params_current(handle, sw_params)) < 0)
+        do_throw(error, name, stream, "ALSA get software parameters");
+  
+      if ((error = snd_pcm_sw_params_set_avail_min(handle, sw_params,
+       period_size)) < 0)
+        do_throw(error, name, stream, "ALSA software set minimum available.");
+  
+      if (( error = snd_pcm_sw_params_set_period_event(handle, sw_params, 1))
+       < 0 )
+        do_throw(error, name, stream, "ALSA software set period event.");
 
-    if ( (error = snd_pcm_hw_params_set_format(handle, hw_params, format )) < 0 ) {
-      snd_pcm_close(handle);
-      do_throw(error, name, stream, "Set format");
-    }
+      if ((error = snd_pcm_sw_params_set_start_threshold(handle, sw_params, period_size))
+       < 0)
+        do_throw(error, name, stream,
+         "ALSA set software start threshold");
 
-    if ( (error = snd_pcm_hw_params_set_access(handle, hw_params, access )) < 0 ) {
-      snd_pcm_close(handle);
-      do_throw(error, name, stream, "Set access");
-    }
+      if (( error = snd_pcm_sw_params_set_stop_threshold(handle, sw_params,
+       buffer_size + 1)) < 0 )
+        do_throw(error, name, stream,
+         "ALSA set software stop threshold");
 
-    if ( (error = snd_pcm_hw_params_set_channels(handle, hw_params, channels )) < 0 ) {
-      snd_pcm_close(handle);
-      do_throw(error, name, stream, "Set channels");
-    }
+      if ((error = snd_pcm_sw_params(handle, sw_params)) < 0)
+        do_throw(error, name, stream, "ALSA set software parameters");
+      
+      snd_pcm_sw_params_free(sw_params);
 
-    if ( (error = snd_pcm_hw_params_set_rate(handle, hw_params, rate, 0 )) < 0 ) {
-      snd_pcm_close(handle);
-      do_throw(error, name, stream, "Set rate");
+      if ((error = snd_pcm_prepare(handle)) < 0)
+        do_throw(error, name, stream, "ALSA prepare audio interface for use");
     }
-
-    if ( (error = snd_pcm_hw_params_set_period_size_near(handle, hw_params, &period_size, 0)) < 0 ) {
+    catch (...)
+    {
       snd_pcm_close(handle);
-      do_throw(error, name, stream, "Set I/O period size");
+      throw; // Re-throws the current exception without modification.
     }
-
-    if ( (error = snd_pcm_hw_params_set_buffer_size_near(handle, hw_params, &buffer_size)) < 0 ) {
-      snd_pcm_close(handle);
-      do_throw(error, name, stream, "Set I/O buffer size");
-    }
- 
-    if ( (error = snd_pcm_hw_params(handle, hw_params)) < 0 ) {
-      snd_pcm_close(handle);
-      do_throw(error, name, stream, "ALSA hardware parameter select");
-    }
- 
-    snd_pcm_hw_params_free(hw_params);
- 
     return handle;
   }
 }
