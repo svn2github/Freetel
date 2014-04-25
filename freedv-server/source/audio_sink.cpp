@@ -18,6 +18,11 @@ namespace FreeDV {
   		AudioSink(const char * parameters);
 		~AudioSink();
 
+	/// Wait for all output to be sent to the audio device and then
+	// return.
+	virtual void
+		drain();
+
         /// Return file descriptors for poll()
  	/// \param array The address of an array that will be written
 	/// with a sequence of file descriptors.
@@ -43,6 +48,11 @@ namespace FreeDV {
   }
 
   AudioSink::~AudioSink()
+  {
+  }
+
+  void
+  AudioSink::drain()
   {
   }
 

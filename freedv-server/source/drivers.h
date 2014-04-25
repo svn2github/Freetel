@@ -352,6 +352,10 @@ public:
     ///
     virtual		~AudioOutput() = 0;
 
+    /// Wait for all output to be emitted by the audio device and then
+    // return.
+    virtual void	drain() = 0;
+
     /// Write audio from an array of the signed 16-bit integer type.
     /// Depending on the underlying device and its non-blocking status,
     /// this may write fewer bytes than requested. It's permissible for

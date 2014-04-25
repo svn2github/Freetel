@@ -40,6 +40,11 @@ namespace FreeDV {
   		AudioOutALSA(const char * parameters);
 		~AudioOutALSA();
 
+	/// Wait for all output to be sent to the audio device and then
+	// return.
+	virtual void
+		drain();
+
         /// Return file descriptors for poll()
  	/// \param array The address of an array that will be written
 	/// with a sequence of file descriptors.
@@ -106,12 +111,18 @@ namespace FreeDV {
     throw std::runtime_error(str.str().c_str());
   }
 
+  void
+  AudioOutALSA::drain()
+  {
+    snd_pcm_wait(handle, 1000);
+  }
+
   // Write audio into the "short" type.
   std::size_t
   AudioOutALSA::write16(const std::int16_t * array, std::size_t length)
   {
     if ( !started ) {
-      // Preload the audio output queue with a fraction of a frame of silence.
+      // Preload the audio output queue with some silence.
       // This makes underruns less likely.
       // This delays the output from where we would otherwise have started it.
       // Otherwise we tend to underrun repeatedly at startup time.

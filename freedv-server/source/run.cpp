@@ -46,7 +46,7 @@ namespace FreeDV {
     NORETURN void	do_throw(int error, const char * message);
     void		reset();
 
-    bool		drain_digital();
+    bool		drain_digital(bool final);
     bool		drain_ssb(bool final);
     void		receive();
     void		start_receive();
@@ -126,16 +126,87 @@ namespace FreeDV {
   }
 
   bool
-  Run::drain_digital()
+  Run::drain_digital(bool final)
   {
-    return true;
+    if ( final ) {
+      if ( in_fifo.get_available() == 0
+       &&  codec_fifo.get_available() == 0
+       &&  out_fifo.get_available() == 0 ) {
+        i->transmitter->drain();
+        std::cerr << "Drain digital returning TRUE." << std::endl;
+        return true;
+      }
+    }
+
+    std::size_t		samples_to_encode = in_fifo.get_available() / 2;
+    const std::size_t	bytes_to_encode = codec_fifo.put_space();
+
+    if ( samples_to_encode > 0 && bytes_to_encode > 0 ) {
+      const std::size_t bytes_encoded = i->codec->encode16(
+				  (std::int16_t *)in_fifo.get(
+                                   samples_to_encode * 2),
+				  codec_fifo.put(bytes_to_encode),
+				  bytes_to_encode,
+				  &samples_to_encode);
+
+      if ( samples_to_encode > 0 ) {
+        in_fifo.get_done(samples_to_encode * 2);
+        if ( bytes_encoded > 0 )
+          codec_fifo.put_done(bytes_encoded);
+      }
+      else if ( final && samples_to_encode == 0 ) {
+        // The remainder of the samples in the codec queue are insufficient to
+        // fill a codec frame.
+        return true;
+      }
+    }
+
+    std::size_t		bytes_to_modulate = codec_fifo.get_available();
+    const std::size_t	samples_to_modulate = out_fifo.put_space() / 2;
+
+    if ( bytes_to_modulate > 0 && samples_to_modulate > 0 ) {
+      const std::size_t samples_modulated = i->modem->modulate16(
+       codec_fifo.get(bytes_to_modulate),
+       (std::int16_t *)out_fifo.put(samples_to_modulate * 2),
+       &bytes_to_modulate,
+       samples_to_modulate);
+
+
+      if ( bytes_to_modulate > 0 ) {
+        codec_fifo.get_done(bytes_to_modulate);
+
+        if ( samples_modulated > 0 )
+          out_fifo.put_done(samples_modulated * 2);
+      }
+      else if ( final && bytes_to_modulate == 0 ) {
+        // The remainder of the samples in the modem queue are insufficient to
+        // fill a modem frame.
+        return true;
+      }
+    }
+    // Drain any data that the transmitter can take.
+    const std::size_t	out_samples = min(
+			 i->transmitter->ready(),
+			 (out_fifo.get_available() / 2));
+
+    if ( out_samples > 0 ) {
+      const int result = i->transmitter->write16(
+      				  (std::int16_t *)out_fifo.get(out_samples * 2),
+				  out_samples);
+
+      if ( result > 0 )
+        out_fifo.get_done(result * 2);
+      else if ( result < 0 )
+	std::cerr << "Transmitter I/O error: " << strerror(errno) << std::endl;
+    }
+    return false;
   }
 
   bool
   Run::drain_ssb(bool final)
   {
     if ( final && in_fifo.get_available() == 0 ) {
-      // FIX: Must wait for the output to drain.
+      i->transmitter->drain();
       return true;
     }
 
@@ -309,7 +380,7 @@ namespace FreeDV {
 
       switch ( state ) {
       case DrainDigital:
-        if ( drain_digital() ) {
+        if ( drain_digital(true) ) {
           poll_fd_count = poll_fd_base;
           state = UnKey;
         }
@@ -461,57 +532,9 @@ namespace FreeDV {
       else if ( result < 0 )
 	std::cerr << "Microphone I/O error: " << strerror(errno) << std::endl;
     }
-    
-    std::size_t		samples_to_encode = in_fifo.get_available() / 2;
-    const std::size_t	bytes_to_encode = codec_fifo.put_space();
 
-    if ( samples_to_encode > 0 && bytes_to_encode > 0 ) {
-      const std::size_t bytes_encoded = i->codec->encode16(
-				  (std::int16_t *)in_fifo.get(
-                                   samples_to_encode * 2),
-				  codec_fifo.put(bytes_to_encode),
-				  bytes_to_encode,
-				  &samples_to_encode);
-
-      if ( samples_to_encode > 0 )
-        in_fifo.get_done(samples_to_encode * 2);
-
-      if ( bytes_encoded > 0 )
-        codec_fifo.put_done(bytes_encoded);
-    }
-
-    std::size_t		bytes_to_modulate = codec_fifo.get_available();
-    const std::size_t	samples_to_modulate = out_fifo.put_space() / 2;
-
-    if ( bytes_to_modulate > 0 && samples_to_modulate > 0 ) {
-      const std::size_t samples_modulated = i->modem->modulate16(
-       codec_fifo.get(bytes_to_modulate),
-       (std::int16_t *)out_fifo.put(samples_to_modulate * 2),
-       &bytes_to_modulate,
-       samples_to_modulate);
-
-
-      if ( bytes_to_modulate > 0 )
-        codec_fifo.get_done(bytes_to_modulate);
-
-      if ( samples_modulated > 0 )
-        out_fifo.put_done(samples_modulated * 2);
-    }
-    // Drain any data that the transmitter can take.
-    const std::size_t	out_samples = min(
-			 i->transmitter->ready(),
-			 (out_fifo.get_available() / 2));
-
-    if ( out_samples > 0 ) {
-      const int result = i->transmitter->write16(
-      				  (std::int16_t *)out_fifo.get(out_samples * 2),
-				  out_samples);
-
-      if ( result > 0 )
-        out_fifo.get_done(result * 2);
-      else if ( result < 0 )
-	std::cerr << "Transmitter I/O error: " << strerror(errno) << std::endl;
-    }
+    // Encode, modulate, and output any microphone audio that's been captured.
+    drain_digital(false);
   }
    
   void
@@ -533,7 +556,7 @@ namespace FreeDV {
 	std::cerr << "Microphone I/O error: " << strerror(errno) << std::endl;
     }
     
-    // Drain any data that the transmitter can take.
+    // Output any microphone audio that's been captured.
     drain_ssb(false);
   }
    
