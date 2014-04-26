@@ -5,11 +5,24 @@
 ///
 
 #include "drivers.h"
-#include <string.h>
+#include <stdexcept>
+#include <stdlib.h>
+extern "C" {
+  #include <codec2.h>
+}
 
 namespace FreeDV {
   /// Codec2.
   class Codec2 : public Codec {
+  private:
+    // Override copy constructor and operator = ().
+    			Codec2(const Codec2 &);
+    Codec2 &		operator = (const Codec2 &);
+
+    struct CODEC2 *	c;
+    std::size_t		samples_per;
+    std::size_t		bytes_per;
+
   public:
 
     /// Instantiate the no-op codec.
@@ -48,23 +61,67 @@ namespace FreeDV {
 
     /// \return The number of samples required to encode a frame in the
     /// currently-selected mode.
-    virtual std::size_t
-    samples_per_frame() const;
+    virtual std::size_t	samples_per_frame() const;
   };
 
   Codec2::Codec2(const char * _parameters)
-  : Codec("no-op", _parameters)
+  : Codec("no-op", _parameters), c(0), samples_per(0), bytes_per(0)
   {
+    int	mode = CODEC2_MODE_1600;
+
+    switch ( atoi(parameters) ) {
+    case 0:
+    default:
+      throw std::runtime_error(
+       "codec2: must specify rate," \
+       " valid values are 1200,1300,1400,1600,2400.");
+       break; // NOTREACHED
+    case 1200:
+      mode = CODEC2_MODE_1200;
+      break;
+    case 1300:
+      mode = CODEC2_MODE_1300;
+      break;
+    case 1400:
+      mode = CODEC2_MODE_1400;
+      break;
+    case 1600:
+      mode = CODEC2_MODE_1600;
+      break;
+    case 2400:
+      mode = CODEC2_MODE_2400;
+      break;
+    }
+    c = codec2_create(mode);
+
+    if ( c == 0 )
+      throw std::runtime_error("codec2: failed to create.");
+
+    samples_per = codec2_samples_per_frame(c);
+    bytes_per = (codec2_bits_per_frame(c) + 7) / 8;
   }
 
   Codec2::~Codec2()
   {
+    codec2_destroy(c);
   }
 
   std::size_t
   Codec2::decode16(const std::uint8_t * i, std::int16_t * o, std::size_t * data_length, std::size_t sample_length)
   {
-    return 0;
+    std::size_t	bytes_read = 0;
+    std::size_t	samples_read = 0;
+
+    while ( *data_length >= bytes_per || sample_length >= samples_per ) {
+      codec2_decode(c, o, i);
+
+      *data_length -= bytes_per;
+      sample_length -= samples_per;
+      bytes_read += bytes_per;
+      samples_read += samples_per;
+    }
+    *data_length = bytes_read;
+    return samples_read;
   }
 
   std::size_t
@@ -74,13 +131,27 @@ namespace FreeDV {
    std::size_t data_length,
    std::size_t *sample_length)
   {
-    return 0;
+    std::size_t	bytes_read = 0;
+    std::size_t	samples_read = 0;
+
+    while ( data_length >= bytes_per || *sample_length >= samples_per ) {
+      // FIX: Const cast away. Remove if we can get const correctness in
+      // libcodec2.
+      codec2_encode(c, o, (std::int16_t *)i);
+
+      data_length -= bytes_per;
+      *sample_length -= samples_per;
+      bytes_read += bytes_per;
+      samples_read += samples_per;
+    }
+    *sample_length = samples_read;
+    return bytes_read;
   }
 
   std::size_t
   Codec2::samples_per_frame() const
   {
-    return 0;
+    return samples_per;
   }
 
   Codec *
@@ -92,7 +163,7 @@ namespace FreeDV {
   static std::ostream &
   Codec2Enumerator(std::ostream & stream)
   {
-    stream << "codec2:" << std::endl;
+    stream << "\"codec2:1400\" (1200,1300,1400,1600,2400,3200)" << std::endl;
     return stream;
   }
 
