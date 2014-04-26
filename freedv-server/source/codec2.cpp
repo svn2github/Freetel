@@ -1,4 +1,4 @@
-/// \file codec_codec2.cpp
+/// \file codec2.cpp
 /// Codec2, for FreeDV, "HT of the Future", and other modes using Codec2.
 ///
 /// \copyright Copyright (C) 2013-2014 Algoram. See the LICENSE file.

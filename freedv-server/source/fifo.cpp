@@ -46,9 +46,8 @@ namespace FreeDV {
   uint8_t *
   FIFO::put(std::size_t length) {
     assert(length % 2 == 0);
-    const uint8_t * io_end = in + length;
 
-    if ( io_end > buffer_end )
+    if ( (in + length) > buffer_end )
       return reorder(length);
     else
       return in;
