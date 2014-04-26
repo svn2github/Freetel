@@ -775,6 +775,13 @@ AudioOutput *	AudioOutALSA(const char * parameter);
 ///
 AudioOutput *	AudioOutDefault();
 
+/// Opens Codec2.
+/// for testing.
+/// \param parameter
+/// \return A pointer to the codec instance.
+///
+Codec *		Codec2(const char * parameter);
+
 /// Opens a no-op codec, which copies its input to its output unmodified,
 /// for testing.
 /// \param parameter Not used.
@@ -794,6 +801,12 @@ Framer *	FramerNoOp(const char * parameter);
 /// \return A pointer to the KeyingOutput instance for the device.
 ///
 KeyingOutput *	KeyingSink(const char * parameter);
+
+/// Opens the FDMDV2 modem.
+/// \param parameter
+/// \return A pointer to the Modem instance.
+///
+Modem *		ModemFDMDV2(const char * parameter);
 
 /// Opens a no-op modem, which copies its input to its output unmodified,
 /// for testing.
