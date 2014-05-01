@@ -255,7 +255,7 @@
 <smd name="10" x="-7.8" y="-0.75" dx="2.8" dy="3" layer="1" rot="R90"/>
 <wire x1="-8" y1="3" x2="-6" y2="3" width="0.15" layer="21"/>
 <wire x1="-8" y1="1.5" x2="-8" y2="3" width="0.15" layer="21"/>
-<wire x1="-8" y1="-3" x2="8" y2="-3" width="0.15" layer="22"/>
+<wire x1="-8" y1="-3" x2="8" y2="-3" width="0.15" layer="21"/>
 <wire x1="-8" y1="-3" x2="-8" y2="-2.5" width="0.15" layer="21"/>
 <wire x1="8" y1="-3" x2="8" y2="3" width="0.15" layer="21"/>
 <wire x1="8" y1="3" x2="7.5" y2="3" width="0.15" layer="21"/>
@@ -3217,7 +3217,8 @@ by exp-lbrs.ulp</description>
 <variantdefs>
 </variantdefs>
 <classes>
-<class number="0" name="default" width="0" drill="0">
+<class number="0" name="default" width="0.2" drill="0.4">
+<clearance class="0" value="0.2"/>
 </class>
 </classes>
 <parts>
