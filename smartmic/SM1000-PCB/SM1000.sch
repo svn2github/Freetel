@@ -249,13 +249,6 @@
 </library>
 <library name="_RoweTel">
 <packages>
-<package name="CMA-4544PF-W">
-<circle x="0" y="0" radius="4.8" width="0.15" layer="21"/>
-<pad name="1" x="-2" y="1.27" drill="1.2" shape="square"/>
-<pad name="2" x="-2" y="-1.27" drill="1.2" diameter="1.9304"/>
-<text x="-2.5" y="6" size="1" layer="21" ratio="10">&gt;NAME</text>
-<circle x="0" y="0" radius="5.59016875" width="0.01" layer="39"/>
-</package>
 <package name="MJ-3523-SMT">
 <smd name="1" x="5.6" y="3.6" dx="2.2" dy="3" layer="1" rot="R180"/>
 <smd name="2" x="-3.8" y="3.6" dx="2.8" dy="3" layer="1"/>
@@ -403,16 +396,18 @@
 <package name="SOD323R_INFINEON">
 <description>&lt;b&gt;Diode Package&lt;/b&gt; Reflow soldering&lt;p&gt;
 INFINEON, www.infineon.com/cmc_upload/0/000/010/257/eh_db_5b.pdf</description>
-<wire x1="-0.8" y1="0.55" x2="0.8" y2="0.55" width="0.1016" layer="21"/>
-<wire x1="0.8" y1="0.55" x2="0.8" y2="-0.55" width="0.1016" layer="21"/>
-<wire x1="0.8" y1="-0.55" x2="-0.8" y2="-0.55" width="0.1016" layer="21"/>
-<wire x1="-0.8" y1="-0.55" x2="-0.8" y2="0.55" width="0.1016" layer="51"/>
+<wire x1="-0.6" y1="0.55" x2="0.6" y2="0.55" width="0.1016" layer="21"/>
+<wire x1="0.6" y1="0.55" x2="0.6" y2="-0.55" width="0.1016" layer="21"/>
+<wire x1="0.6" y1="-0.55" x2="-0.6" y2="-0.55" width="0.1016" layer="21"/>
+<wire x1="-0.6" y1="-0.55" x2="-0.6" y2="0.55" width="0.1016" layer="51"/>
 <smd name="C" x="-1.25" y="0" dx="0.8" dy="0.6" layer="1"/>
 <smd name="A" x="1.25" y="0" dx="0.8" dy="0.6" layer="1"/>
 <text x="-1.65" y="0.75" size="1" layer="25">&gt;NAME</text>
-<rectangle x1="-0.8" y1="-0.55" x2="0" y2="0.55" layer="21"/>
 <rectangle x1="-1.25" y1="-0.15" x2="-0.8" y2="0.15" layer="51"/>
 <rectangle x1="0.8" y1="-0.15" x2="1.25" y2="0.15" layer="51"/>
+<wire x1="-0.5" y1="0.5" x2="-0.5" y2="-0.5" width="0.15" layer="21"/>
+<wire x1="-0.4" y1="0.5" x2="-0.4" y2="-0.5" width="0.15" layer="21"/>
+<wire x1="-0.3" y1="0.5" x2="-0.3" y2="-0.5" width="0.15" layer="21"/>
 </package>
 <package name="SOT23-5L">
 <smd name="2" x="0" y="1.15" dx="1.2" dy="0.6" layer="1" rot="R90"/>
@@ -907,35 +902,15 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <wire x1="10.5" y1="-5.5" x2="-10.5" y2="-5.5" width="0" layer="39"/>
 <wire x1="-10.5" y1="-5.5" x2="-10.5" y2="5.5" width="0" layer="39"/>
 </package>
+<package name="CMA-4544PF-W">
+<circle x="0" y="0" radius="4.8" width="0.15" layer="21"/>
+<pad name="1" x="-2" y="1.27" drill="1.2" shape="square"/>
+<pad name="2" x="-2" y="-1.27" drill="1.2" diameter="1.9304"/>
+<text x="-2.5" y="6" size="1" layer="25" ratio="10">&gt;NAME</text>
+<circle x="0" y="0" radius="5.59016875" width="0.01" layer="39"/>
+</package>
 </packages>
 <symbols>
-<symbol name="CMA-4544PF-W">
-<pin name="1" x="20.32" y="10.16" visible="pad" length="middle" rot="R180"/>
-<pin name="2" x="20.32" y="-7.62" visible="pad" length="middle" rot="R180"/>
-<wire x1="15.24" y1="10.16" x2="7.62" y2="10.16" width="0.1524" layer="94"/>
-<wire x1="7.62" y1="10.16" x2="0" y2="15.24" width="0.1524" layer="94"/>
-<wire x1="0" y1="15.24" x2="0" y2="10.16" width="0.1524" layer="94"/>
-<wire x1="0" y1="10.16" x2="0" y2="5.08" width="0.1524" layer="94"/>
-<wire x1="0" y1="5.08" x2="7.62" y2="10.16" width="0.1524" layer="94"/>
-<wire x1="0" y1="10.16" x2="-12.7" y2="10.16" width="0.1524" layer="94"/>
-<wire x1="2.54" y1="6.604" x2="2.54" y2="-7.62" width="0.1524" layer="94"/>
-<wire x1="15.24" y1="-7.62" x2="2.54" y2="-7.62" width="0.1524" layer="94"/>
-<wire x1="-12.7" y1="10.16" x2="-12.7" y2="2.54" width="0.1524" layer="94"/>
-<wire x1="-15.24" y1="2.54" x2="-10.16" y2="2.54" width="0.1524" layer="94"/>
-<wire x1="-15.24" y1="0" x2="-12.7" y2="0" width="0.1524" layer="94"/>
-<wire x1="-12.7" y1="0" x2="-10.16" y2="0" width="0.1524" layer="94"/>
-<wire x1="-12.7" y1="0" x2="-12.7" y2="-7.62" width="0.1524" layer="94"/>
-<wire x1="-12.7" y1="-7.62" x2="2.54" y2="-7.62" width="0.1524" layer="94"/>
-<wire x1="-15.24" y1="0" x2="-17.78" y2="2.54" width="0.1524" layer="94"/>
-<wire x1="-10.16" y1="0" x2="-7.62" y2="2.54" width="0.1524" layer="94"/>
-<circle x="2.54" y="-7.62" radius="0.915809375" width="0" layer="94"/>
-<wire x1="15.24" y1="17.78" x2="-20.32" y2="17.78" width="0.3048" layer="94"/>
-<wire x1="-20.32" y1="17.78" x2="-20.32" y2="-12.7" width="0.3048" layer="94"/>
-<wire x1="-20.32" y1="-12.7" x2="15.24" y2="-12.7" width="0.3048" layer="94"/>
-<wire x1="15.24" y1="-12.7" x2="15.24" y2="17.78" width="0.3048" layer="94"/>
-<text x="-17.78" y="20.32" size="1.778" layer="95" ratio="10">&gt;NAME</text>
-<text x="0" y="20.32" size="1.778" layer="95" ratio="10">&gt;VALUE</text>
-</symbol>
 <symbol name="MJ-3523-SMT">
 <pin name="1" x="7.62" y="7.62" visible="pad" length="middle" rot="R180"/>
 <pin name="10" x="7.62" y="2.54" visible="pad" length="middle" rot="R180"/>
@@ -1458,24 +1433,35 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <vertex x="-2.413" y="-2.921"/>
 </polygon>
 </symbol>
+<symbol name="CMA-4544PF-W">
+<pin name="1" x="20.32" y="10.16" visible="pad" length="middle" rot="R180"/>
+<pin name="2" x="20.32" y="-7.62" visible="pad" length="middle" rot="R180"/>
+<wire x1="15.24" y1="10.16" x2="7.62" y2="10.16" width="0.1524" layer="94"/>
+<wire x1="7.62" y1="10.16" x2="0" y2="15.24" width="0.1524" layer="94"/>
+<wire x1="0" y1="15.24" x2="0" y2="10.16" width="0.1524" layer="94"/>
+<wire x1="0" y1="10.16" x2="0" y2="5.08" width="0.1524" layer="94"/>
+<wire x1="0" y1="5.08" x2="7.62" y2="10.16" width="0.1524" layer="94"/>
+<wire x1="0" y1="10.16" x2="-12.7" y2="10.16" width="0.1524" layer="94"/>
+<wire x1="2.54" y1="6.604" x2="2.54" y2="-7.62" width="0.1524" layer="94"/>
+<wire x1="15.24" y1="-7.62" x2="2.54" y2="-7.62" width="0.1524" layer="94"/>
+<wire x1="-12.7" y1="10.16" x2="-12.7" y2="2.54" width="0.1524" layer="94"/>
+<wire x1="-15.24" y1="2.54" x2="-10.16" y2="2.54" width="0.1524" layer="94"/>
+<wire x1="-15.24" y1="0" x2="-12.7" y2="0" width="0.1524" layer="94"/>
+<wire x1="-12.7" y1="0" x2="-10.16" y2="0" width="0.1524" layer="94"/>
+<wire x1="-12.7" y1="0" x2="-12.7" y2="-7.62" width="0.1524" layer="94"/>
+<wire x1="-12.7" y1="-7.62" x2="2.54" y2="-7.62" width="0.1524" layer="94"/>
+<wire x1="-15.24" y1="0" x2="-17.78" y2="2.54" width="0.1524" layer="94"/>
+<wire x1="-10.16" y1="0" x2="-7.62" y2="2.54" width="0.1524" layer="94"/>
+<circle x="2.54" y="-7.62" radius="0.915809375" width="0" layer="94"/>
+<wire x1="15.24" y1="17.78" x2="-20.32" y2="17.78" width="0.3048" layer="94"/>
+<wire x1="-20.32" y1="17.78" x2="-20.32" y2="-12.7" width="0.3048" layer="94"/>
+<wire x1="-20.32" y1="-12.7" x2="15.24" y2="-12.7" width="0.3048" layer="94"/>
+<wire x1="15.24" y1="-12.7" x2="15.24" y2="17.78" width="0.3048" layer="94"/>
+<text x="-17.78" y="20.32" size="1.4224" layer="95" ratio="10">&gt;NAME</text>
+<text x="0" y="20.32" size="1.4224" layer="95" ratio="10">&gt;VALUE</text>
+</symbol>
 </symbols>
 <devicesets>
-<deviceset name="CMA-4544PF-W" prefix="MIC">
-<gates>
-<gate name="G$1" symbol="CMA-4544PF-W" x="2.54" y="-2.54"/>
-</gates>
-<devices>
-<device name="" package="CMA-4544PF-W">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
 <deviceset name="MJ-3523-SMT" prefix="CN">
 <gates>
 <gate name="G$1" symbol="MJ-3523-SMT" x="5.08" y="-2.54"/>
@@ -2041,6 +2027,22 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <connects>
 <connect gate="G$1" pin="A" pad="A"/>
 <connect gate="G$1" pin="C" pad="C"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="CMA-4544PF-W" prefix="MIC">
+<gates>
+<gate name="G$1" symbol="CMA-4544PF-W" x="2.54" y="-2.54"/>
+</gates>
+<devices>
+<device name="" package="CMA-4544PF-W">
+<connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -3220,7 +3222,6 @@ by exp-lbrs.ulp</description>
 </classes>
 <parts>
 <part name="U4" library="AA-IC" deviceset="EMIF02-USB03F2" device=""/>
-<part name="MIC1" library="_RoweTel" deviceset="CMA-4544PF-W" device=""/>
 <part name="CN5" library="_RoweTel" deviceset="MJ-3523-SMT" device=""/>
 <part name="CN8" library="_RoweTel" deviceset="MJ-3523-SMT" device=""/>
 <part name="L2" library="_RoweTel" deviceset="SRN6045" device="" value="4.7uH"/>
@@ -3451,7 +3452,7 @@ by exp-lbrs.ulp</description>
 <part name="R53" library="_RoweTel" deviceset="TRIMPOT91" device="" value="10K"/>
 <part name="V93" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="C22" library="_RoweTel" deviceset="CAP-0603" device="" value="100nF,16V"/>
-<part name="C23" library="_RoweTel" deviceset="CAP-0603" device="" value="100nF,16V"/>
+<part name="C23" library="_RoweTel" deviceset="CAP-0603" device="" value="100nF,25V"/>
 <part name="C41" library="_RoweTel" deviceset="CAP-0603" device="" value="100nF,16V"/>
 <part name="C42" library="_RoweTel" deviceset="CAP-0603" device="" value="100nF,16V"/>
 <part name="V2" library="A-SUPPLY2" deviceset="GND" device=""/>
@@ -3483,6 +3484,7 @@ by exp-lbrs.ulp</description>
 <part name="V102" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="R10" library="_Coherix" deviceset="RES0603" device="" value="47,1%"/>
 <part name="D2" library="_RoweTel" deviceset="BAT60J" device=""/>
+<part name="MIC1" library="_RoweTel" deviceset="CMA-4544PF-W" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -4972,7 +4974,6 @@ by exp-lbrs.ulp</description>
 <text x="426.72" y="274.32" size="1.4224" layer="94" ratio="10">RGB</text>
 </plain>
 <instances>
-<instance part="MIC1" gate="G$1" x="38.1" y="172.72"/>
 <instance part="CN5" gate="G$1" x="33.02" y="129.54" rot="MR180"/>
 <instance part="CN8" gate="G$1" x="119.38" y="53.34" rot="R180"/>
 <instance part="L2" gate="G$1" x="193.04" y="246.38" smashed="yes" rot="R90">
@@ -5265,6 +5266,7 @@ by exp-lbrs.ulp</description>
 </instance>
 <instance part="V102" gate="GND" x="106.68" y="243.84"/>
 <instance part="D2" gate="G$1" x="58.42" y="259.08" rot="R180"/>
+<instance part="MIC1" gate="G$1" x="38.1" y="172.72"/>
 </instances>
 <busses>
 </busses>
@@ -5355,10 +5357,10 @@ by exp-lbrs.ulp</description>
 <junction x="38.1" y="254"/>
 </segment>
 <segment>
-<pinref part="MIC1" gate="G$1" pin="2"/>
 <pinref part="V55" gate="GND" pin="GND"/>
 <wire x1="58.42" y1="165.1" x2="60.96" y2="165.1" width="0.1524" layer="91"/>
 <wire x1="60.96" y1="165.1" x2="60.96" y2="162.56" width="0.1524" layer="91"/>
+<pinref part="MIC1" gate="G$1" pin="2"/>
 </segment>
 <segment>
 <pinref part="CN5" gate="G$1" pin="1"/>
@@ -5573,11 +5575,11 @@ by exp-lbrs.ulp</description>
 </net>
 <net name="N$32" class="0">
 <segment>
-<pinref part="MIC1" gate="G$1" pin="1"/>
 <wire x1="58.42" y1="182.88" x2="66.04" y2="182.88" width="0.1524" layer="91"/>
 <wire x1="66.04" y1="182.88" x2="66.04" y2="149.86" width="0.1524" layer="91"/>
 <pinref part="J5" gate="G$1" pin="1"/>
 <wire x1="66.04" y1="149.86" x2="53.34" y2="149.86" width="0.1524" layer="91"/>
+<pinref part="MIC1" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="AIN2" class="0">
