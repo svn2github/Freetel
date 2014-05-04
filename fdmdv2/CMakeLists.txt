@@ -145,6 +145,7 @@ if(MINGW)
         libsndfile-1.dll
         libsamplerate-0.dll
         libcodec2.dll
+        libpng16-16.dll
         libportaudio-2.dll
         libportaudiocpp-0.dll
         libsox-2.dll
