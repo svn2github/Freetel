@@ -580,8 +580,19 @@ bool MainFrame::openComPort(const char *name)
 		closeComPort();
 #ifdef _WIN32
 	{
+		COMMCONFIG CC;
+		DWORD CCsize=sizeof(CC);
 		COMMTIMEOUTS timeouts;
 		DCB	dcb;
+
+		if(GetDefaultCommConfigA(name, &CC, &CCsize)) {
+			CC.dcb.fOutxCtsFlow		= FALSE;
+			CC.dcb.fOutxDsrFlow		= FALSE;
+			CC.dcb.fDtrControl		= DTR_CONTROL_DISABLE;
+			CC.dcb.fDsrSensitivity	= FALSE;
+			CC.dcb.fRtsControl		= RTS_CONTROL_DISABLE;
+			SetDefaultCommConfigA(name, &CC, CCsize);
+		}
 
 		if((com_handle=CreateFileA(name
 			,GENERIC_READ|GENERIC_WRITE 	/* Access */
