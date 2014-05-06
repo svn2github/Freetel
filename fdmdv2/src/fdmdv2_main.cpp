@@ -604,9 +604,20 @@ bool MainFrame::openComPort(const char *name)
 
 		/* Force N-8-1 mode: */
 		if(GetCommState(com_handle, &dcb)==TRUE) {
-			dcb.ByteSize	= 8;
-			dcb.Parity		= NOPARITY;
-			dcb.StopBits	= ONESTOPBIT;
+			dcb.ByteSize		= 8;
+			dcb.Parity			= NOPARITY;
+			dcb.StopBits		= ONESTOPBIT;
+			dcb.DCBlength		= sizeof(DCB);
+			dcb.fBinary			= TRUE;
+			dcb.fOutxCtsFlow	= FALSE;
+			dcb.fOutxDsrFlow	= FALSE;
+			dcb.fDtrControl		= DTR_CONTROL_DISABLE;
+			dcb.fDsrSensitivity	= FALSE;
+			dcb.fTXContinueOnXoff= TRUE;
+			dcb.fOutX			= FALSE;
+			dcb.fInX			= FALSE;
+			dcb.fRtsControl		= RTS_CONTROL_DISABLE;
+			dcb.fAbortOnError	= FALSE;
 			SetCommState(com_handle, &dcb);
 		}
 	}
