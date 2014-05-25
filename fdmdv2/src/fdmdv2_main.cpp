@@ -201,6 +201,13 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     int w = pConfig->Read(wxT("/MainFrame/width"),     800);
     int h = pConfig->Read(wxT("/MainFrame/height"),    550);
 
+    // sanitise frame position as a first pass at Win32 registry bug
+
+    if (x < 0) x = 20;
+    if (y < 0) y = 20;
+    if (w < 0) w = 800;
+    if (h < 0) h = 550;
+
     // note: run DebugView program to see this message under windows
     //wxLogDebug("x = %d y = %d w = %d h = %d\n", x,y,w,h);
     wxGetApp().m_show_wf            = pConfig->Read(wxT("/MainFrame/show_wf"),           1);
