@@ -52,8 +52,8 @@ PaError PortAudioWrap::streamOpen()
 {
     return Pa_OpenStream(
                             &m_pStream,
-                            m_inputBuffer.device == paNoDevice ? NULL : &m_inputBuffer,
-                            m_outputBuffer.device == paNoDevice ? NULL : &m_outputBuffer,
+                            &m_inputBuffer,
+                            &m_outputBuffer,
                             m_samplerate,
                             m_framesPerBuffer,
                             m_statusFlags,

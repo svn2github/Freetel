@@ -336,10 +336,8 @@ class MainFrame : public TopFrame
 
         bool                    m_RxRunning;
 
-        PortAudioWrap           *m_rxInPa;
-        PortAudioWrap           *m_rxOutPa;
-        PortAudioWrap           *m_txInPa;
-        PortAudioWrap           *m_txOutPa;
+        PortAudioWrap           *m_rxPa;
+        PortAudioWrap           *m_txPa;
 
         PaError                 m_rxErr;
         PaError                 m_txErr;
