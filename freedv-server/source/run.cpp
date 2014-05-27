@@ -614,6 +614,7 @@ namespace FreeDV {
   {
     Run * r = new Run(i);
     r->half_duplex();
+    delete r;
     return 0;
   }
 }
