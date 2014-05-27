@@ -48,7 +48,8 @@ namespace FreeDV {
 extern const char *	program_name;
 
 /// The sample rate used by all audio interfaces in the program.
-/// the sound cards are in general driven at 48000 because that's
+/// You can change this per platform, if necessary.
+/// The sound cards are in general driven at 48000 because that's
 /// the only reliable sample rate they all have in common. SampleRate
 /// may be lower than that and thus there may be resampling in the
 /// drivers.

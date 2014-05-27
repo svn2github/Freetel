@@ -5,11 +5,36 @@
 ///
 
 #include "drivers.h"
+#include <stdexcept>
 #include <string.h>
+#include "codec2.h"
+#include "codec2_fdmdv.h"
 
 namespace FreeDV {
   /// Modem "FDMDV2".
   class ModemFDMDV2 : public Modem {
+  public:
+    enum Mode {
+      M_Invalid = -1,
+      M_1400_V0_91_Legacy = 0,	// Broken, and hopefully off-the-air by now.
+      M_1400 = 1,		// 1400 bps codec, no FEC.
+      M_1600 = 2,		// 1400 bps codec + 300 bps FEC.
+      M_2000 = 3,		// 1400 bps codec + 600 bps FEC.
+      M_1600_Wide = 4,		// M_1600 with double-width carrier spacing.
+    };
+
+
+  private:
+        static const std::size_t	MaxBitsPerFDMDVFrame = 40;
+
+	FDMDV *		f;
+	int		carriers;
+	Mode		mode;
+        int		bits_per_frame;
+
+	// Disable the copy constructor and operator = ().
+       			ModemFDMDV2(const ModemFDMDV2 &);
+	ModemFDMDV2 &	operator = (const ModemFDMDV2 &);
   public:
 
 	/// Instantiate the FDMDV2 modem.
@@ -19,8 +44,6 @@ namespace FreeDV {
 	virtual		~ModemFDMDV2();
 
     /// Return the number of data bytes output in a single modem frame.
-    /// The data buffer provided to demodulate16 must be a multiple of
-    /// this value. The result is invariant.
     /// \return The number of data bytes necessary to store a modem frame.
     virtual std::size_t
     			bytes_per_frame() const;
@@ -56,8 +79,25 @@ namespace FreeDV {
   };
 
   ModemFDMDV2::ModemFDMDV2(const char * _parameters)
-  : Modem("FDMDV2", _parameters)
+  : Modem("FDMDV2", _parameters), f(0), carriers(0), mode(M_Invalid),
+    bits_per_frame(0)
   {
+    switch ( atoi(parameters) ) {
+    case 1600:
+      mode = M_1600;
+      carriers = 16;
+      break;
+    default:
+      throw std::runtime_error(
+       "fdmdv2: must specify rate," \
+       " the only valid value (for now) is 1600.");
+    }
+    f = fdmdv_create(carriers);
+
+    if ( f == 0 )
+      throw std::runtime_error("fdmdv2: failed to create.");
+
+    bits_per_frame = fdmdv_bits_per_frame(f);
   }
 
   ModemFDMDV2::~ModemFDMDV2()
@@ -77,7 +117,26 @@ namespace FreeDV {
    std::size_t data_length,
    std::size_t * sample_length)
   {
-    return 0;
+    while ( *sample_length > 0 ) {
+      COMP    rx_fdm[FDMDV_MAX_SAMPLES_PER_FRAME];
+      COMP    rx_fdm_offset[FDMDV_MAX_SAMPLES_PER_FRAME];
+      int     rx_bits[MaxBitsPerFDMDVFrame];
+      COMP    g_RxFreqOffsetPhaseRect = { 0., 0. };
+      COMP    g_RxFreqOffsetFreqRect = { 0., 0. };
+      float   g_RxFreqOffsetHz = 0;
+      int     reliable_sync_bit = 0;
+
+      for(std::size_t n = 0; n < FDMDV_MAX_SAMPLES_PER_FRAME; n++) {
+          rx_fdm[n].real = (float)i[n] / FDMDV_SCALE;
+          rx_fdm[n].imag = 0.0;
+      }
+
+      int length = min(*sample_length, FDMDV_MAX_SAMPLES_PER_FRAME);
+
+      fdmdv_freq_shift(rx_fdm_offset, rx_fdm, g_RxFreqOffsetHz, &g_RxFreqOffsetPhaseRect, &g_RxFreqOffsetFreqRect, length);
+      fdmdv_demod(f, rx_bits, &reliable_sync_bit, rx_fdm_offset, &length);
+    }
+    return data_length;
   }
 
   std::size_t

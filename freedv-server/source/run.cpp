@@ -224,7 +224,7 @@ namespace FreeDV {
     }
     else {
       // There are no samples queued for the transmitter. Don't wake upon its
-      // bufffer availability.
+      // buffer availability.
       if ( output_fd_base > 0 ) {
         poll_fd_count = output_fd_base;
         output_fd_base = -1;
@@ -277,7 +277,7 @@ namespace FreeDV {
     }
     else {
       // There are no samples queued for the transmitter. Don't wake upon its
-      // bufffer availability.
+      // buffer availability.
       if ( output_fd_base > 0 ) {
         poll_fd_count = output_fd_base;
         output_fd_base = -1;
@@ -372,7 +372,7 @@ namespace FreeDV {
     }
     else {
       // There are no samples queued for the loudspeaker. Don't wake upon its
-      // bufffer availability.
+      // buffer availability.
       if ( output_fd_base > 0 ) {
         poll_fd_count = output_fd_base;
         output_fd_base = -1;
