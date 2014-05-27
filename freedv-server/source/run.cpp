@@ -32,6 +32,7 @@ namespace FreeDV {
     Interfaces * const	i;
     int			poll_fd_count;
     int			poll_fd_base;
+    int			output_fd_base;
     PollType		poll_fds[100];
 
     FIFO		codec_fifo;
@@ -65,7 +66,7 @@ namespace FreeDV {
   };
   
   Run::Run(Interfaces * interfaces)
-  : i(interfaces), poll_fd_count(0), poll_fd_base(0),
+  : i(interfaces), poll_fd_count(0), poll_fd_base(0), output_fd_base(-1),
     codec_fifo(FIFOSize), in_fifo(FIFOSize),
     out_fifo(FIFOSize)
   {
@@ -213,6 +214,22 @@ namespace FreeDV {
       else if ( result < 0 )
 	std::cerr << "Transmitter I/O error: " << strerror(errno) << std::endl;
     }
+    if ( out_fifo.get_available() > 0 ) {
+      // There are samples queued for the transmitter. Wake when there is room
+      // in its buffer.
+      if ( output_fd_base < 0 ) {
+        output_fd_base = poll_fd_count;
+        add_poll_device(i->transmitter);
+      }
+    }
+    else {
+      // There are no samples queued for the transmitter. Don't wake upon its
+      // bufffer availability.
+      if ( output_fd_base > 0 ) {
+        poll_fd_count = output_fd_base;
+        output_fd_base = -1;
+      }
+    }
 
     if ( final ) {
       if ( in_fifo.get_available() == 0
@@ -249,6 +266,22 @@ namespace FreeDV {
         in_fifo.get_done(result * 2);
       else if ( result < 0 )
 	std::cerr << "Transmitter I/O error: " << strerror(errno) << std::endl;
+    }
+    if ( out_fifo.get_available() > 0 ) {
+      // There are samples queued for the transmitter. Wake when there is room
+      // in its buffer.
+      if ( output_fd_base < 0 ) {
+        output_fd_base = poll_fd_count;
+        add_poll_device(i->transmitter);
+      }
+    }
+    else {
+      // There are no samples queued for the transmitter. Don't wake upon its
+      // bufffer availability.
+      if ( output_fd_base > 0 ) {
+        poll_fd_count = output_fd_base;
+        output_fd_base = -1;
+      }
     }
     return false;
   }
@@ -327,6 +360,23 @@ namespace FreeDV {
         out_fifo.get_done(result * 2);
       else if ( result < 0 )
 	std::cerr << "Loudspeaker I/O error: " << strerror(errno) << std::endl;
+    }
+
+    if ( out_fifo.get_available() > 0 ) {
+      // There are samples queued for the loudspeaker. Wake when there is room
+      // in its buffer.
+      if ( output_fd_base < 0 ) {
+        output_fd_base = poll_fd_count;
+        add_poll_device(i->transmitter);
+      }
+    }
+    else {
+      // There are no samples queued for the loudspeaker. Don't wake upon its
+      // bufffer availability.
+      if ( output_fd_base > 0 ) {
+        poll_fd_count = output_fd_base;
+        output_fd_base = -1;
+      }
     }
   }
    
