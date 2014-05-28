@@ -129,6 +129,7 @@ set(Compile.sources
   source/blank_panel.cpp
   source/codec.cpp
   source/codec_noop.cpp
+  source/codec2.cpp
   source/driver_manager.cpp
   source/fifo.cpp
   source/framer.cpp
@@ -139,6 +140,7 @@ set(Compile.sources
   source/keying.cpp
   source/keying_sink.cpp
   source/modem.cpp
+  source/modem_fdmdv2.cpp
   source/modem_noop.cpp
   source/ptt_constant.cpp
   source/ptt_input.cpp
@@ -197,7 +199,7 @@ else( Codec2.lib AND Codec2.include )
   message(FATAL_ERROR "Can't find Codec2 library.")
 endif( Codec2.lib AND Codec2.include )
 
-target_link_libraries(freedv-server ${Compile.platform.libraries})
-target_link_libraries(freedv-gtest ${Compile.platform.libraries})
+target_link_libraries(freedv-server ${Compile.platform.libraries} ${Codec2.lib})
+target_link_libraries(freedv-gtest ${Compile.platform.libraries} ${Codec2.lib})
 
 install(TARGETS freedv-server RUNTIME DESTINATION bin)
