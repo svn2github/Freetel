@@ -63,6 +63,9 @@ namespace FreeDV {
     /// Run the main loop of FreeDV in half-duplex mode.
     ///
     void		half_duplex();
+
+    /// Wake when there is room in the output device.
+    void		wake_output(AudioDevice *);
   };
   
   Run::Run(Interfaces * interfaces)
@@ -214,22 +217,7 @@ namespace FreeDV {
       else if ( result < 0 )
 	std::cerr << "Transmitter I/O error: " << strerror(errno) << std::endl;
     }
-    if ( out_fifo.get_available() > 0 ) {
-      // There are samples queued for the transmitter. Wake when there is room
-      // in its buffer.
-      if ( output_fd_base < 0 ) {
-        output_fd_base = poll_fd_count;
-        add_poll_device(i->transmitter);
-      }
-    }
-    else {
-      // There are no samples queued for the transmitter. Don't wake upon its
-      // buffer availability.
-      if ( output_fd_base > 0 ) {
-        poll_fd_count = output_fd_base;
-        output_fd_base = -1;
-      }
-    }
+    wake_output(i->transmitter);
 
     if ( final ) {
       if ( in_fifo.get_available() == 0
@@ -267,22 +255,7 @@ namespace FreeDV {
       else if ( result < 0 )
 	std::cerr << "Transmitter I/O error: " << strerror(errno) << std::endl;
     }
-    if ( out_fifo.get_available() > 0 ) {
-      // There are samples queued for the transmitter. Wake when there is room
-      // in its buffer.
-      if ( output_fd_base < 0 ) {
-        output_fd_base = poll_fd_count;
-        add_poll_device(i->transmitter);
-      }
-    }
-    else {
-      // There are no samples queued for the transmitter. Don't wake upon its
-      // buffer availability.
-      if ( output_fd_base > 0 ) {
-        poll_fd_count = output_fd_base;
-        output_fd_base = -1;
-      }
-    }
+    wake_output(i->transmitter);
 
     if ( final ) {
       if ( in_fifo.get_available() == 0
@@ -367,24 +340,7 @@ namespace FreeDV {
       else if ( result < 0 )
 	std::cerr << "Loudspeaker I/O error: " << strerror(errno) << std::endl;
     }
-
-    if ( out_fifo.get_available() > 0 ) {
-      // std::cerr << out_fifo.get_available() / 2 << ' ';
-      // There are samples queued for the loudspeaker. Wake when there is room
-      // in its buffer.
-      if ( output_fd_base < 0 ) {
-        output_fd_base = poll_fd_count;
-        add_poll_device(i->transmitter);
-      }
-    }
-    else {
-      // There are no samples queued for the loudspeaker. Don't wake upon its
-      // buffer availability.
-      if ( output_fd_base > 0 ) {
-        poll_fd_count = output_fd_base;
-        output_fd_base = -1;
-      }
-    }
+    wake_output(i->loudspeaker);
   }
    
   // FIX: Once everything else has been tested, make this program work with
@@ -616,6 +572,28 @@ namespace FreeDV {
     drain_ssb(false);
   }
    
+  void
+  Run::wake_output(AudioDevice * device)
+  {
+    if ( out_fifo.get_available() / 2 > 0 ) {
+      // There are samples queued for the loudspeaker/transmitter.
+      // Wake when there is room
+      // in its buffer.
+      if ( output_fd_base < 0 ) {
+        output_fd_base = poll_fd_count;
+        add_poll_device(device);
+      }
+    }
+    else {
+      // There are no samples queued for the loudspeaker/transmitter.
+      // Don't wake upon its buffer availability.
+      if ( output_fd_base > 0 ) {
+        poll_fd_count = output_fd_base;
+        output_fd_base = -1;
+      }
+    }
+  }
+
   int
   run(Interfaces * i)
   {

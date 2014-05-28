@@ -60,10 +60,9 @@ const unsigned int	SampleRate = 48000;
 const unsigned int	SamplesPerMillisecond = ((double)SampleRate / 1000.0);
 
 
-/// The number of audio samples in an audio frame. Audio frames must be a
-/// power of two (this is a common hardware requirement) and must be shorter
-/// than any codec/modem frame in the program.
-const unsigned int	AudioFrameSamples = 512;
+/// The number of audio samples in an audio frame. Some systems will require
+/// this to be a power of two (this is a common hardware requirement).
+const unsigned int	AudioFrameSamples = SampleRate / 20;
 
 /// The audio frame duration in milliseconds. The audio interfaces will
 /// use this as a period size.

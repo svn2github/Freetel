@@ -22,7 +22,7 @@ namespace FreeDV {
 
   // If more than this number of frames are queued for audio output, the
   // latency is too high. Flush the output and print an overlong-delay message.
-  const unsigned int	MaximumDelayFrames = 8;
+  const unsigned int	MaximumDelayFrames = 4;
 
   // At the start of playback, preload the audio output with this many
   // frames of zero data. This delays the output enough to avoid later
@@ -95,7 +95,7 @@ namespace FreeDV {
      1,
      SampleRate,
      AudioFrameSamples,
-     AudioFrameSamples * 2);
+     AudioFrameSamples * 3);
 
     if ( handle == 0 )
       do_throw(-ENODEV);
@@ -206,7 +206,7 @@ namespace FreeDV {
     // If we've not started, allow the first write to be large, but
     // not so large that we'll active the overlong-delay code.
     if ( !started )
-      return AudioFrameSamples * MaximumDelayFrames - FillFrames - 1;
+      return AudioFrameSamples * min(1, (MaximumDelayFrames - FillFrames - 1));
     else
       return available;
   }
