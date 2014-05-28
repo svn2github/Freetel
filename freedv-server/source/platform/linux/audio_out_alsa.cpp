@@ -161,15 +161,10 @@ namespace FreeDV {
     }
 
     if ( error >= 0 )
-      return error;
+      return error; // This is the normal output.
     else if ( error == -EPIPE ) {
       // This is an unlikely condition, but should not be allowed to abort
       // the program.
-      // About the only reason this might happen would be a failure of
-      // real-time schduling, for example a system management interrupt
-      // outside of the control of the operating system, or a problem with
-      // the sound hardware or driver. Punt and hope it gets better the next
-      // time.
       std::cerr << "ALSA output \"" << parameters
        << "\": double write underrun." << std::endl;
       return 0;

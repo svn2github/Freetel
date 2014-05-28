@@ -143,7 +143,7 @@ namespace FreeDV {
     if ( final ) {
       const std::size_t samples_per_frame = i->codec->samples_per_frame();
       if ( samples_to_encode < samples_per_frame && samples_to_encode > 0 ) {
-        const std::size_t fill = samples_per_frame - samples_to_encode;
+        const std::size_t fill = min(in_fifo.put_space() / 2, (samples_per_frame - samples_to_encode));
         const std::size_t bytes = fill * 2;
         memset(in_fifo.put(bytes), 0, bytes);
         in_fifo.put_done(bytes);
@@ -175,7 +175,7 @@ namespace FreeDV {
     if ( final && in_fifo.get_available() == 0 ) {
       const std::size_t bytes_per_frame = i->modem->bytes_per_frame();
       if ( bytes_to_modulate < bytes_per_frame && bytes_to_modulate > 0 ) {
-        const std::size_t fill = bytes_per_frame - bytes_to_modulate;
+        const std::size_t fill = min(codec_fifo.put_space(), (bytes_per_frame - bytes_to_modulate));
         memset(codec_fifo.put(fill), 0, fill);
         codec_fifo.put_done(fill);
         bytes_to_modulate += fill;
@@ -282,6 +282,12 @@ namespace FreeDV {
         poll_fd_count = output_fd_base;
         output_fd_base = -1;
       }
+    }
+
+    if ( final ) {
+      if ( in_fifo.get_available() == 0
+       &&  out_fifo.get_available() == 0 )
+        return true;
     }
     return false;
   }
