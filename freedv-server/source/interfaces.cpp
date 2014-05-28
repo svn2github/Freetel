@@ -27,7 +27,7 @@ namespace FreeDV {
   Interfaces::fill_in()
   {
     if ( !codec )
-      codec = Driver::Codec2("1400");
+      codec = Driver::Codec2("1600");
 
     if ( !framer )
       framer = Driver::FramerNoOp(empty);
@@ -42,7 +42,7 @@ namespace FreeDV {
       microphone = Driver::AudioInDefault();
 
     if ( !modem )
-      modem = Driver::ModemFDMDV2("1400");
+      modem = Driver::ModemFDMDV2("1600");
 
     if ( !ptt_input_digital )
       ptt_input_digital = Driver::PTTConstant(empty);
