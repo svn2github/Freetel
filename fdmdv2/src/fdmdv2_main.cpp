@@ -200,8 +200,8 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     wxConfigBase *pConfig = wxConfigBase::Get();
 
     // restore frame position and size
-    int x = pConfig->Read(wxT("/MainFrame/top"),       20);
-    int y = pConfig->Read(wxT("/MainFrame/left"),      20);
+    int x = pConfig->Read(wxT("/MainFrame/left"),       20);
+    int y = pConfig->Read(wxT("/MainFrame/top"),        20);
     int w = pConfig->Read(wxT("/MainFrame/width"),     800);
     int h = pConfig->Read(wxT("/MainFrame/height"),    550);
 
@@ -478,13 +478,15 @@ MainFrame::~MainFrame()
     wxConfigBase *pConfig = wxConfigBase::Get();
     if(pConfig)
     {
-        GetClientSize(&w, &h);
-        GetPosition(&x, &y);
-        //wxLogDebug("x = %d y = %d w = %d h = %d\n", x,y,w,h);
-        pConfig->Write(wxT("/MainFrame/top"),               (long) x);
-        pConfig->Write(wxT("/MainFrame/left"),              (long) y);
-        pConfig->Write(wxT("/MainFrame/width"),             (long) w);
-        pConfig->Write(wxT("/MainFrame/height"),            (long) h);
+        if (!IsIconized()) {
+            GetClientSize(&w, &h);
+            GetPosition(&x, &y);
+            //wxLogDebug("x = %d y = %d w = %d h = %d\n", x,y,w,h);
+            pConfig->Write(wxT("/MainFrame/left"),               (long) x);
+            pConfig->Write(wxT("/MainFrame/top"),                (long) y);
+            pConfig->Write(wxT("/MainFrame/width"),              (long) w);
+            pConfig->Write(wxT("/MainFrame/height"),             (long) h);
+        }
         pConfig->Write(wxT("/MainFrame/show_wf"),           wxGetApp().m_show_wf);
         pConfig->Write(wxT("/MainFrame/show_spect"),        wxGetApp().m_show_spect);
         pConfig->Write(wxT("/MainFrame/show_scatter"),      wxGetApp().m_show_scatter);
@@ -1987,16 +1989,26 @@ void MainFrame::stopRxStream()
         m_txRxThread->Wait();
         wxLogDebug("thread stopped");
 
-        m_rxPa->stop();
-        m_rxPa->streamClose();
+        m_rxInPa->stop();
+        m_rxInPa->streamClose();
+        delete m_rxInPa;
+        if(m_rxOutPa != m_rxInPa) {
+			m_rxOutPa->stop();
+			m_rxOutPa->streamClose();
+			delete m_rxOutPa;
+		}
 
         if (g_nSoundCards == 2) {
-            m_txPa->stop();
-            m_txPa->streamClose();
-            delete m_txPa;
+            m_txInPa->stop();
+            m_txInPa->streamClose();
+            delete m_txInPa;
+            if(m_txInPa != m_txOutPa) {
+				m_txOutPa->stop();
+				m_txOutPa->streamClose();
+				delete m_txOutPa;
+			}
         }
 
-        delete m_rxPa;
         destroy_fifos();
         destroy_src();
         deleteEQFilters(g_rxUserdata);
@@ -2032,18 +2044,22 @@ void  MainFrame::initPortAudioDevice(PortAudioWrap *pa, int inDevice, int outDev
     // init input params
 
     pa->setInputDevice(inDevice);
-    pa->setInputChannelCount(inputChannels);           // stereo input
-    pa->setInputSampleFormat(PA_SAMPLE_TYPE);
-    pa->setInputLatency(pa->getInputDefaultLowLatency());
-    pa->setInputHostApiStreamInfo(NULL);
+    if(inDevice != paNoDevice) {
+		pa->setInputChannelCount(inputChannels);           // stereo input
+		pa->setInputSampleFormat(PA_SAMPLE_TYPE);
+		pa->setInputLatency(pa->getInputDefaultLowLatency());
+		pa->setInputHostApiStreamInfo(NULL);
+	}
 
     // init output params
 
-    pa->setOutputDevice(outDevice);
-    pa->setOutputChannelCount(2);                      // stereo output
-    pa->setOutputSampleFormat(PA_SAMPLE_TYPE);
-    pa->setOutputLatency(pa->getOutputDefaultLowLatency());
-    pa->setOutputHostApiStreamInfo(NULL);
+	pa->setOutputDevice(outDevice);
+	if(outDevice != paNoDevice) {
+		pa->setOutputChannelCount(2);                      // stereo output
+		pa->setOutputSampleFormat(PA_SAMPLE_TYPE);
+		pa->setOutputLatency(pa->getOutputDefaultLowLatency());
+		pa->setOutputHostApiStreamInfo(NULL);
+	}
 
     // init params that affect input and output
 
@@ -2066,6 +2082,8 @@ void MainFrame::startRxStream()
     int   src_error;
     const PaDeviceInfo *deviceInfo1 = NULL, *deviceInfo2 = NULL;
     int   inputChannels1, inputChannels2;
+    bool  two_rx=false;
+    bool  two_tx=false;
 
     if(!m_RxRunning) {
         m_RxRunning = true;
@@ -2075,11 +2093,22 @@ void MainFrame::startRxStream()
             wxMessageBox(wxT("Port Audio failed to initialize"), wxT("Pa_Initialize"), wxOK);
         }
 
-        m_rxPa = new PortAudioWrap();
+        m_rxInPa = new PortAudioWrap();
+        if(g_soundCard1InDeviceNum != g_soundCard1OutDeviceNum)
+			two_rx=true;
+        if(g_soundCard2InDeviceNum != g_soundCard2OutDeviceNum)
+			two_tx=true;
+        
+        if(two_rx)
+			m_rxOutPa = new PortAudioWrap();
+		else
+			m_rxOutPa = m_rxInPa;
 
         if (g_nSoundCards == 0) {
             wxMessageBox(wxT("No Sound Cards configured, use Tools - Audio Config to configure"), wxT("Error"), wxOK);
-            delete m_rxPa;
+            delete m_rxInPa;
+            if(two_rx)
+				delete m_rxOutPa;
             m_RxRunning = false;
             return;
         }
@@ -2087,10 +2116,12 @@ void MainFrame::startRxStream()
         // Init Sound card 1 ----------------------------------------------
         // sanity check on sound card device numbers
 
-        if ((m_rxPa->getDeviceCount() <= g_soundCard1InDeviceNum) ||
-            (m_rxPa->getDeviceCount() <= g_soundCard1OutDeviceNum)) {
+        if ((m_rxInPa->getDeviceCount() <= g_soundCard1InDeviceNum) ||
+            (m_rxOutPa->getDeviceCount() <= g_soundCard1OutDeviceNum)) {
             wxMessageBox(wxT("Sound Card 1 not present"), wxT("Error"), wxOK);
-            delete m_rxPa;
+            delete m_rxInPa;
+            if(two_rx)
+				delete m_rxOutPa;
             m_RxRunning = false;
             return;
         }
@@ -2100,7 +2131,9 @@ void MainFrame::startRxStream()
         deviceInfo1 = Pa_GetDeviceInfo(g_soundCard1InDeviceNum);
         if (deviceInfo1 == NULL) {
             wxMessageBox(wxT("Couldn't get device info from Port Audio for Sound Card 1"), wxT("Error"), wxOK);
-            delete m_rxPa;
+            delete m_rxInPa;
+            if(two_rx)
+				delete m_rxOutPa;
             m_RxRunning = false;
             return;
         }
@@ -2109,26 +2142,41 @@ void MainFrame::startRxStream()
         else
             inputChannels1 = 2;
 
-        initPortAudioDevice(m_rxPa, g_soundCard1InDeviceNum, g_soundCard1OutDeviceNum, 1,
+        if(two_rx) {
+            initPortAudioDevice(m_rxInPa, g_soundCard1InDeviceNum, paNoDevice, 1,
+                            g_soundCard1SampleRate, inputChannels1);
+            initPortAudioDevice(m_rxOutPa, paNoDevice, g_soundCard1OutDeviceNum, 1,
+                            g_soundCard1SampleRate, inputChannels1);
+		}
+        else
+            initPortAudioDevice(m_rxInPa, g_soundCard1InDeviceNum, g_soundCard1OutDeviceNum, 1,
                             g_soundCard1SampleRate, inputChannels1);
 
         // Init Sound Card 2 ------------------------------------------------
 
         if (g_nSoundCards == 2) {
 
-            m_txPa = new PortAudioWrap();
+            m_txInPa = new PortAudioWrap();
+            if(two_tx)
+				m_txOutPa = new PortAudioWrap();
+			else
+				m_txOutPa = m_txInPa;
 
             // sanity check on sound card device numbers
 
-            //printf("m_txPa->getDeviceCount(): %d\n", m_txPa->getDeviceCount());
+            //printf("m_txInPa->getDeviceCount(): %d\n", m_txInPa->getDeviceCount());
             //printf("g_soundCard2InDeviceNum: %d\n", g_soundCard2InDeviceNum);
             //printf("g_soundCard2OutDeviceNum: %d\n", g_soundCard2OutDeviceNum);
 
-            if ((m_txPa->getDeviceCount() <= g_soundCard2InDeviceNum) ||
-                (m_txPa->getDeviceCount() <= g_soundCard2OutDeviceNum)) {
+            if ((m_txInPa->getDeviceCount() <= g_soundCard2InDeviceNum) ||
+                (m_txOutPa->getDeviceCount() <= g_soundCard2OutDeviceNum)) {
                 wxMessageBox(wxT("Sound Card 2 not present"), wxT("Error"), wxOK);
-                delete m_rxPa;
-                delete m_txPa;
+                delete m_rxInPa;
+                if(two_rx)
+					delete m_rxOutPa;
+                delete m_txInPa;
+                if(two_tx)
+					delete m_txOutPa;
                 m_RxRunning = false;
                 return;
             }
@@ -2136,7 +2184,12 @@ void MainFrame::startRxStream()
             deviceInfo2 = Pa_GetDeviceInfo(g_soundCard2InDeviceNum);
             if (deviceInfo2 == NULL) {
                 wxMessageBox(wxT("Couldn't get device info from Port Audio for Sound Card 1"), wxT("Error"), wxOK);
-                delete m_rxPa;
+                delete m_rxInPa;
+                if(two_rx)
+					delete m_rxOutPa;
+                delete m_txInPa;
+                if(two_tx)
+					delete m_txOutPa;
                 m_RxRunning = false;
                 return;
             }
@@ -2145,7 +2198,14 @@ void MainFrame::startRxStream()
             else
                 inputChannels2 = 2;
 
-            initPortAudioDevice(m_txPa, g_soundCard2InDeviceNum, g_soundCard2OutDeviceNum, 2,
+            if(two_tx) {
+				initPortAudioDevice(m_txInPa, g_soundCard2InDeviceNum, paNoDevice, 2,
+                                g_soundCard2SampleRate, inputChannels2);
+				initPortAudioDevice(m_txOutPa, paNoDevice, g_soundCard2OutDeviceNum, 2,
+                                g_soundCard2SampleRate, inputChannels2);
+			}
+			else
+				initPortAudioDevice(m_txInPa, g_soundCard2InDeviceNum, g_soundCard2OutDeviceNum, 2,
                                 g_soundCard2SampleRate, inputChannels2);
         }
 
@@ -2186,15 +2246,19 @@ void MainFrame::startRxStream()
 
         // Start sound card 1 ----------------------------------------------------------
 
-        m_rxPa->setUserData(g_rxUserdata);
-        m_rxErr = m_rxPa->setCallback(rxCallback);
+        m_rxInPa->setUserData(g_rxUserdata);
+        m_rxErr = m_rxInPa->setCallback(rxCallback);
 
-        m_rxErr = m_rxPa->streamOpen();
+        m_rxErr = m_rxInPa->streamOpen();
 
         if(m_rxErr != paNoError) {
             wxMessageBox(wxT("Sound Card 1 Open/Setup error."), wxT("Error"), wxOK);
-            delete m_rxPa;
-            delete m_txPa;
+			delete m_rxInPa;
+			if(two_rx)
+				delete m_rxOutPa;
+			delete m_txInPa;
+			if(two_tx)
+				delete m_txOutPa;
             destroy_fifos();
             destroy_src();
             deleteEQFilters(g_rxUserdata);
@@ -2203,11 +2267,15 @@ void MainFrame::startRxStream()
             return;
         }
 
-        m_rxErr = m_rxPa->streamStart();
+        m_rxErr = m_rxInPa->streamStart();
         if(m_rxErr != paNoError) {
             wxMessageBox(wxT("Sound Card 1 Stream Start Error."), wxT("Error"), wxOK);
-            delete m_rxPa;
-            delete m_txPa;
+			delete m_rxInPa;
+			if(two_rx)
+				delete m_rxOutPa;
+			delete m_txInPa;
+			if(two_tx)
+				delete m_txOutPa;
             destroy_fifos();
             destroy_src();
             deleteEQFilters(g_rxUserdata);
@@ -2215,6 +2283,48 @@ void MainFrame::startRxStream()
             m_RxRunning = false;
             return;
         }
+
+		// Start separate output stream if needed
+
+		if(two_rx) {
+			m_rxOutPa->setUserData(g_rxUserdata);
+			m_rxErr = m_rxOutPa->setCallback(rxCallback);
+
+			m_rxErr = m_rxOutPa->streamOpen();
+
+			if(m_rxErr != paNoError) {
+				wxMessageBox(wxT("Sound Card 1 Second Stream Open/Setup error."), wxT("Error"), wxOK);
+				delete m_rxInPa;
+				delete m_rxOutPa;
+				delete m_txOutPa;
+				if(two_tx)
+					delete m_txOutPa;
+				destroy_fifos();
+				destroy_src();
+				deleteEQFilters(g_rxUserdata);
+				delete g_rxUserdata;
+				m_RxRunning = false;
+				return;
+			}
+
+			m_rxErr = m_rxOutPa->streamStart();
+			if(m_rxErr != paNoError) {
+				wxMessageBox(wxT("Sound Card 1 Second Stream Start Error."), wxT("Error"), wxOK);
+				m_rxInPa->stop();
+				m_rxInPa->streamClose();
+				delete m_rxInPa;
+				delete m_rxOutPa;
+				delete m_txOutPa;
+				if(two_tx)
+					delete m_txOutPa;
+				destroy_fifos();
+				destroy_src();
+				deleteEQFilters(g_rxUserdata);
+				delete g_rxUserdata;
+				m_RxRunning = false;
+				return;
+			}
+		}
 
         // Start sound card 2 ----------------------------------------------------------
 
@@ -2225,16 +2335,24 @@ void MainFrame::startRxStream()
             // chance of them both being called at the same time?  We
             // could need a mutex ...
 
-            m_txPa->setUserData(g_rxUserdata);
-            m_txErr = m_txPa->setCallback(txCallback);
-            m_txErr = m_txPa->streamOpen();
+            m_txInPa->setUserData(g_rxUserdata);
+            m_txErr = m_txInPa->setCallback(txCallback);
+            m_txErr = m_txInPa->streamOpen();
 
             if(m_txErr != paNoError) {
+fprintf(stderr, "Err: %d\n", m_txErr);
                 wxMessageBox(wxT("Sound Card 2 Open/Setup error."), wxT("Error"), wxOK);
-                m_rxPa->stop();
-                m_rxPa->streamClose();
-                delete m_rxPa;
-                delete m_txPa;
+                m_rxInPa->stop();
+                m_rxInPa->streamClose();
+                delete m_rxInPa;
+                if(two_rx) {
+					m_rxOutPa->stop();
+					m_rxOutPa->streamClose();
+					delete m_rxOutPa;
+				}
+                delete m_txInPa;
+                if(two_tx)
+					delete m_txOutPa;
                 destroy_fifos();
                 destroy_src();
                 deleteEQFilters(g_rxUserdata);
@@ -2242,13 +2360,20 @@ void MainFrame::startRxStream()
                 m_RxRunning = false;
                 return;
             }
-            m_txErr = m_txPa->streamStart();
+            m_txErr = m_txInPa->streamStart();
             if(m_txErr != paNoError) {
                 wxMessageBox(wxT("Sound Card 2 Start Error."), wxT("Error"), wxOK);
-                m_rxPa->stop();
-                m_rxPa->streamClose();
-                delete m_rxPa;
-                delete m_txPa;
+                m_rxInPa->stop();
+                m_rxInPa->streamClose();
+                delete m_rxInPa;
+                if(two_rx) {
+					m_rxOutPa->stop();
+					m_rxOutPa->streamClose();
+					delete m_rxOutPa;
+				}
+                delete m_txInPa;
+                if(two_tx)
+					delete m_txOutPa;
                 destroy_fifos();
                 destroy_src();
                 deleteEQFilters(g_rxUserdata);
@@ -2256,6 +2381,63 @@ void MainFrame::startRxStream()
                 m_RxRunning = false;
                 return;
             }
+		// Start separate output stream if needed
+
+			if (two_tx) {
+
+				// question: can we use same callback data
+				// (g_rxUserdata)or both sound card callbacks?  Is there a
+				// chance of them both being called at the same time?  We
+				// could need a mutex ...
+
+				m_txOutPa->setUserData(g_rxUserdata);
+				m_txErr = m_txOutPa->setCallback(txCallback);
+				m_txErr = m_txOutPa->streamOpen();
+
+				if(m_txErr != paNoError) {
+					wxMessageBox(wxT("Sound Card 2 Second Stream Open/Setup error."), wxT("Error"), wxOK);
+					m_rxInPa->stop();
+					m_rxInPa->streamClose();
+					delete m_rxInPa;
+					if(two_rx) {
+						m_rxOutPa->stop();
+						m_rxOutPa->streamClose();
+						delete m_rxOutPa;
+					}
+					m_txInPa->stop();
+					m_txInPa->streamClose();
+					delete m_txInPa;
+					delete m_txOutPa;
+					destroy_fifos();
+					destroy_src();
+					deleteEQFilters(g_rxUserdata);
+					delete g_rxUserdata;
+					m_RxRunning = false;
+					return;
+				}
+				m_txErr = m_txOutPa->streamStart();
+				if(m_txErr != paNoError) {
+					wxMessageBox(wxT("Sound Card 2 Second Stream Start Error."), wxT("Error"), wxOK);
+					m_rxInPa->stop();
+					m_rxInPa->streamClose();
+					m_txInPa->stop();
+					m_txInPa->streamClose();
+					delete m_txInPa;
+					if(two_rx) {
+						m_rxOutPa->stop();
+						m_rxOutPa->streamClose();
+						delete m_rxOutPa;
+					}
+					delete m_txInPa;
+					delete m_txOutPa;
+					destroy_fifos();
+					destroy_src();
+					deleteEQFilters(g_rxUserdata);
+					delete g_rxUserdata;
+					m_RxRunning = false;
+					return;
+				}
+			}
         }
 
         // start tx/rx processing thread
@@ -2655,9 +2837,6 @@ int MainFrame::rxCallback(
     (void) timeInfo;
     (void) statusFlags;
 
-    assert(inputBuffer != NULL);
-    assert(outputBuffer != NULL);
-
     wxMutexLocker lock(g_mutexProtectingCallbackData);
 
     //if (statusFlags)
@@ -2671,35 +2850,39 @@ int MainFrame::rxCallback(
 
     assert(framesPerBuffer < MAX_FPB);
 
-    for(i = 0; i < framesPerBuffer; i++, rptr += cbData->inputChannels1)
-    {
-        indata[i] = *rptr;
-    }
-    if (fifo_write(cbData->infifo1, indata, framesPerBuffer)) {
-        //wxLogDebug("infifo1 full\n");
-    }
+	if(rptr) {
+		for(i = 0; i < framesPerBuffer; i++, rptr += cbData->inputChannels1)
+		{
+			indata[i] = *rptr;
+		}
+		if (fifo_write(cbData->infifo1, indata, framesPerBuffer)) {
+			//wxLogDebug("infifo1 full\n");
+		}
+	}
 
     // OK now set up output samples for this callback
 
-    if (fifo_read(cbData->outfifo1, outdata, framesPerBuffer) == 0)
-    {
-        // write signal to both channels */
-        for(i = 0; i < framesPerBuffer; i++, wptr += 2)
-        {
-            wptr[0] = outdata[i];
-            wptr[1] = outdata[i];
-        }
-    }
-    else
-    {
-        //wxLogDebug("outfifo1 empty\n");
-        // zero output if no data available
-        for(i = 0; i < framesPerBuffer; i++, wptr += 2)
-        {
-            wptr[0] = 0;
-            wptr[1] = 0;
-        }
-    }
+	if(wptr) {
+		if (fifo_read(cbData->outfifo1, outdata, framesPerBuffer) == 0)
+		{
+			// write signal to both channels */
+			for(i = 0; i < framesPerBuffer; i++, wptr += 2)
+			{
+				wptr[0] = outdata[i];
+				wptr[1] = outdata[i];
+			}
+		}
+		else
+		{
+			//wxLogDebug("outfifo1 empty\n");
+			// zero output if no data available
+			for(i = 0; i < framesPerBuffer; i++, wptr += 2)
+			{
+				wptr[0] = 0;
+				wptr[1] = 0;
+			}
+		}
+	}
 
     return paContinue;
 }
@@ -3214,43 +3397,51 @@ int MainFrame::txCallback(
 
     assert(framesPerBuffer < MAX_FPB);
 
-    for(i = 0; i < framesPerBuffer; i++, rptr += cbData->inputChannels2)
-    {
-        indata[i] = *rptr;
-    }
+	if(rptr) {
+		for(i = 0; i < framesPerBuffer; i++, rptr += cbData->inputChannels2)
+		{
+			indata[i] = *rptr;
+		}
+	}
 
     //#define SC2_LOOPBACK
 #ifdef SC2_LOOPBACK
+	//TODO: This doesn't work unless using the same soundcard!
 
-    for(i = 0; i < framesPerBuffer; i++, wptr += 2)
-    {
-        wptr[0] = indata[i];
-        wptr[1] = indata[i];
-    }
+	if(wptr) {
+		for(i = 0; i < framesPerBuffer; i++, wptr += 2)
+		{
+			wptr[0] = indata[i];
+			wptr[1] = indata[i];
+		}
+	}
 
 #else
-    fifo_write(cbData->infifo2, indata, framesPerBuffer);
+	if(rptr)
+		fifo_write(cbData->infifo2, indata, framesPerBuffer);
 
     // OK now set up output samples for this callback
 
-    if (fifo_read(cbData->outfifo2, outdata, framesPerBuffer) == 0)
-    {
-        // write signal to both channels */
-        for(i = 0; i < framesPerBuffer; i++, wptr += 2)
-        {
-            wptr[0] = outdata[i];
-            wptr[1] = outdata[i];
-        }
-    }
-    else
-    {
-        // zero output if no data available
-        for(i = 0; i < framesPerBuffer; i++, wptr += 2)
-        {
-            wptr[0] = 0;
-            wptr[1] = 0;
-        }
-    }
+	if(wptr) {
+		if (fifo_read(cbData->outfifo2, outdata, framesPerBuffer) == 0)
+		{
+			// write signal to both channels */
+			for(i = 0; i < framesPerBuffer; i++, wptr += 2)
+			{
+				wptr[0] = outdata[i];
+				wptr[1] = outdata[i];
+			}
+		}
+		else
+		{
+			// zero output if no data available
+			for(i = 0; i < framesPerBuffer; i++, wptr += 2)
+			{
+				wptr[0] = 0;
+				wptr[1] = 0;
+			}
+		}
+	}
 #endif
     return paContinue;
 }
