@@ -233,15 +233,18 @@ namespace FreeDV {
  
     error = open_by_longname(&handle, name, stream, mode);
     if ( error < 0 ) {
-      error = snd_pcm_open(
-       &handle,
-       name,
-       stream,
-       mode);
-
-       if ( error < 0 )
-         return 0;
+      if ( strcmp(name, "default") == 0
+      || strncmp(name, "hw:", 3) == 0
+      || strncmp(name, "plughw:", 7) == 0 ) {
+        error = snd_pcm_open(
+         &handle,
+         name,
+         stream,
+         mode);
+      }
     }
+    if ( error < 0 )
+      return 0;
  
     try {
       if ( (error = snd_pcm_hw_params_malloc(&hw_params)) < 0 )

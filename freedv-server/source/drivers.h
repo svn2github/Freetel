@@ -59,21 +59,21 @@ const unsigned int	SampleRate = 48000;
 ///
 const unsigned int	SamplesPerMillisecond = ((double)SampleRate / 1000.0);
 
-/// The audio frame duration in milliseconds. The audio interfaces will
-/// use this as a period size. It should be 1/2 of the smallest codec frame
-/// size we expect to use.
-const unsigned int	AudioFrameDuration = 10;
 
 /// The number of audio samples in an audio frame. Audio frames must be a
 /// power of two (this is a common hardware requirement) and must be shorter
 /// than any codec/modem frame in the program.
 const unsigned int	AudioFrameSamples = 512;
 
+/// The audio frame duration in milliseconds. The audio interfaces will
+/// use this as a period size.
+const unsigned int	AudioFrameDuration = ((double)SampleRate / (double)AudioFrameSamples);
+
 /// The number of audio samples in the maximum-duration frame.
 /// This must be a power of two (this is a common hardware requirement) and
 /// must be at least twice the value of AudioFrameSamples.
 ///
-const unsigned int	MaximumFrameSamples = 32768;
+const unsigned int	MaximumFrameSamples = AudioFrameSamples * 2;
 
 /// Allocate memory and copy a string into it, so that it is permanently
 /// stored.

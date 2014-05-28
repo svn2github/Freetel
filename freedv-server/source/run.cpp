@@ -363,6 +363,7 @@ namespace FreeDV {
     }
 
     if ( out_fifo.get_available() > 0 ) {
+      // std::cerr << out_fifo.get_available() / 2 << ' ';
       // There are samples queued for the loudspeaker. Wake when there is room
       // in its buffer.
       if ( output_fd_base < 0 ) {
@@ -441,7 +442,7 @@ namespace FreeDV {
         struct timespec	request;
         struct timespec remainder;
         request.tv_sec = 0;
-        request.tv_nsec = AudioFrameDuration * 1000000;
+	request.tv_nsec = AudioFrameDuration * 1000000;
         nanosleep(&request, &remainder);
       }
 

@@ -163,7 +163,7 @@ namespace FreeDV {
   static std::ostream &
   Codec2Enumerator(std::ostream & stream)
   {
-    stream << "\"codec2:1400\" (1200,1300,1400,1600,2400,3200)" << std::endl;
+    stream << "\"codec2:1600\" (1200,1300,1400,1600,2400,3200)" << std::endl;
     return stream;
   }
 

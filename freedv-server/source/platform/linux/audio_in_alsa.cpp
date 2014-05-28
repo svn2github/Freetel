@@ -23,7 +23,7 @@ namespace FreeDV {
   ///
   class AudioInALSA : public AudioInput {
   private:
-    static const int	overlong_delay = AudioFrameSamples * 4;
+    static const int	overlong_delay = AudioFrameSamples * 8;
 
     snd_pcm_t *		handle;
     char * const	parameters;

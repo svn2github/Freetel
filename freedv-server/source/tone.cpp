@@ -17,7 +17,7 @@ namespace FreeDV {
   ///
   class Tone : public AudioInput {
   private:
-    unsigned int	clock;
+    unsigned long long	clock;
 
     struct tone_info {
       float	frequency;
@@ -133,7 +133,7 @@ namespace FreeDV {
        value * master_amplitude * ((1 << 15) - 1));
       array[i] = v;
     }
-    clock = (clock + length) % SampleRate;
+    clock = (clock + length);
 
     return length;
   }
