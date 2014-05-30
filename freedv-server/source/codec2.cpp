@@ -107,18 +107,26 @@ namespace FreeDV {
   }
 
   std::size_t
-  Codec2::decode16(const std::uint8_t * i, std::int16_t * o, std::size_t * data_length, std::size_t sample_length)
+  Codec2::decode16(
+   const std::uint8_t *	i,
+   std::int16_t *	o,
+   std::size_t *	data_length,
+   std::size_t		sample_length)
   {
     std::size_t	bytes_read = 0;
     std::size_t	samples_read = 0;
 
     while ( *data_length >= bytes_per && sample_length >= samples_per ) {
+
       codec2_decode(c, o, i);
 
-      *data_length -= bytes_per;
-      sample_length -= samples_per;
+      i += bytes_per;
       bytes_read += bytes_per;
+      *data_length -= bytes_per;
+
+      o += samples_per;
       samples_read += samples_per;
+      sample_length -= samples_per;
     }
     *data_length = bytes_read;
     return samples_read;
@@ -126,10 +134,10 @@ namespace FreeDV {
 
   std::size_t
   Codec2::encode16(
-   const std::int16_t * i,
-   std::uint8_t * o,
-   std::size_t data_length,
-   std::size_t *sample_length)
+   const std::int16_t *	i,
+   std::uint8_t *	o,
+   std::size_t		data_length,
+   std::size_t *	sample_length)
   {
     std::size_t	bytes_read = 0;
     std::size_t	samples_read = 0;
@@ -139,10 +147,13 @@ namespace FreeDV {
       // libcodec2.
       codec2_encode(c, o, (std::int16_t *)i);
 
-      data_length -= bytes_per;
-      *sample_length -= samples_per;
+      o += bytes_per;
       bytes_read += bytes_per;
+      data_length -= bytes_per;
+
+      i += samples_per;
       samples_read += samples_per;
+      *sample_length -= samples_per;
     }
     *sample_length = samples_read;
     return bytes_read;
