@@ -120,7 +120,9 @@ namespace FreeDV {
    std::size_t		data_length,
    std::size_t *	sample_length)
   {
-    std::size_t	bytes_read = 0;
+    // FIX: Interpolate.
+
+    std::size_t	bytes_written = 0;
     std::size_t	samples_read = 0;
 
     while ( data_length >= bytes_per && *sample_length >= samples_per ) {
@@ -129,7 +131,7 @@ namespace FreeDV {
       codec2_encode(c, o, (std::int16_t *)i);
 
       o += bytes_per;
-      bytes_read += bytes_per;
+      bytes_written += bytes_per;
       data_length -= bytes_per;
 
       i += samples_per;
@@ -137,7 +139,7 @@ namespace FreeDV {
       *sample_length -= samples_per;
     }
     *sample_length = samples_read;
-    return bytes_read;
+    return bytes_written;
   }
 
   std::size_t
@@ -147,8 +149,10 @@ namespace FreeDV {
    std::size_t *	data_length,
    std::size_t		sample_length)
   {
+    // FIX: Interpolate.
+
     std::size_t	bytes_read = 0;
-    std::size_t	samples_read = 0;
+    std::size_t	samples_written = 0;
 
     while ( *data_length >= bytes_per && sample_length >= samples_per ) {
       codec2_decode(c, o, i);
@@ -158,11 +162,11 @@ namespace FreeDV {
       *data_length -= bytes_per;
 
       o += samples_per;
-      samples_read += samples_per;
+      samples_written += samples_per;
       sample_length -= samples_per;
     }
     *data_length = bytes_read;
-    return samples_read;
+    return samples_written;
   }
 
   std::size_t

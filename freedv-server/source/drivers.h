@@ -53,7 +53,7 @@ extern const char *	program_name;
 /// the only reliable sample rate they all have in common. SampleRate
 /// may be lower than that and thus there may be resampling in the
 /// drivers.
-const unsigned int	SampleRate = 48000;
+const unsigned int	SampleRate = 8000;
 
 /// The number of audio samples per millisecond, at SampleRate.
 ///
