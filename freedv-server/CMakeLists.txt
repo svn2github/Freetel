@@ -142,6 +142,7 @@ set(Compile.sources
   source/modem.cpp
   source/modem_fdmdv2.cpp
   source/modem_noop.cpp
+  source/modem_codec2_reverse.cpp
   source/ptt_constant.cpp
   source/ptt_input.cpp
   source/run.cpp
