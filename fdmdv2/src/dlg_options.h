@@ -32,7 +32,7 @@ class OptionsDlg : public wxDialog
     public:
     OptionsDlg( wxWindow* parent,
                wxWindowID id = wxID_ANY, const wxString& title = _("Options"), 
-                const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(450,180), 
+                const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(450,290), 
                long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
         ~OptionsDlg();
 
@@ -47,6 +47,10 @@ class OptionsDlg : public wxDialog
  
         wxTextCtrl   *m_txtCtrlCallSign;
         wxCheckBox   *m_ckboxTestFrame;
+
+        wxCheckBox   *m_ckbox_webOnStart;
+        wxCheckBox   *m_ckbox_webOnPTT;
+        wxTextCtrl   *m_txt_webURL;
 
         wxButton*     m_sdbSizer5OK;
         wxButton*     m_sdbSizer5Cancel;

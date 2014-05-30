@@ -58,6 +58,23 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
     bSizer30->Add(sbSizer_testFrames,0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 3);
 
     //------------------------------
+    // Web Integration
+    //------------------------------
+
+    wxStaticBoxSizer* sbSizer_web;
+    sbSizer_web = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Web Integration")), wxVERTICAL);
+
+    m_txt_webURL = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+    m_txt_webURL->SetToolTip(_("Hit this URL on action below"));
+    sbSizer_web->Add(m_txt_webURL, 1, wxEXPAND, 5);
+    m_ckbox_webOnStart = new wxCheckBox(this, wxID_ANY, _("Start Button"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    sbSizer_web->Add(m_ckbox_webOnStart, 1, wxEXPAND, 5);
+    m_ckbox_webOnPTT = new wxCheckBox(this, wxID_ANY, _("PTT Button"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    sbSizer_web->Add(m_ckbox_webOnPTT, 1, wxEXPAND, 5);
+
+    bSizer30->Add(sbSizer_web,0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 3);
+
+    //------------------------------
     // Cancel - OK Buttons 
     //------------------------------
 
@@ -107,18 +124,27 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
     {
         m_txtCtrlCallSign->SetValue(wxGetApp().m_callSign);
         m_ckboxTestFrame->SetValue(wxGetApp().m_testFrames);
+
+        m_ckbox_webOnStart->SetValue(wxGetApp().m_webOnStart);
+        m_ckbox_webOnPTT->SetValue(wxGetApp().m_webOnPTT);
+        m_txt_webURL->SetValue(wxGetApp().m_webURL);
     }
 
     if(inout == EXCHANGE_DATA_OUT)
     {
-        // LPC Post filter
-
         wxGetApp().m_callSign   = m_txtCtrlCallSign->GetValue();
         wxGetApp().m_testFrames = m_ckboxTestFrame->GetValue();
 
+        wxGetApp().m_webOnStart = m_ckbox_webOnStart->GetValue();
+        wxGetApp().m_webOnPTT   = m_ckbox_webOnPTT->GetValue();
+        wxGetApp().m_webURL     = m_txt_webURL->GetValue();
+
         if (storePersistent) {
             pConfig->Write(wxT("/Data/CallSign"), wxGetApp().m_callSign);
-            pConfig->Flush();
+            pConfig->Write(wxT("/Web/OnStart"), wxGetApp().m_webOnStart);
+            pConfig->Write(wxT("/Web/OnPTT"), wxGetApp().m_webOnPTT);
+            pConfig->Write(wxT("/Web/URL"), wxGetApp().m_webURL);
+             pConfig->Flush();
         }
     }
     delete wxConfigBase::Set((wxConfigBase *) NULL);
