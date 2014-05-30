@@ -8,6 +8,9 @@
 #include <cstdint>
 #include <ostream>
 #include <assert.h>
+#if 0
+#include <soxr.h>
+#endif
 #include "platform.h"
 
 /// Portable way to use the [[unused]] C++11 attribute before all compilers
@@ -1027,4 +1030,33 @@ operator << (std::ostream & stream, const DriverManager & d) {
 /// Global reference to the driver manager.
 ///
 extern DriverManager * driver_manager();
+
+#if 0
+/// Interpolate between two sample rates.
+class Interpolator16 {
+private:
+  const std::size_t		in_rate;
+  const std::size_t		out_rate;
+  const unsigned int		number_of_channels;
+  const soxr_io_spec_t	io_spec;
+  const soxr_quality_spec_t	quality_spec;
+  const soxr_runtime_spec_t	runtime_spec;
+
+  // Prohibit the copy constructor and operator =().
+  		Interpolator16(const Interpolator16 &);
+  Interpolator16 &
+		operator = (const Interpolator &);
+
+public
+  		Interpolator16(std::size_t _in_rate, std::size_t _out_rate);
+		~Interpolator16();
+
+  void		process(
+		 const std::int16_t *	in,
+		 std::int16_t *		out, 
+		 std::size_t		in_length,
+		 std::size_t		out_length);
+}
+#endif
+
 }

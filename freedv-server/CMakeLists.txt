@@ -136,6 +136,7 @@ set(Compile.sources
   source/framer_noop.cpp
   source/global.cpp
   source/interfaces.cpp
+  source/interpolator.cpp
   source/io_device.cpp
   source/keying.cpp
   source/keying_sink.cpp
