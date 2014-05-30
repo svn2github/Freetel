@@ -12,8 +12,10 @@
 #define	INTEGER_64
 #endif
 
+/// Structure for parsing USB Human Interface Device reports.
 struct HIDRaw {
 public:
+  /// Type field of a Collection object in a HID report.
   enum CollectionType {
     Physical = 0,
     Application = 1,	// Mouse or keyboard.
@@ -28,6 +30,7 @@ public:
     VendorEnd = 0xff
   };
  
+  /// Type field of a Generic Desktop Usage Page in a HID report.
   enum GenericDesktop {
     Undefined = 0x00,
     Pointer = 0x01,
@@ -78,6 +81,7 @@ public:
     D_pad_Left = 0x93
   };
 
+  /// Type field of a Global object in a HID report.
   enum GlobalType {
     UsagePage = 0,
     LogicalMinimum = 1,
@@ -93,6 +97,7 @@ public:
     Pop = 11
   };
 
+  /// Type field of a Local object in a HID report.
   enum LocalType {
     Usage = 0,
     UsageMinimum = 1,
@@ -105,6 +110,8 @@ public:
     StringMaximum = 9,
     Delimiter = 10
   };
+
+  /// Type field of a Main object in a HID report.
   enum MainType {
     Input = 0x8,
     Output = 0x9,
@@ -114,12 +121,14 @@ public:
     LongItem = 0x0f,
   };
   
+  /// Type of a top-level object in a HID report.
   enum Type {
     Main = 0,
     Global = 1,
     Local = 2
   };
   
+  /// Type of Usage Page in a HID report.
   enum UsagePageTypes {
     GenericDesktop = 1,
     Button = 9

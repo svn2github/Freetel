@@ -28,7 +28,9 @@ namespace FreeDV {
   ///
   class Run {
   private:
-    const std::size_t	FIFOSize = MaximumFrameSamples * sizeof(int16_t) * 2;
+    const std::size_t	AudioFIFOSize =
+     MaximumFrameSamples * sizeof(int16_t) * 2;
+    const std::size_t	CodecFIFOSize = 1024;
     Interfaces * const	i;
     int			poll_fd_count;
     int			poll_fd_base;
@@ -70,8 +72,8 @@ namespace FreeDV {
   
   Run::Run(Interfaces * interfaces)
   : i(interfaces), poll_fd_count(0), poll_fd_base(0), output_fd_base(-1),
-    codec_fifo(FIFOSize), in_fifo(FIFOSize),
-    out_fifo(FIFOSize)
+    codec_fifo(CodecFIFOSize), in_fifo(AudioFIFOSize),
+    out_fifo(AudioFIFOSize)
   {
     reset();
   }

@@ -14,6 +14,7 @@ namespace FreeDV {
   /// Modem "FDMDV2".
   class ModemFDMDV2 : public Modem {
   public:
+    /// Modem operation mode. These are given as bit-rate + attributes.
     enum Mode {
       M_Invalid = -1,
       M_1400_V0_91_Legacy = 0,	// Broken, and hopefully off-the-air by now.
@@ -69,6 +70,8 @@ namespace FreeDV {
     /// of signed 16-bit integers.
     /// \param data_length On call: The number of bytes of data to be
     /// modulated. On return: The number of bytes consumed.
+    /// \param sample_length The number of audio samples which may be
+    /// modulated.
     /// \return The number of 16-bit audio samples in the modulated array.
     virtual std::size_t
     			modulate16(

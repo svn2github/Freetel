@@ -20,13 +20,15 @@
 namespace FreeDV {
   std::ostream & ALSAEnumerate(std::ostream & stream, snd_pcm_stream_t mode);
 
-  // If more than this number of frames are queued for audio output, the
-  // latency is too high. Flush the output and print an overlong-delay message.
+  /// Maximum frames that an audio stream may be delayed.
+  /// If more than this number of frames are queued for audio output, the
+  /// latency is too high. Flush the output and print an overlong-delay message.
   const unsigned int	MaximumDelayFrames = 4;
 
-  // At the start of playback, preload the audio output with this many
-  // frames of zero data. This delays the output enough to avoid later
-  // buffer-overrun problems.
+  /// Number of zeroed frames with which to prime an audio output device.
+  /// At the start of playback, preload the audio output with this many
+  /// frames of zero data. This delays the output enough to avoid later
+  /// buffer-overrun problems.
   const unsigned int	FillFrames = 2;
 
   /// Audio output "ALSA", Uses the Linux ALSA Audio API.

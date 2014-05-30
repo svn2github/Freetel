@@ -25,7 +25,7 @@ namespace FreeDV {
 
   public:
 
-    /// Instantiate the no-op codec.
+    /// Instantiate the codec.
   			Codec2(const char *);
     			~Codec2();
 
@@ -65,7 +65,7 @@ namespace FreeDV {
   };
 
   Codec2::Codec2(const char * _parameters)
-  : Codec("no-op", _parameters), c(0), samples_per(0), bytes_per(0)
+  : Codec("codec2", _parameters), c(0), samples_per(0), bytes_per(0)
   {
     int	mode = CODEC2_MODE_1600;
 
@@ -112,7 +112,7 @@ namespace FreeDV {
     std::size_t	bytes_read = 0;
     std::size_t	samples_read = 0;
 
-    while ( *data_length >= bytes_per || sample_length >= samples_per ) {
+    while ( *data_length >= bytes_per && sample_length >= samples_per ) {
       codec2_decode(c, o, i);
 
       *data_length -= bytes_per;
@@ -134,7 +134,7 @@ namespace FreeDV {
     std::size_t	bytes_read = 0;
     std::size_t	samples_read = 0;
 
-    while ( data_length >= bytes_per || *sample_length >= samples_per ) {
+    while ( data_length >= bytes_per && *sample_length >= samples_per ) {
       // FIX: Const cast away. Remove if we can get const correctness in
       // libcodec2.
       codec2_encode(c, o, (std::int16_t *)i);

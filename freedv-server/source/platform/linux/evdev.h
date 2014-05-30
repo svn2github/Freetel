@@ -8,8 +8,10 @@
 #include "drivers.h"
 
 namespace FreeDV {
+  /// Class used to access Linux event devices.
   class EvDev {
   public:
+    /// Structure used to enumerate Linux event devices.
     struct device_enumeration {
       char *	special_file;
       char *	name;

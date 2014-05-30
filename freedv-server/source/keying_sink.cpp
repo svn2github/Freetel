@@ -25,7 +25,7 @@ namespace FreeDV {
     /// \param space The maximum number of file descriptors that may be
     /// stored in the array.
     /// \return The number of file descriptors written to the array.
-    int			poll_fds(PollType *, int);
+    int			poll_fds(PollType * array, int space);
 
     /// If the value is true, transmit. Otherwise receive.
     ///

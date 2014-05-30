@@ -47,6 +47,8 @@ namespace FreeDV {
     /// of signed 16-bit integers.
     /// \param data_length On call: The number of bytes of data to be
     /// modulated. On return: The number of bytes consumed.
+    /// \param sample_length The number of audio samples which may be
+    /// modulated.
     /// \return The number of 16-bit audio samples in the modulated array.
     virtual std::size_t
     			modulate16(

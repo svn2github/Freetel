@@ -414,7 +414,8 @@ public:
     /// \param i The array of audio samples to be encoded, in an array
     /// of signed 16-bit integers.
     /// \param o The encoded data, in an array of unsigned 8-bit integers.
-    /// \param sample_length On call: The number of audio samples to be
+    /// \param data_length The number of bytes which may be encoded.
+    /// \param sample_length On call: The number of audio samples which may be
     /// encoded. On return: The number of 16-bit audio samples that were
     /// consumed.
     /// \return The number of std::uint8_t elements in the encoded array.
@@ -801,6 +802,12 @@ Framer *	FramerNoOp(const char * parameter);
 /// \return A pointer to the KeyingOutput instance for the device.
 ///
 KeyingOutput *	KeyingSink(const char * parameter);
+
+/// Opens the Reverse Codec2 modem, for debugging.
+/// \param parameter
+/// \return A pointer to the Modem instance.
+///
+Modem *		Codec2_Reverse(const char * parameter);
 
 /// Opens the FDMDV2 modem.
 /// \param parameter

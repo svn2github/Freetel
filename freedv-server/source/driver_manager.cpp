@@ -254,6 +254,11 @@ namespace FreeDV {
     place(key, (base_creator)creator, enumerator, &user_interface_drivers);
   }
 
+  /// Return the address of the global driver manager.
+  /// This function is used to avoid the C++ static initialization order fiasco.
+  /// Any static initialization function that registers a driver calls it,
+  /// and thus it initializes the driver manager regardless of static
+  /// initialization order.
   DriverManager *
   driver_manager()
   {
