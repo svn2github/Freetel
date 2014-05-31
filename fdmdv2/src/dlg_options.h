@@ -32,7 +32,7 @@ class OptionsDlg : public wxDialog
     public:
     OptionsDlg( wxWindow* parent,
                wxWindowID id = wxID_ANY, const wxString& title = _("Options"), 
-                const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(450,290), 
+                const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(600,530), 
                long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
         ~OptionsDlg();
 
@@ -45,12 +45,15 @@ class OptionsDlg : public wxDialog
         void    OnClose(wxCloseEvent& event);
         void    OnInitDialog(wxInitDialogEvent& event);
  
-        wxTextCtrl   *m_txtCtrlCallSign;
+        wxTextCtrl   *m_txtCtrlCallSign; // TODO: this should be renamed to tx_txtmsg, and rename all related incl persis strge
         wxCheckBox   *m_ckboxTestFrame;
 
-        wxCheckBox   *m_ckbox_webOnStart;
-        wxCheckBox   *m_ckbox_webOnPTT;
-        wxTextCtrl   *m_txt_webURL;
+        wxCheckBox   *m_ckbox_events;
+        wxTextCtrl   *m_txt_events_regexp;
+        wxTextCtrl   *m_txt_events_in;
+        wxTextCtrl   *m_txt_events_out;
+        wxTextCtrl   *m_txt_event_test;
+        wxButton     *m_btn_event_test;
 
         wxButton*     m_sdbSizer5OK;
         wxButton*     m_sdbSizer5Cancel;

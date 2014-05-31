@@ -169,10 +169,11 @@ class MainApp : public wxApp
         unsigned int        m_recFileFromRadioSecs;
         wxString            m_playFileFromRadioPath;
 
+        // Options dialog
+
         wxString            m_callSign;
-        bool                m_webOnStart;
-        bool                m_webOnPTT;
-        wxString            m_webURL;
+        bool                m_events;
+        wxString            m_events_regexp;
 
         bool                m_snrSlow;
 

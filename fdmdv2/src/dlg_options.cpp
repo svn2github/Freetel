@@ -33,14 +33,14 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
     bSizer30 = new wxBoxSizer(wxVERTICAL);
 
     //------------------------------
-    // Call Sign Text Box
+    // Txt Msg Text Box
     //------------------------------
 
     wxStaticBoxSizer* sbSizer_callSign;
-    sbSizer_callSign = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Call Sign")), wxVERTICAL);
+    sbSizer_callSign = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Txt Msg")), wxVERTICAL);
 
     m_txtCtrlCallSign = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
-    m_txtCtrlCallSign->SetToolTip(_("Call Sign of your station"));
+    m_txtCtrlCallSign->SetToolTip(_("Txt Msg you can send along with Voice"));
     sbSizer_callSign->Add(m_txtCtrlCallSign, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 3);
 
     bSizer30->Add(sbSizer_callSign,0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 3);
@@ -58,21 +58,49 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
     bSizer30->Add(sbSizer_testFrames,0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 3);
 
     //------------------------------
-    // Web Integration
+    // Event processing
     //------------------------------
 
-    wxStaticBoxSizer* sbSizer_web;
-    sbSizer_web = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Web Integration")), wxVERTICAL);
+    wxStaticBoxSizer* sbSizer_events;
+    sbSizer_events = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Event Processing")), wxVERTICAL);
 
-    m_txt_webURL = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
-    m_txt_webURL->SetToolTip(_("Hit this URL on action below"));
-    sbSizer_web->Add(m_txt_webURL, 1, wxEXPAND, 5);
-    m_ckbox_webOnStart = new wxCheckBox(this, wxID_ANY, _("Start Button"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
-    sbSizer_web->Add(m_ckbox_webOnStart, 1, wxEXPAND, 5);
-    m_ckbox_webOnPTT = new wxCheckBox(this, wxID_ANY, _("PTT Button"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
-    sbSizer_web->Add(m_ckbox_webOnPTT, 1, wxEXPAND, 5);
+    // event processing enable
 
-    bSizer30->Add(sbSizer_web,0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 3);
+    m_ckbox_events = new wxCheckBox(this, wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    sbSizer_events->Add(m_ckbox_events, 0, 0, 5);
+
+    // list of regexps
+
+    wxStaticBoxSizer* sbSizer_regexp = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Regular Expressions to Process Events")), wxVERTICAL);
+    m_txt_events_regexp = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(400,100), wxTE_MULTILINE);
+    m_txt_events_regexp->SetToolTip(_("Enter regular expressions to process events"));
+    sbSizer_regexp->Add(m_txt_events_regexp, 1, wxEXPAND, 5);
+    sbSizer_events->Add(sbSizer_regexp, 1, wxEXPAND, 5);
+
+    // log of events and responses
+
+    wxStaticBoxSizer* sbSizer_event_log = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Events and Responses")), wxVERTICAL);
+    wxBoxSizer* bSizer33 = new wxBoxSizer(wxHORIZONTAL);
+    m_txt_events_in = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(200,50), wxTE_MULTILINE | wxTE_READONLY);
+    bSizer33->Add(m_txt_events_in, 1, wxEXPAND, 5);
+    m_txt_events_out = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(200,50), wxTE_MULTILINE | wxTE_READONLY);
+    bSizer33->Add(m_txt_events_out, 1, wxEXPAND, 5);
+    sbSizer_event_log->Add(bSizer33, 1, wxEXPAND, 5);
+    sbSizer_events->Add(sbSizer_event_log, 1, wxEXPAND, 5);
+
+    // test event
+
+    wxStaticBoxSizer* sbSizer_event_test = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Test your Regular Expression")), wxVERTICAL);
+    wxBoxSizer* bSizer34 = new wxBoxSizer(wxHORIZONTAL);
+    m_txt_event_test = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
+    m_txt_event_test->SetToolTip(_("Enter event text to test a regular expression"));
+    bSizer34->Add(m_txt_event_test, 1, wxEXPAND|wxALL, 5);
+    m_btn_event_test = new wxButton(this, wxID_ANY, _("Test"), wxDefaultPosition, wxDefaultSize, 0);
+    bSizer34->Add(m_btn_event_test, 0, wxEXPAND|wxALL, 5);
+    sbSizer_event_test->Add(bSizer34, 0, wxEXPAND, 5);
+    sbSizer_events->Add(sbSizer_event_test, 0, wxEXPAND, 5);
+
+    bSizer30->Add(sbSizer_events,0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 3);
 
     //------------------------------
     // Cancel - OK Buttons 
@@ -125,26 +153,23 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
         m_txtCtrlCallSign->SetValue(wxGetApp().m_callSign);
         m_ckboxTestFrame->SetValue(wxGetApp().m_testFrames);
 
-        m_ckbox_webOnStart->SetValue(wxGetApp().m_webOnStart);
-        m_ckbox_webOnPTT->SetValue(wxGetApp().m_webOnPTT);
-        m_txt_webURL->SetValue(wxGetApp().m_webURL);
+        m_ckbox_events->SetValue(wxGetApp().m_events);
+        m_txt_events_regexp->SetValue(wxGetApp().m_events_regexp);
     }
 
     if(inout == EXCHANGE_DATA_OUT)
     {
-        wxGetApp().m_callSign   = m_txtCtrlCallSign->GetValue();
-        wxGetApp().m_testFrames = m_ckboxTestFrame->GetValue();
+        wxGetApp().m_callSign      = m_txtCtrlCallSign->GetValue();
+        wxGetApp().m_testFrames     = m_ckboxTestFrame->GetValue();
 
-        wxGetApp().m_webOnStart = m_ckbox_webOnStart->GetValue();
-        wxGetApp().m_webOnPTT   = m_ckbox_webOnPTT->GetValue();
-        wxGetApp().m_webURL     = m_txt_webURL->GetValue();
-
+        wxGetApp().m_events        = m_ckbox_events->GetValue();
+        wxGetApp().m_events_regexp = m_txt_events_regexp->GetValue();
+ 
         if (storePersistent) {
             pConfig->Write(wxT("/Data/CallSign"), wxGetApp().m_callSign);
-            pConfig->Write(wxT("/Web/OnStart"), wxGetApp().m_webOnStart);
-            pConfig->Write(wxT("/Web/OnPTT"), wxGetApp().m_webOnPTT);
-            pConfig->Write(wxT("/Web/URL"), wxGetApp().m_webURL);
-             pConfig->Flush();
+            pConfig->Write(wxT("/Events/enable"), wxGetApp().m_events);
+            pConfig->Write(wxT("/Events/regexp"), wxGetApp().m_events_regexp);
+            pConfig->Flush();
         }
     }
     delete wxConfigBase::Set((wxConfigBase *) NULL);

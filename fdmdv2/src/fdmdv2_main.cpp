@@ -370,9 +370,9 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     wxGetApp().m_SpkOutEQEnable = (float)pConfig->Read(wxT("/Filter/SpkOutEQEnable"), f);
 
     wxGetApp().m_callSign = pConfig->Read("/Data/CallSign", wxT(""));
-    wxGetApp().m_webOnStart = pConfig->Read("/Web/OnStart", f);
-    wxGetApp().m_webOnPTT = pConfig->Read("/Web/OnPTT", f);
-    wxGetApp().m_webURL = pConfig->Read("/Web/URL", wxT("http://qso.freedv.org/cgi-bin/"));
+    wxGetApp().m_events = pConfig->Read("/Events/enable", f);
+    wxGetApp().m_events_regexp = pConfig->Read("/Events/regexp", 
+                                               wxT("s|onstart,mycallsign=(.*),|curl http://qso.freedv.org/cgi-bin/onstart.cgi?callsign=$1|"));
 
     pConfig->SetPath(wxT("/"));
 
@@ -529,9 +529,8 @@ MainFrame::~MainFrame()
         pConfig->Write(wxT("/Audio/snrSlow"), wxGetApp().m_snrSlow);
 
         pConfig->Write(wxT("/Data/CallSign"), wxGetApp().m_callSign);
-        pConfig->Write(wxT("/Web/OnStart"), wxGetApp().m_webOnStart);
-        pConfig->Write(wxT("/Web/OnPTT"), wxGetApp().m_webOnPTT);
-        pConfig->Write(wxT("/Web/URL"), wxGetApp().m_webURL);
+        pConfig->Write(wxT("/Events/enable"), wxGetApp().m_events);
+        pConfig->Write(wxT("/Events/regexp"), wxGetApp().m_events_regexp);
  
         pConfig->Write(wxT("/Filter/MicInEQEnable"), wxGetApp().m_MicInEQEnable);
         pConfig->Write(wxT("/Filter/SpkOutEQEnable"), wxGetApp().m_SpkOutEQEnable);
