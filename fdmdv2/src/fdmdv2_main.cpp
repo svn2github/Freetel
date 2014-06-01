@@ -450,7 +450,7 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     // data states
     g_txDataInFifo = fifo_create(MAX_CALLSIGN*VARICODE_MAX_BITS);
     g_rxDataOutFifo = fifo_create(MAX_CALLSIGN*VARICODE_MAX_BITS);
-    varicode_decode_init(&g_varicode_dec_states);
+    varicode_decode_init(&g_varicode_dec_states, 1);
 
     sox_biquad_start();
     golay23_init();
@@ -898,7 +898,7 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
         // varicode encode and write to tx data fifo
 
         short varicode[MAX_CALLSIGN*VARICODE_MAX_BITS];
-        int nout = varicode_encode(varicode, callsigncr, MAX_CALLSIGN*VARICODE_MAX_BITS, strlen(callsign)+1);
+        int nout = varicode_encode(varicode, callsigncr, MAX_CALLSIGN*VARICODE_MAX_BITS, strlen(callsign)+1, 1);
         fifo_write(g_txDataInFifo, varicode, nout);
         //printf("Callsign sending: %s nout: %d\n", callsign, nout);
     }

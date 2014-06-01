@@ -35,11 +35,12 @@ struct VARICODE_DEC {
     int            n_zeros;
     int            v_len;
     unsigned short packed;
+    int            code_num;
 };
     
-int varicode_encode(short varicode_out[], char ascii_in[], int max_out, int n_in, int longcode);
-void varicode_decode_init(struct VARICODE_DEC *dec_states);
-int varicode_decode(struct VARICODE_DEC *dec_states, char ascii_out[], short varicode_in[], int max_out, int n_in, int longcode);
+int varicode_encode(short varicode_out[], char ascii_in[], int max_out, int n_in, int code_num);
+void varicode_decode_init(struct VARICODE_DEC *dec_states, int code_num);
+int varicode_decode(struct VARICODE_DEC *dec_states, char ascii_out[], short varicode_in[], int max_out, int n_in);
 
 #ifdef __cplusplus
 }

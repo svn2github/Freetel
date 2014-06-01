@@ -31,7 +31,7 @@ sent before the next character is sent.
 This file is constructed with information from the article "PSK31 Fundamentals"
 by Peter Martinez, G3PLX by Clint Turner, KA7OEI
 */
-unsigned char const long_varicode_table[256] =	{
+unsigned char const varicode_table1[256] =	{
     0b10101010,
     0b11000000, // 0 NUL
     0b10110110,
@@ -290,7 +290,10 @@ unsigned char const long_varicode_table[256] =	{
     0b01000000, // 127 (del)
 };
 
-char const short_varicode_table[] = {
+// This code was used on FDMDV version 1, and is more compact that Code 1, but only covers a subset
+// of the ASCII cahacter set
+
+char const varicode_table2[] = {
 
     ' ' ,0b11000000,
     ',' ,0b01000000,
