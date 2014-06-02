@@ -3368,7 +3368,7 @@ void per_frame_tx_processing(
         if (s > g_clip)
             s = (float)g_clip;
         if (s < -g_clip)
-            s = (float)g_clip;
+            s = (float)-g_clip;
         tx_fdm_scaled[i] = FDMDV_SCALE * g_pwr_scale * s;
     }
 
