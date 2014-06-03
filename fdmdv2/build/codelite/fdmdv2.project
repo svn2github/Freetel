@@ -22,7 +22,7 @@
     <File Name="../../src/varicode.c"/>
     <File Name="../../src/sox_biquad.c"/>
     <File Name="../../src/dlg_about.cpp"/>
-    <File Name="../../../codec2-dev/src/golay23.c"/>
+    <File Name="../../../codec2/src/golay23.c"/>
   </VirtualDirectory>
   <VirtualDirectory Name="include">
     <File Name="../../src/dlg_comports.h"/>
@@ -34,7 +34,7 @@
     <File Name="../../src/fdmdv2_pa_wrapper.h"/>
     <File Name="../../src/comp.h"/>
     <File Name="../../src/fdmdv2_plot_scalar.h"/>
-    <File Name="../../../codec2-dev/src/codec2.h"/>
+    <File Name="../../../codec2/src/codec2.h"/>
     <File Name="../../src/fdmdv2_defines.h"/>
     <File Name="../../../Audio/libsndfile/include/sndfile.h"/>
     <File Name="../../src/fdmdv2_plot_waterfall_linux.h"/>
@@ -47,7 +47,7 @@
     <File Name="../../../../Audio/portaudio/include/portaudio.h"/>
     <File Name="../../src/dlg_filter.h"/>
     <File Name="../../src/version.h"/>
-    <File Name="../../../codec2-dev/src/golay23.h"/>
+    <File Name="../../../codec2/src/golay23.h"/>
   </VirtualDirectory>
   <VirtualDirectory Name="resources">
     <File Name="../../src/FDMDV2.fbp"/>
@@ -67,14 +67,14 @@
     <Configuration Name="Debug" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-g;-O0;-Wall;$(shell wx-config --cxxflags --unicode=yes --debug=yes)" C_Options="-g;-O0;-Wall;$(shell wx-config --cxxflags --unicode=yes --debug=yes)" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" UseDifferentPCHFlags="no" PCHFlags="">
         <IncludePath Value="/bin/MinGW-4.7.1/msys/1.0/local/include"/>
-        <IncludePath Value="../../../codec2-dev/src"/>
+        <IncludePath Value="../../../codec2/src"/>
         <IncludePath Value="/bin/Projects/Audio/libsndfile/include"/>
         <Preprocessor Value="__WX__"/>
         <Preprocessor Value="_NO_AUTOTOOLS_=1"/>
         <Preprocessor Value="DMW=1"/>
       </Compiler>
       <Linker Options="-mwindows;$(shell wx-config --debug=yes --libs --unicode=yes)" Required="yes">
-        <LibraryPath Value="d:/Projects/Radio/codec2-dev/src/.libs"/>
+        <LibraryPath Value="d:/Projects/Radio/codec2/src/.libs"/>
         <LibraryPath Value="d:/bin/MinGW-4.7.1/msys/1.0/local/lib"/>
         <Library Value="libsndfile-1.dll"/>
         <Library Value="codec2"/>
@@ -119,7 +119,7 @@
     <Configuration Name="Release" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Executable" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
       <Compiler Options="-O2;-Wall;$(shell wx-config --cxxflags --unicode=yes --debug=no)" C_Options="-O2;-Wall;$(shell wx-config --cxxflags --unicode=yes --debug=no)" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" UseDifferentPCHFlags="no" PCHFlags="">
         <IncludePath Value="/bin/MinGW-4.7.1/msys/1.0/local/include"/>
-        <IncludePath Value="../../../codec2-dev/src"/>
+        <IncludePath Value="../../../codec2/src"/>
         <IncludePath Value="../../../Audio/portaudio/include"/>
         <IncludePath Value="../../../Audio/libsndfile/include"/>
         <IncludePath Value="../../../Audio/libsamplerate-0.1.8/src"/>
@@ -128,7 +128,7 @@
         <Preprocessor Value="_NO_AUTOTOOLS_=1"/>
       </Compiler>
       <Linker Options="-mwindows;-s;$(shell wx-config --debug=no --libs --unicode=yes)" Required="yes">
-        <LibraryPath Value="d:/Projects/Radio/codec2-dev/src/.libs"/>
+        <LibraryPath Value="d:/Projects/Radio/codec2/src/.libs"/>
         <LibraryPath Value="d:/bin/MinGW-4.7.1/msys/1.0/local/lib"/>
         <LibraryPath Value="d:/Projects/Audio/libsndfile/lib"/>
         <Library Value="libsndfile-1.dll"/>

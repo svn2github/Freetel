@@ -52,7 +52,7 @@ endif
 
 # Codec 2 -----------------------------------------------
 
-CODEC2=codec2-dev
+CODEC2=codec2
 CODEC2_INC=-I$(CODEC2)/src
 CODEC2_LIB=$(CODEC2)/src/.libs/libcodec2.a
 
@@ -112,7 +112,7 @@ dlg_filter.o \
 dlg_options.o \
 varicode.o \
 sox_biquad.o \
-codec2-dev/src/golay23.c \
+codec2/src/golay23.c \
 hamlib.o
 
 all: $(LIBS_TO_BUILD) $(CODEC2)/.built freedv
@@ -167,7 +167,7 @@ $(CODEC2)/.built: $(CODEC2)
 	cd $(CODEC2) && ./configure && make && touch .built
 
 $(CODEC2):
-	svn co https://freetel.svn.sourceforge.net/svnroot/freetel/codec2-dev
+	svn co https://freetel.svn.sourceforge.net/svnroot/freetel/codec2
         
 # sox -------------------------------------------------------------
 

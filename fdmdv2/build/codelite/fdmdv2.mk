@@ -38,12 +38,12 @@ MakeDirCommand         :=makedir
 RcCmpOptions           := $(shell wx-config --rcflags)
 RcCompilerName         :=windres
 LinkOptions            :=  -mwindows $(shell wx-config --debug=yes --libs --unicode=yes)
-IncludePath            :=  $(IncludeSwitch). $(IncludeSwitch)/bin/MinGW-4.7.1/msys/1.0/local/include $(IncludeSwitch)../../../codec2-dev/src $(IncludeSwitch)/bin/Projects/Audio/libsndfile/include 
+IncludePath            :=  $(IncludeSwitch). $(IncludeSwitch)/bin/MinGW-4.7.1/msys/1.0/local/include $(IncludeSwitch)../../../codec2/src $(IncludeSwitch)/bin/Projects/Audio/libsndfile/include 
 IncludePCH             := 
 RcIncludePath          := 
 Libs                   := $(LibrarySwitch)sndfile-1 $(LibrarySwitch)codec2 $(LibrarySwitch)portaudio $(LibrarySwitch)portaudiocpp $(LibrarySwitch)samplerate.dll $(LibrarySwitch)ctb-0.16 $(LibrarySwitch)sox 
 ArLibs                 :=  "libsndfile-1.dll" "codec2" "libportaudio.a" "libportaudiocpp.a" "libsamplerate.dll.a" "libctb-0.16.a" "libsox" 
-LibPath                := $(LibraryPathSwitch). $(LibraryPathSwitch)d:/Projects/Radio/codec2-dev/src/.libs $(LibraryPathSwitch)d:/bin/MinGW-4.7.1/msys/1.0/local/lib 
+LibPath                := $(LibraryPathSwitch). $(LibraryPathSwitch)d:/Projects/Radio/codec2/src/.libs $(LibraryPathSwitch)d:/bin/MinGW-4.7.1/msys/1.0/local/lib 
 
 ##
 ## Common variables
@@ -204,13 +204,13 @@ $(IntermediateDirectory)/src_dlg_about$(DependSuffix): ../../src/dlg_about.cpp
 $(IntermediateDirectory)/src_dlg_about$(PreprocessSuffix): ../../src/dlg_about.cpp
 	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_dlg_about$(PreprocessSuffix) "../../src/dlg_about.cpp"
 
-$(IntermediateDirectory)/src_golay23$(ObjectSuffix): ../../../codec2-dev/src/golay23.c $(IntermediateDirectory)/src_golay23$(DependSuffix)
-	$(CC) $(SourceSwitch) "D:/Projects/Radio/codec2-dev/src/golay23.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_golay23$(ObjectSuffix) $(IncludePath)
-$(IntermediateDirectory)/src_golay23$(DependSuffix): ../../../codec2-dev/src/golay23.c
-	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_golay23$(ObjectSuffix) -MF$(IntermediateDirectory)/src_golay23$(DependSuffix) -MM "../../../codec2-dev/src/golay23.c"
+$(IntermediateDirectory)/src_golay23$(ObjectSuffix): ../../../codec2/src/golay23.c $(IntermediateDirectory)/src_golay23$(DependSuffix)
+	$(CC) $(SourceSwitch) "D:/Projects/Radio/codec2/src/golay23.c" $(CFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/src_golay23$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/src_golay23$(DependSuffix): ../../../codec2/src/golay23.c
+	@$(CC) $(CFLAGS) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/src_golay23$(ObjectSuffix) -MF$(IntermediateDirectory)/src_golay23$(DependSuffix) -MM "../../../codec2/src/golay23.c"
 
-$(IntermediateDirectory)/src_golay23$(PreprocessSuffix): ../../../codec2-dev/src/golay23.c
-	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_golay23$(PreprocessSuffix) "../../../codec2-dev/src/golay23.c"
+$(IntermediateDirectory)/src_golay23$(PreprocessSuffix): ../../../codec2/src/golay23.c
+	@$(CC) $(CFLAGS) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/src_golay23$(PreprocessSuffix) "../../../codec2/src/golay23.c"
 
 
 -include $(IntermediateDirectory)/*$(DependSuffix)

@@ -6,7 +6,7 @@
 
 # EDIT THESE FOR YOUR SYSTEM ----------------------------
 
-CODEC2_PATH=D:/Projects/Radio/codec2-dev
+CODEC2_PATH=D:/Projects/Radio/codec2
 INCLUDE_PATH=d:/bin/MinGW-4.6.1/msys/1.0/local/lib
 
 # not required because I installed soxlib in my:

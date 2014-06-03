@@ -5,7 +5,7 @@
 #
 # $ make -f Makefile.Win32
 
-CODEC2_PATH=$(HOME)/codec2-dev
+CODEC2_PATH=$(HOME)/codec2
 INCLUDE_PATH=/usr/local/include
 
 WX_CONFIG=wx-config
@@ -33,9 +33,9 @@ dlg_filter.o \
 varicode.o \
 sox_biquad.o \
 hamlib.o \
-../../codec2-dev/src/golay23.o
+../../codec2/src/golay23.o
 
-HDRS = version.h dlg_audiooptions.h dlg_ptt.h dlg_filter.h fdmdv2_main.h fdmdv2_defines.h fdmdv2_plot.h fdmdv2_plot_scalar.h fdmdv2_plot_waterfall.h fdmdv2_plot_scatter.h fdmdv2_plot_spectrum.h fdmdv2_pa_wrapper.h topFrame.h dlg_audiooptions.h topFrame.h varicode.h ../../codec2-dev/src/golay23.h hamlib.h
+HDRS = version.h dlg_audiooptions.h dlg_ptt.h dlg_filter.h fdmdv2_main.h fdmdv2_defines.h fdmdv2_plot.h fdmdv2_plot_scalar.h fdmdv2_plot_waterfall.h fdmdv2_plot_scatter.h fdmdv2_plot_spectrum.h fdmdv2_pa_wrapper.h topFrame.h dlg_audiooptions.h topFrame.h varicode.h ../../codec2/src/golay23.h hamlib.h
 
 all: freedv
 

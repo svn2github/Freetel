@@ -8,7 +8,7 @@
 # EDIT THESE FOR YOUR SYSTEM ----------------------------
 
 WX_GTK_PATH=/home/wittend/Projects/wxWidgets-2.9.4/build_gtk
-CODEC2_PATH=/home/wittend/Projects/codec2-dev
+CODEC2_PATH=/home/wittend/Projects/codec2
 # SOX_LIB_PATH=$(HOME)/sox-14.4.0/src/.libs - not required because I installed soxlib from the repo.
 
 # END EDITS ---------------------------------------------

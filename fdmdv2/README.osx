@@ -136,7 +136,7 @@ Index: src/Makefile.osx
 +
 +# Codec 2 -----------------------------------------------
 +
-+CODEC2=codec2-dev
++CODEC2=codec2
 +CODEC2_INC=-I$(CODEC2)/src
 +CODEC2_LIB=$(CODEC2)/src/.libs/libcodec2.a
 +
@@ -196,7 +196,7 @@ Index: src/Makefile.osx
 +	cd $(CODEC2) && CPPFLAGS="-arch i386" LDFLAGS="-arch i386" ./configure && make && touch .built
 +
 +$(CODEC2):
-+	svn co https://freetel.svn.sourceforge.net/svnroot/freetel/codec2-dev
++	svn co https://freetel.svn.sourceforge.net/svnroot/freetel/codec2
 \ No newline at end of file
 Index: src/Makefile.win32
 ===================================================================
