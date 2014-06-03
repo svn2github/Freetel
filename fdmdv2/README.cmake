@@ -46,7 +46,7 @@ cmake -G"MSYS Makefiles" [other options] </path/to/source>
  Bootstrapping wxWidgets build
 ===============================
 
-If wxWidgets (>= 2.9) is not available then one option is to have CMake boot-
+If wxWidgets (>= 3.0) is not available then one option is to have CMake boot-
 strap the build for FreeDV.
 
 This is required because the tool wx-config is used to get the correct compiler
