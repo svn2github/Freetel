@@ -32,7 +32,7 @@ class OptionsDlg : public wxDialog
     public:
     OptionsDlg( wxWindow* parent,
                wxWindowID id = wxID_ANY, const wxString& title = _("Options"), 
-                const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(600,530), 
+                const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(600,580), 
                long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
         ~OptionsDlg();
 
@@ -47,6 +47,9 @@ class OptionsDlg : public wxDialog
  
         wxTextCtrl   *m_txtCtrlCallSign; // TODO: this should be renamed to tx_txtmsg, and rename all related incl persis strge
         wxCheckBox   *m_ckboxTestFrame;
+
+        wxRadioButton *m_rb_textEncoding1;
+        wxRadioButton *m_rb_textEncoding2;
 
         wxCheckBox   *m_ckbox_events;
         wxTextCtrl   *m_txt_events_regexp;

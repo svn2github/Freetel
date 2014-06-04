@@ -39,14 +39,12 @@ int lsx_biquad_flow(sox_effect_t * effp, const sox_sample_t *ibuf,
 
 void sox_biquad_start(void)
 {
-    printf("sox_biquad_start(void)\n");
     int r = sox_init();
     assert(r == SOX_SUCCESS);
 }
 
 void sox_biquad_finish(void)
 {
-    printf("sox_biquad_finish(void)\n");
     sox_quit();
 }
 

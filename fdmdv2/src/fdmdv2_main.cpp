@@ -370,6 +370,7 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     wxGetApp().m_SpkOutEQEnable = (float)pConfig->Read(wxT("/Filter/SpkOutEQEnable"), f);
 
     wxGetApp().m_callSign = pConfig->Read("/Data/CallSign", wxT(""));
+    wxGetApp().m_textEncoding = pConfig->Read("/Data/TextEncoding", 1);
     wxGetApp().m_events = pConfig->Read("/Events/enable", f);
     wxGetApp().m_events_regexp = pConfig->Read("/Events/regexp", 
                                                wxT("s|onstart,mycallsign=(.*),|curl http://qso.freedv.org/cgi-bin/onstart.cgi?callsign=$1|"));
@@ -450,7 +451,6 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     // data states
     g_txDataInFifo = fifo_create(MAX_CALLSIGN*VARICODE_MAX_BITS);
     g_rxDataOutFifo = fifo_create(MAX_CALLSIGN*VARICODE_MAX_BITS);
-    varicode_decode_init(&g_varicode_dec_states, 1);
 
     sox_biquad_start();
     golay23_init();
@@ -529,6 +529,7 @@ MainFrame::~MainFrame()
         pConfig->Write(wxT("/Audio/snrSlow"), wxGetApp().m_snrSlow);
 
         pConfig->Write(wxT("/Data/CallSign"), wxGetApp().m_callSign);
+        pConfig->Write(wxT("/Data/TextEncoding"), wxGetApp().m_textEncoding);
         pConfig->Write(wxT("/Events/enable"), wxGetApp().m_events);
         pConfig->Write(wxT("/Events/regexp"), wxGetApp().m_events_regexp);
  
@@ -898,7 +899,7 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
         // varicode encode and write to tx data fifo
 
         short varicode[MAX_CALLSIGN*VARICODE_MAX_BITS];
-        int nout = varicode_encode(varicode, callsigncr, MAX_CALLSIGN*VARICODE_MAX_BITS, strlen(callsign)+1, 1);
+        int nout = varicode_encode(varicode, callsigncr, MAX_CALLSIGN*VARICODE_MAX_BITS, strlen(callsign)+1, wxGetApp().m_textEncoding);
         fifo_write(g_txDataInFifo, varicode, nout);
         //printf("Callsign sending: %s nout: %d\n", callsign, nout);
     }
@@ -1904,6 +1905,10 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
         m_textLevel->SetLabel(wxT(""));
         m_gaugeLevel->SetValue(0);
 
+        // Init text msg decoding
+
+        varicode_decode_init(&g_varicode_dec_states, wxGetApp().m_textEncoding);      
+        printf("m_textEncoding = %d\n", wxGetApp().m_textEncoding);
         //printf("g_stats.snr: %f\n", g_stats.snr_est);
 
         // attempt to start PTT ......

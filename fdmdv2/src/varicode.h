@@ -36,6 +36,8 @@ struct VARICODE_DEC {
     int            v_len;
     unsigned short packed;
     int            code_num;
+    int            n_in;
+    int            in[2];
 };
     
 int varicode_encode(short varicode_out[], char ascii_in[], int max_out, int n_in, int code_num);

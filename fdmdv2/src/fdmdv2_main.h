@@ -173,6 +173,7 @@ class MainApp : public wxApp
 
         wxString            m_callSign;
         bool                m_events;
+        unsigned int        m_textEncoding;
         wxString            m_events_regexp;
 
         bool                m_snrSlow;

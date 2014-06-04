@@ -156,13 +156,15 @@ int varicode_encode(short varicode_out[], char ascii_in[], int max_out, int n_in
 
 void varicode_decode_init(struct VARICODE_DEC *dec_states, int code_num)
 {
-    assert((code_num ==1) || (code_num ==2));
+    assert((code_num ==1) || (code_num == 2));
 
     dec_states->state = 0;
     dec_states->n_zeros = 0;
     dec_states->v_len = 0;
     dec_states->packed = 0;
     dec_states->code_num = code_num;
+    dec_states->n_in = 0;
+    dec_states->in[0] = dec_states->in[1] = 0;
 }
 
 
@@ -170,7 +172,7 @@ void varicode_decode_init(struct VARICODE_DEC *dec_states, int code_num)
 
 static int decode_one_bit(struct VARICODE_DEC *s, char *single_ascii, short varicode_in, int long_code)
 {
-    int            found, i;
+    int            found=0, i;
     unsigned short byte1, byte2;
 
     //printf("decode_one_bit : state: %d varicode_in: %d packed: 0x%x n_zeros: %d\n",
@@ -228,7 +230,7 @@ static int decode_one_bit(struct VARICODE_DEC *s, char *single_ascii, short vari
 
 static int decode_two_bits(struct VARICODE_DEC *s, char *single_ascii, short varicode_in1, short varicode_in2)
 {
-    int            found, i;
+    int            found=0, i;
     unsigned short byte1;
 
     //printf("decode_one_bit : state: %d varicode_in: %d packed: 0x%x n_zeros: %d\n",
@@ -287,7 +289,7 @@ static int decode_two_bits(struct VARICODE_DEC *s, char *single_ascii, short var
 
 int varicode_decode1(struct VARICODE_DEC *dec_states, char ascii_out[], short varicode_in[], int max_out, int n_in) {
     int            output, n_out;
-    char           single_ascii;
+    char           single_ascii = 0;
 
     n_out = 0;
 
@@ -310,22 +312,33 @@ int varicode_decode1(struct VARICODE_DEC *dec_states, char ascii_out[], short va
 
 int varicode_decode2(struct VARICODE_DEC *dec_states, char ascii_out[], short varicode_in[], int max_out, int n_in) {
     int            output, n_out;
-    char           single_ascii;
+    char           single_ascii = 0;
 
-    //assert((n_in % 2) == 0);  /* code always processes two bits at a time */
     n_out = 0;
 
-    //printf("varicode_decode: n_in: %d\n", n_in);
+    //printf("varicode_decode2: n_in: %d varicode_in[0] %d dec_states->n_in: %d\n", n_in, varicode_in[0], dec_states->n_in);
 
     while(n_in && (n_out < max_out)) {
-        output = decode_two_bits(dec_states, &single_ascii, varicode_in[0], varicode_in[1]);
-        varicode_in +=2;
-        n_in -= 2;
+
+        // keep two bit buffer so we can process two at a time
+
+        dec_states->in[0] = dec_states->in[1];
+        dec_states->in[1] = varicode_in[0];
+        dec_states->n_in++;
+        varicode_in++;
+        n_in--;
+
+        if (dec_states->n_in == 2) {
+            output = decode_two_bits(dec_states, &single_ascii, dec_states->in[0], dec_states->in[1]);
+
+            dec_states->n_in = 0;
  
-        if (output) {
-            *ascii_out++ = single_ascii;
-            n_out++;
-        }            
+            if (output) {
+                printf("  output: %d single_ascii: 0x%x %c\n", output, (int)single_ascii, single_ascii);
+                *ascii_out++ = single_ascii;
+                n_out++;
+            }            
+        }
     }
 
     return n_out;
@@ -388,9 +401,10 @@ void test_varicode(int code_num) {
 
     n_ascii_chars_out += varicode_decode(&dec_states, &ascii_out[n_ascii_chars_out], 
                                          &varicode[half], length-n_ascii_chars_out, n_varicode_bits_out - half);
-    //printf("n_ascii_chars_out: %d\n", n_ascii_chars_out);
-
     assert(n_ascii_chars_out == length);
+
+    printf("  n_ascii_chars_out: %d\n", n_ascii_chars_out);
+    printf("  average bits/character: %3.2f\n", (float)n_varicode_bits_out/n_ascii_chars_out);
 
     //printf("ascii_out: %s\n", ascii_out);
 
@@ -401,7 +415,7 @@ void test_varicode(int code_num) {
 
     // 2. Test some ascii with a run of zeros -----------------------------------------------------
 
-    sprintf(ascii_in, "CQ CQ CQ, this is VK5DGR");
+    sprintf(ascii_in, "CQ CQ CQ this is VK5DGR");
         
     assert(strlen(ascii_in) < length);
     if (code_num == 2)
@@ -413,7 +427,7 @@ void test_varicode(int code_num) {
         n_ascii_chars_out   = varicode_decode(&dec_states, ascii_out, varicode, length, n_varicode_bits_out);
         ascii_out[n_ascii_chars_out] = 0;
 
-        printf("ascii_out: %s\n", ascii_out);
+        printf("  ascii_out: %s\n", ascii_out);
         if (strcmp(ascii_in, ascii_out) == 0)
             printf("  Test 2 Pass\n");
         else
