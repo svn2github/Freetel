@@ -889,17 +889,24 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
 
     // send Callsign ----------------------------------------------------
 
-    if (fifo_used(g_txDataInFifo) == 0) {
-        char callsign[MAX_CALLSIGN];
-        strncpy(callsign, (const char*) wxGetApp().m_callSign.mb_str(wxConvUTF8), MAX_CALLSIGN-1);
-        char callsigncr[MAX_CALLSIGN+1];
-        strcpy(callsigncr, callsign);
-        callsigncr[strlen(callsign)] = 13;
+    char callsign[MAX_CALLSIGN];
+    strncpy(callsign, (const char*) wxGetApp().m_callSign.mb_str(wxConvUTF8), MAX_CALLSIGN-1);
+    char callsigncr[MAX_CALLSIGN+1];
+    strcpy(callsigncr, callsign);
+    callsigncr[strlen(callsign)] = 13;
+    
+    // buffer 1 txt message to senure tx data fifo doesn't "run dry"
+
+    if ((unsigned)fifo_used(g_txDataInFifo) < strlen(callsigncr)) {
 
         // varicode encode and write to tx data fifo
 
         short varicode[MAX_CALLSIGN*VARICODE_MAX_BITS];
         int nout = varicode_encode(varicode, callsigncr, MAX_CALLSIGN*VARICODE_MAX_BITS, strlen(callsign)+1, wxGetApp().m_textEncoding);
+        //printf("\ntx varicode nout = %d: ", nout);
+        //for(int i=0; i<nout; i++)
+        //    printf("%d ", varicode[i]);
+        //printf("\n");
         fifo_write(g_txDataInFifo, varicode, nout);
         //printf("Callsign sending: %s nout: %d\n", callsign, nout);
     }
@@ -952,8 +959,8 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
 
         // update stats on main page
 
-        sprintf(bits, "Bits: %d", g_total_bits); wxString bits_string(bits); m_textBits->SetLabel(bits_string);
-        sprintf(errors, "Errs: %d", g_total_bit_errors); wxString errors_string(errors); m_textErrors->SetLabel(errors_string);
+        sprintf(bits, "Bits: %d", (int)g_total_bits); wxString bits_string(bits); m_textBits->SetLabel(bits_string);
+        sprintf(errors, "Errs: %d", (int)g_total_bit_errors); wxString errors_string(errors); m_textErrors->SetLabel(errors_string);
         float b = (float)g_total_bit_errors/(1E-6+g_total_bits);
         sprintf(ber, "BER: %4.3f", b); wxString ber_string(ber); m_textBER->SetLabel(ber_string);
 
@@ -1908,7 +1915,7 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
         // Init text msg decoding
 
         varicode_decode_init(&g_varicode_dec_states, wxGetApp().m_textEncoding);      
-        printf("m_textEncoding = %d\n", wxGetApp().m_textEncoding);
+        //printf("m_textEncoding = %d\n", wxGetApp().m_textEncoding);
         //printf("g_stats.snr: %f\n", g_stats.snr_est);
 
         // attempt to start PTT ......
@@ -3265,8 +3272,10 @@ void per_frame_tx_processing(
 
     if (fifo_read(g_txDataInFifo, &abit, 1) == 0)
         bits[data_flag_index] = abit;
-    else
+    else {
         bits[data_flag_index] = 0;
+        //printf("tx fifle empty - sending a 0!");
+    }
 
     /* add FEC  ---------------------------------------*/
 
