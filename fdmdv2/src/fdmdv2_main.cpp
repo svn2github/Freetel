@@ -111,10 +111,8 @@ wxWindow           *g_parent;
 // Click to tune rx and tx frequency offset states
 float               g_RxFreqOffsetHz;
 COMP                g_RxFreqOffsetPhaseRect;
-COMP                g_RxFreqOffsetFreqRect;
 float               g_TxFreqOffsetHz;
 COMP                g_TxFreqOffsetPhaseRect;
-COMP                g_TxFreqOffsetFreqRect;
 
 // experimental mutex to make sound card callbacks mutually exclusive
 // TODO: review code and see if we need this any more, as fifos should
@@ -432,16 +430,12 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     // init click-tune states
 
     g_RxFreqOffsetHz = 0.0;
-    g_RxFreqOffsetFreqRect.real = cos(g_RxFreqOffsetHz);
-    g_RxFreqOffsetFreqRect.imag = sin(g_RxFreqOffsetHz);
     g_RxFreqOffsetPhaseRect.real = cos(0.0);
     g_RxFreqOffsetPhaseRect.imag = sin(0.0);
     m_panelWaterfall->setRxFreq(FDMDV_FCENTRE - g_RxFreqOffsetHz);
     m_panelSpectrum->setRxFreq(FDMDV_FCENTRE - g_RxFreqOffsetHz);
 
     g_TxFreqOffsetHz = 0.0;
-    g_TxFreqOffsetFreqRect.real = cos(g_TxFreqOffsetHz);
-    g_TxFreqOffsetFreqRect.imag = sin(g_TxFreqOffsetHz);
     g_TxFreqOffsetPhaseRect.real = cos(0.0);
     g_TxFreqOffsetPhaseRect.imag = sin(0.0);
 
@@ -2967,7 +2961,7 @@ void per_frame_rx_processing(
             rx_fdm[i].real = (float)input_buf[i] / FDMDV_SCALE;
             rx_fdm[i].imag = 0.0;
         }
-        fdmdv_freq_shift(rx_fdm_offset, rx_fdm, g_RxFreqOffsetHz, &g_RxFreqOffsetPhaseRect, &g_RxFreqOffsetFreqRect, *nin);
+        fdmdv_freq_shift(rx_fdm_offset, rx_fdm, g_RxFreqOffsetHz,  &g_RxFreqOffsetPhaseRect, *nin);
         fdmdv_demod(g_pFDMDV, rx_bits, &reliable_sync_bit, rx_fdm_offset, nin);
 
         // compute rx spectrum & get demod stats, and update GUI plot data
@@ -3371,7 +3365,7 @@ void per_frame_tx_processing(
     fdmdv_mod(g_pFDMDV, &tx_fdm[FDMDV_NOM_SAMPLES_PER_FRAME], &bits[bits_per_fdmdv_frame], &sync_bit);
     assert(sync_bit == 0);
 
-    fdmdv_freq_shift(tx_fdm_offset, tx_fdm, g_TxFreqOffsetHz, &g_TxFreqOffsetPhaseRect, &g_TxFreqOffsetFreqRect, 2*FDMDV_NOM_SAMPLES_PER_FRAME);
+    fdmdv_freq_shift(tx_fdm_offset, tx_fdm, g_TxFreqOffsetHz, &g_TxFreqOffsetPhaseRect, 2*FDMDV_NOM_SAMPLES_PER_FRAME);
 
     /* compute scale factor to normalise tx power for all modes */
 
