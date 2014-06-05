@@ -209,20 +209,20 @@ TopFrame::TopFrame(wxWindow* parent, wxWindowID id, const wxString& title, const
     wxBoxSizer* lowerSizer;
     lowerSizer = new wxBoxSizer(wxHORIZONTAL);
 
-    wxBoxSizer* bSizer15;
-    bSizer15 = new wxBoxSizer(wxVERTICAL);
-
     m_BtnCallSignReset = new wxButton(this, wxID_ANY, _("Clear"), wxDefaultPosition, wxDefaultSize, 0);
     lowerSizer->Add(m_BtnCallSignReset, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 1);
 
+    wxBoxSizer* bSizer15;
+    bSizer15 = new wxBoxSizer(wxVERTICAL);
     m_txtCtrlCallSign = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_READONLY);
     m_txtCtrlCallSign->SetToolTip(_("Call Sign of transmitting station will appear here"));
     bSizer15->Add(m_txtCtrlCallSign, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 5);
-
     lowerSizer->Add(bSizer15, 1, wxEXPAND, 5);
 
-    wxBoxSizer* bSizer141;
-    bSizer141 = new wxBoxSizer(wxHORIZONTAL);
+    m_txtChecksumGood = new wxStaticText(this, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE);
+    lowerSizer->Add(m_txtChecksumGood, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 1);
+    m_txtChecksumBad = new wxStaticText(this, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE);
+    lowerSizer->Add(m_txtChecksumBad, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 1);
 
     //=====================================================
     // These are the buttons that autosend the userid (?)
@@ -231,6 +231,9 @@ TopFrame::TopFrame(wxWindow* parent, wxWindowID id, const wxString& title, const
     // DR 4 Dec - taken off for screen for Beta release to avoid questions on their use until
     // we implement this feature
  #ifdef UNIMPLEMENTED
+    wxBoxSizer* bSizer141;
+    bSizer141 = new wxBoxSizer(wxHORIZONTAL);
+
     // TxID
     //---------
     m_togTxID = new wxToggleButton(this, wxID_ANY, _("TxID"), wxDefaultPosition, wxDefaultSize, 0);

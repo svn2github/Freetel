@@ -472,9 +472,11 @@ class MainFrame : public TopFrame
         int         m_zoom;
         float       m_snrBeta;
         
-        // Callsign
+        // Callsign/text messaging
         char        m_callsign[MAX_CALLSIGN];
         char       *m_pcallsign;
+        unsigned int m_checksumGood;
+        unsigned int m_checksumBad;
 
         // level Gauge
         float       m_maxLevel;

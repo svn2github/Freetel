@@ -885,18 +885,23 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
 
     char callsign[MAX_CALLSIGN];
     strncpy(callsign, (const char*) wxGetApp().m_callSign.mb_str(wxConvUTF8), MAX_CALLSIGN-1);
-    char callsigncr[MAX_CALLSIGN+1];
-    strcpy(callsigncr, callsign);
-    callsigncr[strlen(callsign)] = 13;
-    
+
     // buffer 1 txt message to senure tx data fifo doesn't "run dry"
 
-    if ((unsigned)fifo_used(g_txDataInFifo) < strlen(callsigncr)) {
+    if ((unsigned)fifo_used(g_txDataInFifo) < strlen(callsign)) {
 
+        unsigned char checksum = 0;
+        for(unsigned int i=0; i<strlen(callsign); i++)
+            checksum += callsign[i];
+        char callsign_checksum_cr[MAX_CALLSIGN+1];
+        sprintf(callsign_checksum_cr, "%s%2x", callsign, checksum);
+        //printf("callsign_checksum_cr: %s\n", callsign_checksum_cr);
+        callsign_checksum_cr[strlen(callsign)+2] = 13;
+ 
         // varicode encode and write to tx data fifo
 
         short varicode[MAX_CALLSIGN*VARICODE_MAX_BITS];
-        int nout = varicode_encode(varicode, callsigncr, MAX_CALLSIGN*VARICODE_MAX_BITS, strlen(callsign)+1, wxGetApp().m_textEncoding);
+        int nout = varicode_encode(varicode, callsign_checksum_cr, MAX_CALLSIGN*VARICODE_MAX_BITS, strlen(callsign)+3, wxGetApp().m_textEncoding);
         //printf("\ntx varicode nout = %d: ", nout);
         //for(int i=0; i<nout; i++)
         //    printf("%d ", varicode[i]);
@@ -912,14 +917,38 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
         if ((ashort == 13) || ((m_pcallsign - m_callsign) > MAX_CALLSIGN-1)) {
             // CR completes line
             *m_pcallsign = 0;
+
+            // lets see if checksum is OK
+            
+            unsigned char checksum_rx = 0;
+            for(unsigned int i=0; i<strlen(m_callsign)-2; i++)
+                checksum_rx += callsign[i];
+            unsigned int checksum_tx;
+            int ret = sscanf(&m_callsign[strlen(m_callsign)-2], "%2x", &checksum_tx);
+            //printf("checksums: %2x %2x\n", checksum_tx, checksum_rx);
+
+            wxString s;
+            if (ret && (checksum_tx == checksum_rx)) {
+                m_callsign[strlen(m_callsign)-2] = 0;
+                s.Printf("%s", m_callsign);
+                m_txtCtrlCallSign->SetValue(s);
+
+                m_checksumGood++;
+                s.Printf("%d", m_checksumGood);
+                m_txtChecksumGood->SetLabel(s);              
+            }
+            else {
+                m_checksumBad++;
+                s.Printf("%d", m_checksumBad);
+                m_txtChecksumBad->SetLabel(s);              
+            }
+
+            // reset ptr to start of string
             m_pcallsign = m_callsign;
         }
         else
         {
             *m_pcallsign++ = (char)ashort;
-            wxString s;
-            s.Printf("%s", m_callsign);
-            m_txtCtrlCallSign->SetValue(s);
         }
     }
 
@@ -1901,6 +1930,7 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
         g_half_duplex = wxGetApp().m_boolHalfDuplex;
 
         m_pcallsign = m_callsign;
+        m_checksumGood = m_checksumBad = 0;
 
         m_maxLevel = 0;
         m_textLevel->SetLabel(wxT(""));
