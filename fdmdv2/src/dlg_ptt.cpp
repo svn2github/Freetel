@@ -46,10 +46,12 @@ ComPortsDlg::ComPortsDlg(wxWindow* parent, wxWindowID id, const wxString& title,
 
     // DR: should this be on options dialog?
 
-    wxStaticBoxSizer* staticBoxSizer28 = new wxStaticBoxSizer( new wxStaticBox(this, wxID_ANY, _("VOX PTT Settings")), wxVERTICAL);
+    wxStaticBoxSizer* staticBoxSizer28 = new wxStaticBoxSizer( new wxStaticBox(this, wxID_ANY, _("VOX PTT Settings")), wxHORIZONTAL);
     m_ckHalfDuplex = new wxCheckBox(this, wxID_ANY, _("Half Duplex"), wxDefaultPosition, wxSize(-1,-1), 0);
-    m_ckHalfDuplex->SetToolTip(_("Should be checked for VOX operated Tx/Rx switching"));
     staticBoxSizer28->Add(m_ckHalfDuplex, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
+    m_ckLeftChannelVoxTone = new wxCheckBox(this, wxID_ANY, _("Left Channel Vox Tone"), wxDefaultPosition, wxSize(-1,-1), 0);
+    staticBoxSizer28->Add(m_ckLeftChannelVoxTone, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL, 5);
+
     mainSizer->Add(staticBoxSizer28, 0, wxEXPAND, 5);
 
     //----------------------------------------------------------------------
@@ -310,6 +312,7 @@ void ComPortsDlg::ExchangeData(int inout)
     if(inout == EXCHANGE_DATA_IN)
     {
         m_ckHalfDuplex->SetValue(wxGetApp().m_boolHalfDuplex);
+        m_ckLeftChannelVoxTone->SetValue(wxGetApp().m_leftChannelVoxTone);
 
         m_ckUseHamlibPTT->SetValue(wxGetApp().m_boolHamlibUseForPTT);
         m_cbRigName->SetSelection(wxGetApp().m_intHamlibRig);
@@ -332,6 +335,8 @@ void ComPortsDlg::ExchangeData(int inout)
     {
         wxGetApp().m_boolHalfDuplex = m_ckHalfDuplex->GetValue();
         pConfig->Write(wxT("/Rig/HalfDuplex"), wxGetApp().m_boolHalfDuplex);
+        wxGetApp().m_leftChannelVoxTone = m_ckLeftChannelVoxTone->GetValue();
+        pConfig->Write(wxT("/Rig/leftChannelVoxTone"), wxGetApp().m_leftChannelVoxTone);
 
         /* Hamlib settings. */
 

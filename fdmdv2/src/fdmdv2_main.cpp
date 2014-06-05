@@ -321,7 +321,8 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     // PTT -------------------------------------------------------------------
 
     wxGetApp().m_boolHalfDuplex     = pConfig->ReadBool(wxT("/Rig/HalfDuplex"),     true);
-
+    wxGetApp().m_leftChannelVoxTone = pConfig->ReadBool("/Rig/leftChannelVoxTone",  false);
+ 
     wxGetApp().m_boolHamlibUseForPTT = pConfig->ReadBool("/Hamlib/UseForPTT", false);
     wxGetApp().m_intHamlibRig = pConfig->ReadLong("/Hamlib/RigName", 0);
     wxGetApp().m_strHamlibSerialPort = pConfig->Read("/Hamlib/SerialPort", "");
@@ -510,6 +511,7 @@ MainFrame::~MainFrame()
         pConfig->Write(wxT("/Audio/soundCard2SampleRate"),    g_soundCard2SampleRate );
 
         pConfig->Write(wxT("/Rig/HalfDuplex"),              wxGetApp().m_boolHalfDuplex);
+        pConfig->Write(wxT("/Rig/leftChannelVoxTone"),      wxGetApp().m_leftChannelVoxTone);
         pConfig->Write("/Hamlib/UseForPTT", wxGetApp().m_boolHamlibUseForPTT);
         pConfig->Write("/Hamlib/RigName", wxGetApp().m_intHamlibRig);
         pConfig->Write("/Hamlib/SerialPort", wxGetApp().m_strHamlibSerialPort);
@@ -2285,6 +2287,11 @@ void MainFrame::startRxStream()
         g_rxUserdata->micInEQEnable = wxGetApp().m_MicInEQEnable;
         g_rxUserdata->spkOutEQEnable = wxGetApp().m_SpkOutEQEnable;
 
+        // optional tone in left channel to reliably trigger vox
+        
+        g_rxUserdata->leftChannelVoxTone = wxGetApp().m_leftChannelVoxTone;
+        g_rxUserdata->voxTonePhase = 0;
+
         // Start sound card 1 ----------------------------------------------------------
 
         m_rxInPa->setUserData(g_rxUserdata);
@@ -2706,7 +2713,7 @@ void txRxProcessing()
                 if (g_loopPlayFileFromRadio)
                     sf_seek(g_sfPlayFileFromRadio, 0, SEEK_SET);
                 else {
-                    printf("playFileFromRadio fnsihed, issuing event!\n");
+                    printf("playFileFromRadio finished, issuing event!\n");
                     wxCommandEvent event( wxEVT_COMMAND_MENU_SELECTED, g_playFileFromRadioEventId );
                     // call stop/start play menu item, should be thread safe
                     g_parent->GetEventHandler()->AddPendingEvent( event );
@@ -2909,8 +2916,16 @@ int MainFrame::rxCallback(
 			// write signal to both channels */
 			for(i = 0; i < framesPerBuffer; i++, wptr += 2)
 			{
-				wptr[0] = outdata[i];
-				wptr[1] = outdata[i];
+                            if (cbData->leftChannelVoxTone) {
+                                cbData->voxTonePhase += 2.0*M_PI*VOX_TONE_FREQ/g_soundCard1SampleRate;
+                                cbData->voxTonePhase -= 2.0*M_PI*floor(cbData->voxTonePhase/(2.0*M_PI));
+                                wptr[0] = VOX_TONE_AMP*cos(cbData->voxTonePhase);                              
+                                //printf("%f %d\n", cbData->voxTonePhase, wptr[0]);
+                            }
+                            else
+ 				wptr[0] = outdata[i];
+                               
+                            wptr[1] = outdata[i];
 			}
 		}
 		else
@@ -3471,8 +3486,8 @@ int MainFrame::txCallback(
 			// write signal to both channels */
 			for(i = 0; i < framesPerBuffer; i++, wptr += 2)
 			{
-				wptr[0] = outdata[i];
-				wptr[1] = outdata[i];
+                            wptr[0] = outdata[i];
+                            wptr[1] = outdata[i];
 			}
 		}
 		else

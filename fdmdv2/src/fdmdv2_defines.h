@@ -61,6 +61,8 @@
 #define MEM8                (FDMDV_OS_TAPS/FDMDV_OS)
 #define N48                 (N8*FDMDV_OS)                  // processing buffer size at 48 kHz
 #define NUM_CHANNELS        2                              // I think most sound cards prefer stereo we will convert to mono
+#define VOX_TONE_FREQ       1000.0                         // optional left channel vox tone freq
+#define VOX_TONE_AMP        30000                          // optional left channel vox tone amp
 
 #define MAX_BITS_PER_CODEC_FRAME 64                            // 1600 bit/s mode
 #define MAX_BYTES_PER_CODEC_FRAME (MAX_BITS_PER_CODEC_FRAME/8)
@@ -77,7 +79,7 @@
 // SNR
 #define SNRSLOW_BETA        0.5                           // time constant for slow SNR for display
 
-// Data
+// Text messaging Data
 #define MAX_CALLSIGN         80
 
 enum

@@ -215,6 +215,9 @@ class MainApp : public wxApp
         int                 m_show_demod_in;
         int                 m_show_test_frame_errors;
 
+        // optional vox trigger tone
+        bool                m_leftChannelVoxTone;
+
         // notebook display after tx->rxtransition
         int                 m_rxNbookCtrl;
 
@@ -274,6 +277,10 @@ typedef struct
 
     bool            micInEQEnable;
     bool            spkOutEQEnable;
+
+    // optional loud tone on left channel to reliably trigger vox
+    bool            leftChannelVoxTone;
+    float           voxTonePhase;
 
 } paCallBackData;
 

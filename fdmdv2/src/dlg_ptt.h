@@ -48,6 +48,7 @@ class ComPortsDlg : public wxDialog
 
     protected:
         wxCheckBox* m_ckHalfDuplex;
+        wxCheckBox* m_ckLeftChannelVoxTone;
 
         /* Hamlib settings.*/
 
