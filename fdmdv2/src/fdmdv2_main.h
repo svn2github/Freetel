@@ -48,6 +48,7 @@
 #include <wx/sstream.h>
 #include <wx/listbox.h>
 #include <wx/textdlg.h>
+#include <wx/regex.h>
 
 #include <samplerate.h>
 
@@ -66,6 +67,7 @@
 
 #include "topFrame.h"
 #include "dlg_ptt.h"
+#include "dlg_options.h"
 #include "fdmdv2_plot.h"
 #include "fdmdv2_plot_scalar.h"
 #include "fdmdv2_plot_scatter.h"
@@ -174,7 +176,8 @@ class MainApp : public wxApp
         wxString            m_callSign;
         bool                m_events;
         unsigned int        m_textEncoding;
-        wxString            m_events_regexp;
+        wxString            m_events_regexp_match;
+        wxString            m_events_regexp_replace;
 
         bool                m_snrSlow;
 
@@ -484,6 +487,11 @@ class MainFrame : public TopFrame
         char       *m_pcallsign;
         unsigned int m_checksumGood;
         unsigned int m_checksumBad;
+
+        // Events
+        char        m_event_log[MAX_EVENT_LOG][MAX_CALLSIGN];
+        void        processTxtEvent(char event[]);
+        class OptionsDlg *optionsDlg;
 
         // level Gauge
         float       m_maxLevel;

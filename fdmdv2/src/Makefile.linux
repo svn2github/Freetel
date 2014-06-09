@@ -54,7 +54,7 @@ endif
 
 CODEC2=codec2
 CODEC2_INC=-I$(CODEC2)/src
-CODEC2_LIB=$(CODEC2)/src/.libs/libcodec2.a
+CODEC2_LIB=$(CODEC2)/build_dir/src/libcodec2.a
 
 # Sox ---------------------------------------------------
 # (libmagic is rqd or later versions of Ubuntu)
@@ -164,7 +164,7 @@ endif
 # Codec 2 ----------------------------------------------------------
 
 $(CODEC2)/.built: $(CODEC2)
-	cd $(CODEC2) && ./configure && make && touch .built
+	cd $(CODEC2)/build_dir && cmake ../ && make && touch ../.built
 
 $(CODEC2):
 	svn co https://freetel.svn.sourceforge.net/svnroot/freetel/codec2

@@ -39,7 +39,7 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
     wxStaticBoxSizer* sbSizer_testFrames;
     sbSizer_testFrames = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Test Frames")), wxVERTICAL);
 
-    m_ckboxTestFrame = new wxCheckBox(this, wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    m_ckboxTestFrame = new wxCheckBox(this, wxID_ANY, _("Enable System Calls"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
     sbSizer_testFrames->Add(m_ckboxTestFrame, 0, wxALIGN_LEFT, 0);
 
     bSizer30->Add(sbSizer_testFrames,0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 3);
@@ -85,10 +85,13 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
 
     // list of regexps
 
-    wxStaticBoxSizer* sbSizer_regexp = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Regular Expressions to Process Events")), wxVERTICAL);
-    m_txt_events_regexp = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(400,100), wxTE_MULTILINE);
-    m_txt_events_regexp->SetToolTip(_("Enter regular expressions to process events"));
-    sbSizer_regexp->Add(m_txt_events_regexp, 1, wxEXPAND, 5);
+    wxStaticBoxSizer* sbSizer_regexp = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Regular Expressions to Process Events")), wxHORIZONTAL);
+    m_txt_events_regexp_match = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(200,100), wxTE_MULTILINE);
+    m_txt_events_regexp_match->SetToolTip(_("Enter regular expressions to match events"));
+    sbSizer_regexp->Add(m_txt_events_regexp_match, 1, wxEXPAND, 5);
+    m_txt_events_regexp_replace = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(200,100), wxTE_MULTILINE);
+    m_txt_events_regexp_replace->SetToolTip(_("Enter regular expressions to replace events"));
+    sbSizer_regexp->Add(m_txt_events_regexp_replace, 1, wxEXPAND, 5);
     sbSizer_events->Add(sbSizer_regexp, 1, wxEXPAND, 5);
 
     // log of events and responses
@@ -139,6 +142,9 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
 
     m_sdbSizer5Cancel->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(OptionsDlg::OnCancel), NULL, this);
     m_sdbSizer5OK->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(OptionsDlg::OnOK), NULL, this);
+
+    event_in_serial = 0;
+    event_out_serial = 0;
 }
 
 //-------------------------------------------------------------------------
@@ -168,7 +174,8 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
         m_ckboxTestFrame->SetValue(wxGetApp().m_testFrames);
 
         m_ckbox_events->SetValue(wxGetApp().m_events);
-        m_txt_events_regexp->SetValue(wxGetApp().m_events_regexp);
+        m_txt_events_regexp_match->SetValue(wxGetApp().m_events_regexp_match);
+        m_txt_events_regexp_replace->SetValue(wxGetApp().m_events_regexp_replace);
 
         if (wxGetApp().m_textEncoding == 1)
             m_rb_textEncoding1->SetValue(true);
@@ -182,7 +189,8 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
         wxGetApp().m_testFrames     = m_ckboxTestFrame->GetValue();
 
         wxGetApp().m_events        = m_ckbox_events->GetValue();
-        wxGetApp().m_events_regexp = m_txt_events_regexp->GetValue();
+        wxGetApp().m_events_regexp_match = m_txt_events_regexp_match->GetValue();
+        wxGetApp().m_events_regexp_replace = m_txt_events_regexp_replace->GetValue();
  
         if (m_rb_textEncoding1->GetValue())
             wxGetApp().m_textEncoding = 1;
@@ -193,7 +201,8 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
             pConfig->Write(wxT("/Data/CallSign"), wxGetApp().m_callSign);
             pConfig->Write(wxT("/Data/TextEncoding"), wxGetApp().m_textEncoding);
             pConfig->Write(wxT("/Events/enable"), wxGetApp().m_events);
-            pConfig->Write(wxT("/Events/regexp"), wxGetApp().m_events_regexp);
+            pConfig->Write(wxT("/Events/regexp_match"), wxGetApp().m_events_regexp_match);
+            pConfig->Write(wxT("/Events/regexp_replace"), wxGetApp().m_events_regexp_replace);
             pConfig->Flush();
         }
     }
@@ -232,3 +241,14 @@ void OptionsDlg::OnInitDialog(wxInitDialogEvent& event)
 {
     ExchangeData(EXCHANGE_DATA_IN, false);
 }
+
+
+void OptionsDlg::updateEventLog(wxString event_in, wxString event_out) {
+    wxString event_in_with_serial, event_out_with_serial; 
+    event_in_with_serial.Printf(_T("[%d] %s"), event_in_serial++, event_in);
+    event_out_with_serial.Printf(_T("[%d] %s"), event_out_serial++, event_out);
+
+    m_txt_events_in->AppendText(event_in_with_serial+"\n");
+    m_txt_events_out->AppendText(event_out_with_serial+"\n");
+}
+

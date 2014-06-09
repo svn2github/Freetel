@@ -23,6 +23,7 @@
 #define __OPTIONS_DIALOG__
 
 #include "fdmdv2_main.h"
+#include "fdmdv2_defines.h"
 
 //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=
 // Class OptionsDlg
@@ -37,6 +38,9 @@ class OptionsDlg : public wxDialog
         ~OptionsDlg();
 
         void    ExchangeData(int inout, bool storePersistent);
+        void    updateEventLog(wxString event_in, wxString event_out);
+
+        bool    enableEventsChecked() {return m_ckbox_events->GetValue();}
 
     protected:
         // Handlers for events.
@@ -52,7 +56,8 @@ class OptionsDlg : public wxDialog
         wxRadioButton *m_rb_textEncoding2;
 
         wxCheckBox   *m_ckbox_events;
-        wxTextCtrl   *m_txt_events_regexp;
+        wxTextCtrl   *m_txt_events_regexp_match;
+        wxTextCtrl   *m_txt_events_regexp_replace;
         wxTextCtrl   *m_txt_events_in;
         wxTextCtrl   *m_txt_events_out;
         wxTextCtrl   *m_txt_event_test;
@@ -60,6 +65,8 @@ class OptionsDlg : public wxDialog
 
         wxButton*     m_sdbSizer5OK;
         wxButton*     m_sdbSizer5Cancel;
+
+        unsigned int  event_in_serial, event_out_serial;
 
      private:
 };

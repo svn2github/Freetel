@@ -371,8 +371,9 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     wxGetApp().m_callSign = pConfig->Read("/Data/CallSign", wxT(""));
     wxGetApp().m_textEncoding = pConfig->Read("/Data/TextEncoding", 1);
     wxGetApp().m_events = pConfig->Read("/Events/enable", f);
-    wxGetApp().m_events_regexp = pConfig->Read("/Events/regexp", 
-                                               wxT("s|onstart,mycallsign=(.*),|curl http://qso.freedv.org/cgi-bin/onstart.cgi?callsign=$1|"));
+    wxGetApp().m_events_regexp_match = pConfig->Read("/Events/regexp_match", wxT("s=(.*)"));
+    wxGetApp().m_events_regexp_replace = pConfig->Read("/Events/regexp_replace", 
+                                                       wxT("curl http://qso.freedv.org/cgi-bin/onspot.cgi?s=\\1"));
 
     pConfig->SetPath(wxT("/"));
 
@@ -456,6 +457,9 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     g_total_bits = 0;
     wxGetApp().m_testFrames = false;
 
+    for(int i=0; i<MAX_EVENT_LOG; i++)
+        m_event_log[i][0] = 0;
+
     m_modal = false;
 }
 
@@ -527,7 +531,8 @@ MainFrame::~MainFrame()
         pConfig->Write(wxT("/Data/CallSign"), wxGetApp().m_callSign);
         pConfig->Write(wxT("/Data/TextEncoding"), wxGetApp().m_textEncoding);
         pConfig->Write(wxT("/Events/enable"), wxGetApp().m_events);
-        pConfig->Write(wxT("/Events/regexp"), wxGetApp().m_events_regexp);
+        pConfig->Write(wxT("/Events/regexp_match"), wxGetApp().m_events_regexp_match);
+        pConfig->Write(wxT("/Events/regexp_replace"), wxGetApp().m_events_regexp_replace);
  
         pConfig->Write(wxT("/Filter/MicInEQEnable"), wxGetApp().m_MicInEQEnable);
         pConfig->Write(wxT("/Filter/SpkOutEQEnable"), wxGetApp().m_SpkOutEQEnable);
@@ -923,17 +928,20 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
             // lets see if checksum is OK
             
             unsigned char checksum_rx = 0;
-            for(unsigned int i=0; i<strlen(m_callsign)-2; i++)
-                checksum_rx += callsign[i];
+            if (strlen(m_callsign) > 2) {
+                for(unsigned int i=0; i<strlen(m_callsign)-2; i++)
+                    checksum_rx += m_callsign[i];
+            }
             unsigned int checksum_tx;
             int ret = sscanf(&m_callsign[strlen(m_callsign)-2], "%2x", &checksum_tx);
-            //printf("checksums: %2x %2x\n", checksum_tx, checksum_rx);
+            printf("m_callsign: %s checksums: %2x %2x\n", m_callsign, checksum_tx, checksum_rx);
 
             wxString s;
             if (ret && (checksum_tx == checksum_rx)) {
                 m_callsign[strlen(m_callsign)-2] = 0;
                 s.Printf("%s", m_callsign);
                 m_txtCtrlCallSign->SetValue(s);
+                processTxtEvent(m_callsign);
 
                 m_checksumGood++;
                 s.Printf("%d", m_checksumGood);
@@ -1673,11 +1681,12 @@ void MainFrame::OnToolsFilter(wxCommandEvent& event)
 void MainFrame::OnToolsOptions(wxCommandEvent& event)
 {
     wxUnusedVar(event);
-    OptionsDlg *dlg = new OptionsDlg(NULL);
+    optionsDlg = new OptionsDlg(NULL);
     m_modal=true;
-    dlg->ShowModal();
+    optionsDlg->ShowModal();
     m_modal=false;
-    delete dlg;
+    delete optionsDlg;
+    optionsDlg = NULL;
 }
 
 //-------------------------------------------------------------------------
@@ -2506,6 +2515,48 @@ fprintf(stderr, "Err: %d\n", m_txErr);
     }
 }
 
+
+void MainFrame::processTxtEvent(char event[]) {
+
+    // process with regexp and issue system command
+
+    wxString event_str(event);
+    wxRegEx re(wxGetApp().m_events_regexp_match);
+    wxString regexp_replace_str(wxGetApp().m_events_regexp_replace);
+    re.Replace(&event_str, regexp_replace_str);
+    const char *event_out = event_str.ToUTF8();
+
+    wxString event_out_with_return_code;
+   
+    bool enableSystem = false;
+    if (wxGetApp().m_events)
+        enableSystem = true;
+
+    // If options dialog is up current value of events checkbox overrides
+
+    if (optionsDlg != NULL)  {
+        if (optionsDlg->enableEventsChecked())
+            enableSystem = true;
+        else
+            enableSystem = false;
+    }
+      
+    if (enableSystem) {
+        int ret = wxExecute(event_str);
+        event_out_with_return_code.Printf(_T("%s -> process ID %d"), event_out, ret);
+    }
+    else {
+        event_out_with_return_code.Printf(_T("%s)"), event_out);
+    }
+
+    // update event log GUI if currently displayed
+
+    if (optionsDlg != NULL) {
+        optionsDlg->updateEventLog(wxString(event), event_out_with_return_code);   
+    }
+}
+
+
 #define SBQ_MAX_ARGS 4
 
 void *MainFrame::designAnEQFilter(const char filterType[], float freqHz, float gaindB, float Q)
@@ -2894,15 +2945,13 @@ int MainFrame::rxCallback(
     //  RX side processing --------------------------------------------
     //
 
-    // assemble a mono buffer (just use left channel if stereo) and write to FIFO
+    // assemble a mono buffer and write to FIFO
 
     assert(framesPerBuffer < MAX_FPB);
 
 	if(rptr) {
 		for(i = 0; i < framesPerBuffer; i++, rptr += cbData->inputChannels1)
-		{
-			indata[i] = *rptr;
-		}
+                    indata[i] = rptr[0];                       
 		if (fifo_write(cbData->infifo1, indata, framesPerBuffer)) {
 			//wxLogDebug("infifo1 full\n");
 		}
@@ -3451,15 +3500,13 @@ int MainFrame::txCallback(
     //    if (statusFlags)
     //  printf("cb2 statusFlags: 0x%x\n", (int)statusFlags);
 
-    // assemble a mono buffer (just use left channel) and write to FIFO
+    // assemble a mono buffer and write to FIFO
 
     assert(framesPerBuffer < MAX_FPB);
 
 	if(rptr) {
 		for(i = 0; i < framesPerBuffer; i++, rptr += cbData->inputChannels2)
-		{
-			indata[i] = *rptr;
-		}
+                    indata[i] = rptr[0];                        
 	}
 
     //#define SC2_LOOPBACK

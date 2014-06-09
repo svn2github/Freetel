@@ -81,7 +81,8 @@
 
 // Text messaging Data
 #define MAX_CALLSIGN         80
-
+#define MAX_EVENT_LOG        10
+   
 enum
 {
     ID_ROTATE_LEFT = wxID_HIGHEST + 1,
