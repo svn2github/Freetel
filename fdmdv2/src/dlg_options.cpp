@@ -39,7 +39,7 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
     wxStaticBoxSizer* sbSizer_testFrames;
     sbSizer_testFrames = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Test Frames")), wxVERTICAL);
 
-    m_ckboxTestFrame = new wxCheckBox(this, wxID_ANY, _("Enable System Calls"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    m_ckboxTestFrame = new wxCheckBox(this, wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
     sbSizer_testFrames->Add(m_ckboxTestFrame, 0, wxALIGN_LEFT, 0);
 
     bSizer30->Add(sbSizer_testFrames,0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 3);
@@ -80,7 +80,7 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
 
     // event processing enable
 
-    m_ckbox_events = new wxCheckBox(this, wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    m_ckbox_events = new wxCheckBox(this, wxID_ANY, _("Enable System Calls"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
     sbSizer_events->Add(m_ckbox_events, 0, 0, 5);
 
     // list of regexps
@@ -104,18 +104,6 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
     bSizer33->Add(m_txt_events_out, 1, wxEXPAND, 5);
     sbSizer_event_log->Add(bSizer33, 1, wxEXPAND, 5);
     sbSizer_events->Add(sbSizer_event_log, 1, wxEXPAND, 5);
-
-    // test event
-
-    wxStaticBoxSizer* sbSizer_event_test = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Test your Regular Expression")), wxVERTICAL);
-    wxBoxSizer* bSizer34 = new wxBoxSizer(wxHORIZONTAL);
-    m_txt_event_test = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
-    m_txt_event_test->SetToolTip(_("Enter event text to test a regular expression"));
-    bSizer34->Add(m_txt_event_test, 1, wxEXPAND|wxALL, 5);
-    m_btn_event_test = new wxButton(this, wxID_ANY, _("Test"), wxDefaultPosition, wxDefaultSize, 0);
-    bSizer34->Add(m_btn_event_test, 0, wxEXPAND|wxALL, 5);
-    sbSizer_event_test->Add(bSizer34, 0, wxEXPAND, 5);
-    sbSizer_events->Add(sbSizer_event_test, 0, wxEXPAND, 5);
 
     bSizer30->Add(sbSizer_events,0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 3);
 

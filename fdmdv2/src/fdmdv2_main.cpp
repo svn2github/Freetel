@@ -2520,39 +2520,64 @@ void MainFrame::processTxtEvent(char event[]) {
 
     // process with regexp and issue system command
 
+    // Each regexp in our list is separated by a newline.  We want to try all of them.
+
     wxString event_str(event);
-    wxRegEx re(wxGetApp().m_events_regexp_match);
-    wxString regexp_replace_str(wxGetApp().m_events_regexp_replace);
-    re.Replace(&event_str, regexp_replace_str);
-    const char *event_out = event_str.ToUTF8();
+    int match_end, replace_end;
+    match_end = replace_end = 0;
+    wxString regexp_match_list = wxGetApp().m_events_regexp_match;
+    wxString regexp_replace_list = wxGetApp().m_events_regexp_replace;
 
-    wxString event_out_with_return_code;
-   
-    bool enableSystem = false;
-    if (wxGetApp().m_events)
-        enableSystem = true;
+    while ((match_end = regexp_match_list.Find('\n')) != wxNOT_FOUND) {
+        printf("match_end: %d\n", match_end);
+        if ((replace_end = regexp_replace_list.Find('\n')) != wxNOT_FOUND) {
+            printf("replace_end = %d\n", replace_end);
+            // candidate match and replace regexps strings exist, so lets try them
 
-    // If options dialog is up current value of events checkbox overrides
+            wxString regexp_match = regexp_match_list.SubString(0, match_end-1);
+            wxString regexp_replace = regexp_replace_list.SubString(0, replace_end-1);
+            printf("match: %s replace: %s\n", (const char *)regexp_match.c_str(), (const char *)regexp_replace.c_str());
+            wxRegEx re(regexp_match);
 
-    if (optionsDlg != NULL)  {
-        if (optionsDlg->enableEventsChecked())
-            enableSystem = true;
-        else
-            enableSystem = false;
-    }
-      
-    if (enableSystem) {
-        int ret = wxExecute(event_str);
-        event_out_with_return_code.Printf(_T("%s -> process ID %d"), event_out, ret);
-    }
-    else {
-        event_out_with_return_code.Printf(_T("%s)"), event_out);
-    }
+            // if we found a match, lets run the replace regexp and issue the system command
 
-    // update event log GUI if currently displayed
+            wxString event_str_rep = event_str;
 
-    if (optionsDlg != NULL) {
-        optionsDlg->updateEventLog(wxString(event), event_out_with_return_code);   
+            if (re.Replace(&event_str_rep, regexp_replace) != 0) {
+                printf("found match!\n");
+                bool enableSystem = false;
+                if (wxGetApp().m_events)
+                    enableSystem = true;
+            
+                // If options dialog is up current value of events checkbox overrides wxGetApp().m_events
+
+                if (optionsDlg != NULL)  {
+                    if (optionsDlg->enableEventsChecked())
+                        enableSystem = true;
+                    else
+                        enableSystem = false;
+                }
+
+                const char *event_out = event_str_rep.ToUTF8();
+                wxString event_out_with_return_code;
+
+                if (enableSystem) {
+                    int ret = wxExecute(event_str_rep);
+                    event_out_with_return_code.Printf(_T("%s -> process ID %d"), event_out, ret);
+                }
+                else
+                    event_out_with_return_code.Printf(_T("%s)"), event_out);
+
+                // update event log GUI if currently displayed
+                printf("hello\n");
+                if (optionsDlg != NULL) {
+                    printf("hello\n");
+                    optionsDlg->updateEventLog(wxString(event), event_out_with_return_code);                     
+                }
+            }
+        }
+        regexp_match_list = regexp_match_list.SubString(match_end+1, regexp_match_list.length());
+        regexp_replace_list = regexp_replace_list.SubString(replace_end+1, regexp_replace_list.length());
     }
 }
 

@@ -60,8 +60,6 @@ class OptionsDlg : public wxDialog
         wxTextCtrl   *m_txt_events_regexp_replace;
         wxTextCtrl   *m_txt_events_in;
         wxTextCtrl   *m_txt_events_out;
-        wxTextCtrl   *m_txt_event_test;
-        wxButton     *m_btn_event_test;
 
         wxButton*     m_sdbSizer5OK;
         wxButton*     m_sdbSizer5Cancel;

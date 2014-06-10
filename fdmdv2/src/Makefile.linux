@@ -52,7 +52,7 @@ endif
 
 # Codec 2 -----------------------------------------------
 
-CODEC2=codec2
+CODEC2=codec2-dev
 CODEC2_INC=-I$(CODEC2)/src
 CODEC2_LIB=$(CODEC2)/build_dir/src/libcodec2.a
 
@@ -112,7 +112,7 @@ dlg_filter.o \
 dlg_options.o \
 varicode.o \
 sox_biquad.o \
-codec2/src/golay23.c \
+codec2-dev/src/golay23.c \
 hamlib.o
 
 all: $(LIBS_TO_BUILD) $(CODEC2)/.built freedv
