@@ -205,6 +205,7 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
 
     // sanitise frame position as a first pass at Win32 registry bug
 
+    printf("x = %d y = %d w = %d h = %d\n", x,y,w,h);
     if (x < 0) x = 20;
     if (y < 0) y = 20;
     if (w < 0) w = 800;
@@ -230,7 +231,7 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
 
     Move(x, y);
     SetClientSize(w, h);
-
+    
     if(wxGetApp().m_show_wf)
     {
         // Add Waterfall Plot window
@@ -482,8 +483,14 @@ MainFrame::~MainFrame()
     {
         if (!IsIconized()) {
             GetClientSize(&w, &h);
+
+            // big hack - for some reason height shrinks by this much
+            // every time FreeDV runs!  I have no idea why
+
+            h += 23;
+
             GetPosition(&x, &y);
-            //wxLogDebug("x = %d y = %d w = %d h = %d\n", x,y,w,h);
+            printf("x = %d y = %d w = %d h = %d\n", x,y,w,h);
             pConfig->Write(wxT("/MainFrame/left"),               (long) x);
             pConfig->Write(wxT("/MainFrame/top"),                (long) y);
             pConfig->Write(wxT("/MainFrame/width"),              (long) w);
