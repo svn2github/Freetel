@@ -61,6 +61,9 @@ class OptionsDlg : public wxDialog
         wxTextCtrl   *m_txt_events_in;
         wxTextCtrl   *m_txt_events_out;
 
+        wxCheckBox   *m_ckbox_udp_enable;
+        wxTextCtrl   *m_txt_udp_port;
+
         wxButton*     m_sdbSizer5OK;
         wxButton*     m_sdbSizer5Cancel;
 

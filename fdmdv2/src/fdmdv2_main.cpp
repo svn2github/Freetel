@@ -140,7 +140,7 @@ bool MainApp::OnInit()
 #ifdef _WXMSW_
     // Force use of file-based configuration persistance on Windows platforma
     wxConfig *pConfig = new wxConfig();
-    wxFileConfig *pFConfig = new wxFileConfig(wxT("FreeDV"), wxT("CODEC2-Project"), wxT("freedv.conf"), wxT("freedv.conf"),  wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
+    wxFileConfig *pFConfig = new wxFileConfig(wxT("FreeDV"), wxT("CODEC2-Project"), wxT("FreeDV.conf"), wxT("FreeDV.conf"),  wxCONFIG_USE_LOCAL_FILE | wxCONFIG_USE_RELATIVE_PATH);
     pConfig->Set(pFConfig);
     pConfig->SetRecordDefaults();
 #else
@@ -376,6 +376,9 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     wxGetApp().m_events_regexp_replace = pConfig->Read("/Events/regexp_replace", 
                                                        wxT("curl http://qso.freedv.org/cgi-bin/onspot.cgi?s=\\1"));
 
+    wxGetApp().m_udp_enable = (float)pConfig->Read(wxT("/UDP/enable"), f);
+    wxGetApp().m_udp_port = (float)pConfig->Read(wxT("/UDP/port"), 3000);
+
     pConfig->SetPath(wxT("/"));
 
 //    this->Connect(m_menuItemHelpUpdates->GetId(), wxEVT_UPDATE_UI, wxUpdateUIEventHandler(TopFrame::OnHelpCheckUpdatesUI));
@@ -417,7 +420,7 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
 
 #ifdef _USE_ONIDLE
     Connect(wxEVT_IDLE, wxIdleEventHandler(MainFrame::OnIdle), NULL, this);
-#endif //_USE_TIMER
+#endif //_USE_ONIDLE
 
     g_sfPlayFile = NULL;
     g_playFileToMicIn = false;
@@ -458,10 +461,17 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     g_total_bits = 0;
     wxGetApp().m_testFrames = false;
 
-    for(int i=0; i<MAX_EVENT_LOG; i++)
-        m_event_log[i][0] = 0;
-
     m_modal = false;
+
+    // Start UDP listener thread
+
+    m_UDPThread = NULL;
+    if (wxGetApp().m_udp_enable) {
+        startUDPThread(wxGetApp().m_udp_port);
+    }
+
+    optionsDlg = new OptionsDlg(NULL);
+    m_schedule_restore = false;
 }
 
 //-------------------------------------------------------------------------
@@ -473,6 +483,13 @@ MainFrame::~MainFrame()
     int y;
     int w;
     int h;
+
+    if (optionsDlg != NULL) {
+        delete optionsDlg;
+        optionsDlg = NULL;
+    }
+
+    stopUDPThread();
 
     /* TOOD(Joel): the ownership of m_hamlib is probably wrong. */
     if (wxGetApp().m_hamlib) delete wxGetApp().m_hamlib;
@@ -541,6 +558,9 @@ MainFrame::~MainFrame()
         pConfig->Write(wxT("/Events/regexp_match"), wxGetApp().m_events_regexp_match);
         pConfig->Write(wxT("/Events/regexp_replace"), wxGetApp().m_events_regexp_replace);
  
+        pConfig->Write(wxT("/UDP/enable"), wxGetApp().m_udp_enable);
+        pConfig->Write(wxT("/UDP/port"),  wxGetApp().m_udp_port);
+
         pConfig->Write(wxT("/Filter/MicInEQEnable"), wxGetApp().m_MicInEQEnable);
         pConfig->Write(wxT("/Filter/SpkOutEQEnable"), wxGetApp().m_SpkOutEQEnable);
     }
@@ -702,6 +722,10 @@ bool MainFrame::openComPort(const char *name)
 	return true;
 }
 
+#ifdef _USE_ONIDLE
+void MainFrame::OnIdle(wxIdleEvent &evt) {
+}
+#endif
 
 //----------------------------------------------------------------
 // (raise|lower)(RTS|DTR)()
@@ -946,7 +970,7 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
             wxString s;
             if (ret && (checksum_tx == checksum_rx)) {
                 m_callsign[strlen(m_callsign)-2] = 0;
-                s.Printf("%s", m_callsign);
+                s.Printf("rx_txtmsg %s", m_callsign);
                 m_txtCtrlCallSign->SetValue(s);
                 processTxtEvent(m_callsign);
 
@@ -1016,24 +1040,20 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
             }
 
             m_panelTestFrameErrors->Refresh();
-       }
-
+        }
 
         delete error_pattern;
     }
 
+    // command from UDP thread best processed in main thread
+
+    if (m_schedule_restore) {
+        Restore();
+        m_schedule_restore = false;
+    }
 }
 
 #endif
-
-#ifdef _USE_ONIDLE
-//----------------------------------------------------------------
-// OnIdle()
-//----------------------------------------------------------------
-void MainFrame::OnIdle(wxIdleEvent& event)
-{
-}
-#endif // _USE_TIMER
 
 //-------------------------------------------------------------------------
 // OnCloseFrame()
@@ -1194,6 +1214,7 @@ void MainFrame::togglePTT(void) {
         // rx-> tx transition, swap to Mic In page to monitor speech
         wxGetApp().m_rxNbookCtrl = m_auiNbookCtrl->GetSelection();
         m_auiNbookCtrl->ChangeSelection(m_auiNbookCtrl->GetPageIndex((wxWindow *)m_panelSpeechIn));
+        char e[80]; sprintf(e,"ptt"); processTxtEvent(e);
     }
 
     g_tx = m_btnTogPTT->GetValue();
@@ -1688,12 +1709,19 @@ void MainFrame::OnToolsFilter(wxCommandEvent& event)
 void MainFrame::OnToolsOptions(wxCommandEvent& event)
 {
     wxUnusedVar(event);
-    optionsDlg = new OptionsDlg(NULL);
     m_modal=true;
-    optionsDlg->ShowModal();
+    optionsDlg->Show();
     m_modal=false;
-    delete optionsDlg;
-    optionsDlg = NULL;
+
+    // start/stop UDP thread
+
+    if (!wxGetApp().m_udp_enable) {
+        stopUDPThread();
+    }
+   
+    if (wxGetApp().m_udp_enable && (m_UDPThread == NULL)) {
+        startUDPThread(wxGetApp().m_udp_port);
+    }
 }
 
 //-------------------------------------------------------------------------
@@ -1978,6 +2006,7 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
             m_plotTimer.Start(_REFRESH_TIMER_PERIOD, wxTIMER_CONTINUOUS);
 #endif // _USE_TIMER
         }
+        char e[80]; sprintf(e,"start"); processTxtEvent(e);
     }
 
     // Stop was pressed or start up failed
@@ -2031,6 +2060,7 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
         m_rb1400->Enable();
         m_rb2000->Enable();
 #endif
+        char e[80]; sprintf(e,"stop"); processTxtEvent(e);
     }
 }
 
@@ -2303,7 +2333,7 @@ void MainFrame::startRxStream()
         g_rxUserdata->micInEQEnable = wxGetApp().m_MicInEQEnable;
         g_rxUserdata->spkOutEQEnable = wxGetApp().m_SpkOutEQEnable;
 
-        // optional tone in left channel to reliably trigger vox
+        // otional tone in left channel to reliably trigger vox
         
         g_rxUserdata->leftChannelVoxTone = wxGetApp().m_leftChannelVoxTone;
         g_rxUserdata->voxTonePhase = 0;
@@ -2525,6 +2555,9 @@ fprintf(stderr, "Err: %d\n", m_txErr);
 
 void MainFrame::processTxtEvent(char event[]) {
 
+    printf("processTxtEvent:\n");
+    printf("  event: %s\n", event);
+
     // process with regexp and issue system command
 
     // Each regexp in our list is separated by a newline.  We want to try all of them.
@@ -2535,23 +2568,28 @@ void MainFrame::processTxtEvent(char event[]) {
     wxString regexp_match_list = wxGetApp().m_events_regexp_match;
     wxString regexp_replace_list = wxGetApp().m_events_regexp_replace;
 
+    bool found_match = false;
+
     while ((match_end = regexp_match_list.Find('\n')) != wxNOT_FOUND) {
-        printf("match_end: %d\n", match_end);
+        //printf("match_end: %d\n", match_end);
         if ((replace_end = regexp_replace_list.Find('\n')) != wxNOT_FOUND) {
-            printf("replace_end = %d\n", replace_end);
+            //printf("replace_end = %d\n", replace_end);
             // candidate match and replace regexps strings exist, so lets try them
 
             wxString regexp_match = regexp_match_list.SubString(0, match_end-1);
             wxString regexp_replace = regexp_replace_list.SubString(0, replace_end-1);
-            printf("match: %s replace: %s\n", (const char *)regexp_match.c_str(), (const char *)regexp_replace.c_str());
+            //printf("match: %s replace: %s\n", (const char *)regexp_match.c_str(), (const char *)regexp_replace.c_str());
             wxRegEx re(regexp_match);
+            printf(" checking for match against: %s\n", (const char *)regexp_match.c_str());
 
             // if we found a match, lets run the replace regexp and issue the system command
 
             wxString event_str_rep = event_str;
 
             if (re.Replace(&event_str_rep, regexp_replace) != 0) {
-                printf("found match!\n");
+                printf("  found match!\n");
+                found_match = true;
+
                 bool enableSystem = false;
                 if (wxGetApp().m_events)
                     enableSystem = true;
@@ -2576,15 +2614,18 @@ void MainFrame::processTxtEvent(char event[]) {
                     event_out_with_return_code.Printf(_T("%s)"), event_out);
 
                 // update event log GUI if currently displayed
-                printf("hello\n");
-                if (optionsDlg != NULL) {
-                    printf("hello\n");
+                
+                if (optionsDlg != NULL) {                  
                     optionsDlg->updateEventLog(wxString(event), event_out_with_return_code);                     
                 }
             }
         }
         regexp_match_list = regexp_match_list.SubString(match_end+1, regexp_match_list.length());
         regexp_replace_list = regexp_replace_list.SubString(replace_end+1, regexp_replace_list.length());
+    }
+ 
+    if ((optionsDlg != NULL) && !found_match) {                  
+        optionsDlg->updateEventLog(wxString(event), _("<no match>"));                     
     }
 }
 
@@ -3650,5 +3691,90 @@ void MainFrame::CloseSerialPort(void)
         SerialPTTRx();
 
 		closeComPort();
+    }
+}
+
+
+//----------------------------------------------------------------
+// PollUDP() - see if any commands on UDP port
+//----------------------------------------------------------------
+
+// test this puppy with netcat: 
+//   $ echo "hello" | nc -u -q1 localhost 3000
+
+int MainFrame::PollUDP(void)
+{
+    // this will block until message received, so we put it in it's own thread
+
+    char buf[1024];
+    char reply[80];
+    size_t n = m_udp_sock->RecvFrom(m_udp_addr, buf, sizeof(buf)).LastCount();
+
+    if (n) {
+        wxString bufstr = wxString::From8BitData(buf, n);
+        bufstr.Trim();
+        wxString ipaddr = m_udp_addr.IPAddress();
+        printf("Received: \"%s\" from %s:%u\n",
+               (const char *)bufstr.c_str(),
+               (const char *)ipaddr.c_str(), m_udp_addr.Service());
+
+        // for security only accept commands from local host
+
+        sprintf(reply,"nope\n");
+        if (ipaddr.Cmp(_("127.0.0.1")) == 0) {
+
+            // process commands
+
+            if (bufstr.Cmp(_("restore")) == 0) {
+                m_schedule_restore = true;  // Make Restore happen in main thread to avoid crashing
+                sprintf(reply,"ok\n");
+            }
+                
+            wxString itemToSet, val;
+            if (bufstr.StartsWith(_("set "), &itemToSet)) {
+                if (itemToSet.StartsWith("txtmsg ", &val)) {
+                    // note: if options dialog is open this will get overwritten
+                    wxGetApp().m_callSign = val;
+                }  
+                sprintf(reply,"ok\n");
+            }
+                
+        }
+        else {
+            printf("We only accept messages from locahost!\n");
+        }
+
+       if ( m_udp_sock->SendTo(m_udp_addr, reply, strlen(reply)).LastCount() != strlen(reply)) {
+           printf("ERROR: failed to send data\n");
+        }
+    }
+
+    return n;
+}
+
+void MainFrame::startUDPThread(int port) {
+    printf("starting UDP thread!\n");
+    m_udp_addr.Service(port);
+    m_udp_sock = new wxDatagramSocket(m_udp_addr, wxSOCKET_NOWAIT);
+    m_UDPThread = new UDPThread;
+    m_UDPThread->mf = this;
+    if (m_UDPThread->Create() != wxTHREAD_NO_ERROR ) {
+        wxLogError(wxT("Can't create thread!"));
+    }
+    if (m_UDPThread->Run() != wxTHREAD_NO_ERROR ) {
+        wxLogError(wxT("Can't start thread!"));
+        delete m_UDPThread;
+        delete m_udp_sock;    
+    }
+}
+
+void MainFrame::stopUDPThread(void) {
+    printf("stopping UDP thread!\n");
+    if ((m_UDPThread != NULL) && m_UDPThread->m_run) {
+        m_UDPThread->m_run = 0;
+        m_UDPThread->Wait();
+        delete m_UDPThread;
+        delete m_udp_sock;
+        m_UDPThread = NULL;
     }
 }

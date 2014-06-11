@@ -49,6 +49,7 @@
 #include <wx/listbox.h>
 #include <wx/textdlg.h>
 #include <wx/regex.h>
+#include <wx/socket.h>
 
 #include <samplerate.h>
 
@@ -221,6 +222,10 @@ class MainApp : public wxApp
         // optional vox trigger tone
         bool                m_leftChannelVoxTone;
 
+        // UDP control port
+        bool                m_udp_enable;
+        int                 m_udp_port;
+
         // notebook display after tx->rxtransition
         int                 m_rxNbookCtrl;
 
@@ -322,6 +327,7 @@ private:
 };
 
 class txRxThread;
+class UDPThread;
 
 //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=
 // Class MainFrame
@@ -400,6 +406,14 @@ class MainFrame : public TopFrame
 
     void togglePTT(void);
 
+    wxIPV4address           m_udp_addr;
+    wxDatagramSocket       *m_udp_sock;
+    UDPThread              *m_UDPThread;
+    void                    startUDPThread(int port);
+    void                    stopUDPThread(void);
+    int                     PollUDP();
+    bool                    m_schedule_restore;
+
     protected:
 
 #ifdef _WIN32
@@ -476,6 +490,7 @@ class MainFrame : public TopFrame
 #ifdef _USE_ONIDLE
         void OnIdle(wxIdleEvent &evt);
 #endif
+
     private:
         bool        m_useMemory;
         wxTextCtrl* m_tc;
@@ -489,7 +504,6 @@ class MainFrame : public TopFrame
         unsigned int m_checksumBad;
 
         // Events
-        char        m_event_log[MAX_EVENT_LOG][MAX_CALLSIGN];
         void        processTxtEvent(char event[]);
         class OptionsDlg *optionsDlg;
 
@@ -533,6 +547,35 @@ public:
 
 public:
     bool  m_run;
+};
+
+//-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=
+// class UDPThread - waits for UDP messages
+//-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=
+class UDPThread : public wxThread
+{
+public:
+    UDPThread(void) : wxThread(wxTHREAD_JOINABLE) { m_run = 1; }
+
+    // thread execution starts here
+    void *Entry() 
+    {
+        while (m_run) 
+        {
+            if (mf->PollUDP() == 0) {
+                wxThread::Sleep(20);
+            }
+        }
+        return NULL;
+    }
+
+    // called when the thread exits - whether it terminates normally or is
+    // stopped with Delete() (but not when it is Kill()ed!)
+    void OnExit() { }
+
+public:
+    MainFrame              *mf;
+    bool                    m_run;
 };
 
 void resample_for_plot(struct FIFO *plotFifo, short buf[], int length);

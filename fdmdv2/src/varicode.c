@@ -233,9 +233,6 @@ static int decode_two_bits(struct VARICODE_DEC *s, char *single_ascii, short var
     int            found=0, i;
     unsigned short byte1;
 
-    //printf("decode_one_bit : state: %d varicode_in: %d packed: 0x%x n_zeros: %d\n",
-    //       s->state, varicode_in, s->packed, s->n_zeros);
-
     if (s->state == 0) {
         if (!(varicode_in1 || varicode_in2))
             return 0;

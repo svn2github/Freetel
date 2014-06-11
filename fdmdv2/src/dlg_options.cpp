@@ -108,6 +108,19 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
     bSizer30->Add(sbSizer_events,0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 3);
 
     //------------------------------
+    // UDP control port
+    //------------------------------
+
+    wxStaticBoxSizer* sbSizer_udp;
+    sbSizer_udp = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("UDP Control Port")), wxHORIZONTAL);
+    m_ckbox_udp_enable = new wxCheckBox(this, wxID_ANY, _("Enable UDP Control Port    UDP Port Nnumber:"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    sbSizer_udp->Add(m_ckbox_udp_enable, 0,  wxALIGN_CENTER_HORIZONTAL, 5);
+    m_txt_udp_port = new wxTextCtrl(this, wxID_ANY,  wxEmptyString, wxDefaultPosition, wxSize(100,-1), 0, wxTextValidator(wxFILTER_DIGITS));
+    sbSizer_udp->Add(m_txt_udp_port, 0, wxALIGN_CENTER_HORIZONTAL, 5);
+
+    bSizer30->Add(sbSizer_udp,0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 3);
+
+    //------------------------------
     // Cancel - OK Buttons 
     //------------------------------
 
@@ -164,6 +177,9 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
         m_ckbox_events->SetValue(wxGetApp().m_events);
         m_txt_events_regexp_match->SetValue(wxGetApp().m_events_regexp_match);
         m_txt_events_regexp_replace->SetValue(wxGetApp().m_events_regexp_replace);
+        
+        m_ckbox_udp_enable->SetValue(wxGetApp().m_udp_enable);
+        m_txt_udp_port->SetValue(wxString::Format(wxT("%i"),wxGetApp().m_udp_port));
 
         if (wxGetApp().m_textEncoding == 1)
             m_rb_textEncoding1->SetValue(true);
@@ -173,13 +189,18 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
 
     if(inout == EXCHANGE_DATA_OUT)
     {
-        wxGetApp().m_callSign       = m_txtCtrlCallSign->GetValue();
-        wxGetApp().m_testFrames     = m_ckboxTestFrame->GetValue();
+        wxGetApp().m_callSign      = m_txtCtrlCallSign->GetValue();
+        wxGetApp().m_testFrames    = m_ckboxTestFrame->GetValue();
 
         wxGetApp().m_events        = m_ckbox_events->GetValue();
         wxGetApp().m_events_regexp_match = m_txt_events_regexp_match->GetValue();
         wxGetApp().m_events_regexp_replace = m_txt_events_regexp_replace->GetValue();
  
+        wxGetApp().m_udp_enable     = m_ckbox_udp_enable->GetValue();
+        long port;
+        m_txt_udp_port->GetValue().ToLong(&port);
+        wxGetApp().m_udp_port       = (int)port;
+
         if (m_rb_textEncoding1->GetValue())
             wxGetApp().m_textEncoding = 1;
         if (m_rb_textEncoding2->GetValue())
@@ -191,6 +212,10 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
             pConfig->Write(wxT("/Events/enable"), wxGetApp().m_events);
             pConfig->Write(wxT("/Events/regexp_match"), wxGetApp().m_events_regexp_match);
             pConfig->Write(wxT("/Events/regexp_replace"), wxGetApp().m_events_regexp_replace);
+            
+            pConfig->Write(wxT("/UDP/enable"), wxGetApp().m_udp_enable);
+            pConfig->Write(wxT("/UDP/port"),  wxGetApp().m_udp_port);
+
             pConfig->Flush();
         }
     }
@@ -202,7 +227,8 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
 //-------------------------------------------------------------------------
 void OptionsDlg::OnCancel(wxCommandEvent& event)
 {
-    this->EndModal(wxID_CANCEL);
+    //this->EndModal(wxID_CANCEL);
+    this->Show(false);
 }
 
 //-------------------------------------------------------------------------
@@ -211,7 +237,8 @@ void OptionsDlg::OnCancel(wxCommandEvent& event)
 void OptionsDlg::OnOK(wxCommandEvent& event)
 {
     ExchangeData(EXCHANGE_DATA_OUT, true);
-    this->EndModal(wxID_OK);
+    //this->EndModal(wxID_OK);
+    this->Show(false);
 }
 
 //-------------------------------------------------------------------------
@@ -219,7 +246,8 @@ void OptionsDlg::OnOK(wxCommandEvent& event)
 //-------------------------------------------------------------------------
 void OptionsDlg::OnClose(wxCloseEvent& event)
 {
-    this->EndModal(wxID_OK);
+    //this->EndModal(wxID_OK);
+    this->Show(false);
 }
 
 //-------------------------------------------------------------------------
