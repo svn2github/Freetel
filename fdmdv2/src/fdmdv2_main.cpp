@@ -2601,7 +2601,7 @@ void MainFrame::processTxtEvent(char event[]) {
                 wxString event_out_with_return_code;
 
                 if (enableSystem) {
-                    int ret = wxShell(event_str_rep);
+                    int ret = wxExecute(event_str_rep);
                     event_out_with_return_code.Printf(_T("%s -> returned %d"), event_out, ret);
                 }
                 else
