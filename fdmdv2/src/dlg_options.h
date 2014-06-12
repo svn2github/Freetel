@@ -44,8 +44,9 @@ class OptionsDlg : public wxDialog
 
     protected:
         // Handlers for events.
-        void    OnCancel(wxCommandEvent& event);
         void    OnOK(wxCommandEvent& event);
+        void    OnCancel(wxCommandEvent& event);
+        void    OnApply(wxCommandEvent& event);
         void    OnClose(wxCloseEvent& event);
         void    OnInitDialog(wxInitDialogEvent& event);
  
@@ -66,6 +67,7 @@ class OptionsDlg : public wxDialog
 
         wxButton*     m_sdbSizer5OK;
         wxButton*     m_sdbSizer5Cancel;
+        wxButton*     m_sdbSizer5Apply;
 
         unsigned int  event_in_serial, event_out_serial;
 

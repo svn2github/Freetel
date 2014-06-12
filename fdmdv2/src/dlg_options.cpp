@@ -121,14 +121,19 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
     bSizer30->Add(sbSizer_udp,0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 3);
 
     //------------------------------
-    // Cancel - OK Buttons 
+    // OK - Cancel - Apply Buttons 
     //------------------------------
 
     wxBoxSizer* bSizer31 = new wxBoxSizer(wxHORIZONTAL);
-    m_sdbSizer5Cancel = new wxButton(this, wxID_CANCEL);
-    bSizer31->Add(m_sdbSizer5Cancel, 0, wxALL, 2);
+
     m_sdbSizer5OK = new wxButton(this, wxID_OK);
     bSizer31->Add(m_sdbSizer5OK, 0, wxALL, 2);
+
+    m_sdbSizer5Cancel = new wxButton(this, wxID_CANCEL);
+    bSizer31->Add(m_sdbSizer5Cancel, 0, wxALL, 2);
+
+    m_sdbSizer5Apply = new wxButton(this, wxID_APPLY);
+    bSizer31->Add(m_sdbSizer5Apply, 0, wxALL, 2);
 
     bSizer30->Add(bSizer31, 0, wxALIGN_RIGHT|wxALL, 0);
 
@@ -141,8 +146,9 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
 
     this->Connect(wxEVT_INIT_DIALOG, wxInitDialogEventHandler(OptionsDlg::OnInitDialog));
 
-    m_sdbSizer5Cancel->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(OptionsDlg::OnCancel), NULL, this);
     m_sdbSizer5OK->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(OptionsDlg::OnOK), NULL, this);
+    m_sdbSizer5Cancel->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(OptionsDlg::OnCancel), NULL, this);
+    m_sdbSizer5Apply->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(OptionsDlg::OnApply), NULL, this);
 
     event_in_serial = 0;
     event_out_serial = 0;
@@ -157,8 +163,9 @@ OptionsDlg::~OptionsDlg()
 
     this->Disconnect(wxEVT_INIT_DIALOG, wxInitDialogEventHandler(OptionsDlg::OnInitDialog));
 
-    m_sdbSizer5Cancel->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(OptionsDlg::OnCancel), NULL, this);
     m_sdbSizer5OK->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(OptionsDlg::OnOK), NULL, this);
+    m_sdbSizer5Cancel->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(OptionsDlg::OnCancel), NULL, this);
+    m_sdbSizer5Apply->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(OptionsDlg::OnApply), NULL, this);
 }
 
 
@@ -193,6 +200,15 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
         wxGetApp().m_testFrames    = m_ckboxTestFrame->GetValue();
 
         wxGetApp().m_events        = m_ckbox_events->GetValue();
+
+        // make sure regexp lists are terminated by a \n
+
+        if (m_txt_events_regexp_match->GetValue().Last() != '\n') {
+            m_txt_events_regexp_match->SetValue(m_txt_events_regexp_match->GetValue()+'\n');
+        }
+        if (m_txt_events_regexp_replace->GetValue().Last() != '\n') {
+            m_txt_events_regexp_replace->SetValue(m_txt_events_regexp_replace->GetValue()+'\n');
+        }
         wxGetApp().m_events_regexp_match = m_txt_events_regexp_match->GetValue();
         wxGetApp().m_events_regexp_replace = m_txt_events_regexp_replace->GetValue();
  
@@ -223,15 +239,6 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
 }
 
 //-------------------------------------------------------------------------
-// OnCancel()
-//-------------------------------------------------------------------------
-void OptionsDlg::OnCancel(wxCommandEvent& event)
-{
-    //this->EndModal(wxID_CANCEL);
-    this->Show(false);
-}
-
-//-------------------------------------------------------------------------
 // OnOK()
 //-------------------------------------------------------------------------
 void OptionsDlg::OnOK(wxCommandEvent& event)
@@ -242,12 +249,20 @@ void OptionsDlg::OnOK(wxCommandEvent& event)
 }
 
 //-------------------------------------------------------------------------
-// OnClose()
+// OnCancel()
 //-------------------------------------------------------------------------
-void OptionsDlg::OnClose(wxCloseEvent& event)
+void OptionsDlg::OnCancel(wxCommandEvent& event)
 {
-    //this->EndModal(wxID_OK);
+    //this->EndModal(wxID_CANCEL);
     this->Show(false);
+}
+
+//-------------------------------------------------------------------------
+// OnApply()
+//-------------------------------------------------------------------------
+void OptionsDlg::OnApply(wxCommandEvent& event)
+{
+    ExchangeData(EXCHANGE_DATA_OUT, true);
 }
 
 //-------------------------------------------------------------------------

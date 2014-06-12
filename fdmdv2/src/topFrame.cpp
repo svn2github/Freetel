@@ -219,10 +219,12 @@ TopFrame::TopFrame(wxWindow* parent, wxWindowID id, const wxString& title, const
     bSizer15->Add(m_txtCtrlCallSign, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL|wxEXPAND, 5);
     lowerSizer->Add(bSizer15, 1, wxEXPAND, 5);
 
-    m_txtChecksumGood = new wxStaticText(this, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE);
-    lowerSizer->Add(m_txtChecksumGood, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 1);
-    m_txtChecksumBad = new wxStaticText(this, wxID_ANY, wxT("0"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE);
-    lowerSizer->Add(m_txtChecksumBad, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 1);
+    wxStaticBoxSizer* sbSizer_Checksum = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Good/Bad Checksums")), wxHORIZONTAL);
+    m_txtChecksumGood = new wxStaticText(this, wxID_ANY, wxT("0"), wxDefaultPosition, wxSize(100,-1), wxALIGN_CENTRE);
+    sbSizer_Checksum->Add(m_txtChecksumGood, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 1);
+    m_txtChecksumBad = new wxStaticText(this, wxID_ANY, wxT("0"), wxDefaultPosition, wxSize(100,-1), wxALIGN_CENTRE);
+    sbSizer_Checksum->Add(m_txtChecksumBad, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 1);
+    lowerSizer->Add(sbSizer_Checksum, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 1);
 
     //=====================================================
     // These are the buttons that autosend the userid (?)

@@ -375,6 +375,14 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     wxGetApp().m_events_regexp_match = pConfig->Read("/Events/regexp_match", wxT("s=(.*)"));
     wxGetApp().m_events_regexp_replace = pConfig->Read("/Events/regexp_replace", 
                                                        wxT("curl http://qso.freedv.org/cgi-bin/onspot.cgi?s=\\1"));
+    // make sure regexp lists are terminated by a \n
+
+    if (wxGetApp().m_events_regexp_match.Last() != '\n') {
+        wxGetApp().m_events_regexp_match = wxGetApp().m_events_regexp_match+'\n';
+    }
+    if (wxGetApp().m_events_regexp_replace.Last() != '\n') {
+        wxGetApp().m_events_regexp_replace = wxGetApp().m_events_regexp_replace+'\n';
+    }
 
     wxGetApp().m_udp_enable = (float)pConfig->Read(wxT("/UDP/enable"), f);
     wxGetApp().m_udp_port = (float)pConfig->Read(wxT("/UDP/port"), 3000);
@@ -466,9 +474,7 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     // Start UDP listener thread
 
     m_UDPThread = NULL;
-    if (wxGetApp().m_udp_enable) {
-        startUDPThread(wxGetApp().m_udp_port);
-    }
+    startUDPThread();
 
     optionsDlg = new OptionsDlg(NULL);
     m_schedule_restore = false;
@@ -970,9 +976,12 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
             wxString s;
             if (ret && (checksum_tx == checksum_rx)) {
                 m_callsign[strlen(m_callsign)-2] = 0;
-                s.Printf("rx_txtmsg %s", m_callsign);
+                s.Printf("%s", m_callsign);
                 m_txtCtrlCallSign->SetValue(s);
-                processTxtEvent(m_callsign);
+
+                char s1[MAX_CALLSIGN];
+                sprintf(s1,"rx_txtmsg %s", m_callsign);
+                processTxtEvent(s1);
 
                 m_checksumGood++;
                 s.Printf("%d", m_checksumGood);
@@ -1045,10 +1054,11 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
         delete error_pattern;
     }
 
-    // command from UDP thread best processed in main thread
+    // command from UDP thread that is best processed in main thread to avoid seg faults
 
     if (m_schedule_restore) {
-        Restore();
+        if (IsIconized())
+            Restore();
         m_schedule_restore = false;
     }
 }
@@ -1314,6 +1324,9 @@ void MainFrame::OnCallSignReset(wxCommandEvent& event)
     wxString s;
     s.Printf("%s", m_callsign);
     m_txtCtrlCallSign->SetValue(s);
+    m_checksumGood = m_checksumBad = 0;
+    m_txtChecksumGood->SetLabel(_("0"));
+    m_txtChecksumBad->SetLabel(_("0"));
 }
 
 void MainFrame::OnBerReset(wxCommandEvent& event)
@@ -1712,16 +1725,6 @@ void MainFrame::OnToolsOptions(wxCommandEvent& event)
     m_modal=true;
     optionsDlg->Show();
     m_modal=false;
-
-    // start/stop UDP thread
-
-    if (!wxGetApp().m_udp_enable) {
-        stopUDPThread();
-    }
-   
-    if (wxGetApp().m_udp_enable && (m_UDPThread == NULL)) {
-        startUDPThread(wxGetApp().m_udp_port);
-    }
 }
 
 //-------------------------------------------------------------------------
@@ -2580,7 +2583,7 @@ void MainFrame::processTxtEvent(char event[]) {
             wxString regexp_replace = regexp_replace_list.SubString(0, replace_end-1);
             //printf("match: %s replace: %s\n", (const char *)regexp_match.c_str(), (const char *)regexp_replace.c_str());
             wxRegEx re(regexp_match);
-            printf(" checking for match against: %s\n", (const char *)regexp_match.c_str());
+            printf("  checking for match against: %s\n", (const char *)regexp_match.c_str());
 
             // if we found a match, lets run the replace regexp and issue the system command
 
@@ -2594,21 +2597,12 @@ void MainFrame::processTxtEvent(char event[]) {
                 if (wxGetApp().m_events)
                     enableSystem = true;
             
-                // If options dialog is up current value of events checkbox overrides wxGetApp().m_events
-
-                if (optionsDlg != NULL)  {
-                    if (optionsDlg->enableEventsChecked())
-                        enableSystem = true;
-                    else
-                        enableSystem = false;
-                }
-
                 const char *event_out = event_str_rep.ToUTF8();
                 wxString event_out_with_return_code;
 
                 if (enableSystem) {
-                    int ret = wxExecute(event_str_rep);
-                    event_out_with_return_code.Printf(_T("%s -> process ID %d"), event_out, ret);
+                    int ret = wxShell(event_str_rep);
+                    event_out_with_return_code.Printf(_T("%s -> returned %d"), event_out, ret);
                 }
                 else
                     event_out_with_return_code.Printf(_T("%s)"), event_out);
@@ -3341,10 +3335,13 @@ void per_frame_rx_processing(
                     //printf("data_flag_index: %d\n", data_flag_index);
                     assert(data_flag_index != -1); // not supported for all rates
 
-                    short abit = codec_bits[data_flag_index];
+                    short abit[2];
+                    abit[0] = codec_bits[data_flag_index];
+                    abit[1] = codec_bits[bits_per_codec_frame+11]; // use spare bit, note not FEC protected
                     char  ascii_out;
 
-                    int n_ascii = varicode_decode(&g_varicode_dec_states, &ascii_out, &abit, 1, 1);
+                    //printf("rx bits %d %d %d\n", abit[0], abit[1], bits_per_codec_frame+11);
+                    int n_ascii = varicode_decode(&g_varicode_dec_states, &ascii_out, abit, 1, wxGetApp().m_textEncoding);
                     assert((n_ascii == 0) || (n_ascii == 1));
                     if (n_ascii) {
                         short ashort = ascii_out;
@@ -3399,7 +3396,7 @@ void per_frame_tx_processing(
     COMP           tx_fdm_offset[2*FDMDV_NOM_SAMPLES_PER_FRAME];
     int            sync_bit;
     int            i, j, bit, byte, data_flag_index;
-    short          abit;
+    short          abit[2];
     int            bits_per_fdmdv_frame, bits_per_codec_frame, bytes_per_codec_frame;
 
     bits_per_fdmdv_frame = fdmdv_bits_per_frame(g_pFDMDV);
@@ -3431,11 +3428,16 @@ void per_frame_tx_processing(
     data_flag_index = codec2_get_spare_bit_index(c2);
     assert(data_flag_index != -1); // not supported for all rates
 
-    if (fifo_read(g_txDataInFifo, &abit, 1) == 0)
-        bits[data_flag_index] = abit;
+    abit[0] = abit[1] = 0;
+    if (fifo_read(g_txDataInFifo, abit, wxGetApp().m_textEncoding) == 0) {
+        bits[data_flag_index] = abit[0];
+        bits[bits_per_codec_frame+11] = abit[1];  // spare bit that was unused in 1600 mode
+                                                  // note fast varicode must be sent two bits at a time 
+    }
     else {
         bits[data_flag_index] = 0;
-        //printf("tx fifle empty - sending a 0!");
+        bits[bits_per_codec_frame+11] = 0; 
+        printf("tx fifo empty - sending a 00!\n");
     }
 
     /* add FEC  ---------------------------------------*/
@@ -3512,8 +3514,6 @@ void per_frame_tx_processing(
         for(j=0,i=bits_per_codec_frame; i<bits_per_codec_frame+11; i++,j++) {
             bits[i] = (codeword1 >> (10-j)) & 0x1;
         }
-
-        bits[i] = 0; /* spare bit */
     }
 
 
@@ -3752,10 +3752,8 @@ int MainFrame::PollUDP(void)
     return n;
 }
 
-void MainFrame::startUDPThread(int port) {
+void MainFrame::startUDPThread(void) {
     printf("starting UDP thread!\n");
-    m_udp_addr.Service(port);
-    m_udp_sock = new wxDatagramSocket(m_udp_addr, wxSOCKET_NOWAIT);
     m_UDPThread = new UDPThread;
     m_UDPThread->mf = this;
     if (m_UDPThread->Create() != wxTHREAD_NO_ERROR ) {
@@ -3764,7 +3762,6 @@ void MainFrame::startUDPThread(int port) {
     if (m_UDPThread->Run() != wxTHREAD_NO_ERROR ) {
         wxLogError(wxT("Can't start thread!"));
         delete m_UDPThread;
-        delete m_udp_sock;    
     }
 }
 
@@ -3773,8 +3770,27 @@ void MainFrame::stopUDPThread(void) {
     if ((m_UDPThread != NULL) && m_UDPThread->m_run) {
         m_UDPThread->m_run = 0;
         m_UDPThread->Wait();
-        delete m_UDPThread;
-        delete m_udp_sock;
         m_UDPThread = NULL;
     }
+}
+
+void *UDPThread::Entry() {
+    printf("UDP thread started!\n");
+    while (m_run) {
+        if (wxGetApp().m_udp_enable) {
+            printf("m_udp_enable\n");
+            mf->m_udp_addr.Service(wxGetApp().m_udp_port);
+            mf->m_udp_sock = new wxDatagramSocket(mf->m_udp_addr, wxSOCKET_NOWAIT);
+
+            while (m_run && wxGetApp().m_udp_enable) {
+                if (mf->PollUDP() == 0) {
+                    wxThread::Sleep(20);
+                }
+            }
+
+            delete mf->m_udp_sock;
+        }
+        wxThread::Sleep(20);
+    }
+    return NULL;
 }

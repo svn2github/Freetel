@@ -409,7 +409,7 @@ class MainFrame : public TopFrame
     wxIPV4address           m_udp_addr;
     wxDatagramSocket       *m_udp_sock;
     UDPThread              *m_UDPThread;
-    void                    startUDPThread(int port);
+    void                    startUDPThread(void);
     void                    stopUDPThread(void);
     int                     PollUDP();
     bool                    m_schedule_restore;
@@ -558,16 +558,7 @@ public:
     UDPThread(void) : wxThread(wxTHREAD_JOINABLE) { m_run = 1; }
 
     // thread execution starts here
-    void *Entry() 
-    {
-        while (m_run) 
-        {
-            if (mf->PollUDP() == 0) {
-                wxThread::Sleep(20);
-            }
-        }
-        return NULL;
-    }
+    void *Entry();
 
     // called when the thread exits - whether it terminates normally or is
     // stopped with Delete() (but not when it is Kill()ed!)

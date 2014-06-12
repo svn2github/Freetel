@@ -140,13 +140,15 @@ FilterDlg::FilterDlg(wxWindow* parent, bool running, bool *newMicInFilter, bool 
     m_SpkOutFreqRespPlot = new PlotSpectrum((wxFrame*)m_auiNotebook, m_SpkOutMagdB, F_MAG_N, FILTER_MIN_MAG_DB, FILTER_MAX_MAG_DB);
     m_auiNotebook->AddPage(m_SpkOutFreqRespPlot, _("Speaker Out Equaliser"));
 
-    // Default - Cancel - OK   Buttons at the bottom --------------------------
+    //  OK - Cancel buttons at the bottom --------------------------
 
     wxBoxSizer* bSizer31 = new wxBoxSizer(wxHORIZONTAL);
-    m_sdbSizer5Cancel = new wxButton(this, wxID_CANCEL);
-    bSizer31->Add(m_sdbSizer5Cancel, 0, wxALL, 2);
+
     m_sdbSizer5OK = new wxButton(this, wxID_OK);
     bSizer31->Add(m_sdbSizer5OK, 0, wxALL, 2);
+
+    m_sdbSizer5Cancel = new wxButton(this, wxID_CANCEL);
+    bSizer31->Add(m_sdbSizer5Cancel, 0, wxALL, 2);
 
     bSizer30->Add(bSizer31, 0, wxALIGN_RIGHT|wxALL, 0);
 
