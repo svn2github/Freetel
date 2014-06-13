@@ -370,8 +370,10 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     wxGetApp().m_SpkOutEQEnable = (float)pConfig->Read(wxT("/Filter/SpkOutEQEnable"), f);
 
     wxGetApp().m_callSign = pConfig->Read("/Data/CallSign", wxT(""));
-    wxGetApp().m_textEncoding = pConfig->Read("/Data/TextEncoding", 1);
+    wxGetApp().m_textEncoding = pConfig->Read("/Data/TextEncoding", 2);
+
     wxGetApp().m_events = pConfig->Read("/Events/enable", f);
+    wxGetApp().m_events_spam_timer = (int)pConfig->Read(wxT("/Events/spam_timer"), 10);
     wxGetApp().m_events_regexp_match = pConfig->Read("/Events/regexp_match", wxT("s=(.*)"));
     wxGetApp().m_events_regexp_replace = pConfig->Read("/Events/regexp_replace", 
                                                        wxT("curl http://qso.freedv.org/cgi-bin/onspot.cgi?s=\\1"));
@@ -385,7 +387,7 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     }
 
     wxGetApp().m_udp_enable = (float)pConfig->Read(wxT("/UDP/enable"), f);
-    wxGetApp().m_udp_port = (float)pConfig->Read(wxT("/UDP/port"), 3000);
+    wxGetApp().m_udp_port = (int)pConfig->Read(wxT("/UDP/port"), 3000);
 
     pConfig->SetPath(wxT("/"));
 
@@ -561,6 +563,7 @@ MainFrame::~MainFrame()
         pConfig->Write(wxT("/Data/CallSign"), wxGetApp().m_callSign);
         pConfig->Write(wxT("/Data/TextEncoding"), wxGetApp().m_textEncoding);
         pConfig->Write(wxT("/Events/enable"), wxGetApp().m_events);
+        pConfig->Write(wxT("/Events/spam_timer"), wxGetApp().m_events_spam_timer);
         pConfig->Write(wxT("/Events/regexp_match"), wxGetApp().m_events_regexp_match);
         pConfig->Write(wxT("/Events/regexp_replace"), wxGetApp().m_events_regexp_replace);
  
@@ -1061,6 +1064,14 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
             Restore();
         m_schedule_restore = false;
     }
+
+    // Light Spam Timer LED if at least one time is running
+
+    int i;
+    optionsDlg->SetSpamTimerLight(false);
+    for(i=0; i<MAX_EVENT_RULES; i++)
+        if (spamTimer[i].IsRunning())
+            optionsDlg->SetSpamTimerLight(true);        
 }
 
 #endif
@@ -1252,7 +1263,7 @@ void MainFrame::togglePTT(void) {
           exclusive NOR
     */
 
-    if(wxGetApp().m_boolUseSerialPTT && com_handle != COM_HANDLE_INVALID) {
+    if(wxGetApp().m_boolUseSerialPTT && (com_handle != COM_HANDLE_INVALID)) {
         if (wxGetApp().m_boolUseRTS) {
             printf("g_tx: %d m_boolRTSPos: %d serialLine: %d\n", g_tx, wxGetApp().m_boolRTSPos, g_tx == wxGetApp().m_boolRTSPos);
             if (g_tx == wxGetApp().m_boolRTSPos)
@@ -2020,6 +2031,8 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
         // Stop Running -------------------------------------------------
         //
 
+        optionsDlg->SetSpamTimerLight(false);
+
 #ifdef _USE_TIMER
         m_plotTimer.Stop();
 #endif // _USE_TIMER
@@ -2437,7 +2450,7 @@ void MainFrame::startRxStream()
             m_txErr = m_txInPa->streamOpen();
 
             if(m_txErr != paNoError) {
-fprintf(stderr, "Err: %d\n", m_txErr);
+                fprintf(stderr, "Err: %d\n", m_txErr);
                 wxMessageBox(wxT("Sound Card 2 Open/Setup error."), wxT("Error"), wxOK);
                 m_rxInPa->stop();
                 m_rxInPa->streamClose();
@@ -2557,6 +2570,7 @@ fprintf(stderr, "Err: %d\n", m_txErr);
 
 
 void MainFrame::processTxtEvent(char event[]) {
+    int rule = 0;
 
     printf("processTxtEvent:\n");
     printf("  event: %s\n", event);
@@ -2573,10 +2587,11 @@ void MainFrame::processTxtEvent(char event[]) {
 
     bool found_match = false;
 
-    while ((match_end = regexp_match_list.Find('\n')) != wxNOT_FOUND) {
+    while (((match_end = regexp_match_list.Find('\n')) != wxNOT_FOUND) && (rule < MAX_EVENT_RULES)) {
         //printf("match_end: %d\n", match_end);
         if ((replace_end = regexp_replace_list.Find('\n')) != wxNOT_FOUND) {
             //printf("replace_end = %d\n", replace_end);
+
             // candidate match and replace regexps strings exist, so lets try them
 
             wxString regexp_match = regexp_match_list.SubString(0, match_end-1);
@@ -2596,16 +2611,24 @@ void MainFrame::processTxtEvent(char event[]) {
                 bool enableSystem = false;
                 if (wxGetApp().m_events)
                     enableSystem = true;
-            
+
+                // no syscall if spam timer still running
+
+                if (spamTimer[rule].IsRunning()) {
+                    enableSystem = false;
+                    printf("  spam timer running\n");
+                }
+
                 const char *event_out = event_str_rep.ToUTF8();
                 wxString event_out_with_return_code;
 
                 if (enableSystem) {
                     int ret = wxExecute(event_str_rep);
                     event_out_with_return_code.Printf(_T("%s -> returned %d"), event_out, ret);
+                    spamTimer[rule].Start((wxGetApp().m_events_spam_timer)*1000, wxTIMER_ONE_SHOT);
                 }
                 else
-                    event_out_with_return_code.Printf(_T("%s)"), event_out);
+                    event_out_with_return_code.Printf(_T("%s T: %d"), event_out, spamTimer[rule].IsRunning());
 
                 // update event log GUI if currently displayed
                 
@@ -2616,6 +2639,8 @@ void MainFrame::processTxtEvent(char event[]) {
         }
         regexp_match_list = regexp_match_list.SubString(match_end+1, regexp_match_list.length());
         regexp_replace_list = regexp_replace_list.SubString(replace_end+1, regexp_replace_list.length());
+
+        rule++;
     }
  
     if ((optionsDlg != NULL) && !found_match) {                  

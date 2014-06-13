@@ -176,6 +176,7 @@ class MainApp : public wxApp
 
         wxString            m_callSign;
         bool                m_events;
+        int                 m_events_spam_timer;
         unsigned int        m_textEncoding;
         wxString            m_events_regexp_match;
         wxString            m_events_regexp_replace;
@@ -502,10 +503,11 @@ class MainFrame : public TopFrame
         char       *m_pcallsign;
         unsigned int m_checksumGood;
         unsigned int m_checksumBad;
-
+        
         // Events
         void        processTxtEvent(char event[]);
         class OptionsDlg *optionsDlg;
+        wxTimer     spamTimer[MAX_EVENT_RULES];
 
         // level Gauge
         float       m_maxLevel;

@@ -82,6 +82,7 @@
 // Text messaging Data
 #define MAX_CALLSIGN         80
 #define MAX_EVENT_LOG        10
+#define MAX_EVENT_RULES      100
    
 enum
 {

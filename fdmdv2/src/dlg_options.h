@@ -42,6 +42,21 @@ class OptionsDlg : public wxDialog
 
         bool    enableEventsChecked() {return m_ckbox_events->GetValue();}
 
+        void SetSpamTimerLight(bool state) {
+
+            // Colours don't work on Windows
+
+            if (state) {
+                m_rb_spam_timer->SetForegroundColour( wxColour( 255,0 , 0 ) ); // red
+                m_rb_spam_timer->SetValue(true);
+            }
+            else {
+                m_rb_spam_timer->SetForegroundColour( wxColour( 0, 255, 0 ) ); // green
+                m_rb_spam_timer->SetValue(false);
+            }
+        }
+
+
     protected:
         // Handlers for events.
         void    OnOK(wxCommandEvent& event);
@@ -61,6 +76,8 @@ class OptionsDlg : public wxDialog
         wxTextCtrl   *m_txt_events_regexp_replace;
         wxTextCtrl   *m_txt_events_in;
         wxTextCtrl   *m_txt_events_out;
+        wxTextCtrl   *m_txt_spam_timer;
+        wxRadioButton *m_rb_spam_timer;
 
         wxCheckBox   *m_ckbox_udp_enable;
         wxTextCtrl   *m_txt_udp_port;

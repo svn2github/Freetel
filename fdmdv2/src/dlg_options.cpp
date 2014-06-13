@@ -37,9 +37,11 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
     //------------------------------
 
     wxStaticBoxSizer* sbSizer_testFrames;
-    sbSizer_testFrames = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Test Frames")), wxVERTICAL);
+    wxStaticBox *sb_testFrames = new wxStaticBox(this, wxID_ANY, _("Test Frames"));
+    sbSizer_testFrames = new wxStaticBoxSizer(sb_testFrames, wxVERTICAL);
 
     m_ckboxTestFrame = new wxCheckBox(this, wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    sb_testFrames->SetToolTip(_("Send frames of known bits instead of compressed voice"));
     sbSizer_testFrames->Add(m_ckboxTestFrame, 0, wxALIGN_LEFT, 0);
 
     bSizer30->Add(sbSizer_testFrames,0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 3);
@@ -76,12 +78,25 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
     //------------------------------
 
     wxStaticBoxSizer* sbSizer_events;
-    sbSizer_events = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Event Processing")), wxVERTICAL);
+    wxStaticBox *sb_events = new wxStaticBox(this, wxID_ANY, _("Event Processing"));
+    sbSizer_events = new wxStaticBoxSizer(sb_events, wxVERTICAL);
 
-    // event processing enable
+    // event processing enable and spam timer
 
-    m_ckbox_events = new wxCheckBox(this, wxID_ANY, _("Enable System Calls"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
-    sbSizer_events->Add(m_ckbox_events, 0, 0, 5);
+    wxStaticBoxSizer* sbSizer_events_top;
+    wxStaticBox* sb_events1 = new wxStaticBox(this, wxID_ANY, _(""));    
+    sbSizer_events_top = new wxStaticBoxSizer(sb_events1, wxHORIZONTAL);
+
+    m_ckbox_events = new wxCheckBox(this, wxID_ANY, _("Enable System Calls    Syscall Spam Timer"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    sb_events->SetToolTip(_("Enable processing of events and generation of system calls"));
+    sbSizer_events_top->Add(m_ckbox_events, 0, 0, 5);
+    m_txt_spam_timer = new wxTextCtrl(this, wxID_ANY,  wxEmptyString, wxDefaultPosition, wxSize(40,-1), 0, wxTextValidator(wxFILTER_DIGITS));
+    m_txt_spam_timer->SetToolTip(_("Many matching events can cause a flood of syscalls. Set minimum time (seconds) between syscalls for each event here"));
+    sbSizer_events_top->Add(m_txt_spam_timer, 0, 0, 5);
+    m_rb_spam_timer = new wxRadioButton( this, wxID_ANY, wxT(""), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
+    m_rb_spam_timer->SetForegroundColour( wxColour(0, 255, 0 ) );
+    sbSizer_events_top->Add(m_rb_spam_timer, 0, 0, 10);
+    sbSizer_events->Add(sbSizer_events_top, 0, 0, 5);
 
     // list of regexps
 
@@ -96,7 +111,7 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
 
     // log of events and responses
 
-    wxStaticBoxSizer* sbSizer_event_log = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Events and Responses")), wxVERTICAL);
+    wxStaticBoxSizer* sbSizer_event_log = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Log of Events and Responses")), wxVERTICAL);
     wxBoxSizer* bSizer33 = new wxBoxSizer(wxHORIZONTAL);
     m_txt_events_in = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxSize(200,50), wxTE_MULTILINE | wxTE_READONLY);
     bSizer33->Add(m_txt_events_in, 1, wxEXPAND, 5);
@@ -112,10 +127,12 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
     //------------------------------
 
     wxStaticBoxSizer* sbSizer_udp;
-    sbSizer_udp = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("UDP Control Port")), wxHORIZONTAL);
-    m_ckbox_udp_enable = new wxCheckBox(this, wxID_ANY, _("Enable UDP Control Port    UDP Port Nnumber:"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    wxStaticBox* sb_udp = new wxStaticBox(this, wxID_ANY, _("UDP Control Port"));
+    sbSizer_udp = new wxStaticBoxSizer(sb_udp, wxHORIZONTAL);
+    m_ckbox_udp_enable = new wxCheckBox(this, wxID_ANY, _("Enable UDP Control Port    UDP Port Number:"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    sb_udp->SetToolTip(_("Enable control of FreeDV via UDP port"));
     sbSizer_udp->Add(m_ckbox_udp_enable, 0,  wxALIGN_CENTER_HORIZONTAL, 5);
-    m_txt_udp_port = new wxTextCtrl(this, wxID_ANY,  wxEmptyString, wxDefaultPosition, wxSize(100,-1), 0, wxTextValidator(wxFILTER_DIGITS));
+    m_txt_udp_port = new wxTextCtrl(this, wxID_ANY,  wxEmptyString, wxDefaultPosition, wxSize(50,-1), 0, wxTextValidator(wxFILTER_DIGITS));
     sbSizer_udp->Add(m_txt_udp_port, 0, wxALIGN_CENTER_HORIZONTAL, 5);
 
     bSizer30->Add(sbSizer_udp,0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 3);
@@ -182,6 +199,8 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
         m_ckboxTestFrame->SetValue(wxGetApp().m_testFrames);
 
         m_ckbox_events->SetValue(wxGetApp().m_events);
+        m_txt_spam_timer->SetValue(wxString::Format(wxT("%i"),wxGetApp().m_events_spam_timer));
+
         m_txt_events_regexp_match->SetValue(wxGetApp().m_events_regexp_match);
         m_txt_events_regexp_replace->SetValue(wxGetApp().m_events_regexp_replace);
         
@@ -200,6 +219,9 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
         wxGetApp().m_testFrames    = m_ckboxTestFrame->GetValue();
 
         wxGetApp().m_events        = m_ckbox_events->GetValue();
+        long spam_timer;
+        m_txt_spam_timer->GetValue().ToLong(&spam_timer);
+        wxGetApp().m_events_spam_timer = (int)spam_timer;
 
         // make sure regexp lists are terminated by a \n
 
@@ -225,7 +247,9 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
         if (storePersistent) {
             pConfig->Write(wxT("/Data/CallSign"), wxGetApp().m_callSign);
             pConfig->Write(wxT("/Data/TextEncoding"), wxGetApp().m_textEncoding);
+
             pConfig->Write(wxT("/Events/enable"), wxGetApp().m_events);
+            pConfig->Write(wxT("/Events/spam_timer"), wxGetApp().m_events_spam_timer);
             pConfig->Write(wxT("/Events/regexp_match"), wxGetApp().m_events_regexp_match);
             pConfig->Write(wxT("/Events/regexp_replace"), wxGetApp().m_events_regexp_replace);
             
