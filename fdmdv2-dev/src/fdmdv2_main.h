@@ -79,7 +79,6 @@
 #include "portaudio.h"
 #include "dlg_audiooptions.h"
 #include "dlg_filter.h"
-#include "dlg_about.h"
 #include "dlg_options.h"
 #include "varicode.h"
 #include "sox_biquad.h"

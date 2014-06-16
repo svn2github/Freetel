@@ -1,5 +1,4 @@
 set(FREEDV_SOURCES
-    dlg_about.cpp
     dlg_audiooptions.cpp
     dlg_filter.cpp
     dlg_options.cpp
@@ -16,7 +15,6 @@ set(FREEDV_SOURCES
     sox_biquad.c
     varicode.c
     comp.h
-    dlg_about.h
     dlg_audiooptions.h
     dlg_filter.h
     dlg_options.h

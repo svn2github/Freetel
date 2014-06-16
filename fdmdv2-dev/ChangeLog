@@ -1,4 +1,188 @@
 ------------------------------------------------------------------------
+r1655 | hobbes1069 | 2014-06-16 09:36:03 -0500 (Mon, 16 Jun 2014) | 1 line
+
+Clone fdmdv2 into fdmdv2-dev for a development sandbox.
+------------------------------------------------------------------------
+r1654 | hobbes1069 | 2014-06-16 09:27:02 -0500 (Mon, 16 Jun 2014) | 1 line
+
+Add better portaudio detection with version. Stop linking with portaudiocpp as we don't seem to use it.
+------------------------------------------------------------------------
+r1648 | drowe67 | 2014-06-12 21:27:08 -0500 (Thu, 12 Jun 2014) | 1 line
+
+added anti system call spam tmer, and finally have checkboxes tooltips working
+------------------------------------------------------------------------
+r1647 | drowe67 | 2014-06-11 23:33:08 -0500 (Wed, 11 Jun 2014) | 1 line
+
+worked out sh -c cmd line how to use wxExecute which is much faster
+------------------------------------------------------------------------
+r1646 | drowe67 | 2014-06-11 22:35:45 -0500 (Wed, 11 Jun 2014) | 1 line
+
+made ok-cancel-apply order consistent across dialogs, converted short varicode to use 2 bits/frame
+------------------------------------------------------------------------
+r1645 | drowe67 | 2014-06-11 18:36:48 -0500 (Wed, 11 Jun 2014) | 1 line
+
+added UDP control port that can process a few commands, made options dialog non model, mostly working but a few corner cases to cover
+------------------------------------------------------------------------
+r1644 | drowe67 | 2014-06-10 04:52:34 -0500 (Tue, 10 Jun 2014) | 1 line
+
+nasty fix to mysterious window shrinking issue
+------------------------------------------------------------------------
+r1643 | drowe67 | 2014-06-10 02:40:23 -0500 (Tue, 10 Jun 2014) | 1 line
+
+first pass at matching multiple regexp
+------------------------------------------------------------------------
+r1642 | drowe67 | 2014-06-09 05:45:59 -0500 (Mon, 09 Jun 2014) | 1 line
+
+event processing starting to come together, issuing system commands and logging events
+------------------------------------------------------------------------
+r1641 | drowe67 | 2014-06-05 16:22:42 -0500 (Thu, 05 Jun 2014) | 1 line
+
+added feature to optionally play 1 kHz tone in left channel to trigger vox
+------------------------------------------------------------------------
+r1640 | drowe67 | 2014-06-05 05:50:43 -0500 (Thu, 05 Jun 2014) | 1 line
+
+added checksum and checksums stats display for txt messages, haven't tested on poor channels yet, works OK in analog loopback
+------------------------------------------------------------------------
+r1638 | drowe67 | 2014-06-05 01:52:22 -0500 (Thu, 05 Jun 2014) | 1 line
+
+fixed transposition and change to fdmdv_freq_shift(), thanks Bruce
+------------------------------------------------------------------------
+r1636 | drowe67 | 2014-06-04 22:57:44 -0500 (Wed, 04 Jun 2014) | 1 line
+
+more compact varicode option working
+------------------------------------------------------------------------
+r1633 | drowe67 | 2014-06-04 06:05:20 -0500 (Wed, 04 Jun 2014) | 1 line
+
+integrating choice of short and long varicode, short code still has some problems
+------------------------------------------------------------------------
+r1629 | hobbes1069 | 2014-06-03 11:51:43 -0500 (Tue, 03 Jun 2014) | 1 line
+
+Update references of codec2-dev to codec2.
+------------------------------------------------------------------------
+r1626 | hobbes1069 | 2014-06-03 08:09:51 -0500 (Tue, 03 Jun 2014) | 1 line
+
+Add comp.h to public headers.
+------------------------------------------------------------------------
+r1624 | drowe67 | 2014-06-02 17:15:31 -0500 (Mon, 02 Jun 2014) | 1 line
+
+clip bug, thanks Bruce
+------------------------------------------------------------------------
+r1622 | drowe67 | 2014-06-01 00:55:23 -0500 (Sun, 01 Jun 2014) | 1 line
+
+refactored varicode impl and api, freedv links with it ok, need to hook up option for new code 2 variant
+------------------------------------------------------------------------
+r1621 | drowe67 | 2014-05-31 23:19:47 -0500 (Sat, 31 May 2014) | 1 line
+
+added support for alternate varicode librray from fdmdv1, smaller char set, but uses about 20% of the bits
+------------------------------------------------------------------------
+r1620 | drowe67 | 2014-05-30 21:00:05 -0500 (Fri, 30 May 2014) | 1 line
+
+first draft of event processing GUI, still plenty of work to do to wire it up
+------------------------------------------------------------------------
+r1615 | drowe67 | 2014-05-30 01:05:58 -0500 (Fri, 30 May 2014) | 1 line
+
+added web integration dialog and persistant storgage for web integration.
+------------------------------------------------------------------------
+r1607 | drowe67 | 2014-05-28 18:57:27 -0500 (Wed, 28 May 2014) | 1 line
+
+corrected to/left swap bug, and added code so that window size is not saved if iconised. Thanks Steve & Bob
+------------------------------------------------------------------------
+r1597 | drowe67 | 2014-05-26 17:26:19 -0500 (Mon, 26 May 2014) | 1 line
+
+Stephen's patch reversed for now, so we csn tst Win32 registery/resize issues separately
+------------------------------------------------------------------------
+r1596 | drowe67 | 2014-05-26 16:21:17 -0500 (Mon, 26 May 2014) | 1 line
+
+Stephen's indep sound card selection logic and setting min size
+------------------------------------------------------------------------
+r1595 | drowe67 | 2014-05-26 16:20:40 -0500 (Mon, 26 May 2014) | 1 line
+
+Stephen's indep sound card selection logic and setting min size
+------------------------------------------------------------------------
+r1594 | hobbes1069 | 2014-05-24 21:41:14 -0500 (Sat, 24 May 2014) | 1 line
+
+Bump patch level for update.
+------------------------------------------------------------------------
+r1593 | drowe67 | 2014-05-24 20:11:41 -0500 (Sat, 24 May 2014) | 1 line
+
+first pass at Win32 registry bug
+------------------------------------------------------------------------
+r1592 | deuce | 2014-05-06 13:28:53 -0500 (Tue, 06 May 2014) | 4 lines
+
+Initialize the COM port defaults before opening to avoid a very short
+RTS/DTR transient on open.
+
+
+------------------------------------------------------------------------
+r1591 | deuce | 2014-05-05 23:20:22 -0500 (Mon, 05 May 2014) | 4 lines
+
+Performs more complete COM port initialization on Win32 to "clear out" settings in the control panel.
+Should fix the issue reported by WB8ILI if he's using Windows. 
+
+
+------------------------------------------------------------------------
+r1589 | hobbes1069 | 2014-05-04 13:06:05 -0500 (Sun, 04 May 2014) | 1 line
+
+Fix missing png library for windows installer and bump version to 0.96.6.
+------------------------------------------------------------------------
+r1494 | hobbes1069 | 2014-04-13 07:52:28 -0500 (Sun, 13 Apr 2014) | 1 line
+
+Commit patch for native serial PTT.
+------------------------------------------------------------------------
+r1480 | drowe67 | 2014-03-25 00:21:58 -0500 (Tue, 25 Mar 2014) | 1 line
+
+modified play testing for mono devices, compiles OK but can't test as I don't have any mono play devices
+------------------------------------------------------------------------
+r1478 | drowe67 | 2014-03-25 00:08:10 -0500 (Tue, 25 Mar 2014) | 1 line
+
+modified rec testing for mono devices
+------------------------------------------------------------------------
+r1400 | drowe67 | 2014-02-11 14:21:37 -0600 (Tue, 11 Feb 2014) | 1 line
+
+patch to stop tools-filter function crashing, thanks Kamal
+------------------------------------------------------------------------
+r1345 | hobbes1069 | 2013-12-16 14:41:56 -0600 (Mon, 16 Dec 2013) | 1 line
+
+Add better error message when an in-source build is attempted. Add workaround for bootstrap build of wxWidgets due to cmake bug. Update minimum wxWidgets version to 3.0.0.
+------------------------------------------------------------------------
+r1332 | bruceperens | 2013-12-10 22:08:16 -0600 (Tue, 10 Dec 2013) | 3 lines
+
+Add scripts that install the necessary runtime or development packages on
+Debian, and perhaps also on Ubuntu and Mint.
+
+------------------------------------------------------------------------
+r1331 | hobbes1069 | 2013-12-06 14:43:02 -0600 (Fri, 06 Dec 2013) | 1 line
+
+Make in-source build error message more human readable.
+------------------------------------------------------------------------
+r1330 | hobbes1069 | 2013-10-08 14:32:59 -0500 (Tue, 08 Oct 2013) | 1 line
+
+Update libctb static build.
+------------------------------------------------------------------------
+r1329 | hobbes1069 | 2013-10-07 16:15:25 -0500 (Mon, 07 Oct 2013) | 1 line
+
+Update codec2 svn checkout URL in BuildCodec2.cmake
+------------------------------------------------------------------------
+r1328 | drowe67 | 2013-08-12 21:22:40 -0500 (Mon, 12 Aug 2013) | 1 line
+
+minor changes to defaults, re-enabled support for changing callsign when running, cleaner open/close of hamlib
+------------------------------------------------------------------------
+r1327 | drowe67 | 2013-08-07 01:02:32 -0500 (Wed, 07 Aug 2013) | 1 line
+
+populating both serial port lists for Win32
+------------------------------------------------------------------------
+r1326 | drowe67 | 2013-08-07 00:44:18 -0500 (Wed, 07 Aug 2013) | 1 line
+
+change space bar capture logic to allow call signs strings with spaces, works on Linux OK
+------------------------------------------------------------------------
+r1325 | drowe67 | 2013-07-29 00:06:40 -0500 (Mon, 29 Jul 2013) | 1 line
+
+Comm ports listing on Win32
+------------------------------------------------------------------------
+r1320 | hobbes1069 | 2013-06-17 15:35:59 -0500 (Mon, 17 Jun 2013) | 1 line
+
+Create prelimary librfmodem and copy golay23 sources there. Dump svn log into ChangeLog as something is better than nothing.
+------------------------------------------------------------------------
 r1317 | hobbes1069 | 2013-06-13 10:40:39 -0500 (Thu, 13 Jun 2013) | 1 line
 
 Update wxWidgets bootstrap process to be more simple and other tweaks to USE_STATIC_... options.
