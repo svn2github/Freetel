@@ -1,0 +1,197 @@
+# src/Makefile.linux
+# David Rowe 10 Oct 2012
+#
+# Makefile for Linux - builds the less common libraries locally and
+# doesn't install them.
+#
+# $ make -f Makefile.linux
+
+SVN_REVISION=$(shell svnversion)
+
+# The list of required libraries, we will build this as we go
+LIBS_TO_BUILD :=
+
+SYSTEM_HAMLIB=y
+SYSTEM_PORTAUDIO=n
+
+# wxWidgets ---------------------------------------------
+
+ifneq ($(SYSTEM_WXWIDGETS),y)
+WXWIDGETS=wxWidgets-2.9.4
+WX_GTK_PATH=$(WXWIDGETS)/build_gtk
+WX_CONFIG=$(WX_GTK_PATH)/wx-config
+LIBS_TO_BUILD += $(WXWIDGETS)/.built
+else
+WX_CONFIG=$(shell which wx-config)
+endif
+WX_CPPFLAGS = $(shell $(WX_CONFIG) --cxxflags)
+WX_LIBS = $(shell $(WX_CONFIG) --libs core, base, aui, adv, net)
+
+# Portaudio ---------------------------------------------
+
+ifeq ($(SYSTEM_PORTAUDIO),n)
+PORTAUDIO=portaudio
+PORTAUDIO_TARBALL=pa_stable_v19_20111121
+PORTAUDIO_INC=-I$(PORTAUDIO)/include
+PORTAUDIO_LIB=$(PORTAUDIO)/lib/.libs/libportaudio.a
+LIBS_TO_BUILD += $(PORTAUDIO)/.built
+
+# if libasound is available, PortAudio will be using it, so we will
+# need to add it to freedv link line.  To test if it is present, we try
+# to link a small C program with -lasound
+
+LIBASOUND=$(shell echo "int main(void) {return 0;}" | gcc -xc - -lasound 2>/dev/null ; if [ $$? -eq 0 ] ; then echo "-lasound" ; fi )
+
+else
+PORTAUDIO_INC ?= $(shell pkg-config portaudio-2.0 --cflags)
+PORTAUDIO_LIB ?= $(shell pkg-config portaudio-2.0 --libs)
+
+# libasound will be taken care of by pkg-config
+LIBASOUND=
+endif
+
+# Codec 2 -----------------------------------------------
+
+CODEC2=codec2-dev
+CODEC2_INC=-I$(CODEC2)/src
+CODEC2_LIB=$(CODEC2)/build_dir/src/libcodec2.a
+
+# Sox ---------------------------------------------------
+# (libmagic is rqd or later versions of Ubuntu)
+
+SOX=sox-14.4.0
+ifeq ($(SYSTEM_SOX),y)
+SOX_INC ?= $(shell pkg-config sox --cflags)
+SOX_LIB ?= $(shell pkg-config sox --libs)
+else
+SOX_INC=-I$(SOX)/src/
+SOX_LIB=$(SOX)/src/.libs/libsox.a
+LIBS_TO_BUILD += $(SOX)/.built
+endif
+
+# Hamlib ---------------------------------------------------
+
+HAMLIB=hamlib-1.2.15.3
+ifeq ($(SYSTEM_HAMLIB),y)
+#HAMLIB_INC ?= $(shell pkg-config hamlib --cflags)
+#HAMLIB_LIB ?= $(shell pkg-config hamlib --libs)
+HAMLIB_LIB = -lhamlib
+else
+HAMLIB_INC=-I$(HAMLIB)/include/hamlib
+# TODO: need to include all the backends too
+HAMLIB_LIB=$(HAMLIB)/src/.libs/libhamlib.a
+LIBS_TO_BUILD += $(HAMLIB)/.built
+endif
+
+# CTB ---------------------------------------------------
+
+CTB=libctb-0.16
+CTB_INC=-I$(CTB)/include
+CTB_LIB=$(CTB)/lib/libctb-0.16.a
+LIBS_TO_BUILD += $(CTB)/.built
+
+# FreeDV ------------------------------------------------
+
+CPP_FLAGS = -D_NO_AUTOTOOLS_ $(WX_CPPFLAGS) $(PORTAUDIO_INC) $(CODEC2_INC) \
+	    $(HAMLIB_INC) $(CTB_INC) $(SOX_INC) -I. -g -Wall -O2 \
+	    -DSVN_REVISION='"$(SVN_REVISION)"' -MMD -MP
+FREEDV_LIBS = $(WX_LIBS) $(PORTAUDIO_LIB) $(CODEC2_LIB) $(SOX_LIB) $(HAMLIB_LIB) \
+	     $(CTB_LIB) -lm -lpthread -lsndfile -lsamplerate $(LIBASOUND)
+
+OBJS = topFrame.o \
+fdmdv2_main.o \
+fdmdv2_plot.o \
+fdmdv2_plot_scalar.o \
+fdmdv2_plot_scatter.o \
+fdmdv2_plot_spectrum.o \
+fdmdv2_plot_waterfall.o \
+fdmdv2_pa_wrapper.o \
+dlg_audiooptions.o \
+dlg_ptt.o \
+dlg_filter.o \
+dlg_options.o \
+varicode.o \
+sox_biquad.o \
+codec2-dev/src/golay23.c \
+hamlib.o
+
+all: $(LIBS_TO_BUILD) $(CODEC2)/.built freedv
+
+freedv: $(OBJS) 
+	$(CXX) -o freedv $(OBJS) $(CPP_FLAGS) $(FREEDV_LIBS)
+
+%.o: %.cpp
+	$(CXX) -MMD -MF $(@:.o=.d) $(CPP_FLAGS) -c $< -o $@
+
+%.o: %.c
+	$(CC) -MMD -MF $(@:.o=.d) $(CPP_FLAGS) -c $< -o $@
+
+-include $(OBJ:.o=.d)
+
+clean:
+	rm -f *.d *.o freedv
+
+clean-lib:
+	rm -Rf $(WXWIDGETS) $(PORTAUDIO) $(CODEC2) $(SOX) $(CTB)
+	rm -f *.d *.o freedv
+
+# wxWidgets ---------------------------------------------------------
+
+ifneq ($(WXWIDGETS),)
+$(WXWIDGETS)/.built: $(WXWIDGETS)
+	cd $(WXWIDGETS) && mkdir -p build_gtk && cd build_gtk && ../configure && make && touch ../.built
+     
+$(WXWIDGETS): $(WXWIDGETS).tar.bz2
+	tar xvjf $(WXWIDGETS).tar.bz2
+
+$(WXWIDGETS).tar.bz2:
+	wget http://downloads.sourceforge.net/project/wxwindows/2.9.4/wxWidgets-2.9.4.tar.bz2
+endif
+
+# Portaudio ---------------------------------------------------------
+
+ifneq ($(PORTAUDIO),)
+$(PORTAUDIO)/.built: $(PORTAUDIO)
+	cd $(PORTAUDIO) && ./configure --enable-cxx --without-jack && make && touch .built
+     
+$(PORTAUDIO): $(PORTAUDIO_TARBALL).tgz
+	tar xvzf $(PORTAUDIO_TARBALL).tgz
+
+$(PORTAUDIO_TARBALL).tgz:
+	wget http://www.portaudio.com/archives/$(PORTAUDIO_TARBALL).tgz
+endif
+
+# Codec 2 ----------------------------------------------------------
+
+$(CODEC2)/.built: $(CODEC2)
+	cd $(CODEC2)/build_dir && cmake ../ && make && touch ../.built
+
+$(CODEC2):
+	svn co https://freetel.svn.sourceforge.net/svnroot/freetel/codec2
+        
+# sox -------------------------------------------------------------
+
+$(SOX)/.built: $(SOX)
+	cd $(SOX) && \
+	./configure --enable-shared=no --without-id3tag --without-png --disable-gomp --with-oggvorbis=no --with-oss=no --with-flac=no --disable-dl-sndfile --with-pulseaudio=no --without-magic \
+	&& make && touch .built
+               
+$(SOX) : $(SOX).tar.bz2
+	tar xvjf $(SOX).tar.bz2
+       
+$(SOX).tar.bz2:
+	wget http://downloads.sourceforge.net/project/sox/sox/14.4.0/sox-14.4.0.tar.bz2
+
+# CTB -------------------------------------------------------------
+
+$(CTB)/.built: $(CTB)
+	cd $(CTB)/build && make && touch ../.built
+               
+$(CTB) : $(CTB).tar.gz
+	tar xvzf $(CTB).tar.gz
+       
+$(CTB).tar.gz:
+	wget https://iftools.com/download/ctb/0.16/libctb-0.16.tar.gz
+
+# Source file dependency information
+-include $(wildcard *.d)

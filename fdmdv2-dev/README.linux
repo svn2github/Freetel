@@ -1,0 +1,75 @@
+README.linux for fdmdv2
+Created by David Rowe
+Oct 14 2012
+
+BUILDING FreeDV for Linux
+=========================
+
+1. FreeDV was developed on Ubuntu 9.1 and 10.04 systems. It has been
+   tested on OSS (Ubuntu 9.1) and ALSA (Ubuntu 10.04) sound systems.
+
+2. A typical ALSA installation (e.g., Ubuntu 10.04) first install the
+   following packages:
+
+   $ sudo apt-get install libgtk2.0-dev libsamplerate0-dev libsndfile1-dev libasound2-dev
+
+3. If you would like to use OSS rather than ALSA do not install libasound2-dev.
+
+4. Makefile.linux will download the libraries you need, configure and
+   build them, then build FreeDV.  Makefile.linux will _not_ install
+   any of the libraries built for FreeDV on your system.
+
+   cd fdmdv2/src 
+   make -f Makefile.linux
+
+Linux usage Notes
+=================
+
+1. Config is stored in ~/.FreeDV, rm this file to restore defaults
+
+
+TODO
+====
+
+[ ] Stopping Waterfall
+    + When Stop pressed lower 25% of Waterfall isn't erased
+
+[ ] release clean up
+    [ ] remove/comment out debug printfs
+    [ ] help about with URL (hyperlink?) to web site & donations
+    [ ] buffer sizes, maybe make a config number
+    [ ] tool tip help for audio config dialog
+
+IDEAS
+=====
+
+1. Tabbed page option that draws block diagram of system and draws
+   line between sound devices and modem blocks.  Lines move depending
+   if we are in sync, audio pass thru etc
+
+2. Way to I/O to/from files on each "port", for example:
+   + monitor input speech or feed input speech
+
+3. (Thomas Kocourek n4fwd) Context sensitive help.
+
+4. Look at how people hook up and use program, stop common mistakes or assumptions
+
+5. Squelch implementation.  Effect of SNR bouncing around might be to
+   have audio cut in and out.  We might need a better way of
+   triggering mute, such as amplitude of pilots, or smoother SNR.  Or
+   hysteresis in Squelch.
+
+User Manual Notes
+-----------------
+
+Count 5 seconds when removing/installing USB sound devices before
+pressing refesh.
+
+Describe what a valid one card and two card configuration looks like.
+Draw a block diagram, image of set up dialog.
+
+What a good scatter diagram/spectrum looks like
+
+Setting up in audio loopback
+
+Right click drag tabs, new window, tab order

@@ -1,0 +1,73 @@
+README.Win32
+David Rowe 27 Oct 2012
+
+Debugging Under Windows
+-----------------------
+
+printfs don't appear until after the program finishes.  wxLogDebug()
+works but you need to run DebugView available from
+http://www.sysinternals.com to capture the messages.
+
+Building fdmdv2 for Windows
+---------------------------
+
+This is how David R did it, Dave Witten used a different approach.
+Many variations are possible.
+
+1. Install MinGW & the mysys shell
+   + pwd -W prints true Win32 directory
+   + I also installed emacs, "tortise svn", and DebugView
+
+2. "make install" for various packages below put DLLs in /usr/local/lib
+   "cd /usr/local/lib; pwd -W" to find the Win32 directory
+   add this to the Windows PATH (Control Panel - System - Advanced)
+
+3. WxWidgets:
+   download 2.9.4 tar ball
+   mkdir build-debug; cd build-debug
+   ./configure --with-msw
+   make && make install
+
+4. PortAudio:
+   download latest V19
+   ./configure --enable-cxx
+   make && make install
+
+5. libsndfile:
+   download lastest source tar ball (not Win32 binaries)
+   ./configure && make && make install
+
+6. libsamplerate:
+   download latest source tar ball:
+       http://www.mega-nerd.com/SRC/libsamplerate-0.1.8.tar.gz(not Win32 binaries)
+   ./configure && make && make install
+
+7. hamlib
+
+   I couldn't get this to compile from source, so used the pre-built Win32
+   DLLs:
+
+   Download https://downloads.sourceforge.net/project/hamlib/hamlib/1.2.15.3/hamlib-win32-1.2.15.3.zip
+   Open hamlib-win32-1.2.15.3.zip with a GUI archive tool
+   Copy hamlib/include/* to /usr/local/include
+   Copy hamlib/bin/hamlib*.dll to /usr/local/lib
+   Copy hamlib/lib/gcc to /usr/local/lib
+
+8. sox (used for Filter - EQ)
+
+   $ wget http://sourceforge.net/projects/sox/files/sox/14.4.0/sox-14.4.0.tar.gz
+   $ tar xvzf sox-14.4.0.tar.gz
+   $ ./configure --enable-shared=no --without-id3tag --without-png --disable-gomp --with-oggvorbis=no --with-oss=no --with-flac=no --disable-dl-sndfile --with-waveaudio=no
+   $ make && make install
+
+   I couldn't find an install command line that worked, so manually copied the libs and include files.
+
+9. Codec 2
+   $ wget https://freetel.svn.sourceforge.net/svnroot/freetel/codec2
+   $ cd codec2
+   $ ./configure && make
+
+10. svn co fdmdv2
+    cd fdmdv2/src
+    make -f Makefile.Win32
+
