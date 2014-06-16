@@ -19,6 +19,9 @@ if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
    "separate build directory and run cmake from there.")
 endif("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
 
+# Set local module path.
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+
 project(FreeDV)
 
 #
@@ -221,31 +224,38 @@ message(STATUS "Threads library flags: ${CMAKE_THREAD_LIBS_INIT}")
 #
 if(NOT USE_STATIC_PORTAUDIO)
     message(STATUS "Looking for portaudio...")
-    find_library(PORTAUDIO_LIBS NAMES libportaudio-2.dll portaudio HINTS /usr/local/lib/portaudio2)
-    find_path(PORTAUDIO_INCLUDE_DIR portaudio.h HINTS /usr/local/include/portaudio2)
-    message(STATUS "  portaudio library: ${PORTAUDIO_LIBS}")
-    message(STATUS "  portaudio headers: ${PORTAUDIO_INCLUDE_DIR}")
-    if(PORTAUDIO_LIBS AND PORTAUDIO_INCLUDE_DIR)
-        list(APPEND FREEDV_LINK_LIBS ${PORTAUDIO_LIBS})
-        include_directories(${PORTAUDIO_INCLUDE_DIR})
-    else(PORTAUDIO_LIBS AND PORTAUDIO_INCLUDE_DIR)
-        message(FATAL_ERROR "portaudio library not found.
-On Linux systems try installing:
-    portaudio-devel  (RPM based systems)
-    libportaudio-dev (DEB based systems)
-On Windows it's easiest to use the cmake option: USE_STATIC_PORTAUDIO"
-        )
-    endif(PORTAUDIO_LIBS AND PORTAUDIO_INCLUDE_DIR)
+find_package(Portaudio REQUIRED)
+if(PORTAUDIO_FOUND AND ${PORTAUDIO_VERSION} EQUAL 19)
+    list(APPEND FREEDV_LINK_LIBRARIES ${PORTAUDIO_LIBRARIES})
+    include_directories(${PORTAUDIO_INCLUDE_DIRS})
+else()
+    message(WARNING "Portaudio versions other than 19 are known to have issues. You have been warned!")
+endif()
+#    find_library(PORTAUDIO_LIBS NAMES libportaudio-2.dll portaudio HINTS /usr/local/lib/portaudio2)
+#    find_path(PORTAUDIO_INCLUDE_DIR portaudio.h HINTS /usr/local/include/portaudio2)
+#    message(STATUS "  portaudio library: ${PORTAUDIO_LIBS}")
+#    message(STATUS "  portaudio headers: ${PORTAUDIO_INCLUDE_DIR}")
+#    if(PORTAUDIO_LIBS AND PORTAUDIO_INCLUDE_DIR)
+#        list(APPEND FREEDV_LINK_LIBS ${PORTAUDIO_LIBS})
+#        include_directories(${PORTAUDIO_INCLUDE_DIR})
+#    else(PORTAUDIO_LIBS AND PORTAUDIO_INCLUDE_DIR)
+#        message(FATAL_ERROR "portaudio library not found.
+#On Linux systems try installing:
+#    portaudio-devel  (RPM based systems)
+#    libportaudio-dev (DEB based systems)
+#On Windows it's easiest to use the cmake option: USE_STATIC_PORTAUDIO"
+#        )
+#    endif(PORTAUDIO_LIBS AND PORTAUDIO_INCLUDE_DIR)
 else(NOT USE_STATIC_PORTAUDIO)
     message(STATUS "Will attempt static build of portaudio.")
     include(cmake/BuildPortaudio.cmake)
 endif(NOT USE_STATIC_PORTAUDIO)
 # Do we need this?
-find_library(PORTAUDIOCPP portaudiocpp)
-if(PORTAUDIOCPP)
-    message(STATUS "portaudiocpp library: ${PORTAUDIOCPP}")
-    list(APPEND FREEDV_LINK_LIBS ${PORTAUDIOCPP})
-endif(PORTAUDIOCPP)
+#find_library(PORTAUDIOCPP portaudiocpp)
+#if(PORTAUDIOCPP)
+#    message(STATUS "portaudiocpp library: ${PORTAUDIOCPP}")
+#    list(APPEND FREEDV_LINK_LIBS ${PORTAUDIOCPP})
+#endif(PORTAUDIOCPP)
 
 #
 # Hamlib library
