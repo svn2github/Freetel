@@ -13,9 +13,10 @@ UsedLibrary="C:/Users/rbarnich/My Projects/EagleFiles/lbr/A-LINEAR.lbr"
 UsedLibrary="C:/Users/rbarnich/My Projects/EagleFiles/lbr/A-RCL.lbr"
 UsedLibrary="C:/Users/rbarnich/My Projects/EagleFiles/lbr/A-SUPPLY2.lbr"
 UsedLibrary="C:/Users/rbarnich/My Projects/EagleFiles/lbr/AA-ipc-7351-capacitor.lbr"
+UsedLibrary="C:/Users/rbarnich/My Projects/EagleFiles/lbr/AA-ipc-7351-resistor.lbr"
+UsedLibrary="C:/Users/rbarnich/My Projects/EagleFiles/lbr/SM1000.lbr"
 UsedLibrary="C:/Users/rbarnich/My Projects/EagleFiles/lbr/_Coherix.lbr"
 UsedLibrary="C:/Users/rbarnich/My Projects/EagleFiles/lbr/_RoweTel.lbr"
-UsedLibrary="SM1000.lbr"
 
 [Win_1]
 Type="Control Panel"
