@@ -1,0 +1,45 @@
+Project Library Creation Log File 6/18/2014 12:14:01 PM
+EAGLE Version 6.5.0 Copyright (c) 1988-2013 CadSoft
+Created from: SM1000-REV-B1.brd
+
+LIBRARY: SM1000-REV-B1.lbr
+   PAC: AA-IC_ECOPACK-11
+   PAC: AA-IC_SOT23-5L
+   PAC: AA-ipc-7351-capacitor_CAPC1608X92N
+   PAC: AA-ipc-7351-resistor_RESC1608X55N
+   PAC: SM1000_C1210
+   PAC: SM1000_HRS-DF11-16DS
+   PAC: SM1000_LQFP100-14
+   PAC: SM1000_MOLEX-MINI-B-SMT
+   PAC: SM1000_RCL1218
+   PAC: SM1000-2L-70x90_SW-BOURNS-7914S
+   PAC: _Coherix_CONN-RJ45-MOLEX-44144-003
+   PAC: _Coherix_HDR100-3
+   PAC: _Coherix_JMPR-2PIN
+   PAC: _Coherix_LED-LTST
+   PAC: _Coherix_NOPACKAGE
+   PAC: _Coherix_TPAD50
+   PAC: _RoweTel_C1206-TANT
+   PAC: _RoweTel_CAP-CHEMI-HA0
+   PAC: _RoweTel_CMA-4544PF-W
+   PAC: _RoweTel_FCM1608
+   PAC: _RoweTel_FE0805
+   PAC: _RoweTel_LTST-S2200K
+   PAC: _RoweTel_MJ-3523-SMT
+   PAC: _RoweTel_POT-3310C
+   PAC: _RoweTel_PSO-DDA
+   PAC: _RoweTel_RASM712PX
+   PAC: _RoweTel_SM-LP-5001
+   PAC: _RoweTel_SMD4
+   PAC: _RoweTel_SO08
+   PAC: _RoweTel_SOD323R_INFINEON
+   PAC: _RoweTel_SOT23-5L
+   PAC: _RoweTel_SOT23-6
+   PAC: _RoweTel_SRN6045
+   PAC: _RoweTel_SW-PWR
+   PAC: _RoweTel_TRIMPOT91
+   PAC: _RoweTel_XTAL-FY0800035
+   PAC: drilegend_DRILEGEND
+   PAC: ipc-7351-capacitor_CAPC1608X92N
+   PAC: ipc-7351-capacitor_CAPC3215X168N
+   PAC: ipc-7351-capacitor_CAPC3225X168N
