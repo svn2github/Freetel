@@ -3898,7 +3898,7 @@ http://www.weartronics.com/</description>
 <part name="R46" library="_RoweTel" deviceset="POT-3310C" device="" value="10K"/>
 <part name="SW3" library="_RoweTel" deviceset="SW-PWR-E-SWITCH" device="" value="DPDT"/>
 <part name="C26" library="ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,25V"/>
-<part name="C27" library="ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="20pF,16V"/>
+<part name="C27" library="ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="22pF"/>
 <part name="R35" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="124.0K,1%"/>
 <part name="R36" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="22.1K,1%"/>
 <part name="V41" library="A-SUPPLY2" deviceset="GND" device=""/>
@@ -3915,7 +3915,7 @@ http://www.weartronics.com/</description>
 <part name="V54" library="A-SUPPLY2" deviceset="+5V" device=""/>
 <part name="V55" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V56" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="C34" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="1nF,25V"/>
+<part name="C34" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="1nF,50V"/>
 <part name="R39" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="22.1K,1%"/>
 <part name="R40" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="2.2K,1%"/>
 <part name="V59" library="A-SUPPLY2" deviceset="GND" device=""/>
@@ -5812,10 +5812,7 @@ AIN1,AIN2,DAC1,DAC2</text>
 <text x="330.2" y="205.74" size="1.27" layer="94" ratio="10">06/17/2014</text>
 <text x="332.74" y="203.2" size="1.27" layer="94" ratio="10">50. Changed Select &amp; Back circuits to match PTT.</text>
 <wire x1="327.66" y1="200.66" x2="327.66" y2="279.4" width="0.1524" layer="94" style="longdash"/>
-<text x="332.74" y="208.28" size="1.4224" layer="94" ratio="10">51.Correct XTAL cap value to 20pFfrom 20nF.</text>
-<text x="332.74" y="210.82" size="1.4224" layer="94" ratio="10">52. Change C27 value to 20pF to combine with other 20pF caps.</text>
-<text x="332.74" y="213.36" size="1.4224" layer="94" ratio="10">53. Change C34 to 25V to combine with C1.</text>
-<text x="330.2" y="215.9" size="1.27" layer="94" ratio="10">06/18/2014</text>
+<text x="332.74" y="208.28" size="1.4224" layer="94" ratio="10">Complete</text>
 </plain>
 <instances>
 <instance part="CN5" gate="G$1" x="30.48" y="129.54" smashed="yes" rot="MR180">
@@ -5852,7 +5849,7 @@ AIN1,AIN2,DAC1,DAC2</text>
 </instance>
 <instance part="C27" gate="G$1" x="198.12" y="238.76" smashed="yes" rot="R270">
 <attribute name="NAME" x="190.5" y="236.22" size="1.4224" layer="95" ratio="9"/>
-<attribute name="VALUE" x="187.96" y="233.68" size="1.4224" layer="96" ratio="9"/>
+<attribute name="VALUE" x="190.5" y="233.68" size="1.4224" layer="96" ratio="9"/>
 </instance>
 <instance part="R35" gate="G$1" x="208.28" y="238.76" smashed="yes" rot="R270">
 <attribute name="NAME" x="213.36" y="241.3" size="1.4224" layer="95" ratio="9" rot="R270"/>
