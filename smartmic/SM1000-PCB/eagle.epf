@@ -63,11 +63,12 @@ ArcDirection=0
 AddLevel=2
 PadsSameType=0
 Layer=91
+Views=" 1: -9.15959 -6.11632 440.723 285.516"
 Sheet=1
 
 [Win_2]
 Type="Control Panel"
-Loc="868 19 1467 415"
+Loc="637 80 1236 476"
 State=2
 Number=0
 
