@@ -3915,7 +3915,7 @@ http://www.weartronics.com/</description>
 <part name="V54" library="A-SUPPLY2" deviceset="+5V" device=""/>
 <part name="V55" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V56" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="C34" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100pF,50V"/>
+<part name="C34" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="1nF,50V"/>
 <part name="R39" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="22.1K,1%"/>
 <part name="R40" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="2.2K,1%"/>
 <part name="V59" library="A-SUPPLY2" deviceset="GND" device=""/>
@@ -4115,6 +4115,7 @@ http://www.weartronics.com/</description>
 <part name="C30" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="10nF,25V"/>
 <part name="V122" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="R9" library="SM1000" deviceset="RCL1218" device="" value="10,5%,1218"/>
+<part name="R11" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="100,1%"/>
 </parts>
 <sheets>
 <sheet>
@@ -4470,25 +4471,25 @@ http://www.weartronics.com/</description>
 </instance>
 <instance part="V14" gate="GND" x="35.56" y="91.44"/>
 <instance part="V20" gate="G$1" x="20.32" y="106.68" rot="R90"/>
-<instance part="SW2" gate="G$1" x="243.84" y="228.6" smashed="yes" rot="R90">
-<attribute name="NAME" x="248.92" y="238.76" size="1.4224" layer="95" ratio="10"/>
-<attribute name="VALUE" x="246.38" y="231.14" size="1.4224" layer="96" ratio="10"/>
+<instance part="SW2" gate="G$1" x="243.84" y="241.3" smashed="yes" rot="R90">
+<attribute name="NAME" x="248.92" y="251.46" size="1.4224" layer="95" ratio="10"/>
+<attribute name="VALUE" x="246.38" y="243.84" size="1.4224" layer="96" ratio="10"/>
 </instance>
-<instance part="R7" gate="G$1" x="243.84" y="259.08" smashed="yes" rot="R90">
-<attribute name="NAME" x="246.38" y="259.08" size="1.4224" layer="95" ratio="9"/>
-<attribute name="VALUE" x="246.38" y="256.54" size="1.4224" layer="96" ratio="9"/>
+<instance part="R7" gate="G$1" x="243.84" y="226.06" smashed="yes" rot="R90">
+<attribute name="NAME" x="246.38" y="226.06" size="1.4224" layer="95" ratio="9"/>
+<attribute name="VALUE" x="246.38" y="223.52" size="1.4224" layer="96" ratio="9"/>
 </instance>
 <instance part="V21" gate="GND" x="243.84" y="215.9"/>
 <instance part="V37" gate="G$1" x="243.84" y="266.7" smashed="yes">
 <attribute name="VALUE" x="241.3" y="269.748" size="1.4224" layer="95" ratio="9"/>
 </instance>
-<instance part="SW4" gate="G$1" x="281.94" y="228.6" smashed="yes" rot="R90">
-<attribute name="NAME" x="287.02" y="238.76" size="1.4224" layer="95" ratio="10"/>
-<attribute name="VALUE" x="287.02" y="233.68" size="1.4224" layer="96" ratio="10"/>
+<instance part="SW4" gate="G$1" x="281.94" y="241.3" smashed="yes" rot="R90">
+<attribute name="NAME" x="287.02" y="251.46" size="1.4224" layer="95" ratio="10"/>
+<attribute name="VALUE" x="287.02" y="246.38" size="1.4224" layer="96" ratio="10"/>
 </instance>
-<instance part="R8" gate="G$1" x="281.94" y="259.08" smashed="yes" rot="R90">
-<attribute name="NAME" x="284.48" y="259.08" size="1.4224" layer="95" ratio="9"/>
-<attribute name="VALUE" x="284.48" y="256.54" size="1.4224" layer="96" ratio="9"/>
+<instance part="R8" gate="G$1" x="281.94" y="226.06" smashed="yes" rot="R90">
+<attribute name="NAME" x="284.48" y="226.06" size="1.4224" layer="95" ratio="9"/>
+<attribute name="VALUE" x="284.48" y="223.52" size="1.4224" layer="96" ratio="9"/>
 </instance>
 <instance part="V44" gate="GND" x="281.94" y="215.9"/>
 <instance part="V101" gate="G$1" x="281.94" y="266.7" smashed="yes">
@@ -4703,16 +4704,6 @@ http://www.weartronics.com/</description>
 <pinref part="V20" gate="G$1" pin="VDD"/>
 </segment>
 <segment>
-<wire x1="281.94" y1="264.16" x2="281.94" y2="266.7" width="0.1524" layer="91"/>
-<pinref part="V101" gate="G$1" pin="VDD"/>
-<pinref part="R8" gate="G$1" pin="2"/>
-</segment>
-<segment>
-<pinref part="R7" gate="G$1" pin="2"/>
-<pinref part="V37" gate="G$1" pin="VDD"/>
-<wire x1="243.84" y1="264.16" x2="243.84" y2="266.7" width="0.1524" layer="91"/>
-</segment>
-<segment>
 <pinref part="V119" gate="G$1" pin="VDD"/>
 <pinref part="P13" gate="G$1" pin="1"/>
 <wire x1="78.74" y1="264.16" x2="78.74" y2="261.62" width="0.1524" layer="91"/>
@@ -4726,6 +4717,28 @@ http://www.weartronics.com/</description>
 <pinref part="V121" gate="G$1" pin="VDD"/>
 <pinref part="P17" gate="G$1" pin="1"/>
 <wire x1="99.06" y1="264.16" x2="99.06" y2="261.62" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="SW2" gate="G$1" pin="P$3"/>
+<wire x1="241.3" y1="261.62" x2="241.3" y2="264.16" width="0.1524" layer="91"/>
+<pinref part="SW2" gate="G$1" pin="P$4"/>
+<wire x1="241.3" y1="264.16" x2="243.84" y2="264.16" width="0.1524" layer="91"/>
+<wire x1="243.84" y1="264.16" x2="246.38" y2="264.16" width="0.1524" layer="91"/>
+<wire x1="246.38" y1="264.16" x2="246.38" y2="261.62" width="0.1524" layer="91"/>
+<pinref part="V37" gate="G$1" pin="VDD"/>
+<wire x1="243.84" y1="264.16" x2="243.84" y2="266.7" width="0.1524" layer="91"/>
+<junction x="243.84" y="264.16"/>
+</segment>
+<segment>
+<pinref part="SW4" gate="G$1" pin="P$3"/>
+<wire x1="279.4" y1="261.62" x2="279.4" y2="264.16" width="0.1524" layer="91"/>
+<pinref part="SW4" gate="G$1" pin="P$4"/>
+<wire x1="279.4" y1="264.16" x2="281.94" y2="264.16" width="0.1524" layer="91"/>
+<wire x1="281.94" y1="264.16" x2="284.48" y2="264.16" width="0.1524" layer="91"/>
+<wire x1="284.48" y1="264.16" x2="284.48" y2="261.62" width="0.1524" layer="91"/>
+<pinref part="V101" gate="G$1" pin="VDD"/>
+<wire x1="281.94" y1="264.16" x2="281.94" y2="266.7" width="0.1524" layer="91"/>
+<junction x="281.94" y="264.16"/>
 </segment>
 </net>
 <net name="BOOT1" class="0">
@@ -4964,28 +4977,6 @@ http://www.weartronics.com/</description>
 <pinref part="V14" gate="GND" pin="GND"/>
 </segment>
 <segment>
-<pinref part="SW2" gate="G$1" pin="P$2"/>
-<wire x1="246.38" y1="220.98" x2="246.38" y2="223.52" width="0.1524" layer="91"/>
-<pinref part="SW2" gate="G$1" pin="P$1"/>
-<wire x1="241.3" y1="223.52" x2="241.3" y2="220.98" width="0.1524" layer="91"/>
-<wire x1="241.3" y1="220.98" x2="243.84" y2="220.98" width="0.1524" layer="91"/>
-<pinref part="V21" gate="GND" pin="GND"/>
-<wire x1="243.84" y1="220.98" x2="246.38" y2="220.98" width="0.1524" layer="91"/>
-<wire x1="243.84" y1="218.44" x2="243.84" y2="220.98" width="0.1524" layer="91"/>
-<junction x="243.84" y="220.98"/>
-</segment>
-<segment>
-<pinref part="SW4" gate="G$1" pin="P$1"/>
-<wire x1="279.4" y1="223.52" x2="279.4" y2="220.98" width="0.1524" layer="91"/>
-<wire x1="279.4" y1="220.98" x2="281.94" y2="220.98" width="0.1524" layer="91"/>
-<pinref part="SW4" gate="G$1" pin="P$2"/>
-<wire x1="281.94" y1="220.98" x2="284.48" y2="220.98" width="0.1524" layer="91"/>
-<wire x1="284.48" y1="220.98" x2="284.48" y2="223.52" width="0.1524" layer="91"/>
-<pinref part="V44" gate="GND" pin="GND"/>
-<wire x1="281.94" y1="218.44" x2="281.94" y2="220.98" width="0.1524" layer="91"/>
-<junction x="281.94" y="220.98"/>
-</segment>
-<segment>
 <pinref part="CN11" gate="G$1" pin="2"/>
 <wire x1="309.88" y1="190.5" x2="307.34" y2="190.5" width="0.1524" layer="91"/>
 <wire x1="307.34" y1="190.5" x2="307.34" y2="182.88" width="0.1524" layer="91"/>
@@ -5017,6 +5008,16 @@ http://www.weartronics.com/</description>
 <pinref part="V117" gate="GND" pin="GND"/>
 <pinref part="P18" gate="G$1" pin="1"/>
 <wire x1="104.14" y1="246.38" x2="104.14" y2="251.46" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="V21" gate="GND" pin="GND"/>
+<pinref part="R7" gate="G$1" pin="1"/>
+<wire x1="243.84" y1="218.44" x2="243.84" y2="220.98" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="V44" gate="GND" pin="GND"/>
+<pinref part="R8" gate="G$1" pin="1"/>
+<wire x1="281.94" y1="218.44" x2="281.94" y2="220.98" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="SCL" class="0">
@@ -5543,20 +5544,22 @@ http://www.weartronics.com/</description>
 <wire x1="33.02" y1="160.02" x2="43.18" y2="160.02" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="!SELECT!" class="0">
+<net name="SELECT" class="0">
 <segment>
-<pinref part="SW2" gate="G$1" pin="P$3"/>
-<wire x1="241.3" y1="248.92" x2="241.3" y2="251.46" width="0.1524" layer="91"/>
-<wire x1="241.3" y1="251.46" x2="243.84" y2="251.46" width="0.1524" layer="91"/>
-<pinref part="SW2" gate="G$1" pin="P$4"/>
-<wire x1="243.84" y1="251.46" x2="246.38" y2="251.46" width="0.1524" layer="91"/>
-<wire x1="246.38" y1="251.46" x2="246.38" y2="248.92" width="0.1524" layer="91"/>
-<pinref part="R7" gate="G$1" pin="1"/>
-<wire x1="243.84" y1="251.46" x2="243.84" y2="254" width="0.1524" layer="91"/>
-<junction x="243.84" y="251.46"/>
-<wire x1="246.38" y1="251.46" x2="261.62" y2="251.46" width="0.1524" layer="91"/>
-<junction x="246.38" y="251.46"/>
-<label x="251.46" y="251.968" size="1.4224" layer="95" ratio="10"/>
+<wire x1="248.92" y1="233.68" x2="251.46" y2="233.68" width="0.1524" layer="91"/>
+<wire x1="251.46" y1="233.68" x2="264.16" y2="233.68" width="0.1524" layer="91"/>
+<label x="254" y="234.188" size="1.4224" layer="95" ratio="10"/>
+<pinref part="SW2" gate="G$1" pin="P$2"/>
+<wire x1="246.38" y1="233.68" x2="246.38" y2="236.22" width="0.1524" layer="91"/>
+<pinref part="SW2" gate="G$1" pin="P$1"/>
+<wire x1="241.3" y1="236.22" x2="241.3" y2="233.68" width="0.1524" layer="91"/>
+<wire x1="241.3" y1="233.68" x2="243.84" y2="233.68" width="0.1524" layer="91"/>
+<wire x1="243.84" y1="233.68" x2="246.38" y2="233.68" width="0.1524" layer="91"/>
+<pinref part="R7" gate="G$1" pin="2"/>
+<wire x1="243.84" y1="231.14" x2="243.84" y2="233.68" width="0.1524" layer="91"/>
+<junction x="243.84" y="233.68"/>
+<wire x1="248.92" y1="233.68" x2="246.38" y2="233.68" width="0.1524" layer="91"/>
+<junction x="246.38" y="233.68"/>
 </segment>
 <segment>
 <pinref part="U1" gate="A" pin="PD0"/>
@@ -5564,20 +5567,21 @@ http://www.weartronics.com/</description>
 <label x="142.24" y="168.148" size="1.4224" layer="95" ratio="10"/>
 </segment>
 </net>
-<net name="!BACK!" class="0">
+<net name="BACK" class="0">
 <segment>
-<pinref part="SW4" gate="G$1" pin="P$3"/>
-<wire x1="279.4" y1="248.92" x2="279.4" y2="251.46" width="0.1524" layer="91"/>
-<wire x1="279.4" y1="251.46" x2="281.94" y2="251.46" width="0.1524" layer="91"/>
-<pinref part="SW4" gate="G$1" pin="P$4"/>
-<wire x1="281.94" y1="251.46" x2="284.48" y2="251.46" width="0.1524" layer="91"/>
-<wire x1="284.48" y1="251.46" x2="284.48" y2="248.92" width="0.1524" layer="91"/>
-<pinref part="R8" gate="G$1" pin="1"/>
-<wire x1="281.94" y1="251.46" x2="281.94" y2="254" width="0.1524" layer="91"/>
-<wire x1="284.48" y1="251.46" x2="299.72" y2="251.46" width="0.1524" layer="91"/>
-<junction x="281.94" y="251.46"/>
-<junction x="284.48" y="251.46"/>
-<label x="289.56" y="251.968" size="1.4224" layer="95" ratio="10"/>
+<wire x1="289.56" y1="233.68" x2="299.72" y2="233.68" width="0.1524" layer="91"/>
+<label x="292.1" y="234.188" size="1.4224" layer="95" ratio="10"/>
+<pinref part="SW4" gate="G$1" pin="P$1"/>
+<wire x1="279.4" y1="236.22" x2="279.4" y2="233.68" width="0.1524" layer="91"/>
+<wire x1="279.4" y1="233.68" x2="281.94" y2="233.68" width="0.1524" layer="91"/>
+<pinref part="SW4" gate="G$1" pin="P$2"/>
+<wire x1="281.94" y1="233.68" x2="284.48" y2="233.68" width="0.1524" layer="91"/>
+<wire x1="284.48" y1="233.68" x2="284.48" y2="236.22" width="0.1524" layer="91"/>
+<pinref part="R8" gate="G$1" pin="2"/>
+<wire x1="281.94" y1="231.14" x2="281.94" y2="233.68" width="0.1524" layer="91"/>
+<junction x="281.94" y="233.68"/>
+<wire x1="284.48" y1="233.68" x2="289.56" y2="233.68" width="0.1524" layer="91"/>
+<junction x="284.48" y="233.68"/>
 </segment>
 <segment>
 <pinref part="U1" gate="A" pin="PD1"/>
@@ -5616,32 +5620,36 @@ http://www.weartronics.com/</description>
 <wire x1="33.02" y1="165.1" x2="43.18" y2="165.1" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="N$11" class="0">
+<net name="PE0" class="0">
 <segment>
 <pinref part="U1" gate="A" pin="PE0"/>
 <pinref part="P5" gate="G$1" pin="1"/>
 <wire x1="139.7" y1="210.82" x2="149.86" y2="210.82" width="0.1524" layer="91"/>
+<label x="142.24" y="211.074" size="1.27" layer="95" ratio="10"/>
 </segment>
 </net>
-<net name="N$13" class="0">
+<net name="PE1" class="0">
 <segment>
 <pinref part="U1" gate="A" pin="PE1"/>
 <pinref part="P6" gate="G$1" pin="1"/>
 <wire x1="139.7" y1="208.28" x2="149.86" y2="208.28" width="0.1524" layer="91"/>
+<label x="142.24" y="208.534" size="1.27" layer="95" ratio="10"/>
 </segment>
 </net>
-<net name="N$14" class="0">
+<net name="PE2" class="0">
 <segment>
 <pinref part="U1" gate="A" pin="PE2"/>
 <pinref part="P7" gate="G$1" pin="1"/>
 <wire x1="139.7" y1="205.74" x2="149.86" y2="205.74" width="0.1524" layer="91"/>
+<label x="142.24" y="205.994" size="1.27" layer="95" ratio="10"/>
 </segment>
 </net>
-<net name="N$15" class="0">
+<net name="PE3" class="0">
 <segment>
 <pinref part="U1" gate="A" pin="PE3"/>
 <pinref part="P8" gate="G$1" pin="1"/>
 <wire x1="139.7" y1="203.2" x2="149.86" y2="203.2" width="0.1524" layer="91"/>
+<label x="142.24" y="203.454" size="1.27" layer="95" ratio="10"/>
 </segment>
 </net>
 <net name="NSS" class="0">
@@ -5707,14 +5715,14 @@ http://www.weartronics.com/</description>
 <text x="15.24" y="111.76" size="1.778" layer="94" ratio="10">EXT MIC INPUT</text>
 <text x="20.32" y="231.14" size="2.54" layer="94" ratio="10">EXTERNAL POWER</text>
 <text x="205.74" y="269.24" size="2.54" layer="94" ratio="10">12 - 15VDC -&gt; 5.0VDC</text>
-<wire x1="254" y1="200.66" x2="154.94" y2="200.66" width="0.1524" layer="94" style="shortdash"/>
-<wire x1="154.94" y1="200.66" x2="-2.54" y2="200.66" width="0.1524" layer="94" style="shortdash"/>
-<wire x1="254" y1="200.66" x2="254" y2="279.4" width="0.1524" layer="94" style="shortdash"/>
+<wire x1="254" y1="200.66" x2="154.94" y2="200.66" width="0.1524" layer="94" style="longdash"/>
+<wire x1="154.94" y1="200.66" x2="-2.54" y2="200.66" width="0.1524" layer="94" style="longdash"/>
+<wire x1="254" y1="200.66" x2="254" y2="279.4" width="0.1524" layer="94" style="longdash"/>
 <text x="76.2" y="190.5" size="2.54" layer="94" ratio="10">INTERNAL / EXTERNAL</text>
 <text x="76.2" y="182.88" size="2.54" layer="94" ratio="10">MIC PREAMP</text>
-<wire x1="-2.54" y1="96.52" x2="154.94" y2="96.52" width="0.1524" layer="94" style="shortdash"/>
-<wire x1="154.94" y1="96.52" x2="154.94" y2="200.66" width="0.1524" layer="94" style="shortdash"/>
-<wire x1="154.94" y1="96.52" x2="154.94" y2="0" width="0.1524" layer="94" style="shortdash"/>
+<wire x1="-2.54" y1="96.52" x2="154.94" y2="96.52" width="0.1524" layer="94" style="longdash"/>
+<wire x1="154.94" y1="96.52" x2="154.94" y2="200.66" width="0.1524" layer="94" style="longdash"/>
+<wire x1="154.94" y1="96.52" x2="154.94" y2="0" width="0.1524" layer="94" style="longdash"/>
 <text x="20.32" y="83.82" size="2.54" layer="94" ratio="10">SPEAKER AMP</text>
 <wire x1="254" y1="200.66" x2="327.66" y2="200.66" width="0.1524" layer="94" style="longdash"/>
 <text x="182.88" y="185.42" size="2.54" layer="94" ratio="10">RIG INTERFACE</text>
@@ -5793,9 +5801,18 @@ AIN1,AIN2,DAC1,DAC2</text>
 <text x="332.74" y="177.8" size="1.27" layer="94" ratio="10">41. Add test points P14,P16,P18 (GND).</text>
 <text x="332.74" y="180.34" size="1.27" layer="94" ratio="10">42. Add test points P13,p15,p17 (VDD).</text>
 <text x="332.74" y="182.88" size="1.27" layer="94" ratio="10">43. Add test point P19 (+5V).</text>
-<text x="332.74" y="185.42" size="1.27" layer="94" ratio="10">40. Add test point P20 (+VIN ).</text>
+<text x="332.74" y="185.42" size="1.27" layer="94" ratio="10">44. Add test point P20 (+VIN ).</text>
 <text x="330.2" y="187.96" size="1.27" layer="94" ratio="10">06/16/2014</text>
-<text x="332.74" y="190.5" size="1.27" layer="94" ratio="10">XX. Test.</text>
+<text x="332.74" y="190.5" size="1.27" layer="94" ratio="10">45. Added 1nf cap in parallel with C46.</text>
+<text x="332.74" y="193.04" size="1.27" layer="94" ratio="10">46. Ad 10nF cap across CN3.</text>
+<text x="332.74" y="195.58" size="1.27" layer="94" ratio="10">47. Replaced FB5 with 10 Ohm 1206 Wide resistor.</text>
+<wire x1="327.66" y1="200.66" x2="327.66" y2="45.72" width="0.1524" layer="94" style="longdash"/>
+<text x="332.74" y="198.12" size="1.27" layer="94" ratio="10">48. Aded 1K resistor in series with FB4.</text>
+<text x="332.74" y="200.66" size="1.27" layer="94" ratio="10">49. Changed C34 to 1nF.</text>
+<text x="330.2" y="205.74" size="1.27" layer="94" ratio="10">06/17/2014</text>
+<text x="332.74" y="203.2" size="1.27" layer="94" ratio="10">50. Changed Select &amp; Back circuits to match PTT.</text>
+<wire x1="327.66" y1="200.66" x2="327.66" y2="279.4" width="0.1524" layer="94" style="longdash"/>
+<text x="332.74" y="208.28" size="1.4224" layer="94" ratio="10">Complete</text>
 </plain>
 <instances>
 <instance part="CN5" gate="G$1" x="30.48" y="129.54" smashed="yes" rot="MR180">
@@ -6144,9 +6161,9 @@ AIN1,AIN2,DAC1,DAC2</text>
 <attribute name="NAME" x="96.52" y="58.42" size="1.4224" layer="95" ratio="10"/>
 <attribute name="VALUE" x="96.52" y="51.943" size="1.4224" layer="96" ratio="10"/>
 </instance>
-<instance part="FB4" gate="G$1" x="48.26" y="132.08" smashed="yes">
-<attribute name="NAME" x="45.72" y="134.62" size="1.4224" layer="95" ratio="10"/>
-<attribute name="VALUE" x="45.72" y="128.143" size="1.4224" layer="96" ratio="10"/>
+<instance part="FB4" gate="G$1" x="50.8" y="132.08" smashed="yes">
+<attribute name="NAME" x="48.26" y="134.62" size="1.4224" layer="95" ratio="10"/>
+<attribute name="VALUE" x="48.26" y="128.143" size="1.4224" layer="96" ratio="10"/>
 </instance>
 <instance part="FB6" gate="G$1" x="274.32" y="53.34" smashed="yes">
 <attribute name="NAME" x="271.78" y="55.88" size="1.4224" layer="95" ratio="10"/>
@@ -6350,6 +6367,10 @@ AIN1,AIN2,DAC1,DAC2</text>
 <attribute name="VALUE" x="33.02" y="237.998" size="1.4224" layer="96" ratio="9"/>
 </instance>
 <instance part="R9" gate="G$1" x="45.72" y="259.08"/>
+<instance part="R11" gate="G$1" x="66.04" y="132.08" smashed="yes">
+<attribute name="NAME" x="63.5" y="133.604" size="1.4224" layer="95"/>
+<attribute name="VALUE" x="63.5" y="128.778" size="1.4224" layer="96"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -6655,8 +6676,8 @@ AIN1,AIN2,DAC1,DAC2</text>
 <pinref part="R39" gate="G$1" pin="1"/>
 <wire x1="76.2" y1="132.08" x2="76.2" y2="137.16" width="0.1524" layer="91"/>
 <pinref part="C33" gate="G$1" pin="1"/>
-<pinref part="FB4" gate="G$1" pin="2"/>
-<wire x1="55.88" y1="132.08" x2="76.2" y2="132.08" width="0.1524" layer="91"/>
+<pinref part="R11" gate="G$1" pin="2"/>
+<wire x1="71.12" y1="132.08" x2="76.2" y2="132.08" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="AIN2" class="0">
@@ -7075,13 +7096,14 @@ AIN1,AIN2,DAC1,DAC2</text>
 </net>
 <net name="N$60" class="0">
 <segment>
-<pinref part="CN5" gate="G$1" pin="10"/>
-<wire x1="38.1" y1="127" x2="63.5" y2="127" width="0.1524" layer="91"/>
-<wire x1="63.5" y1="127" x2="63.5" y2="147.32" width="0.1524" layer="91"/>
 <wire x1="55.88" y1="182.88" x2="63.5" y2="182.88" width="0.1524" layer="91"/>
 <wire x1="63.5" y1="182.88" x2="63.5" y2="149.86" width="0.1524" layer="91"/>
 <pinref part="MIC1" gate="G$1" pin="1"/>
 <wire x1="63.5" y1="147.32" x2="63.5" y2="149.86" width="0.1524" layer="91"/>
+<pinref part="CN5" gate="G$1" pin="10"/>
+<wire x1="38.1" y1="127" x2="40.64" y2="127" width="0.1524" layer="91"/>
+<wire x1="40.64" y1="127" x2="40.64" y2="147.32" width="0.1524" layer="91"/>
+<wire x1="40.64" y1="147.32" x2="63.5" y2="147.32" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$33" class="0">
@@ -7138,7 +7160,7 @@ AIN1,AIN2,DAC1,DAC2</text>
 <segment>
 <pinref part="CN5" gate="G$1" pin="2"/>
 <pinref part="FB4" gate="G$1" pin="1"/>
-<wire x1="38.1" y1="132.08" x2="40.64" y2="132.08" width="0.1524" layer="91"/>
+<wire x1="38.1" y1="132.08" x2="43.18" y2="132.08" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$77" class="0">
@@ -7367,72 +7389,13 @@ AIN1,AIN2,DAC1,DAC2</text>
 <pinref part="C36" gate="G$1" pin="2"/>
 </segment>
 </net>
-</nets>
-</sheet>
-<sheet>
-<plain>
-<text x="10.16" y="2.54" size="1.27" layer="94" ratio="10">1. Change U5 TPS54329E to RT8250</text>
-<text x="10.16" y="5.08" size="1.27" layer="94" ratio="10">2. Move LED8 to 5V </text>
-<text x="10.16" y="7.62" size="1.27" layer="94" ratio="10">3. Change rig mic amp circuit to pot on transformer output.</text>
-<text x="10.16" y="10.16" size="1.27" layer="94" ratio="10">4. Change mic preamp circuit to op-amp per DR.</text>
-<text x="10.16" y="12.7" size="1.27" layer="94" ratio="10">5. Add ext. PTT connector and cpu DI.</text>
-<text x="10.16" y="15.24" size="1.27" layer="94" ratio="10">6. Bring GND, RF(GND) &amp; +VEXT to IC1 connector.</text>
-<text x="10.16" y="17.78" size="1.27" layer="94" ratio="10">7. Change PCB from 4 layer to 2 layer.</text>
-<text x="10.16" y="20.32" size="1.27" layer="94" ratio="10">8. Change processor from STM32F407 to STM32F405.</text>
-<text x="10.16" y="22.86" size="1.27" layer="94" ratio="10">9. Change bypass caps to mix of 100nF and 10nF.</text>
-<text x="10.16" y="25.4" size="1.27" layer="94" ratio="10">10. Add hdr for speaker.</text>
-<text x="10.16" y="27.94" size="1.27" layer="94" ratio="10">11. Change C43, C44, C45 to 100pF</text>
-<text x="10.16" y="30.48" size="1.27" layer="94" ratio="10">12. Change C23 to 25V.</text>
-<text x="10.16" y="33.02" size="1.27" layer="94" ratio="10">13 Added PTT SW network to permit DFU mode on power up.</text>
-<text x="7.62" y="35.56" size="1.27" layer="94" ratio="10">05/28/2014</text>
-<text x="10.16" y="38.1" size="1.27" layer="94" ratio="10">14. Change Reset switch to header.</text>
-<text x="10.16" y="40.64" size="1.27" layer="94" ratio="10">15. Power electret mic from  VDD</text>
-<text x="10.16" y="43.18" size="1.27" layer="94" ratio="10">16. Change CN1 to 3-pin</text>
-<text x="7.62" y="45.72" size="1.27" layer="94" ratio="10">05/29/2014</text>
-<text x="10.16" y="48.26" size="1.27" layer="94" ratio="10">17. Change SCL, SDA pulldowns to pullups.</text>
-<text x="7.62" y="58.42" size="1.27" layer="94" ratio="10">06/01/2014</text>
-<text x="10.16" y="50.8" size="1.27" layer="94" ratio="10">18. Delete STLINK LED &amp; components.</text>
-<text x="10.16" y="53.34" size="1.27" layer="94" ratio="10">19. Delete USB fault LED &amp; circuitry.</text>
-<text x="10.16" y="55.88" size="1.27" layer="94" ratio="10">20. Delete VUSB Led &amp; circuitry.</text>
-<text x="10.16" y="60.96" size="1.27" layer="94" ratio="10">21. Add SELECT &amp; BACK switches.</text>
-<text x="7.62" y="63.5" size="1.27" layer="94" ratio="10">06/02/2014</text>
-<text x="10.16" y="66.04" size="1.27" layer="94" ratio="10">22. Change 0603 resistors to IPC packages &amp; symbols.</text>
-<text x="7.62" y="71.12" size="1.27" layer="94" ratio="10">06/05/2014</text>
-<text x="10.16" y="68.58" size="1.27" layer="94" ratio="10">23. Change 0603 caps to IPC packages &amp; symbols.</text>
-<text x="7.62" y="78.74" size="1.27" layer="94" ratio="10">06/12/2014</text>
-<text x="10.16" y="73.66" size="1.27" layer="94" ratio="10">24. Change D3 to BAT60</text>
-<text x="10.16" y="76.2" size="1.27" layer="94" ratio="10">25. Change SW3 back to PBH2UUENAGX</text>
-<text x="10.16" y="81.28" size="1.27" layer="94" ratio="10">26. Remove signals from pins 9 &amp; 10 CN12.</text>
-<text x="10.16" y="83.82" size="1.27" layer="94" ratio="10">27. Change C10 &amp; C12 to Ceramic 0603 caps.</text>
-<text x="10.16" y="86.36" size="1.27" layer="94" ratio="10">28. Change C8 to 10nF.</text>
-<text x="10.16" y="88.9" size="1.27" layer="94" ratio="10">29. Change R12, R13, R15, R16 &amp; R17 to 680 Ohms.</text>
-<text x="10.16" y="91.44" size="1.27" layer="94" ratio="10">30. Change R1, R7 &amp; R8 to 10K</text>
-<text x="10.16" y="93.98" size="1.27" layer="94" ratio="10">31. Correct pinout for LD3985.</text>
-<text x="10.16" y="96.52" size="1.27" layer="94" ratio="10">32. Change C2 &amp; C3 to 20pF.</text>
-<text x="10.16" y="99.06" size="1.27" layer="94" ratio="10">33. Change C27 to 22pF.</text>
-<text x="10.16" y="101.6" size="1.27" layer="94" ratio="10">34. Change C40 to 25V.</text>
-<text x="10.16" y="104.14" size="1.27" layer="94" ratio="10">35. Move Pot R52 to T1 output &amp; change to 1K.</text>
-<text x="10.16" y="106.68" size="1.27" layer="94" ratio="10">36. Change C39 to 220uF,25V</text>
-<text x="7.62" y="111.76" size="1.27" layer="94" ratio="10">06/15/2014</text>
-<text x="10.16" y="109.22" size="1.27" layer="94" ratio="10">37. Change GND  on CN12-12,13 to RF </text>
-<text x="10.16" y="114.3" size="1.27" layer="94" ratio="10">38. Add test points at pins 77,78,79,80.
-PA15,PC10,PC11,PC12</text>
-<text x="10.16" y="119.38" size="1.27" layer="94" ratio="10">39. Add test points at pins 97,98,1,2.
-PE0,PE1,PE2,PE3</text>
-<text x="10.16" y="124.46" size="1.27" layer="94" ratio="10">40. Add test points at pins 24,25,29,30.
-AIN1,AIN2,DAC1,DAC2</text>
-<text x="10.16" y="129.54" size="1.27" layer="94" ratio="10">41. Add test points P14,P16,P18 (GND).</text>
-<text x="10.16" y="132.08" size="1.27" layer="94" ratio="10">42. Add test points P13,p15,p17 (VDD).</text>
-<text x="10.16" y="134.62" size="1.27" layer="94" ratio="10">43. Add test point P19 (+5V).</text>
-<text x="10.16" y="137.16" size="1.27" layer="94" ratio="10">40. Add test point P20 (+VIN ).</text>
-<text x="7.62" y="139.7" size="1.27" layer="94" ratio="10">06/16/2014</text>
-<text x="-7.62" y="-7.62" size="3.81" layer="94" ratio="10">Change Log for SM1000 PCB</text>
-</plain>
-<instances>
-</instances>
-<busses>
-</busses>
-<nets>
+<net name="N$26" class="0">
+<segment>
+<pinref part="FB4" gate="G$1" pin="2"/>
+<pinref part="R11" gate="G$1" pin="1"/>
+<wire x1="58.42" y1="132.08" x2="60.96" y2="132.08" width="0.1524" layer="91"/>
+</segment>
+</net>
 </nets>
 </sheet>
 </sheets>
