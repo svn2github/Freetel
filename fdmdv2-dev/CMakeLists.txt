@@ -84,7 +84,7 @@ set(USE_STATIC_SAMPLERATE FALSE CACHE BOOL
     "Download and build static samplerate instead of the system library.")
 set(USE_STATIC_SOX FALSE CACHE BOOL
     "Download and build static sox instead of the system library.")
-set(USE_STATIC_CODEC2 FALSE CACHE BOOL
+set(USE_STATIC_CODEC2 TRUE CACHE BOOL
     "Download and build static codec2 instead of the system library.")
 set(BOOTSTRAP_WXWIDGETS FALSE CACHE BOOL
     "Download and build static wxWidgets instead of the system library.")
