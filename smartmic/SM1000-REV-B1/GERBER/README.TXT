@@ -28,8 +28,12 @@ Layers produced by EAGLE-4.16 and Sunstone-EagleCam (E2 2-LAYER) routines.
 	.smt	- gerber top solder mask layer
 	.tps	- gerber top paste layer
 	
-	.dri	- drill station info
-	.drl	- drill list
+Exellon Drill Data Files	
+	.drd	- drill data
+	.dri	- drill station info file	
+	.drl	- drill size info file
+	.drt	- drill location table
+	.gpi	- Gerber RS-274-X photoplotter settings
 	
 	readme.txt	- this file
 

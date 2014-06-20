@@ -4,7 +4,7 @@ PCB Documentation Check List
 
 PCB:  ____________________     ASM: ____________________     VARIANT: ____________________
 
-DATE: ____________________     By:  ____________________
+DATE: ____________________     By:  ____________________     Form: 06/20/14
 
 
 1.  [ ]	Run ERC on schematic & fix any errors.
@@ -19,13 +19,14 @@ DATE: ____________________     By:  ____________________
 10.	[ ]	Run drillcfg (inches)
 11.	[ ]	Run drilllegend.ulp and generate drill table(drill legend) on PCB.
 12. [ ]	Generate DRL-TBL.pdf (DRILL TABLE) and copy to MGF folder.
-13.	[ ]	Run CAM  (board & excelon) jobs on board.
-14.	[ ]	Move Gerber files to GERBER folder
-15.	[ ]	Use Viewmate to check layout & produce .PDF file of all Gerber layers. Move pdf to MFG folder
-16.	[ ]	Generate & move .PDF of BOM & LOC files to MFG folder
-17. [ ]	Generate assembly drawing for top & bot layers. Move .pdf to MFG folder.
-18.	[ ]	Update readme files(see other cards) for Gerber & MFG folders.
-19. [ ]	Add dimensions to .brd. Generate .pdf file and move to MFG folder
-20.	[ ]	Generate  .zip files on files in GERBER and MFG folders respectively.
-21. [ ]	Move .sch, .brd, .lbr, MFG.zip & GERBER.zip to RELEASE Folder.
+13.	[ ]	Run CAM   job 4LPlus-Sunstone.cam on board.
+14. [ ] Run CAM job Exellon.cam on board.
+15.	[ ]	Move Gerber files to GERBER folder
+16.	[ ]	Use Viewmate to check layout & produce .PDF file of all Gerber layers. Move pdf to MFG folder
+17.	[ ]	Generate & move .PDF of BOM & LOC files to MFG folder
+18. [ ]	Generate assembly drawing for top & bot layers. Move .pdf to MFG folder.
+19.	[ ]	Update readme files(see other cards) for Gerber & MFG folders.
+20. [ ]	Add dimensions to .brd. Generate .pdf file and move to MFG folder
+21.	[ ]	Generate  .zip files on files in GERBER and MFG folders respectively.
+22. [ ]	Move .sch, .brd, .lbr, MFG.zip & GERBER.zip to RELEASE Folder.
 
