@@ -1,11 +1,86 @@
-README.txt for FDMDV2
+==================================
+ Building and installing on Linux
+==================================
 
-README.Win32 contains instructions for building on Windows.
-README.linux contains instructions for building on Linux.
-README.cmake contains instructions for building on Windows or Linux using cmake.
+Quickstart 1
+-----------
 
+Builds static versions of wxWidgets, portaudio, codec2-dev, which are commonly missing on many Linux systems, or of the wrong (older) version.
+
+Assuming the freedv-dev sources is checked out into ~/fdmdv2-dev:
+
+$ cd 
+$ mkdir tmp
+$ cd tmp
+$ cmake -DBOOTSTRAP_WXWIDGETS=TRUE -DUSE_STATIC_CODEC2=TRUE -DUSE_STATIC_PORTAUDIO=TRUE ~/fdmdv2-dev
+$ make
+[wxWidgets builds]
+$ cmake .
+$ make
+[FreeDV builds]
+$ ./src/freedv
+
+Quickstart 2
+------------
+
+Assumes you have all the dependant libraries:
+
+$ cd /path/to/fdmdv2
+$ mkdir build_linux
+$ cd build_linux
+$ cmake ../ (defaults to /usr/local, use CMAKE_INSTALL_PREFIX to override)
+(if no errors)
+$ make
+(as root)
+$ make install
+
+====================================
+ Building and installing on Windows
+====================================
+
+The windows build is similar to linux and follows the same basic workflow.
+
+Only MinGW is supported. While it is likely possible to perform a pure MinGW
+build, installing MSYS will make your life easier.
+
+CMake may not automatically detect that you're in the MSYS environment. If this
+occurs you need to pass cmake the proper generator:
+
+cmake -G"MSYS Makefiles" [other options] </path/to/source>
+
+===============================
+ Bootstrapping wxWidgets build
+===============================
+
+If wxWidgets (>= 3.0) is not available then one option is to have CMake boot-strap the build for FreeDV.
+
+This is required because the tool wx-config is used to get the correct compiler and linker flags of the wxWidgets components needed by FreeDV. Since this is normally done at configure time, not during "make", it is not possible for CMake or have this information prior to building wxWidgets.
+
+In order to work around this issue you can "bootstrap" the wxWidgets build using the CMake option, "BOOTSTRAP_WXWIDGETS". wxWidgets will be built using static libraries.
+
+NOTE: This forces "USE_STATIC_WXWIDGETS" to be true internally regarless of the
+value set manually.
+
+(from any prefered, but empty directory outside of the source)
+$ cmake -DBOOTSTRAP_WXWIDGETS=TRUE /path/to/fdmdv2
+$ make
+(wxWidgets is downloaded and built)
+$ cmake .
+$ make
+(if all goes well, as root)
+$ make install
+
+====================================
+ Building and installing on OSX
+====================================
+
+====================================
+ Building and installing on FreeBSD
+====================================
+
+=======
 Editing
--------
+=======
 
 Please make sure your text editor does not insert tabs, and
 used indents of 4 spaces.  The following .emacs code was used to
