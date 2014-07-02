@@ -57,9 +57,10 @@ end
 %   [X] FM demod
 %   [ ] noise
 %   [ ] attenuation
-%   [ ] model system gain, and effect of ADC
-%   [ ] model interferer, determine how many ADC bits we need
-%   [ ] LPF
+%   [ ] effect of ADC
+%   [ ] model interferer
+%   [X] Audio BPF
+%   [ ] pre-emphasis/de-emphasis
 
 % regular natural binary quantiser
 
@@ -90,34 +91,41 @@ fi = fc+50E3; wi = 2*pi*fi/Fs;
 Ai = 10;
 
 Fs2 = 50E3;
-method = 1;
+method = 2;
 M=Fs/Fs2;
 [b,a] = cheby1(8, 1, 20E3/Fs);
 
-clip = 10;
+use_adc = 1;
+clip = 100;
 levels = 2^10;
+
+noise_rms = 0.0;
 
 % simulation -------------------------
 
-% signal at input to ADC
+% (real) signal at input to ADC
 
 mod = cos(wm*t);
 wt = wc*t + w_max_deviation*mod;
-tx = cos(wt) + j*sin(wt) + Ai*(cos(wi*t) + j*sin(wi*t));
-%tx = real(tx);
+tx = cos(wt) + Ai*cos(wi*t) + noise_rms*randn(1,length(t));
 
-% simulate ADC (sign bit only)
+% simulate ADC, or use just sign bit
 
-rx = real(tx);
-indexes = quantise_value(rx, -clip, clip, 1024);
-rx = unquantise_value(indexes, -clip, clip, 1024);
-%rx = sign(real(tx)) + j*sign(imag(tx));
+if use_adc
+  indexes = quantise_value(tx, -clip, clip, levels);
+  rx = unquantise_value(indexes, -clip, clip, levels);
+else
+  rx = sign(real(tx)) + j*sign(imag(tx));
+end
 
 % downconvert to complex baseband and filter/decimate to Fs2
 
 rx_bb   = rx .* exp(-j*wc*t);
 rx_filt = filter(b, a, rx_bb);
 rx_bb2  = rx_filt(1:M:length(rx_filt));
+
+% limiter
+
 rx_bb2 = sign(real(rx_bb2)) + j*sign(imag(rx_bb2));
 
 % demodulate 
@@ -174,16 +182,17 @@ ylabel('Audio Out')
 figure(2)
 subplot(311)
 [p,f] = pwelch(tx);
-plot(f,10*log10(p));
+plot(f*1000,10*log10(p));
 ylabel('ADC Input');
 subplot(312)
 [p,f] = pwelch(rx);
-plot(f,10*log10(p));
+plot(f*1000,10*log10(p));
 ylabel('ADC Output')
 subplot(313)
 [p,f] = pwelch(audio_out);
-plot(f,10*log10(p));
-ylabel('Input to Demod');
+plot(f*50,10*log10(p));
+ylabel('Audio Out');
+xlabel('Freq (kHz)');
 
 if 0
 figure(3)
