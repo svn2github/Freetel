@@ -1,0 +1,66 @@
+
+Change Log for SM1000-REV-B2
+
+Tuesday, July 07, 2014	04:05 PM
+====================================
+
+[ ] SW3 holes not big enough.
+		Hole is .5mm. Pin is .6mm. Hole should be 1.0mm per spec sheet. Will change. 
+
+[ ] Is C26 rated at 25V in BOM? 
+		C26 is 25V in schematic, 16V in BOM. 
+		OOPS! C23, C26, C40 & C46 should all be 25V. Will change database & BOM.  Murata # GRM188R71E104KA01D, Digikey # 490-1524-1-ND, Part Def: CAP CER 0.1UF 25V 10% X7R 0603
+
+	[ ] LED8 takes up whole of pads so diff to solder 
+		Will enlarge pad in library. 
+
+[ ] Is CN3 a standard size?  My DC plugs don't fit in it 	
+		2.5mm ID, 5.5mm OD Plug. CONN PWR PLUG DC 2.5X5.5 8A MOD Digikey # 
+		CP3-002BH-ND 
+		This is probably most common size in USA. Change? 
+
+[ ] couldn't solder bottom pad of U5 by hand      + hope it's OK 
+		Attached to large gnd plane. Hard to solder. Designed for IR SMT 
+		assembly. Try large iron on vias from bottom. 
+
+[ ] Can R6,R2,R5,R3,R4 be 10k to match R1? 
+		Don't know if 10K will work for R6. Discovery has 680 or small value. 
+		Try it. Can't hurt. 
+		R2 & R5 Are I2C pins. Recommended 4.7K for max speed. Not used now on 
+		SM1000. 10K would limit speed if used. Try it. 
+		R3 & R4 should work with 10K. 
+		Let me know results & I can change values if appropriate. 
+
+[ ] Would VDDA power supply circuit be better located closer to U1? 
+		I think they are pretty close now. I'll look at VDDA function and advise. 
+
+[ ] Larger TAPR/Credits text on bottom?      + there is plenty of room 
+		Tried to get printing without visa & pads in the text. Smallest via has 
+		.016" drill and is tented. I'll enlarge text & see what I can do. 
+
+[ ] What was Vin range meant to be? 
+		VIN is 1 diode drop lower than VEXT(6-16VDC) or approx 5.5 - 15.5VDC Used to power LM386 to get more output swing.
+
+[ ] move R20 label close to R20     + I loaded R20 in the wrong place! 
+		Will do. 
+
+[ ] is 4k7 missing from BOM or just my order?    + I didn't have any in my Digikey order 
+		Part definition error. Part # in part definition field. Will correct database & BOM.
+		This affects R2,R3, R4, R5 & R48. Should be Vishay Dale # CRCW06034K70FKEA, Digikey # 541-4.70KHCT-ND, Part Def: RES 4.70K OHM 1/10W 1% 0603 SMD
+
+====================================
+Tuesday, July 08, 2014	10:54 AM
+====================================
+
+[ ] Re C26, could u pls align the BOM and sch?  I'm not sure which one has to change. 
+		C26 should be 25V to accommodate +16V power in max. 
+		OOPS! Found that C23, C26, C40 & C46 all should be 25V. That's why I made them separate line item. I'll Change BOM to Digikey part # 490-1524-6-ND Murata # GRM188R71E104KA01D
+
+[ ] Re CN3, Hmm, now I'm not sure!  I dug around in the shed and found a connector that fits so I'm OK for now. 
+		CN3 is Switchcraft RASM712PX   2.5mm ID, 5.5mm OD Plug.  CONN PWR PLUG DC 2.5X5.5 8A MOD Digikey  # CP3-002BH-ND
+		I've noted a problem, but will wait til you decide.
+
+[ ] OK I just check the BOM I have, and there are no 4.7k resistors on it, e.g. R2, R3, R4, R5.  Oh OK, the BOM has a part number.  Not sure what that mapped to on my Digikey order, just noticed I didn't get any 4k7s.  Maybe change the BOM to indicate the part value? 
+		Part database  error, invalid part definition. Digikey & Vishay Dale part numbers are correct. Part definition for R2, R3, R4, R5 & R48 should be: RES 4.70K OHM 1/10W 1% 0603 SMD Will correct part database & BOM.
+
+====================================
