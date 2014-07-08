@@ -53,7 +53,7 @@ class FilterDlg : public wxDialog
     public:
     FilterDlg( wxWindow* parent, bool running, bool *newMicInFilter, bool *newSpkOutFilter,
                wxWindowID id = wxID_ANY, const wxString& title = _("Filter"), 
-               const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800, 600 ), 
+               const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 800, 630 ), 
                long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
         ~FilterDlg();
 
@@ -71,6 +71,8 @@ class FilterDlg : public wxDialog
         void    OnGammaScroll(wxScrollEvent& event);
         void    OnEnable(wxScrollEvent& event);
         void    OnBassBoost(wxScrollEvent& event);
+
+        void    OnSpeexppEnable(wxScrollEvent& event);
 
         void    OnMicInBassFreqScroll(wxScrollEvent& event) { sliderToFreq(&m_MicInBass, true); }
         void    OnMicInBassGainScroll(wxScrollEvent& event) { sliderToGain(&m_MicInBass, true); }
@@ -103,6 +105,8 @@ class FilterDlg : public wxDialog
         wxSlider*     m_codec2LPCPostFilterGamma;
         wxStaticText* m_staticTextGamma;
         wxButton*     m_LPCPostFilterDefault;
+
+        wxCheckBox*   m_ckboxSpeexpp;
 
         wxStdDialogButtonSizer* m_sdbSizer5;
         wxButton*     m_sdbSizer5OK;

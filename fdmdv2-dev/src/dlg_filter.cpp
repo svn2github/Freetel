@@ -81,6 +81,18 @@ FilterDlg::FilterDlg(wxWindow* parent, bool running, bool *newMicInFilter, bool 
 
     bSizer30->Add(lpcpfs, 0, wxALL, 0);
 
+    // Speex pre-processor --------------------------------------------------
+
+    wxStaticBoxSizer* sbSizer_speexpp;
+    wxStaticBox *sb_speexpp = new wxStaticBox(this, wxID_ANY, _("Speex Mic Audio Pre-Processor"));
+    sbSizer_speexpp = new wxStaticBoxSizer(sb_speexpp, wxVERTICAL);
+
+    m_ckboxSpeexpp = new wxCheckBox(this, wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    sb_speexpp->SetToolTip(_("Enable noise supression, dereverberation, AGC of mic signal"));
+    sbSizer_speexpp->Add(m_ckboxSpeexpp, wxALIGN_LEFT, 2);
+
+    bSizer30->Add(sbSizer_speexpp, 0, wxALL, 0);   
+
     // EQ Filters -----------------------------------------------------------
 
     wxStaticBoxSizer* eqMicInSizer = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Mic In Equaliser")), wxVERTICAL);
@@ -166,6 +178,8 @@ FilterDlg::FilterDlg(wxWindow* parent, bool running, bool *newMicInFilter, bool 
     m_codec2LPCPostFilterBeta->Connect(wxEVT_SCROLL_CHANGED, wxScrollEventHandler(FilterDlg::OnBetaScroll), NULL, this);
     m_codec2LPCPostFilterGamma->Connect(wxEVT_SCROLL_CHANGED, wxScrollEventHandler(FilterDlg::OnGammaScroll), NULL, this);
     m_LPCPostFilterDefault->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(FilterDlg::OnLPCPostFilterDefault), NULL, this);
+
+    m_ckboxSpeexpp->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxScrollEventHandler(FilterDlg::OnSpeexppEnable), NULL, this);
 
     m_MicInBass.sliderFreq->Connect(wxEVT_SCROLL_CHANGED, wxScrollEventHandler(FilterDlg::OnMicInBassFreqScroll), NULL, this);
     m_MicInBass.sliderGain->Connect(wxEVT_SCROLL_CHANGED, wxScrollEventHandler(FilterDlg::OnMicInBassGainScroll), NULL, this);
@@ -298,6 +312,10 @@ void FilterDlg::ExchangeData(int inout, bool storePersistent)
         m_beta = wxGetApp().m_codec2LPCPostFilterBeta; setBeta();
         m_gamma = wxGetApp().m_codec2LPCPostFilterGamma; setGamma();
 
+        // Speex Pre-Processor
+
+        m_ckboxSpeexpp->SetValue(wxGetApp().m_speexpp_enable);
+
         // Mic In Equaliser
 
         m_MicInBass.freqHz = wxGetApp().m_MicInBassFreqHz; 
@@ -367,6 +385,10 @@ void FilterDlg::ExchangeData(int inout, bool storePersistent)
         wxGetApp().m_codec2LPCPostFilterBeta       = m_beta;
         wxGetApp().m_codec2LPCPostFilterGamma      = m_gamma;
 
+        // Speex Pre-Processor
+
+        wxGetApp().m_speexpp_enable = m_ckboxSpeexpp->GetValue();
+
         // Mic In Equaliser
 
         wxGetApp().m_MicInBassFreqHz = m_MicInBass.freqHz;
@@ -396,6 +418,8 @@ void FilterDlg::ExchangeData(int inout, bool storePersistent)
             pConfig->Write(wxT("/Filter/codec2LPCPostFilterBassBoost"),  wxGetApp().m_codec2LPCPostFilterBassBoost);
             pConfig->Write(wxT("/Filter/codec2LPCPostFilterBeta"),       (int)(m_beta*100.0));
             pConfig->Write(wxT("/Filter/codec2LPCPostFilterGamma"),      (int)(m_gamma*100.0));
+
+            pConfig->Write(wxT("/Filter/speexpp_enable"),                wxGetApp().m_speexpp_enable);
 
             pConfig->Write(wxT("/Filter/MicInBassFreqHz"), (int)m_MicInBass.freqHz);
             pConfig->Write(wxT("/Filter/MicInBassGaindB"), (int)(10.0*m_MicInBass.gaindB));
@@ -556,6 +580,10 @@ void FilterDlg::OnGammaScroll(wxScrollEvent& event) {
 }
 
 // immediately change enable flags rather using ExchangeData() so we can switch on and off at run time
+
+void FilterDlg::OnSpeexppEnable(wxScrollEvent& event) {
+    wxGetApp().m_speexpp_enable = m_ckboxSpeexpp->GetValue();
+}
 
 void FilterDlg::OnMicInEnable(wxScrollEvent& event) {
     wxGetApp().m_MicInEQEnable = m_MicInEnable->GetValue();

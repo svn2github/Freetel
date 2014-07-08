@@ -54,6 +54,8 @@
 #include <samplerate.h>
 
 #include <hamlib.h> 
+#include <speex/speex_preprocess.h>
+
 #ifdef _WIN32
 #include <windows.h>
 #else
@@ -188,6 +190,9 @@ class MainApp : public wxApp
         float               m_codec2LPCPostFilterGamma;
         float               m_codec2LPCPostFilterBeta;
         
+        // Speex Pre-Processor
+        bool                m_speexpp_enable;
+
         // Mic In Equaliser
         float               m_MicInBassFreqHz;
         float               m_MicInBassGaindB;

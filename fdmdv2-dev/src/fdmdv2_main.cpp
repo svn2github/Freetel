@@ -120,6 +120,10 @@ COMP                g_TxFreqOffsetPhaseRect;
 
 wxMutex g_mutexProtectingCallbackData;
 
+// Speex pre-processor states
+
+SpeexPreprocessState *g_speex_st;
+
 // WxWidgets - initialize the application
 IMPLEMENT_APP(MainApp);
 
@@ -348,6 +352,8 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     wxGetApp().m_codec2LPCPostFilterBeta       = (float)pConfig->Read(wxT("/Filter/codec2LPCPostFilterBeta"),      CODEC2_LPC_PF_BETA*100)/100.0;
     //printf("main(): m_codec2LPCPostFilterBeta: %f\n", wxGetApp().m_codec2LPCPostFilterBeta);
 
+    wxGetApp().m_speexpp_enable     = pConfig->Read(wxT("/Filter/speexpp_enable"),    t);
+
     wxGetApp().m_MicInBassFreqHz = (float)pConfig->Read(wxT("/Filter/MicInBassFreqHz"),    1);
     wxGetApp().m_MicInBassGaindB = (float)pConfig->Read(wxT("/Filter/MicInBassGaindB"),    (long)0)/10.0;
     wxGetApp().m_MicInTrebleFreqHz = (float)pConfig->Read(wxT("/Filter/MicInTrebleFreqHz"),    1);
@@ -480,6 +486,12 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
 
     optionsDlg = new OptionsDlg(NULL);
     m_schedule_restore = false;
+
+    // Init Speex pre-processor states
+    // by inspecting Speex source it seems that only denoiser is on be default
+
+    g_speex_st = speex_preprocess_state_init(2*N8, FS); 
+
 }
 
 //-------------------------------------------------------------------------
@@ -2963,7 +2975,14 @@ void txRxProcessing()
             }
             g_mutexProtectingCallbackData.Unlock();
 
+            // Optional Speex pre-perocessor
+
+            if (wxGetApp().m_speexpp_enable) {
+                speex_preprocess_run(g_speex_st, in8k_short);
+            }
+
             // Optional Mic In EQ Filtering, need mutex as filter can change at run time
+
             g_mutexProtectingCallbackData.Lock();
             if (cbData->micInEQEnable) {
                 sox_biquad_filter(cbData->sbqMicInBass, in8k_short, in8k_short, nout);
