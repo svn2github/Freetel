@@ -77,12 +77,13 @@ are possible:
    $ cd codec2-dev
    $ mkdir build_win32
    $ cd build_win32
-   $ cmake -G "MSYS Makefiles" ..
+   $ cmake -DSPEEXDSP_INCLUDE_DIR=/usr/local/include/ -G "MSYS Makefiles" ..
    $ make
+   $ cp src/libcodec2.dll* /usr/local/lib
 
 11. freedv (dev version)
    $ check out fdmdv2-dev using tortise svn from:
-       wget https://freetel.svn.sourceforge.net/svnroot/freetel/fdmdv-dev
+       wget https://freetel.svn.sourceforge.net/svnroot/freetel/fdmdv2-dev
    $ cd fdmdv2-dev/src
    $ make -f Makefile.Win32
 
