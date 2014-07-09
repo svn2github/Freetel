@@ -1655,13 +1655,13 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <text x="-1" y="-1.6" size="1" layer="27" ratio="10" align="top-left">&gt;VALUE</text>
 </package>
 <package name="LED-LTST">
-<smd name="C" x="-0.75" y="0" dx="0.8" dy="0.8" layer="1" roundness="25"/>
-<smd name="A" x="0.75" y="0" dx="0.8" dy="0.8" layer="1" roundness="25"/>
-<wire x1="-1.5" y1="0.7" x2="-1.5" y2="-0.7" width="0" layer="39"/>
-<wire x1="-1.5" y1="-0.7" x2="1.5" y2="-0.7" width="0" layer="39"/>
-<wire x1="1.5" y1="-0.7" x2="1.5" y2="0.5" width="0" layer="39"/>
-<wire x1="1.5" y1="0.5" x2="1.5" y2="0.7" width="0" layer="39"/>
-<wire x1="1.5" y1="0.7" x2="-1.5" y2="0.7" width="0" layer="39"/>
+<smd name="C" x="-1.25" y="0" dx="1.5" dy="1" layer="1" roundness="25"/>
+<smd name="A" x="1.25" y="0" dx="1.5" dy="1" layer="1" roundness="25"/>
+<wire x1="-2.2" y1="0.7" x2="-2.2" y2="-0.7" width="0" layer="39"/>
+<wire x1="-2.2" y1="-0.7" x2="2.2" y2="-0.6" width="0" layer="39"/>
+<wire x1="2.2" y1="-0.6" x2="2.2" y2="0.6" width="0" layer="39"/>
+<wire x1="2.2" y1="0.6" x2="2.2" y2="0.7" width="0" layer="39"/>
+<wire x1="2.2" y1="0.7" x2="-2.2" y2="0.7" width="0" layer="39"/>
 <wire x1="-0.1" y1="0.5" x2="-0.1" y2="0" width="0.125" layer="21"/>
 <wire x1="-0.1" y1="0" x2="-0.1" y2="-0.5" width="0.125" layer="21"/>
 <polygon width="0" layer="21">

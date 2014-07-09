@@ -4,15 +4,18 @@ Change Log for SM1000-REV-B2
 Tuesday, July 07, 2014	04:05 PM
 ====================================
 
-[ ] SW3 holes not big enough.
+[X] SW3 holes not big enough.
 		Hole is .5mm. Pin is .6mm. Hole should be 1.0mm per spec sheet. Will change. 
+		07/08/2014 - RGB
 
-[ ] Is C26 rated at 25V in BOM? 
+[X] Is C26 rated at 25V in BOM? 
 		C26 is 25V in schematic, 16V in BOM. 
 		OOPS! C23, C26, C40 & C46 should all be 25V. Will change database & BOM.  Murata # GRM188R71E104KA01D, Digikey # 490-1524-1-ND, Part Def: CAP CER 0.1UF 25V 10% X7R 0603
-
-	[ ] LED8 takes up whole of pads so diff to solder 
-		Will enlarge pad in library. 
+		07/08/2014 - RGB
+		
+[X] LED8 takes up whole of pads so diff to solder 
+		Corrected package for LED-LTST - LED5 & LED8.
+		07/09/2014 - RGB
 
 [ ] Is CN3 a standard size?  My DC plugs don't fit in it 	
 		2.5mm ID, 5.5mm OD Plug. CONN PWR PLUG DC 2.5X5.5 8A MOD Digikey # 
@@ -44,18 +47,20 @@ Tuesday, July 07, 2014	04:05 PM
 [ ] move R20 label close to R20     + I loaded R20 in the wrong place! 
 		Will do. 
 
-[ ] is 4k7 missing from BOM or just my order?    + I didn't have any in my Digikey order 
+[X] is 4k7 missing from BOM or just my order?    + I didn't have any in my Digikey order 
 		Part definition error. Part # in part definition field. Will correct database & BOM.
 		This affects R2,R3, R4, R5 & R48. Should be Vishay Dale # CRCW06034K70FKEA, Digikey # 541-4.70KHCT-ND, Part Def: RES 4.70K OHM 1/10W 1% 0603 SMD
+		07/08/2014 - RGB
 
 ====================================
 Tuesday, July 08, 2014	10:54 AM
 ====================================
 
-[ ] Re C26, could u pls align the BOM and sch?  I'm not sure which one has to change. 
+[X] Re C26, could u pls align the BOM and sch?  I'm not sure which one has to change. 
 		C26 should be 25V to accommodate +16V power in max. 
 		OOPS! Found that C23, C26, C40 & C46 all should be 25V. That's why I made them separate line item. I'll Change BOM to Digikey part # 490-1524-6-ND Murata # GRM188R71E104KA01D
-
+		07/08/2014 - Same as #2 above - RGB
+		
 [ ] Re CN3, Hmm, now I'm not sure!  I dug around in the shed and found a connector that fits so I'm OK for now. 
 		CN3 is Switchcraft RASM712PX   2.5mm ID, 5.5mm OD Plug.  CONN PWR PLUG DC 2.5X5.5 8A MOD Digikey  # CP3-002BH-ND
 		I've noted a problem, but will wait til you decide.
