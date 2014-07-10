@@ -211,10 +211,10 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     // sanitise frame position as a first pass at Win32 registry bug
 
     printf("x = %d y = %d w = %d h = %d\n", x,y,w,h);
-    if (x < 0) x = 20;
-    if (y < 0) y = 20;
-    if (w < 0) w = 800;
-    if (h < 0) h = 550;
+    if (x < 0 || x > 2048) x = 20;
+    if (y < 0 || y > 2048) y = 20;
+    if (w < 0 || w > 2048) w = 800;
+    if (h < 0 || h > 2048) h = 550;
 
     // note: run DebugView program to see this message under windows
     //wxLogDebug("x = %d y = %d w = %d h = %d\n", x,y,w,h);
