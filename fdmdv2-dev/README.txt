@@ -9,21 +9,31 @@ Builds static versions of wxWidgets, portaudio, codec2-dev, which are commonly m
 
 Assuming the freedv-dev sources is checked out into ~/fdmdv2-dev:
 
-$ cd 
-$ mkdir tmp
-$ cd tmp
-$ cmake -DBOOTSTRAP_WXWIDGETS=TRUE -DUSE_STATIC_CODEC2=TRUE -DUSE_STATIC_PORTAUDIO=TRUE ~/fdmdv2-dev
+$ cd fdmdv2-dev
+$ mkdir build_linux
+$ cd build_linux
+$ cmake -DBOOTSTRAP_WXWIDGETS=TRUE ~/fdmdv2-dev
 $ make
 [wxWidgets builds]
-$ cmake .
+
+Then you can use your local codec-dev, something like:
+
+$ cmake cmake -DBOOTSTRAP_WXWIDGETS=TRUE -DCODEC2_INCLUDE_DIR=/home/david/codec2-dev/src -DCODEC2_LIBRARY=/home/david/codec2-dev/build_linux/src/libcodec2.so -DUSE_STATIC_CODEC2=FALSE -DUSE_STATIC_PORTAUDIO=TRUE -DUSE_STATIC_SOX=TRUE ../
+
+OR build a local copy of codec2-dev:
+
+$ cmake cmake -DBOOTSTRAP_WXWIDGETS=TRUE -DUSE_STATIC_CODEC2=TRUE -DUSE_STATIC_PORTAUDIO=TRUE -DUSE_STATIC_SOX=TRUE ../
+
 $ make
 [FreeDV builds]
 $ ./src/freedv
 
+Note: add "-DCMAKE_BUILD_TYPE=Debug" the list above for debug (gcc -g) buildthat include source line numbers.
+
 Quickstart 2
 ------------
 
-Assumes you have all the dependant libraries:
+Assuming you have all the dependant libraries:
 
 $ cd /path/to/fdmdv2
 $ mkdir build_linux
@@ -77,6 +87,8 @@ $ make install
 ====================================
  Building and installing on FreeBSD
 ====================================
+
+As per "Quickstart 2" above but change build_linux to build_freebsd
 
 =======
 Editing

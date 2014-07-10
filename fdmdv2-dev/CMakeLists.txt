@@ -421,6 +421,20 @@ else(NOT USE_STATIC_CODEC2)
     include(cmake/BuildCodec2.cmake)
 endif(NOT USE_STATIC_CODEC2)
 
+#
+# Find speex library
+#
+message(STATUS "Looking for Speex DSP library.")
+find_path(SPEEXDSP_INCLUDE_DIR speex/speex.h)
+find_library(SPEEXDSP_LIBRARY speexdsp)
+message(STATUS "  Speex DSP headers: ${SPEEXDSP_INCLUDE_DIR}")
+message(STATUS "  Speex DSP library: ${SPEEXDSP_LIBRARY}")
+if(SPEEXDSP_INCLUDE_DIR AND SPEEXDSP_LIBRARY)
+    include_directories(${SPEEXDSP_INCLUDE_DIR})
+    list(APPEND FREEDV_LINK_LIBS ${SPEEXDSP_LIBRARY})
+else(SPEEXDSP_INCLUDE_DIR AND SPEEXDSP_LIBRARY)
+    message(FATAL_ERROR "Speex DSP library not found!")
+endif(SPEEXDSP_INCLUDE_DIR AND SPEEXDSP_LIBRARY)
 
 # Freedv 
 add_subdirectory(src)
