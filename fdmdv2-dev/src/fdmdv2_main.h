@@ -179,6 +179,7 @@ class MainApp : public wxApp
         bool                m_events;
         int                 m_events_spam_timer;
         unsigned int        m_textEncoding;
+        bool                m_enable_checksum;
         wxString            m_events_regexp_match;
         wxString            m_events_regexp_replace;
 

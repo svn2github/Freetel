@@ -71,6 +71,7 @@ class OptionsDlg : public wxDialog
 
         wxRadioButton *m_rb_textEncoding1;
         wxRadioButton *m_rb_textEncoding2;
+        wxCheckBox    *m_ckboxEnableChecksum;
 
         wxCheckBox   *m_ckbox_events;
         wxTextCtrl   *m_txt_events_regexp_match;

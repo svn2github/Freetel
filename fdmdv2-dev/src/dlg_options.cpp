@@ -38,14 +38,14 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
 
     wxStaticBoxSizer* sbSizer_testFrames;
     wxStaticBox *sb_testFrames = new wxStaticBox(this, wxID_ANY, _("Test Frames"));
-    sbSizer_testFrames = new wxStaticBoxSizer(sb_testFrames, wxVERTICAL);
+    sbSizer_testFrames = new wxStaticBoxSizer(sb_testFrames, wxHORIZONTAL);
 
     m_ckboxTestFrame = new wxCheckBox(this, wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
-    sb_testFrames->SetToolTip(_("Send frames of known bits instead of compressed voice"));
+    m_ckboxTestFrame->SetToolTip(_("Send frames of known bits instead of compressed voice"));
     sbSizer_testFrames->Add(m_ckboxTestFrame, 0, wxALIGN_LEFT, 0);
 
     m_ckboxChannelNoise = new wxCheckBox(this, wxID_ANY, _("Channel Noise"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
-    sb_testFrames->SetToolTip(_("Add simulated AWGN channel noise to received signal"));
+    m_ckboxChannelNoise->SetToolTip(_("Add simulated AWGN channel noise to received signal"));
     sbSizer_testFrames->Add(m_ckboxChannelNoise, 0, wxALIGN_LEFT, 0);
 
     bSizer30->Add(sbSizer_testFrames,0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 3);
@@ -55,7 +55,8 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
     //------------------------------
 
     wxStaticBoxSizer* sbSizer_callSign;
-    sbSizer_callSign = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Txt Msg")), wxVERTICAL);
+    wxStaticBox *sb_textMsg = new wxStaticBox(this, wxID_ANY, _("Txt Msg"));
+    sbSizer_callSign = new wxStaticBoxSizer(sb_textMsg, wxVERTICAL);
 
     m_txtCtrlCallSign = new wxTextCtrl(this, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0);
     m_txtCtrlCallSign->SetToolTip(_("Txt Msg you can send along with Voice"));
@@ -74,6 +75,9 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
     sbSizer_encoding->Add(m_rb_textEncoding1, 0, wxALIGN_LEFT|wxALL, 1);
     m_rb_textEncoding2 = new wxRadioButton( this, wxID_ANY, wxT("Short Varicode"), wxDefaultPosition, wxDefaultSize, 0);
     sbSizer_encoding->Add(m_rb_textEncoding2, 0, wxALIGN_LEFT|wxALL, 1);
+
+    m_ckboxEnableChecksum = new wxCheckBox(this, wxID_ANY, _("Use Checksum on Rx"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    sbSizer_encoding->Add(m_ckboxEnableChecksum, 0, wxALIGN_LEFT, 0);
 
     bSizer30->Add(sbSizer_encoding,0, wxALL|wxEXPAND, 3);
  
@@ -216,6 +220,7 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
             m_rb_textEncoding1->SetValue(true);
         if (wxGetApp().m_textEncoding == 2)
             m_rb_textEncoding2->SetValue(true);
+        m_ckboxEnableChecksum->SetValue(wxGetApp().m_enable_checksum);
     }
 
     if(inout == EXCHANGE_DATA_OUT)
@@ -249,10 +254,12 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
             wxGetApp().m_textEncoding = 1;
         if (m_rb_textEncoding2->GetValue())
             wxGetApp().m_textEncoding = 2;
+        wxGetApp().m_enable_checksum = m_ckboxEnableChecksum->GetValue();
 
         if (storePersistent) {
             pConfig->Write(wxT("/Data/CallSign"), wxGetApp().m_callSign);
             pConfig->Write(wxT("/Data/TextEncoding"), wxGetApp().m_textEncoding);
+            pConfig->Write(wxT("/Data/EnableChecksumOnMsgRx"), wxGetApp().m_enable_checksum);
 
             pConfig->Write(wxT("/Events/enable"), wxGetApp().m_events);
             pConfig->Write(wxT("/Events/spam_timer"), wxGetApp().m_events_spam_timer);

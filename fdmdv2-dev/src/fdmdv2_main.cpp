@@ -378,6 +378,7 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
 
     wxGetApp().m_callSign = pConfig->Read("/Data/CallSign", wxT(""));
     wxGetApp().m_textEncoding = pConfig->Read("/Data/TextEncoding", 2);
+    wxGetApp().m_enable_checksum = pConfig->Read("/Data/EnableChecksumOnMsgRx", t);
 
     wxGetApp().m_events = pConfig->Read("/Events/enable", f);
     wxGetApp().m_events_spam_timer = (int)pConfig->Read(wxT("/Events/spam_timer"), 10);
@@ -575,6 +576,7 @@ MainFrame::~MainFrame()
 
         pConfig->Write(wxT("/Data/CallSign"), wxGetApp().m_callSign);
         pConfig->Write(wxT("/Data/TextEncoding"), wxGetApp().m_textEncoding);
+        pConfig->Write(wxT("/Data/EnableChecksumOnMsgRx"), wxGetApp().m_enable_checksum);
         pConfig->Write(wxT("/Events/enable"), wxGetApp().m_events);
         pConfig->Write(wxT("/Events/spam_timer"), wxGetApp().m_events_spam_timer);
         pConfig->Write(wxT("/Events/regexp_match"), wxGetApp().m_events_regexp_match);
@@ -1006,7 +1008,15 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
             else {
                 m_checksumBad++;
                 s.Printf("%d", m_checksumBad);
-                m_txtChecksumBad->SetLabel(s);              
+                m_txtChecksumBad->SetLabel(s);        
+
+                // checksums can be disabled, e.g. for compatability
+                // with older vesions.  In that case we print msg but
+                // don't do any event processing
+
+                if (!wxGetApp().m_enable_checksum) {
+                    m_txtCtrlCallSign->SetValue(m_callsign);
+                }
             }
 
             // reset ptr to start of string
