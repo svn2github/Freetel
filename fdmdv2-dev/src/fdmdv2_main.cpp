@@ -51,6 +51,7 @@ int                 g_total_bit_errors;
 int                 g_sz_error_pattern;
 short              *g_error_pattern;
 struct FIFO        *g_errorFifo;
+int                 g_channel_noise;
 
 // time averaged magnitude spectrum used for waterfall and spectrum display
 float               g_avmag[FDMDV_NSPEC];
@@ -1041,6 +1042,7 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
         g_total_bit_errors = 0;
     }
     g_testFrames =  wxGetApp().m_testFrames;
+    g_channel_noise =  wxGetApp().m_channel_noise;
 
     if (g_State) {
         char bits[80], errors[80], ber[80];
@@ -3165,6 +3167,11 @@ void per_frame_rx_processing(
         {
             rx_fdm[i].real = (float)input_buf[i] / FDMDV_SCALE;
             rx_fdm[i].imag = 0.0;
+        }
+
+        
+        if (g_channel_noise) {
+            fdmdv_simulate_channel(g_pFDMDV, rx_fdm, *nin, 2.0);
         }
         fdmdv_freq_shift(rx_fdm_offset, rx_fdm, g_RxFreqOffsetHz,  &g_RxFreqOffsetPhaseRect, *nin);
         fdmdv_demod(g_pFDMDV, rx_bits, &reliable_sync_bit, rx_fdm_offset, nin);

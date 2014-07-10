@@ -44,6 +44,10 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
     sb_testFrames->SetToolTip(_("Send frames of known bits instead of compressed voice"));
     sbSizer_testFrames->Add(m_ckboxTestFrame, 0, wxALIGN_LEFT, 0);
 
+    m_ckboxChannelNoise = new wxCheckBox(this, wxID_ANY, _("Channel Noise"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    sb_testFrames->SetToolTip(_("Add simulated AWGN channel noise to received signal"));
+    sbSizer_testFrames->Add(m_ckboxChannelNoise, 0, wxALIGN_LEFT, 0);
+
     bSizer30->Add(sbSizer_testFrames,0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 3);
 
     //------------------------------
@@ -197,6 +201,7 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
     {
         m_txtCtrlCallSign->SetValue(wxGetApp().m_callSign);
         m_ckboxTestFrame->SetValue(wxGetApp().m_testFrames);
+        m_ckboxChannelNoise->SetValue(wxGetApp().m_channel_noise);
 
         m_ckbox_events->SetValue(wxGetApp().m_events);
         m_txt_spam_timer->SetValue(wxString::Format(wxT("%i"),wxGetApp().m_events_spam_timer));
@@ -217,6 +222,7 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
     {
         wxGetApp().m_callSign      = m_txtCtrlCallSign->GetValue();
         wxGetApp().m_testFrames    = m_ckboxTestFrame->GetValue();
+        wxGetApp().m_channel_noise = m_ckboxChannelNoise->GetValue();
 
         wxGetApp().m_events        = m_ckbox_events->GetValue();
         long spam_timer;

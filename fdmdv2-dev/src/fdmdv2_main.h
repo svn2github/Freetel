@@ -243,7 +243,9 @@ class MainApp : public wxApp
 
         // misc
 
-        bool        m_testFrames;
+        bool       m_testFrames;
+        bool       m_channel_noise;
+        float      m_channel_snr_dB;
 
         int        FilterEvent(wxEvent& event);
         MainFrame *frame;

@@ -67,6 +67,7 @@ class OptionsDlg : public wxDialog
  
         wxTextCtrl   *m_txtCtrlCallSign; // TODO: this should be renamed to tx_txtmsg, and rename all related incl persis strge
         wxCheckBox   *m_ckboxTestFrame;
+        wxCheckBox   *m_ckboxChannelNoise;
 
         wxRadioButton *m_rb_textEncoding1;
         wxRadioButton *m_rb_textEncoding2;
