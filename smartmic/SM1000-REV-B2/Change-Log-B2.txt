@@ -69,3 +69,10 @@ Tuesday, July 08, 2014	10:54 AM
 		Part database  error, invalid part definition. Digikey & Vishay Dale part numbers are correct. Part definition for R2, R3, R4, R5 & R48 should be: RES 4.70K OHM 1/10W 1% 0603 SMD Will correct part database & BOM.
 
 ====================================
+
+[ ] CN7 3.5mm socket etc have two small plastic mounting lugs that require holes
+[ ] Could C40 be rated at 16V?
+[ ] Should R46 be described as a trimmer resistor (rather than POT?) on the BOM
+[ ] Is label for R1 & R2 transposed?
+[ ] Add 100nF reset cap as per data sheet and discovery
+[ ] replace J7 & J2 with 0805 0 ohm Rs
