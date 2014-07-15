@@ -17,14 +17,15 @@ Changes 07/15/2014
 		Corrected package for LED-LTST - LED5 & LED8.
 		07/09/2014 - RGB
 
-4.  [ ] Is CN3 a standard size?  My DC plugs don't fit in it 	
+4.  [X] Is CN3 a standard size?  My DC plugs don't fit in it 	
 		2.5mm ID, 5.5mm OD Plug. CONN PWR PLUG DC 2.5X5.5 8A MOD Digikey # 
 		CP3-002BH-ND 
-		This is probably most common size in USA. Change? 
+		This is probably most common size in USA. Same size as Raspberry PI, BeagleBone , SignaLink & others. RGB 07/15/2014
 
-5.  [ ] couldn't solder bottom pad of U5 by hand      + hope it's OK 
+5.  [X] couldn't solder bottom pad of U5 by hand      + hope it's OK 
 		Attached to large gnd plane. Hard to solder. Designed for IR SMT 
 		assembly. Try large iron on vias from bottom. 
+		Part will solder in production. RGB 07/15/2014
 
 6.  [ ] Can R6,R2,R5,R3,R4 be 10k to match R1? 
 		Don't know if 10K will work for R6. Discovery has 680 or small value. 
@@ -60,8 +61,10 @@ Changes 07/15/2014
 		CN3 is Switchcraft RASM712PX   2.5mm ID, 5.5mm OD Plug.  CONN PWR PLUG DC 2.5X5.5 8A MOD Digikey  # CP3-002BH-ND
 		I've noted a problem, but will wait til you decide. RGB
 
-14. [ ] OK I just check the BOM I have, and there are no 4.7k resistors on it, e.g. R2, R3, R4, R5.  Oh OK, the BOM has a part number.  Not sure what that mapped to on my Digikey order, just noticed I didn't get any 4k7s.  Maybe change the BOM to indicate the part value? 
-		Part database  error, invalid part definition. Digikey & Vishay Dale part numbers are correct. Part definition for R2, R3, R4, R5 & R48 should be: RES 4.70K OHM 1/10W 1% 0603 SMD Will correct part database & BOM.
+14. [X] OK I just check the BOM I have, and there are no 4.7k resistors on it, e.g. R2, R3, R4, R5.  
+		Part database  error, invalid part definition. Digikey & Vishay Dale part numbers are correct. 
+		Part definition for R2, R3, R4, R5 & R48 should be: RES 4.70K OHM 1/10W 1% 0603 SMD Will correct part database & BOM.
+		R2, R3, R4, R5 & R48 now 4.70K 1/10W 1% 0603 parts in B2 revision. RGB 07/15/2014
 
 15. [X] CN7 3.5mm socket etc have two small plastic mounting lugs that require holes
 		CN7, CN8, CN9 & CN10 plastic tabs interfere with pads on top layer. Since the tabs are plastic and don't extend thru the PCB, I am approving these 4 discrepancies. RGB 07/15.2014		
