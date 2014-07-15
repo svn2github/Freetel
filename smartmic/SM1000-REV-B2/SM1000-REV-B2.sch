@@ -273,6 +273,8 @@
 <wire x1="-9.9" y1="-3" x2="-9.9" y2="1.2" width="0" layer="39"/>
 <wire x1="-9.9" y1="1.2" x2="-5.9" y2="1.2" width="0" layer="39"/>
 <wire x1="-5.9" y1="1.2" x2="-5.9" y2="5.7" width="0" layer="39"/>
+<hole x="-2.5" y="0" drill="1.7"/>
+<hole x="4.5" y="0" drill="1.7"/>
 </package>
 <package name="SRN6045">
 <smd name="1" x="-2.15" y="0" dx="6" dy="2" layer="1" rot="R90"/>
@@ -455,12 +457,12 @@ INFINEON, www.infineon.com/cmc_upload/0/000/010/257/eh_db_5b.pdf</description>
 <text x="-5.5" y="6.5" size="1" layer="25" ratio="10">&gt;NAME</text>
 </package>
 <package name="SW-PWR">
-<pad name="1" x="2.5" y="-1.25" drill="0.5" shape="square"/>
-<pad name="2" x="0" y="-1.25" drill="0.5"/>
-<pad name="3" x="-2.5" y="-1.25" drill="0.5"/>
-<pad name="4" x="2.5" y="1.25" drill="0.5"/>
-<pad name="5" x="0" y="1.25" drill="0.5"/>
-<pad name="6" x="-2.5" y="1.25" drill="0.5"/>
+<pad name="1" x="2.5" y="-1.25" drill="1" diameter="1.778" shape="square"/>
+<pad name="2" x="0" y="-1.25" drill="1" diameter="1.778"/>
+<pad name="3" x="-2.5" y="-1.25" drill="1" diameter="1.778"/>
+<pad name="4" x="2.5" y="1.25" drill="1" diameter="1.778"/>
+<pad name="5" x="0" y="1.25" drill="1" diameter="1.778"/>
+<pad name="6" x="-2.5" y="1.25" drill="1" diameter="1.778"/>
 <wire x1="-4" y1="3" x2="5" y2="3" width="0.15" layer="21"/>
 <wire x1="-4.5" y1="-3" x2="5" y2="-3" width="0.15" layer="21"/>
 <wire x1="8.7" y1="3" x2="8.7" y2="-3" width="0.15" layer="21"/>
@@ -716,6 +718,22 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <pad name="2" x="-2" y="-1.27" drill="1.2" diameter="1.9304"/>
 <text x="-2.5" y="6" size="1" layer="25" ratio="10">&gt;NAME</text>
 <circle x="0" y="0" radius="5.59016875" width="0.01" layer="39"/>
+</package>
+<package name="RR0805">
+<description>&lt;b&gt;RESISTOR&lt;/b&gt;&lt;p&gt;
+chip</description>
+<wire x1="-0.41" y1="0.635" x2="0.41" y2="0.635" width="0.1524" layer="51"/>
+<wire x1="-0.41" y1="-0.635" x2="0.41" y2="-0.635" width="0.1524" layer="51"/>
+<wire x1="-1.425" y1="0.95" x2="1.425" y2="0.95" width="0.0508" layer="39"/>
+<wire x1="1.425" y1="0.95" x2="1.425" y2="-0.95" width="0.0508" layer="39"/>
+<wire x1="1.425" y1="-0.95" x2="-1.425" y2="-0.95" width="0.0508" layer="39"/>
+<wire x1="-1.425" y1="-0.95" x2="-1.425" y2="0.95" width="0.0508" layer="39"/>
+<smd name="1" x="-0.95" y="0" dx="0.7" dy="1.3" layer="1" roundness="25"/>
+<smd name="2" x="0.95" y="0" dx="0.7" dy="1.3" layer="1" roundness="25"/>
+<text x="-1.462" y="1.116" size="1" layer="25" ratio="10">&gt;NAME</text>
+<rectangle x1="0.4064" y1="-0.6985" x2="1.0564" y2="0.7015" layer="51"/>
+<rectangle x1="-1.0668" y1="-0.6985" x2="-0.4168" y2="0.7015" layer="51"/>
+<rectangle x1="-0.1999" y1="-0.5001" x2="0.1999" y2="0.5001" layer="35"/>
 </package>
 </packages>
 <symbols>
@@ -1184,6 +1202,21 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <text x="-17.78" y="20.32" size="1.4224" layer="95" ratio="10">&gt;NAME</text>
 <text x="0" y="20.32" size="1.4224" layer="95" ratio="10">&gt;VALUE</text>
 </symbol>
+<symbol name="R">
+<wire x1="-2.54" y1="0" x2="-2.159" y2="1.016" width="0.2032" layer="94"/>
+<wire x1="-2.159" y1="1.016" x2="-1.524" y2="-1.016" width="0.2032" layer="94"/>
+<wire x1="-1.524" y1="-1.016" x2="-0.889" y2="1.016" width="0.2032" layer="94"/>
+<wire x1="-0.889" y1="1.016" x2="-0.254" y2="-1.016" width="0.2032" layer="94"/>
+<wire x1="-0.254" y1="-1.016" x2="0.381" y2="1.016" width="0.2032" layer="94"/>
+<wire x1="0.381" y1="1.016" x2="1.016" y2="-1.016" width="0.2032" layer="94"/>
+<wire x1="1.016" y1="-1.016" x2="1.651" y2="1.016" width="0.2032" layer="94"/>
+<wire x1="1.651" y1="1.016" x2="2.286" y2="-1.016" width="0.2032" layer="94"/>
+<wire x1="2.286" y1="-1.016" x2="2.54" y2="0" width="0.2032" layer="94"/>
+<text x="-2.54" y="5.08" size="1.4224" layer="95" ratio="9">&gt;NAME</text>
+<text x="-2.54" y="2.54" size="1.4224" layer="96" ratio="9">&gt;VALUE</text>
+<pin name="2" x="5.08" y="0" visible="off" length="short" direction="pas" swaplevel="1" rot="R180"/>
+<pin name="1" x="-5.08" y="0" visible="off" length="short" direction="pas" swaplevel="1"/>
+</symbol>
 </symbols>
 <devicesets>
 <deviceset name="MJ-3523-SMT" prefix="CN">
@@ -1580,6 +1613,22 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 </gates>
 <devices>
 <device name="" package="CMA-4544PF-W">
+<connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="2" pad="2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="RES0805" prefix="R">
+<gates>
+<gate name="G$1" symbol="R" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="RR0805">
 <connects>
 <connect gate="G$1" pin="1" pad="1"/>
 <connect gate="G$1" pin="2" pad="2"/>
@@ -3867,11 +3916,9 @@ http://www.weartronics.com/</description>
 <part name="V34" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="LED5" library="_Coherix" deviceset="LTST-C" device="" value="LED-RED,V"/>
 <part name="R17" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="1K,1%"/>
-<part name="J2" library="_Coherix" deviceset="JMP-2PIN" device=""/>
 <part name="V35" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="U$2" library="A-SUPPLY2" deviceset="+3.3V" device=""/>
 <part name="V36" library="A-SUPPLY2" deviceset="VDD" device=""/>
-<part name="SH2" library="_Coherix" deviceset="SHUNT,0.1IN" device=""/>
 <part name="LED1" library="_RoweTel" deviceset="LTST-S220K" device="" value="LED-RED,RA"/>
 <part name="LED2" library="_RoweTel" deviceset="LTST-S220K" device="" value="LED-RED,RA"/>
 <part name="LED3" library="_RoweTel" deviceset="LTST-S220K" device="" value="LED-GRN,RA"/>
@@ -4048,8 +4095,6 @@ http://www.weartronics.com/</description>
 <part name="U$1" library="A-SUPPLY2" deviceset="+VIN" device=""/>
 <part name="U$7" library="A-SUPPLY2" deviceset="+VEXT" device=""/>
 <part name="V71" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="J7" library="_Coherix" deviceset="JMP-2PIN" device=""/>
-<part name="SH6" library="_Coherix" deviceset="SHUNT,0.1IN" device=""/>
 <part name="C52" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
 <part name="C53" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="10nF,16V"/>
 <part name="V112" library="A-SUPPLY2" deviceset="GND" device=""/>
@@ -4116,6 +4161,8 @@ http://www.weartronics.com/</description>
 <part name="V122" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="R9" library="SM1000" deviceset="RCL1218" device="" value="10,5%,1218"/>
 <part name="R11" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="100,1%"/>
+<part name="R18" library="_RoweTel" deviceset="RES0805" device="" value="0 Ohm"/>
+<part name="R21" library="_RoweTel" deviceset="RES0805" device="" value="0 Ohm"/>
 </parts>
 <sheets>
 <sheet>
@@ -4333,11 +4380,9 @@ http://www.weartronics.com/</description>
 <attribute name="NAME" x="289.56" y="149.86" size="1.4224" layer="95" ratio="9"/>
 <attribute name="VALUE" x="289.56" y="147.32" size="1.4224" layer="96" ratio="9"/>
 </instance>
-<instance part="J2" gate="G$1" x="294.64" y="154.94"/>
 <instance part="V35" gate="GND" x="287.02" y="127"/>
 <instance part="U$2" gate="G$1" x="287.02" y="157.48"/>
 <instance part="V36" gate="G$1" x="304.8" y="154.94" rot="R270"/>
-<instance part="SH2" gate="G$1" x="294.64" y="165.1"/>
 <instance part="LED1" gate="G$1" x="35.56" y="220.98" smashed="yes" rot="R90">
 <attribute name="NAME" x="45.72" y="218.44" size="1.4224" layer="95" ratio="9"/>
 <attribute name="VALUE" x="45.72" y="215.9" size="1.4224" layer="96" ratio="9"/>
@@ -4552,6 +4597,7 @@ http://www.weartronics.com/</description>
 </instance>
 <instance part="V123" gate="G$1" x="109.22" y="266.7"/>
 <instance part="U$3" gate="G$1" x="114.3" y="266.7"/>
+<instance part="R18" gate="G$1" x="297.18" y="154.94"/>
 </instances>
 <busses>
 </busses>
@@ -4658,9 +4704,9 @@ http://www.weartronics.com/</description>
 <junction x="99.06" y="30.48"/>
 </segment>
 <segment>
-<pinref part="J2" gate="G$1" pin="2"/>
-<wire x1="299.72" y1="154.94" x2="304.8" y2="154.94" width="0.1524" layer="91"/>
+<wire x1="302.26" y1="154.94" x2="304.8" y2="154.94" width="0.1524" layer="91"/>
 <pinref part="V36" gate="G$1" pin="VDD"/>
+<pinref part="R18" gate="G$1" pin="2"/>
 </segment>
 <segment>
 <pinref part="R4" gate="G$1" pin="1"/>
@@ -5178,7 +5224,6 @@ http://www.weartronics.com/</description>
 <segment>
 <pinref part="U$2" gate="G$1" pin="+3.3V"/>
 <wire x1="287.02" y1="154.94" x2="287.02" y2="157.48" width="0.1524" layer="91"/>
-<pinref part="J2" gate="G$1" pin="1"/>
 <wire x1="287.02" y1="154.94" x2="292.1" y2="154.94" width="0.1524" layer="91"/>
 <junction x="287.02" y="154.94"/>
 <pinref part="U2" gate="G$1" pin="VOUT"/>
@@ -5192,6 +5237,7 @@ http://www.weartronics.com/</description>
 <wire x1="279.4" y1="154.94" x2="287.02" y2="154.94" width="0.1524" layer="91"/>
 <pinref part="R17" gate="G$1" pin="2"/>
 <wire x1="287.02" y1="152.4" x2="287.02" y2="154.94" width="0.1524" layer="91"/>
+<pinref part="R18" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="+5V" class="0">
@@ -5743,79 +5789,13 @@ http://www.weartronics.com/</description>
 <text x="419.1" y="269.24" size="1.4224" layer="94" ratio="10">B</text>
 <text x="424.18" y="269.24" size="1.4224" layer="94" ratio="10">RGB</text>
 <text x="264.16" y="266.7" size="2.54" layer="94" ratio="10">EXT. PTT INPUT</text>
-<text x="332.74" y="50.8" size="1.27" layer="94" ratio="10">1. Change U5 TPS54329E to RT8250</text>
-<text x="332.74" y="53.34" size="1.27" layer="94" ratio="10">2. Move LED8 to 5V </text>
-<text x="332.74" y="55.88" size="1.27" layer="94" ratio="10">3. Change rig mic amp circuit to pot on transformer output.</text>
-<text x="332.74" y="58.42" size="1.27" layer="94" ratio="10">4. Change mic preamp circuit to op-amp per DR.</text>
-<text x="332.74" y="60.96" size="1.27" layer="94" ratio="10">5. Add ext. PTT connector and cpu DI.</text>
-<text x="332.74" y="63.5" size="1.27" layer="94" ratio="10">6. Bring GND, RF(GND) &amp; +VEXT to IC1 connector.</text>
-<text x="332.74" y="66.04" size="1.27" layer="94" ratio="10">7. Change PCB from 4 layer to 2 layer.</text>
-<text x="332.74" y="68.58" size="1.27" layer="94" ratio="10">8. Change processor from STM32F407 to STM32F405.</text>
-<text x="332.74" y="71.12" size="1.27" layer="94" ratio="10">9. Change bypass caps to mix of 100nF and 10nF.</text>
-<text x="332.74" y="73.66" size="1.27" layer="94" ratio="10">10. Add hdr for speaker.</text>
-<text x="332.74" y="76.2" size="1.27" layer="94" ratio="10">11. Change C43, C44, C45 to 100pF</text>
-<text x="332.74" y="78.74" size="1.27" layer="94" ratio="10">12. Change C23 to 25V.</text>
-<text x="332.74" y="81.28" size="1.27" layer="94" ratio="10">13 Added PTT SW network to permit DFU mode on power up.</text>
-<text x="330.2" y="83.82" size="1.27" layer="94" ratio="10">05/28/2014</text>
-<text x="332.74" y="86.36" size="1.27" layer="94" ratio="10">14. Change Reset switch to header.</text>
 <text x="91.44" y="27.94" size="1.778" layer="94" ratio="10">INTERNAL SPEAKER</text>
-<text x="332.74" y="88.9" size="1.27" layer="94" ratio="10">15. Power electret mic from  VDD</text>
-<text x="332.74" y="91.44" size="1.27" layer="94" ratio="10">16. Change CN1 to 3-pin</text>
-<text x="330.2" y="93.98" size="1.27" layer="94" ratio="10">05/29/2014</text>
-<text x="332.74" y="96.52" size="1.27" layer="94" ratio="10">17. Change SCL, SDA pulldowns to pullups.</text>
-<text x="330.2" y="106.68" size="1.27" layer="94" ratio="10">06/01/2014</text>
-<text x="332.74" y="99.06" size="1.27" layer="94" ratio="10">18. Delete STLINK LED &amp; components.</text>
-<text x="332.74" y="101.6" size="1.27" layer="94" ratio="10">19. Delete USB fault LED &amp; circuitry.</text>
-<text x="332.74" y="104.14" size="1.27" layer="94" ratio="10">20. Delete VUSB Led &amp; circuitry.</text>
-<text x="332.74" y="109.22" size="1.27" layer="94" ratio="10">21. Add SELECT &amp; BACK switches.</text>
-<text x="330.2" y="111.76" size="1.27" layer="94" ratio="10">06/02/2014</text>
-<text x="332.74" y="114.3" size="1.27" layer="94" ratio="10">22. Change 0603 resistors to IPC packages &amp; symbols.</text>
-<text x="330.2" y="119.38" size="1.27" layer="94" ratio="10">06/05/2014</text>
-<text x="332.74" y="116.84" size="1.27" layer="94" ratio="10">23. Change 0603 caps to IPC packages &amp; symbols.</text>
 <text x="355.6" y="266.7" size="1.4224" layer="94" ratio="10">06/13/14</text>
 <text x="368.3" y="266.7" size="1.4224" layer="94" ratio="10">Release for Prototype</text>
 <text x="419.1" y="266.7" size="1.4224" layer="94" ratio="10">B</text>
 <text x="424.18" y="266.7" size="1.4224" layer="94" ratio="10">RGB</text>
-<text x="330.2" y="127" size="1.27" layer="94" ratio="10">06/12/2014</text>
-<text x="332.74" y="121.92" size="1.27" layer="94" ratio="10">24. Change D3 to BAT60</text>
-<text x="332.74" y="124.46" size="1.27" layer="94" ratio="10">25. Change SW3 back to PBH2UUENAGX</text>
-<text x="332.74" y="129.54" size="1.27" layer="94" ratio="10">26. Remove signals from pins 9 &amp; 10 CN12.</text>
-<text x="332.74" y="132.08" size="1.27" layer="94" ratio="10">27. Change C10 &amp; C12 to Ceramic 0603 caps.</text>
-<text x="332.74" y="134.62" size="1.27" layer="94" ratio="10">28. Change C8 to 10nF.</text>
-<text x="332.74" y="137.16" size="1.27" layer="94" ratio="10">29. Change R12, R13, R15, R16 &amp; R17 to 680 Ohms.</text>
-<text x="332.74" y="139.7" size="1.27" layer="94" ratio="10">30. Change R1, R7 &amp; R8 to 10K</text>
-<text x="332.74" y="142.24" size="1.27" layer="94" ratio="10">31. Correct pinout for LD3985.</text>
-<text x="332.74" y="144.78" size="1.27" layer="94" ratio="10">32. Change C2 &amp; C3 to 20pF.</text>
-<text x="332.74" y="147.32" size="1.27" layer="94" ratio="10">33. Change C27 to 22pF.</text>
-<text x="332.74" y="149.86" size="1.27" layer="94" ratio="10">34. Change C40 to 25V.</text>
-<text x="332.74" y="152.4" size="1.27" layer="94" ratio="10">35. Move Pot R52 to T1 output &amp; change to 1K.</text>
-<text x="332.74" y="154.94" size="1.27" layer="94" ratio="10">36. Change C39 to 220uF,25V</text>
-<text x="330.2" y="160.02" size="1.27" layer="94" ratio="10">06/15/2014</text>
-<text x="332.74" y="157.48" size="1.27" layer="94" ratio="10">37. Change GND  on CN12-12,13 to RF </text>
-<text x="332.74" y="162.56" size="1.27" layer="94" ratio="10">38. Add test points at pins 77,78,79,80.
-PA15,PC10,PC11,PC12</text>
-<text x="332.74" y="167.64" size="1.27" layer="94" ratio="10">39. Add test points at pins 97,98,1,2.
-PE0,PE1,PE2,PE3</text>
-<text x="332.74" y="172.72" size="1.27" layer="94" ratio="10">40. Add test points at pins 24,25,29,30.
-AIN1,AIN2,DAC1,DAC2</text>
-<text x="332.74" y="177.8" size="1.27" layer="94" ratio="10">41. Add test points P14,P16,P18 (GND).</text>
-<text x="332.74" y="180.34" size="1.27" layer="94" ratio="10">42. Add test points P13,p15,p17 (VDD).</text>
-<text x="332.74" y="182.88" size="1.27" layer="94" ratio="10">43. Add test point P19 (+5V).</text>
-<text x="332.74" y="185.42" size="1.27" layer="94" ratio="10">44. Add test point P20 (+VIN ).</text>
-<text x="330.2" y="187.96" size="1.27" layer="94" ratio="10">06/16/2014</text>
-<text x="332.74" y="190.5" size="1.27" layer="94" ratio="10">45. Added 1nf cap in parallel with C46.</text>
-<text x="332.74" y="193.04" size="1.27" layer="94" ratio="10">46. Ad 10nF cap across CN3.</text>
-<text x="332.74" y="195.58" size="1.27" layer="94" ratio="10">47. Replaced FB5 with 10 Ohm 1206 Wide resistor.</text>
 <wire x1="327.66" y1="200.66" x2="327.66" y2="45.72" width="0.1524" layer="94" style="longdash"/>
-<text x="332.74" y="198.12" size="1.27" layer="94" ratio="10">48. Aded 1K resistor in series with FB4.</text>
-<text x="332.74" y="200.66" size="1.27" layer="94" ratio="10">49. Changed C34 to 1nF.</text>
-<text x="330.2" y="205.74" size="1.27" layer="94" ratio="10">06/17/2014</text>
-<text x="332.74" y="203.2" size="1.27" layer="94" ratio="10">50. Changed Select &amp; Back circuits to match PTT.</text>
 <wire x1="327.66" y1="200.66" x2="327.66" y2="279.4" width="0.1524" layer="94" style="longdash"/>
-<text x="332.74" y="208.28" size="1.4224" layer="94" ratio="10">51.Correct XTAL cap value to 20pFfrom 20nF.</text>
-<text x="332.74" y="210.82" size="1.4224" layer="94" ratio="10">52. Change C27 value to 20pF to combine with other 20pF caps.</text>
-<text x="332.74" y="213.36" size="1.4224" layer="94" ratio="10">53. Change C34 to 25V to combine with C1.</text>
-<text x="330.2" y="215.9" size="1.27" layer="94" ratio="10">06/18/2014</text>
 </plain>
 <instances>
 <instance part="CN5" gate="G$1" x="30.48" y="129.54" smashed="yes" rot="MR180">
@@ -6338,13 +6318,6 @@ AIN1,AIN2,DAC1,DAC2</text>
 <instance part="U$7" gate="G$1" x="63.5" y="266.7" smashed="yes">
 <attribute name="VALUE" x="60.96" y="266.954" size="1.4224" layer="96" ratio="9"/>
 </instance>
-<instance part="J7" gate="G$1" x="93.98" y="259.08" smashed="yes" rot="R180">
-<attribute name="NAME" x="93.98" y="256.54" size="1.4224" layer="95" rot="R180"/>
-<attribute name="VALUE" x="96.52" y="254" size="1.4224" layer="96" ratio="9" rot="R180"/>
-</instance>
-<instance part="SH6" gate="G$1" x="91.44" y="264.16" smashed="yes">
-<attribute name="NAME" x="90.678" y="266.192" size="1.4224" layer="95" ratio="9"/>
-</instance>
 <instance part="V17" gate="G$1" x="76.2" y="165.1" smashed="yes">
 <attribute name="VALUE" x="73.66" y="168.148" size="1.4224" layer="95" ratio="9"/>
 </instance>
@@ -6356,8 +6329,8 @@ AIN1,AIN2,DAC1,DAC2</text>
 <instance part="P3" gate="G$1" x="27.94" y="66.04" rot="R180"/>
 <instance part="P4" gate="G$1" x="129.54" y="127" rot="R180"/>
 <instance part="C1" gate="G$1" x="101.6" y="251.46" smashed="yes" rot="R90">
-<attribute name="NAME" x="96.52" y="264.16" size="1.4224" layer="95"/>
-<attribute name="VALUE" x="96.52" y="261.62" size="1.4224" layer="96"/>
+<attribute name="NAME" x="96.52" y="266.7" size="1.4224" layer="95"/>
+<attribute name="VALUE" x="96.52" y="264.16" size="1.4224" layer="96"/>
 </instance>
 <instance part="V118" gate="GND" x="101.6" y="241.3" smashed="yes">
 <attribute name="VALUE" x="99.06" y="237.998" size="1.4224" layer="96" ratio="9"/>
@@ -6374,6 +6347,7 @@ AIN1,AIN2,DAC1,DAC2</text>
 <attribute name="NAME" x="63.5" y="133.604" size="1.4224" layer="95"/>
 <attribute name="VALUE" x="63.5" y="128.778" size="1.4224" layer="96"/>
 </instance>
+<instance part="R21" gate="G$1" x="91.44" y="259.08"/>
 </instances>
 <busses>
 </busses>
@@ -6739,13 +6713,13 @@ AIN1,AIN2,DAC1,DAC2</text>
 <pinref part="C46" gate="G$1" pin="1"/>
 <wire x1="109.22" y1="256.54" x2="109.22" y2="259.08" width="0.1524" layer="91"/>
 <junction x="109.22" y="259.08"/>
-<pinref part="J7" gate="G$1" pin="1"/>
 <wire x1="96.52" y1="259.08" x2="101.6" y2="259.08" width="0.1524" layer="91"/>
 <wire x1="101.6" y1="259.08" x2="109.22" y2="259.08" width="0.1524" layer="91"/>
 <wire x1="124.46" y1="261.62" x2="124.46" y2="259.08" width="0.1524" layer="91"/>
 <pinref part="C1" gate="G$1" pin="2"/>
 <wire x1="101.6" y1="256.54" x2="101.6" y2="259.08" width="0.1524" layer="91"/>
 <junction x="101.6" y="259.08"/>
+<pinref part="R21" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="N$43" class="0">
@@ -7352,9 +7326,9 @@ AIN1,AIN2,DAC1,DAC2</text>
 <pinref part="SW3" gate="G$1" pin="6"/>
 <wire x1="78.74" y1="256.54" x2="78.74" y2="259.08" width="0.1524" layer="91"/>
 <wire x1="78.74" y1="259.08" x2="83.82" y2="259.08" width="0.1524" layer="91"/>
-<wire x1="83.82" y1="259.08" x2="88.9" y2="259.08" width="0.1524" layer="91"/>
+<wire x1="83.82" y1="259.08" x2="86.36" y2="259.08" width="0.1524" layer="91"/>
 <junction x="83.82" y="259.08"/>
-<pinref part="J7" gate="G$1" pin="2"/>
+<pinref part="R21" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="APTT" class="0">
