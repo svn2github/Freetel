@@ -1,6 +1,8 @@
 
 Change Log for SM1000-REV-B2
 
+Changes 07/15/2014
+
 
 1.  [X] SW3 holes not big enough.
 		Hole is .5mm. Pin is .6mm. Hole should be 1.0mm per spec sheet. Will change. 
@@ -75,3 +77,6 @@ Change Log for SM1000-REV-B2
 19. [X] replace J7 & J2 with 0805 0 ohm Rs
 		 Jumpers were originally inserted to permit bringing up SM1000 and protecting circuitry from overvoltages and measuring currents. 
 		 Jumpers replaced with 0 OHM resistors. RGB 07/15/2014
+		 
+20. [X] Added item numbers to this file to facilitate communication. RGB 07/15/2014
+
