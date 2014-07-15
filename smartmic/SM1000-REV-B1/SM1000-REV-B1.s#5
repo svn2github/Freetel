@@ -3898,7 +3898,7 @@ http://www.weartronics.com/</description>
 <part name="R46" library="_RoweTel" deviceset="POT-3310C" device="" value="10K"/>
 <part name="SW3" library="_RoweTel" deviceset="SW-PWR-E-SWITCH" device="" value="DPDT"/>
 <part name="C26" library="ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,25V"/>
-<part name="C27" library="ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="22pF"/>
+<part name="C27" library="ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="20pF,16V"/>
 <part name="R35" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="124.0K,1%"/>
 <part name="R36" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="22.1K,1%"/>
 <part name="V41" library="A-SUPPLY2" deviceset="GND" device=""/>
@@ -5849,7 +5849,7 @@ AIN1,AIN2,DAC1,DAC2</text>
 </instance>
 <instance part="C27" gate="G$1" x="198.12" y="238.76" smashed="yes" rot="R270">
 <attribute name="NAME" x="190.5" y="236.22" size="1.4224" layer="95" ratio="9"/>
-<attribute name="VALUE" x="190.5" y="233.68" size="1.4224" layer="96" ratio="9"/>
+<attribute name="VALUE" x="187.96" y="233.68" size="1.4224" layer="96" ratio="9"/>
 </instance>
 <instance part="R35" gate="G$1" x="208.28" y="238.76" smashed="yes" rot="R270">
 <attribute name="NAME" x="213.36" y="241.3" size="1.4224" layer="95" ratio="9" rot="R270"/>

@@ -9,7 +9,7 @@
 <grid distance="0.5" unitdist="mm" unit="mm" style="dots" multiple="1" display="yes" altdistance="0.1" altunitdist="mm" altunit="mm"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
-<layer number="2" name="GND" color="3" fill="1" visible="no" active="yes"/>
+<layer number="2" name="GND" color="3" fill="1" visible="yes" active="yes"/>
 <layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
 <layer number="4" name="Route4" color="1" fill="4" visible="no" active="no"/>
 <layer number="5" name="Route5" color="4" fill="4" visible="no" active="no"/>
@@ -22,8 +22,8 @@
 <layer number="12" name="Route12" color="1" fill="5" visible="no" active="no"/>
 <layer number="13" name="Route13" color="4" fill="5" visible="no" active="no"/>
 <layer number="14" name="Route14" color="1" fill="6" visible="no" active="no"/>
-<layer number="15" name="VDD" color="6" fill="1" visible="no" active="yes"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="yes"/>
+<layer number="15" name="VDD" color="6" fill="1" visible="yes" active="yes"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
 <layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="19" name="Unrouted" color="6" fill="1" visible="no" active="yes"/>
@@ -1488,12 +1488,12 @@ INFINEON, www.infineon.com/cmc_upload/0/000/010/257/eh_db_5b.pdf</description>
 <text x="-5.5" y="6.5" size="1" layer="25" ratio="10">&gt;NAME</text>
 </package>
 <package name="SW-PWR">
-<pad name="1" x="2.5" y="-1.25" drill="0.5" shape="square"/>
-<pad name="2" x="0" y="-1.25" drill="0.5"/>
-<pad name="3" x="-2.5" y="-1.25" drill="0.5"/>
-<pad name="4" x="2.5" y="1.25" drill="0.5"/>
-<pad name="5" x="0" y="1.25" drill="0.5"/>
-<pad name="6" x="-2.5" y="1.25" drill="0.5"/>
+<pad name="1" x="2.5" y="-1.25" drill="1" diameter="1.778" shape="square"/>
+<pad name="2" x="0" y="-1.25" drill="1" diameter="1.778"/>
+<pad name="3" x="-2.5" y="-1.25" drill="1" diameter="1.778"/>
+<pad name="4" x="2.5" y="1.25" drill="1" diameter="1.778"/>
+<pad name="5" x="0" y="1.25" drill="1" diameter="1.778"/>
+<pad name="6" x="-2.5" y="1.25" drill="1" diameter="1.778"/>
 <wire x1="-4" y1="3" x2="5" y2="3" width="0.15" layer="21"/>
 <wire x1="-4.5" y1="-3" x2="5" y2="-3" width="0.15" layer="21"/>
 <wire x1="8.7" y1="3" x2="8.7" y2="-3" width="0.15" layer="21"/>

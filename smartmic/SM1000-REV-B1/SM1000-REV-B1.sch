@@ -455,12 +455,12 @@ INFINEON, www.infineon.com/cmc_upload/0/000/010/257/eh_db_5b.pdf</description>
 <text x="-5.5" y="6.5" size="1" layer="25" ratio="10">&gt;NAME</text>
 </package>
 <package name="SW-PWR">
-<pad name="1" x="2.5" y="-1.25" drill="0.5" shape="square"/>
-<pad name="2" x="0" y="-1.25" drill="0.5"/>
-<pad name="3" x="-2.5" y="-1.25" drill="0.5"/>
-<pad name="4" x="2.5" y="1.25" drill="0.5"/>
-<pad name="5" x="0" y="1.25" drill="0.5"/>
-<pad name="6" x="-2.5" y="1.25" drill="0.5"/>
+<pad name="1" x="2.5" y="-1.25" drill="1" diameter="1.778" shape="square"/>
+<pad name="2" x="0" y="-1.25" drill="1" diameter="1.778"/>
+<pad name="3" x="-2.5" y="-1.25" drill="1" diameter="1.778"/>
+<pad name="4" x="2.5" y="1.25" drill="1" diameter="1.778"/>
+<pad name="5" x="0" y="1.25" drill="1" diameter="1.778"/>
+<pad name="6" x="-2.5" y="1.25" drill="1" diameter="1.778"/>
 <wire x1="-4" y1="3" x2="5" y2="3" width="0.15" layer="21"/>
 <wire x1="-4.5" y1="-3" x2="5" y2="-3" width="0.15" layer="21"/>
 <wire x1="8.7" y1="3" x2="8.7" y2="-3" width="0.15" layer="21"/>
