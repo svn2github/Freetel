@@ -1,7 +1,7 @@
 
 Change Log for SM1000-REV-B2
 
-Changes 07/15/2014
+Changes 07/17/2014
 
 
 1.  [X] SW3 holes not big enough.
@@ -75,7 +75,8 @@ Changes 07/15/2014
 17. [X] Is label for R1 & R2 transposed? 
 		Labels were transposed. Corrected. RGB 07/15/2014
 
-18. [ ] Add 100nF reset cap as per data sheet and discovery
+18. [X] Add 100nF reset cap as per data sheet and discovery
+		Added C48, 100nF cap across J5 to implement power up reset function. RGB 07/17/2014
 
 19. [X] replace J7 & J2 with 0805 0 ohm Rs
 		 Jumpers were originally inserted to permit bringing up SM1000 and protecting circuitry from overvoltages and measuring currents. 
