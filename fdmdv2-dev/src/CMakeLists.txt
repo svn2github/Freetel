@@ -13,7 +13,6 @@ set(FREEDV_SOURCES
     hamlib.cpp
     topFrame.cpp
     sox_biquad.c
-    varicode.c
     comp.h
     dlg_audiooptions.h
     dlg_filter.h

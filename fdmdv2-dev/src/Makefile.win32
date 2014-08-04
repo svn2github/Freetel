@@ -30,7 +30,6 @@ dlg_audiooptions.o \
 dlg_ptt.o \
 dlg_options.o \
 dlg_filter.o \
-varicode.o \
 sox_biquad.o \
 hamlib.o \
 ../../codec2-dev/src/golay23.o
