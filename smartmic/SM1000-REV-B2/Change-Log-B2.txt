@@ -101,3 +101,27 @@ Changes 07/22/2014 Reformatted file to fit on Schematic.
 		 
 20. [X] Added item numbers to this file to facilitate communication. RGB 07/15/2014
 
+Latest change notes David 14 August
+
+[ ] R46 to 100k
+   [ ] add series R to prevent DAC distortion?
+   [ ] get to bottom on LM386 distortion?
+[ ] Add 22k betwwen DAC2 and ground
+    + making R46 100k lead to some analog coupling between ADC2 and DAC2,
+      not qute sure why, this lowers Z of this net
+[ ] R52 1k trimmer wasn't on my digikey order
+    + probably my mistake, but check BOM
+[ ] C36 is along way away from U6
+    + poss to move closer?
+[ ] Mic DC bias v low, about 0.3V
+    + should we change R39?
+[ ] Idea - clear labels next to each trimmers in large font
+    + and connectors and TP, hard to see with naked eye
+[ ] foot print for a small reset button
+    + I press it a lot, gd for experimenting
+[ ] 220pF to filter noise across 500k R42 but very close to op-amp
+[ ] highly senstive net between R53 and R42 should be shorter if possible, 
+    as we are getting a lot of noise pick up.
+[ ] Move ADC power supply bypass network v close to pins 21/22 U1B and
+    away from switcher + as per Discovery board
+[ ] route op-amp bypass caps directly to op amp power supply pins on same layer.
