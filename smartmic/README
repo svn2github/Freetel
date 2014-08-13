@@ -1,0 +1,37 @@
+README for SM1000 Project
+Rick Barnich KA8BMA and David Rowe VK5DGR 
+14 August 2014
+
+Introduction
+------------
+
+The SM1000 is an embedded hardware product that allows you to run
+FreeDV without a PC. Just plug it into your SSB or FM radio, and you
+now have Digital Voice (DV). It’s based on a STM32F4 micro-controller,
+has a built in microphone, speaker amplifier, and transformer isolated
+interfaces to your radio. It’s about the size of a smart phone, and
+can be held in you hand and used like a regular PTT microphone, or sit
+near your radio in a small box. SmartMic is slated for production
+production in 2014 and will retail for US$195.
+
+The SM1000 is open hardware (TAPR license) and runs open software
+(LGPL license).
+
+Notes
+------
+
+The original name for the project was SmartMic.  However as this name
+is tradmarked in the USA we are now calling the project "the
+SM1000".
+
+The SM1000 schematic and PCB are design using Eagle.
+
+The firmware lives in codec-dev/stm32.
+
+Directories
+-----------
+
+SM1000-PCB  First pass design that was never manufactured but used to collect
+            review comment
+SM1000-B1   Prototype SM1000, small qty of PCBs made and hand loaded
+SM1000-C    Beta SM1000   
