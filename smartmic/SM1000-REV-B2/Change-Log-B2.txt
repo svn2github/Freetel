@@ -103,14 +103,17 @@ Changes 07/22/2014 Reformatted file to fit on Schematic.
 
 Latest change notes David 14 August
 
-[ ] R46 to 100k
-   [ ] add series R to prevent DAC distortion?
-   [ ] get to bottom on LM386 distortion?
-[ ] Add 22k betwwen DAC2 and ground
-    + making R46 100k lead to some analog coupling between ADC2 and DAC2,
-      not qute sure why, this lowers Z of this net
-[ ] R52 1k trimmer wasn't on my digikey order
-    + probably my mistake, but check BOM
+21. [X] R46 to 100k
+		[ ] add series R to prevent DAC distortion?
+		[ ] get to bottom on LM386 distortion?
+		Added RGB
+22. [X] Add 22k betwwen DAC2 and ground
+		+ making R46 100k lead to some analog coupling between ADC2 and DAC2,
+		not qute sure why, this lowers Z of this net
+		Added RGB
+23. [X] R52 1k trimmer wasn't on my digikey order
+		+ probably my mistake, but check BOM
+		Is in BOM RGB
 [ ] C36 is along way away from U6
     + poss to move closer?
 [ ] Mic DC bias v low, about 0.3V
