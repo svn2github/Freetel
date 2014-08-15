@@ -137,7 +137,8 @@ if(MINGW)
     set(CMAKE_RC_COMPILE_OBJECT
         "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")
     # Even using msys, cmake doesn't know it can use unix style paths...
-    set(CMAKE_LIBRARY_PATH C:/MinGW/lib;C:/MinGW/msys/1.0/lib;C:/MinGW/msys/1.0/local/lib)
+    set(CMAKE_LIBRARY_PATH ${CMAKE_LIBRARY_PATH};C:/MinGW/lib;C:/MinGW/msys/1.0/lib;C:/MinGW/msys/1.0/local/lib)
+	message("Library path: ${CMAKE_LIBRARY_PATH}")
     # Try to build in libgcc and libstdc++ but it doesn't appear to work.
     #add_definitions(-static-libgcc -static-libstdc++)
     # Try to grab all the runtime dlls for the windows installer. 
