@@ -127,4 +127,16 @@ Latest change notes David 14 August
     as we are getting a lot of noise pick up.
 [ ] Move ADC power supply bypass network v close to pins 21/22 U1B and
     away from switcher + as per Discovery board
-[ ] route op-amp bypass caps directly to op amp power supply pins on same layer.
+[ ] route op-amp bypass caps directly to op amp power supply pins on same layer, place nearby
+
+[ ] Idea - clear labels next to each trimmers in large font
+    + and connectors
+[ ] foot print for a small reset button
+    + I press it a lot, gd for experimenting
+
+[ ] Matt - PCB review + manufacture
+
+[ ] Modem appears to be losing sync on time slips
+    + investigate this in simulation form
+[ ] check trimmers all go the same way around
+[ ] connect C36 to + term of U6, delete R43
