@@ -122,7 +122,7 @@ Latest change notes David 14 August
     + and connectors and TP, hard to see with naked eye
 [ ] foot print for a small reset button
     + I press it a lot, gd for experimenting
-[ ] 220pF to filter noise across 500k R42 but very close to op-amp
+[ ] 1nF to filter noise across 500k R42 but very close to op-amp
 [ ] highly senstive net between R53 and R42 should be shorter if possible, 
     as we are getting a lot of noise pick up.
 [ ] Move ADC power supply bypass network v close to pins 21/22 U1B and
@@ -140,3 +140,34 @@ Latest change notes David 14 August
     + investigate this in simulation form
 [ ] check trimmers all go the same way around
 [ ] connect C36 to + term of U6, delete R43
+[ ] some gain on U6 a good idea?
+    + laptop audio ouput just a few 100mVpp
+    + at least put in resistors.
+[ ] very big robust pads for R46
+    + pot keeps falling off, breaking pads
+[ ] Consider case made from PCB, like sniffers
+    + can get all holes drilled
+    + gd RF shielding
+[ ] should square pad on Mic be gnd side?
+[ ] added 3n9 between U8 p3 and ground 
+    + removed some tonal noise and 
+[ ] changed R39 to 2k2
+    + mic bias now 2.8V
+[ ] Switcher noise reduction idea
+    + is there away to lock the switcher osc to a uC clock?
+    + we could make it a multiple of ADC/DAC sample rate
+    + thus aliasing all noise down to 0 Hz
+    + need swicther to freerun until uC starts
+[ ] review jumpers and see if it makes mores sense to make them 0 ohm 0805s
+[ ] C24 closer to U1?
+[ ] C40 should be 47nF
+    + David used wrong value on prototype
+[ ] LD2 opto-isolator footprint wrong (or maybe I ordered wrong part) 
+[ ] location of C51 net label
+[ ] SW1 needs bigger pads to make hand solderable
+    + is this suitable as a PTT switch?
+    + button is quite small
+    + locking PTT as per SW3 useful for testing (want to leave tx on)
+[ ] CN12 is hard to solder manually, need larger mechanical pads
+    + although this would increase the outline so maybe not a problem
+[ ] CN2 difficult to hand solder, extend padds back towards outline
