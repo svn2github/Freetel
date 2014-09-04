@@ -31,6 +31,7 @@ The firmware lives in codec-dev/stm32.
 Directories
 -----------
 
+doc         Documentation, use cases, block diagram, prototype assembly images
 SM1000-PCB  First pass design that was never manufactured but used to collect
             review comment
 SM1000-B1   Prototype SM1000, small qty of PCBs made and hand loaded
