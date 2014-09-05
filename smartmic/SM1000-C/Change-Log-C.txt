@@ -5,8 +5,8 @@ Changes 07/22/2014 Reformatted file to fit on Schematic.
 
 
 1.  [X] SW3 holes not big enough.
-		Hole is .5mm. Pin is .6mm. Hole should be 1.0mm per spec sheet. Will change. 
-		07/08/2014 - RGB
+		Hole is .5mm. Pin is .6mm. Hole should be 1.0mm per spec sheet.
+		Drill size changed to 1.0mm  9/1/14 RGB
 
 2.  [X] Is C26 rated at 25V in BOM? 
 		C26 is 25V in schematic, 16V in BOM. 
