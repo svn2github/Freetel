@@ -18,7 +18,7 @@ Changes 07/22/2014 Reformatted file to fit on Schematic.
 		Corrected package for LED-LTST - LED5 & LED8.
 		07/09/2014 - RGB
 
-4.  [X] Is CN3 a standard size?  My DC plugs don't fit in it 	
+4.  [ ] Is CN3 a standard size?  My DC plugs don't fit in it 	
 		2.5mm ID, 5.5mm OD Plug. CONN PWR PLUG DC 2.5X5.5 8A MOD Digikey # 
 		CP3-002BH-ND 
 		This is probably most common size in USA. Same size as Raspberry PI, BeagleBone, 
