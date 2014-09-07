@@ -5080,30 +5080,6 @@ http://www.weartronics.com/</description>
 <pinref part="V124" gate="GND" pin="GND"/>
 </segment>
 </net>
-<net name="SCL" class="0">
-<segment>
-<wire x1="104.14" y1="152.4" x2="88.9" y2="152.4" width="0.1524" layer="91"/>
-<label x="91.186" y="152.908" size="1.4224" layer="95" ratio="10"/>
-<pinref part="U1" gate="A" pin="PB6"/>
-</segment>
-<segment>
-<pinref part="R2" gate="G$1" pin="2"/>
-<wire x1="35.56" y1="259.08" x2="45.72" y2="259.08" width="0.1524" layer="91"/>
-<label x="40.64" y="259.588" size="1.4224" layer="95" ratio="10"/>
-</segment>
-</net>
-<net name="SDA" class="0">
-<segment>
-<wire x1="104.14" y1="144.78" x2="88.9" y2="144.78" width="0.1524" layer="91"/>
-<label x="91.44" y="145.288" size="1.4224" layer="95" ratio="10"/>
-<pinref part="U1" gate="A" pin="PB9"/>
-</segment>
-<segment>
-<pinref part="R5" gate="G$1" pin="2"/>
-<wire x1="35.56" y1="251.46" x2="45.72" y2="251.46" width="0.1524" layer="91"/>
-<label x="40.64" y="251.968" size="1.4224" layer="95" ratio="10"/>
-</segment>
-</net>
 <net name="NRST" class="0">
 <segment>
 <wire x1="139.7" y1="99.06" x2="154.94" y2="99.06" width="0.1524" layer="91"/>
@@ -5664,6 +5640,11 @@ http://www.weartronics.com/</description>
 <wire x1="104.14" y1="139.7" x2="88.9" y2="139.7" width="0.1524" layer="91"/>
 <label x="91.44" y="140.208" size="1.4224" layer="95" ratio="10"/>
 </segment>
+<segment>
+<pinref part="R2" gate="G$1" pin="2"/>
+<wire x1="35.56" y1="259.08" x2="45.72" y2="259.08" width="0.1524" layer="91"/>
+<label x="40.64" y="259.588" size="1.4224" layer="95" ratio="10"/>
+</segment>
 </net>
 <net name="USART3_TX" class="0">
 <segment>
@@ -5675,6 +5656,11 @@ http://www.weartronics.com/</description>
 <pinref part="U1" gate="A" pin="PB10"/>
 <wire x1="104.14" y1="142.24" x2="88.9" y2="142.24" width="0.1524" layer="91"/>
 <label x="91.44" y="142.748" size="1.4224" layer="95" ratio="10"/>
+</segment>
+<segment>
+<pinref part="R5" gate="G$1" pin="2"/>
+<wire x1="35.56" y1="251.46" x2="45.72" y2="251.46" width="0.1524" layer="91"/>
+<label x="40.64" y="251.968" size="1.4224" layer="95" ratio="10"/>
 </segment>
 </net>
 <net name="N$7" class="0">

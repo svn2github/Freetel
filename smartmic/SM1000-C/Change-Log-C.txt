@@ -29,7 +29,7 @@ Changes 07/22/2014 Reformatted file to fit on Schematic.
 		assembly. Try large iron on vias from bottom. 
 		Part will solder in production. RGB 07/15/2014
 
-6.  [ ] Can R6,R2,R5,R3,R4 be 10k to match R1? 
+6.  [X] Can R6,R2,R5,R3,R4 be 10k to match R1? 
 		Don't know if 10K will work for R6. Discovery has 680 or small value. 
 		Try it. Can't hurt. 
 		R2 & R5 Are I2C pins. Recommended 4.7K for max speed. Not used now on 
@@ -67,7 +67,7 @@ Changes 07/22/2014 Reformatted file to fit on Schematic.
 		Murata # GRM188R71E104KA01D
 		07/08/2014 - Same as #2 above - RGB
 		
-13. [ ] Re CN3, Hmm, now I'm not sure!  I dug around in the shed and found a connector 
+13. [X] Re CN3, Hmm, now I'm not sure!  I dug around in the shed and found a connector 
 		that fits so I'm OK for now. CN3 is Switchcraft RASM712PX   2.5mm ID, 5.5mm OD Plug.
 		CONN PWR PLUG DC 2.5X5.5 8A MOD Digikey  # CP3-002BH-ND
 		I've noted a problem, but will wait til you decide. RGB
