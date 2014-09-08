@@ -97,7 +97,7 @@ Changes 07/22/2014 Reformatted file to fit on Schematic.
 19. [X] replace J7 & J2 with 0805 0 ohm Rs
 		 Jumpers were originally inserted to permit bringing up SM1000 and protecting 
 		 circuitry from overvoltages and measuring currents. 
-		 Jumpers replaced with 0 OHM resistors. RGB 07/15/2014
+		 Jumpers replaced with 0 OHM resistors. R18 & R21. RGB 09/9/2014
 		 
 20. [X] Added item numbers to this file to facilitate communication. RGB 07/15/2014
 
@@ -107,95 +107,118 @@ Changes 07/22/2014 Reformatted file to fit on Schematic.
 		[ ] add series R to prevent DAC distortion?
 		[ ] get to bottom on LM386 distortion?
 		Added RGB
-22. [X] Add 22k betwwen DAC2 and ground
+22. [X] Add 22k between DAC2 and ground
 		+ making R46 100k lead to some analog coupling between ADC2 and DAC2,
 		not qute sure why, this lowers Z of this net
 		Added RGB
 23. [X] R52 1k trimmer wasn't on my digikey order
 		+ probably my mistake, but check BOM
-		Is in BOM RGB
+		Is in BOM RGB 9/8/14
 		
-24.	[ ] C36 is along way away from U6
+24.	[X] C36 is along way away from U6
     + poss to move closer?
+	Cap moved to staging area. Will be moved closer during re-layout. RGB 9/8/14
     
-25.	[ ] Mic DC bias v low, about 0.3V
+25.	[X] Mic DC bias v low, about 0.3V
     + should we change R39?
+	Data sheet calls for 2.2K, not 22.1K. Changed schematic & BOM. RGB 9/8/14
     
-26.	[ ] Idea - clear labels next to each trimmers in large font
+26.	[X] Idea - clear labels next to each trimmers in large font
     + and connectors and TP, hard to see with naked eye
+	Will enlarge during re-layout. RGB 9/8/14
     
-27.	[ ] foot print for a small reset button
+27.	[X] foot print for a small reset button
     + I press it a lot, gd for experimenting
+	J25 was added for external reset switch. Do you still want on board sw?
     
-28.	[ ] 1nF to filter noise across 500k R42 but very close to op-amp
+28.	[X] 1nF to filter noise across 500k R42 but very close to op-amp.
+	Added, will be placed in re-layout. RGB 9/8/14.
 
-29.	[ ] highly senstive net between R53 and R42 should be shorter if possible, 
+
+29.	[X] highly senstive net between R53 and R42 should be shorter if possible, 
     as we are getting a lot of noise pick up.
+	Did #28 fix problem? Could reposition op-amp circuit components during re-layout. RGB 9/8/14
     
-30.	[ ] Move ADC power supply bypass network v close to pins 21/22 U1B and
+30.	[X] Move ADC power supply bypass network v close to pins 21/22 U1B and
     away from switcher + as per Discovery board
     
-31.	[ ] route op-amp bypass caps directly to op amp power supply pins on same layer, place nearby
+31.	[X] route op-amp bypass caps directly to op amp power supply pins on same layer, place nearby
+	Good idea. Will do in re-layout.
 
-32.	[ ] Idea - clear labels next to each trimmers in large font
+32.	[X] Idea - clear labels next to each trimmers in large font
     + and connectors
-    
-31.	[ ] foot print for a small reset button
+ 
+================================================================
+renumber to correct for duplicate #31 RGB 9/8/14
+
+33.	[X] foot print for a small reset button
     + I press it a lot, gd for experimenting
+	Duplicate of #27  RGB 9/8/14
 
-32.	[ ] Matt - PCB review + manufacture
+34.	[ ] Matt - PCB review + manufacture
+	?
 
-33.	[ ] Modem appears to be losing sync on time slips
+35.	[ ] Modem appears to be losing sync on time slips
     + investigate this in simulation form
+	?
     
-34.	[ ] check trimmers all go the same way around
+36.	[X] check trimmers all go the same way around
+	Changed R42 & R47 to operate in same direction as other pots. RGB 9/8/14
 
-35.	[ ] connect C36 to + term of U6, delete R43
+37.	[X] connect C36 to + term of U6, delete R43
+	Need series resistance to sum c36 into u6+?
+	Contradicted by #38?
 
-36.	[ ] some gain on U6 a good idea?
+38.	[X] some gain on U6 a good idea?
     + laptop audio ouput just a few 100mVpp
     + at least put in resistors.
+	Leave R43, C36 and add 10K res(R23 new) from U6-out to U6- for av=1. What gain desired?
     
-37.	[ ] very big robust pads for R46
+39.	[X] very big robust pads for R46
     + pot keeps falling off, breaking pads
     
-38.	[ ] Consider case made from PCB, like sniffers
+40.	[X] Consider case made from PCB, like sniffers
     + can get all holes drilled
     + gd RF shielding
+	Your choice. Daryl felt 3D -> metal not good solution.
     
-39.	[ ] should square pad on Mic be gnd side?
+41.	[X] should square pad on Mic be gnd side?
+	Mic data sheet referred to term 1(amp out) and term 2 GND. That's the way I laid it out.
+	I see your point though, change would aid assembly.
+	Your choice.
 
-40.	[ ] added 3n9 between U8 p3 and ground 
+
+42.	[ ] added 3n9 between U8 p3 and ground 
     + removed some tonal noise and 
     
-41.	[ ] changed R39 to 2k2
+43.	[ ] changed R39 to 2k2
     + mic bias now 2.8V
     
-42.	[ ] Switcher noise reduction idea
+44.	[ ] Switcher noise reduction idea
     + is there away to lock the switcher osc to a uC clock?
     + we could make it a multiple of ADC/DAC sample rate
     + thus aliasing all noise down to 0 Hz
     + need swicther to freerun until uC starts
     
-43.	[ ] review jumpers and see if it makes mores sense to make them 0 ohm 0805s
+45.	[ ] review jumpers and see if it makes mores sense to make them 0 ohm 0805s
 
-44.	[ ] C24 closer to U1?
+46.	[ ] C24 closer to U1?
 
-45.	[ ] C40 should be 47nF
+47.	[ ] C40 should be 47nF
     + David used wrong value on prototype
     
-46.	[ ] LD2 opto-isolator footprint wrong (or maybe I ordered wrong part) 
+48.	[ ] LD2 opto-isolator footprint wrong (or maybe I ordered wrong part) 
 
-47.	[ ] location of C51 net label
+49.	[ ] location of C51 net label
 
-48.	[ ] SW1 needs bigger pads to make hand solderable
+50.	[ ] SW1 needs bigger pads to make hand solderable
     + is this suitable as a PTT switch?
     + button is quite small
     + locking PTT as per SW3 useful for testing (want to leave tx on)
     
-49.	[ ] CN12 is hard to solder manually, need larger mechanical pads
+51.	[ ] CN12 is hard to solder manually, need larger mechanical pads
     + although this would increase the outline so maybe not a problem
     
-50.	[ ] CN2 difficult to hand solder, extend padds back towards outline
+52.	[ ] CN2 difficult to hand solder, extend padds back towards outline
 
 ==========  ==========
