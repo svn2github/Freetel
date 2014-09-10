@@ -3972,7 +3972,7 @@ http://www.weartronics.com/</description>
 <part name="V63" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V64" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="U$8" library="A-SUPPLY2" deviceset="+VIN" device=""/>
-<part name="C40" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,25V"/>
+<part name="C40" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="47nF,25V"/>
 <part name="R50" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="10,1%"/>
 <part name="V65" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V66" library="A-SUPPLY2" deviceset="GND" device=""/>

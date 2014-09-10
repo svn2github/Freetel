@@ -191,34 +191,54 @@ renumber to correct for duplicate #31 RGB 9/8/14
 42.	[ ] added 3n9 between U8 p3 and ground 
     + removed some tonal noise and 
     
-43.	[ ] changed R39 to 2k2
+43.	[X] changed R39 to 2k2
     + mic bias now 2.8V
+	Changed in #25 RGB 09/10/14
     
-44.	[ ] Switcher noise reduction idea
+44.	[-] Switcher noise reduction idea
     + is there away to lock the switcher osc to a uC clock?
     + we could make it a multiple of ADC/DAC sample rate
     + thus aliasing all noise down to 0 Hz
     + need swicther to freerun until uC starts
+		From data sheet, switcher freq determined by components. No ext sync capability. RGB 09/10/14
+		For intermittent starts, look at ext PS rise time?
     
-45.	[ ] review jumpers and see if it makes mores sense to make them 0 ohm 0805s
+45.	[-] review jumpers and see if it makes mores sense to make them 0 ohm 0805s
+		If you implement self test code, then you want J1, but don't ship shunt.
+		Same for Reset jumper, J5.
+		J3 - there to remove bias from mic input. Need?
+		RGB 09/10/14
 
-46.	[ ] C24 closer to U1?
+46.	[-] C24 closer to U1?
+		WIll move at re-route time. RGB 09/10/14
 
-47.	[ ] C40 should be 47nF
+47.	[-] C40 should be 47nF
     + David used wrong value on prototype
+		Changed to 47nF. RGB 9/10/14  See Questions
     
-48.	[ ] LD2 opto-isolator footprint wrong (or maybe I ordered wrong part) 
+48.	[-] LD2 opto-isolator footprint wrong (or maybe I ordered wrong part) 
+		My mistake. Part is 8mm pin to pin, not 6mm.
+		Will correct footprint & PCB RGB 9/10/14
+		
+49.	[X] location of C51 net label
+		DOne. RGB 9/10/14
 
-49.	[ ] location of C51 net label
-
-50.	[ ] SW1 needs bigger pads to make hand solderable
+50.	[-] SW1 needs bigger pads to make hand solderable
     + is this suitable as a PTT switch?
     + button is quite small
     + locking PTT as per SW3 useful for testing (want to leave tx on)
+		Location of PTT sw fits hand. Current sw is small. Might be able to use another switch. Do you really want push-push? Will look at larger pads pending question resolution. RGB 9/10/14
     
-51.	[ ] CN12 is hard to solder manually, need larger mechanical pads
+51.	[-] CN12 is hard to solder manually, need larger mechanical pads
     + although this would increase the outline so maybe not a problem
+		I'll extend pads, if I can.  RGB 9/10/14
     
-52.	[ ] CN2 difficult to hand solder, extend padds back towards outline
+52.	[-] CN2 difficult to hand solder, extend padds back towards outline
+		I'll extend pads, if I can. RGB 9/10/14
 
 ==========  ==========
+
+Questions:
+1.  SM1000 designed to be operated with 6-16V power supply. Would should recommend 9-15V. Should we recommend PS? Many will operate at 13.8V(rig supply). Do we risk ground loops, etc. using rig supply?
+2.  Should C37, C39, C40 be 50V? Or, only caps connected to VIN?
+3.  Are you going to supply speaker? Need J4?
