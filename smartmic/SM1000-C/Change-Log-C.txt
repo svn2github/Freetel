@@ -245,9 +245,19 @@ Matt, VK5ZM, suggested:
 
 54. [ ] Replace C25, C29, C28 with tants.
 
-55.	[X] Remove +VEXT from schematic.
+55. [ ] Stereo connector for CB6-CN8
+    + only getting audio in one earphone when common stereo headphones used
+    + should "from radio" and "to radio" connectors be stereo (wired as mono) ?
+
+56. [X] Remove +VEXT from schematic.
 		Originally used to allow power from rig mic connector to power SM1000 RGB 09/11/14
 
+57. [ ] Matt VK5ZM has suggested 57 x 100mm PCB
+    + some sort of standard?  At least 3 manufacturers making boxes to that size
+    + e.g. Eddystone, Hammond 1590
+    + supply easy in US or Asutalia
+    + Just a suggestion at this stage, part of the enclosure discussion
+   
 Questions:
 1.  SM1000 designed to be operated with 6-16V power supply. Would should recommend 9-15V. Should we recommend PS? Many will operate at 13.8V(rig supply). Do we risk ground loops, etc. using rig supply?
 2.  Should C37, C39, C40 be 50V? Or, only caps connected to VIN?
