@@ -236,7 +236,15 @@ renumber to correct for duplicate #31 RGB 9/8/14
 52.	[-] CN2 difficult to hand solder, extend padds back towards outline
 		I'll extend pads, if I can. RGB 9/10/14
 
-==========  ==========
+
+53. [ ] Replace R9 with a bead or inductor.
+
+Matt, VK5ZM, suggested:
+
+  http://www.digikey.com/product-detail/en/CBC3225T101MR/587-1628-1-ND/1008243
+
+54. [ ] Replace C25, C29, C28 with tants.
+
 
 Questions:
 1.  SM1000 designed to be operated with 6-16V power supply. Would should recommend 9-15V. Should we recommend PS? Many will operate at 13.8V(rig supply). Do we risk ground loops, etc. using rig supply?
