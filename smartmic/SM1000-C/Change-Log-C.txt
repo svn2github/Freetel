@@ -201,7 +201,7 @@ renumber to correct for duplicate #31 RGB 9/8/14
     + thus aliasing all noise down to 0 Hz
     + need swicther to freerun until uC starts
 		From data sheet, switcher freq determined by components. No ext sync capability. RGB 09/10/14
-		For intermittent starts, look at ext PS rise time?
+		For intermittent starts, look at ext PS rise ti me?
     
 45.	[-] review jumpers and see if it makes mores sense to make them 0 ohm 0805s
 		If you implement self test code, then you want J1, but don't ship shunt.
@@ -237,14 +237,16 @@ renumber to correct for duplicate #31 RGB 9/8/14
 		I'll extend pads, if I can. RGB 9/10/14
 
 
-53. [ ] Replace R9 with a bead or inductor.
-
+53. [X] Replace R9 with a bead or inductor.
+		Replaced R9 with Taiyo Yuden CBC3225T101MR inductor. RGB 09/11/14
 Matt, VK5ZM, suggested:
 
   http://www.digikey.com/product-detail/en/CBC3225T101MR/587-1628-1-ND/1008243
 
 54. [ ] Replace C25, C29, C28 with tants.
 
+55.	[X] Remove +VEXT from schematic.
+		Originally used to allow power from rig mic connector to power SM1000 RGB 09/11/14
 
 Questions:
 1.  SM1000 designed to be operated with 6-16V power supply. Would should recommend 9-15V. Should we recommend PS? Many will operate at 13.8V(rig supply). Do we risk ground loops, etc. using rig supply?

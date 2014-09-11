@@ -735,6 +735,17 @@ chip</description>
 <rectangle x1="-1.0668" y1="-0.6985" x2="-0.4168" y2="0.7015" layer="51"/>
 <rectangle x1="-0.1999" y1="-0.5001" x2="0.1999" y2="0.5001" layer="35"/>
 </package>
+<package name="CBC3225T101MR">
+<smd name="1" x="-2.125" y="0" dx="2.7" dy="0.85" layer="1" rot="R90"/>
+<smd name="2" x="2.125" y="0" dx="2.7" dy="0.85" layer="1" rot="R90"/>
+<wire x1="-1.5" y1="1.25" x2="1.5" y2="1.25" width="0.15" layer="21"/>
+<wire x1="-1.5" y1="-1.25" x2="1.5" y2="-1.25" width="0.15" layer="21"/>
+<wire x1="-3" y1="2" x2="3" y2="2" width="0.075" layer="39"/>
+<wire x1="3" y1="2" x2="3" y2="-2" width="0.075" layer="39"/>
+<wire x1="3" y1="-2" x2="-3" y2="-2" width="0.075" layer="39"/>
+<wire x1="-3" y1="-2" x2="-3" y2="2" width="0.075" layer="39"/>
+<text x="-3" y="2.5" size="1" layer="25" ratio="10">&gt;NAME</text>
+</package>
 </packages>
 <symbols>
 <symbol name="MJ-3523-SMT">
@@ -1639,6 +1650,22 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 </device>
 </devices>
 </deviceset>
+<deviceset name="CBC3225T101MR" prefix="L">
+<gates>
+<gate name="G$1" symbol="INDUCTOR" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="CBC3225T101MR">
+<connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="2" pad="2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
 </devicesets>
 </library>
 <library name="_Coherix">
@@ -2043,11 +2070,6 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="0.635" y1="0.7938" x2="-0.635" y2="0.7938" width="0.254" layer="94"/>
 <wire x1="0.1587" y1="0" x2="-0.1588" y2="0" width="0.254" layer="94"/>
 </symbol>
-<symbol name="+VEXT">
-<wire x1="-1.27" y1="0" x2="1.27" y2="0" width="0.1524" layer="94"/>
-<text x="-2.54" y="0.254" size="1.4224" layer="96" ratio="9">&gt;VALUE</text>
-<pin name="+VEXT" x="0" y="-2.54" visible="off" length="short" direction="sup" rot="R90"/>
-</symbol>
 </symbols>
 <devicesets>
 <deviceset name="VDD" prefix="V">
@@ -2118,18 +2140,6 @@ In this library the device names are the same as the pin names of the symbols, t
 <description>&lt;b&gt;SUPPLY SYMBOL&lt;/b&gt;</description>
 <gates>
 <gate name="G$1" symbol="RF" x="0" y="0"/>
-</gates>
-<devices>
-<device name="">
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="+VEXT">
-<gates>
-<gate name="G$1" symbol="+VEXT" x="0" y="0"/>
 </gates>
 <devices>
 <device name="">
@@ -2348,20 +2358,6 @@ by exp-lbrs.ulp</description>
 <wire x1="3" y1="-9.5" x2="3" y2="9.5" width="0" layer="39"/>
 <wire x1="3" y1="9.5" x2="-3" y2="9.5" width="0" layer="39"/>
 </package>
-<package name="RCL1218">
-<smd name="1" x="-1.5" y="0" dx="4.9" dy="1.1" layer="1" rot="R90"/>
-<smd name="2" x="1.5" y="0" dx="4.9" dy="1.1" layer="1" rot="R90"/>
-<wire x1="-2.5" y1="3" x2="-2.5" y2="-3" width="0.15" layer="21"/>
-<wire x1="-2.5" y1="-3" x2="2.5" y2="-3" width="0.15" layer="21"/>
-<wire x1="2.5" y1="-3" x2="2.5" y2="3" width="0.15" layer="21"/>
-<wire x1="2.5" y1="3" x2="-2.5" y2="3" width="0.15" layer="21"/>
-<wire x1="-3" y1="3.5" x2="3" y2="3.5" width="0" layer="39"/>
-<wire x1="3" y1="3.5" x2="3" y2="-3.5" width="0" layer="39"/>
-<wire x1="3" y1="-3.5" x2="-3" y2="-3.5" width="0" layer="39"/>
-<wire x1="-3" y1="-3.5" x2="-3" y2="3.5" width="0" layer="39"/>
-<text x="-3" y="4" size="1" layer="25" ratio="10">&gt;NAME</text>
-<text x="-3" y="-5" size="1" layer="27" ratio="10">&gt;VALUE</text>
-</package>
 </packages>
 <symbols>
 <symbol name="STM32F407IO">
@@ -2538,21 +2534,6 @@ by exp-lbrs.ulp</description>
 </polygon>
 <text x="-5.08" y="12.7" size="1.27" layer="95" ratio="10">&gt;NAME</text>
 <text x="-5.08" y="-15.24" size="1.27" layer="96" ratio="10">&gt;VALUE</text>
-</symbol>
-<symbol name="R">
-<wire x1="-2.54" y1="0" x2="-2.159" y2="1.016" width="0.2032" layer="94"/>
-<wire x1="-2.159" y1="1.016" x2="-1.524" y2="-1.016" width="0.2032" layer="94"/>
-<wire x1="-1.524" y1="-1.016" x2="-0.889" y2="1.016" width="0.2032" layer="94"/>
-<wire x1="-0.889" y1="1.016" x2="-0.254" y2="-1.016" width="0.2032" layer="94"/>
-<wire x1="-0.254" y1="-1.016" x2="0.381" y2="1.016" width="0.2032" layer="94"/>
-<wire x1="0.381" y1="1.016" x2="1.016" y2="-1.016" width="0.2032" layer="94"/>
-<wire x1="1.016" y1="-1.016" x2="1.651" y2="1.016" width="0.2032" layer="94"/>
-<wire x1="1.651" y1="1.016" x2="2.286" y2="-1.016" width="0.2032" layer="94"/>
-<wire x1="2.286" y1="-1.016" x2="2.54" y2="0" width="0.2032" layer="94"/>
-<pin name="1" x="-5.08" y="0" visible="off" length="short" direction="pas" swaplevel="1"/>
-<pin name="2" x="5.08" y="0" visible="off" length="short" direction="pas" swaplevel="1" rot="R180"/>
-<text x="-2.54" y="5.08" size="1.4224" layer="95" ratio="9">&gt;NAME</text>
-<text x="-2.54" y="2.54" size="1.4224" layer="96" ratio="9">&gt;VALUE</text>
 </symbol>
 </symbols>
 <devicesets>
@@ -2733,22 +2714,6 @@ by exp-lbrs.ulp</description>
 <connect gate="G$1" pin="7" pad="7"/>
 <connect gate="G$1" pin="8" pad="8"/>
 <connect gate="G$1" pin="9" pad="9"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="RCL1218" prefix="R">
-<gates>
-<gate name="G$1" symbol="R" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="RCL1218">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -4093,7 +4058,6 @@ http://www.weartronics.com/</description>
 <part name="C51" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
 <part name="V110" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="U$1" library="A-SUPPLY2" deviceset="+VIN" device=""/>
-<part name="U$7" library="A-SUPPLY2" deviceset="+VEXT" device=""/>
 <part name="V71" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="C52" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
 <part name="C53" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="10nF,16V"/>
@@ -4159,7 +4123,6 @@ http://www.weartronics.com/</description>
 <part name="V118" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="C30" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="10nF,25V"/>
 <part name="V122" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="R9" library="SM1000" deviceset="RCL1218" device="" value="10,5%,1218"/>
 <part name="R11" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="100,1%"/>
 <part name="R18" library="_RoweTel" deviceset="RES0805" device="" value="0 Ohm"/>
 <part name="R21" library="_RoweTel" deviceset="RES0805" device="" value="0 Ohm"/>
@@ -4169,6 +4132,7 @@ http://www.weartronics.com/</description>
 <part name="V125" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="C54" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="1nF,16V"/>
 <part name="R23" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="10K,1%"/>
+<part name="L3" library="_RoweTel" deviceset="CBC3225T101MR" device="" value="100uH"/>
 </parts>
 <sheets>
 <sheet>
@@ -5828,9 +5792,9 @@ http://www.weartronics.com/</description>
 <attribute name="NAME" x="38.1" y="60.96" size="1.4224" layer="95" ratio="9" rot="MR270"/>
 <attribute name="VALUE" x="40.64" y="60.96" size="1.4224" layer="96" ratio="9" rot="MR270"/>
 </instance>
-<instance part="SW3" gate="G$1" x="73.66" y="248.92" smashed="yes" rot="MR0">
-<attribute name="NAME" x="68.58" y="264.16" size="1.4224" layer="95" ratio="10"/>
-<attribute name="VALUE" x="68.58" y="261.62" size="1.4224" layer="96" ratio="10"/>
+<instance part="SW3" gate="G$1" x="76.2" y="248.92" smashed="yes" rot="MR0">
+<attribute name="NAME" x="71.12" y="264.16" size="1.4224" layer="95" ratio="10"/>
+<attribute name="VALUE" x="71.12" y="261.62" size="1.4224" layer="96" ratio="10"/>
 </instance>
 <instance part="C26" gate="G$1" x="177.8" y="254" smashed="yes" rot="R270">
 <attribute name="NAME" x="180.34" y="259.08" size="1.4224" layer="95" ratio="9"/>
@@ -6201,9 +6165,9 @@ http://www.weartronics.com/</description>
 <instance part="V102" gate="GND" x="109.22" y="241.3" smashed="yes">
 <attribute name="VALUE" x="106.68" y="237.998" size="1.4224" layer="96" ratio="9"/>
 </instance>
-<instance part="D2" gate="G$1" x="58.42" y="259.08" smashed="yes" rot="R180">
-<attribute name="NAME" x="55.88" y="261.62" size="1.4224" layer="95" ratio="10"/>
-<attribute name="VALUE" x="55.88" y="255.2446" size="1.4224" layer="96" ratio="10"/>
+<instance part="D2" gate="G$1" x="60.96" y="259.08" smashed="yes" rot="R180">
+<attribute name="NAME" x="58.42" y="261.62" size="1.4224" layer="95" ratio="10"/>
+<attribute name="VALUE" x="58.42" y="255.2446" size="1.4224" layer="96" ratio="10"/>
 </instance>
 <instance part="MIC1" gate="G$1" x="35.56" y="172.72" smashed="yes">
 <attribute name="NAME" x="17.78" y="193.04" size="1.4224" layer="95" ratio="10"/>
@@ -6321,9 +6285,6 @@ http://www.weartronics.com/</description>
 <instance part="U$1" gate="G$1" x="124.46" y="266.7" smashed="yes">
 <attribute name="VALUE" x="121.92" y="267.208" size="1.4224" layer="95" ratio="9"/>
 </instance>
-<instance part="U$7" gate="G$1" x="63.5" y="266.7" smashed="yes">
-<attribute name="VALUE" x="60.96" y="266.954" size="1.4224" layer="96" ratio="9"/>
-</instance>
 <instance part="V17" gate="G$1" x="76.2" y="165.1" smashed="yes">
 <attribute name="VALUE" x="73.66" y="168.148" size="1.4224" layer="95" ratio="9"/>
 </instance>
@@ -6348,12 +6309,11 @@ http://www.weartronics.com/</description>
 <instance part="V122" gate="GND" x="35.56" y="241.3" smashed="yes">
 <attribute name="VALUE" x="33.02" y="237.998" size="1.4224" layer="96" ratio="9"/>
 </instance>
-<instance part="R9" gate="G$1" x="45.72" y="259.08"/>
 <instance part="R11" gate="G$1" x="66.04" y="132.08" smashed="yes">
 <attribute name="NAME" x="63.5" y="133.604" size="1.4224" layer="95"/>
 <attribute name="VALUE" x="63.5" y="128.778" size="1.4224" layer="96"/>
 </instance>
-<instance part="R21" gate="G$1" x="91.44" y="259.08"/>
+<instance part="R21" gate="G$1" x="93.98" y="259.08"/>
 <instance part="R22" gate="G$1" x="27.94" y="60.96" smashed="yes" rot="R90">
 <attribute name="NAME" x="22.86" y="58.42" size="1.4224" layer="95" ratio="9" rot="R90"/>
 <attribute name="VALUE" x="25.4" y="58.42" size="1.4224" layer="96" ratio="9" rot="R90"/>
@@ -6368,6 +6328,10 @@ http://www.weartronics.com/</description>
 <instance part="R23" gate="G$1" x="187.96" y="147.32" smashed="yes">
 <attribute name="NAME" x="182.88" y="149.86" size="1.4224" layer="95" ratio="9"/>
 <attribute name="VALUE" x="187.96" y="149.86" size="1.4224" layer="96" ratio="9"/>
+</instance>
+<instance part="L3" gate="G$1" x="45.72" y="259.08" smashed="yes" rot="R90">
+<attribute name="NAME" x="50.8" y="257.81" size="1.4224" layer="95" rot="R180"/>
+<attribute name="VALUE" x="50.8" y="262.89" size="1.4224" layer="96" rot="R180"/>
 </instance>
 </instances>
 <busses>
@@ -6743,7 +6707,7 @@ http://www.weartronics.com/</description>
 <pinref part="C46" gate="G$1" pin="1"/>
 <wire x1="109.22" y1="256.54" x2="109.22" y2="259.08" width="0.1524" layer="91"/>
 <junction x="109.22" y="259.08"/>
-<wire x1="96.52" y1="259.08" x2="101.6" y2="259.08" width="0.1524" layer="91"/>
+<wire x1="99.06" y1="259.08" x2="101.6" y2="259.08" width="0.1524" layer="91"/>
 <wire x1="101.6" y1="259.08" x2="109.22" y2="259.08" width="0.1524" layer="91"/>
 <wire x1="124.46" y1="261.62" x2="124.46" y2="259.08" width="0.1524" layer="91"/>
 <pinref part="C1" gate="G$1" pin="2"/>
@@ -7180,16 +7144,14 @@ http://www.weartronics.com/</description>
 <wire x1="35.56" y1="259.08" x2="27.94" y2="259.08" width="0.1524" layer="91"/>
 <wire x1="35.56" y1="256.54" x2="35.56" y2="259.08" width="0.1524" layer="91"/>
 <junction x="35.56" y="259.08"/>
-<pinref part="R9" gate="G$1" pin="1"/>
-<wire x1="38.1" y1="259.08" x2="40.64" y2="259.08" width="0.1524" layer="91"/>
+<pinref part="L3" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="N$24" class="0">
 <segment>
 <pinref part="D2" gate="G$1" pin="A"/>
-<wire x1="53.34" y1="259.08" x2="55.88" y2="259.08" width="0.1524" layer="91"/>
-<pinref part="R9" gate="G$1" pin="2"/>
-<wire x1="50.8" y1="259.08" x2="53.34" y2="259.08" width="0.1524" layer="91"/>
+<wire x1="53.34" y1="259.08" x2="58.42" y2="259.08" width="0.1524" layer="91"/>
+<pinref part="L3" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="AIN1" class="0">
@@ -7315,35 +7277,17 @@ http://www.weartronics.com/</description>
 <wire x1="289.56" y1="236.22" x2="294.64" y2="236.22" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="+VEXT" class="0">
-<segment>
-<pinref part="U$7" gate="G$1" pin="+VEXT"/>
-<pinref part="SW3" gate="G$1" pin="2"/>
-<wire x1="73.66" y1="241.3" x2="73.66" y2="238.76" width="0.1524" layer="91"/>
-<wire x1="73.66" y1="238.76" x2="63.5" y2="238.76" width="0.1524" layer="91"/>
-<wire x1="63.5" y1="238.76" x2="63.5" y2="246.38" width="0.1524" layer="91"/>
-<pinref part="SW3" gate="G$1" pin="5"/>
-<wire x1="73.66" y1="256.54" x2="73.66" y2="259.08" width="0.1524" layer="91"/>
-<wire x1="63.5" y1="259.08" x2="73.66" y2="259.08" width="0.1524" layer="91"/>
-<wire x1="63.5" y1="246.38" x2="63.5" y2="259.08" width="0.1524" layer="91"/>
-<pinref part="D2" gate="G$1" pin="C"/>
-<wire x1="60.96" y1="259.08" x2="63.5" y2="259.08" width="0.1524" layer="91"/>
-<junction x="63.5" y="259.08"/>
-<wire x1="63.5" y1="259.08" x2="63.5" y2="261.62" width="0.1524" layer="91"/>
-<wire x1="63.5" y1="261.62" x2="63.5" y2="264.16" width="0.1524" layer="91"/>
-</segment>
-</net>
 <net name="N$70" class="0">
 <segment>
 <pinref part="SW3" gate="G$1" pin="3"/>
-<wire x1="78.74" y1="241.3" x2="78.74" y2="238.76" width="0.1524" layer="91"/>
-<wire x1="78.74" y1="238.76" x2="83.82" y2="238.76" width="0.1524" layer="91"/>
-<wire x1="83.82" y1="238.76" x2="83.82" y2="259.08" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="241.3" x2="81.28" y2="238.76" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="238.76" x2="86.36" y2="238.76" width="0.1524" layer="91"/>
+<wire x1="86.36" y1="238.76" x2="86.36" y2="259.08" width="0.1524" layer="91"/>
 <pinref part="SW3" gate="G$1" pin="6"/>
-<wire x1="78.74" y1="256.54" x2="78.74" y2="259.08" width="0.1524" layer="91"/>
-<wire x1="78.74" y1="259.08" x2="83.82" y2="259.08" width="0.1524" layer="91"/>
-<wire x1="83.82" y1="259.08" x2="86.36" y2="259.08" width="0.1524" layer="91"/>
-<junction x="83.82" y="259.08"/>
+<wire x1="81.28" y1="256.54" x2="81.28" y2="259.08" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="259.08" x2="86.36" y2="259.08" width="0.1524" layer="91"/>
+<wire x1="86.36" y1="259.08" x2="88.9" y2="259.08" width="0.1524" layer="91"/>
+<junction x="86.36" y="259.08"/>
 <pinref part="R21" gate="G$1" pin="1"/>
 </segment>
 </net>
@@ -7413,6 +7357,21 @@ http://www.weartronics.com/</description>
 <wire x1="193.04" y1="132.08" x2="195.58" y2="132.08" width="0.1524" layer="91"/>
 <pinref part="R23" gate="G$1" pin="2"/>
 <wire x1="193.04" y1="147.32" x2="195.58" y2="147.32" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$15" class="0">
+<segment>
+<pinref part="SW3" gate="G$1" pin="2"/>
+<wire x1="76.2" y1="241.3" x2="76.2" y2="238.76" width="0.1524" layer="91"/>
+<wire x1="76.2" y1="238.76" x2="66.04" y2="238.76" width="0.1524" layer="91"/>
+<wire x1="66.04" y1="238.76" x2="66.04" y2="246.38" width="0.1524" layer="91"/>
+<pinref part="SW3" gate="G$1" pin="5"/>
+<wire x1="76.2" y1="256.54" x2="76.2" y2="259.08" width="0.1524" layer="91"/>
+<wire x1="66.04" y1="259.08" x2="76.2" y2="259.08" width="0.1524" layer="91"/>
+<wire x1="66.04" y1="246.38" x2="66.04" y2="259.08" width="0.1524" layer="91"/>
+<pinref part="D2" gate="G$1" pin="C"/>
+<wire x1="63.5" y1="259.08" x2="66.04" y2="259.08" width="0.1524" layer="91"/>
+<junction x="66.04" y="259.08"/>
 </segment>
 </net>
 </nets>
