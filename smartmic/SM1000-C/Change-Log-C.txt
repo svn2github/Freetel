@@ -2,200 +2,224 @@
 Change Log for SM1000-REV-B2
 
 Changes 07/22/2014 Reformatted file to fit on Schematic.
+Reformatted file to include Status: and status indicator.	RGB 09/15/14
+Status:	[ ] no action taken, [O] Resolved - PCB changes not made	[X] Complete, Schematic, PCb & BOM changes made, no firther action.
+============================================================================================================================================
 
-
-1.  [X] SW3 holes not big enough.
+1.  [O] SW3 holes not big enough.
 		Hole is .5mm. Pin is .6mm. Hole should be 1.0mm per spec sheet.
-		Drill size changed to 1.0mm  9/1/14 RGB
+	Status:	Complete - Drill size changed to 1.0mm  9/1/14 RGB
 
-2.  [X] Is C26 rated at 25V in BOM? 
+2.  [O] Is C26 rated at 25V in BOM? 
 		C26 is 25V in schematic, 16V in BOM. 
 		OOPS! C23, C26, C40 & C46 should all be 25V. Will change database & BOM.  
 		Murata # GRM188R71E104KA01D, Digikey # 490-1524-1-ND, Part Def: CAP CER 0.1UF 25V 10% X7R 0603
-		07/08/2014 - RGB
+	Status: Complete - reflected in SM1000-C BOM	09/15/14 - RGB
 		
-3.  [X] LED8 takes up whole of pads so diff to solder 
+3.  [O] LED8 takes up whole of pads so diff to solder 
 		Corrected package for LED-LTST - LED5 & LED8.
-		07/09/2014 - RGB
+	Status:	Complete - new package in SM1000-C artwork.	09/15/14 - RGB
 
-4.  [ ] Is CN3 a standard size?  My DC plugs don't fit in it 	
+4.  [O] Is CN3 a standard size?  My DC plugs don't fit in it 	
 		2.5mm ID, 5.5mm OD Plug. CONN PWR PLUG DC 2.5X5.5 8A MOD Digikey # 
 		CP3-002BH-ND 
-		This is probably most common size in USA. Same size as Raspberry PI, BeagleBone, 
-		SignaLink & others. RGB 07/15/2014
+		Determined 2.1mm x 5.5mm most common size. 
+	Status:	Complete - Changed CN3 to RASM722PX to accomodate 2.1mm x 5.5mm plug. In SM1000-C artwork.  RGB 09/14/14
 
-5.  [X] couldn't solder bottom pad of U5 by hand      + hope it's OK 
+5.  [ ] couldn't solder bottom pad of U5 by hand      + hope it's OK 
 		Attached to large gnd plane. Hard to solder. Designed for IR SMT 
 		assembly. Try large iron on vias from bottom. 
-		Part will solder in production. RGB 07/15/2014
+	Status:	No Change. Part will solder in production. RGB 09/15/14
 
-6.  [X] Can R6,R2,R5,R3,R4 be 10k to match R1? 
+6.  [ ] Can R6,R2,R5,R3,R4 be 10k to match R1? 
 		Don't know if 10K will work for R6. Discovery has 680 or small value. 
 		Try it. Can't hurt. 
-		R2 & R5 Are I2C pins. Recommended 4.7K for max speed. Not used now on 
-		SM1000. 10K would limit speed if used. Try it. 
+		R2 & R5 Are I2C pins. Spec 4.7K
 		R3 & R4 should work with 10K. 
-		Let me know results & I can change values if appropriate. 
+	Status:	No change - See above. Let me know results & I can change values if appropriate. RGB 09/15/14
 
-7.  [X] Would VDDA power supply circuit be better located closer to U1? 
+7.  [O] Would VDDA power supply circuit be better located closer to U1? 
 		Data sheet advises placing caps on opposite side of board, under VDDA pins. 
 		Parts are place as close as possible, on same side of board. Return is low 
 		impedance plane and supply well bypassed. Unless this presents problems, 
-		I'd leave it. RGB 07/15/2014
+	Status:	Will relocate parts on PCB. RGB 07/15/2014
 
 8.  [X] Larger TAPR/Credits text on bottom?      + there is plenty of room 
 		Enlarged text from 1mm to 1.42mm. Text now extends almost all the way 
-		across PCB. RGB 07/15/2014
+		across PCB. 
+	Status:	Complete. RGB 07/15/2014
 
-9.  [X] What was Vin range meant to be? 
+9.  [ ] What was Vin range meant to be? 
 		VIN is 1 diode drop lower than VEXT(6-16VDC) or approx 5.5 - 15.5VDC 
 		Used to power LM386 to get more output swing.
+	Status:	No Action Required - RGB 09/15/14
 
 10. [X] move R20 label close to R20     + I loaded R20 in the wrong place! 
-		R20 designation moved adjacent to part. RGB 07/15/2014
+		R20 designation moved adjacent to part.
+	Status:	Done - RGB	07/15/14
 		
 11. [X] is 4k7 missing from BOM or just my order?    + I didn't have any in my Digikey order 
 		Part definition error. Part # in part definition field. Will correct database & BOM.
 		This affects R2,R3, R4, R5 & R48. Should be Vishay Dale # CRCW06034K70FKEA, 
 		Digikey # 541-4.70KHCT-ND, Part Def: RES 4.70K OHM 1/10W 1% 0603 SMD  
-		07/08/2014 - RGB
+	Status:	Complete	07/08/2014 - RGB
 
 12. [X] Re C26, could u pls align the BOM and sch?  I'm not sure which one has to change. 
 		C26 should be 25V to accommodate +16V power in max. 
 		OOPS! Found that C23, C26, C40 & C46 all should be 25V. That's why I made them 
 		separate line item. I'll Change BOM to Digikey part # 490-1524-6-ND 
 		Murata # GRM188R71E104KA01D
-		07/08/2014 - Same as #2 above - RGB
+	Status:	Complete - Same as #2 above - 07/08/2014	RGB
 		
 13. [X] Re CN3, Hmm, now I'm not sure!  I dug around in the shed and found a connector 
 		that fits so I'm OK for now. CN3 is Switchcraft RASM712PX   2.5mm ID, 5.5mm OD Plug.
 		CONN PWR PLUG DC 2.5X5.5 8A MOD Digikey  # CP3-002BH-ND
 		I've noted a problem, but will wait til you decide. RGB
-
+		Same as #4. Replaced with RASM722PX.
+	Status:	Complete	  RGB 09/14/14
+	
 14. [X] OK I just check the BOM I have, and there are no 4.7k resistors on it, e.g. 
 		R2, R3, R4, R5.  
 		Part database  error, invalid part definition. Digikey & Vishay Dale part 
 		numbers are correct. Part definition for R2, R3, R4, R5 & R48 should be: 
 		RES 4.70K OHM 1/10W 1% 0603 SMD Will correct part database & BOM.
-		R2, R3, R4, R5 & R48 now 4.70K 1/10W 1% 0603 parts in B2 revision. RGB 07/15/2014
-
+		R2, R3, R4, R5 & R48 now 4.70K 1/10W 1% 0603 parts in B2 revision.
+	Status:	Complete	 RGB 07/15/2014
+	
 15. [X] CN7 3.5mm socket etc have two small plastic mounting lugs that require holes
 		CN7, CN8, CN9 & CN10 plastic tabs interfere with pads on top layer. Since the 
-		tabs are plastic and don't extend thru the PCB, I am approving these 4 discrepancies. 
-		RGB 07/15.2014		
-
-16. [X] Should R46 be described as a trimmer resistor (rather than POT?) on the BOM
+		tabs are plastic and don't extend thru the PCB, I am approving these 4 discrepancies. 	
+	Status:	Complete	RGB 07/15.2014	
+	
+16. [ ] Should R46 be described as a trimmer resistor (rather than POT?) on the BOM
 		R46 incorrectly specified on BOM. Corrected. Part s described as POT in DIGIKEY 
-		description. RGB 07/15/2014
-
+		description. 
+	Status:	No Action	RGB 07/15/2014
+	
 17. [X] Is label for R1 & R2 transposed? 
-		Labels were transposed. Corrected. RGB 07/15/2014
-
-18. [X] Add 100nF reset cap as per data sheet and discovery
-		Added C48, 100nF cap across J5 to implement power up reset function. RGB 07/17/2014
-
-19. [X] replace J7 & J2 with 0805 0 ohm Rs
+		Labels were transposed. Corrected. 
+	Status:	Complete - RGB 07/15/2014
+	
+18. [O] Add 100nF reset cap as per data sheet and discovery
+		Added C48, 100nF cap across J5 to implement power up reset function. 
+	Status - Added to schematic & BOM, will implement on PCB	RGB 07/17/2014
+	
+19. [O] replace J7 & J2 with 0805 0 ohm Rs
 		 Jumpers were originally inserted to permit bringing up SM1000 and protecting 
 		 circuitry from overvoltages and measuring currents. 
-		 Jumpers replaced with 0 OHM resistors. R18 & R21. RGB 09/9/2014
-		 
+		 Jumpers replaced with 0 OHM resistors. R18 & R21. 
+	Status:	Schematic & BOM changed, Will implement on PCB	 RGB 09/9/2014
+	
 20. [X] Added item numbers to this file to facilitate communication. RGB 07/15/2014
 
 ========= Latest change notes David 14 August ==========
 
-21. [X] R46 to 100k
+21. [O] R46 to 100k
 		[ ] add series R to prevent DAC distortion?
 		[ ] get to bottom on LM386 distortion?
-		Added RGB
-22. [X] Add 22k between DAC2 and ground
+	Status:	Added to schematic & BOM. Will place on PCB RGB 09/15/14
+	
+22. [O] Add 22k between DAC2 and ground
 		+ making R46 100k lead to some analog coupling between ADC2 and DAC2,
 		not qute sure why, this lowers Z of this net
-		Added RGB
-23. [X] R52 1k trimmer wasn't on my digikey order
-		+ probably my mistake, but check BOM
-		Is in BOM RGB 9/8/14
+	Status:	Added to schematic & BOM. Will place on PCB RGB 09/15/14
 		
-24.	[X] C36 is along way away from U6
-    + poss to move closer?
-	Cap moved to staging area. Will be moved closer during re-layout. RGB 9/8/14
-    
+23. [] R52 1k trimmer wasn't on my digikey order
+		+ probably my mistake, but check BOM
+		Is in BOM 
+	Status:	No Action	RGB 9/8/14
+	
+24.	[O] C36 is along way away from U6
+    + poss to move closer?	
+  Status:	 Cap moved to staging area. Will be moved closer during re-layout. RGB 9/8/14
+  
 25.	[X] Mic DC bias v low, about 0.3V
     + should we change R39?
-	Data sheet calls for 2.2K, not 22.1K. Changed schematic & BOM. RGB 9/8/14
+	Data sheet calls for 2.2K, not 22.1K. Changed schematic & BOM. 
+	Status:	Complete - Changed on schematic & BOM No PCB action necessary.	RGB 9/8/14
     
-26.	[X] Idea - clear labels next to each trimmers in large font
+26.	[O] Idea - clear labels next to each trimmers in large font
     + and connectors and TP, hard to see with naked eye
-	Will enlarge during re-layout. RGB 9/8/14
+	Status:	Will enlarge during re-layout. RGB 9/8/14
     
-27.	[X] foot print for a small reset button
+27.	[] foot print for a small reset button
     + I press it a lot, gd for experimenting
 	J25 was added for external reset switch. Do you still want on board sw?
+    Status No Action Taken Yet RGB 09/15/14
     
-28.	[X] 1nF to filter noise across 500k R42 but very close to op-amp.
-	Added, will be placed in re-layout. RGB 9/8/14.
+28.	[O] 1nF to filter noise across 500k R42 but very close to op-amp.
+	Status:	Added to schematic & BOM,  will be placed in re-layout. RGB 9/8/14.
 
-
-29.	[X] highly senstive net between R53 and R42 should be shorter if possible, 
+29.	[O] highly senstive net between R53 and R42 should be shorter if possible, 
     as we are getting a lot of noise pick up.
-	Did #28 fix problem? Could reposition op-amp circuit components during re-layout. RGB 9/8/14
-    
-30.	[X] Move ADC power supply bypass network v close to pins 21/22 U1B and
+	Did #28 fix problem? Could reposition op-amp circuit components during re-layout.
+   Status: No action taken yet.   RGB 9/8/14
+   
+30.	[O] Move ADC power supply bypass network v close to pins 21/22 U1B and
     away from switcher + as per Discovery board
+    Status: PArts will be repositioned during re-layout. RGB 09/15/14
     
-31.	[X] route op-amp bypass caps directly to op amp power supply pins on same layer, place nearby
+31.	[O] route op-amp bypass caps directly to op amp power supply pins on same layer, place nearby
 	Good idea. Will do in re-layout.
-
-32.	[X] Idea - clear labels next to each trimmers in large font
+	Status:	will reposition during re-layout RGB 09/15/14
+	
+32.	[O] Idea - clear labels next to each trimmers in large font
     + and connectors
- 
+	Status:	WIll perform during re-layout  RGB 09/15/14
+	
 ================================================================
 renumber to correct for duplicate #31 RGB 9/8/14
 
-33.	[X] foot print for a small reset button
+33.	[] foot print for a small reset button
     + I press it a lot, gd for experimenting
-	Duplicate of #27  RGB 9/8/14
+	Status:	No Action Taken - Duplicate of #27  RGB 9/8/14
 
 34.	[ ] Matt - PCB review + manufacture
-	?
+	Status:	No Action Taken RGB  09/15/14
 
 35.	[ ] Modem appears to be losing sync on time slips
     + investigate this in simulation form
-	?
+	Status: Not duplicated. No Action Taken	RGB 09/15/14
     
 36.	[X] check trimmers all go the same way around
-	Changed R42 & R47 to operate in same direction as other pots. RGB 9/8/14
-
-37.	[X] connect C36 to + term of U6, delete R43
+	Changed R42 & R47 to operate in same direction as other pots. 
+	Status: Schematic & BOM changed. Will update artwork during re-layout.	RGB 09/8/14
+	
+37.	[] connect C36 to + term of U6, delete R43
 	Need series resistance to sum c36 into u6+?
 	Contradicted by #38?
-
-38.	[X] some gain on U6 a good idea?
+	Status:	No Action TAken	RGB 09/08/14
+	
+38.	[O] some gain on U6 a good idea?
     + laptop audio ouput just a few 100mVpp
     + at least put in resistors.
 	Leave R43, C36 and add 10K res(R23 new) from U6-out to U6- for av=1. What gain desired?
+    Status: Need gain computation. 
     
-39.	[X] very big robust pads for R46
+39.	[O] very big robust pads for R46
     + pot keeps falling off, breaking pads
-    
-40.	[X] Consider case made from PCB, like sniffers
+    Status: CAn enlarge pads. no effect on schematic, BOM.	RGB 09/15/14
+   
+40.	[] Consider case made from PCB, like sniffers
     + can get all holes drilled
     + gd RF shielding
 	Your choice. Daryl felt 3D -> metal not good solution.
+	Status:	No Action TAken	RGB 09/15/14
     
-41.	[X] should square pad on Mic be gnd side?
+41.	[] should square pad on Mic be gnd side?
 	Mic data sheet referred to term 1(amp out) and term 2 GND. That's the way I laid it out.
 	I see your point though, change would aid assembly.
-	Your choice.
+	Status:	Will change part footprint & PCB.
 
-
-42.	[ ] added 3n9 between U8 p3 and ground 
+42.	[] added 3n9 between U8 p3 and ground 
     + removed some tonal noise and 
+    Status:	No action taken - What is 3n9?	Will add.
     
-43.	[X] changed R39 to 2k2
+43.	[] changed R39 to 2k2
     + mic bias now 2.8V
-	Changed in #25 RGB 09/10/14
+	Status:	No Action Taken, Same as #25 RGB 09/10/14
     
-44.	[-] Switcher noise reduction idea
+44.	[O] Switcher noise reduction idea
     + is there away to lock the switcher osc to a uC clock?
     + we could make it a multiple of ADC/DAC sample rate
     + thus aliasing all noise down to 0 Hz
@@ -203,60 +227,68 @@ renumber to correct for duplicate #31 RGB 9/8/14
 		From data sheet, switcher freq determined by components. No ext sync capability. RGB 09/10/14
 		For intermittent starts, look at ext PS rise ti me?
     
-45.	[-] review jumpers and see if it makes mores sense to make them 0 ohm 0805s
+45.	[O] review jumpers and see if it makes mores sense to make them 0 ohm 0805s
 		If you implement self test code, then you want J1, but don't ship shunt.
 		Same for Reset jumper, J5.
 		J3 - there to remove bias from mic input. Need?
-		RGB 09/10/14
+	Status:	need decision from David.	RGB 09/10/14
 
-46.	[-] C24 closer to U1?
-		WIll move at re-route time. RGB 09/10/14
-
-47.	[-] C40 should be 47nF
+46.	[O] C24 closer to U1?
+		WIll move at re-route time. 
+	Status: WIll move in PCB re-layout. RGB 09/10/14
+	
+47.	[O] C40 should be 47nF
     + David used wrong value on prototype
-		Changed to 47nF. RGB 9/10/14  See Questions
+		Changed to 47nF.   See Questions
+    Status:	Schematic & BOM changed. NO effect on PCB.	RGB 9/10/14
     
-48.	[-] LD2 opto-isolator footprint wrong (or maybe I ordered wrong part) 
+48.	[O] LD2 opto-isolator footprint wrong (or maybe I ordered wrong part) 
 		My mistake. Part is 8mm pin to pin, not 6mm.
-		Will correct footprint & PCB RGB 9/10/14
+	Status:	Will correct footprint & PCB RGB 9/10/14
 		
 49.	[X] location of C51 net label
-		DOne. RGB 9/10/14
-
-50.	[-] SW1 needs bigger pads to make hand solderable
+		DOne. 
+	Status: Complete RGB 9/10/14
+	
+50.	[O] SW1 needs bigger pads to make hand solderable
     + is this suitable as a PTT switch?
     + button is quite small
     + locking PTT as per SW3 useful for testing (want to leave tx on)
 		Location of PTT sw fits hand. Current sw is small. Might be able to use another switch. Do you really want push-push? Will look at larger pads pending question resolution. RGB 9/10/14
-    
-51.	[-] CN12 is hard to solder manually, need larger mechanical pads
+   Status:	esearching larger switch.	RGB 09/15/14
+   
+51.	[O] CN12 is hard to solder manually, need larger mechanical pads
     + although this would increase the outline so maybe not a problem
-		I'll extend pads, if I can.  RGB 9/10/14
+	Status:	I'll extend pads, if I can.  RGB 9/10/14
     
-52.	[-] CN2 difficult to hand solder, extend padds back towards outline
-		I'll extend pads, if I can. RGB 9/10/14
-
+52.	[O] CN2 difficult to hand solder, extend padds back towards outline
+	Status:	I'll extend pads, if I can. RGB 9/10/14
 
 53. [X] Replace R9 with a bead or inductor.
 		Replaced R9 with Taiyo Yuden CBC3225T101MR inductor. RGB 09/11/14
 Matt, VK5ZM, suggested:
 
   http://www.digikey.com/product-detail/en/CBC3225T101MR/587-1628-1-ND/1008243
-
+	Status: Replace in schematic & BOM. Will position on PCB during re-layout.	RGB 09/15/14
+	
 54. [ ] Replace C25, C29, C28 with tants.
+Status:	Researching effect on TPS54329E SW PS chip.	RGB 09/15/14
 
-55. [ ] Stereo connector for CB6-CN8
+55. [O] Stereo connector for CB6-CN8
     + only getting audio in one earphone when common stereo headphones used
     + should "from radio" and "to radio" connectors be stereo (wired as mono) ?
+	Status:	Replaced CN6 & CN8 with 3wire stereo connector.  Will position during re-layout	RGB 09/14/14
 
 56. [X] Remove +VEXT from schematic.
-		Originally used to allow power from rig mic connector to power SM1000 RGB 09/11/14
-
+		Originally used to allow power from rig mic connector to power SM1000.
+	Status:	Complete - Effects schematc only.	RGB	09/11/14
+	
 57. [ ] Matt VK5ZM has suggested 57 x 100mm PCB
     + some sort of standard?  At least 3 manufacturers making boxes to that size
     + e.g. Eddystone, Hammond 1590
     + supply easy in US or Asutalia
     + Just a suggestion at this stage, part of the enclosure discussion
+    Status:	No Action	RGB 09/15/14
    
 Questions:
 1.  SM1000 designed to be operated with 6-16V power supply. Would should recommend 9-15V. Should we recommend PS? Many will operate at 13.8V(rig supply). Do we risk ground loops, etc. using rig supply?
