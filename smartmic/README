@@ -32,7 +32,8 @@ Directories
 -----------
 
 doc         Documentation, use cases, block diagram, prototype assembly images
-SM1000-PCB  First pass design that was never manufactured but used to collect
+SM1000-A    First pass design that was never manufactured but used to collect
             review comment
-SM1000-B1   Prototype SM1000, small qty of PCBs made and hand loaded
-SM1000-B2    Beta SM1000   
+SM1000-B    Prototype SM1000, small qty of PCBs made and hand loaded
+SM1000-C    Beta SM1000. Changes to B to reflect testing / debug process.
+
