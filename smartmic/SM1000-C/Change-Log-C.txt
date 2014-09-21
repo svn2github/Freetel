@@ -211,7 +211,7 @@ renumber to correct for duplicate #31 RGB 9/8/14
 	I see your point though, change would aid assembly.
 	Status:	Will change part footprint & PCB.
 
-42.	[] added 3n9 between U8 p3 and ground 
+42.	[] added 3.9nF between U8 p3 and ground 
     + removed some tonal noise and 
     Status:	No action taken - What is 3n9?	Will add.
     
@@ -293,7 +293,11 @@ Status:	Researching effect on TPS54329E SW PS chip.	RGB 09/15/14
 58. Nice tactile feeling switch for PTT
     (like power switch, put perhaps not locking?)
 
-59. 1nF on ADC1 and ADC2 inputs close to uC.  While debgugging noise I found big spikes and ringing when the ADCs sample.  I think it's the inability of the op-amps to drive high frequencies.  These caps removed the ringing, but made no apparant difference to the noise.  However I think they are useful as a precaution to reduce the general level of noise on the board.
+59. 1nF on ADC1 and ADC2 inputs close to uC.  But DNL for now. While debgugging noise I found big spikes and ringing when the ADCs sample.  I think it's the inability of the op-amps to drive high frequencies.  These caps removed the ringing, but made no apparant difference to the noise.  However I think they are useful as a precaution to reduce the general level of noise on the board.
+
+60. 1500 resistor between ADC1 and ADC2 and outputs from op-amps.  After much experimentation these were found to reduce the static type clicks being produced by ADC to acceptable levels.
+
+61. LM386 power supply bypassing to remove switcher "washing macine" type noise from ouput audio.  4.7 ohm (rated at 200mA, IIR=0.2W) between VIN and pin 6 U8.  220uF electrolytic between pin 6 and GND.  Both placed near U8.
 
 Questions:
 1.  SM1000 designed to be operated with 6-16V power supply. Would should recommend 9-15V. Should we recommend PS? Many will operate at 13.8V(rig supply). Do we risk ground loops, etc. using rig supply?
