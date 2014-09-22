@@ -299,7 +299,17 @@ Status:	Researching effect on TPS54329E SW PS chip.	RGB 09/15/14
 
 61. LM386 power supply bypassing to remove switcher "washing macine" type noise from ouput audio.  4.7 ohm (rated at 200mA, IIR=0.2W) between VIN and pin 6 U8.  220uF electrolytic between pin 6 and GND.  Both placed near U8.
 
+62.  Do we want CN9 to disable RJ45 PTT or perhaps have both in parallel?  Do all radios switch PTT to ground?  Or should both ends of LD2 be routed to CN9 and CN14? 
+
 Questions:
 1.  SM1000 designed to be operated with 6-16V power supply. Would should recommend 9-15V. Should we recommend PS? Many will operate at 13.8V(rig supply). Do we risk ground loops, etc. using rig supply?
 2.  Should C37, C39, C40 be 50V? Or, only caps connected to VIN?
 3.  Are you going to supply speaker? Need J4?
+
+Production Questions:
+
+1/ How do end users deal with RJ45 patch panel?  Hand solder?
+
+2/ Do we supply a loud speaker?
+
+3/ What enclosure do we supply?
