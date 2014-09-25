@@ -325,7 +325,8 @@ Questions:
 2.  Should C37, C39, C40 be 50V? Or, only caps connected to VIN?
 3.  Are you going to supply speaker? Need J4?
 
-Production Questions:
+Production Questions
+--------------------
 
 1/ How do end users deal with RJ45 patch panel?  Hand solder?
 
@@ -333,9 +334,15 @@ Production Questions:
 
 3/ What enclosure do we supply?
 
-Rev C PCB layout notes:
+Rev C PCB layout notes
+----------------------
 
 1/ Unbroken Ground plane as per app notes
    [ ] How to handle this on schematic/netlist?
    [ ] How to handle power plane?
+
 2/ L1, R10, C10, C12, C11, C13 close to U1 with direct connection to p20
+
+3/ Large labls for connectors and trimmers.  Maybe single letters or
+symbols so they can fit?  So user doesnt have to refer to schematic
+when setting up.
