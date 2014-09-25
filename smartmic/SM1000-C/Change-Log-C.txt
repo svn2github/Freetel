@@ -307,6 +307,19 @@ Status:	Researching effect on TPS54329E SW PS chip.	RGB 09/15/14
       pot is also glued to PCB nearby which may be shorting and USB
       connector has become detached once so there may be a short.
    
+64.  Found soldering little wires to the RJ45 patch panel unwieldy.  Is there a better way?   Also should we separate the grounds for mic/spkr/ptt to rig?  mic grounds often separate on rig connectors.
+
+65.  While debugging noise in "analog" mode (testing between two SSB radios):
+     [ ] load C55 & C56, both 1nF, reduced switcher noise
+     [ ] add 100nF across R40, also reduced switcher noise
+     [ ] add 100uF 6.3V electrolytic (or tant) across R40, this reduced
+         50Hz frame rate noise
+     [ ] Microphone bypass network:
+         [ ] Add 100 ohm R in net between J3/R39
+         [ ] Change C32 to 100uF 6.3V electrolytic (or tant) and move to 
+             junction of 100 ohm/R39 to AVSS
+         [ ] add 100nF across 100uF C32
+
 Questions:
 1.  SM1000 designed to be operated with 6-16V power supply. Would should recommend 9-15V. Should we recommend PS? Many will operate at 13.8V(rig supply). Do we risk ground loops, etc. using rig supply?
 2.  Should C37, C39, C40 be 50V? Or, only caps connected to VIN?
@@ -319,3 +332,10 @@ Production Questions:
 2/ Do we supply a loud speaker?
 
 3/ What enclosure do we supply?
+
+Rev C PCB layout notes:
+
+1/ Unbroken Ground plane as per app notes
+   [ ] How to handle this on schematic/netlist?
+   [ ] How to handle power plane?
+2/ L1, R10, C10, C12, C11, C13 close to U1 with direct connection to p20
