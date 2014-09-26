@@ -320,6 +320,9 @@ Status:	Researching effect on TPS54329E SW PS chip.	RGB 09/15/14
              junction of 100 ohm/R39 to AVSS
          [ ] add 100nF across 100uF C32
 
+66. Change R48 to 10k, makes level adjustment on FT817 easier.  TBC on further
+    radio testing.
+
 Questions:
 1.  SM1000 designed to be operated with 6-16V power supply. Would should recommend 9-15V. Should we recommend PS? Many will operate at 13.8V(rig supply). Do we risk ground loops, etc. using rig supply?
 2.  Should C37, C39, C40 be 50V? Or, only caps connected to VIN?
@@ -337,12 +340,30 @@ Production Questions
 Rev C PCB layout notes
 ----------------------
 
-1/ Unbroken Ground plane as per app notes
-   [ ] How to handle this on schematic/netlist?
-   [ ] How to handle power plane?
+1/ As per app notes (e.g.  "As per June 2001 pcd mixed signal ... " PDF)
 
+   [ ] Unbroken ground plane
+   [ ] Where to split/connect power plane
+   [ ] signals that cross power plane split must be on layer 
+       adjacent to ground plane (see checklist in artcile above)
+   [ ] Consider in layout:      
+       + Audio power supply currents will flow in path of least
+         resistance, so back to 3.3V regulator? (Vin for LM386).  See
+         if layout means they get mixed with any digital/switcher
+         currents.
+       + high freq currents will follow path of least impedance
+         
 2/ L1, R10, C10, C12, C11, C13 close to U1 with direct connection to p20
 
-3/ Large labls for connectors and trimmers.  Maybe single letters or
-symbols so they can fit?  So user doesnt have to refer to schematic
+3/ Large labels on PCB for connectors and trimmers.  Maybe single letters or
+symbols so they can fit?  So user doesn't have to refer to schematic
 when setting up.
+
+4/ "As per June 2001 pcd mixed signal ... " PDF
+
+BOM checklist
+-------------
+
+[ ] CN12 female box header and wire?
+[ ] CN3 specified as RASM722PX
+
