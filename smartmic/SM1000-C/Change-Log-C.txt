@@ -333,9 +333,10 @@ renumber to correct for duplicate #31 RGB 9/8/14
 	
 67. [O]	Spacing of 3.5mm connectors.  Some interference when tested with 3.5mm
 		leads.  Measured (max) diameter of several 3.5mm plugs as 11.1mm, 11.3,
-		9.2, 5.8, 9.8.  Could we extend under DC power connector?
+		9.2, 5.8, 9.8.  Could we extend under DC power connector?  measure max DC power
+                plus diameter (molded part) as 9.8, 8.5, 9.4mm
 	Status: Need to talk about this.  RGB 09/27/14
-
+                
 ======================================================================================================================================================================================
 The following should be added as items to list above & numbered. Too many places to look for possible changes. Also, there should be some means of showing resolution. RGB 09/27/14
 
