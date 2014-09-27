@@ -323,6 +323,10 @@ Status:	Researching effect on TPS54329E SW PS chip.	RGB 09/15/14
 66. Change R48 to 10k, makes level adjustment on FT817 easier.  TBC on further
     radio testing.
 
+67. Spacing of 3.5mm connectors.  Some interference when tested with 3.5mm
+    leads.  Measured (max) diameter of several 3.5mm plugs as 11.1mm, 11.3,
+    9.2, 5.8, 9.8.  Could we extend under DC power connector?
+
 Questions:
 1.  SM1000 designed to be operated with 6-16V power supply. Would should recommend 9-15V. Should we recommend PS? Many will operate at 13.8V(rig supply). Do we risk ground loops, etc. using rig supply?
 2.  Should C37, C39, C40 be 50V? Or, only caps connected to VIN?
@@ -365,5 +369,8 @@ BOM checklist
 -------------
 
 [ ] CN12 female box header and wire?
+    + should we provide some male headers?
+    + should we approach signal-link?
 [ ] CN3 specified as RASM722PX
+[ ] knob for pot
 
