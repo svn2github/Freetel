@@ -3,7 +3,7 @@ Change Log for SM1000-REV-C
 
 Changes 07/22/2014 Reformatted file to fit on Schematic.
 Reformatted file to include Status: and status indicator.	RGB 09/15/14
-Status:	[ ] no action taken, [O] Resolved - PCB changes not made	[X] Complete, Schematic, PCb & BOM changes made, no firther action.
+Status:	[ O] OPEN - no action taken,  	[X] Complete, Schematic changes made, no further action. Physical layout changes will be made as PCB is re-routed.
 ============================================================================================================================================
 
 1.  [X] SW3 holes not big enough.
@@ -266,16 +266,16 @@ renumber to correct for duplicate #31 RGB 9/8/14
 	Status:	Extended  RGB 09/24/14
 
 53. [X] Replace R9 with a bead or inductor.
-		Replaced R9 with Taiyo Yuden CBC3225T101MR inductor. RGB 09/11/14
-Matt, VK5ZM, suggested:
+	Status: Replaced R9 with Taiyo Yuden CBC3225T101MR inductor. RGB 09/11/14
+	Matt, VK5ZM, suggested:
 
   http://www.digikey.com/product-detail/en/CBC3225T101MR/587-1628-1-ND/1008243
 	Status: Replace in schematic & BOM. Will position on PCB during re-layout.	RGB 09/15/14
 	
-54. [ ] Replace C25, C29, C28 with tants.
-Status:	Researching effect on TPS54329E SW PS chip.	RGB 09/15/14
+54. [X] Replace C25, C29, C28 with tants.
+	Status:	Switched Ceramics to Tantalum.
 
-55. [O] Stereo connector for CB6-CN8
+55. [X] Stereo connector for CB6-CN8
     + only getting audio in one earphone when common stereo headphones used
     + should "from radio" and "to radio" connectors be stereo (wired as mono) ?
 	Status:	Replaced CN6 & CN8 with 3wire stereo connector.  Will position during re-layout	RGB 09/14/14
@@ -284,50 +284,62 @@ Status:	Researching effect on TPS54329E SW PS chip.	RGB 09/15/14
 		Originally used to allow power from rig mic connector to power SM1000.
 	Status:	Complete - Effects schematc only.	RGB	09/11/14
 	
-57. [ ] Matt VK5ZM has suggested 57 x 100mm PCB
+57. [O] Matt VK5ZM has suggested 57 x 100mm PCB
     + some sort of standard?  At least 3 manufacturers making boxes to that size
     + e.g. Eddystone, Hammond 1590
     + supply easy in US or Asutalia
     + Just a suggestion at this stage, part of the enclosure discussion
     Status:	No Action	RGB 09/15/14
 
-58. Nice tactile feeling switch for PTT
-    (like power switch, put perhaps not locking?)
+58. [O]Nice tactile feeling switch for PTT
+		(like power switch, put perhaps not locking?)
+	Status: No Action. Will look for switch.  RGB 09/27/14
 
-59. 1nF on ADC1 and ADC2 inputs close to uC.  But DNL for now. While debgugging noise I found big spikes and ringing when the ADCs sample.  I think it's the inability of the op-amps to drive high frequencies.  These caps removed the ringing, but made no apparant difference to the noise.  However I think they are useful as a precaution to reduce the general level of noise on the board.
+59. [X]	1nF on ADC1 and ADC2 inputs close to uC.  But DNL for now. While debgugging noise I found big spikes and ringing when the ADCs sample.  I think it's the inability of the op-amps to drive high frequencies.  These caps removed the ringing, but made no apparant difference to the noise.  However I think they are useful as a precaution to reduce the general level of noise on the board.
+	Status: COmplete, marked as DNL. RGB 09/27/14
+	
+60. [X]	1500 resistor between ADC1 and ADC2 and outputs from op-amps.  After much experimentation these were found to reduce the static type clicks being produced by ADC to acceptable levels.
+	Status: COmplete. RGB 09/27/14
 
-60. 1500 resistor between ADC1 and ADC2 and outputs from op-amps.  After much experimentation these were found to reduce the static type clicks being produced by ADC to acceptable levels.
-
-61. LM386 power supply bypassing to remove switcher "washing macine" type noise from ouput audio.  4.7 ohm (rated at 200mA, IIR=0.2W) between VIN and pin 6 U8.  220uF electrolytic between pin 6 and GND.  Both placed near U8.
-
-62.  Do we want CN9 to disable RJ45 PTT or perhaps have both in parallel?  Do all radios switch PTT to ground?  Or should both ends of LD2 be routed to CN9 and CN14? 
-
-63. U3 (USB chip) is hot to touch, in normal operation and USB boot mode. 
+61. [O]	LM386 power supply bypassing to remove switcher "washing macine" type noise from ouput audio.  4.7 ohm (rated at 200mA, IIR=0.2W) between VIN and pin 6 U8.  220uF electrolytic between pin 6 and GND.  Both placed near U8.
+		Status: No action yet. RGB 09/27/14
+	
+62.  [O] Do we want CN9 to disable RJ45 PTT or perhaps have both in parallel?  Do all radios switch PTT to ground?  Or should both ends of LD2 be routed to CN9 and CN14? 
+		You should never have cable to CN4 and CN6,CN7,& CN9.
+		Status: recommend parallel configuration  RGB 09/27/14
+		
+63. [O] U3 (USB chip) is hot to touch, in normal operation and USB boot mode. 
     + same chip isn't hot on Discovery
     + suspect this is a "David error" - e.g. wrong resistors loaded,
       pot is also glued to PCB nearby which may be shorting and USB
       connector has become detached once so there may be a short.
-   
-64.  Found soldering little wires to the RJ45 patch panel unwieldy.  Is there a better way?   Also should we separate the grounds for mic/spkr/ptt to rig?  mic grounds often separate on rig connectors.
+	Status: Open. Needs debug.	RGB 09/27/14
+	
+64.  [O] Found soldering little wires to the RJ45 patch panel unwieldy.  Is there a better way?   Also should we separate the grounds for mic/spkr/ptt to rig?  mic grounds often separate on rig connectors.
+	Status: could use thru hole part,but would require hand solderong - extra mfg operation		RGB 09/27/14
+	
+65.  [O] While debugging noise in "analog" mode (testing between two SSB radios):
+		[ ] load C55 & C56, both 1nF, reduced switcher noise
+		[ ] add 100nF across R40, also reduced switcher noise
+		[ ] add 100uF 6.3V electrolytic (or tant) across R40, this reduced 50Hz frame rate noise
+		[ ] Microphone bypass network:
+		[ ] Add 100 ohm R in net between J3/R39
+        [ ] Change C32 to 100uF 6.3V electrolytic (or tant) and move to junction of 100 ohm/R39 to AVSS
+        [ ] add 100nF across 100uF C32
+		Status: A lot of new parts!
 
-65.  While debugging noise in "analog" mode (testing between two SSB radios):
-     [ ] load C55 & C56, both 1nF, reduced switcher noise
-     [ ] add 100nF across R40, also reduced switcher noise
-     [ ] add 100uF 6.3V electrolytic (or tant) across R40, this reduced
-         50Hz frame rate noise
-     [ ] Microphone bypass network:
-         [ ] Add 100 ohm R in net between J3/R39
-         [ ] Change C32 to 100uF 6.3V electrolytic (or tant) and move to 
-             junction of 100 ohm/R39 to AVSS
-         [ ] add 100nF across 100uF C32
+66. [X]	Change R48 to 10k, makes level adjustment on FT817 easier.  TBC on further radio testing.
+	Status: Changed  RGB 09/27/14
+	
+67. [O]	Spacing of 3.5mm connectors.  Some interference when tested with 3.5mm
+		leads.  Measured (max) diameter of several 3.5mm plugs as 11.1mm, 11.3,
+		9.2, 5.8, 9.8.  Could we extend under DC power connector?
+	Status: Need to talk about this.  RGB 09/27/14
 
-66. Change R48 to 10k, makes level adjustment on FT817 easier.  TBC on further
-    radio testing.
+======================================================================================================================================================================================
+The following should be added as items to list above & numbered. Too many places to look for possible changes. Also, there should be some means of showing resolution. RGB 09/27/14
 
-67. Spacing of 3.5mm connectors.  Some interference when tested with 3.5mm
-    leads.  Measured (max) diameter of several 3.5mm plugs as 11.1mm, 11.3,
-    9.2, 5.8, 9.8.  Could we extend under DC power connector?
-
+	
 Questions:
 1.  SM1000 designed to be operated with 6-16V power supply. Would should recommend 9-15V. Should we recommend PS? Many will operate at 13.8V(rig supply). Do we risk ground loops, etc. using rig supply?
 2.  Should C37, C39, C40 be 50V? Or, only caps connected to VIN?
@@ -359,24 +371,26 @@ Rev C PCB layout notes
        + high freq currents will follow path of least impedance
          
 2/ L1, R10, C10, C12, C11, C13 close to U1 with direct connection to p20
+====> Parts staged to do this when PCB routing done. RGB 09/27/14
 
 <<<<<<< .mine
 3/ Large labls for connectors and trimmers.  Maybe single letters or
 symbols so they can fit?  So user doesn't have to refer to schematic
-=======
+====> Locations should be shown in "User Guide". There is a limit to component density and the number of labelling exceptions. If you want some specific labelling let me know. RGB 09/27/14
+ 
 3/ Large labels on PCB for connectors and trimmers.  Maybe single letters or
-symbols so they can fit?  So user doesn't have to refer to schematic
->>>>>>> .r1859
-when setting up.
+symbols so they can fit?  So user doesn't have to refer to schematic when setting up.
+====> Ditto
 
 4/ "As per June 2001 pcd mixed signal ... " PDF
+====> Same as 1/ above.
 
-BOM checklist
--------------
+		BOM checklist
+		-------------
 
-[ ] CN12 female box header and wire?
-    + should we provide some male headers?
-    + should we approach signal-link?
-[ ] CN3 specified as RASM722PX
-[ ] knob for pot
+		[X] CN12 female box header and wire?
+			+ should we provide some male headers?  NO
+			+ should we approach signal-link? Don't have to. Several vendors use this scheme.
+		[X] CN3 specified as RASM722PX Yes
+		[O] knob for pot:	Will add to BOM
 
