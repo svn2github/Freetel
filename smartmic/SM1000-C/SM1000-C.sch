@@ -4332,7 +4332,7 @@ http://www.weartronics.com/</description>
 <part name="U$49" library="A-SUPPLY2" deviceset="AVSS" device=""/>
 <part name="R9" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="1.5K,1%"/>
 <part name="R29" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="1.5K,1%"/>
-<part name="C57" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603"/>
+<part name="C57" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="3.9nF,16V"/>
 <part name="U$50" library="A-SUPPLY2" deviceset="AVSS" device=""/>
 <part name="CN12" library="SM1000" deviceset="HRS-DF11-16DS" device=""/>
 <part name="R55" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="0 Ohm"/>
@@ -6542,7 +6542,10 @@ http://www.weartronics.com/</description>
 <attribute name="NAME" x="132.08" y="134.62" size="1.4224" layer="95" ratio="9"/>
 <attribute name="VALUE" x="132.08" y="132.08" size="1.4224" layer="96" ratio="9"/>
 </instance>
-<instance part="C57" gate="G$1" x="45.72" y="50.8" rot="R270"/>
+<instance part="C57" gate="G$1" x="45.72" y="50.8" smashed="yes" rot="R270">
+<attribute name="NAME" x="43.18" y="63.5" size="1.4224" layer="95"/>
+<attribute name="VALUE" x="43.18" y="60.96" size="1.4224" layer="96"/>
+</instance>
 <instance part="U$50" gate="G$1" x="45.72" y="43.18"/>
 <instance part="CN12" gate="G$1" x="279.4" y="172.72"/>
 </instances>
