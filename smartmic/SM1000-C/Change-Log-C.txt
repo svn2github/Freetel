@@ -1,5 +1,5 @@
 	
-Change Log for SM1000-REV-B2
+Change Log for SM1000-REV-C
 
 Changes 07/22/2014 Reformatted file to fit on Schematic.
 Reformatted file to include Status: and status indicator.	RGB 09/15/14
@@ -213,19 +213,20 @@ renumber to correct for duplicate #31 RGB 9/8/14
 
 42.	[X] added 3.9nF between U8 p3 and ground 
     + removed some tonal noise and 
-    Status:	No action taken - What is 3n9?	Will add.
+    Status: Added. RGB 09/26/14
     
 43.	[X] changed R39 to 2k2
     + mic bias now 2.8V
-	Status:	No Action Taken, Same as #25 RGB 09/10/14
+	Status:	Changed. RGB 09/26/14
     
-44.	[O] Switcher noise reduction idea
+44.	[X] Switcher noise reduction idea
     + is there away to lock the switcher osc to a uC clock?
     + we could make it a multiple of ADC/DAC sample rate
     + thus aliasing all noise down to 0 Hz
     + need swicther to freerun until uC starts
 		From data sheet, switcher freq determined by components. No ext sync capability. RGB 09/10/14
 		For intermittent starts, look at ext PS rise ti me?
+	Status: Suggested shielded inductor. RGB 09/26/14
     
 45.	[O] review jumpers and see if it makes mores sense to make them 0 ohm 0805s
 		If you implement self test code, then you want J1, but don't ship shunt.
@@ -233,7 +234,7 @@ renumber to correct for duplicate #31 RGB 9/8/14
 		J3 - there to remove bias from mic input. Need?
 	Status:	need decision from David.	RGB 09/10/14
 
-46.	[O] C24 closer to U1?
+46.	[X] C24 closer to U1?
 		WIll move at re-route time. 
 	Status: WIll move in PCB re-layout. RGB 09/10/14
 	
@@ -244,7 +245,7 @@ renumber to correct for duplicate #31 RGB 9/8/14
     
 48.	[X] LD2 opto-isolator footprint wrong (or maybe I ordered wrong part) 
 		My mistake. Part is 8mm pin to pin, not 6mm.
-	Status:	Will correct footprint & PCB RGB 9/10/14
+	Status:	Corrected. RGB 09/26/14
 		
 49.	[X] location of C51 net label
 		DOne. 
@@ -359,8 +360,13 @@ Rev C PCB layout notes
          
 2/ L1, R10, C10, C12, C11, C13 close to U1 with direct connection to p20
 
+<<<<<<< .mine
+3/ Large labls for connectors and trimmers.  Maybe single letters or
+symbols so they can fit?  So user doesn't have to refer to schematic
+=======
 3/ Large labels on PCB for connectors and trimmers.  Maybe single letters or
 symbols so they can fit?  So user doesn't have to refer to schematic
+>>>>>>> .r1859
 when setting up.
 
 4/ "As per June 2001 pcd mixed signal ... " PDF
