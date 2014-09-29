@@ -344,18 +344,30 @@ The following should be added as items to list above & numbered. Too many places
 
 	
 Questions:
-1.  SM1000 designed to be operated with 6-16V power supply. Would should recommend 9-15V. Should we recommend PS? Many will operate at 13.8V(rig supply). Do we risk ground loops, etc. using rig supply?
-2.  Should C37, C39, C40 be 50V? Or, only caps connected to VIN?
-3.  Are you going to supply speaker? Need J4?
+
+1.  [X] SM1000 designed to be operated with 6-16V power supply. Would
+        should recommend 9-15V. Should we recommend PS? Many will
+        operate at 13.8V(rig supply). Do we risk ground loops,
+        etc. using rig supply?
+       
+        DR 29 Sep 2014: tested with IC7200 at full power using same
+        12V battery as SM1000.  No problems observed, so I think we
+        are Ok for now.  Lets call this Ok for now (ie no specific rec
+        for PS) and see if any problems appear with Beta units.
+ 
+2.  [X] Should C37, C39, C40 be 50V? Or, only caps connected to VIN?
+        DR 29 Sep 2014: Yes, good call.
 
 Production Questions
 --------------------
 
-1/ How do end users deal with RJ45 patch panel?  Hand solder?
+1/ [X] How do end users deal with RJ45 patch panel?  Hand solder?  DR
+   29 Sep 2014: RSB has answered this with patch panel concept (female
+   header and plug in wires)
 
-2/ Do we supply a loud speaker?
+2/ [ ] Do we supply a loud speaker?
 
-3/ What enclosure do we supply?
+3/ [ ] What enclosure do we supply?
 
 Rev C PCB layout notes
 ----------------------
@@ -376,7 +388,7 @@ Rev C PCB layout notes
 2/ L1, R10, C10, C12, C11, C13 close to U1 with direct connection to p20
 ====> Parts staged to do this when PCB routing done. RGB 09/27/14
 
-3/ Large labls for connectors and trimmers.  Maybe single letters or
+3/ Large lables for connectors and trimmers.  Maybe single letters or
 symbols so they can fit?  So user doesn't have to refer to schematic
 ====> Locations should be shown in "User Guide". There is a limit to component density and the number of labelling exceptions. If you want some specific labelling let me know. RGB 09/27/14
  
@@ -400,10 +412,11 @@ Risk List
        Action: Confirm value with Matt, decide on if we should 
        downgrade to a bead
 
-2. [ ] Risk: Untested changes in schematic leading to a major problem.  
-       Action: David to review all change log entries above to
-       determine if any have been untested
+2. [ ] Risk: Untested changes in schematic leading to a major problem
+       in 100 Beta resulting in repair.  Action: David to review all
+       change log entries above to determine if any have been
+       untested.
 
-3. [ ] Risk; Software not ready when Beta hardware arrives: Action:
-       Specify min software load (e.g. configuration menus, SNR read
+3. [ ] Risk: Software not ready when Beta hardware arrives: Action:
+       DR Specify min software load (e.g. configuration menus, SNR read
        out, set up procedure)
