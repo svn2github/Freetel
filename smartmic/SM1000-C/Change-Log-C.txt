@@ -336,6 +336,8 @@ renumber to correct for duplicate #31 RGB 9/8/14
 		9.2, 5.8, 9.8.  Could we extend under DC power connector?  measure max DC power
                 plus diameter (molded part) as 9.8, 8.5, 9.4mm
 	Status: Need to talk about this.  RGB 09/27/14
+
+68. Pls add 480 ohm series resistors in series with BOOT0, select, and back nets.
                 
 ======================================================================================================================================================================================
 The following should be added as items to list above & numbered. Too many places to look for possible changes. Also, there should be some means of showing resolution. RGB 09/27/14
@@ -374,7 +376,6 @@ Rev C PCB layout notes
 2/ L1, R10, C10, C12, C11, C13 close to U1 with direct connection to p20
 ====> Parts staged to do this when PCB routing done. RGB 09/27/14
 
-<<<<<<< .mine
 3/ Large labls for connectors and trimmers.  Maybe single letters or
 symbols so they can fit?  So user doesn't have to refer to schematic
 ====> Locations should be shown in "User Guide". There is a limit to component density and the number of labelling exceptions. If you want some specific labelling let me know. RGB 09/27/14
@@ -383,15 +384,26 @@ symbols so they can fit?  So user doesn't have to refer to schematic
 symbols so they can fit?  So user doesn't have to refer to schematic when setting up.
 ====> Ditto
 
-4/ "As per June 2001 pcd mixed signal ... " PDF
-====> Same as 1/ above.
+BOM checklist
+-------------
 
-		BOM checklist
-		-------------
+[X] CN12 female box header and wire?
+    + should we provide some male headers?  NO
+    + should we approach signal-link? Don't have to. Several vendors use this scheme.
+    [X] CN3 specified as RASM722PX Yes
+    [O] knob for pot:	Will add to BOM
 
-		[X] CN12 female box header and wire?
-			+ should we provide some male headers?  NO
-			+ should we approach signal-link? Don't have to. Several vendors use this scheme.
-		[X] CN3 specified as RASM722PX Yes
-		[O] knob for pot:	Will add to BOM
+Risk List
+---------
 
+1. [ ] Risk: Inductive kick from L3 damaging components on board.  
+       Action: Confirm value with Matt, decide on if we should 
+       downgrade to a bead
+
+2. [ ] Risk: Untested changes in schematic leading to a major problem.  
+       Action: David to review all change log entries above to
+       determine if any have been untested
+
+3. [ ] Risk; Software not ready when Beta hardware arrives: Action:
+       Specify min software load (e.g. configuration menus, SNR read
+       out, set up procedure)
