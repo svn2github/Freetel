@@ -265,12 +265,15 @@ renumber to correct for duplicate #31 RGB 9/8/14
 52.	[X] CN2 difficult to hand solder, extend padds back towards outline
 	Status:	Extended  RGB 09/24/14
 
-53. [X] Replace R9 with a bead or inductor.
+53. [ ] Replace R9 with a bead
 	Status: Replaced R9 with Taiyo Yuden CBC3225T101MR inductor. RGB 09/11/14
-	Matt, VK5ZM, suggested:
-
-  http://www.digikey.com/product-detail/en/CBC3225T101MR/587-1628-1-ND/1008243
+        http://www.digikey.com/product-detail/en/CBC3225T101MR/587-1628-1-ND/1008243
 	Status: Replace in schematic & BOM. Will position on PCB during re-layout.	RGB 09/15/14
+	
+        DR 30 Sep 2014; Matt, VK5ZM, suggested Taiyo Yuden
+        CBC3225T101MR however Glen English suggested this would give
+        an inductive kick so lets use a bead for L3.  As per Matt's
+        suggestion pls move C30 to junction of L3 and D2.
 	
 54. [X] Replace C25, C29, C28 with tants.
 	Status:	Switched Ceramics to Tantalum.
@@ -408,9 +411,9 @@ BOM checklist
 Risk List
 ---------
 
-1. [ ] Risk: Inductive kick from L3 damaging components on board.  
+1. [X] Risk: Inductive kick from L3 damaging components on board.  
        Action: Confirm value with Matt, decide on if we should 
-       downgrade to a bead
+       downgrade to a bead. (see #53, decn made to use bead).
 
 2. [ ] Risk: Untested changes in schematic leading to a major problem
        in 100 Beta resulting in repair.  Action: David to review all
