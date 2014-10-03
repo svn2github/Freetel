@@ -147,8 +147,10 @@ Status:	[ O] OPEN - no action taken,  	[X] Complete, Schematic changes made, no 
 	J25 was added for external reset switch. Do you still want on board sw?
     Status: HEADER PROVIDED RGB 09/15/14
     
-28.	[X] 1nF to filter noise across 500k R42 but very close to op-amp.
+28.	[ ] 100pF to filter noise across 500k R42 but very close to op-amp.
 	Status: Added. Correct placement? RGB 9/8/14.
+        4 Oct 2014; DGR Changed from 1nF to 100pF after testing with dynamic
+        microphone by Michael Wlid
 
 29.	[O] highly senstive net between R53 and R42 should be shorter if possible, 
     as we are getting a lot of noise pick up.
@@ -312,13 +314,14 @@ renumber to correct for duplicate #31 RGB 9/8/14
 		SignaLink cable will bring whatever is at the Rig Digital connector to the SM1000
 		Status: Implemented parallel configuration  RGB 09/27/14
 		
-63. [O] U3 (USB chip) is hot to touch, in normal operation and USB boot mode. 
+63. [X] U3 (USB chip) is hot to touch, in normal operation and USB boot mode. 
     + same chip isn't hot on Discovery
     + suspect this is a "David error" - e.g. wrong resistors loaded,
       pot is also glued to PCB nearby which may be shorting and USB
       connector has become detached once so there may be a short.
 	Status: Open. Needs debug.	RGB 09/27/14
-	
+    4 Oct 2014: Michasel Wild doesn't report this issue, have concluded it a one off error on Davids board
+ 	
 64.  [O] Found soldering little wires to the RJ45 patch panel unwieldy.  Is there a better way?   Also should we separate the grounds for mic/spkr/ptt to rig?  mic grounds often separate on rig connectors.
 	Status: could use thru hole part,but would require hand soldering - extra mfg operation		RGB 09/27/14
 	
@@ -326,12 +329,19 @@ renumber to correct for duplicate #31 RGB 9/8/14
 		[X] load C55 & C56, both 1nF, reduced switcher noise
 		[X] add 100nF across R40, also reduced switcher noise
 		[X] add 100uF 6.3V electrolytic (or tant) across R40, this reduced 50Hz frame rate noise
+                [ ] 100nF across R45
 		[ ] Microphone bypass network:
-		[X] Add 100 ohm R in net between J3/R39
-        [X] Change C32 to 100uF 6.3V electrolytic (or tant) and move to junction of 100 ohm/R39 to AVSS
-        [X] add 100nF across 100uF C32
-		Status: A lot of new parts!
+		    [ ] Insert new 100 ohm R in net between J3/R39 (keep 2.2k)
+                    [ ] Change C32 to 100uF 6.3V electrolytic (or tant) and move to junction of 100 ohm/R39 to AVSS
+                    [ ] add 100nF across 100uF C32
 
+                    J3 - 100 ohm - 2200 ohm 
+                                 |
+                     100nF parallel with 100 uF
+                                 |
+
+		Status: A lot of new parts!
+                  
 66. [X]	Change R48 to 10k, makes level adjustment on FT817 easier.  TBC on further radio testing.
 	Status: Changed  RGB 09/27/14
 	
