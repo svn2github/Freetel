@@ -265,10 +265,10 @@ renumber to correct for duplicate #31 RGB 9/8/14
 52.	[X] CN2 difficult to hand solder, extend padds back towards outline
 	Status:	Extended  RGB 09/24/14
 
-53. [ ] Replace R9 with a bead
+53. [X] Replace R9 with a bead
 	Status: Replaced R9 with Taiyo Yuden CBC3225T101MR inductor. RGB 09/11/14
         http://www.digikey.com/product-detail/en/CBC3225T101MR/587-1628-1-ND/1008243
-	Status: Replace in schematic & BOM. Will position on PCB during re-layout.	RGB 09/15/14
+	Status: Replace with Murata BLM18PG121SN1  RGB 10/02/14
 	
         DR 30 Sep 2014; Matt, VK5ZM, suggested Taiyo Yuden
         CBC3225T101MR however Glen English suggested this would give
@@ -304,12 +304,13 @@ renumber to correct for duplicate #31 RGB 9/8/14
 60. [X]	1500 resistor between ADC1 and ADC2 and outputs from op-amps.  After much experimentation these were found to reduce the static type clicks being produced by ADC to acceptable levels.
 	Status: COmplete. RGB 09/27/14
 
-61. [O]	LM386 power supply bypassing to remove switcher "washing macine" type noise from ouput audio.  4.7 ohm (rated at 200mA, IIR=0.2W) between VIN and pin 6 U8.  220uF electrolytic between pin 6 and GND.  Both placed near U8.
-		Status: No action yet. RGB 09/27/14
+61. [X]	LM386 power supply bypassing to remove switcher "washing macine" type noise from ouput audio.  4.7 ohm (rated at 200mA, IIR=0.2W) between VIN and pin 6 U8.  220uF electrolytic between pin 6 and GND.  Both placed near U8.
+		Status: Completed.  RGB 10/02/14
 	
-62.  [O] Do we want CN9 to disable RJ45 PTT or perhaps have both in parallel?  Do all radios switch PTT to ground?  Or should both ends of LD2 be routed to CN9 and CN14? 
+62.  [X] Do we want CN9 to disable RJ45 PTT or perhaps have both in parallel?  Do all radios switch PTT to ground?  Or should both ends of LD2 be routed to CN9 and CN14? 
 		You should never have cable to CN4 and CN6,CN7,& CN9.
-		Status: recommend parallel configuration  RGB 09/27/14
+		SignaLink cable will bring whatever is at the Rig Digital connector to the SM1000
+		Status: Implemented parallel configuration  RGB 09/27/14
 		
 63. [O] U3 (USB chip) is hot to touch, in normal operation and USB boot mode. 
     + same chip isn't hot on Discovery
@@ -319,16 +320,16 @@ renumber to correct for duplicate #31 RGB 9/8/14
 	Status: Open. Needs debug.	RGB 09/27/14
 	
 64.  [O] Found soldering little wires to the RJ45 patch panel unwieldy.  Is there a better way?   Also should we separate the grounds for mic/spkr/ptt to rig?  mic grounds often separate on rig connectors.
-	Status: could use thru hole part,but would require hand solderong - extra mfg operation		RGB 09/27/14
+	Status: could use thru hole part,but would require hand soldering - extra mfg operation		RGB 09/27/14
 	
 65.  [O] While debugging noise in "analog" mode (testing between two SSB radios):
-		[ ] load C55 & C56, both 1nF, reduced switcher noise
-		[ ] add 100nF across R40, also reduced switcher noise
-		[ ] add 100uF 6.3V electrolytic (or tant) across R40, this reduced 50Hz frame rate noise
+		[X] load C55 & C56, both 1nF, reduced switcher noise
+		[X] add 100nF across R40, also reduced switcher noise
+		[X] add 100uF 6.3V electrolytic (or tant) across R40, this reduced 50Hz frame rate noise
 		[ ] Microphone bypass network:
-		[ ] Add 100 ohm R in net between J3/R39
-        [ ] Change C32 to 100uF 6.3V electrolytic (or tant) and move to junction of 100 ohm/R39 to AVSS
-        [ ] add 100nF across 100uF C32
+		[X] Add 100 ohm R in net between J3/R39
+        [X] Change C32 to 100uF 6.3V electrolytic (or tant) and move to junction of 100 ohm/R39 to AVSS
+        [X] add 100nF across 100uF C32
 		Status: A lot of new parts!
 
 66. [X]	Change R48 to 10k, makes level adjustment on FT817 easier.  TBC on further radio testing.
@@ -340,7 +341,9 @@ renumber to correct for duplicate #31 RGB 9/8/14
                 plus diameter (molded part) as 9.8, 8.5, 9.4mm
 	Status: Need to talk about this.  RGB 09/27/14
 
-68. Pls add 480 ohm series resistors in series with BOOT0, select, and back nets.
+68. [X]	Pls add 480 ohm series resistors in series with BOOT0, select, and back nets.
+		Changed SW1 to NC. 480 Ohm not needed
+		
                 
 ======================================================================================================================================================================================
 The following should be added as items to list above & numbered. Too many places to look for possible changes. Also, there should be some means of showing resolution. RGB 09/27/14
