@@ -23,17 +23,17 @@
 <layer number="13" name="Route13" color="4" fill="5" visible="no" active="no"/>
 <layer number="14" name="Route14" color="1" fill="6" visible="no" active="no"/>
 <layer number="15" name="VDD" color="6" fill="1" visible="no" active="yes"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="yes"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
 <layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
 <layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="22" name="bPlace" color="7" fill="1" visible="no" active="yes"/>
+<layer number="22" name="bPlace" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="yes"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="25" name="tNames" color="7" fill="1" visible="yes" active="yes"/>
-<layer number="26" name="bNames" color="7" fill="1" visible="no" active="yes"/>
+<layer number="26" name="bNames" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="27" name="tValues" color="7" fill="1" visible="no" active="yes"/>
 <layer number="28" name="bValues" color="7" fill="1" visible="no" active="yes"/>
 <layer number="29" name="tStop" color="7" fill="3" visible="no" active="yes"/>
@@ -3056,8 +3056,8 @@ design rules under a new name.</description>
 <attribute name="NAME" x="62.2325" y="66.025" size="0.8128" layer="25" font="vector" ratio="10" rot="R90"/>
 <attribute name="VALUE" x="65.2875" y="64.775" size="1" layer="27" font="vector" ratio="10" rot="R90"/>
 </element>
-<element name="CN10" library="_RoweTel" package="MJ-3523-SMT" value="MJ-3523-SMT" x="16" y="8" smashed="yes" rot="MR270">
-<attribute name="NAME" x="12" y="8" size="1" layer="26" ratio="10" rot="MR270"/>
+<element name="CN10" library="_RoweTel" package="MJ-3523-SMT" value="MJ-3523-SMT" x="8" y="54.5" smashed="yes" rot="MR0">
+<attribute name="NAME" x="8" y="58.5" size="1" layer="26" ratio="10" rot="MR0"/>
 </element>
 <element name="R37" library="AA-ipc-7351-resistor" package="RESC1608X55N" value="2.2K,1%" x="44" y="66" locked="yes" smashed="yes" rot="R90">
 <attribute name="NAME" x="43.5" y="63.1" size="0.8128" layer="25"/>
@@ -3081,8 +3081,8 @@ design rules under a new name.</description>
 <element name="CN1" library="_Coherix" package="HDR100-3" value="HDR100-3" x="12" y="69.5" locked="yes" smashed="yes" rot="R270">
 <attribute name="NAME" x="10.83" y="71.64" size="0.8128" layer="25" ratio="10"/>
 </element>
-<element name="SW1" library="SM1000" package="SW-BOURNS-7914S" value="SW-BOURNS-7914S" x="2.5" y="61" smashed="yes" rot="R90">
-<attribute name="NAME" x="1.2" y="63.8" size="0.8128" layer="25" ratio="10"/>
+<element name="SW1" library="SM1000" package="SW-BOURNS-7914S" value="SW-BOURNS-7914S" x="2.5" y="62.5" smashed="yes" rot="MR90">
+<attribute name="NAME" x="3.8" y="65.3" size="0.8128" layer="26" ratio="10" rot="MR0"/>
 </element>
 <element name="R1" library="AA-ipc-7351-resistor" package="RESC1608X55N" value="10K,1%" x="15.5" y="62.5" locked="yes" smashed="yes">
 <attribute name="NAME" x="17.5" y="62.5" size="0.8128" layer="25"/>
@@ -3287,7 +3287,7 @@ design rules under a new name.</description>
 <contactref element="R2" pad="1"/>
 <contactref element="R5" pad="1"/>
 <contactref element="R3" pad="1"/>
-<wire x1="1.34" y1="62.47" x2="3.66" y2="62.47" width="0.2" layer="1"/>
+<wire x1="3.66" y1="63.97" x2="1.34" y2="63.97" width="0.2" layer="16"/>
 <polygon width="0.2" layer="15" isolate="0.3">
 <vertex x="1" y="89"/>
 <vertex x="46" y="89"/>
@@ -3422,8 +3422,8 @@ design rules under a new name.</description>
 <wire x1="60.58" y1="8" x2="63" y2="6" width="0.2" layer="2"/>
 <contactref element="R18" pad="2"/>
 <wire x1="22.2" y1="51.7" x2="24.13" y2="44.45" width="0" layer="19" extent="1-2"/>
-<wire x1="3.66" y1="62.47" x2="7.5" y2="62.5" width="0" layer="19" extent="1-1"/>
-<wire x1="-19.05" y1="43" x2="1.34" y2="62.47" width="0" layer="19" extent="1-1"/>
+<wire x1="1.34" y1="63.97" x2="7.5" y2="62.5" width="0" layer="19" extent="1-1"/>
+<wire x1="-19.05" y1="43" x2="3.66" y2="63.97" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="BOOT1">
 <contactref element="R6" pad="2"/>
@@ -3919,8 +3919,8 @@ design rules under a new name.</description>
 <wire x1="7" y1="61.5" x2="16" y2="61.5" width="0.2" layer="1"/>
 <wire x1="16" y1="61.5" x2="16.3" y2="61.8" width="0.2" layer="1"/>
 <wire x1="16.3" y1="61.8" x2="16.3" y2="62.5" width="0.2" layer="1"/>
-<wire x1="1.34" y1="59.53" x2="3.66" y2="59.53" width="0.2" layer="1"/>
-<wire x1="3.66" y1="59.53" x2="7" y2="61.5" width="0" layer="19" extent="1-1"/>
+<wire x1="3.66" y1="61.03" x2="1.34" y2="61.03" width="0.2" layer="16"/>
+<wire x1="1.34" y1="61.03" x2="7" y2="61.5" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$1">
 <contactref element="C14" pad="1"/>
@@ -4742,11 +4742,6 @@ design rules under a new name.</description>
 <wire x1="53" y1="79.5" x2="53.25" y2="79.75" width="0.2" layer="1"/>
 <wire x1="53.25" y1="79.75" x2="53.25" y2="80.2" width="0.2" layer="1"/>
 <contactref element="P20" pad="1"/>
-<wire x1="7" y1="59.07" x2="4.93" y2="57" width="0.4" layer="16"/>
-<wire x1="7.02" y1="59.07" x2="7" y2="59.07" width="0.4" layer="16"/>
-<wire x1="7.02" y1="59.07" x2="7.31" y2="59.36" width="0.4" layer="16"/>
-<wire x1="7.31" y1="59.36" x2="7.31" y2="59.86" width="0.4" layer="16"/>
-<wire x1="4.93" y1="57" x2="4.93" y2="54.16" width="0.4" layer="16"/>
 <contactref element="U5" pad="2"/>
 <contactref element="R34" pad="1"/>
 <contactref element="C46" pad="1"/>
@@ -4756,7 +4751,10 @@ design rules under a new name.</description>
 <contactref element="R21" pad="2"/>
 <contactref element="C25" pad="+"/>
 <wire x1="7.31" y1="59.86" x2="50.135" y2="78.635" width="0" layer="19" extent="1-1"/>
-<wire x1="5.55" y1="43.4" x2="4.93" y2="54.16" width="0" layer="19" extent="1-16"/>
+<wire x1="5.55" y1="43.4" x2="7.31" y2="59.86" width="0" layer="19" extent="1-1"/>
+<wire x1="7.05" y1="41.05" x2="5.55" y2="43.4" width="0" layer="19" extent="1-1"/>
+<wire x1="11" y1="40" x2="7.05" y2="41.05" width="0" layer="19" extent="1-1"/>
+<wire x1="1.9" y1="41.1" x2="5.55" y2="43.4" width="0" layer="19" extent="1-1"/>
 <wire x1="-13.55" y1="42" x2="1.9" y2="41.1" width="0" layer="19" extent="1-1"/>
 <wire x1="-16.45" y1="46.5" x2="-13.55" y2="42" width="0" layer="19" extent="1-1"/>
 </signal>
@@ -5151,7 +5149,7 @@ design rules under a new name.</description>
 <wire x1="46.2" y1="60.8" x2="47" y2="60" width="0.2" layer="1"/>
 <wire x1="47" y1="60" x2="47" y2="59.5" width="0.2" layer="1"/>
 <wire x1="47" y1="59.5" x2="48" y2="58.5" width="0.2" layer="1"/>
-<wire x1="12.4" y1="11.8" x2="54.15" y2="29.05" width="0" layer="19" extent="1-16"/>
+<wire x1="11.8" y1="58.1" x2="54.15" y2="29.05" width="0" layer="19" extent="1-16"/>
 </signal>
 <signal name="N$70">
 <contactref element="SW3" pad="3"/>
@@ -5160,7 +5158,7 @@ design rules under a new name.</description>
 <wire x1="5.5" y1="59.27" x2="5.5" y2="64.5" width="1.27" layer="16"/>
 <wire x1="5.5" y1="64.5" x2="4.75" y2="65.25" width="1.27" layer="16"/>
 <wire x1="4.75" y1="65.25" x2="4.75" y2="68.5" width="1.27" layer="16"/>
-<wire x1="5.5" y1="59.27" x2="3" y2="56.77" width="1.27" layer="16"/>
+<wire x1="5.5" y1="59.27" x2="3" y2="56.77" width="0" layer="19" extent="1-16"/>
 <contactref element="R21" pad="1"/>
 <wire x1="-15.45" y1="42" x2="3" y2="56.77" width="0" layer="19" extent="1-16"/>
 </signal>
