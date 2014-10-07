@@ -5055,7 +5055,7 @@ http://www.weartronics.com/</description>
 <part name="C61" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
 <part name="U$20" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="R56" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="2.2K,1%"/>
-<part name="R57" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="480,1%"/>
+<part name="R57" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="470,1%"/>
 <part name="FB7" library="_RoweTel" deviceset="FB0805" device=""/>
 <part name="R58" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="2.2K,1%"/>
 <part name="C62" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
