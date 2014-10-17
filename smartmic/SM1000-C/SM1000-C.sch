@@ -4124,7 +4124,7 @@ http://www.weartronics.com/</description>
 <part name="B-FRAME3" library="_RoweTel" deviceset="GENERICL-B-SIZE" device=""/>
 <part name="B-FRAME2" library="_RoweTel" deviceset="GENERICL-B-SIZE" device=""/>
 <part name="CN2" library="SM1000" deviceset="MOLEX-MINI-B-SMT" device=""/>
-<part name="PCB1" library="_Coherix" deviceset="PCB" device="" value="SM1000A"/>
+<part name="PCB1" library="_Coherix" deviceset="PCB" device="" value="SM1000C"/>
 <part name="V1" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="R47" library="_RoweTel" deviceset="TRIMPOT91" device="" value="500"/>
 <part name="R52" library="_RoweTel" deviceset="TRIMPOT91" device="" value="1K"/>
@@ -4391,6 +4391,12 @@ http://www.weartronics.com/</description>
 <text x="370.84" y="264.16" size="1.4224" layer="94" ratio="10">Release For  Production</text>
 <text x="421.64" y="264.16" size="1.4224" layer="94" ratio="10">C</text>
 <text x="426.72" y="264.16" size="1.4224" layer="94" ratio="10">RGB</text>
+<wire x1="355.6" y1="264.16" x2="355.6" y2="218.44" width="0.1524" layer="94"/>
+<wire x1="369.57" y1="264.414" x2="369.57" y2="218.44" width="0.1524" layer="94"/>
+<wire x1="414.02" y1="264.16" x2="414.02" y2="218.44" width="0.1524" layer="94"/>
+<wire x1="420.116" y1="263.906" x2="420.37" y2="263.906" width="0.1524" layer="94"/>
+<wire x1="420.37" y1="263.906" x2="420.37" y2="218.44" width="0.1524" layer="94"/>
+<wire x1="425.45" y1="263.906" x2="425.45" y2="218.186" width="0.1524" layer="94"/>
 </plain>
 <instances>
 <instance part="U4" gate="G$1" x="254" y="25.4"/>
@@ -5680,8 +5686,8 @@ http://www.weartronics.com/</description>
 </segment>
 <segment>
 <pinref part="R26" gate="G$1" pin="1"/>
-<wire x1="203.2" y1="76.2" x2="193.04" y2="76.2" width="0.1524" layer="91"/>
-<label x="193.04" y="76.708" size="1.4224" layer="95" ratio="10"/>
+<wire x1="203.2" y1="76.2" x2="190.5" y2="76.2" width="0.1524" layer="91"/>
+<label x="190.5" y="76.708" size="1.4224" layer="95" ratio="10"/>
 </segment>
 </net>
 <net name="AIN2" class="0">
