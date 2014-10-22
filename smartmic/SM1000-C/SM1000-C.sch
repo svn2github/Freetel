@@ -3945,11 +3945,11 @@ http://www.weartronics.com/</description>
 <part name="V5" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V7" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V8" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="C21" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="10nF,16V"/>
+<part name="C21" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="10nF,16V,0402"/>
 <part name="C20" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
-<part name="C19" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="10nF,16V"/>
+<part name="C19" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="10nF,16V,0402"/>
 <part name="C18" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
-<part name="C17" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="10nF,16V"/>
+<part name="C17" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="10nF,16V,0402"/>
 <part name="C16" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
 <part name="V9" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="R31" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0805" value="0 Ohm"/>
@@ -3978,7 +3978,7 @@ http://www.weartronics.com/</description>
 <part name="U2" library="_RoweTel" deviceset="LD3985" device="" value="LD3985M33R"/>
 <part name="V27" library="A-SUPPLY2" deviceset="+5V" device=""/>
 <part name="C5" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="1uF,16V"/>
-<part name="C8" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="10nF,16V"/>
+<part name="C8" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="10nF,16V,0402"/>
 <part name="C4" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
 <part name="V29" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V30" library="A-SUPPLY2" deviceset="GND" device=""/>
@@ -4035,7 +4035,7 @@ http://www.weartronics.com/</description>
 <part name="V54" library="A-SUPPLY2" deviceset="+5V" device=""/>
 <part name="V55" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V56" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="C34" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="1nF,25V"/>
+<part name="C34" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="1nF,25V,0402"/>
 <part name="R58" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="2.2K,1%"/>
 <part name="R40" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="2.2K,1%"/>
 <part name="V59" library="A-SUPPLY2" deviceset="GND" device=""/>
@@ -4140,7 +4140,7 @@ http://www.weartronics.com/</description>
 <part name="U$1" library="A-SUPPLY2" deviceset="+VIN" device=""/>
 <part name="V71" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="C52" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
-<part name="C53" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="10nF,16V"/>
+<part name="C53" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="10nF,16V,0402"/>
 <part name="V112" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V113" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V114" library="A-SUPPLY2" deviceset="VDD" device=""/>
@@ -4196,7 +4196,7 @@ http://www.weartronics.com/</description>
 <part name="V121" library="A-SUPPLY2" deviceset="VDD" device=""/>
 <part name="V123" library="A-SUPPLY2" deviceset="+5V" device=""/>
 <part name="U$3" library="A-SUPPLY2" deviceset="+VIN" device=""/>
-<part name="C1" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="1nF,25V"/>
+<part name="C1" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="1nF,25V,0402"/>
 <part name="V118" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="C30" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="10nF,25V"/>
 <part name="V122" library="A-SUPPLY2" deviceset="GND" device=""/>
@@ -4207,8 +4207,8 @@ http://www.weartronics.com/</description>
 <part name="FB7" library="_RoweTel" deviceset="FB0805" device=""/>
 <part name="R55" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0805" value="0 Ohm"/>
 <part name="R54" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0805" value="0 Ohm"/>
-<part name="C55" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="1nF,25V"/>
-<part name="C56" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="1nF,25V"/>
+<part name="C55" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="1nF,25V,0402"/>
+<part name="C56" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="1nF,25V,0402"/>
 <part name="V125" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V126" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="R57" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="470,1%"/>
@@ -4237,7 +4237,7 @@ http://www.weartronics.com/</description>
 <part name="C60" library="_RoweTel" deviceset="CAP-CHEMI-MVE-HA0" device="" value="220uF,25V"/>
 <part name="V130" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="R39" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="1206" value="4.7,0.5W,1206"/>
-<part name="C57" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="3.9nF,16V"/>
+<part name="C57" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="3.9nF,16V,0402"/>
 <part name="V131" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="R22" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="22.1K,1%"/>
 <part name="V132" library="A-SUPPLY2" deviceset="GND" device=""/>
@@ -4477,7 +4477,7 @@ http://www.weartronics.com/</description>
 </instance>
 <instance part="C8" gate="G$1" x="256.54" y="139.7" smashed="yes" rot="R270">
 <attribute name="NAME" x="248.92" y="137.16" size="1.4224" layer="95" ratio="9"/>
-<attribute name="VALUE" x="246.38" y="134.62" size="1.4224" layer="96" ratio="9"/>
+<attribute name="VALUE" x="241.3" y="134.62" size="1.4224" layer="96" ratio="9"/>
 </instance>
 <instance part="C4" gate="G$1" x="266.7" y="149.86" smashed="yes" rot="R270">
 <attribute name="NAME" x="266.7" y="160.02" size="1.4224" layer="95" ratio="9"/>
@@ -4740,12 +4740,12 @@ http://www.weartronics.com/</description>
 <attribute name="VALUE" x="86.614" y="204.978" size="1.4224" layer="96" ratio="9"/>
 </instance>
 <instance part="C55" gate="G$1" x="76.2" y="226.06" smashed="yes" rot="R270">
-<attribute name="NAME" x="78.74" y="228.6" size="1.4224" layer="95" ratio="9" rot="R90"/>
-<attribute name="VALUE" x="71.12" y="220.98" size="1.4224" layer="96" ratio="9" rot="R90"/>
+<attribute name="NAME" x="73.66" y="231.14" size="1.4224" layer="95" ratio="9" rot="R270"/>
+<attribute name="VALUE" x="71.12" y="228.6" size="1.4224" layer="96" ratio="9" rot="R270"/>
 </instance>
 <instance part="C56" gate="G$1" x="86.36" y="226.06" smashed="yes" rot="R270">
-<attribute name="NAME" x="88.9" y="228.6" size="1.4224" layer="95" ratio="9" rot="R90"/>
-<attribute name="VALUE" x="83.82" y="220.98" size="1.4224" layer="96" ratio="9" rot="R90"/>
+<attribute name="NAME" x="83.82" y="231.14" size="1.4224" layer="95" ratio="9" rot="R270"/>
+<attribute name="VALUE" x="81.28" y="228.6" size="1.4224" layer="96" ratio="9" rot="R270"/>
 </instance>
 <instance part="V125" gate="GND" x="76.2" y="215.9"/>
 <instance part="V126" gate="GND" x="86.36" y="215.9"/>
@@ -6431,7 +6431,7 @@ http://www.weartronics.com/</description>
 <instance part="P4" gate="G$1" x="160.02" y="127" rot="R180"/>
 <instance part="C1" gate="G$1" x="111.76" y="251.46" smashed="yes" rot="R90">
 <attribute name="NAME" x="106.68" y="246.38" size="1.4224" layer="95"/>
-<attribute name="VALUE" x="104.14" y="243.84" size="1.4224" layer="96"/>
+<attribute name="VALUE" x="99.06" y="243.84" size="1.4224" layer="96"/>
 </instance>
 <instance part="V118" gate="GND" x="111.76" y="241.3" smashed="yes">
 <attribute name="VALUE" x="109.22" y="237.998" size="1.4224" layer="96" ratio="9"/>
