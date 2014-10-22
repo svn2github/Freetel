@@ -408,6 +408,14 @@ message(STATUS "Build type will be: ${CMAKE_BUILD_TYPE}")
 # Cpack NSIS configuration for Windows.
 #
 if(WIN32)
+    # Detect if we're doing a 32-bit or 64-bit windows build.
+    if(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+        set(CMAKE_CL_64 TRUE)
+    endif()
+    if(NOT ${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+        set(CPACK_STRIP_FILES TRUE)
+    endif()
+
     configure_file(cmake/GetDependencies.cmake.in cmake/GetDependencies.cmake
         @ONLY
     )
