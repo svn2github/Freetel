@@ -486,20 +486,19 @@ INFINEON, www.infineon.com/cmc_upload/0/000/010/257/eh_db_5b.pdf</description>
 <wire x1="-1.7" y1="-2.2" x2="-1.7" y2="2.2" width="0" layer="39"/>
 <rectangle x1="-1.4" y1="-0.4" x2="-0.9" y2="0" layer="21"/>
 </package>
-<package name="POT3361">
-<smd name="2" x="0" y="3.2" dx="3.3" dy="1.19" layer="1" rot="R90"/>
-<smd name="1" x="-2.54" y="-3.2" dx="3.3" dy="1.19" layer="1" rot="R90"/>
-<smd name="3" x="2.54" y="-3.2" dx="3.3" dy="1.19" layer="1" rot="R90"/>
-<wire x1="-1.5" y1="-3.52" x2="1.5" y2="-3.52" width="0.15" layer="21"/>
-<wire x1="-3.3" y1="3.5" x2="-1" y2="3.5" width="0.15" layer="21"/>
-<wire x1="-3.35" y1="3.5" x2="-3.35" y2="-1" width="0.15" layer="21"/>
-<wire x1="3.35" y1="3.5" x2="3.35" y2="-0.85" width="0.15" layer="21"/>
-<wire x1="1.1" y1="3.5" x2="3.3" y2="3.5" width="0.15" layer="21"/>
-<text x="-3" y="5.5" size="1" layer="25" ratio="10">&gt;NAME</text>
-<wire x1="-4" y1="-5.5" x2="-4" y2="5.5" width="0" layer="39"/>
-<wire x1="-4" y1="5.5" x2="4" y2="5.5" width="0" layer="39"/>
-<wire x1="4" y1="5.5" x2="4" y2="-5.5" width="0" layer="39"/>
-<wire x1="4" y1="-5.5" x2="-4" y2="-5.5" width="0" layer="39"/>
+<package name="PAN-EVM1D">
+<smd name="2" x="0" y="1.95" dx="2.4" dy="1.1" layer="1"/>
+<smd name="1" x="-1.45" y="-1.85" dx="1.5" dy="1.3" layer="1" rot="R90"/>
+<smd name="3" x="1.45" y="-1.85" dx="1.5" dy="1.3" layer="1" rot="R90"/>
+<wire x1="-2.3" y1="2.8" x2="2.3" y2="2.8" width="0.15" layer="21"/>
+<wire x1="2.3" y1="2.8" x2="2.3" y2="-2.9" width="0.15" layer="21"/>
+<wire x1="2.3" y1="-2.9" x2="-2.3" y2="-2.9" width="0.15" layer="21"/>
+<wire x1="-2.3" y1="-2.9" x2="-2.3" y2="2.8" width="0.15" layer="21"/>
+<wire x1="-2.5" y1="3" x2="2.5" y2="3" width="0" layer="39"/>
+<wire x1="2.5" y1="3" x2="2.5" y2="-3" width="0" layer="39"/>
+<wire x1="2.5" y1="-3" x2="-2.5" y2="-3" width="0" layer="39"/>
+<wire x1="-2.5" y1="-3" x2="-2.5" y2="3" width="0" layer="39"/>
+<text x="-2" y="3.5" size="0.8128" layer="25" ratio="10">&gt;NAME</text>
 </package>
 <package name="FE0805">
 <smd name="1" x="-0.975" y="0" dx="1.47" dy="1.28" layer="1" rot="R90"/>
@@ -742,6 +741,33 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <wire x1="-10.1" y1="-2.1" x2="1.6" y2="-2.1" width="0" layer="39"/>
 <wire x1="1.6" y1="-2.1" x2="1.6" y2="-5" width="0" layer="39"/>
 <wire x1="1.6" y1="-5" x2="6.5" y2="-5" width="0" layer="39"/>
+</package>
+<package name="HRS-A3C-16DA">
+<wire x1="-8" y1="2" x2="8" y2="2" width="0.15" layer="21"/>
+<wire x1="8" y1="2" x2="8" y2="-2" width="0.15" layer="21"/>
+<wire x1="8" y1="-2" x2="-8" y2="-2" width="0.15" layer="21"/>
+<wire x1="-8" y1="-2" x2="-8" y2="2" width="0.15" layer="21"/>
+<pad name="1" x="-7" y="-1" drill="0.7" shape="square"/>
+<pad name="2" x="-5" y="-1" drill="0.7"/>
+<pad name="3" x="-3" y="-1" drill="0.7"/>
+<pad name="4" x="-1" y="-1" drill="0.7"/>
+<pad name="5" x="1" y="-1" drill="0.7"/>
+<pad name="6" x="3" y="-1" drill="0.7"/>
+<pad name="7" x="5" y="-1" drill="0.7"/>
+<pad name="8" x="7" y="-1" drill="0.7"/>
+<pad name="9" x="7" y="1" drill="0.7"/>
+<pad name="10" x="5" y="1" drill="0.7"/>
+<pad name="11" x="3" y="1" drill="0.7"/>
+<pad name="12" x="1" y="1" drill="0.7"/>
+<pad name="13" x="-1" y="1" drill="0.7"/>
+<pad name="14" x="-3" y="1" drill="0.7"/>
+<pad name="15" x="-5" y="1" drill="0.7"/>
+<pad name="16" x="-7" y="1" drill="0.7"/>
+<wire x1="-8.5" y1="2.5" x2="8.5" y2="2.5" width="0" layer="39"/>
+<wire x1="8.5" y1="2.5" x2="8.5" y2="-2.5" width="0" layer="39"/>
+<wire x1="8.5" y1="-2.5" x2="-8.5" y2="-2.5" width="0" layer="39"/>
+<wire x1="-8.5" y1="-2.5" x2="-8.5" y2="2.5" width="0" layer="39"/>
+<text x="-8.5" y="3" size="0.8128" layer="25" ratio="10">&gt;NAME</text>
 </package>
 </packages>
 <symbols>
@@ -1225,6 +1251,31 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <text x="-15.24" y="10.16" size="1.4224" layer="95" ratio="10">&gt;NAME</text>
 <text x="-15.24" y="-12.7" size="1.4224" layer="95" ratio="10">&gt;VALUE</text>
 </symbol>
+<symbol name="HRS-A3C-16DA">
+<pin name="1" x="7.62" y="-7.62" visible="pad" length="short" rot="R180"/>
+<pin name="2" x="7.62" y="-5.08" visible="pad" length="short" rot="R180"/>
+<pin name="3" x="7.62" y="-2.54" visible="pad" length="short" rot="R180"/>
+<pin name="4" x="7.62" y="0" visible="pad" length="short" rot="R180"/>
+<pin name="5" x="7.62" y="2.54" visible="pad" length="short" rot="R180"/>
+<pin name="6" x="7.62" y="5.08" visible="pad" length="short" rot="R180"/>
+<pin name="7" x="7.62" y="7.62" visible="pad" length="short" rot="R180"/>
+<pin name="8" x="7.62" y="10.16" visible="pad" length="short" rot="R180"/>
+<pin name="9" x="-7.62" y="10.16" visible="pad" length="short"/>
+<pin name="10" x="-7.62" y="7.62" visible="pad" length="short"/>
+<pin name="11" x="-7.62" y="5.08" visible="pad" length="short"/>
+<pin name="12" x="-7.62" y="2.54" visible="pad" length="short"/>
+<pin name="13" x="-7.62" y="0" visible="pad" length="short"/>
+<pin name="14" x="-7.62" y="-2.54" visible="pad" length="short"/>
+<pin name="15" x="-7.62" y="-5.08" visible="pad" length="short"/>
+<pin name="P16" x="-7.62" y="-7.62" visible="pad" length="short"/>
+<wire x1="-5.08" y1="12.7" x2="5.08" y2="12.7" width="0.1524" layer="94"/>
+<wire x1="5.08" y1="12.7" x2="5.08" y2="-10.16" width="0.1524" layer="94"/>
+<wire x1="5.08" y1="-10.16" x2="-5.08" y2="-10.16" width="0.1524" layer="94"/>
+<wire x1="-5.08" y1="-10.16" x2="-5.08" y2="12.7" width="0.1524" layer="94"/>
+<circle x="2.54" y="-7.62" radius="1.016" width="0" layer="94"/>
+<text x="-5.08" y="13.716" size="1.778" layer="95" ratio="10">&gt;NAME</text>
+<text x="-5.08" y="-12.7" size="1.778" layer="96" ratio="10">&gt;VALUE</text>
+</symbol>
 </symbols>
 <devicesets>
 <deviceset name="CAP-CHEMI-MVE-HA0" prefix="C">
@@ -1441,12 +1492,12 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 </device>
 </devices>
 </deviceset>
-<deviceset name="POT3361" prefix="R">
+<deviceset name="PAN-EVM1D" prefix="R">
 <gates>
 <gate name="G$1" symbol="POT" x="0" y="0"/>
 </gates>
 <devices>
-<device name="" package="POT3361">
+<device name="" package="PAN-EVM1D">
 <connects>
 <connect gate="G$1" pin="1" pad="1"/>
 <connect gate="G$1" pin="2" pad="2"/>
@@ -1654,6 +1705,36 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <connect gate="G$1" pin="C" pad="C"/>
 <connect gate="G$1" pin="D" pad="D"/>
 <connect gate="G$1" pin="E" pad="F"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="HRS-A3C-16DA" prefix="CN">
+<gates>
+<gate name="G$1" symbol="HRS-A3C-16DA" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="HRS-A3C-16DA">
+<connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="10" pad="10"/>
+<connect gate="G$1" pin="11" pad="11"/>
+<connect gate="G$1" pin="12" pad="12"/>
+<connect gate="G$1" pin="13" pad="13"/>
+<connect gate="G$1" pin="14" pad="14"/>
+<connect gate="G$1" pin="15" pad="15"/>
+<connect gate="G$1" pin="2" pad="2"/>
+<connect gate="G$1" pin="3" pad="3"/>
+<connect gate="G$1" pin="4" pad="4"/>
+<connect gate="G$1" pin="5" pad="5"/>
+<connect gate="G$1" pin="6" pad="6"/>
+<connect gate="G$1" pin="7" pad="7"/>
+<connect gate="G$1" pin="8" pad="8"/>
+<connect gate="G$1" pin="9" pad="9"/>
+<connect gate="G$1" pin="P16" pad="16"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -2386,34 +2467,6 @@ by exp-lbrs.ulp</description>
 <rectangle x1="-1.6" y1="-1.25" x2="-1.095" y2="1.25" layer="51"/>
 <rectangle x1="1.095" y1="-1.25" x2="1.6" y2="1.25" layer="51"/>
 </package>
-<package name="HRS-DF11-16DS">
-<pad name="1" x="-1" y="7" drill="0.8" shape="square"/>
-<pad name="2" x="-1" y="5" drill="0.8"/>
-<pad name="3" x="-1" y="3" drill="0.8"/>
-<pad name="4" x="-1" y="1" drill="0.8"/>
-<pad name="5" x="-1" y="-1" drill="0.8"/>
-<pad name="6" x="-1" y="-3" drill="0.8"/>
-<pad name="7" x="-1" y="-5" drill="0.8"/>
-<pad name="8" x="-1" y="-7" drill="0.8"/>
-<pad name="9" x="1" y="-7" drill="0.8"/>
-<pad name="10" x="1" y="-5" drill="0.8"/>
-<pad name="11" x="1" y="-3" drill="0.8"/>
-<pad name="12" x="1" y="-1" drill="0.8"/>
-<pad name="13" x="1" y="1" drill="0.8"/>
-<pad name="14" x="1" y="3" drill="0.8"/>
-<pad name="15" x="1" y="5" drill="0.8"/>
-<pad name="16" x="1" y="7" drill="0.8"/>
-<wire x1="-2.5" y1="9" x2="-2.5" y2="-9" width="0.15" layer="21"/>
-<wire x1="-2.5" y1="-9" x2="2.5" y2="-9" width="0.15" layer="21"/>
-<wire x1="2.5" y1="-9" x2="2.5" y2="9" width="0.15" layer="21"/>
-<wire x1="2.5" y1="9" x2="-2.5" y2="9" width="0.15" layer="21"/>
-<rectangle x1="-2.5" y1="8" x2="-1.5" y2="9" layer="21"/>
-<text x="-2.5" y="9.5" size="1" layer="21" ratio="10">&gt;NAME</text>
-<wire x1="-3" y1="9.5" x2="-3" y2="-9.5" width="0" layer="39"/>
-<wire x1="-3" y1="-9.5" x2="3" y2="-9.5" width="0" layer="39"/>
-<wire x1="3" y1="-9.5" x2="3" y2="9.5" width="0" layer="39"/>
-<wire x1="3" y1="9.5" x2="-3" y2="9.5" width="0" layer="39"/>
-</package>
 <package name="SW-BOURNS-7914J">
 <smd name="4" x="1.27" y="1.9" dx="1.78" dy="1.27" layer="1" rot="R90"/>
 <smd name="1" x="-1.27" y="1.9" dx="1.78" dy="1.27" layer="1" rot="R90"/>
@@ -2574,38 +2627,6 @@ by exp-lbrs.ulp</description>
 <pin name="2" x="0" y="-5.08" visible="off" length="short" direction="pas" swaplevel="1" rot="R90"/>
 <text x="1.016" y="0.635" size="1.4224" layer="95" ratio="9">&gt;NAME</text>
 <text x="1.016" y="-4.064" size="1.4224" layer="96" ratio="9">&gt;VALUE</text>
-</symbol>
-<symbol name="HRS-DF11-16DS">
-<pin name="1" x="-7.62" y="7.62" visible="pad" length="short"/>
-<pin name="2" x="-7.62" y="5.08" visible="pad" length="short"/>
-<pin name="3" x="-7.62" y="2.54" visible="pad" length="short"/>
-<pin name="4" x="-7.62" y="0" visible="pad" length="short"/>
-<pin name="5" x="-7.62" y="-2.54" visible="pad" length="short"/>
-<pin name="6" x="-7.62" y="-5.08" visible="pad" length="short"/>
-<pin name="7" x="-7.62" y="-7.62" visible="pad" length="short"/>
-<pin name="8" x="-7.62" y="-10.16" visible="pad" length="short"/>
-<pin name="9" x="7.62" y="-10.16" visible="pad" length="short" rot="R180"/>
-<pin name="10" x="7.62" y="-7.62" visible="pad" length="short" rot="R180"/>
-<pin name="11" x="7.62" y="-5.08" visible="pad" length="short" rot="R180"/>
-<pin name="12" x="7.62" y="-2.54" visible="pad" length="short" rot="R180"/>
-<pin name="13" x="7.62" y="0" visible="pad" length="short" rot="R180"/>
-<pin name="14" x="7.62" y="2.54" visible="pad" length="short" rot="R180"/>
-<pin name="15" x="7.62" y="5.08" visible="pad" length="short" rot="R180"/>
-<pin name="16" x="7.62" y="7.62" visible="pad" length="short" rot="R180"/>
-<wire x1="-5.08" y1="10.16" x2="-5.08" y2="8.89" width="0.1524" layer="94"/>
-<wire x1="-5.08" y1="8.89" x2="-5.08" y2="8.382" width="0.1524" layer="94"/>
-<wire x1="-5.08" y1="8.382" x2="-5.08" y2="6.35" width="0.1524" layer="94"/>
-<wire x1="-5.08" y1="6.35" x2="-5.08" y2="-12.7" width="0.1524" layer="94"/>
-<wire x1="-5.08" y1="-12.7" x2="5.08" y2="-12.7" width="0.1524" layer="94"/>
-<wire x1="5.08" y1="-12.7" x2="5.08" y2="10.16" width="0.1524" layer="94"/>
-<wire x1="5.08" y1="10.16" x2="-5.08" y2="10.16" width="0.1524" layer="94"/>
-<polygon width="0" layer="94">
-<vertex x="-4.826" y="8.89"/>
-<vertex x="-2.54" y="7.62"/>
-<vertex x="-4.826" y="6.35"/>
-</polygon>
-<text x="-5.08" y="12.7" size="1.27" layer="95" ratio="10">&gt;NAME</text>
-<text x="-5.08" y="-15.24" size="1.27" layer="96" ratio="10">&gt;VALUE</text>
 </symbol>
 <symbol name="SW-BOURNS-7914S">
 <pin name="P$1" x="-5.08" y="2.54" visible="pad" length="short" direction="pas"/>
@@ -2779,36 +2800,6 @@ by exp-lbrs.ulp</description>
 <connects>
 <connect gate="G$1" pin="1" pad="1"/>
 <connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="HRS-DF11-16DS" prefix="CN">
-<gates>
-<gate name="G$1" symbol="HRS-DF11-16DS" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="HRS-DF11-16DS">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="10" pad="10"/>
-<connect gate="G$1" pin="11" pad="11"/>
-<connect gate="G$1" pin="12" pad="12"/>
-<connect gate="G$1" pin="13" pad="13"/>
-<connect gate="G$1" pin="14" pad="14"/>
-<connect gate="G$1" pin="15" pad="15"/>
-<connect gate="G$1" pin="16" pad="16"/>
-<connect gate="G$1" pin="2" pad="2"/>
-<connect gate="G$1" pin="3" pad="3"/>
-<connect gate="G$1" pin="4" pad="4"/>
-<connect gate="G$1" pin="5" pad="5"/>
-<connect gate="G$1" pin="6" pad="6"/>
-<connect gate="G$1" pin="7" pad="7"/>
-<connect gate="G$1" pin="8" pad="8"/>
-<connect gate="G$1" pin="9" pad="9"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -4055,7 +4046,6 @@ http://www.weartronics.com/</description>
 <part name="R33" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="2.2K,1%"/>
 <part name="LED8" library="_Coherix" deviceset="LTST-C" device="" value="LED-RED,RA"/>
 <part name="V58" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="CN12" library="SM1000" deviceset="HRS-DF11-16DS" device="" value="DF11-16DS"/>
 <part name="LD2" library="_RoweTel" deviceset="LTV-817S" device=""/>
 <part name="R51" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="390,1%"/>
 <part name="V74" library="A-SUPPLY2" deviceset="VDD" device=""/>
@@ -4087,8 +4077,8 @@ http://www.weartronics.com/</description>
 <part name="CN2" library="SM1000" deviceset="MOLEX-MINI-B-SMT" device=""/>
 <part name="PCB1" library="_Coherix" deviceset="PCB" device="" value="SM1000C"/>
 <part name="V1" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="R47" library="_RoweTel" deviceset="POT3361" device="" value="500,POT"/>
-<part name="R52" library="_RoweTel" deviceset="POT3361" device="" value="1K,POT"/>
+<part name="R47" library="_RoweTel" deviceset="PAN-EVM1D" device="" value="500,POT"/>
+<part name="R52" library="_RoweTel" deviceset="PAN-EVM1D" device="" value="1K,POT"/>
 <part name="C22" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
 <part name="C23" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,25V"/>
 <part name="C41" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
@@ -4123,7 +4113,7 @@ http://www.weartronics.com/</description>
 <part name="C29" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="1210" value="22uF,25V,1210"/>
 <part name="U9" library="_RoweTel" deviceset="LMV341" device=""/>
 <part name="R41" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="2.2K,1%"/>
-<part name="R42" library="_RoweTel" deviceset="POT3361" device="" value="500K,POT"/>
+<part name="R42" library="_RoweTel" deviceset="PAN-EVM1D" device="" value="500K,POT"/>
 <part name="V62" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="R53" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="2.2K,1%"/>
 <part name="V91" library="A-SUPPLY2" deviceset="GND" device=""/>
@@ -4282,6 +4272,7 @@ http://www.weartronics.com/</description>
 <part name="CN8" library="_RoweTel" deviceset="ST-3509" device=""/>
 <part name="CN9" library="_RoweTel" deviceset="ST-3509" device=""/>
 <part name="CN10" library="_RoweTel" deviceset="ST-3509" device=""/>
+<part name="CN12" library="_RoweTel" deviceset="HRS-A3C-16DA" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -6157,10 +6148,6 @@ http://www.weartronics.com/</description>
 <instance part="V58" gate="GND" x="248.92" y="218.44" smashed="yes">
 <attribute name="VALUE" x="246.38" y="215.138" size="1.4224" layer="96" ratio="9"/>
 </instance>
-<instance part="CN12" gate="G$1" x="317.5" y="180.34" smashed="yes" rot="R180">
-<attribute name="NAME" x="322.58" y="167.64" size="1.4224" layer="95" ratio="10" rot="R180"/>
-<attribute name="VALUE" x="322.58" y="195.58" size="1.4224" layer="96" ratio="10" rot="R180"/>
-</instance>
 <instance part="LD2" gate="G$1" x="279.4" y="60.96" smashed="yes">
 <attribute name="NAME" x="272.415" y="66.675" size="1.778" layer="95"/>
 <attribute name="VALUE" x="272.415" y="53.34" size="1.778" layer="96"/>
@@ -6247,8 +6234,8 @@ http://www.weartronics.com/</description>
 <attribute name="VALUE" x="274.32" y="101.6" size="1.4224" layer="96" ratio="9" rot="MR270"/>
 </instance>
 <instance part="R52" gate="G$1" x="264.16" y="142.24" smashed="yes" rot="R180">
-<attribute name="NAME" x="256.54" y="137.16" size="1.4224" layer="95" ratio="9"/>
-<attribute name="VALUE" x="256.54" y="134.62" size="1.4224" layer="96" ratio="9"/>
+<attribute name="NAME" x="259.08" y="152.4" size="1.4224" layer="95" ratio="9"/>
+<attribute name="VALUE" x="259.08" y="154.94" size="1.4224" layer="96" ratio="9"/>
 </instance>
 <instance part="C22" gate="G$1" x="124.46" y="175.26" smashed="yes" rot="R270">
 <attribute name="NAME" x="109.22" y="170.18" size="1.4224" layer="95"/>
@@ -6622,6 +6609,10 @@ http://www.weartronics.com/</description>
 <attribute name="VALUE" x="340.36" y="66.04" size="1.4224" layer="95" ratio="10"/>
 </instance>
 <instance part="CN10" gate="G$1" x="307.34" y="228.6" rot="MR180"/>
+<instance part="CN12" gate="G$1" x="317.5" y="180.34" smashed="yes">
+<attribute name="NAME" x="312.42" y="194.056" size="1.4224" layer="95" ratio="10"/>
+<attribute name="VALUE" x="312.42" y="167.64" size="1.4224" layer="96" ratio="10"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -7104,58 +7095,58 @@ http://www.weartronics.com/</description>
 </net>
 <net name="N$51" class="0">
 <segment>
-<pinref part="CN12" gate="G$1" pin="8"/>
 <pinref part="CN4" gate="G$1" pin="8"/>
 <wire x1="327.66" y1="190.5" x2="325.12" y2="190.5" width="0.1524" layer="91"/>
+<pinref part="CN12" gate="G$1" pin="8"/>
 </segment>
 </net>
 <net name="N$52" class="0">
 <segment>
-<pinref part="CN12" gate="G$1" pin="7"/>
 <pinref part="CN4" gate="G$1" pin="7"/>
 <wire x1="327.66" y1="187.96" x2="325.12" y2="187.96" width="0.1524" layer="91"/>
+<pinref part="CN12" gate="G$1" pin="7"/>
 </segment>
 </net>
 <net name="N$53" class="0">
 <segment>
-<pinref part="CN12" gate="G$1" pin="6"/>
 <pinref part="CN4" gate="G$1" pin="6"/>
 <wire x1="327.66" y1="185.42" x2="325.12" y2="185.42" width="0.1524" layer="91"/>
+<pinref part="CN12" gate="G$1" pin="6"/>
 </segment>
 </net>
 <net name="N$54" class="0">
 <segment>
-<pinref part="CN12" gate="G$1" pin="5"/>
 <pinref part="CN4" gate="G$1" pin="5"/>
 <wire x1="327.66" y1="182.88" x2="325.12" y2="182.88" width="0.1524" layer="91"/>
+<pinref part="CN12" gate="G$1" pin="5"/>
 </segment>
 </net>
 <net name="N$55" class="0">
 <segment>
-<pinref part="CN12" gate="G$1" pin="4"/>
 <pinref part="CN4" gate="G$1" pin="4"/>
 <wire x1="327.66" y1="180.34" x2="325.12" y2="180.34" width="0.1524" layer="91"/>
+<pinref part="CN12" gate="G$1" pin="4"/>
 </segment>
 </net>
 <net name="N$56" class="0">
 <segment>
-<pinref part="CN12" gate="G$1" pin="3"/>
 <pinref part="CN4" gate="G$1" pin="3"/>
 <wire x1="327.66" y1="177.8" x2="325.12" y2="177.8" width="0.1524" layer="91"/>
+<pinref part="CN12" gate="G$1" pin="3"/>
 </segment>
 </net>
 <net name="N$57" class="0">
 <segment>
-<pinref part="CN12" gate="G$1" pin="2"/>
 <pinref part="CN4" gate="G$1" pin="2"/>
 <wire x1="327.66" y1="175.26" x2="325.12" y2="175.26" width="0.1524" layer="91"/>
+<pinref part="CN12" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="N$58" class="0">
 <segment>
-<pinref part="CN12" gate="G$1" pin="1"/>
 <pinref part="CN4" gate="G$1" pin="1"/>
 <wire x1="327.66" y1="172.72" x2="325.12" y2="172.72" width="0.1524" layer="91"/>
+<pinref part="CN12" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="MIC" class="0">
@@ -7164,11 +7155,11 @@ http://www.weartronics.com/</description>
 <wire x1="297.18" y1="154.94" x2="294.64" y2="154.94" width="0.1524" layer="91"/>
 <wire x1="294.64" y1="154.94" x2="294.64" y2="157.48" width="0.1524" layer="91"/>
 <wire x1="294.64" y1="157.48" x2="294.64" y2="175.26" width="0.1524" layer="91"/>
-<pinref part="CN12" gate="G$1" pin="15"/>
 <wire x1="294.64" y1="175.26" x2="309.88" y2="175.26" width="0.1524" layer="91"/>
 <wire x1="297.18" y1="93.98" x2="325.12" y2="93.98" width="0.1524" layer="91"/>
 <pinref part="CN7" gate="G$1" pin="D"/>
 <wire x1="325.12" y1="93.98" x2="332.74" y2="93.98" width="0.1524" layer="91"/>
+<pinref part="CN12" gate="G$1" pin="15"/>
 </segment>
 </net>
 <net name="SPKR" class="0">
@@ -7177,11 +7168,11 @@ http://www.weartronics.com/</description>
 <wire x1="299.72" y1="157.48" x2="299.72" y2="139.7" width="0.1524" layer="91"/>
 <wire x1="299.72" y1="157.48" x2="297.18" y2="157.48" width="0.1524" layer="91"/>
 <wire x1="297.18" y1="157.48" x2="297.18" y2="172.72" width="0.1524" layer="91"/>
-<pinref part="CN12" gate="G$1" pin="16"/>
 <wire x1="309.88" y1="172.72" x2="302.26" y2="172.72" width="0.1524" layer="91"/>
 <wire x1="297.18" y1="172.72" x2="302.26" y2="172.72" width="0.1524" layer="91"/>
 <wire x1="322.58" y1="139.7" x2="325.12" y2="139.7" width="0.1524" layer="91"/>
 <pinref part="CN6" gate="G$1" pin="D"/>
+<pinref part="CN12" gate="G$1" pin="P16"/>
 </segment>
 </net>
 <net name="N$49" class="0">
@@ -7469,11 +7460,11 @@ http://www.weartronics.com/</description>
 <wire x1="294.64" y1="68.58" x2="294.64" y2="58.42" width="0.1524" layer="91"/>
 <wire x1="294.64" y1="58.42" x2="332.74" y2="58.42" width="0.1524" layer="91"/>
 <wire x1="294.64" y1="152.4" x2="292.1" y2="152.4" width="0.1524" layer="91"/>
-<pinref part="CN12" gate="G$1" pin="14"/>
 <wire x1="294.64" y1="177.8" x2="309.88" y2="177.8" width="0.1524" layer="91"/>
 <wire x1="292.1" y1="177.8" x2="294.64" y2="177.8" width="0.1524" layer="91"/>
 <wire x1="292.1" y1="152.4" x2="292.1" y2="177.8" width="0.1524" layer="91"/>
 <pinref part="CN9" gate="G$1" pin="D"/>
+<pinref part="CN12" gate="G$1" pin="14"/>
 </segment>
 </net>
 <net name="N$8" class="0">
@@ -7687,14 +7678,14 @@ http://www.weartronics.com/</description>
 <pinref part="V99" gate="G$1" pin="RF_MIC"/>
 </segment>
 <segment>
-<pinref part="CN12" gate="G$1" pin="11"/>
 <wire x1="309.88" y1="185.42" x2="274.32" y2="185.42" width="0.1524" layer="91"/>
 <wire x1="274.32" y1="185.42" x2="274.32" y2="182.88" width="0.1524" layer="91"/>
-<pinref part="CN12" gate="G$1" pin="12"/>
 <wire x1="274.32" y1="182.88" x2="274.32" y2="180.34" width="0.1524" layer="91"/>
 <wire x1="309.88" y1="182.88" x2="274.32" y2="182.88" width="0.1524" layer="91"/>
 <junction x="274.32" y="182.88"/>
 <pinref part="V133" gate="G$1" pin="RF_MIC"/>
+<pinref part="CN12" gate="G$1" pin="11"/>
+<pinref part="CN12" gate="G$1" pin="12"/>
 </segment>
 </net>
 <net name="RF_SPKR" class="0">
@@ -7717,14 +7708,14 @@ http://www.weartronics.com/</description>
 <pinref part="CN6" gate="G$1" pin="A"/>
 </segment>
 <segment>
-<pinref part="CN12" gate="G$1" pin="9"/>
 <wire x1="309.88" y1="190.5" x2="266.7" y2="190.5" width="0.1524" layer="91"/>
 <wire x1="266.7" y1="190.5" x2="266.7" y2="187.96" width="0.1524" layer="91"/>
-<pinref part="CN12" gate="G$1" pin="10"/>
 <wire x1="266.7" y1="187.96" x2="266.7" y2="185.42" width="0.1524" layer="91"/>
 <wire x1="309.88" y1="187.96" x2="266.7" y2="187.96" width="0.1524" layer="91"/>
 <junction x="266.7" y="187.96"/>
 <pinref part="V134" gate="G$1" pin="RF_SPKR"/>
+<pinref part="CN12" gate="G$1" pin="9"/>
+<pinref part="CN12" gate="G$1" pin="10"/>
 </segment>
 </net>
 <net name="RF_PTT" class="0">
@@ -7749,10 +7740,10 @@ http://www.weartronics.com/</description>
 <junction x="294.64" y="53.34"/>
 </segment>
 <segment>
-<pinref part="CN12" gate="G$1" pin="13"/>
 <wire x1="309.88" y1="180.34" x2="281.94" y2="180.34" width="0.1524" layer="91"/>
 <wire x1="281.94" y1="180.34" x2="281.94" y2="177.8" width="0.1524" layer="91"/>
 <pinref part="V92" gate="G$1" pin="RF_PTT"/>
+<pinref part="CN12" gate="G$1" pin="13"/>
 </segment>
 </net>
 <net name="N$32" class="0">
