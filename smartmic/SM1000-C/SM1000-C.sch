@@ -769,6 +769,31 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <wire x1="-8.5" y1="-2.5" x2="-8.5" y2="2.5" width="0" layer="39"/>
 <text x="-8.5" y="3" size="0.8128" layer="25" ratio="10">&gt;NAME</text>
 </package>
+<package name="TS-026">
+<pad name="1" x="-1.55" y="0.925" drill="0.8" diameter="1.6764"/>
+<pad name="2" x="1.55" y="0.925" drill="0.8" diameter="1.6764"/>
+<pad name="3" x="0" y="-0.925" drill="0.8" diameter="1.6764"/>
+<wire x1="-3" y1="1" x2="-2.6" y2="1" width="0.15" layer="21"/>
+<wire x1="2.6" y1="1" x2="3" y2="1" width="0.15" layer="21"/>
+<wire x1="3" y1="1" x2="3" y2="-1.8" width="0.15" layer="21"/>
+<wire x1="3" y1="-1.8" x2="1" y2="-1.8" width="0.15" layer="21"/>
+<wire x1="-1" y1="-1.8" x2="-3" y2="-1.8" width="0.15" layer="21"/>
+<wire x1="-3" y1="-1.8" x2="-3" y2="1" width="0.15" layer="21"/>
+<wire x1="-0.5" y1="1" x2="0.5" y2="1" width="0.15" layer="21"/>
+<wire x1="-3" y1="2.5" x2="-1" y2="2.5" width="0.075" layer="51"/>
+<wire x1="-1" y1="2.5" x2="1" y2="2.5" width="0.075" layer="51"/>
+<wire x1="1" y1="2.5" x2="3" y2="2.5" width="0.075" layer="51"/>
+<wire x1="-1" y1="5" x2="1" y2="5" width="0.075" layer="51"/>
+<wire x1="-1" y1="4" x2="1" y2="4" width="0.075" layer="51"/>
+<wire x1="-1" y1="3" x2="1" y2="3" width="0.075" layer="51"/>
+<wire x1="-1" y1="5" x2="-1" y2="2.5" width="0.075" layer="51"/>
+<wire x1="1" y1="5" x2="1" y2="2.5" width="0.075" layer="51"/>
+<wire x1="-3" y1="2" x2="3" y2="2" width="0" layer="39"/>
+<wire x1="3" y1="2" x2="3" y2="-2" width="0" layer="39"/>
+<wire x1="3" y1="-2" x2="-3" y2="-2" width="0" layer="39"/>
+<wire x1="-3" y1="-2" x2="-3" y2="2" width="0" layer="39"/>
+<text x="-2.5" y="-3.5" size="1" layer="25" ratio="10">&gt;NAME</text>
+</package>
 </packages>
 <symbols>
 <symbol name="CAP-POL">
@@ -1276,6 +1301,30 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <text x="-5.08" y="13.716" size="1.778" layer="95" ratio="10">&gt;NAME</text>
 <text x="-5.08" y="-12.7" size="1.778" layer="96" ratio="10">&gt;VALUE</text>
 </symbol>
+<symbol name="TS-026">
+<pin name="1" x="-7.62" y="5.08" visible="pad" length="short"/>
+<pin name="2" x="7.62" y="5.08" visible="pad" length="short" rot="R180"/>
+<pin name="3" x="7.62" y="2.54" visible="pad" length="short" rot="R180"/>
+<wire x1="-5.08" y1="8.89" x2="-5.08" y2="5.08" width="0.1524" layer="94"/>
+<wire x1="-5.08" y1="5.08" x2="-5.08" y2="-1.27" width="0.1524" layer="94"/>
+<wire x1="-5.08" y1="-1.27" x2="5.08" y2="-1.27" width="0.1524" layer="94"/>
+<wire x1="5.08" y1="-1.27" x2="5.08" y2="2.54" width="0.1524" layer="94"/>
+<wire x1="5.08" y1="2.54" x2="5.08" y2="5.08" width="0.1524" layer="94"/>
+<wire x1="5.08" y1="5.08" x2="5.08" y2="8.89" width="0.1524" layer="94"/>
+<wire x1="5.08" y1="8.89" x2="-5.08" y2="8.89" width="0.1524" layer="94"/>
+<wire x1="-5.08" y1="5.08" x2="-2.54" y2="5.08" width="0.1524" layer="94"/>
+<wire x1="2.54" y1="5.08" x2="5.08" y2="5.08" width="0.1524" layer="94"/>
+<circle x="-2.54" y="5.08" radius="0.803215625" width="0.1524" layer="94"/>
+<circle x="2.54" y="5.08" radius="0.803215625" width="0.1524" layer="94"/>
+<wire x1="2.54" y1="5.08" x2="-2.794" y2="7.62" width="0.1524" layer="94"/>
+<wire x1="5.08" y1="2.54" x2="0" y2="2.54" width="0.1524" layer="94"/>
+<wire x1="0" y1="2.54" x2="0" y2="1.27" width="0.1524" layer="94"/>
+<wire x1="-1.016" y1="1.27" x2="1.016" y2="1.27" width="0.1524" layer="94"/>
+<wire x1="-0.508" y1="0.762" x2="0.508" y2="0.762" width="0.1524" layer="94"/>
+<wire x1="-0.254" y1="0.254" x2="0.254" y2="0.254" width="0.1524" layer="94"/>
+<text x="-5.08" y="10.16" size="0.8128" layer="95" ratio="10">&gt;NAME</text>
+<text x="-5.08" y="-3.81" size="0.8128" layer="95" ratio="10">&gt;VALUE</text>
+</symbol>
 </symbols>
 <devicesets>
 <deviceset name="CAP-CHEMI-MVE-HA0" prefix="C">
@@ -1735,6 +1784,23 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <connect gate="G$1" pin="8" pad="8"/>
 <connect gate="G$1" pin="9" pad="9"/>
 <connect gate="G$1" pin="P16" pad="16"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="TS-026" prefix="SW">
+<gates>
+<gate name="G$1" symbol="TS-026" x="0" y="-5.08"/>
+</gates>
+<devices>
+<device name="" package="TS-026">
+<connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="2" pad="2"/>
+<connect gate="G$1" pin="3" pad="3"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -4136,7 +4202,6 @@ http://www.weartronics.com/</description>
 <part name="V114" library="A-SUPPLY2" deviceset="VDD" device=""/>
 <part name="V115" library="A-SUPPLY2" deviceset="VDD" device=""/>
 <part name="CN1" library="_Coherix" deviceset="HDR100-3" device=""/>
-<part name="SW1" library="SM1000-2L-70x90" deviceset="SW-BOURNS-7914S" device=""/>
 <part name="R1" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="10K,1%"/>
 <part name="V18" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V19" library="A-SUPPLY2" deviceset="VDD" device=""/>
@@ -4273,6 +4338,7 @@ http://www.weartronics.com/</description>
 <part name="CN9" library="_RoweTel" deviceset="ST-3509" device=""/>
 <part name="CN10" library="_RoweTel" deviceset="ST-3509" device=""/>
 <part name="CN12" library="_RoweTel" deviceset="HRS-A3C-16DA" device=""/>
+<part name="SW1" library="_RoweTel" deviceset="TS-026" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -4352,6 +4418,10 @@ http://www.weartronics.com/</description>
 <wire x1="420.116" y1="263.906" x2="420.37" y2="263.906" width="0.1524" layer="94"/>
 <wire x1="420.37" y1="263.906" x2="420.37" y2="218.44" width="0.1524" layer="94"/>
 <wire x1="425.45" y1="263.906" x2="425.45" y2="218.186" width="0.1524" layer="94"/>
+<text x="-10.16" y="106.68" size="1.778" layer="95" ratio="10">TS-02B</text>
+<text x="218.44" y="266.7" size="1.778" layer="95" ratio="10">TS-026</text>
+<text x="264.16" y="266.7" size="1.778" layer="95" ratio="10">TS-026</text>
+<text x="297.18" y="266.7" size="1.778" layer="95" ratio="10">TS-026</text>
 </plain>
 <instances>
 <instance part="U4" gate="G$1" x="254" y="25.4"/>
@@ -4611,17 +4681,13 @@ http://www.weartronics.com/</description>
 <attribute name="NAME" x="40.4699" y="192.003" size="1.4224" layer="95" ratio="9" rot="MR180"/>
 <attribute name="VALUE" x="40.7239" y="189.463" size="1.4224" layer="96" ratio="9" rot="MR180"/>
 </instance>
-<instance part="SW1" gate="G$1" x="193.04" y="241.3" smashed="yes" rot="R90">
-<attribute name="NAME" x="198.12" y="251.46" size="1.4224" layer="95" ratio="10"/>
-<attribute name="VALUE" x="198.12" y="246.38" size="1.4224" layer="96" ratio="10"/>
+<instance part="R1" gate="G$1" x="195.58" y="236.22" smashed="yes" rot="R90">
+<attribute name="NAME" x="198.12" y="236.22" size="1.4224" layer="95" ratio="9"/>
+<attribute name="VALUE" x="198.12" y="233.68" size="1.4224" layer="96" ratio="9"/>
 </instance>
-<instance part="R1" gate="G$1" x="193.04" y="226.06" smashed="yes" rot="R90">
-<attribute name="NAME" x="195.58" y="226.06" size="1.4224" layer="95" ratio="9"/>
-<attribute name="VALUE" x="195.58" y="223.52" size="1.4224" layer="96" ratio="9"/>
-</instance>
-<instance part="V18" gate="GND" x="193.04" y="215.9"/>
-<instance part="V19" gate="G$1" x="193.04" y="266.7" smashed="yes">
-<attribute name="VALUE" x="190.5" y="269.748" size="1.4224" layer="95" ratio="9"/>
+<instance part="V18" gate="GND" x="195.58" y="226.06"/>
+<instance part="V19" gate="G$1" x="198.12" y="264.16" smashed="yes">
+<attribute name="VALUE" x="195.58" y="267.208" size="1.4224" layer="95" ratio="9"/>
 </instance>
 <instance part="V12" gate="G$1" x="15.24" y="264.16" rot="R90"/>
 <instance part="V13" gate="G$1" x="15.24" y="256.54" rot="R90"/>
@@ -4740,15 +4806,19 @@ http://www.weartronics.com/</description>
 </instance>
 <instance part="V125" gate="GND" x="76.2" y="215.9"/>
 <instance part="V126" gate="GND" x="86.36" y="215.9"/>
-<instance part="R57" gate="G$1" x="205.74" y="233.68" smashed="yes" rot="R180">
-<attribute name="NAME" x="200.66" y="236.22" size="1.4224" layer="95" ratio="9"/>
-<attribute name="VALUE" x="205.74" y="236.22" size="1.4224" layer="96" ratio="9"/>
+<instance part="R57" gate="G$1" x="208.28" y="243.84" smashed="yes" rot="R180">
+<attribute name="NAME" x="203.2" y="246.38" size="1.4224" layer="95" ratio="9"/>
+<attribute name="VALUE" x="208.28" y="246.38" size="1.4224" layer="96" ratio="9"/>
 </instance>
 <instance part="R18" gate="G$1" x="297.18" y="154.94" smashed="yes">
 <attribute name="NAME" x="292.1" y="157.48" size="1.4224" layer="95" ratio="9"/>
 <attribute name="VALUE" x="297.18" y="157.48" size="1.4224" layer="96" ratio="9"/>
 </instance>
 <instance part="SPKR1" gate="G$1" x="360.68" y="48.26"/>
+<instance part="SW1" gate="G$1" x="193.04" y="254" smashed="yes" rot="R270">
+<attribute name="NAME" x="205.74" y="256.54" size="1.4224" layer="95" ratio="10"/>
+<attribute name="VALUE" x="205.74" y="254" size="1.4224" layer="95" ratio="10"/>
+</instance>
 </instances>
 <busses>
 </busses>
@@ -4875,17 +4945,6 @@ http://www.weartronics.com/</description>
 <pinref part="V115" gate="G$1" pin="VDD"/>
 </segment>
 <segment>
-<pinref part="SW1" gate="G$1" pin="P$3"/>
-<wire x1="190.5" y1="261.62" x2="190.5" y2="264.16" width="0.1524" layer="91"/>
-<wire x1="190.5" y1="264.16" x2="193.04" y2="264.16" width="0.1524" layer="91"/>
-<pinref part="SW1" gate="G$1" pin="P$4"/>
-<wire x1="193.04" y1="264.16" x2="195.58" y2="264.16" width="0.1524" layer="91"/>
-<wire x1="195.58" y1="264.16" x2="195.58" y2="261.62" width="0.1524" layer="91"/>
-<wire x1="193.04" y1="264.16" x2="193.04" y2="266.7" width="0.1524" layer="91"/>
-<pinref part="V19" gate="G$1" pin="VDD"/>
-<junction x="193.04" y="264.16"/>
-</segment>
-<segment>
 <pinref part="R2" gate="G$1" pin="1"/>
 <wire x1="22.86" y1="264.16" x2="15.24" y2="264.16" width="0.1524" layer="91"/>
 <pinref part="V12" gate="G$1" pin="VDD"/>
@@ -4924,6 +4983,11 @@ http://www.weartronics.com/</description>
 <pinref part="R8" gate="G$1" pin="2"/>
 <pinref part="V101" gate="G$1" pin="VDD"/>
 <wire x1="281.94" y1="264.16" x2="281.94" y2="266.7" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<wire x1="198.12" y1="264.16" x2="198.12" y2="261.62" width="0.1524" layer="91"/>
+<pinref part="V19" gate="G$1" pin="VDD"/>
+<pinref part="SW1" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="BOOT1" class="0">
@@ -5147,7 +5211,7 @@ http://www.weartronics.com/</description>
 </segment>
 <segment>
 <pinref part="R1" gate="G$1" pin="1"/>
-<wire x1="193.04" y1="220.98" x2="193.04" y2="218.44" width="0.1524" layer="91"/>
+<wire x1="195.58" y1="231.14" x2="195.58" y2="228.6" width="0.1524" layer="91"/>
 <pinref part="V18" gate="GND" pin="GND"/>
 </segment>
 <segment>
@@ -5867,8 +5931,8 @@ http://www.weartronics.com/</description>
 </segment>
 <segment>
 <pinref part="R57" gate="G$1" pin="1"/>
-<wire x1="210.82" y1="233.68" x2="223.52" y2="233.68" width="0.1524" layer="91"/>
-<label x="214.122" y="234.188" size="1.4224" layer="95" ratio="10"/>
+<wire x1="213.36" y1="243.84" x2="226.06" y2="243.84" width="0.1524" layer="91"/>
+<label x="219.202" y="244.348" size="1.4224" layer="95" ratio="10"/>
 </segment>
 <segment>
 <pinref part="U1" gate="A" pin="PD7"/>
@@ -5922,16 +5986,16 @@ http://www.weartronics.com/</description>
 <net name="N$14" class="0">
 <segment>
 <pinref part="R57" gate="G$1" pin="2"/>
-<wire x1="200.66" y1="233.68" x2="193.04" y2="233.68" width="0.1524" layer="91"/>
-<wire x1="193.04" y1="233.68" x2="193.04" y2="236.22" width="0.1524" layer="91"/>
+<wire x1="203.2" y1="243.84" x2="198.12" y2="243.84" width="0.1524" layer="91"/>
 <pinref part="R1" gate="G$1" pin="2"/>
-<wire x1="193.04" y1="233.68" x2="193.04" y2="231.14" width="0.1524" layer="91"/>
-<pinref part="SW1" gate="G$1" pin="P$1"/>
-<pinref part="SW1" gate="G$1" pin="P$2"/>
-<wire x1="190.5" y1="236.22" x2="193.04" y2="236.22" width="0.1524" layer="91"/>
-<junction x="193.04" y="236.22"/>
-<wire x1="193.04" y1="236.22" x2="195.58" y2="236.22" width="0.1524" layer="91"/>
-<junction x="193.04" y="233.68"/>
+<wire x1="198.12" y1="243.84" x2="195.58" y2="243.84" width="0.1524" layer="91"/>
+<wire x1="195.58" y1="243.84" x2="195.58" y2="241.3" width="0.1524" layer="91"/>
+<pinref part="SW1" gate="G$1" pin="3"/>
+<wire x1="195.58" y1="246.38" x2="195.58" y2="243.84" width="0.1524" layer="91"/>
+<pinref part="SW1" gate="G$1" pin="2"/>
+<wire x1="198.12" y1="246.38" x2="198.12" y2="243.84" width="0.1524" layer="91"/>
+<junction x="195.58" y="243.84"/>
+<junction x="198.12" y="243.84"/>
 </segment>
 </net>
 </nets>
@@ -5994,8 +6058,6 @@ http://www.weartronics.com/</description>
 <text x="424.18" y="266.7" size="1.4224" layer="94" ratio="10">RGB</text>
 <wire x1="353.06" y1="200.66" x2="353.06" y2="264.16" width="0.1524" layer="94" style="longdash"/>
 <wire x1="337.82" y1="200.66" x2="429.26" y2="200.66" width="0.1524" layer="95" style="longdash"/>
-<text x="355.6" y="264.16" size="1.4224" layer="94" ratio="10">10/13/14</text>
-<text x="368.3" y="264.16" size="1.4224" layer="94" ratio="10">Release for Production</text>
 <text x="419.1" y="264.16" size="1.4224" layer="94" ratio="10">C</text>
 <text x="424.18" y="264.16" size="1.4224" layer="94" ratio="10">RGB</text>
 <wire x1="177.8" y1="45.72" x2="251.46" y2="45.72" width="0.1524" layer="94" style="longdash"/>
@@ -6823,11 +6885,6 @@ http://www.weartronics.com/</description>
 <wire x1="205.74" y1="165.1" x2="205.74" y2="167.64" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<wire x1="312.42" y1="220.98" x2="314.96" y2="220.98" width="0.1524" layer="91"/>
-<wire x1="314.96" y1="220.98" x2="314.96" y2="218.44" width="0.1524" layer="91"/>
-<pinref part="V109" gate="GND" pin="GND"/>
-</segment>
-<segment>
 <pinref part="C51" gate="G$1" pin="2"/>
 <wire x1="320.04" y1="223.52" x2="320.04" y2="218.44" width="0.1524" layer="91"/>
 <pinref part="V110" gate="GND" pin="GND"/>
@@ -6927,6 +6984,12 @@ http://www.weartronics.com/</description>
 <pinref part="C66" gate="G$1" pin="2"/>
 <pinref part="V138" gate="GND" pin="GND"/>
 <wire x1="233.68" y1="10.16" x2="233.68" y2="12.7" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="CN10" gate="G$1" pin="A"/>
+<pinref part="V109" gate="GND" pin="GND"/>
+<wire x1="312.42" y1="220.98" x2="314.96" y2="220.98" width="0.1524" layer="91"/>
+<wire x1="314.96" y1="220.98" x2="314.96" y2="218.44" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$38" class="0">
@@ -7320,10 +7383,11 @@ http://www.weartronics.com/</description>
 <wire x1="114.3" y1="55.88" x2="127" y2="55.88" width="0.1524" layer="91"/>
 <wire x1="127" y1="55.88" x2="129.54" y2="55.88" width="0.1524" layer="91"/>
 <wire x1="129.54" y1="55.88" x2="132.08" y2="55.88" width="0.1524" layer="91"/>
-<wire x1="132.08" y1="43.18" x2="129.54" y2="43.18" width="0.1524" layer="91"/>
 <wire x1="129.54" y1="43.18" x2="129.54" y2="55.88" width="0.1524" layer="91"/>
 <junction x="129.54" y="55.88"/>
 <pinref part="CN8" gate="G$1" pin="C"/>
+<pinref part="CN8" gate="G$1" pin="B"/>
+<wire x1="132.08" y1="43.18" x2="129.54" y2="43.18" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$76" class="0">
