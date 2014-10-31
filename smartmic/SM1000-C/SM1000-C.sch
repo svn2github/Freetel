@@ -437,10 +437,6 @@ INFINEON, www.infineon.com/cmc_upload/0/000/010/257/eh_db_5b.pdf</description>
 <wire x1="-3" y1="-7" x2="-3" y2="7" width="0" layer="39"/>
 </package>
 <package name="SOT23-6">
-<wire x1="-1.35" y1="-0.45" x2="-1.35" y2="0.45" width="0.127" layer="21"/>
-<wire x1="1.35" y1="-0.45" x2="1.35" y2="0.45" width="0.127" layer="21"/>
-<wire x1="-1.35" y1="0.45" x2="1.35" y2="0.45" width="0.127" layer="21"/>
-<wire x1="-1.35" y1="-0.45" x2="1.35" y2="-0.45" width="0.127" layer="21"/>
 <smd name="1" x="-0.95" y="-1.2" dx="1.2" dy="0.7" layer="1" rot="R90"/>
 <smd name="6" x="-0.95" y="1.2" dx="1.2" dy="0.7" layer="1" rot="R90"/>
 <smd name="5" x="0" y="1.2" dx="1.2" dy="0.7" layer="1" rot="R90"/>
@@ -452,7 +448,13 @@ INFINEON, www.infineon.com/cmc_upload/0/000/010/257/eh_db_5b.pdf</description>
 <wire x1="1.7" y1="2.2" x2="1.7" y2="-2.2" width="0" layer="39"/>
 <wire x1="1.7" y1="-2.2" x2="-1.7" y2="-2.2" width="0" layer="39"/>
 <wire x1="-1.7" y1="-2.2" x2="-1.7" y2="2.2" width="0" layer="39"/>
-<rectangle x1="-1.4" y1="-0.4" x2="-0.9" y2="0" layer="21"/>
+<rectangle x1="-2.05" y1="-0.95" x2="-1.55" y2="-0.55" layer="21" rot="R90"/>
+<wire x1="-1.7" y1="1" x2="-2" y2="1" width="0.15" layer="21"/>
+<wire x1="-2" y1="1" x2="-2" y2="-1" width="0.15" layer="21"/>
+<wire x1="-2" y1="-1" x2="-1.7" y2="-1" width="0.15" layer="21"/>
+<wire x1="1.7" y1="1" x2="2" y2="1" width="0.15" layer="21"/>
+<wire x1="2" y1="1" x2="2" y2="-1" width="0.15" layer="21"/>
+<wire x1="2" y1="-1" x2="1.7" y2="-1" width="0.15" layer="21"/>
 </package>
 <package name="PAN-EVM1D">
 <smd name="2" x="0" y="1.95" dx="2.4" dy="1.1" layer="1"/>
