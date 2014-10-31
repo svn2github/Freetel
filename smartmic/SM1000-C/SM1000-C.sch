@@ -2648,38 +2648,6 @@ by exp-lbrs.ulp</description>
 <text x="-8.5" y="9.5" size="1" layer="25" ratio="10">&gt;NAME</text>
 <text x="-8.5" y="-10.5" size="1" layer="25" ratio="10">&gt;VALUE</text>
 </package>
-<package name="MOLEX-MINI-B-SMT">
-<smd name="1" x="-1.6" y="6.225" dx="2.25" dy="0.5" layer="1" rot="R90"/>
-<smd name="2" x="-0.8" y="6.225" dx="2.25" dy="0.5" layer="1" rot="R90"/>
-<smd name="3" x="0" y="6.225" dx="2.25" dy="0.5" layer="1" rot="R90"/>
-<smd name="4" x="0.8" y="6.225" dx="2.25" dy="0.5" layer="1" rot="R90"/>
-<smd name="5" x="1.6" y="6.225" dx="2.25" dy="0.5" layer="1" rot="R90"/>
-<smd name="6" x="-5.5" y="6.25" dx="3.5" dy="2.05" layer="1" rot="R90"/>
-<smd name="7" x="5.5" y="6.25" dx="3.5" dy="2.05" layer="1" rot="R90"/>
-<smd name="8" x="-5.5" y="2" dx="4" dy="2.05" layer="1" rot="R90"/>
-<smd name="9" x="5.5" y="2" dx="4" dy="2.05" layer="1" rot="R90"/>
-<hole x="-2.2" y="4.25" drill="0.9"/>
-<hole x="2.2" y="4.25" drill="0.9"/>
-<wire x1="-7" y1="0" x2="7" y2="0" width="0.15" layer="51"/>
-<text x="-4.5" y="-2" size="1" layer="51" ratio="10">BOARD EDGE</text>
-<wire x1="-3.1" y1="0" x2="-3.1" y2="1.2" width="0" layer="39"/>
-<wire x1="-3.1" y1="1.2" x2="-3" y2="1.2" width="0" layer="39"/>
-<wire x1="-3" y1="1.2" x2="3.1" y2="1.2" width="0" layer="39"/>
-<wire x1="3.1" y1="1.2" x2="3.1" y2="0" width="0" layer="39"/>
-<wire x1="3.1" y1="0" x2="-3.1" y2="0" width="0" layer="39"/>
-<wire x1="-7" y1="8.5" x2="7" y2="8.5" width="0" layer="39"/>
-<wire x1="7" y1="8.5" x2="7" y2="-0.5" width="0" layer="39"/>
-<wire x1="7" y1="-0.5" x2="4" y2="-0.5" width="0" layer="39"/>
-<wire x1="4" y1="-0.5" x2="4" y2="1.5" width="0" layer="39"/>
-<wire x1="4" y1="1.5" x2="-4" y2="1.5" width="0" layer="39"/>
-<wire x1="-4" y1="1.5" x2="-4" y2="-0.5" width="0" layer="39"/>
-<wire x1="-4" y1="-0.5" x2="-7" y2="-0.5" width="0" layer="39"/>
-<wire x1="-7" y1="-0.5" x2="-7" y2="8.5" width="0" layer="39"/>
-<text x="-6.5" y="9" size="1" layer="21" ratio="10">&gt;NAME</text>
-<wire x1="-4" y1="0" x2="-4" y2="8.5" width="0.15" layer="21"/>
-<wire x1="-4" y1="8.5" x2="4" y2="8.5" width="0.15" layer="21"/>
-<wire x1="4" y1="8.5" x2="4" y2="0" width="0.15" layer="21"/>
-</package>
 <package name="C1210">
 <wire x1="-2.35" y1="-1.6" x2="-2.35" y2="1.6" width="0" layer="39"/>
 <wire x1="-2.35" y1="1.6" x2="2.35" y2="1.6" width="0" layer="39"/>
@@ -2816,23 +2784,6 @@ by exp-lbrs.ulp</description>
 <text x="-10.16" y="-20.32" size="1.4224" layer="95" ratio="10">&gt;NAME</text>
 <text x="0" y="-20.32" size="1.4224" layer="96" ratio="10">&gt;VALUE</text>
 </symbol>
-<symbol name="MOLEX-MINI-B-SMT">
-<wire x1="-10.16" y1="20.32" x2="-10.16" y2="-7.62" width="0.1524" layer="94"/>
-<wire x1="-10.16" y1="-7.62" x2="5.08" y2="-7.62" width="0.1524" layer="94"/>
-<wire x1="5.08" y1="-7.62" x2="5.08" y2="20.32" width="0.1524" layer="94"/>
-<wire x1="5.08" y1="20.32" x2="-10.16" y2="20.32" width="0.1524" layer="94"/>
-<pin name="DM" x="-15.24" y="15.24" length="middle"/>
-<pin name="DP" x="-15.24" y="12.7" length="middle"/>
-<pin name="GND" x="-15.24" y="7.62" length="middle"/>
-<pin name="ID" x="-15.24" y="10.16" length="middle"/>
-<pin name="SHIELD1" x="-15.24" y="2.54" length="middle"/>
-<pin name="SHIELD2" x="-15.24" y="0" length="middle"/>
-<pin name="SHIELD3" x="-15.24" y="-2.54" length="middle"/>
-<pin name="SHIELD4" x="-15.24" y="-5.08" length="middle"/>
-<pin name="VBUS" x="-15.24" y="17.78" length="middle"/>
-<text x="-7.62" y="22.86" size="1.4224" layer="95" ratio="10">&gt;NAME</text>
-<text x="-7.62" y="-10.16" size="1.4224" layer="96" ratio="10">&gt;VALUE</text>
-</symbol>
 <symbol name="CAP">
 <wire x1="-2.54" y1="0" x2="2.54" y2="0" width="0.254" layer="94"/>
 <wire x1="0" y1="-1.016" x2="0" y2="-2.54" width="0.1524" layer="94"/>
@@ -2953,29 +2904,6 @@ by exp-lbrs.ulp</description>
 <connect gate="B" pin="VSS4" pad="27"/>
 <connect gate="B" pin="VSS5" pad="10"/>
 <connect gate="B" pin="VSSA" pad="20"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="MOLEX-MINI-B-SMT" prefix="CN">
-<gates>
-<gate name="G$1" symbol="MOLEX-MINI-B-SMT" x="2.54" y="-7.62"/>
-</gates>
-<devices>
-<device name="" package="MOLEX-MINI-B-SMT">
-<connects>
-<connect gate="G$1" pin="DM" pad="2"/>
-<connect gate="G$1" pin="DP" pad="3"/>
-<connect gate="G$1" pin="GND" pad="5"/>
-<connect gate="G$1" pin="ID" pad="4"/>
-<connect gate="G$1" pin="SHIELD1" pad="6"/>
-<connect gate="G$1" pin="SHIELD2" pad="7"/>
-<connect gate="G$1" pin="SHIELD3" pad="8"/>
-<connect gate="G$1" pin="SHIELD4" pad="9"/>
-<connect gate="G$1" pin="VBUS" pad="1"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -4180,7 +4108,6 @@ http://www.weartronics.com/</description>
 <part name="C36" library="SM1000" deviceset="CAP-1210" device="" value="100uF,10V"/>
 <part name="B-FRAME3" library="_RoweTel" deviceset="GENERICL-B-SIZE" device=""/>
 <part name="B-FRAME2" library="_RoweTel" deviceset="GENERICL-B-SIZE" device=""/>
-<part name="CN2" library="SM1000" deviceset="MOLEX-MINI-B-SMT" device=""/>
 <part name="PCB1" library="_Coherix" deviceset="PCB" device="" value="SM1000C"/>
 <part name="V1" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="R47" library="_RoweTel" deviceset="PAN-EVM1D" device="" value="500,POT"/>
@@ -4381,7 +4308,7 @@ http://www.weartronics.com/</description>
 <part name="SW5" library="_RoweTel" deviceset="TS-02B" device=""/>
 <part name="CN3" library="_RoweTel" deviceset="DS-0518" device=""/>
 <part name="SPKR1" library="_RoweTel" deviceset="SPKR-HY4004M-001" device=""/>
-<part name="CN13" library="_RoweTel" deviceset="JS-MU3-002" device=""/>
+<part name="CN2" library="_RoweTel" deviceset="JS-MU3-002" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -4697,7 +4624,6 @@ http://www.weartronics.com/</description>
 <instance part="B-FRAME2" gate="G$1" x="0" y="0"/>
 <instance part="B-FRAME2" gate="G$2" x="330.2" y="0"/>
 <instance part="B-FRAME2" gate="G$3" x="358.14" y="279.4"/>
-<instance part="CN2" gate="G$1" x="314.96" y="63.5"/>
 <instance part="PCB1" gate="G$1" x="332.74" y="48.26" smashed="yes">
 <attribute name="NAME" x="332.74" y="53.34" size="1.4224" layer="95" ratio="9"/>
 <attribute name="VALUE" x="332.74" y="50.8" size="1.4224" layer="95" ratio="9"/>
@@ -4859,7 +4785,7 @@ http://www.weartronics.com/</description>
 <attribute name="VALUE" x="292.1" y="241.3" size="1.4224" layer="95" ratio="10"/>
 </instance>
 <instance part="SW5" gate="G$1" x="33.02" y="109.22" rot="R90"/>
-<instance part="CN13" gate="G$1" x="347.98" y="73.66"/>
+<instance part="CN2" gate="G$1" x="314.96" y="63.5"/>
 </instances>
 <busses>
 </busses>
@@ -5650,11 +5576,11 @@ http://www.weartronics.com/</description>
 <pinref part="U3" gate="G$1" pin="OUT"/>
 <wire x1="284.48" y1="78.74" x2="284.48" y2="81.28" width="0.1524" layer="91"/>
 <junction x="284.48" y="81.28"/>
-<pinref part="CN2" gate="G$1" pin="VBUS"/>
 <pinref part="U4" gate="G$1" pin="VBUS"/>
 <wire x1="236.22" y1="30.48" x2="233.68" y2="30.48" width="0.1524" layer="91"/>
 <wire x1="233.68" y1="30.48" x2="233.68" y2="53.34" width="0.1524" layer="91"/>
 <junction x="233.68" y="53.34"/>
+<pinref part="CN2" gate="G$1" pin="VBUS"/>
 </segment>
 <segment>
 <wire x1="111.76" y1="195.58" x2="96.52" y2="195.58" width="0.1524" layer="91"/>
