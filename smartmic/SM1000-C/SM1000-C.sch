@@ -4393,8 +4393,6 @@ http://www.weartronics.com/</description>
 <wire x1="330.2" y1="210.82" x2="330.2" y2="172.72" width="0.1524" layer="94" style="longdash"/>
 <text x="289.56" y="205.74" size="2.54" layer="94" ratio="10">UART</text>
 <text x="289.56" y="200.66" size="1.4224" layer="94" ratio="10">3.3V TTL Levels</text>
-<text x="332.74" y="58.42" size="1.6764" layer="94" ratio="10">Note: All resistor packages are 0603 unless otherwise noted.</text>
-<text x="332.74" y="60.96" size="1.6764" layer="94" ratio="10">Note: All non-polarized capacitors packages are 0603 unless otherwise noted.</text>
 <text x="241.3" y="205.74" size="1.4224" layer="94" ratio="10">8.000MHz</text>
 <text x="358.14" y="266.7" size="1.4224" layer="94" ratio="10">06/13/14</text>
 <text x="370.84" y="266.7" size="1.4224" layer="94" ratio="10">Release for Prototype</text>
