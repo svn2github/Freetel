@@ -619,6 +619,28 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <wire x1="1" y1="-2.5" x2="-1" y2="-2.5" width="0" layer="39"/>
 <wire x1="-1" y1="-2.5" x2="-1" y2="2.5" width="0" layer="39"/>
 <text x="-1.5" y="3" size="1" layer="25" ratio="10">&gt;NAME</text>
+<wire x1="-0.9" y1="1.5" x2="-1.4" y2="1" width="0.15" layer="51" curve="63.434949"/>
+<wire x1="-1.4" y1="-1" x2="-0.9" y2="-1.5" width="0.15" layer="51" curve="90"/>
+<wire x1="-1.4" y1="1" x2="-1.4" y2="-1" width="0.15" layer="51"/>
+<wire x1="-1" y1="-0.5" x2="-1" y2="-0.2" width="0.15" layer="21"/>
+<wire x1="-1" y1="-0.2" x2="-1" y2="-0.1" width="0.15" layer="21"/>
+<wire x1="-1" y1="-0.1" x2="-1" y2="0" width="0.15" layer="21"/>
+<wire x1="-1" y1="0" x2="1" y2="0" width="0.15" layer="21"/>
+<wire x1="1" y1="0" x2="1" y2="-0.1" width="0.15" layer="21"/>
+<wire x1="1" y1="-0.1" x2="1" y2="-0.2" width="0.15" layer="21"/>
+<wire x1="1" y1="-0.2" x2="1" y2="-0.5" width="0.15" layer="21"/>
+<wire x1="-1" y1="-0.1" x2="1" y2="-0.1" width="0.15" layer="21"/>
+<wire x1="-1" y1="-0.2" x2="1" y2="-0.2" width="0.15" layer="21"/>
+<wire x1="-1" y1="-0.5" x2="-1" y2="-0.6" width="0.15" layer="21"/>
+<wire x1="1" y1="-0.5" x2="1" y2="-0.6" width="0.15" layer="21"/>
+<wire x1="-1" y1="1.5" x2="-1" y2="2" width="0.15" layer="51"/>
+<wire x1="-1" y1="2" x2="1" y2="2" width="0.15" layer="51"/>
+<wire x1="1" y1="2" x2="1" y2="-2" width="0.15" layer="51"/>
+<wire x1="1" y1="-2" x2="-1" y2="-2" width="0.15" layer="51"/>
+<wire x1="-1" y1="-2" x2="-1" y2="-1.5" width="0.15" layer="51"/>
+<text x="-2" y="-4" size="1" layer="51" ratio="10">&gt;NAME</text>
+<rectangle x1="-0.5" y1="-2" x2="0.5" y2="-0.5" layer="51"/>
+<rectangle x1="-0.5" y1="0.5" x2="0.5" y2="2" layer="51"/>
 </package>
 <package name="CMA-4544PF-W">
 <circle x="0" y="0" radius="4.8" width="0.15" layer="21"/>
@@ -3971,31 +3993,31 @@ http://www.weartronics.com/</description>
 <part name="V5" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V7" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V8" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="C21" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="10nF,16V,0402"/>
-<part name="C20" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
-<part name="C19" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="10nF,16V,0402"/>
-<part name="C18" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
-<part name="C17" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="10nF,16V,0402"/>
-<part name="C16" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
+<part name="C21" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="10nF,25V"/>
+<part name="C20" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
+<part name="C19" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="10nF,25V"/>
+<part name="C18" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
+<part name="C17" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="10nF,25V"/>
+<part name="C16" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
 <part name="V9" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="R31" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0805" value="0 Ohm"/>
+<part name="R31" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="0 Ohm"/>
 <part name="C12" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="1uF,16V"/>
 <part name="C10" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="1uF,16V"/>
-<part name="C11" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
-<part name="C13" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
+<part name="C11" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
+<part name="C13" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
 <part name="V10" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V11" library="A-SUPPLY2" deviceset="VDD" device=""/>
-<part name="R2" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="4.7K,1%"/>
-<part name="R5" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="4.7K,1%"/>
-<part name="R6" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="1K,1%"/>
+<part name="R2" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="4.7K,1%"/>
+<part name="R5" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="4.7K,1%"/>
+<part name="R6" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="1K,1%"/>
 <part name="C14" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="2.2uF,16V"/>
 <part name="C15" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="2.2uF,16V"/>
 <part name="V22" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V23" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V24" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="C3" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="20pF,16V"/>
-<part name="C2" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="20pF,16V"/>
-<part name="R14" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="220,1%"/>
+<part name="C3" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="20pF,50V"/>
+<part name="C2" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="20pF,50V"/>
+<part name="R14" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="220,1%"/>
 <part name="V25" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V26" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="R19" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="22,1%"/>
@@ -4004,18 +4026,18 @@ http://www.weartronics.com/</description>
 <part name="U2" library="_RoweTel" deviceset="LD3985" device="" value="LD3985M33R"/>
 <part name="V27" library="A-SUPPLY2" deviceset="+5V" device=""/>
 <part name="C5" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="1uF,16V"/>
-<part name="C8" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="10nF,16V,0402"/>
-<part name="C4" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
+<part name="C8" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="10nF,25V"/>
+<part name="C4" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
 <part name="V29" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V30" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V31" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V32" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="C7" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
+<part name="C7" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
 <part name="C6" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="1uF,16V"/>
 <part name="V33" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V34" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="LED5" library="_Coherix" deviceset="LTST-C" device="" value="LED-RED,V"/>
-<part name="R17" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="1K,1%"/>
+<part name="R17" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="1K,1%"/>
 <part name="V35" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="U$2" library="A-SUPPLY2" deviceset="+3.3V" device=""/>
 <part name="V36" library="A-SUPPLY2" deviceset="VDD" device=""/>
@@ -4024,37 +4046,37 @@ http://www.weartronics.com/</description>
 <part name="LED3" library="_RoweTel" deviceset="LTST-S220K" device="" value="LED-GRN,RA"/>
 <part name="LED4" library="_RoweTel" deviceset="LTST-S220K" device="" value="LED-YEL,RA"/>
 <part name="V38" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="R12" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="680,1%"/>
-<part name="R13" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="680,1%"/>
-<part name="R15" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="680,1%"/>
-<part name="R16" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="680,1%"/>
+<part name="R12" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="680,1%"/>
+<part name="R13" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="680,1%"/>
+<part name="R15" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="680,1%"/>
+<part name="R16" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="680,1%"/>
 <part name="V39" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V43" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="U5" library="_RoweTel" deviceset="TPS54329E" device=""/>
-<part name="R27" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="22,1%"/>
-<part name="R28" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="22,1%"/>
-<part name="R30" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0805" value="0 Ohm"/>
+<part name="R27" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="22,1%"/>
+<part name="R28" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="22,1%"/>
+<part name="R30" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="0 Ohm"/>
 <part name="U3" library="AA-IC" deviceset="STMPS2141" device=""/>
 <part name="V45" library="A-SUPPLY2" deviceset="+5V" device=""/>
-<part name="R25" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="10K,1%"/>
-<part name="R26" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0805" value="0 Ohm"/>
+<part name="R25" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="10K,1%"/>
+<part name="R26" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="0 Ohm"/>
 <part name="C9" library="_RoweTel" deviceset="CAP-TANT-1206" device="" value="4.7uF,16V,TANT"/>
 <part name="V46" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="R24" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="47K,1%"/>
+<part name="R24" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="47K,1%"/>
 <part name="V40" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="R46" library="_RoweTel" deviceset="POT-3310C" device="" value="100K,POT"/>
 <part name="SW3" library="_RoweTel" deviceset="SW-PWR-E-SWITCH" device="" value="DPDT"/>
-<part name="C26" library="ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,25V"/>
-<part name="C27" library="ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="20pF,16V"/>
-<part name="R35" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="124.0K,1%"/>
-<part name="R36" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="22.1K,1%"/>
+<part name="C26" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
+<part name="C27" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="20pF,50V"/>
+<part name="R35" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="124.0K,1%"/>
+<part name="R36" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="22.1K,1%"/>
 <part name="V41" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V42" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V47" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V48" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="C31" library="ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="8.2nF,25V"/>
 <part name="V50" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="R34" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="10K,1%"/>
+<part name="R34" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="10K,1%"/>
 <part name="C25" library="ipc-7351-capacitor" deviceset="CAPACITOR_" device="1210" value="22uF,25V,1210"/>
 <part name="V52" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V53" library="A-SUPPLY2" deviceset="GND" device=""/>
@@ -4062,49 +4084,49 @@ http://www.weartronics.com/</description>
 <part name="V55" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V56" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="C34" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="1nF,25V,0402"/>
-<part name="R58" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="2.2K,1%"/>
-<part name="R40" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="2.2K,1%"/>
+<part name="R58" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="2.2K,1%"/>
+<part name="R40" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="2.2K,1%"/>
 <part name="V59" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V61" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="R38" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="2.2K,1%"/>
-<part name="C37" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
+<part name="R38" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="2.2K,1%"/>
+<part name="C37" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
 <part name="V63" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V64" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="U$8" library="A-SUPPLY2" deviceset="+VIN" device=""/>
-<part name="C40" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="47nF,25V"/>
+<part name="C40" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="47nF,25V"/>
 <part name="R50" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="10,1%"/>
 <part name="V65" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V66" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V67" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="J3" library="_Coherix" deviceset="JMP-2PIN" device=""/>
 <part name="SH3" library="_Coherix" deviceset="SHUNT,0.1IN" device=""/>
-<part name="R33" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="2.2K,1%"/>
+<part name="R33" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="2.2K,1%"/>
 <part name="LED8" library="_Coherix" deviceset="LTST-C" device="" value="LED-RED,RA"/>
 <part name="V58" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="LD2" library="_RoweTel" deviceset="LTV-817S" device=""/>
-<part name="R51" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="390,1%"/>
+<part name="R51" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="390,1%"/>
 <part name="V74" library="A-SUPPLY2" deviceset="VDD" device=""/>
 <part name="V78" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V79" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="U1" library="SM1000" deviceset="STM32F407" device="" value="STM32F405"/>
 <part name="CN4" library="_Coherix" deviceset="CONN-RJ45-MOLEX-44144-003" device="" value="RJ-45"/>
-<part name="R4" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="4.7K,1%"/>
+<part name="R4" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="4.7K,1%"/>
 <part name="J1" library="_Coherix" deviceset="JMP-2PIN" device=""/>
 <part name="SH1" library="_Coherix" deviceset="SHUNT,0.1IN" device=""/>
 <part name="V82" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V83" library="A-SUPPLY2" deviceset="VDD" device=""/>
-<part name="C33" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
+<part name="C33" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
 <part name="U7" library="_RoweTel" deviceset="LMV341" device=""/>
 <part name="U6" library="_RoweTel" deviceset="LMV341" device=""/>
-<part name="R44" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="10K,1%"/>
-<part name="R45" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="10K,1%"/>
+<part name="R44" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="10K,1%"/>
+<part name="R45" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="10K,1%"/>
 <part name="V75" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V76" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="R43" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="10K,1%"/>
+<part name="R43" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="10K,1%"/>
 <part name="V85" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="C38" library="SM1000" deviceset="CAP-1210" device="" value="100uF,10V"/>
-<part name="R48" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="10K,1%"/>
-<part name="R49" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="4.7,1%"/>
+<part name="R48" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="10K,1%"/>
+<part name="R49" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="4.7,1%"/>
 <part name="C36" library="SM1000" deviceset="CAP-1210" device="" value="100uF,10V"/>
 <part name="B-FRAME3" library="_RoweTel" deviceset="GENERICL-B-SIZE" device=""/>
 <part name="B-FRAME2" library="_RoweTel" deviceset="GENERICL-B-SIZE" device=""/>
@@ -4112,10 +4134,10 @@ http://www.weartronics.com/</description>
 <part name="V1" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="R47" library="_RoweTel" deviceset="PAN-EVM1D" device="" value="500,POT"/>
 <part name="R52" library="_RoweTel" deviceset="PAN-EVM1D" device="" value="1K,POT"/>
-<part name="C22" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
-<part name="C23" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,25V"/>
-<part name="C41" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
-<part name="C42" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
+<part name="C22" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
+<part name="C23" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
+<part name="C41" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
+<part name="C42" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
 <part name="V2" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="U$12" library="A-SUPPLY2" deviceset="+VIN" device=""/>
 <part name="V6" library="A-SUPPLY2" deviceset="GND" device=""/>
@@ -4126,14 +4148,14 @@ http://www.weartronics.com/</description>
 <part name="FB3" library="_RoweTel" deviceset="FB0805" device=""/>
 <part name="FB4" library="_RoweTel" deviceset="FB0805" device=""/>
 <part name="FB6" library="_RoweTel" deviceset="FB0805" device=""/>
-<part name="C43" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100pF,50V"/>
-<part name="C44" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100pF,50V"/>
-<part name="C45" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100pF,50V"/>
+<part name="C43" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100pF,50V"/>
+<part name="C44" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100pF,50V"/>
+<part name="C45" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100pF,50V"/>
 <part name="U8" library="_RoweTel" deviceset="LM386?-*" device="M" technology="1"/>
 <part name="T1" library="_RoweTel" deviceset="SM-LP-5001" device=""/>
 <part name="T2" library="_RoweTel" deviceset="SM-LP-5001" device=""/>
 <part name="V100" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="C46" library="ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,25V"/>
+<part name="C46" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
 <part name="V102" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="R10" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="47,1%"/>
 <part name="D2" library="_RoweTel" deviceset="BAT60J" device=""/>
@@ -4145,42 +4167,42 @@ http://www.weartronics.com/</description>
 <part name="V16" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="C29" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="1210" value="22uF,25V,1210"/>
 <part name="U9" library="_RoweTel" deviceset="LMV341" device=""/>
-<part name="R41" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="2.2K,1%"/>
+<part name="R41" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="2.2K,1%"/>
 <part name="R42" library="_RoweTel" deviceset="PAN-EVM1D" device="" value="500K,POT"/>
 <part name="V62" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="R53" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="2.2K,1%"/>
+<part name="R53" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="2.2K,1%"/>
 <part name="V91" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="C62" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
+<part name="C62" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
 <part name="C35" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="2.2uF,16V"/>
 <part name="V60" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="C50" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="2.2uF,16V"/>
 <part name="V107" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="R56" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="2.2K,1%"/>
+<part name="R56" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="2.2K,1%"/>
 <part name="V108" library="A-SUPPLY2" deviceset="VDD" device=""/>
 <part name="V109" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="C51" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
+<part name="C51" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
 <part name="V110" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="U$1" library="A-SUPPLY2" deviceset="+VIN" device=""/>
 <part name="V71" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="C52" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
-<part name="C53" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="10nF,16V,0402"/>
+<part name="C52" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
+<part name="C53" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="10nF,25V"/>
 <part name="V112" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V113" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V114" library="A-SUPPLY2" deviceset="VDD" device=""/>
 <part name="V115" library="A-SUPPLY2" deviceset="VDD" device=""/>
 <part name="CN1" library="_Coherix" deviceset="HDR100-3" device=""/>
-<part name="R1" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="10K,1%"/>
+<part name="R1" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="10K,1%"/>
 <part name="V18" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V19" library="A-SUPPLY2" deviceset="VDD" device=""/>
 <part name="V12" library="A-SUPPLY2" deviceset="VDD" device=""/>
 <part name="V13" library="A-SUPPLY2" deviceset="VDD" device=""/>
-<part name="R3" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="4.7K,1%"/>
+<part name="R3" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="4.7K,1%"/>
 <part name="V14" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V20" library="A-SUPPLY2" deviceset="VDD" device=""/>
-<part name="R7" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="10K,1%"/>
+<part name="R7" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="10K,1%"/>
 <part name="V21" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V37" library="A-SUPPLY2" deviceset="VDD" device=""/>
-<part name="R8" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="10K,1%"/>
+<part name="R8" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="10K,1%"/>
 <part name="V44" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V101" library="A-SUPPLY2" deviceset="VDD" device=""/>
 <part name="CN11" library="_Coherix" deviceset="HDR100-3" device=""/>
@@ -4218,35 +4240,35 @@ http://www.weartronics.com/</description>
 <part name="U$3" library="A-SUPPLY2" deviceset="+VIN" device=""/>
 <part name="C1" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="1nF,25V,0402"/>
 <part name="V118" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="C30" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="10nF,25V"/>
+<part name="C30" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="10nF,25V"/>
 <part name="V122" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="R11" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="100,1%"/>
-<part name="C49" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
+<part name="C49" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
 <part name="V124" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="FB7" library="_RoweTel" deviceset="FB0805" device=""/>
-<part name="R55" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0805" value="0 Ohm"/>
-<part name="R54" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0805" value="0 Ohm"/>
+<part name="R55" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="0 Ohm"/>
+<part name="R54" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="0 Ohm"/>
 <part name="C55" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="1nF,25V,0402"/>
 <part name="C56" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="1nF,25V,0402"/>
 <part name="V125" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V126" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="R57" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="470,1%"/>
-<part name="R18" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0805" value="0 Ohm"/>
+<part name="R57" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="470,1%"/>
+<part name="R18" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="0 Ohm"/>
 <part name="FB5" library="_RoweTel" deviceset="FB0805" device=""/>
-<part name="R21" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0805" value="0 Ohm"/>
+<part name="R21" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="0 Ohm"/>
 <part name="C70" library="ipc-7351-capacitor" deviceset="CAPACITOR_" device="1210" value="22uF,25V,1210"/>
 <part name="V127" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="L1" library="_RoweTel" deviceset="SRR5028" device="" value="4.2uH"/>
 <part name="D1" library="_RoweTel" deviceset="RSX051VA30" device=""/>
-<part name="R37" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="10K,1%"/>
+<part name="R37" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="10K,1%"/>
 <part name="V17" library="A-SUPPLY2" deviceset="AVDD" device=""/>
 <part name="V57" library="A-SUPPLY2" deviceset="AVDD" device=""/>
 <part name="V93" library="A-SUPPLY2" deviceset="AVDD" device=""/>
-<part name="R29" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="1.5K,1%"/>
-<part name="C54" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100pF,25V"/>
+<part name="R29" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="1.5K,1%"/>
+<part name="C54" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100pF,50V"/>
 <part name="V89" library="A-SUPPLY2" deviceset="AVDD" device=""/>
 <part name="V103" library="A-SUPPLY2" deviceset="AVDD" device=""/>
-<part name="C58" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
+<part name="C58" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
 <part name="V104" library="A-SUPPLY2" deviceset="AVDD" device=""/>
 <part name="V128" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="C59" library="_RoweTel" deviceset="NICHICON-WX-6.3" device="" value="100uF,6.3V,EL"/>
@@ -4279,16 +4301,16 @@ http://www.weartronics.com/</description>
 <part name="V134" library="A-SUPPLY2" deviceset="RF_SPKR" device=""/>
 <part name="V69" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V70" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="R23" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="47K,1%"/>
-<part name="C61" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
+<part name="R23" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="47K,1%"/>
+<part name="C61" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
 <part name="V135" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="R9" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="1.5K,1%"/>
+<part name="R9" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="1.5K,1%"/>
 <part name="C63" library="_RoweTel" deviceset="CAP-CHEMI-MVE-HA0" device="" value="220uF,25V"/>
 <part name="V73" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="FB8" library="_RoweTel" deviceset="FB0805" device=""/>
 <part name="C64" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="1210" value="22uF,25V,1210"/>
 <part name="C65" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="1uF,16V"/>
-<part name="C66" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="100nF,16V"/>
+<part name="C66" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
 <part name="V136" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V137" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V138" library="A-SUPPLY2" deviceset="GND" device=""/>
