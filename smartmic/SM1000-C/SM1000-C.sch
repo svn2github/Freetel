@@ -638,7 +638,7 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <wire x1="1" y1="2" x2="1" y2="-2" width="0.15" layer="51"/>
 <wire x1="1" y1="-2" x2="-1" y2="-2" width="0.15" layer="51"/>
 <wire x1="-1" y1="-2" x2="-1" y2="-1.5" width="0.15" layer="51"/>
-<text x="-2" y="-4" size="1" layer="51" ratio="10">&gt;NAME</text>
+<text x="1.5" y="0" size="1" layer="104" ratio="10">&gt;NAME</text>
 <rectangle x1="-0.5" y1="-2" x2="0.5" y2="-0.5" layer="51"/>
 <rectangle x1="-0.5" y1="0.5" x2="0.5" y2="2" layer="51"/>
 </package>
@@ -856,12 +856,12 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <wire x1="6" y1="4.5" x2="6" y2="-4.5" width="0" layer="39"/>
 <wire x1="6" y1="-4.5" x2="-6" y2="-4.5" width="0" layer="39"/>
 <wire x1="-6" y1="-4.5" x2="-6" y2="4.5" width="0" layer="39"/>
-<wire x1="-3.85" y1="5.25" x2="-3.85" y2="4.45" width="0.15" layer="22"/>
-<wire x1="-3.8" y1="1" x2="-3.8" y2="-0.95" width="0.15" layer="22"/>
-<wire x1="-3" y1="-4" x2="3" y2="-4" width="0.15" layer="22"/>
-<wire x1="3.85" y1="-1" x2="3.85" y2="1" width="0.15" layer="22"/>
-<wire x1="3.85" y1="4.55" x2="3.85" y2="5.25" width="0.15" layer="22"/>
-<wire x1="3.85" y1="5.25" x2="-3.85" y2="5.25" width="0.15" layer="22"/>
+<wire x1="-3.85" y1="5.25" x2="-3.85" y2="4.45" width="0.15" layer="21"/>
+<wire x1="-3.8" y1="1" x2="-3.8" y2="-0.95" width="0.15" layer="21"/>
+<wire x1="-3" y1="-4" x2="3" y2="-4" width="0.15" layer="21"/>
+<wire x1="3.85" y1="-1" x2="3.85" y2="1" width="0.15" layer="21"/>
+<wire x1="3.85" y1="4.55" x2="3.85" y2="5.25" width="0.15" layer="21"/>
+<wire x1="3.85" y1="5.25" x2="-3.85" y2="5.25" width="0.15" layer="21"/>
 <text x="-6.5" y="-6" size="0.8128" layer="25" ratio="10">&gt;NAME</text>
 </package>
 </packages>
