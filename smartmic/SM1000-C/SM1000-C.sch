@@ -263,12 +263,18 @@
 <wire x1="-2.5" y1="4.15" x2="-3.5" y2="4.15" width="0.15" layer="21"/>
 <wire x1="3.5" y1="4.15" x2="2.5" y2="4.15" width="0.15" layer="21"/>
 <text x="-3" y="7" size="1" layer="21" ratio="10">&gt;NAME</text>
-<wire x1="-4.5" y1="6.5" x2="-4.5" y2="6" width="0" layer="39"/>
-<wire x1="-4.5" y1="6" x2="-4.5" y2="-6.5" width="0" layer="39"/>
-<wire x1="-4.5" y1="-6.5" x2="4.5" y2="-6.5" width="0" layer="39"/>
-<wire x1="4.5" y1="-6.5" x2="4.5" y2="6.5" width="0" layer="39"/>
-<wire x1="4.5" y1="6.5" x2="-4.5" y2="6.5" width="0" layer="39"/>
-<wire x1="-4.5" y1="6.5" x2="-4.5" y2="6" width="0" layer="39"/>
+<wire x1="4.5" y1="-4.5" x2="4.5" y2="4.5" width="0" layer="39"/>
+<wire x1="-4.5" y1="-4.5" x2="-4.5" y2="4.5" width="0" layer="39"/>
+<wire x1="-4.5" y1="4.5" x2="-2" y2="4.5" width="0" layer="39"/>
+<wire x1="-2" y1="4.5" x2="-2" y2="6" width="0" layer="39"/>
+<wire x1="-2" y1="6" x2="2" y2="6" width="0" layer="39"/>
+<wire x1="2" y1="6" x2="2" y2="4.5" width="0" layer="39"/>
+<wire x1="2" y1="4.5" x2="4.5" y2="4.5" width="0" layer="39"/>
+<wire x1="-4.5" y1="-4.5" x2="-2" y2="-4.5" width="0" layer="39"/>
+<wire x1="-2" y1="-4.5" x2="-2" y2="-6" width="0" layer="39"/>
+<wire x1="-2" y1="-6" x2="2" y2="-6" width="0" layer="39"/>
+<wire x1="2" y1="-6" x2="2" y2="-4.5" width="0" layer="39"/>
+<wire x1="2" y1="-4.5" x2="4.5" y2="-4.5" width="0" layer="39"/>
 </package>
 <package name="C1206-TANT">
 <wire x1="-2.35" y1="-1.1" x2="-2.35" y2="1.1" width="0" layer="39"/>
@@ -471,13 +477,17 @@ INFINEON, www.infineon.com/cmc_upload/0/000/010/257/eh_db_5b.pdf</description>
 <text x="-2" y="3.5" size="0.8128" layer="25" ratio="10">&gt;NAME</text>
 </package>
 <package name="FE0805">
-<smd name="1" x="-0.975" y="0" dx="1.47" dy="1.28" layer="1" rot="R90"/>
-<smd name="2" x="0.975" y="0" dx="1.47" dy="1.28" layer="1" rot="R90"/>
+<smd name="1" x="-0.975" y="0" dx="1.47" dy="1.28" layer="1" roundness="25" rot="R90"/>
+<smd name="2" x="0.975" y="0" dx="1.47" dy="1.28" layer="1" roundness="25" rot="R90"/>
 <wire x1="-2.2" y1="1.2" x2="2.2" y2="1.2" width="0" layer="39"/>
 <wire x1="2.2" y1="1.2" x2="2.2" y2="-1.2" width="0" layer="39"/>
 <wire x1="2.2" y1="-1.2" x2="-2.2" y2="-1.2" width="0" layer="39"/>
 <wire x1="-2.2" y1="-1.2" x2="-2.2" y2="1.2" width="0" layer="39"/>
-<text x="-2.5" y="1.5" size="1" layer="25" ratio="10">&gt;NAME</text>
+<text x="-2" y="1.5" size="0.8128" layer="25" ratio="10">&gt;NAME</text>
+<wire x1="-2.2" y1="1.2" x2="2.2" y2="1.2" width="0.125" layer="21"/>
+<wire x1="2.2" y1="1.2" x2="2.2" y2="-1.2" width="0.125" layer="21"/>
+<wire x1="2.2" y1="-1.2" x2="-2.2" y2="-1.2" width="0.125" layer="21"/>
+<wire x1="-2.2" y1="-1.2" x2="-2.2" y2="1.2" width="0.125" layer="21"/>
 </package>
 <package name="DIL08">
 <description>&lt;b&gt;Dual In Line Package&lt;/b&gt;</description>
@@ -3343,17 +3353,22 @@ http://www.weartronics.com/</description>
 <wire x1="-1.5" y1="0.75" x2="1.5" y2="0.75" width="0" layer="39"/>
 <wire x1="1.5" y1="0.75" x2="1.5" y2="-0.75" width="0" layer="39"/>
 <wire x1="1.5" y1="-0.75" x2="-1.5" y2="-0.75" width="0" layer="39"/>
-<wire x1="0" y1="0.5" x2="0" y2="-0.5" width="0.127" layer="21"/>
 <wire x1="-0.8" y1="-0.425" x2="-0.8" y2="0.425" width="0.127" layer="51"/>
 <wire x1="-0.8" y1="0.425" x2="0.8" y2="0.425" width="0.127" layer="51"/>
 <wire x1="0.8" y1="0.425" x2="0.8" y2="-0.425" width="0.127" layer="51"/>
 <wire x1="0.8" y1="-0.425" x2="-0.8" y2="-0.425" width="0.127" layer="51"/>
-<smd name="1" x="-0.8" y="0" dx="1" dy="0.9" layer="1" roundness="25" rot="R90"/>
-<smd name="2" x="0.8" y="0" dx="1" dy="0.9" layer="1" roundness="25" rot="R90"/>
-<text x="-1.25" y="0.8175" size="1" layer="25" font="vector" ratio="10">&gt;NAME</text>
+<smd name="1" x="-0.8" y="0" dx="0.95" dy="0.8" layer="1" roundness="25" rot="R90"/>
+<smd name="2" x="0.8" y="0" dx="0.95" dy="0.8" layer="1" roundness="25" rot="R90"/>
+<text x="-1.55" y="1.0175" size="0.8128" layer="25" font="vector" ratio="10">&gt;NAME</text>
 <text x="-1.25" y="-2.0875" size="1" layer="27" font="vector" ratio="10">&gt;VALUE</text>
 <rectangle x1="-0.8" y1="-0.425" x2="-0.5" y2="0.425" layer="51"/>
 <rectangle x1="0.5" y1="-0.425" x2="0.8" y2="0.425" layer="51"/>
+<wire x1="0" y1="0.75" x2="-1.5" y2="0.75" width="0.125" layer="21"/>
+<wire x1="-1.5" y1="0.75" x2="-1.5" y2="-0.75" width="0.125" layer="21"/>
+<wire x1="-1.5" y1="-0.75" x2="0" y2="-0.75" width="0.125" layer="21"/>
+<wire x1="0" y1="0.75" x2="1.5" y2="0.75" width="0.125" layer="21"/>
+<wire x1="1.5" y1="0.75" x2="1.5" y2="-0.75" width="0.125" layer="21"/>
+<wire x1="1.5" y1="-0.75" x2="0" y2="-0.75" width="0.125" layer="21"/>
 </package>
 <package name="RESC0603X30N">
 <wire x1="-0.75" y1="-0.35" x2="-0.75" y2="0.35" width="0" layer="39"/>
@@ -3372,36 +3387,24 @@ http://www.weartronics.com/</description>
 <rectangle x1="0.15" y1="-0.15" x2="0.3" y2="0.15" layer="51"/>
 </package>
 <package name="RESC1005X40AN">
-<wire x1="-0.9" y1="-0.45" x2="-0.9" y2="0.45" width="0" layer="39"/>
-<wire x1="-0.9" y1="0.45" x2="0.9" y2="0.45" width="0" layer="39"/>
-<wire x1="0.9" y1="0.45" x2="0.9" y2="-0.45" width="0" layer="39"/>
-<wire x1="0.9" y1="-0.45" x2="-0.9" y2="-0.45" width="0" layer="39"/>
+<wire x1="-0.95" y1="-0.5" x2="-0.95" y2="0.5" width="0" layer="39"/>
+<wire x1="-0.95" y1="0.5" x2="0.95" y2="0.5" width="0" layer="39"/>
+<wire x1="0.95" y1="0.5" x2="0.95" y2="-0.5" width="0" layer="39"/>
+<wire x1="0.95" y1="-0.5" x2="-0.95" y2="-0.5" width="0" layer="39"/>
 <wire x1="-0.5" y1="-0.25" x2="-0.5" y2="0.25" width="0.127" layer="51"/>
 <wire x1="-0.5" y1="0.25" x2="0.5" y2="0.25" width="0.127" layer="51"/>
 <wire x1="0.5" y1="0.25" x2="0.5" y2="-0.25" width="0.127" layer="51"/>
 <wire x1="0.5" y1="-0.25" x2="-0.5" y2="-0.25" width="0.127" layer="51"/>
-<smd name="1" x="-0.45" y="0" dx="0.6" dy="0.6" layer="1" roundness="25" rot="R90"/>
-<smd name="2" x="0.45" y="0" dx="0.6" dy="0.6" layer="1" roundness="25" rot="R90"/>
-<text x="-0.75" y="0.554" size="1" layer="25" font="vector" ratio="10">&gt;NAME</text>
+<smd name="1" x="-0.5" y="0" dx="0.65" dy="0.6" layer="1" roundness="25" rot="R90"/>
+<smd name="2" x="0.5" y="0" dx="0.65" dy="0.6" layer="1" roundness="25" rot="R90"/>
+<text x="-1.05" y="0.754" size="0.8128" layer="25" font="vector" ratio="10">&gt;NAME</text>
 <text x="-0.75" y="-1.824" size="1" layer="27" font="vector" ratio="10">&gt;VALUE</text>
 <rectangle x1="-0.5" y1="-0.25" x2="-0.25" y2="0.25" layer="51"/>
 <rectangle x1="0.25" y1="-0.25" x2="0.5" y2="0.25" layer="51"/>
-</package>
-<package name="RESC2012X70N">
-<wire x1="-1.75" y1="-0.95" x2="-1.75" y2="0.95" width="0" layer="39"/>
-<wire x1="-1.75" y1="0.95" x2="1.75" y2="0.95" width="0" layer="39"/>
-<wire x1="1.75" y1="0.95" x2="1.75" y2="-0.95" width="0" layer="39"/>
-<wire x1="1.75" y1="-0.95" x2="-1.75" y2="-0.95" width="0" layer="39"/>
-<wire x1="-1" y1="-0.625" x2="-1" y2="0.625" width="0.127" layer="51"/>
-<wire x1="-1" y1="0.625" x2="1" y2="0.625" width="0.127" layer="51"/>
-<wire x1="1" y1="0.625" x2="1" y2="-0.625" width="0.127" layer="51"/>
-<wire x1="1" y1="-0.625" x2="-1" y2="-0.625" width="0.127" layer="51"/>
-<smd name="1" x="-0.95" y="0" dx="1.4" dy="1.05" layer="1" roundness="25" rot="R90"/>
-<smd name="2" x="0.95" y="0" dx="1.4" dy="1.05" layer="1" roundness="25" rot="R90"/>
-<text x="-1.475" y="1.0175" size="1" layer="25" font="vector" ratio="10">&gt;NAME</text>
-<text x="-1.475" y="-2.2875" size="1" layer="27" font="vector" ratio="10">&gt;VALUE</text>
-<rectangle x1="-1" y1="-0.625" x2="-0.6" y2="0.625" layer="51"/>
-<rectangle x1="0.6" y1="-0.625" x2="1" y2="0.625" layer="51"/>
+<wire x1="-1" y1="0.5" x2="-1" y2="-0.5" width="0.125" layer="21"/>
+<wire x1="1" y1="0.5" x2="-1" y2="0.5" width="0.125" layer="21"/>
+<wire x1="1" y1="0.5" x2="1" y2="-0.5" width="0.125" layer="21"/>
+<wire x1="-1" y1="-0.5" x2="1" y2="-0.5" width="0.125" layer="21"/>
 </package>
 <package name="RESC3115X70N">
 <wire x1="-2.25" y1="-1.1" x2="-2.25" y2="1.1" width="0" layer="39"/>
@@ -3492,6 +3495,28 @@ http://www.weartronics.com/</description>
 <text x="-3.675" y="-3.2875" size="1" layer="27" font="vector" ratio="10">&gt;VALUE</text>
 <rectangle x1="-3.2" y1="-1.6" x2="-2.6" y2="1.6" layer="51"/>
 <rectangle x1="2.6" y1="-1.6" x2="3.2" y2="1.6" layer="51"/>
+</package>
+<package name="RESC2012X70N">
+<wire x1="-1.75" y1="-0.95" x2="-1.75" y2="0.95" width="0" layer="39"/>
+<wire x1="-1.75" y1="0.95" x2="1.75" y2="0.95" width="0" layer="39"/>
+<wire x1="1.75" y1="0.95" x2="1.75" y2="-0.95" width="0" layer="39"/>
+<wire x1="1.75" y1="-0.95" x2="-1.75" y2="-0.95" width="0" layer="39"/>
+<wire x1="-1" y1="-0.625" x2="-1" y2="0.625" width="0.127" layer="51"/>
+<wire x1="-1" y1="0.625" x2="1" y2="0.625" width="0.127" layer="51"/>
+<wire x1="1" y1="0.625" x2="1" y2="-0.625" width="0.127" layer="51"/>
+<wire x1="1" y1="-0.625" x2="-1" y2="-0.625" width="0.127" layer="51"/>
+<smd name="1" x="-0.95" y="0" dx="1.4" dy="1.05" layer="1" roundness="25" rot="R90"/>
+<smd name="2" x="0.95" y="0" dx="1.4" dy="1.05" layer="1" roundness="25" rot="R90"/>
+<text x="-1.475" y="1.0175" size="1" layer="25" font="vector" ratio="10">&gt;NAME</text>
+<text x="-1.475" y="-2.2875" size="1" layer="27" font="vector" ratio="10">&gt;VALUE</text>
+<rectangle x1="-1" y1="-0.625" x2="-0.6" y2="0.625" layer="51"/>
+<rectangle x1="0.6" y1="-0.625" x2="1" y2="0.625" layer="51"/>
+<wire x1="-1" y1="0.9" x2="-1.7" y2="0.9" width="0.125" layer="21"/>
+<wire x1="-1.7" y1="0.9" x2="-1.7" y2="-0.9" width="0.125" layer="21"/>
+<wire x1="-1.7" y1="-0.9" x2="-1" y2="-0.9" width="0.125" layer="21"/>
+<wire x1="1" y1="0.9" x2="1.7" y2="0.9" width="0.125" layer="21"/>
+<wire x1="1.7" y1="0.9" x2="1.7" y2="-0.9" width="0.125" layer="21"/>
+<wire x1="1.7" y1="-0.9" x2="1" y2="-0.9" width="0.125" layer="21"/>
 </package>
 </packages>
 <symbols>
@@ -3612,17 +3637,19 @@ http://www.weartronics.com/</description>
 <wire x1="-1.5" y1="0.75" x2="1.5" y2="0.75" width="0" layer="39"/>
 <wire x1="1.5" y1="0.75" x2="1.5" y2="-0.75" width="0" layer="39"/>
 <wire x1="1.5" y1="-0.75" x2="-1.5" y2="-0.75" width="0" layer="39"/>
-<wire x1="0" y1="0.45" x2="0" y2="-0.45" width="0.127" layer="21"/>
 <wire x1="-0.8" y1="-0.4" x2="-0.8" y2="0.4" width="0.127" layer="51"/>
 <wire x1="-0.8" y1="0.4" x2="0.8" y2="0.4" width="0.127" layer="51"/>
 <wire x1="0.8" y1="0.4" x2="0.8" y2="-0.4" width="0.127" layer="51"/>
 <wire x1="0.8" y1="-0.4" x2="-0.8" y2="-0.4" width="0.127" layer="51"/>
 <smd name="1" x="-0.8" y="0" dx="0.95" dy="0.9" layer="1" roundness="25" rot="R90"/>
-<smd name="2" x="0.8" y="0" dx="0.95" dy="0.9" layer="1" rot="R90"/>
-<text x="-1.25" y="0.7675" size="1" layer="25" font="vector" ratio="10">&gt;NAME</text>
-<text x="-1.25" y="-2.0375" size="1" layer="27" font="vector" ratio="10">&gt;VALUE</text>
+<smd name="2" x="0.8" y="0" dx="0.95" dy="0.9" layer="1" roundness="25" rot="R90"/>
+<text x="-1.55" y="1.0675" size="0.8128" layer="25" font="vector" ratio="10">&gt;NAME</text>
 <rectangle x1="-0.8" y1="-0.4" x2="-0.42" y2="0.4" layer="51"/>
 <rectangle x1="0.42" y1="-0.4" x2="0.8" y2="0.4" layer="51"/>
+<wire x1="-1.5" y1="0.75" x2="1.5" y2="0.75" width="0.125" layer="21"/>
+<wire x1="1.5" y1="0.75" x2="1.5" y2="-0.75" width="0.125" layer="21"/>
+<wire x1="1.5" y1="-0.75" x2="-1.5" y2="-0.75" width="0.125" layer="21"/>
+<wire x1="-1.5" y1="-0.75" x2="-1.5" y2="0.75" width="0.125" layer="21"/>
 </package>
 <package name="CAPC1005X60N">
 <wire x1="-0.95" y1="-0.5" x2="-0.95" y2="0.5" width="0" layer="39"/>
@@ -3635,10 +3662,13 @@ http://www.weartronics.com/</description>
 <wire x1="0.5125" y1="-0.2625" x2="-0.5125" y2="-0.2625" width="0.127" layer="51"/>
 <smd name="1" x="-0.45" y="0" dx="0.65" dy="0.65" layer="1" roundness="25" rot="R90"/>
 <smd name="2" x="0.45" y="0" dx="0.65" dy="0.65" layer="1" roundness="25" rot="R90"/>
-<text x="-0.775" y="0.579" size="1" layer="25" font="vector" ratio="10">&gt;NAME</text>
-<text x="-0.775" y="-1.849" size="1" layer="27" font="vector" ratio="10">&gt;VALUE</text>
+<text x="-0.975" y="0.779" size="0.8128" layer="25" font="vector" ratio="10">&gt;NAME</text>
 <rectangle x1="-0.5125" y1="-0.2625" x2="-0.2575" y2="0.2625" layer="51"/>
 <rectangle x1="0.2575" y1="-0.2625" x2="0.5125" y2="0.2625" layer="51"/>
+<wire x1="-1" y1="0.5" x2="1" y2="0.5" width="0.125" layer="21"/>
+<wire x1="1" y1="0.5" x2="1" y2="-0.5" width="0.125" layer="21"/>
+<wire x1="1" y1="-0.5" x2="-1" y2="-0.5" width="0.125" layer="21"/>
+<wire x1="-1" y1="-0.5" x2="-1" y2="0.5" width="0.125" layer="21"/>
 </package>
 <package name="CAPC1220X107N">
 <wire x1="-1.1" y1="-1.25" x2="-1.1" y2="1.25" width="0" layer="39"/>
@@ -4224,9 +4254,7 @@ http://www.weartronics.com/</description>
 <part name="P12" library="_Coherix" deviceset="TPAD50" device=""/>
 <part name="P13" library="_Coherix" deviceset="TPAD50" device=""/>
 <part name="P14" library="_Coherix" deviceset="TPAD50" device=""/>
-<part name="P15" library="_Coherix" deviceset="TPAD50" device=""/>
 <part name="P16" library="_Coherix" deviceset="TPAD50" device=""/>
-<part name="P17" library="_Coherix" deviceset="TPAD50" device=""/>
 <part name="P18" library="_Coherix" deviceset="TPAD50" device=""/>
 <part name="P19" library="_Coherix" deviceset="TPAD50" device=""/>
 <part name="P20" library="_Coherix" deviceset="TPAD50" device=""/>
@@ -4234,8 +4262,6 @@ http://www.weartronics.com/</description>
 <part name="V116" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V117" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V119" library="A-SUPPLY2" deviceset="VDD" device=""/>
-<part name="V120" library="A-SUPPLY2" deviceset="VDD" device=""/>
-<part name="V121" library="A-SUPPLY2" deviceset="VDD" device=""/>
 <part name="V123" library="A-SUPPLY2" deviceset="+5V" device=""/>
 <part name="U$3" library="A-SUPPLY2" deviceset="+VIN" device=""/>
 <part name="C1" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="1nF,25V,0402"/>
@@ -4739,9 +4765,7 @@ http://www.weartronics.com/</description>
 </instance>
 <instance part="P13" gate="G$1" x="78.74" y="261.62" rot="R180"/>
 <instance part="P14" gate="G$1" x="83.82" y="251.46"/>
-<instance part="P15" gate="G$1" x="88.9" y="261.62" rot="R180"/>
 <instance part="P16" gate="G$1" x="93.98" y="251.46"/>
-<instance part="P17" gate="G$1" x="99.06" y="261.62" rot="R180"/>
 <instance part="P18" gate="G$1" x="104.14" y="251.46"/>
 <instance part="P19" gate="G$1" x="109.22" y="261.62" rot="R180"/>
 <instance part="P20" gate="G$1" x="114.3" y="261.62" rot="R180"/>
@@ -4750,12 +4774,6 @@ http://www.weartronics.com/</description>
 <instance part="V117" gate="GND" x="104.14" y="243.84"/>
 <instance part="V119" gate="G$1" x="78.74" y="264.16" smashed="yes">
 <attribute name="VALUE" x="76.2" y="267.208" size="1.4224" layer="95" ratio="9"/>
-</instance>
-<instance part="V120" gate="G$1" x="88.9" y="264.16" smashed="yes">
-<attribute name="VALUE" x="86.36" y="267.208" size="1.4224" layer="95" ratio="9"/>
-</instance>
-<instance part="V121" gate="G$1" x="99.06" y="264.16" smashed="yes">
-<attribute name="VALUE" x="96.52" y="267.208" size="1.4224" layer="95" ratio="9"/>
 </instance>
 <instance part="V123" gate="G$1" x="109.22" y="266.7"/>
 <instance part="U$3" gate="G$1" x="114.3" y="266.7"/>
@@ -4950,16 +4968,6 @@ http://www.weartronics.com/</description>
 <pinref part="V119" gate="G$1" pin="VDD"/>
 <pinref part="P13" gate="G$1" pin="1"/>
 <wire x1="78.74" y1="264.16" x2="78.74" y2="261.62" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="V120" gate="G$1" pin="VDD"/>
-<pinref part="P15" gate="G$1" pin="1"/>
-<wire x1="88.9" y1="264.16" x2="88.9" y2="261.62" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="V121" gate="G$1" pin="VDD"/>
-<pinref part="P17" gate="G$1" pin="1"/>
-<wire x1="99.06" y1="264.16" x2="99.06" y2="261.62" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="R7" gate="G$1" pin="2"/>
