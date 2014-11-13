@@ -30,16 +30,10 @@ ExternalProject_Add(sox
     BUILD_COMMAND $(MAKE)
     INSTALL_COMMAND $(MAKE) install
 )
-if(WIN32)
-    set(SOX_LIBRARIES
-        ${CMAKE_BINARY_DIR}/external/dist/lib/sox.lib)
-else(WIN32)
-    set(SOX_LIBRARIES
-        ${CMAKE_BINARY_DIR}/external/dist/lib/libsox.a
-        ${ALSA_LIBRARIES}
-        ${AO_LIBRARIES}
-    )
-endif(WIN32)
+set(SOX_LIBRARIES ${CMAKE_BINARY_DIR}/external/dist/lib/libsox.a)
+if(UNIX)
+    list(APPEND SOX_LIBRARIES ${ALSA_LIBRARIES} ${AO_LIBRARIES})
+endif()
 include_directories(${CMAKE_BINARY_DIR}/external/dist/include)
 list(APPEND FREEDV_LINK_LIBS ${SOX_LIBRARIES})
 list(APPEND FREEDV_STATIC_DEPS sox)
