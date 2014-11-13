@@ -10,7 +10,7 @@ ExternalProject_Add(sndfile
     INSTALL_COMMAND $(MAKE) install
 )
 set(SNDFILE_LIBRARIES
-    ${CMAKE_BINARY_DIR}/external/dist/lib/libsndfile.a)
+    ${CMAKE_BINARY_DIR}/external/dist/lib/libsndfile.a PARENT_SCOPE)
 include_directories(${CMAKE_BINARY_DIR}/external/dist/include)
 list(APPEND FREEDV_LINK_LIBS ${SNDFILE_LIBRARIES})
 list(APPEND FREEDV_STATIC_DEPS sndfile)

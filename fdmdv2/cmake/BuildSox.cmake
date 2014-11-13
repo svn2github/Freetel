@@ -40,4 +40,5 @@ list(APPEND FREEDV_STATIC_DEPS sox)
 
 if(USE_STATIC_SNDFILE)
     add_dependencies(sox sndfile)
+    list(APPEND FREEDV_LINK_LIBS ${SNDFILE_LIBRARIES})
 endif(USE_STATIC_SNDFILE)
