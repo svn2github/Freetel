@@ -6,7 +6,6 @@ ExternalProject_Add(codec2
 )
 set(CODEC2_LIBRARIES
     ${CMAKE_BINARY_DIR}/codec2-prefix/src/codec2-build/src/libcodec2.a)
-endif(WIN32)
 include_directories(${CMAKE_BINARY_DIR}/codec2-prefix/src/codec2/src)
 list(APPEND FREEDV_LINK_LIBS ${CODEC2_LIBRARIES})
 list(APPEND FREEDV_STATIC_DEPS codec2)
