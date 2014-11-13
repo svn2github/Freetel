@@ -9,13 +9,8 @@ ExternalProject_Add(sndfile
     BUILD_COMMAND $(MAKE)
     INSTALL_COMMAND $(MAKE) install
 )
-if(WIN32)
-    set(SNDFILE_LIBRARIES
-        ${CMAKE_BINARY_DIR}/external/dist/lib/sndfile.lib)
-else(WIN32)
-    set(SNDFILE_LIBRARIES
-        ${CMAKE_BINARY_DIR}/external/dist/lib/libsndfile.a)
-endif(WIN32)
+set(SNDFILE_LIBRARIES
+    ${CMAKE_BINARY_DIR}/external/dist/lib/libsndfile.a)
 include_directories(${CMAKE_BINARY_DIR}/external/dist/include)
 list(APPEND FREEDV_LINK_LIBS ${SNDFILE_LIBRARIES})
 list(APPEND FREEDV_STATIC_DEPS sndfile)
