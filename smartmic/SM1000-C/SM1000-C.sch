@@ -4149,7 +4149,7 @@ http://www.weartronics.com/</description>
 <part name="V74" library="A-SUPPLY2" deviceset="VDD" device=""/>
 <part name="V78" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V79" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="U1" library="SM1000" deviceset="STM32F407" device="" value="STM32F407/5"/>
+<part name="U1" library="SM1000" deviceset="STM32F407" device="" value="STM32F407"/>
 <part name="CN4" library="_Coherix" deviceset="CONN-RJ45-MOLEX-44144-003" device="" value="RJ-45"/>
 <part name="R4" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="4.7K,1%"/>
 <part name="J1" library="_Coherix" deviceset="JMP-2PIN" device=""/>
@@ -4448,7 +4448,7 @@ http://www.weartronics.com/</description>
 <text x="264.16" y="266.7" size="1.778" layer="95" ratio="10">TS-026</text>
 <text x="297.18" y="266.7" size="1.778" layer="95" ratio="10">TS-026</text>
 <text x="370.84" y="264.16" size="1.4224" layer="94" ratio="10">Release for Production</text>
-<text x="358.14" y="264.16" size="1.4224" layer="94" ratio="10">11/13/14</text>
+<text x="358.14" y="264.16" size="1.4224" layer="94" ratio="10">11/18/14</text>
 </plain>
 <instances>
 <instance part="U4" gate="G$1" x="254" y="25.4"/>
@@ -6053,7 +6053,7 @@ http://www.weartronics.com/</description>
 <text x="424.18" y="269.24" size="1.4224" layer="94" ratio="10">RGB</text>
 <text x="287.02" y="266.7" size="2.54" layer="94" ratio="10">EXT. PTT INPUT</text>
 <text x="99.06" y="27.94" size="1.778" layer="94" ratio="10">INTERNAL SPEAKER</text>
-<text x="355.6" y="266.7" size="1.4224" layer="94" ratio="10">11/13/14</text>
+<text x="355.6" y="266.7" size="1.4224" layer="94" ratio="10">11/18/14</text>
 <text x="368.3" y="266.7" size="1.4224" layer="94" ratio="10">Release for Production</text>
 <text x="419.1" y="266.7" size="1.4224" layer="94" ratio="10">C</text>
 <text x="424.18" y="266.7" size="1.4224" layer="94" ratio="10">RGB</text>
