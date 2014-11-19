@@ -1,0 +1,8 @@
+1. Change labels on top overlay near trimmers
+   [ ] SPKR IN -> RIG SPKR
+   [ ] EXT MIC -> MIC GAIN
+   [ ] Remove INT MIC label (it's not associated with a trimmer)
+
+
+
+   

@@ -1,6 +1,6 @@
 README for SM1000 Project
 Rick Barnich KA8BMA and David Rowe VK5DGR 
-14 August 2014
+Created 14 August 2014
 
 Introduction
 ------------
@@ -35,5 +35,7 @@ doc         Documentation, use cases, block diagram, prototype assembly images
 SM1000-A    First pass design that was never manufactured but used to collect
             review comment
 SM1000-B    Prototype SM1000, small qty of PCBs made and hand loaded
-SM1000-C    Beta SM1000. Changes to B to reflect testing / debug process.
+SM1000-C    pre-Beta SM1000. Changes to B to reflect testing / debug process.
+            Just 2 made to check changes before Qty 100 beta run.
+SM1000-D    Beta SM1000
 
