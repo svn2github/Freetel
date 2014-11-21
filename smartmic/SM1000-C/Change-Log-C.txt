@@ -377,7 +377,13 @@ Production Questions
 
 2/ [X] Do we supply a loud speaker?
 
-3/ [ ] What enclosure do we supply?
+3/ [ ] Enclosure
+       [ ] holes for trimmer access without removing enclosure
+       [ ] speaker mounted on top surface
+           [ ] holes for speaker sound and mounting
+       [ ] silk screen text for controls and LEDs
+
+4/ Knobs, button on PB swicthes on BOM?
 
 Rev C PCB layout notes
 ----------------------
