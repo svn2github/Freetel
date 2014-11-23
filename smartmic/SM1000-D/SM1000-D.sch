@@ -4399,7 +4399,7 @@ http://www.weartronics.com/</description>
 <text x="114.3" y="231.14" size="2.54" layer="94" ratio="10">STM32F405 CPU</text>
 <text x="137.16" y="73.66" size="2.54" layer="94" ratio="10">STM32F407 PWR CIRCUIT</text>
 <text x="347.472" y="17.272" size="3.81" layer="94" ratio="10">SmartMic Circuit Board</text>
-<text x="420.624" y="6.35" size="3.81" layer="94" ratio="10">C</text>
+<text x="420.624" y="6.35" size="3.81" layer="94" ratio="10">D</text>
 <text x="358.14" y="274.32" size="1.4224" layer="94" ratio="10">04/21/14</text>
 <text x="370.84" y="274.32" size="1.4224" layer="94" ratio="10">Added to SourceForge Repository</text>
 <text x="426.72" y="274.32" size="1.4224" layer="94" ratio="10">RGB</text>
@@ -4449,6 +4449,10 @@ http://www.weartronics.com/</description>
 <text x="297.18" y="266.7" size="1.778" layer="95" ratio="10">TS-026</text>
 <text x="370.84" y="264.16" size="1.4224" layer="94" ratio="10">Release for Production</text>
 <text x="358.14" y="264.16" size="1.4224" layer="94" ratio="10">11/18/14</text>
+<text x="358.14" y="261.62" size="1.4224" layer="94" ratio="10">11/23/14</text>
+<text x="370.84" y="261.62" size="1.4224" layer="94" ratio="10">SM1000-C -&gt; SM1000-D</text>
+<text x="421.64" y="261.62" size="1.4224" layer="94" ratio="10">D</text>
+<text x="426.72" y="261.62" size="1.4224" layer="94" ratio="10">RGB</text>
 </plain>
 <instances>
 <instance part="U4" gate="G$1" x="254" y="25.4"/>
@@ -6036,7 +6040,7 @@ http://www.weartronics.com/</description>
 <wire x1="269.24" y1="200.66" x2="353.06" y2="200.66" width="0.1524" layer="94" style="longdash"/>
 <text x="220.98" y="193.04" size="2.54" layer="94" ratio="10">RIG INTERFACE</text>
 <text x="346.456" y="17.272" size="3.81" layer="94" ratio="10">Smart Mic Circuit Board</text>
-<text x="418.592" y="6.604" size="3.81" layer="94" ratio="10">C</text>
+<text x="418.592" y="6.604" size="3.81" layer="94" ratio="10">D</text>
 <text x="10.16" y="149.86" size="1.4224" layer="94" ratio="10">NORMAL - 1-2</text>
 <text x="10.16" y="147.32" size="1.4224" layer="94" ratio="10">OPT MIC - 1 ONLY,</text>
 <text x="10.16" y="144.78" size="1.4224" layer="94" ratio="10">OPT MIC - 2-3</text>
@@ -6064,6 +6068,10 @@ http://www.weartronics.com/</description>
 <text x="185.42" y="38.1" size="2.54" layer="94" ratio="10">VDD -&gt; AVDD POWER SOURCE</text>
 <text x="210.82" y="238.76" size="1.4224" layer="94" ratio="10" rot="R180">DNL</text>
 <wire x1="251.46" y1="45.72" x2="327.66" y2="45.72" width="0.1524" layer="94" style="longdash"/>
+<text x="355.6" y="264.16" size="1.4224" layer="94" ratio="10">11/23/14</text>
+<text x="368.3" y="264.16" size="1.4224" layer="94" ratio="10">SM1000-C -&gt; SM1000-D</text>
+<text x="419.1" y="264.16" size="1.4224" layer="94" ratio="10">D</text>
+<text x="424.18" y="264.16" size="1.4224" layer="94" ratio="10">RGB</text>
 </plain>
 <instances>
 <instance part="C39" gate="G$1" x="91.44" y="55.88" smashed="yes" rot="R90">
