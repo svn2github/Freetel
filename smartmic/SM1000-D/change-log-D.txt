@@ -2,6 +2,13 @@
    [ ] SPKR IN -> RIG SPKR
    [ ] EXT MIC -> MIC GAIN
    [ ] Remove INT MIC label (it's not associated with a trimmer)
+   
+2.  [ ]  Change LED8 to LTST-S2200K. Will correct wrong footprint proble.
+
+3.  [ ] Investigate moving USB connector forward so that it extends trhu the rear panel. 
+        If it extends thru pane, we can change panel cutout back to smaller opening and not block LEDs.
+
+
 
 
 
