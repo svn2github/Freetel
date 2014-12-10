@@ -8,6 +8,10 @@
 3.  [ ] Investigate moving USB connector forward so that it extends trhu the rear panel. 
         If it extends thru pane, we can change panel cutout back to smaller opening and not block LEDs.
 
+4.  [ ] TS-26 switch footprint is mirrored front to back. Fix footprint.
+
+
+
 
 
 
