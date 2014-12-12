@@ -5,7 +5,8 @@
 Quickstart 1
 -----------
 
-Builds static versions of wxWidgets, portaudio, codec2-dev, which are commonly missing on many Linux systems, or of the wrong (older) version.
+Builds static versions of wxWidgets, portaudio, codec2-dev, which are commonly
+missing on many Linux systems, or of the wrong (older) version.
 
 Assuming the freedv-dev sources is checked out into ~/fdmdv2-dev:
 
@@ -62,11 +63,17 @@ cmake -G"MSYS Makefiles" [other options] </path/to/source>
  Bootstrapping wxWidgets build
 ===============================
 
-If wxWidgets (>= 3.0) is not available then one option is to have CMake boot-strap the build for FreeDV.
+If wxWidgets (>= 3.0) is not available then one option is to have CMake boot-
+strap the build for FreeDV.
 
-This is required because the tool wx-config is used to get the correct compiler and linker flags of the wxWidgets components needed by FreeDV. Since this is normally done at configure time, not during "make", it is not possible for CMake or have this information prior to building wxWidgets.
+This is required because the tool wx-config is used to get the correct compiler
+and linker flags of the wxWidgets components needed by FreeDV. Since this is
+normally done at configure time, not during "make", it is not possible for CMake
+or have this information prior to building wxWidgets.
 
-In order to work around this issue you can "bootstrap" the wxWidgets build using the CMake option, "BOOTSTRAP_WXWIDGETS". wxWidgets will be built using static libraries.
+In order to work around this issue you can "bootstrap" the wxWidgets build using
+the CMake option, "BOOTSTRAP_WXWIDGETS". wxWidgets will be built using static
+libraries.
 
 NOTE: This forces "USE_STATIC_WXWIDGETS" to be true internally regarless of the
 value set manually.

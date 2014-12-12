@@ -1,4 +1,4 @@
-set(SOX_TARBALL "sox-14.4.0")
+set(SOX_TARBALL "sox-14.4.1")
 
 # required linking libraries on linux. Not sure about windows.
 find_library(ALSA_LIBRARIES asound)

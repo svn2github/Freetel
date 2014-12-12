@@ -155,9 +155,23 @@ if(MINGW)
         hamlib-pcr.dll
         hamlib-prm80.dll
         hamlib-racal.dll
-        hamlib-rft.dll)
+        hamlib-rft.dll
+        hamlib-rotorez.dll
+        hamlib-rs.dll
+        hamlib-sartek.dll
+        hamlib-skanti.dll
+        hamlib-spid.dll
+        hamlib-tapr.dll
+        hamlib-tentec.dll
+        hamlib-ts7400.dll
+        hamlib-tuner.dll
+        hamlib-uniden.dll
+        hamlib-winradio.dll
+        hamlib-wj.dll
+        hamlib-yaesu.dll)
         message(STATUS "Checking for ${RUNTIME}")
-        find_library(${RUNTIME}_LIB ${RUNTIME})
+        find_library(${RUNTIME}_LIB ${RUNTIME}
+            PATH_SUFFIXES hamlib)
         message(STATUS "runtime found: ${${RUNTIME}_LIB}")
         list(APPEND CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS ${${RUNTIME}_LIB})
     endforeach()
