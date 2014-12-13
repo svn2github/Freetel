@@ -10,6 +10,9 @@
 
 4.  [ ] TS-26 switch footprint is mirrored front to back. Fix footprint.
 
+5. [ ] Edwin accidentally loaded D1 (optional DNL zener) which caused 5V switcher to develop just 3.84V.
+
+6. Change U1 to STM32F405
 
 
 
