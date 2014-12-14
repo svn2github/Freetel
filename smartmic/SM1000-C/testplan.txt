@@ -1,0 +1,34 @@
+Test Plan for Rev C SM1000
+David Rowe 15/12/14
+
+[ ] 5V and 3V3 rails OK
+[ ] 1.24V across C14 and C15
+    + on chip regulator working
+[ ] Goes into USB DFU mode when PTT held down on power on/reset
+    + STM32F4 BOOTLOADER device appears on Host PC USB port
+    + note plug USB Cable in after power up, otherwise Host PC will
+      supply power and prevent power cycle.
+[ ] Flash dac_ut.bin using USB on Linux:
+    $ sudo apt-get install dfu-util
+    $ sudo dfu-util -d 0483:df11 -c 1 -i 0 -a 0 -s 0x08000000 -D dac_ut.bin
+    + if this works it will run for about 6 seconds then stop, you don't
+      get a sucess message   
+    + power cycle/reset 
+[ ] dac_ut works
+    + several volts PP audio freq  sine wave on test points P2/P3
+
+TODO:
+(need more detail, pass/fail conditions)
+
+[ ] set up procedure to get levels right/minimise distortion on TX
+[ ] unit test for buttons and leds
+[ ] test device in analog mode OTA
+    + two radios
+[ ] test device in DV mode from modem files on a PC
+[ ] test device in digital mode OTA
+[ ] test patch panel
+[ ] test each connector can be reached by cables
+[ ] Test PTT control of radio works
+[ ] noise tests
+[ ] test external mic
+[ ] test external speaker/headphones
