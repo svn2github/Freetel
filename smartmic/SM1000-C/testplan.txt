@@ -26,9 +26,18 @@ TODO:
     + two radios
 [ ] test device in DV mode from modem files on a PC
 [ ] test device in digital mode OTA
-[ ] test patch panel
+[ ] test patch panel 
 [ ] test each connector can be reached by cables
 [ ] Test PTT control of radio works
 [ ] noise tests
 [ ] test external mic
 [ ] test external speaker/headphones
+[ ] Get another experienced Ham to try it
+    + watch them and refine install procedure
+[ ] Speaker volume in a moving car
+
+Software TODO
+
+[ ] Switch sign changed
+[ ] Way to insert callsign, like USB serial "monitor"
+[ ] way to relate firmware to SVN rev
