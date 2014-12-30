@@ -12,10 +12,11 @@
 
 5. [ ] Edwin accidentally loaded D1 (optional DNL zener) which caused 5V switcher to develop just 3.84V.
 
-6. Change U1 to STM32F405
+6. [ ] Change U1 to STM32F405
 
+7. [ ] Can't fit PCB into enclosure bottom with R46 volume control fitted.
 
-
+8. [ ] Not sure about tactile feel/quality of trim pots.  They seem to have varying tension/stifness and I can't seat a screwdriver properly in R52.
 
 
 
