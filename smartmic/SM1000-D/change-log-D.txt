@@ -16,8 +16,12 @@
 
 7. [ ] Can't fit PCB into enclosure bottom with R46 volume control fitted.
 
-8. [ ] Not sure about tactile feel/quality of trim pots.  They seem to have varying tension/stifness and I can't seat a screwdriver properly in R52.
+8. [ ] Not sure about tactile feel/quality of trim pots.  They seem to have varying tension/stifness and I can't seat a screwdriver properly in R52.  I can rotate mic gain pot all the way around.
 
+9. [ ] Why are parts designators on overlay missing?  Rubbed off with cleaning?
 
+10. [ ] Assembly instruction: J3 needs to be loaded and jumper inserted
+
+11. Microphone pins are swapped, ie rotate by 180 degrees.
 
    
