@@ -24,4 +24,14 @@
 
 11. Microphone pins are swapped, ie rotate by 180 degrees.
 
+12. Should R46 be log?
+
+13. With bud type headphones, a low volume leve is reqd.  At these
+    levels some low freq noises at the frame rate and HF hiss can be
+    heard.  As these noises are still heard with zero volume its
+    probably noise from U8.  Might need soem HP/LP filtering.  Thru
+    loudspeaker fine.  Amount of noise varies with headphones used. As
+    volume is hard to regulate perhaps another option si a series
+    resistor with the headphone jack.
+
    
