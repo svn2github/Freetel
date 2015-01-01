@@ -22,11 +22,11 @@
 
 10. [ ] Assembly instruction: J3 needs to be loaded and jumper inserted
 
-11. Microphone pins are swapped, ie rotate by 180 degrees.
+11. [ ] Microphone pins are swapped, ie rotate by 180 degrees.
 
-12. Should R46 be log?
+12. [ ] Should R46 be log?  Last half of travel makes very little difference to subjective volume.
 
-13. With bud type headphones, a low volume leve is reqd.  At these
+13. [ ] With bud type headphones, a low volume leve is reqd.  At these
     levels some low freq noises at the frame rate and HF hiss can be
     heard.  As these noises are still heard with zero volume its
     probably noise from U8.  Might need soem HP/LP filtering.  Thru
@@ -34,4 +34,9 @@
     volume is hard to regulate perhaps another option si a series
     resistor with the headphone jack.
 
-   
+14. [ ] Decide if power supply and USB programming cable should be included in BOM.
+
+15. [ ] Artwork (i.e. a coloured sleeve) for the box?  Price?  Who can design artwork?
+
+
+
