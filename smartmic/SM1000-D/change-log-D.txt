@@ -2,6 +2,7 @@
    [ ] SPKR IN -> RIG SPKR
    [ ] EXT MIC -> MIC GAIN
    [ ] Remove INT MIC label (it's not associated with a trimmer)
+		INT MIC  Identifies internal microphone. Will move to remove confusion. RGB 12/30/14
    
 2.  [ ]  Change LED8 to LTST-S2200K. Will correct wrong footprint proble.
 
@@ -9,23 +10,41 @@
         If it extends thru pane, we can change panel cutout back to smaller opening and not block LEDs.
 
 4.  [ ] TS-26 switch footprint is mirrored front to back. Fix footprint.
+		Footprint corrected, PCB will be updated for D REV. RGB 12/30/14
 
-5. [ ] Edwin accidentally loaded D1 (optional DNL zener) which caused 5V switcher to develop just 3.84V.
+5. 	[ ] Edwin accidentally loaded D1 (optional DNL zener) which caused 5V switcher to develop just 3.84V.
 
-6. [ ] Change U1 to STM32F405
+6. 	[ ] Change U1 to STM32F405
 
-7. [ ] Can't fit PCB into enclosure bottom with R46 volume control fitted.
+7. 	[ ] Can't fit PCB into enclosure bottom with R46 volume control fitted.
 
-8. [ ] Not sure about tactile feel/quality of trim pots.  They seem to have varying tension/stifness and I can't seat a screwdriver properly in R52.  I can rotate mic gain pot all the way around.
+8. 	[ ] Not sure about tactile feel/quality of trim pots.  They seem to have varying tension/stifness and I can't seat a screwdriver properly in R52.  I can rotate mic gain pot all the way around.
 
-9. [ ] Why are parts designators on overlay missing?  Rubbed off with cleaning?
+9. 	[ ] Why are parts designators on overlay missing?  Rubbed off with cleaning?
 
 10. [ ] Assembly instruction: J3 needs to be loaded and jumper inserted
 
+<<<<<<< .mine
+11.	[ ]	Microphone pins are swapped, ie rotate by 180 degrees.
+=======
 11. [ ] Microphone pins are swapped, ie rotate by 180 degrees.
+>>>>>>> .r1992
 
+<<<<<<< .mine
+12. [ ]	Should R46 be log?
+=======
 12. [ ] Should R46 be log?  Last half of travel makes very little difference to subjective volume.
+>>>>>>> .r1992
 
+<<<<<<< .mine
+13. [ ]	With bud type headphones, a low volume leve is reqd.  At these
+		levels some low freq noises at the frame rate and HF hiss can be
+		heard.  As these noises are still heard with zero volume its
+		probably noise from U8.  Might need soem HP/LP filtering.  Thru
+		loudspeaker fine.  Amount of noise varies with headphones used. As
+		volume is hard to regulate perhaps another option si a series
+		resistor with the headphone jack.
+=======
 13. [ ] With bud type headphones, a low volume leve is reqd.  At these
     levels some low freq noises at the frame rate and HF hiss can be
     heard.  As these noises are still heard with zero volume its
@@ -33,6 +52,7 @@
     loudspeaker fine.  Amount of noise varies with headphones used. As
     volume is hard to regulate perhaps another option si a series
     resistor with the headphone jack.
+>>>>>>> .r1992
 
 14. [ ] Decide if power supply and USB programming cable should be included in BOM.
 
