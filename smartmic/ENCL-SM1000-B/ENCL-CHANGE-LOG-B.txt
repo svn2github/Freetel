@@ -1,0 +1,8 @@
+CHANGE LOG ENCL-B
+rgb 01/01/2014
+
+1.	[ ]	Change metal thickness to 22GA (.85mm/.0336") for top & bottom enclosure parts. - RGB
+2.	[ ] Move rear panel(USB, POT, LEDs, etc) to top (cover) to allow top & bottom pieces to slide into position. 
+3.	[ ]	Add tab to left side to act as user surface for PTT SW & EXT PTT conn.
+4.	[ ] Add cutout (slot) in cover, left side to allow cover to slide into place over PTT SW & EXT PTT conn.
+
