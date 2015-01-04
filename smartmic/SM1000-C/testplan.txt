@@ -22,7 +22,17 @@ David Rowe 15/12/14
 [X] speak into mic, or tap board, sould be a few Vpp
     + mic gain R42 roughly in the middle of travel
 
-TODO:
+Useful Command Lines
+--------------------
+
+Receiving freedv waveform from SM1000 via mic input on laptop and decode to wave file:
+
+$ cd codec2-dev/build/src
+$ rec -r 8000 -s -2 -c 1 -t raw - trim 0 10 | ./freedv_rx - - | sox -t raw -r 8000 -s -2 - ~/Desktop/sm1000_beta_dv.wav
+
+TODO
+----
+
 (need more detail, pass/fail conditions)
 
 [ ] set up procedure to get levels right/minimise distortion on TX
