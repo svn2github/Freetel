@@ -654,8 +654,8 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 </package>
 <package name="CMA-4544PF-W">
 <circle x="0" y="0" radius="4.8" width="0.15" layer="21"/>
-<pad name="2" x="-2" y="1.27" drill="1.2" shape="square"/>
-<pad name="1" x="-2" y="-1.27" drill="1.2" diameter="1.9304"/>
+<pad name="2" x="-2" y="-1.27" drill="1.2" shape="square"/>
+<pad name="1" x="-2" y="1.27" drill="1.2" diameter="1.9304"/>
 <text x="-2.5" y="6" size="1" layer="25" ratio="10">&gt;NAME</text>
 <circle x="0" y="0" radius="5.59016875" width="0.01" layer="39"/>
 </package>
@@ -772,16 +772,15 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <text x="-8.5" y="3" size="0.8128" layer="25" ratio="10">&gt;NAME</text>
 </package>
 <package name="TS-026">
-<pad name="1" x="-1.55" y="0.925" drill="0.8" diameter="1.6764"/>
-<pad name="2" x="1.55" y="0.925" drill="0.8" diameter="1.6764"/>
-<pad name="3" x="0" y="-0.925" drill="0.8" diameter="1.6764"/>
-<wire x1="-3" y1="1" x2="-2.6" y2="1" width="0.15" layer="21"/>
-<wire x1="2.6" y1="1" x2="3" y2="1" width="0.15" layer="21"/>
-<wire x1="3" y1="1" x2="3" y2="-1.8" width="0.15" layer="21"/>
-<wire x1="3" y1="-1.8" x2="1" y2="-1.8" width="0.15" layer="21"/>
-<wire x1="-1" y1="-1.8" x2="-3" y2="-1.8" width="0.15" layer="21"/>
-<wire x1="-3" y1="-1.8" x2="-3" y2="1" width="0.15" layer="21"/>
-<wire x1="-0.5" y1="1" x2="0.5" y2="1" width="0.15" layer="21"/>
+<pad name="1" x="-1.55" y="-0.975" drill="0.8" diameter="1.6764"/>
+<pad name="2" x="1.55" y="-0.975" drill="0.8" diameter="1.6764"/>
+<pad name="3" x="0" y="0.975" drill="0.8" diameter="1.6764"/>
+<wire x1="-3" y1="1" x2="-1.1" y2="1" width="0.15" layer="21"/>
+<wire x1="1.1" y1="1" x2="3" y2="1" width="0.15" layer="21"/>
+<wire x1="3" y1="1" x2="3" y2="-2" width="0.15" layer="21"/>
+<wire x1="3" y1="-2" x2="1" y2="-2" width="0.15" layer="21"/>
+<wire x1="-1" y1="-2" x2="-3" y2="-2" width="0.15" layer="21"/>
+<wire x1="-3" y1="-2" x2="-3" y2="1" width="0.15" layer="21"/>
 <wire x1="-3" y1="2.5" x2="-1" y2="2.5" width="0.075" layer="51"/>
 <wire x1="-1" y1="2.5" x2="1" y2="2.5" width="0.075" layer="51"/>
 <wire x1="1" y1="2.5" x2="3" y2="2.5" width="0.075" layer="51"/>
@@ -795,6 +794,9 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <wire x1="3" y1="-2" x2="-3" y2="-2" width="0" layer="39"/>
 <wire x1="-3" y1="-2" x2="-3" y2="2" width="0" layer="39"/>
 <text x="-2.5" y="-3.5" size="1" layer="25" ratio="10">&gt;NAME</text>
+<wire x1="-1.2" y1="4.2" x2="1.2" y2="4.2" width="0.15" layer="201"/>
+<wire x1="-1.25" y1="4.2" x2="-1.25" y2="2.2" width="0.15" layer="201"/>
+<wire x1="1.25" y1="4.2" x2="1.25" y2="2.2" width="0.15" layer="201"/>
 </package>
 <package name="TS-02B">
 <smd name="1" x="-3.6" y="1.5" dx="1" dy="0.8" layer="1"/>
