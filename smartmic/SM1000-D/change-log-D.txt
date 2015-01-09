@@ -19,6 +19,9 @@
 7. 	[ ] Can't fit PCB into enclosure bottom with R46 volume control fitted.
 
 8. 	[ ] Not sure about tactile feel/quality of trim pots.  They seem to have varying tension/stifness and I can't seat a screwdriver properly in R52.  I can rotate mic gain pot all the way around.
+        + Action change to Bourns 3361 trimport
+        [ ] BOM changed
+        [ ] Edwin informed (maybe via new BOM)
 
 9. 	[ ] Why are parts designators on overlay missing?  Rubbed off with cleaning?
 
@@ -50,4 +53,8 @@
 
 19. [ ] Choose and order new PTT switch
 
+20. [ ] Should we DNL two power leds that aren't exposed via enclosure?
 
+21. [ ] Confirm with pot part Edwin R46 part used
+
+22. [ ] Confirm PTT and power switch have buttons (if rqd) and R46 pot has knob on BOM
