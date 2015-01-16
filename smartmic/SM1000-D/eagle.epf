@@ -391,10 +391,11 @@ UsedLibrary="C:/Program Files (x86)/EAGLE-6.5.0/lbr/xilinx-xcv.lbr"
 UsedLibrary="C:/Program Files (x86)/EAGLE-6.5.0/lbr/zetex.lbr"
 UsedLibrary="C:/Program Files (x86)/EAGLE-6.5.0/lbr/zilog.lbr"
 UsedLibrary="C:/Users/rbarnich/My Projects/PIC32MZ/PIC32MZ.lbr"
+UsedLibrary="drilegend.lbr"
 
 [Win_1]
 Type="Control Panel"
-Loc="625 1 1224 400"
+Loc="568 105 1168 504"
 State=2
 Number=0
 
