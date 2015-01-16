@@ -4,7 +4,7 @@
    [ ] Remove INT MIC label (it's not associated with a trimmer)
 		INT MIC  Identifies internal microphone. Will move to remove confusion. RGB 12/30/14
    
-2.  [ ]  Change LED8 to LTST-S2200K. Will correct wrong footprint proble.
+2.  [ ] Change LED8 to LTST-S2200K. Will correct wrong footprint proble.
 
 3.  [ ] Investigate moving USB connector forward so that it extends trhu the rear panel. 
         If it extends thru pane, we can change panel cutout back to smaller opening and not block LEDs.
@@ -42,6 +42,7 @@
 14. [ ] Decide if power supply and USB programming cable should be included in BOM.
 
 15. [ ] Artwork (i.e. a coloured sleeve) for the box?  Price?  Who can design artwork?
+        + add good looking images of board
 
 16. [ ] Change C33 from 100nF to 220nF, to bring HPF corner frequency down.
 
@@ -58,3 +59,18 @@
 21. [ ] Confirm with pot part Edwin R46 part used
 
 22. [ ] Confirm PTT and power switch have buttons (if rqd) and R46 pot has knob on BOM
+
+23. [ ] Round or square hole for power switch? 
+
+24. [ ] Communciate to Edwin 
+        [ ] DNL power LEDs
+        [ ] knob for Bourns pot, round shaft with set screw
+        [ ] round cap for power switch
+        [ ] Bourns trimmers
+        [ ] J3 and jumper loaded
+
+Further Work
+------------
+
+1. [ ] Should R46 be log?  Last half of travel makes very little difference to subjective volume.
+2. [ ] Item 13 above, noise from LM386
