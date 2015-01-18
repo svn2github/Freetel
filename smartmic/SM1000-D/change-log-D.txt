@@ -1,73 +1,89 @@
 1. Change labels on top overlay near trimmers
-   [ ] SPKR IN -> RIG SPKR
-   [ ] EXT MIC -> MIC GAIN
-   [ ] Remove INT MIC label (it's not associated with a trimmer)
+   [X] SPKR IN -> RIG SPKR
+   [X] EXT MIC -> MIC GAIN
+   [X] Remove INT MIC label (it's not associated with a trimmer)
 		INT MIC  Identifies internal microphone. Will move to remove confusion. RGB 12/30/14
    
-2.  [ ] Change LED8 to LTST-S2200K. Will correct wrong footprint proble.
+2.  [X] Change LED8 to LTST-S2200K. Will correct wrong footprint proble.
 
-3.  [ ] Investigate moving USB connector forward so that it extends trhu the rear panel. 
+3.  [X] Investigate moving USB connector forward so that it extends trhu the rear panel. 
         If it extends thru pane, we can change panel cutout back to smaller opening and not block LEDs.
 
-4.  [ ] TS-26 switch footprint is mirrored front to back. Fix footprint.
+4.  [X] TS-26 switch footprint is mirrored front to back. Fix footprint.
 		Footprint corrected, PCB will be updated for D REV. RGB 12/30/14
 
-5. 	[ ] Edwin accidentally loaded D1 (optional DNL zener) which caused 5V switcher to develop just 3.84V.
-
-6. 	[ ] Change U1 to STM32F405
-
-7. 	[ ] Can't fit PCB into enclosure bottom with R46 volume control fitted.
-
-8. 	[ ] Not sure about tactile feel/quality of trim pots.  They seem to have varying tension/stifness and I can't seat a screwdriver properly in R52.  I can rotate mic gain pot all the way around.
+5. 	[X] Edwin accidentally loaded D1 (optional DNL zener) which caused 5V switcher to develop just 3.84V.
+		DNL Inform Edwin, Change BOM
+6. 	[X] Change U1 to STM32F405
+		Use 407's purchased, use 405's after that. Inform Edwin.
+		
+7. 	[X] Can't fit PCB into enclosure bottom with R46 volume control fitted.
+		Edwin didn't use Bourns POTs. Order Bourns & inform Edwin.
+		
+8. 	[X] Not sure about tactile feel/quality of trim pots.  They seem to have varying tension/stifness and I can't seat a screwdriver properly in R52.  I can rotate mic gain pot all the way around.
         + Action change to Bourns 3361 trimport
-        [ ] BOM changed
-        [ ] Edwin informed (maybe via new BOM)
+        [X] BOM changed
+        [X] Edwin informed (maybe via new BOM)
 
 9. 	[ ] Why are parts designators on overlay missing?  Rubbed off with cleaning?
+		Handle offline with Edwin.
 
-10. [ ] Assembly instruction: J3 needs to be loaded and jumper inserted
+10. [X] Assembly instruction: J3 needs to be loaded and jumper inserted
+		Schematics changed to show jumper positions.
 
-11. [ ] Microphone pins are swapped, ie rotate by 180 degrees.
-
-12. [ ] Should R46 be log?  Last half of travel makes very little difference to subjective volume.
-
-13. [ ]	With bud type headphones, a low volume leve is reqd.  At these
+11. [X] Microphone pins are swapped, ie rotate by 180 degrees.
+		Footprint changed to correct problem. Implemented in REV D PCB.
+		
+12. [O] Should R46 be log?  Last half of travel makes very little difference to subjective volume.
+		Defer decision til later.
+		
+13. [O]	With bud type headphones, a low volume leve is reqd.  At these
 		levels some low freq noises at the frame rate and HF hiss can be
 		heard.  As these noises are still heard with zero volume its
 		probably noise from U8.  Might need soem HP/LP filtering.  Thru
 		loudspeaker fine.  Amount of noise varies with headphones used. As
 		volume is hard to regulate perhaps another option si a series
 		resistor with the headphone jack.
+		Defer until more testing done.
 
-14. [ ] Decide if power supply and USB programming cable should be included in BOM.
-
-15. [ ] Artwork (i.e. a coloured sleeve) for the box?  Price?  Who can design artwork?
+14. [O] Decide if power supply and USB programming cable should be included in BOM.
+		Defer decision.
+		
+15. [O] Artwork (i.e. a coloured sleeve) for the box?  Price?  Who can design artwork?
         + add good looking images of board
+		Defer action.
 
-16. [ ] Change C33 from 100nF to 220nF, to bring HPF corner frequency down.
-
-17. [ ] Change Mic1 to Digikey part rather than generic subsitute
+16. [X] Change C33 from 100nF to 220nF, to bring HPF corner frequency down.
+		Implemented REV D.
+		
+17. [X] Change Mic1 to Digikey part rather than generic subsitute
     + Generic part resulted in "tinny" audio
     + Digikey part fixed audio, sounded similar to Yaseu MH31
-    
-18. [ ] Confirm on/off power switch parts used is loose sample Edwin packed with the Qty 2 prototypes.
-
-19. [ ] Choose and order new PTT switch
-
-20. [ ] Should we DNL two power leds that aren't exposed via enclosure?
-
-21. [ ] Confirm with pot part Edwin R46 part used
-
+		Mic OK, No Change.
+		
+18. [X] Confirm on/off power switch parts used is loose sample Edwin packed with the Qty 2 prototypes.
+		Switch not used. Stay with currrent switch.
+		
+19. [X] Choose and order new PTT switch
+		Selected Multicomp 8US8WR2C2M7RES for PTT.
+		
+20. [X] Should we DNL two power leds that aren't exposed via enclosure?
+		Use parts Edwin has for currrent build. DNL for future production.
+		
+21. [X] Confirm with pot part Edwin R46 part used
+		Bourns POTs ordered.
 22. [ ] Confirm PTT and power switch have buttons (if rqd) and R46 pot has knob on BOM
 
-23. [ ] Round or square hole for power switch? 
-
+23. [X] Round or square hole for power switch? 
+		Power switch cap or button - use round part Edwin supplied with prototypes.
+		
 24. [ ] Communciate to Edwin 
-        [ ] DNL power LEDs
+        [X] DNL power LEDs
         [ ] knob for Bourns pot, round shaft with set screw
-        [ ] round cap for power switch
-        [ ] Bourns trimmers
-        [ ] J3 and jumper loaded
+			TODO
+        [X] round cap for power switch
+        [X] Bourns trimmers
+        [X] J3 and jumper loaded
 
 Further Work
 ------------
