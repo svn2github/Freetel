@@ -863,14 +863,17 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <wire x1="6" y1="4.5" x2="6" y2="-4.5" width="0" layer="39"/>
 <wire x1="6" y1="-4.5" x2="-6" y2="-4.5" width="0" layer="39"/>
 <wire x1="-6" y1="-4.5" x2="-6" y2="4.5" width="0" layer="39"/>
-<wire x1="-3.85" y1="5.25" x2="-3.85" y2="4.45" width="0.15" layer="21"/>
+<wire x1="-3.85" y1="5.25" x2="-3.85" y2="4.45" width="0.15" layer="52"/>
 <wire x1="-3.8" y1="1" x2="-3.8" y2="-0.95" width="0.15" layer="21"/>
 <wire x1="-3" y1="-4" x2="-2.2" y2="-4" width="0.15" layer="21"/>
 <wire x1="2.2" y1="-4" x2="3" y2="-4" width="0.15" layer="21"/>
 <wire x1="3.85" y1="-1" x2="3.85" y2="1" width="0.15" layer="21"/>
-<wire x1="3.85" y1="4.55" x2="3.85" y2="5.25" width="0.15" layer="21"/>
-<wire x1="3.85" y1="5.25" x2="-3.85" y2="5.25" width="0.15" layer="21"/>
+<wire x1="3.85" y1="4.55" x2="3.85" y2="5.25" width="0.15" layer="52"/>
+<wire x1="3.85" y1="5.25" x2="-3.85" y2="5.25" width="0.15" layer="52"/>
 <text x="-6.5" y="-6" size="0.8128" layer="25" ratio="10">&gt;NAME</text>
+<wire x1="-4" y1="4.5" x2="-3.5" y2="4.5" width="0.15" layer="21"/>
+<wire x1="-3.5" y1="4.5" x2="-3" y2="4.5" width="0.15" layer="21"/>
+<wire x1="-3" y1="4.5" x2="4" y2="4.5" width="0.15" layer="21"/>
 </package>
 <package name="SW-SPDT-8US8WR2C2M7RES">
 <pad name="4" x="10.16" y="1.27" drill="0.9" diameter="1.6764"/>
@@ -884,11 +887,11 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <wire x1="-1" y1="2" x2="-1" y2="-2" width="0.15" layer="21"/>
 <wire x1="-1" y1="-2" x2="-1" y2="-2.65" width="0.15" layer="21"/>
 <wire x1="-6.5" y1="2" x2="-6.5" y2="-2" width="0.15" layer="201"/>
-<wire x1="-2.5" y1="2" x2="-2.5" y2="1" width="0.15" layer="21"/>
-<wire x1="-2.5" y1="1" x2="-2.5" y2="-1" width="0.15" layer="21"/>
-<wire x1="-2.5" y1="-1" x2="-2.5" y2="-2" width="0.15" layer="21"/>
-<wire x1="-2.5" y1="-2" x2="-1" y2="-2" width="0.15" layer="21"/>
-<wire x1="-2.5" y1="2" x2="-1" y2="2" width="0.15" layer="21"/>
+<wire x1="-2.5" y1="2" x2="-2.5" y2="1" width="0.15" layer="51"/>
+<wire x1="-2.5" y1="1" x2="-2.5" y2="-1" width="0.15" layer="51"/>
+<wire x1="-2.5" y1="-1" x2="-2.5" y2="-2" width="0.15" layer="51"/>
+<wire x1="-2.5" y1="-2" x2="-1" y2="-2" width="0.15" layer="51"/>
+<wire x1="-2.5" y1="2" x2="-1" y2="2" width="0.15" layer="52"/>
 <wire x1="-4" y1="2" x2="-4" y2="1" width="0.15" layer="201"/>
 <wire x1="-4" y1="1" x2="-4" y2="-1" width="0.15" layer="201"/>
 <wire x1="-4" y1="-1" x2="-4" y2="-2" width="0.15" layer="201"/>
@@ -903,8 +906,8 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <wire x1="11.5" y1="-3" x2="-1" y2="-3" width="0" layer="39"/>
 <wire x1="-1" y1="-3" x2="-1" y2="3" width="0" layer="39"/>
 <text x="13" y="-2.5" size="1" layer="25" ratio="10" rot="R90">&gt;NAME</text>
-<wire x1="-1" y1="3.5" x2="-1" y2="4.5" width="0.15" layer="21" style="shortdash"/>
-<wire x1="-1" y1="-3.5" x2="-1" y2="-4.5" width="0.15" layer="21" style="shortdash"/>
+<wire x1="-1" y1="3.5" x2="-1" y2="4.5" width="0.15" layer="51" style="shortdash"/>
+<wire x1="-1" y1="-3.5" x2="-1" y2="-4.5" width="0.15" layer="51" style="shortdash"/>
 </package>
 <package name="SML-LX0603SRW">
 <smd name="C" x="-0.75" y="0" dx="0.8" dy="0.8" layer="1"/>
@@ -1497,24 +1500,8 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <wire x1="5.08" y1="2.54" x2="10.16" y2="2.54" width="0.1524" layer="94"/>
 </symbol>
 <symbol name="SPKR-HY4004M-001">
-<wire x1="2.54" y1="10.16" x2="2.54" y2="-10.16" width="0.1524" layer="94"/>
-<wire x1="2.54" y1="-10.16" x2="2.286" y2="-10.16" width="0.1524" layer="94"/>
-<wire x1="2.286" y1="-10.16" x2="1.27" y2="-9.144" width="0.1524" layer="94"/>
-<wire x1="1.27" y1="-9.144" x2="1.27" y2="-4.826" width="0.1524" layer="94"/>
-<wire x1="1.27" y1="-4.826" x2="-2.54" y2="-4.826" width="0.1524" layer="94"/>
-<wire x1="-2.54" y1="-4.826" x2="-2.54" y2="-2.54" width="0.1524" layer="94"/>
-<wire x1="-2.54" y1="-2.54" x2="-2.54" y2="2.54" width="0.1524" layer="94"/>
-<wire x1="-2.54" y1="2.54" x2="-2.54" y2="5.08" width="0.1524" layer="94"/>
-<wire x1="-2.54" y1="5.08" x2="1.016" y2="5.08" width="0.1524" layer="94"/>
-<wire x1="1.016" y1="5.08" x2="1.27" y2="5.334" width="0.1524" layer="94"/>
-<wire x1="1.27" y1="5.334" x2="1.27" y2="8.89" width="0.1524" layer="94"/>
-<wire x1="1.27" y1="8.89" x2="2.54" y2="10.16" width="0.1524" layer="94"/>
-<text x="-7.112" y="2.54" size="1.778" layer="94" ratio="10">+</text>
-<text x="-6.858" y="-2.286" size="1.778" layer="94" ratio="10">-</text>
-<text x="-7.62" y="7.62" size="1.4224" layer="95" ratio="10">&gt;NAME</text>
-<text x="-7.62" y="-7.62" size="1.4224" layer="95" ratio="10">&gt;VALUE</text>
-<wire x1="-2.54" y1="2.54" x2="-7.62" y2="2.54" width="0.1524" layer="94"/>
-<wire x1="-2.54" y1="-2.54" x2="-7.62" y2="-2.54" width="0.1524" layer="94"/>
+<text x="0" y="0" size="1.4224" layer="95" ratio="10">&gt;NAME</text>
+<text x="0" y="-2.54" size="1.4224" layer="95" ratio="10">&gt;VALUE</text>
 </symbol>
 <symbol name="MOLEX-MINI-B-SMT">
 <pin name="VBUS" x="-15.24" y="17.78" length="middle"/>
@@ -1568,6 +1555,26 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <wire x1="-2.54" y1="1.524" x2="-2.54" y2="5.08" width="0.1524" layer="94"/>
 <wire x1="0" y1="3.302" x2="0" y2="5.08" width="0.1524" layer="94"/>
 <wire x1="2.54" y1="1.524" x2="2.54" y2="5.08" width="0.1524" layer="94"/>
+</symbol>
+<symbol name="PRELIMINARY">
+<text x="0" y="0" size="5.08" layer="94" ratio="10">PRELIMINARY</text>
+<text x="2.54" y="-2.54" size="1.778" layer="94" ratio="10">DO NOT USE FOR MANUFACTURE</text>
+</symbol>
+<symbol name="ENCL">
+<text x="0" y="0" size="1.4224" layer="95" ratio="10">&gt;NAME</text>
+<text x="0" y="-2.54" size="1.4224" layer="95" ratio="10">&gt;VALUE</text>
+</symbol>
+<symbol name="CABLE">
+<text x="0" y="0" size="1.4224" layer="95" ratio="10">&gt;NAME</text>
+<text x="0" y="-2.54" size="1.4224" layer="96" ratio="10">&gt;VALUE</text>
+</symbol>
+<symbol name="KNOB">
+<text x="0" y="0" size="1.4224" layer="95" ratio="10">&gt;NAME</text>
+<text x="0" y="-2.54" size="1.4224" layer="95" ratio="10">&gt;VALUE</text>
+</symbol>
+<symbol name="PS">
+<text x="0" y="0" size="1.4224" layer="95" ratio="10">&gt;NAME</text>
+<text x="0" y="-2.54" size="1.4224" layer="95" ratio="10">&gt;VALUE</text>
 </symbol>
 </symbols>
 <devicesets>
@@ -2106,6 +2113,78 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <connect gate="G$1" pin="A" pad="A"/>
 <connect gate="G$1" pin="C" pad="C"/>
 </connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="PRELIMINARY">
+<gates>
+<gate name="G$1" symbol="PRELIMINARY" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="NOPACKAGE">
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="ENCL" prefix="ENCL">
+<gates>
+<gate name="G$1" symbol="ENCL" x="0" y="-2.54"/>
+</gates>
+<devices>
+<device name="" package="NOPACKAGE">
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="HDWE" prefix="HDWE">
+<gates>
+<gate name="G$1" symbol="ENCL" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="NOPACKAGE">
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="CABLE" prefix="CABLE">
+<gates>
+<gate name="G$1" symbol="CABLE" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="NOPACKAGE">
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="KNOB" prefix="KNOB">
+<gates>
+<gate name="G$1" symbol="KNOB" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="NOPACKAGE">
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="PS" prefix="PS">
+<gates>
+<gate name="G$1" symbol="PS" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="NOPACKAGE">
 <technologies>
 <technology name=""/>
 </technologies>
@@ -4217,10 +4296,10 @@ http://www.weartronics.com/</description>
 <part name="C36" library="SM1000" deviceset="CAP-1210" device="" value="100uF,10V"/>
 <part name="B-FRAME3" library="_RoweTel" deviceset="GENERICL-B-SIZE" device=""/>
 <part name="B-FRAME2" library="_RoweTel" deviceset="GENERICL-B-SIZE" device=""/>
-<part name="PCB1" library="_Coherix" deviceset="PCB" device="" value="SM1000C"/>
+<part name="PCB1" library="_Coherix" deviceset="PCB" device="" value="SM1000D"/>
 <part name="V1" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="R47" library="_RoweTel" deviceset="POT3361" device="" value="500,POT"/>
-<part name="R52" library="_RoweTel" deviceset="POT3361" device="" value="1K,POT"/>
+<part name="R47" library="_RoweTel" deviceset="POT3361" device="" value="500,TrimPOT"/>
+<part name="R52" library="_RoweTel" deviceset="POT3361" device="" value="1K,TrimPOT"/>
 <part name="C22" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
 <part name="C23" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
 <part name="C41" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
@@ -4255,7 +4334,7 @@ http://www.weartronics.com/</description>
 <part name="C29" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="1210" value="22uF,25V,1210"/>
 <part name="U9" library="_RoweTel" deviceset="LMV341" device=""/>
 <part name="R41" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="2.2K,1%"/>
-<part name="R42" library="_RoweTel" deviceset="POT3361" device="" value="500K,POT"/>
+<part name="R42" library="_RoweTel" deviceset="POT3361" device="" value="500K,TrimPOT"/>
 <part name="V62" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="R53" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="2.2K,1%"/>
 <part name="V91" library="A-SUPPLY2" deviceset="GND" device=""/>
@@ -4410,11 +4489,24 @@ http://www.weartronics.com/</description>
 <part name="SW4" library="_RoweTel" deviceset="TS-026" device=""/>
 <part name="SW5" library="_RoweTel" deviceset="TS-02B" device=""/>
 <part name="CN3" library="_RoweTel" deviceset="DS-0518" device=""/>
-<part name="SPKR1" library="_RoweTel" deviceset="SPKR-HY4004M-001" device=""/>
 <part name="CN2" library="_RoweTel" deviceset="JS-MU3-002" device=""/>
 <part name="SW1" library="_RoweTel" deviceset="SW-SPDT-8US8WR2C2M7RES" device=""/>
 <part name="LED8" library="_RoweTel" deviceset="SML-LX0603SRW" device="" value="SML-LX0603SRW-TR"/>
 <part name="LED5" library="_RoweTel" deviceset="SML-LX0603SRW" device="" value="SML-LX0603SRW-TR"/>
+<part name="U$5" library="_RoweTel" deviceset="PRELIMINARY" device=""/>
+<part name="ENCL1" library="_RoweTel" deviceset="ENCL" device="" value="ENCL-SM1000-B-BOTTOM"/>
+<part name="ENCL2" library="_RoweTel" deviceset="ENCL" device="" value="ENCL-SM1000-B-TOP"/>
+<part name="ENCL3" library="_RoweTel" deviceset="ENCL" device="" value="ENCL-SM1000-B-SIDE PLATE"/>
+<part name="HDWE1" library="_RoweTel" deviceset="HDWE" device="" value="SCREW,2-56 X 1/4 X 4"/>
+<part name="HDWE2" library="_RoweTel" deviceset="HDWE" device="" value="WASHER, 2-56 X 4"/>
+<part name="HDWE3" library="_RoweTel" deviceset="HDWE" device="" value="NUT, 2-56 X 4"/>
+<part name="HDWE4" library="_RoweTel" deviceset="HDWE" device="" value="SCREW, SELF TAPPING, 2.2mm x 6mm X 4"/>
+<part name="HDWE5" library="_RoweTel" deviceset="HDWE" device="" value="JUMPER, 50mm X 4"/>
+<part name="CABLE1" library="_RoweTel" deviceset="CABLE" device="" value="CABLE,SPKR 50mm + CONNECTOR"/>
+<part name="KNOB1" library="_RoweTel" deviceset="KNOB" device="" value="KNOB, 3.5mm SHAFT, FOR R46"/>
+<part name="PS1" library="_RoweTel" deviceset="PS" device="" value="POWER SUPPLY, 12VDC,500ma"/>
+<part name="CABLE2" library="_RoweTel" deviceset="CABLE" device="" value="CABLE, USB-A/F TO MICRO USB-A/M"/>
+<part name="SPKR1" library="_RoweTel" deviceset="SPKR-HY4004M-001" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -4448,17 +4540,6 @@ http://www.weartronics.com/</description>
 <text x="137.16" y="73.66" size="2.54" layer="94" ratio="10">STM32F407 PWR CIRCUIT</text>
 <text x="347.472" y="17.272" size="3.81" layer="94" ratio="10">SmartMic Circuit Board</text>
 <text x="420.624" y="6.35" size="3.81" layer="94" ratio="10">D</text>
-<text x="358.14" y="274.32" size="1.4224" layer="94" ratio="10">04/21/14</text>
-<text x="370.84" y="274.32" size="1.4224" layer="94" ratio="10">Added to SourceForge Repository</text>
-<text x="426.72" y="274.32" size="1.4224" layer="94" ratio="10">RGB</text>
-<text x="358.14" y="271.78" size="1.4224" layer="94" ratio="10">04/25/14</text>
-<text x="370.84" y="271.78" size="1.4224" layer="94" ratio="10">Pre-Release to Prototype</text>
-<text x="421.64" y="271.78" size="1.4224" layer="94" ratio="10">A</text>
-<text x="426.72" y="271.78" size="1.4224" layer="94" ratio="10">RGB</text>
-<text x="358.14" y="269.24" size="1.4224" layer="94" ratio="10">05/28/14</text>
-<text x="370.84" y="269.24" size="1.4224" layer="94" ratio="10">Release for Review</text>
-<text x="421.64" y="269.24" size="1.4224" layer="94" ratio="10">B</text>
-<text x="426.72" y="269.24" size="1.4224" layer="94" ratio="10">RGB</text>
 <text x="195.58" y="274.32" size="2.54" layer="94" ratio="10">Push To Talk (PTT) </text>
 <text x="167.386" y="157.988" size="1.4224" layer="94" ratio="10">PTT FUNCTION</text>
 <text x="198.12" y="213.36" size="1.4224" layer="94" ratio="10">NOTE: SW1 HELD ON POWER UP
@@ -4479,54 +4560,48 @@ http://www.weartronics.com/</description>
 <text x="289.56" y="205.74" size="2.54" layer="94" ratio="10">UART</text>
 <text x="289.56" y="200.66" size="1.4224" layer="94" ratio="10">3.3V TTL Levels</text>
 <text x="241.3" y="205.74" size="1.4224" layer="94" ratio="10">8.000MHz</text>
-<text x="358.14" y="266.7" size="1.4224" layer="94" ratio="10">06/13/14</text>
-<text x="370.84" y="266.7" size="1.4224" layer="94" ratio="10">Release for Prototype</text>
-<text x="421.64" y="266.7" size="1.4224" layer="94" ratio="10">B</text>
-<text x="426.72" y="266.7" size="1.4224" layer="94" ratio="10">RGB</text>
-<text x="421.64" y="264.16" size="1.4224" layer="94" ratio="10">C</text>
-<text x="426.72" y="264.16" size="1.4224" layer="94" ratio="10">RGB</text>
 <wire x1="355.6" y1="264.16" x2="355.6" y2="218.44" width="0.1524" layer="94"/>
 <wire x1="369.57" y1="264.414" x2="369.57" y2="218.44" width="0.1524" layer="94"/>
 <wire x1="414.02" y1="264.16" x2="414.02" y2="218.44" width="0.1524" layer="94"/>
-<wire x1="420.116" y1="263.906" x2="420.37" y2="263.906" width="0.1524" layer="94"/>
-<wire x1="420.37" y1="263.906" x2="420.37" y2="218.44" width="0.1524" layer="94"/>
-<wire x1="425.45" y1="263.906" x2="425.45" y2="218.186" width="0.1524" layer="94"/>
+<wire x1="420.116" y1="276.606" x2="420.37" y2="276.606" width="0.1524" layer="94"/>
+<wire x1="420.37" y1="276.606" x2="420.37" y2="218.44" width="0.1524" layer="94"/>
+<wire x1="425.45" y1="276.606" x2="425.45" y2="218.186" width="0.1524" layer="94"/>
 <text x="264.16" y="266.7" size="1.778" layer="95" ratio="10">TS-026</text>
 <text x="297.18" y="266.7" size="1.778" layer="95" ratio="10">TS-026</text>
-<text x="370.84" y="264.16" size="1.4224" layer="94" ratio="10">Release for Production</text>
-<text x="358.14" y="264.16" size="1.4224" layer="94" ratio="10">11/18/14</text>
-<text x="358.14" y="261.62" size="1.4224" layer="94" ratio="10">11/23/14</text>
-<text x="370.84" y="261.62" size="1.4224" layer="94" ratio="10">SM1000-C -&gt; SM1000-D</text>
+<text x="358.14" y="274.32" size="1.4224" layer="94" ratio="10">11/23/14</text>
+<text x="370.84" y="274.32" size="1.4224" layer="94" ratio="10">SM1000-C -&gt; SM1000-D</text>
+<text x="421.64" y="274.32" size="1.4224" layer="94" ratio="10">D</text>
+<text x="426.72" y="274.32" size="1.4224" layer="94" ratio="10">RGB</text>
+<text x="358.14" y="271.78" size="1.4224" layer="94" ratio="10">01/13/15</text>
+<text x="370.84" y="271.78" size="1.4224" layer="94" ratio="10">Change SW1 to MULTICOMP SPDT</text>
+<text x="421.64" y="271.78" size="1.4224" layer="94" ratio="10">D</text>
+<text x="426.72" y="271.78" size="1.4224" layer="94" ratio="10">RGB</text>
+<text x="370.84" y="269.24" size="1.4224" layer="94" ratio="10">FIX TS-026 FOOTPRINT</text>
+<text x="370.84" y="266.7" size="1.4224" layer="94" ratio="10">CHANGE R42,R47 &amp; R52 TO TYPE 3361</text>
+<text x="370.84" y="264.16" size="1.4224" layer="94" ratio="10">MOVE USB CONN 1MM TOWARDS EDGE</text>
+<text x="370.84" y="261.62" size="1.4224" layer="94" ratio="10">MOVE SW3,4 TO EDGE</text>
+<text x="370.84" y="259.08" size="1.4224" layer="94" ratio="10">SHOW SH1 POSITION</text>
+<text x="421.64" y="269.24" size="1.4224" layer="94" ratio="10">D</text>
+<text x="421.64" y="266.7" size="1.4224" layer="94" ratio="10">D</text>
+<text x="421.64" y="264.16" size="1.4224" layer="94" ratio="10">D</text>
 <text x="421.64" y="261.62" size="1.4224" layer="94" ratio="10">D</text>
-<text x="426.72" y="261.62" size="1.4224" layer="94" ratio="10">RGB</text>
-<text x="358.14" y="259.08" size="1.4224" layer="94" ratio="10">01/13/15</text>
-<text x="370.84" y="259.08" size="1.4224" layer="94" ratio="10">Change SW1 to MULTICOMP SPDT</text>
 <text x="421.64" y="259.08" size="1.4224" layer="94" ratio="10">D</text>
+<text x="426.72" y="269.24" size="1.4224" layer="94" ratio="10">RGB</text>
+<text x="426.72" y="266.7" size="1.4224" layer="94" ratio="10">RGB</text>
+<text x="426.72" y="264.16" size="1.4224" layer="94" ratio="10">RGB</text>
+<text x="426.72" y="261.62" size="1.4224" layer="94" ratio="10">RGB</text>
 <text x="426.72" y="259.08" size="1.4224" layer="94" ratio="10">RGB</text>
-<text x="370.84" y="256.54" size="1.4224" layer="94" ratio="10">FIX TS-026 FOOTPRINT</text>
-<text x="370.84" y="254" size="1.4224" layer="94" ratio="10">CHANGE R42,R47 &amp; R52 TO TYPE 3361</text>
-<text x="370.84" y="251.46" size="1.4224" layer="94" ratio="10">MOVE USB CONN 1MM TOWARDS EDGE</text>
-<text x="370.84" y="248.92" size="1.4224" layer="94" ratio="10">MOVE SW3,4 TO EDGE</text>
-<text x="370.84" y="246.38" size="1.4224" layer="94" ratio="10">SHOW SH1 POSITION</text>
-<text x="421.64" y="256.54" size="1.4224" layer="94" ratio="10">D</text>
-<text x="421.64" y="254" size="1.4224" layer="94" ratio="10">D</text>
-<text x="421.64" y="251.46" size="1.4224" layer="94" ratio="10">D</text>
-<text x="421.64" y="248.92" size="1.4224" layer="94" ratio="10">D</text>
-<text x="421.64" y="246.38" size="1.4224" layer="94" ratio="10">D</text>
-<text x="426.72" y="256.54" size="1.4224" layer="94" ratio="10">RGB</text>
-<text x="426.72" y="254" size="1.4224" layer="94" ratio="10">RGB</text>
-<text x="426.72" y="251.46" size="1.4224" layer="94" ratio="10">RGB</text>
-<text x="426.72" y="248.92" size="1.4224" layer="94" ratio="10">RGB</text>
-<text x="426.72" y="246.38" size="1.4224" layer="94" ratio="10">RGB</text>
+<text x="358.14" y="269.24" size="1.4224" layer="94" ratio="10">01/13/15</text>
+<text x="358.14" y="266.7" size="1.4224" layer="94" ratio="10">01/13/15</text>
+<text x="358.14" y="264.16" size="1.4224" layer="94" ratio="10">01/13/15</text>
+<text x="358.14" y="261.62" size="1.4224" layer="94" ratio="10">01/13/15</text>
+<text x="358.14" y="259.08" size="1.4224" layer="94" ratio="10">01/13/15</text>
+<text x="370.84" y="256.54" size="1.4224" layer="94" ratio="10">ADD MISC. PARTS TO BOM</text>
 <text x="358.14" y="256.54" size="1.4224" layer="94" ratio="10">01/13/15</text>
-<text x="358.14" y="254" size="1.4224" layer="94" ratio="10">01/13/15</text>
-<text x="358.14" y="251.46" size="1.4224" layer="94" ratio="10">01/13/15</text>
-<text x="358.14" y="248.92" size="1.4224" layer="94" ratio="10">01/13/15</text>
-<text x="358.14" y="246.38" size="1.4224" layer="94" ratio="10">01/13/15</text>
-<text x="370.84" y="243.84" size="1.4224" layer="94" ratio="10">ADD MISC. PARTS TO BOM</text>
-<text x="358.14" y="243.84" size="1.4224" layer="94" ratio="10">01/13/15</text>
-<text x="421.64" y="243.84" size="1.4224" layer="94" ratio="10">D</text>
-<text x="426.72" y="243.84" size="1.4224" layer="94" ratio="10">RGB</text>
+<text x="421.64" y="256.54" size="1.4224" layer="94" ratio="10">D</text>
+<text x="426.72" y="256.54" size="1.4224" layer="94" ratio="10">RGB</text>
+<wire x1="330.2" y1="116.84" x2="431.8" y2="116.84" width="0.1524" layer="94" style="longdash"/>
+<text x="365.76" y="111.76" size="2.54" layer="94" ratio="10">MISC. PARTS</text>
 </plain>
 <instances>
 <instance part="U4" gate="G$1" x="254" y="25.4"/>
@@ -4755,9 +4830,9 @@ http://www.weartronics.com/</description>
 <instance part="B-FRAME2" gate="G$1" x="0" y="0"/>
 <instance part="B-FRAME2" gate="G$2" x="330.2" y="0"/>
 <instance part="B-FRAME2" gate="G$3" x="358.14" y="279.4"/>
-<instance part="PCB1" gate="G$1" x="332.74" y="48.26" smashed="yes">
-<attribute name="NAME" x="332.74" y="53.34" size="1.4224" layer="95" ratio="9"/>
-<attribute name="VALUE" x="332.74" y="50.8" size="1.4224" layer="95" ratio="9"/>
+<instance part="PCB1" gate="G$1" x="386.08" y="53.34" smashed="yes">
+<attribute name="NAME" x="386.08" y="58.42" size="1.4224" layer="95" ratio="9"/>
+<attribute name="VALUE" x="386.08" y="55.88" size="1.4224" layer="95" ratio="9"/>
 </instance>
 <instance part="V1" gate="GND" x="121.92" y="10.16"/>
 <instance part="R10" gate="G$1" x="50.8" y="60.96" smashed="yes">
@@ -4915,6 +4990,23 @@ http://www.weartronics.com/</description>
 <instance part="LED5" gate="G$1" x="287.02" y="137.16" smashed="yes">
 <attribute name="NAME" x="289.56" y="134.62" size="1.4224" layer="95" ratio="9"/>
 <attribute name="VALUE" x="289.56" y="132.08" size="1.4224" layer="96" ratio="9"/>
+</instance>
+<instance part="U$5" gate="G$1" x="358.14" y="127"/>
+<instance part="ENCL1" gate="G$1" x="335.28" y="104.14"/>
+<instance part="ENCL2" gate="G$1" x="335.28" y="96.52"/>
+<instance part="ENCL3" gate="G$1" x="335.28" y="88.9"/>
+<instance part="HDWE1" gate="G$1" x="386.08" y="104.14"/>
+<instance part="HDWE2" gate="G$1" x="386.08" y="96.52"/>
+<instance part="HDWE3" gate="G$1" x="386.08" y="88.9"/>
+<instance part="HDWE4" gate="G$1" x="386.08" y="81.28"/>
+<instance part="HDWE5" gate="G$1" x="386.08" y="73.66"/>
+<instance part="CABLE1" gate="G$1" x="335.28" y="81.28"/>
+<instance part="KNOB1" gate="G$1" x="335.28" y="73.66"/>
+<instance part="PS1" gate="G$1" x="335.28" y="66.04"/>
+<instance part="CABLE2" gate="G$1" x="386.08" y="66.04"/>
+<instance part="SPKR1" gate="G$1" x="335.28" y="58.42" smashed="yes">
+<attribute name="NAME" x="335.28" y="58.42" size="1.4224" layer="95" ratio="10"/>
+<attribute name="VALUE" x="335.28" y="55.88" size="1.4224" layer="95" ratio="10"/>
 </instance>
 </instances>
 <busses>
@@ -6127,33 +6219,18 @@ http://www.weartronics.com/</description>
 <text x="10.16" y="149.86" size="1.4224" layer="94" ratio="10">NORMAL - 1-2</text>
 <text x="10.16" y="147.32" size="1.4224" layer="94" ratio="10">OPT MIC - 1 ONLY,</text>
 <text x="10.16" y="144.78" size="1.4224" layer="94" ratio="10">OPT MIC - 2-3</text>
-<text x="355.6" y="271.78" size="1.4224" layer="94" ratio="10">04/25/14</text>
-<text x="368.3" y="271.78" size="1.4224" layer="94" ratio="10">Pre-Release to Prototype</text>
-<text x="419.1" y="271.78" size="1.4224" layer="94" ratio="10">A</text>
-<text x="424.18" y="271.78" size="1.4224" layer="94" ratio="10">RGB</text>
-<text x="355.6" y="274.32" size="1.4224" layer="94" ratio="10">04/21/14</text>
-<text x="368.3" y="274.32" size="1.4224" layer="94" ratio="10">Added to SourceForge Repository</text>
-<text x="424.18" y="274.32" size="1.4224" layer="94" ratio="10">RGB</text>
-<text x="355.6" y="269.24" size="1.4224" layer="94" ratio="10">05/28/14</text>
-<text x="368.3" y="269.24" size="1.4224" layer="94" ratio="10">Release for Review</text>
-<text x="419.1" y="269.24" size="1.4224" layer="94" ratio="10">B</text>
-<text x="424.18" y="269.24" size="1.4224" layer="94" ratio="10">RGB</text>
 <text x="287.02" y="266.7" size="2.54" layer="94" ratio="10">EXT. PTT INPUT</text>
 <text x="99.06" y="27.94" size="1.778" layer="94" ratio="10">INTERNAL SPEAKER</text>
-<text x="355.6" y="266.7" size="1.4224" layer="94" ratio="10">11/18/14</text>
-<text x="368.3" y="266.7" size="1.4224" layer="94" ratio="10">Release for Production</text>
-<text x="419.1" y="266.7" size="1.4224" layer="94" ratio="10">C</text>
-<text x="424.18" y="266.7" size="1.4224" layer="94" ratio="10">RGB</text>
 <wire x1="353.06" y1="200.66" x2="353.06" y2="264.16" width="0.1524" layer="94" style="longdash"/>
 <wire x1="337.82" y1="200.66" x2="429.26" y2="200.66" width="0.1524" layer="95" style="longdash"/>
 <wire x1="177.8" y1="45.72" x2="251.46" y2="45.72" width="0.1524" layer="94" style="longdash"/>
 <wire x1="251.46" y1="45.72" x2="251.46" y2="0" width="0.1524" layer="94" style="longdash"/>
 <text x="185.42" y="38.1" size="2.54" layer="94" ratio="10">VDD -&gt; AVDD POWER SOURCE</text>
 <wire x1="251.46" y1="45.72" x2="327.66" y2="45.72" width="0.1524" layer="94" style="longdash"/>
-<text x="355.6" y="264.16" size="1.4224" layer="94" ratio="10">01/14/15</text>
-<text x="368.3" y="264.16" size="1.4224" layer="94" ratio="10">SM1000-C -&gt; SM1000-D</text>
-<text x="419.1" y="264.16" size="1.4224" layer="94" ratio="10">D</text>
-<text x="424.18" y="264.16" size="1.4224" layer="94" ratio="10">RGB</text>
+<text x="355.6" y="274.32" size="1.4224" layer="94" ratio="10">01/14/15</text>
+<text x="368.3" y="274.32" size="1.4224" layer="94" ratio="10">SM1000-C -&gt; SM1000-D</text>
+<text x="419.1" y="274.32" size="1.4224" layer="94" ratio="10">D</text>
+<text x="424.18" y="274.32" size="1.4224" layer="94" ratio="10">RGB</text>
 </plain>
 <instances>
 <instance part="C39" gate="G$1" x="91.44" y="55.88" smashed="yes" rot="R90">
@@ -6754,10 +6831,6 @@ http://www.weartronics.com/</description>
 <attribute name="VALUE" x="312.42" y="170.18" size="1.4224" layer="96" ratio="10"/>
 </instance>
 <instance part="CN3" gate="G$1" x="17.78" y="256.54"/>
-<instance part="SPKR1" gate="G$1" x="314.96" y="22.86" smashed="yes">
-<attribute name="NAME" x="304.8" y="10.16" size="1.4224" layer="95" ratio="10"/>
-<attribute name="VALUE" x="304.8" y="7.62" size="1.4224" layer="95" ratio="10"/>
-</instance>
 <instance part="LED8" gate="G$1" x="248.92" y="228.6" smashed="yes">
 <attribute name="NAME" x="251.46" y="226.06" size="1.4224" layer="95" ratio="9"/>
 <attribute name="VALUE" x="251.46" y="223.52" size="1.4224" layer="96" ratio="9"/>
