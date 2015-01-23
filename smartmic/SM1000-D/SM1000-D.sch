@@ -1556,26 +1556,6 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <wire x1="0" y1="3.302" x2="0" y2="5.08" width="0.1524" layer="94"/>
 <wire x1="2.54" y1="1.524" x2="2.54" y2="5.08" width="0.1524" layer="94"/>
 </symbol>
-<symbol name="PRELIMINARY">
-<text x="0" y="0" size="5.08" layer="94" ratio="10">PRELIMINARY</text>
-<text x="2.54" y="-2.54" size="1.778" layer="94" ratio="10">DO NOT USE FOR MANUFACTURE</text>
-</symbol>
-<symbol name="ENCL">
-<text x="0" y="0" size="1.4224" layer="95" ratio="10">&gt;NAME</text>
-<text x="0" y="-2.54" size="1.4224" layer="95" ratio="10">&gt;VALUE</text>
-</symbol>
-<symbol name="CABLE">
-<text x="0" y="0" size="1.4224" layer="95" ratio="10">&gt;NAME</text>
-<text x="0" y="-2.54" size="1.4224" layer="96" ratio="10">&gt;VALUE</text>
-</symbol>
-<symbol name="KNOB">
-<text x="0" y="0" size="1.4224" layer="95" ratio="10">&gt;NAME</text>
-<text x="0" y="-2.54" size="1.4224" layer="95" ratio="10">&gt;VALUE</text>
-</symbol>
-<symbol name="PS">
-<text x="0" y="0" size="1.4224" layer="95" ratio="10">&gt;NAME</text>
-<text x="0" y="-2.54" size="1.4224" layer="95" ratio="10">&gt;VALUE</text>
-</symbol>
 </symbols>
 <devicesets>
 <deviceset name="CAP-CHEMI-MVE-HA0" prefix="C">
@@ -2113,78 +2093,6 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <connect gate="G$1" pin="A" pad="A"/>
 <connect gate="G$1" pin="C" pad="C"/>
 </connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="PRELIMINARY">
-<gates>
-<gate name="G$1" symbol="PRELIMINARY" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="NOPACKAGE">
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="ENCL" prefix="ENCL">
-<gates>
-<gate name="G$1" symbol="ENCL" x="0" y="-2.54"/>
-</gates>
-<devices>
-<device name="" package="NOPACKAGE">
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="HDWE" prefix="HDWE">
-<gates>
-<gate name="G$1" symbol="ENCL" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="NOPACKAGE">
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="CABLE" prefix="CABLE">
-<gates>
-<gate name="G$1" symbol="CABLE" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="NOPACKAGE">
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="KNOB" prefix="KNOB">
-<gates>
-<gate name="G$1" symbol="KNOB" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="NOPACKAGE">
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-<deviceset name="PS" prefix="PS">
-<gates>
-<gate name="G$1" symbol="PS" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="NOPACKAGE">
 <technologies>
 <technology name=""/>
 </technologies>
@@ -4493,19 +4401,6 @@ http://www.weartronics.com/</description>
 <part name="SW1" library="_RoweTel" deviceset="SW-SPDT-8US8WR2C2M7RES" device=""/>
 <part name="LED8" library="_RoweTel" deviceset="SML-LX0603SRW" device="" value="SML-LX0603SRW-TR"/>
 <part name="LED5" library="_RoweTel" deviceset="SML-LX0603SRW" device="" value="SML-LX0603SRW-TR"/>
-<part name="U$5" library="_RoweTel" deviceset="PRELIMINARY" device=""/>
-<part name="ENCL1" library="_RoweTel" deviceset="ENCL" device="" value="ENCL-SM1000-B-BOTTOM"/>
-<part name="ENCL2" library="_RoweTel" deviceset="ENCL" device="" value="ENCL-SM1000-B-TOP"/>
-<part name="ENCL3" library="_RoweTel" deviceset="ENCL" device="" value="ENCL-SM1000-B-SIDE PLATE"/>
-<part name="HDWE1" library="_RoweTel" deviceset="HDWE" device="" value="SCREW,2-56 X 1/4 X 4"/>
-<part name="HDWE2" library="_RoweTel" deviceset="HDWE" device="" value="WASHER, 2-56 X 4"/>
-<part name="HDWE3" library="_RoweTel" deviceset="HDWE" device="" value="NUT, 2-56 X 4"/>
-<part name="HDWE4" library="_RoweTel" deviceset="HDWE" device="" value="SCREW, SELF TAPPING, 2.2mm x 6mm X 4"/>
-<part name="HDWE5" library="_RoweTel" deviceset="HDWE" device="" value="JUMPER, 50mm X 4"/>
-<part name="CABLE1" library="_RoweTel" deviceset="CABLE" device="" value="CABLE,SPKR 50mm + CONNECTOR"/>
-<part name="KNOB1" library="_RoweTel" deviceset="KNOB" device="" value="KNOB, 3.5mm SHAFT, FOR R46"/>
-<part name="PS1" library="_RoweTel" deviceset="PS" device="" value="POWER SUPPLY, 12VDC,500ma"/>
-<part name="CABLE2" library="_RoweTel" deviceset="CABLE" device="" value="CABLE, USB-A/F TO MICRO USB-A/M"/>
 <part name="SPKR1" library="_RoweTel" deviceset="SPKR-HY4004M-001" device=""/>
 </parts>
 <sheets>
@@ -4524,7 +4419,8 @@ http://www.weartronics.com/</description>
 <wire x1="185.42" y1="210.82" x2="185.42" y2="172.72" width="0.1524" layer="94" style="longdash"/>
 <wire x1="185.42" y1="172.72" x2="185.42" y2="116.84" width="0.1524" layer="94" style="longdash"/>
 <wire x1="185.42" y1="116.84" x2="185.42" y2="0" width="0.1524" layer="94" style="longdash"/>
-<wire x1="330.2" y1="45.72" x2="330.2" y2="116.84" width="0.1524" layer="94" style="longdash"/>
+<wire x1="330.2" y1="45.72" x2="330.2" y2="71.12" width="0.1524" layer="94" style="longdash"/>
+<wire x1="330.2" y1="71.12" x2="330.2" y2="116.84" width="0.1524" layer="94" style="longdash"/>
 <wire x1="330.2" y1="116.84" x2="185.42" y2="116.84" width="0.1524" layer="94" style="longdash"/>
 <wire x1="330.2" y1="116.84" x2="330.2" y2="172.72" width="0.1524" layer="94" style="longdash"/>
 <wire x1="330.2" y1="172.72" x2="281.94" y2="172.72" width="0.1524" layer="94" style="longdash"/>
@@ -4600,8 +4496,12 @@ http://www.weartronics.com/</description>
 <text x="358.14" y="256.54" size="1.4224" layer="94" ratio="10">01/13/15</text>
 <text x="421.64" y="256.54" size="1.4224" layer="94" ratio="10">D</text>
 <text x="426.72" y="256.54" size="1.4224" layer="94" ratio="10">RGB</text>
-<wire x1="330.2" y1="116.84" x2="431.8" y2="116.84" width="0.1524" layer="94" style="longdash"/>
-<text x="365.76" y="111.76" size="2.54" layer="94" ratio="10">MISC. PARTS</text>
+<text x="363.22" y="60.96" size="2.54" layer="94" ratio="10">MISC. PARTS</text>
+<text x="370.84" y="254" size="1.4224" layer="94" ratio="10">RELEASE REV. D TO PRODUCTION</text>
+<text x="358.14" y="254" size="1.4224" layer="94" ratio="10">01-23-15</text>
+<text x="421.64" y="254" size="1.4224" layer="94" ratio="10">D</text>
+<text x="426.72" y="254" size="1.4224" layer="94" ratio="10">RGB</text>
+<wire x1="330.2" y1="71.12" x2="431.8" y2="71.12" width="0.1524" layer="94" style="longdash"/>
 </plain>
 <instances>
 <instance part="U4" gate="G$1" x="254" y="25.4"/>
@@ -4830,9 +4730,9 @@ http://www.weartronics.com/</description>
 <instance part="B-FRAME2" gate="G$1" x="0" y="0"/>
 <instance part="B-FRAME2" gate="G$2" x="330.2" y="0"/>
 <instance part="B-FRAME2" gate="G$3" x="358.14" y="279.4"/>
-<instance part="PCB1" gate="G$1" x="386.08" y="53.34" smashed="yes">
-<attribute name="NAME" x="386.08" y="58.42" size="1.4224" layer="95" ratio="9"/>
-<attribute name="VALUE" x="386.08" y="55.88" size="1.4224" layer="95" ratio="9"/>
+<instance part="PCB1" gate="G$1" x="388.62" y="48.26" smashed="yes">
+<attribute name="NAME" x="388.62" y="53.34" size="1.4224" layer="95" ratio="9"/>
+<attribute name="VALUE" x="388.62" y="50.8" size="1.4224" layer="95" ratio="9"/>
 </instance>
 <instance part="V1" gate="GND" x="121.92" y="10.16"/>
 <instance part="R10" gate="G$1" x="50.8" y="60.96" smashed="yes">
@@ -4991,22 +4891,9 @@ http://www.weartronics.com/</description>
 <attribute name="NAME" x="289.56" y="134.62" size="1.4224" layer="95" ratio="9"/>
 <attribute name="VALUE" x="289.56" y="132.08" size="1.4224" layer="96" ratio="9"/>
 </instance>
-<instance part="U$5" gate="G$1" x="358.14" y="127"/>
-<instance part="ENCL1" gate="G$1" x="335.28" y="104.14"/>
-<instance part="ENCL2" gate="G$1" x="335.28" y="96.52"/>
-<instance part="ENCL3" gate="G$1" x="335.28" y="88.9"/>
-<instance part="HDWE1" gate="G$1" x="386.08" y="104.14"/>
-<instance part="HDWE2" gate="G$1" x="386.08" y="96.52"/>
-<instance part="HDWE3" gate="G$1" x="386.08" y="88.9"/>
-<instance part="HDWE4" gate="G$1" x="386.08" y="81.28"/>
-<instance part="HDWE5" gate="G$1" x="386.08" y="73.66"/>
-<instance part="CABLE1" gate="G$1" x="335.28" y="81.28"/>
-<instance part="KNOB1" gate="G$1" x="335.28" y="73.66"/>
-<instance part="PS1" gate="G$1" x="335.28" y="66.04"/>
-<instance part="CABLE2" gate="G$1" x="386.08" y="66.04"/>
-<instance part="SPKR1" gate="G$1" x="335.28" y="58.42" smashed="yes">
-<attribute name="NAME" x="335.28" y="58.42" size="1.4224" layer="95" ratio="10"/>
-<attribute name="VALUE" x="335.28" y="55.88" size="1.4224" layer="95" ratio="10"/>
+<instance part="SPKR1" gate="G$1" x="337.82" y="53.34" smashed="yes">
+<attribute name="NAME" x="337.82" y="53.34" size="1.4224" layer="95" ratio="10"/>
+<attribute name="VALUE" x="337.82" y="50.8" size="1.4224" layer="95" ratio="10"/>
 </instance>
 </instances>
 <busses>
@@ -6231,6 +6118,10 @@ http://www.weartronics.com/</description>
 <text x="368.3" y="274.32" size="1.4224" layer="94" ratio="10">SM1000-C -&gt; SM1000-D</text>
 <text x="419.1" y="274.32" size="1.4224" layer="94" ratio="10">D</text>
 <text x="424.18" y="274.32" size="1.4224" layer="94" ratio="10">RGB</text>
+<text x="355.6" y="271.78" size="1.4224" layer="94" ratio="10">01/23/15</text>
+<text x="368.3" y="271.78" size="1.4224" layer="94" ratio="10">RELEASE REV. D TO PRODUCTION.</text>
+<text x="419.1" y="271.78" size="1.4224" layer="94" ratio="10">D</text>
+<text x="424.18" y="271.78" size="1.4224" layer="94" ratio="10">RGB</text>
 </plain>
 <instances>
 <instance part="C39" gate="G$1" x="91.44" y="55.88" smashed="yes" rot="R90">
