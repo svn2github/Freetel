@@ -33,6 +33,11 @@ $ rec -r 8000 -s -2 -c 1 -t raw - trim 0 10 | ./freedv_rx - - | sox -t raw -r 80
 TODO
 ----
 
+[ ] adcdac_ut works
+    + plays sine wave until S2 pressed
+    + then mic signal echoes to speaker (wtahcout for howling feedback)
+
+TODO:
 (need more detail, pass/fail conditions)
 
 [ ] set up procedure to get levels right/minimise distortion on TX
