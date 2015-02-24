@@ -1,0 +1,12 @@
+ENCL-SM1000-C-change-log.txt
+Created 02/24/15
+==========================================================
+1.	Numerous dimensions changed. Changed origin points to ensure fit between enclosure
+	bottom and top. Dimension changes are for most part are sub millimetre. Will attempt 
+	to mark up .PDFs to show dimension changes between Rev B & Rev C 
+	
+2.	Need to determine thichness of powder coat finish to ensure proper fit between 
+	enclosure parts.
+	
+3.	Modified enclosure panels to allow for silk screen operations without smearing.
+
