@@ -10,3 +10,6 @@ Created 02/24/15
 	
 3.	Modified enclosure panels to allow for silk screen operations without smearing.
 
+4.  cHANGED spkr volume TO SINGLE LINE TO FIT.
+
+5. Changed REAR panel logo to fit.
