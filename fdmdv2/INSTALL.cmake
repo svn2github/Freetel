@@ -1,6 +1,9 @@
-The CMake configuration for FDMDV2 (FreeDV) should be considered experimental at
-this time but has been thouroughly tested on Fedora Linux and will likely work
-well on most *nix systems and has many advanages over the autotools config. 
+The CMake configuration for FDMDV2 (FreeDV) is the primary build method at
+this time and has been thouroughly tested on Fedora Linux and will likely work
+well on most *nix systems and has many advanages over the autotools config.
+
+It should also work on Windows environments but only the mingw-w64 is tested
+to work using the MSYS2 environment. Others may work but you're on your own.
 
 - Builds against system libraries (by default).
 - Or optionally download, build, and statically link with required libraries on
