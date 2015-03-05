@@ -284,30 +284,6 @@ else(NOT USE_STATIC_SAMPLERATE)
     include(cmake/BuildSamplerate.cmake)
 endif(NOT USE_STATIC_SAMPLERATE)
 
-#    
-# sndfile Library
-#
-if(NOT USE_STATIC_SNDFILE)
-    message(STATUS "Looking for sndfile...")
-    find_library(LIBSNDFILE sndfile)
-    find_path(LIBSNDFILE_INCLUDE_DIR sndfile.h)
-    message(STATUS "  sndfile library: ${LIBSNDFILE}")
-    message(STATUS "  sndfile headers: ${LIBSNDFILE_INCLUDE_DIR}")
-    if(LIBSNDFILE AND LIBSNDFILE_INCLUDE_DIR)
-        list(APPEND FREEDV_LINK_LIBS ${LIBSNDFILE})
-    else(LIBSNDFILE AND LIBSNDFILE_INCLUDE_DIR)
-        message(FATAL_ERROR "sndfile library not found.
-On Linux systems try installing:
-    libsndfile-devel (RPM based systems)
-    libsndfile-dev   (DEB based systems)
-On Windows it's easiest to use the cmake option: USE_STATIC_SNDFILE"
-        )
-    endif(LIBSNDFILE AND LIBSNDFILE_INCLUDE_DIR)
-else(NOT USE_STATIC_SNDFILE)
-    message(STATUS "Will attempt static build of sndfile.")
-    include(cmake/BuildSndfile.cmake)
-endif(NOT USE_STATIC_SNDFILE)
-
 #
 # Find sox library
 #
@@ -332,6 +308,30 @@ else(NOT USE_STATIC_SOX)
     message(STATUS "Will attempt static build of sox.")
     include(cmake/BuildSox.cmake)
 endif(NOT USE_STATIC_SOX)
+
+#    
+# sndfile Library
+#
+if(NOT USE_STATIC_SNDFILE)
+    message(STATUS "Looking for sndfile...")
+    find_library(LIBSNDFILE sndfile)
+    find_path(LIBSNDFILE_INCLUDE_DIR sndfile.h)
+    message(STATUS "  sndfile library: ${LIBSNDFILE}")
+    message(STATUS "  sndfile headers: ${LIBSNDFILE_INCLUDE_DIR}")
+    if(LIBSNDFILE AND LIBSNDFILE_INCLUDE_DIR)
+        list(APPEND FREEDV_LINK_LIBS ${LIBSNDFILE})
+    else(LIBSNDFILE AND LIBSNDFILE_INCLUDE_DIR)
+        message(FATAL_ERROR "sndfile library not found.
+On Linux systems try installing:
+    libsndfile-devel (RPM based systems)
+    libsndfile-dev   (DEB based systems)
+On Windows it's easiest to use the cmake option: USE_STATIC_SNDFILE"
+        )
+    endif(LIBSNDFILE AND LIBSNDFILE_INCLUDE_DIR)
+else(NOT USE_STATIC_SNDFILE)
+    message(STATUS "Will attempt static build of sndfile.")
+    include(cmake/BuildSndfile.cmake)
+endif(NOT USE_STATIC_SNDFILE)
 
 #
 # Find wxWidgets

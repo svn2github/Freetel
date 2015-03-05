@@ -20,23 +20,13 @@ On Linux systems try installing:
     )
 endif(UNIX AND NOT AO_LIBRARIES)
 
-# For some reason libsox is not linked against linsndfile. We workaround it
-# here but need to know if we're using the system provided library or not.
-#if(USE_STATIC_SNDFILE)
-#    # Use known location of internal build.
-#    set(SNDFILE_LIB ${SNDFILE_LIBRARIES})
-#else()
-#    # Use found system library.
-#    set(SNDFILE_LIB ${LIBSNDFILE})
-#endif()
-
 include(ExternalProject)
 ExternalProject_Add(sox
     URL http://downloads.sourceforge.net/sox/${SOX_TARBALL}.tar.gz
     BUILD_IN_SOURCE 1
     INSTALL_DIR external/dist
     CONFIGURE_COMMAND ./configure --enable-shared=no --without-id3tag --without-png --disable-gomp --with-oggvorbis=no --with-oss=no --with-flac=no --with-amrnb=no --with-amrwb=no --with-mp3=no --with-wavpack=no --disable-dl-sndfile --with-pulseaudio=no --without-magic --prefix=${CMAKE_BINARY_DIR}/external/dist
-    BUILD_COMMAND $(MAKE) V=1 LIBS=${SNDFILE_LIB}
+    BUILD_COMMAND $(MAKE) V=1
     INSTALL_COMMAND $(MAKE) install
 )
 set(SOX_LIBRARIES ${CMAKE_BINARY_DIR}/external/dist/lib/libsox.a)
