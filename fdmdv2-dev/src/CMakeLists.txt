@@ -30,8 +30,8 @@ set(FREEDV_SOURCES
     sox_biquad.h
     sox.h
     topFrame.h
-    varicode.h
-    varicode_table.h
+    #varicode.h
+    #varicode_table.h
     version.h
 )
 

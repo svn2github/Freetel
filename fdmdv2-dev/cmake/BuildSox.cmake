@@ -20,30 +20,22 @@ On Linux systems try installing:
     )
 endif(UNIX AND NOT AO_LIBRARIES)
 
-
 include(ExternalProject)
 ExternalProject_Add(sox
     URL http://downloads.sourceforge.net/sox/${SOX_TARBALL}.tar.gz
     BUILD_IN_SOURCE 1
     INSTALL_DIR external/dist
     CONFIGURE_COMMAND ./configure --enable-shared=no --without-id3tag --without-png --disable-gomp --with-oggvorbis=no --with-oss=no --with-flac=no --with-amrnb=no --with-amrwb=no --with-mp3=no --with-wavpack=no --disable-dl-sndfile --with-pulseaudio=no --without-magic --prefix=${CMAKE_BINARY_DIR}/external/dist
-    BUILD_COMMAND $(MAKE)
+    BUILD_COMMAND $(MAKE) V=1
     INSTALL_COMMAND $(MAKE) install
 )
-if(WIN32)
-    set(SOX_LIBRARIES
-        ${CMAKE_BINARY_DIR}/external/dist/lib/sox.lib)
-else(WIN32)
-    set(SOX_LIBRARIES
-        ${CMAKE_BINARY_DIR}/external/dist/lib/libsox.a
-        ${ALSA_LIBRARIES}
-        ${AO_LIBRARIES}
-    )
-endif(WIN32)
+set(SOX_LIBRARIES ${CMAKE_BINARY_DIR}/external/dist/lib/libsox.a)
+if(UNIX)
+    list(APPEND SOX_LIBRARIES ${ALSA_LIBRARIES} ${AO_LIBRARIES})
+endif()
+if(MINGW)
+    list(APPEND SOX_LIBRARIES winmm)
+endif()
 include_directories(${CMAKE_BINARY_DIR}/external/dist/include)
 list(APPEND FREEDV_LINK_LIBS ${SOX_LIBRARIES})
 list(APPEND FREEDV_STATIC_DEPS sox)
-
-if(USE_STATIC_SNDFILE)
-    add_dependencies(sox sndfile)
-endif(USE_STATIC_SNDFILE)

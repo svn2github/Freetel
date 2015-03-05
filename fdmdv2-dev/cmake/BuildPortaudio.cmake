@@ -9,7 +9,7 @@ On Linux systems try installing:
     alsa-lib-devel  (RPM based systems)
     libasound2-dev  (DEB based systems)"
     )
-endif(UNIX AND NOT ALSA_LIBRARIES)
+endif()
 
 include(ExternalProject)
 ExternalProject_Add(portaudio
@@ -33,5 +33,9 @@ else(WIN32)
     )
 endif(WIN32)
 include_directories(${CMAKE_BINARY_DIR}/external/dist/include)
+
+# Add the portaudio library to the list of libraries that must be linked.
 list(APPEND FREEDV_LINK_LIBS ${PORTAUDIO_LIBRARIES})
+
+# Setup a dependency so that this gets built before linking to freedv.
 list(APPEND FREEDV_STATIC_DEPS portaudio)

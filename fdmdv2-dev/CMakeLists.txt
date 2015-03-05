@@ -39,12 +39,14 @@ if(FREEDV_VERSION_PATCH)
     set(FREEDV_VERSION ${FREEDV_VERSION}.${FREEDV_VERSION_PATCH})
 endif(FREEDV_VERSION_PATCH)
 
+message(STATUS "FreeDV version: ${FREEDV_VERSION}")
+
 # Set default build type
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
+    message(STATUS "Build type not specified, defaulting to ${CMAKE_BUILD_TYPE}")
 endif(NOT CMAKE_BUILD_TYPE)
 
-message(STATUS "FreeDV version: ${FREEDV_VERSION}")
 
 # Work around for not using a svn working copy.
 add_definitions(-D_NO_AUTOTOOLS_)
@@ -65,7 +67,6 @@ add_definitions(-DSVN_REVISION="${SVN_REVISION}")
 else()
 add_definitions(-DSVN_REVISION="Unversioned directory")
 endif()
-    
 
 
 # Set default build flags.
@@ -74,6 +75,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 #
 # Setup cmake options
 #
+set(CMAKE_VERBOSE_MAKEFILE TRUE CACHE BOOL "Verbose makefile.")
 set(USE_STATIC_DEPS FALSE CACHE BOOL 
     "Download and build static libraries instead of system libraries.")
 set(USE_STATIC_PORTAUDIO FALSE CACHE BOOL 
@@ -112,13 +114,9 @@ if(BOOTSTRAP_WXWIDGETS AND NOT EXISTS ${WXCONFIG})
     message(STATUS "Will perform bootstrap build of wxWidgets.
    After make step completes, re-run cmake and make again to perform FreeDV build.")
 #
-# Continue normal build if not bootstrapping wxWidgets or already built it.
+# Continue normal build if not bootstrapping wxWidgets or is already built.
 #
 else(BOOTSTRAP_WXWIDGETS AND NOT EXISTS ${WXCONFIG})
-
-# Setup empty list to append to.
-set(FREEDV_LINK_LIBS "")
-set(FREEDV_STATIC_LIBS "")
 
 
 #
@@ -126,9 +124,6 @@ set(FREEDV_STATIC_LIBS "")
 #
 if(MINGW)
     message(STATUS "System is MinGW.")
-    # For some reason "Release" causes an error on exit. Force build type to be
-    # Debug for MINGW builds.
-    set(CMAKE_BUILD_TYPE Debug)
     # This sets up the exe icon for windows under mingw.
     set(RES_FILES "")
     set(RES_FILES "${CMAKE_SOURCE_DIR}/contrib/freedv.rc")
@@ -136,25 +131,8 @@ if(MINGW)
     enable_language(RC)
     set(CMAKE_RC_COMPILE_OBJECT
         "<CMAKE_RC_COMPILER> <FLAGS> -O coff <DEFINES> -i <SOURCE> -o <OBJECT>")
-    # Even using msys, cmake doesn't know it can use unix style paths...
-    set(CMAKE_LIBRARY_PATH C:/MinGW/lib;C:/MinGW/msys/1.0/lib;C:/MinGW/msys/1.0/local/lib)
-    # Try to build in libgcc and libstdc++ but it doesn't appear to work.
-    #add_definitions(-static-libgcc -static-libstdc++)
-    # Try to grab all the runtime dlls for the windows installer. 
-    # This will break if the dll names change!
+    # These are DLOPEN'ed and can't be automatically pulled in by dependency.
     foreach(RUNTIME
-        libgcc_s_sjlj-1.dll
-        libstdc++-6.dll
-        libsndfile-1.dll
-        libsamplerate-0.dll
-        libcodec2.dll
-        libpng16-16.dll
-        libportaudio-2.dll
-        libportaudiocpp-0.dll
-        libsox-2.dll
-        zlib1.dll
-        libusb0.dll
-        libhamlib-2.dll
         hamlib-adat.dll
         hamlib-alinco.dll
         hamlib-amsat.dll
@@ -178,12 +156,27 @@ if(MINGW)
         hamlib-pcr.dll
         hamlib-prm80.dll
         hamlib-racal.dll
-        hamlib-rft.dll)
+        hamlib-rft.dll
+        hamlib-rotorez.dll
+        hamlib-rs.dll
+        hamlib-sartek.dll
+        hamlib-skanti.dll
+        hamlib-spid.dll
+        hamlib-tapr.dll
+        hamlib-tentec.dll
+        hamlib-ts7400.dll
+        hamlib-tuner.dll
+        hamlib-uniden.dll
+        hamlib-winradio.dll
+        hamlib-wj.dll
+        hamlib-yaesu.dll)
         message(STATUS "Checking for ${RUNTIME}")
-        find_library(${RUNTIME}_LIB ${RUNTIME})
+        find_library(${RUNTIME}_LIB ${RUNTIME}
+            PATH_SUFFIXES hamlib)
         message(STATUS "runtime found: ${${RUNTIME}_LIB}")
         list(APPEND CMAKE_INSTALL_SYSTEM_RUNTIME_LIBS ${${RUNTIME}_LIB})
     endforeach()
+    include(InstallRequiredSystemLibraries)
 endif(MINGW)
 
 # Math library is automatic on MinGW
@@ -225,39 +218,26 @@ message(STATUS "Threads library flags: ${CMAKE_THREAD_LIBS_INIT}")
 if(NOT USE_STATIC_PORTAUDIO)
     message(STATUS "Looking for portaudio...")
     find_package(Portaudio REQUIRED)
-    if(PORTAUDIO_FOUND AND ${PORTAUDIO_VERSION} EQUAL 19)
+    if(PORTAUDIO_FOUND)
+        message(STATUS "  portaudio library: ${PORTAUDIO_LIBRARIES}")
+        message(STATUS "  portaudio headers: ${PORTAUDIO_INCLUDE_DIRS}")
         list(APPEND FREEDV_LINK_LIBS ${PORTAUDIO_LIBRARIES})
         include_directories(${PORTAUDIO_INCLUDE_DIRS})
     else()
-        message(WARNING "Portaudio versions other than 19 are known to have issues. You have been warned!")
-        list(APPEND FREEDV_LINK_LIBS ${PORTAUDIO_LIBRARIES})
-        include_directories(${PORTAUDIO_INCLUDE_DIRS})
+        message(FATAL_ERROR "portaudio library not found.
+On Linux systems try installing:
+    portaudio-devel  (RPM based systems)
+    libportaudio-dev (DEB based systems)
+On Windows it's easiest to use the cmake option: USE_STATIC_PORTAUDIO"
+        )
     endif()
-#    find_library(PORTAUDIO_LIBS NAMES libportaudio-2.dll portaudio HINTS /usr/local/lib/portaudio2)
-#    find_path(PORTAUDIO_INCLUDE_DIR portaudio.h HINTS /usr/local/include/portaudio2)
-#    message(STATUS "  portaudio library: ${PORTAUDIO_LIBS}")
-#    message(STATUS "  portaudio headers: ${PORTAUDIO_INCLUDE_DIR}")
-#    if(PORTAUDIO_LIBS AND PORTAUDIO_INCLUDE_DIR)
-#        list(APPEND FREEDV_LINK_LIBS ${PORTAUDIO_LIBS})
-#        include_directories(${PORTAUDIO_INCLUDE_DIR})
-#    else(PORTAUDIO_LIBS AND PORTAUDIO_INCLUDE_DIR)
-#        message(FATAL_ERROR "portaudio library not found.
-#On Linux systems try installing:
-#    portaudio-devel  (RPM based systems)
-#    libportaudio-dev (DEB based systems)
-#On Windows it's easiest to use the cmake option: USE_STATIC_PORTAUDIO"
-#        )
-#    endif(PORTAUDIO_LIBS AND PORTAUDIO_INCLUDE_DIR)
+    if(NOT ${PORTAUDIO_VERSION} EQUAL 19)
+        message(WARNING "Portaudio versions other than 19 are known to have issues. You have been warned!")
+    endif()
 else(NOT USE_STATIC_PORTAUDIO)
     message(STATUS "Will attempt static build of portaudio.")
     include(cmake/BuildPortaudio.cmake)
 endif(NOT USE_STATIC_PORTAUDIO)
-# Do we need this?
-#find_library(PORTAUDIOCPP portaudiocpp)
-#if(PORTAUDIOCPP)
-#    message(STATUS "portaudiocpp library: ${PORTAUDIOCPP}")
-#    list(APPEND FREEDV_LINK_LIBS ${PORTAUDIOCPP})
-#endif(PORTAUDIOCPP)
 
 #
 # Hamlib library
@@ -305,30 +285,6 @@ else(NOT USE_STATIC_SAMPLERATE)
     include(cmake/BuildSamplerate.cmake)
 endif(NOT USE_STATIC_SAMPLERATE)
 
-#    
-# sndfile Library
-#
-if(NOT USE_STATIC_SNDFILE)
-    message(STATUS "Looking for sndfile...")
-    find_library(LIBSNDFILE sndfile)
-    find_path(LIBSNDFILE_INCLUDE_DIR sndfile.h)
-    message(STATUS "  sndfile library: ${LIBSNDFILE}")
-    message(STATUS "  sndfile headers: ${LIBSNDFILE_INCLUDE_DIR}")
-    if(LIBSNDFILE AND LIBSNDFILE_INCLUDE_DIR)
-        list(APPEND FREEDV_LINK_LIBS ${LIBSNDFILE})
-    else(LIBSNDFILE AND LIBSNDFILE_INCLUDE_DIR)
-        message(FATAL_ERROR "sndfile library not found.
-On Linux systems try installing:
-    libsndfile-devel (RPM based systems)
-    libsndfile-dev   (DEB based systems)
-On Windows it's easiest to use the cmake option: USE_STATIC_SNDFILE"
-        )
-    endif(LIBSNDFILE AND LIBSNDFILE_INCLUDE_DIR)
-else(NOT USE_STATIC_SNDFILE)
-    message(STATUS "Will attempt static build of sndfile.")
-    include(cmake/BuildSndfile.cmake)
-endif(NOT USE_STATIC_SNDFILE)
-
 #
 # Find sox library
 #
@@ -353,6 +309,30 @@ else(NOT USE_STATIC_SOX)
     message(STATUS "Will attempt static build of sox.")
     include(cmake/BuildSox.cmake)
 endif(NOT USE_STATIC_SOX)
+
+#    
+# sndfile Library
+#
+if(NOT USE_STATIC_SNDFILE)
+    message(STATUS "Looking for sndfile...")
+    find_library(LIBSNDFILE sndfile)
+    find_path(LIBSNDFILE_INCLUDE_DIR sndfile.h)
+    message(STATUS "  sndfile library: ${LIBSNDFILE}")
+    message(STATUS "  sndfile headers: ${LIBSNDFILE_INCLUDE_DIR}")
+    if(LIBSNDFILE AND LIBSNDFILE_INCLUDE_DIR)
+        list(APPEND FREEDV_LINK_LIBS ${LIBSNDFILE})
+    else(LIBSNDFILE AND LIBSNDFILE_INCLUDE_DIR)
+        message(FATAL_ERROR "sndfile library not found.
+On Linux systems try installing:
+    libsndfile-devel (RPM based systems)
+    libsndfile-dev   (DEB based systems)
+On Windows it's easiest to use the cmake option: USE_STATIC_SNDFILE"
+        )
+    endif(LIBSNDFILE AND LIBSNDFILE_INCLUDE_DIR)
+else(NOT USE_STATIC_SNDFILE)
+    message(STATUS "Will attempt static build of sndfile.")
+    include(cmake/BuildSndfile.cmake)
+endif(NOT USE_STATIC_SNDFILE)
 
 #
 # Find wxWidgets
@@ -379,6 +359,7 @@ set(WX_VERSION_MIN 3.0.0)
 find_package(wxWidgets REQUIRED core base aui html net adv)
 execute_process(COMMAND sh "${wxWidgets_CONFIG_EXECUTABLE}" --version
     OUTPUT_VARIABLE WX_VERSION)
+string(STRIP ${WX_VERSION} WX_VERSION)
 if(WX_VERSION VERSION_EQUAL ${WX_VERSION_MIN}
     OR WX_VERSION VERSION_GREATER ${WX_VERSION_MIN})
    message(STATUS "wxWidgets version: ${WX_VERSION}")
@@ -400,22 +381,30 @@ endif(wxWidgets_FOUND)
 #
 if(NOT USE_STATIC_CODEC2)
     message(STATUS "Looking for codec2...")
-    find_path(CODEC2_INCLUDE_DIR codec2.h
-              PATH_SUFFIXES codec2)
-    find_library(CODEC2_LIBRARY NAMES codec2)
-    message(STATUS "  codec2 library: ${CODEC2_LIBRARY}")
-    message(STATUS "  codec2 headers: ${CODEC2_INCLUDE_DIR}")
-    if(CODEC2_INCLUDE_DIR AND CODEC2_LIBRARY)
-        include_directories(${CODEC2_INCLUDE_DIR})
-        list(APPEND FREEDV_LINK_LIBS ${CODEC2_LIBRARY})
-    else(CODEC2_INCLUDE_DIR AND CODEC2_LIBRARY)
-        message(FATAL_ERROR "codec2 library not found.
+    find_package(codec2 CONFIG QUIET)
+    if(codec2_FOUND)
+        get_target_property(CODEC2_BRARY codec2 LOCATION)
+        message(STATUS "  codec2 library: ${CODEC2_LIBRARY}")
+        message(STATUS "  codec2 headers: ${codec2_INCLUDE_DIRS}")
+    else()
+        # Try to find manually
+        find_path(CODEC2_INCLUDE_DIRS codec2.h
+                  PATH_SUFFIXES codec2)
+        find_library(CODEC2_LIBRARY NAMES codec2)
+        if(CODEC2_LIBRARY AND CODEC2_INCLUDE_DIRS)
+            message(STATUS "  codec2 library: ${CODEC2_LIBRARY}")
+            message(STATUS "  codec2 headers: ${CODEC2_INCLUDE_DIRS}")
+            list(APPEND FREEDV_LINK_LIBS ${CODEC2_LIBRARY})
+            include_directories(${CODEC2_INCLUDE_DIRS})
+        else()
+            message(FATAL_ERROR "codec2 library not found.
 Linux: 
 Codec2 may not be in your distribution so build yourself or use the cmake option to build statically into FreeDV.
 Windws:
 It's easiest to use the cmake option: USE_STATIC_CODEC2"
         )
-    endif(CODEC2_INCLUDE_DIR AND CODEC2_LIBRARY)
+        endif()
+    endif()
 else(NOT USE_STATIC_CODEC2)
     message(STATUS "Will attempt static build of codec2.")
     include(cmake/BuildCodec2.cmake)
@@ -445,28 +434,40 @@ add_subdirectory(contrib)
 message(STATUS "Build type will be: ${CMAKE_BUILD_TYPE}")
 
 #
-# Cpack NSIS configuration for Windows. EXPERIMENTAL!!!
+# Cpack NSIS configuration for Windows.
 #
 if(WIN32)
-    include(InstallRequiredSystemLibraries)
+    # Detect if we're doing a 32-bit or 64-bit windows build.
+    if(${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+        set(CMAKE_CL_64 TRUE)
+    endif()
+    if(NOT ${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+        set(CPACK_STRIP_FILES TRUE)
+    endif()
+    configure_file(cmake/GetDependencies.cmake.in cmake/GetDependencies.cmake
+        @ONLY
+    )
+    install(SCRIPT ${CMAKE_BINARY_DIR}/cmake/GetDependencies.cmake)
     set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "HF Digital Voice for Radio Amateurs")
     set(CPACK_PACKAGE_VENDOR "CMake")
-    set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
+    #set(CPACK_PACKAGE_DESCRIPTION_FILE "${CMAKE_CURRENT_SOURCE_DIR}/README")
     set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/COPYING")
     set(CPACK_PACKAGE_VERSION_MAJOR ${FREEDV_VERSION_MAJOR})
     set(CPACK_PACKAGE_VERSION_MINOR ${FREEDV_VERSION_MINOR})
     if(FREEDV_VERSION_PATCH)
         set(CPACK_PACKAGE_VERSION_PATCH ${FREEDV_VERSION_PATCH})
-    endif(FREEDV_VERSION_PATCH)
-    set(CPACK_PACKAGE_INSTALL_DIRECTORY "FreeDV")
+    else()
+        set(CPACK_PACKAGE_VERSION_PATCH "0")
+    endif()
     set(CPACK_PACKAGE_EXECUTABLES freedv;FreeDV)
     # There is a bug in NSI that does not handle full unix paths properly. Make
     # sure there is at least one set of four (4) backlasshes.
     #set(CPACK_PACKAGE_ICON "${CMake_SOURCE_DIR}/Utilities/Release\\\\InstallIcon.bmp")
     set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\freedv.exe")
     set(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_INSTALL_DIRECTORY}")
-    set(CPACK_NSIS_URL_INFO_ABOUT "http:\\\\\\\\freedv.org")
+    set(CPACK_NSIS_URL_INFO_ABOUT "http://freedv.org")
     set(CPACK_NSIS_MODIFY_PATH OFF)
+    set(CPACK_NSIS_MENU_LINKS "http://freedv.org" "FreeDV Homepage")
     include(CPack)
 endif(WIN32)
 
