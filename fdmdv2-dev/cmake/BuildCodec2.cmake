@@ -1,7 +1,7 @@
 include(ExternalProject)
 ExternalProject_Add(codec2
    SVN_REPOSITORY https://svn.code.sf.net/p/freetel/code/codec2-dev
-   CMAKE_ARGS -DBUILD_SHARED_LIBS=FALSE 
+   CMAKE_ARGS -DBUILD_SHARED_LIBS=FALSE -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/external/dist
    INSTALL_COMMAND ""
 )
 set(CODEC2_LIBRARIES

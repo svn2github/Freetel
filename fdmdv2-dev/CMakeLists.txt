@@ -88,6 +88,8 @@ set(USE_STATIC_SOX FALSE CACHE BOOL
     "Download and build static sox instead of the system library.")
 set(USE_STATIC_CODEC2 TRUE CACHE BOOL
     "Download and build static codec2 instead of the system library.")
+set(USE_STATIC_SPEEXDSP TRUE CACHE BOOL
+    "Download and build static speex instead of the system library.")
 set(BOOTSTRAP_WXWIDGETS FALSE CACHE BOOL
     "Download and build static wxWidgets instead of the system library.")
 
@@ -211,6 +213,40 @@ add_definitions(-DHAVE_CONFIG_H)
 # Pthread Library
 find_package(Threads REQUIRED)
 message(STATUS "Threads library flags: ${CMAKE_THREAD_LIBS_INIT}")
+
+#
+# Find codec2
+#
+if(NOT USE_STATIC_CODEC2)
+    message(STATUS "Looking for codec2...")
+    find_package(codec2 CONFIG QUIET)
+    if(codec2_FOUND)
+        get_target_property(CODEC2_BRARY codec2 LOCATION)
+        message(STATUS "  codec2 library: ${CODEC2_LIBRARY}")
+        message(STATUS "  codec2 headers: ${codec2_INCLUDE_DIRS}")
+    else()
+        # Try to find manually
+        find_path(CODEC2_INCLUDE_DIRS codec2.h
+                  PATH_SUFFIXES codec2)
+        find_library(CODEC2_LIBRARY NAMES codec2)
+        if(CODEC2_LIBRARY AND CODEC2_INCLUDE_DIRS)
+            message(STATUS "  codec2 library: ${CODEC2_LIBRARY}")
+            message(STATUS "  codec2 headers: ${CODEC2_INCLUDE_DIRS}")
+            list(APPEND FREEDV_LINK_LIBS ${CODEC2_LIBRARY})
+            include_directories(${CODEC2_INCLUDE_DIRS})
+        else()
+            message(FATAL_ERROR "codec2 library not found.
+Linux: 
+Codec2 may not be in your distribution so build yourself or use the cmake option to build statically into FreeDV.
+Windws:
+It's easiest to use the cmake option: USE_STATIC_CODEC2"
+        )
+        endif()
+    endif()
+else(NOT USE_STATIC_CODEC2)
+    message(STATUS "Will attempt static build of codec2.")
+    include(cmake/BuildCodec2.cmake)
+endif(NOT USE_STATIC_CODEC2)
 
 #
 # Find or build portaudio Library
@@ -377,55 +413,26 @@ if(wxWidgets_FOUND)
 endif(wxWidgets_FOUND)
 
 #
-# Find codec2
-#
-if(NOT USE_STATIC_CODEC2)
-    message(STATUS "Looking for codec2...")
-    find_package(codec2 CONFIG QUIET)
-    if(codec2_FOUND)
-        get_target_property(CODEC2_BRARY codec2 LOCATION)
-        message(STATUS "  codec2 library: ${CODEC2_LIBRARY}")
-        message(STATUS "  codec2 headers: ${codec2_INCLUDE_DIRS}")
-    else()
-        # Try to find manually
-        find_path(CODEC2_INCLUDE_DIRS codec2.h
-                  PATH_SUFFIXES codec2)
-        find_library(CODEC2_LIBRARY NAMES codec2)
-        if(CODEC2_LIBRARY AND CODEC2_INCLUDE_DIRS)
-            message(STATUS "  codec2 library: ${CODEC2_LIBRARY}")
-            message(STATUS "  codec2 headers: ${CODEC2_INCLUDE_DIRS}")
-            list(APPEND FREEDV_LINK_LIBS ${CODEC2_LIBRARY})
-            include_directories(${CODEC2_INCLUDE_DIRS})
-        else()
-            message(FATAL_ERROR "codec2 library not found.
-Linux: 
-Codec2 may not be in your distribution so build yourself or use the cmake option to build statically into FreeDV.
-Windws:
-It's easiest to use the cmake option: USE_STATIC_CODEC2"
-        )
-        endif()
-    endif()
-else(NOT USE_STATIC_CODEC2)
-    message(STATUS "Will attempt static build of codec2.")
-    include(cmake/BuildCodec2.cmake)
-endif(NOT USE_STATIC_CODEC2)
-
-#
 # Find speex library
 #
-message(STATUS "Looking for Speex DSP library.")
-find_path(SPEEXDSP_INCLUDE_DIR speex/speex.h)
-find_library(SPEEXDSP_LIBRARY speexdsp)
-message(STATUS "  Speex DSP headers: ${SPEEXDSP_INCLUDE_DIR}")
-message(STATUS "  Speex DSP library: ${SPEEXDSP_LIBRARY}")
-if(SPEEXDSP_INCLUDE_DIR AND SPEEXDSP_LIBRARY)
-    include_directories(${SPEEXDSP_INCLUDE_DIR})
-    list(APPEND FREEDV_LINK_LIBS ${SPEEXDSP_LIBRARY})
-else(SPEEXDSP_INCLUDE_DIR AND SPEEXDSP_LIBRARY)
-    message(FATAL_ERROR "Speex DSP library not found!")
-endif(SPEEXDSP_INCLUDE_DIR AND SPEEXDSP_LIBRARY)
-
-# Freedv 
+if(NOT USE_STATIC_SPEEXDSP)
+    message(STATUS "Looking for Speex DSP library.")
+    find_path(SPEEXDSP_INCLUDE_DIR speex/speex.h)
+    find_library(SPEEXDSP_LIBRARY speexdsp)
+    message(STATUS "  Speex DSP headers: ${SPEEXDSP_INCLUDE_DIR}")
+    message(STATUS "  Speex DSP library: ${SPEEXDSP_LIBRARY}")
+    if(SPEEXDSP_INCLUDE_DIR AND SPEEXDSP_LIBRARY)
+        include_directories(${SPEEXDSP_INCLUDE_DIR})
+        list(APPEND FREEDV_LINK_LIBS ${SPEEXDSP_LIBRARY})
+    else(SPEEXDSP_INCLUDE_DIR AND SPEEXDSP_LIBRARY)
+        message(FATAL_ERROR "Speex DSP library not found!")
+    endif(SPEEXDSP_INCLUDE_DIR AND SPEEXDSP_LIBRARY)
+else()
+    message(STATUS "Will attempt static build of speex.")
+    include(cmake/BuildSpeex.cmake)
+endif()
+    
+#Freedv 
 add_subdirectory(src)
 
 # Icons and desktop file

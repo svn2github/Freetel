@@ -212,6 +212,40 @@ find_package(Threads REQUIRED)
 message(STATUS "Threads library flags: ${CMAKE_THREAD_LIBS_INIT}")
 
 #
+# Find codec2
+#
+if(NOT USE_STATIC_CODEC2)
+    message(STATUS "Looking for codec2...")
+    find_package(codec2 CONFIG QUIET)
+    if(codec2_FOUND)
+        get_target_property(CODEC2_BRARY codec2 LOCATION)
+        message(STATUS "  codec2 library: ${CODEC2_LIBRARY}")
+        message(STATUS "  codec2 headers: ${codec2_INCLUDE_DIRS}")
+    else()
+        # Try to find manually
+        find_path(CODEC2_INCLUDE_DIRS codec2.h
+                  PATH_SUFFIXES codec2)
+        find_library(CODEC2_LIBRARY NAMES codec2)
+        if(CODEC2_LIBRARY AND CODEC2_INCLUDE_DIRS)
+            message(STATUS "  codec2 library: ${CODEC2_LIBRARY}")
+            message(STATUS "  codec2 headers: ${CODEC2_INCLUDE_DIRS}")
+            list(APPEND FREEDV_LINK_LIBS ${CODEC2_LIBRARY})
+            include_directories(${CODEC2_INCLUDE_DIRS})
+        else()
+            message(FATAL_ERROR "codec2 library not found.
+Linux: 
+Codec2 may not be in your distribution so build yourself or use the cmake option to build statically into FreeDV.
+Windws:
+It's easiest to use the cmake option: USE_STATIC_CODEC2"
+        )
+        endif()
+    endif()
+else(NOT USE_STATIC_CODEC2)
+    message(STATUS "Will attempt static build of codec2.")
+    include(cmake/BuildCodec2.cmake)
+endif(NOT USE_STATIC_CODEC2)
+
+#
 # Find or build portaudio Library
 #
 if(NOT USE_STATIC_PORTAUDIO)
@@ -374,40 +408,6 @@ if(wxWidgets_FOUND)
     include("${wxWidgets_USE_FILE}")
     list(APPEND FREEDV_LINK_LIBS ${wxWidgets_LIBRARIES})
 endif(wxWidgets_FOUND)
-
-#
-# Find codec2
-#
-if(NOT USE_STATIC_CODEC2)
-    message(STATUS "Looking for codec2...")
-    find_package(codec2 CONFIG QUIET)
-    if(codec2_FOUND)
-        get_target_property(CODEC2_BRARY codec2 LOCATION)
-        message(STATUS "  codec2 library: ${CODEC2_LIBRARY}")
-        message(STATUS "  codec2 headers: ${codec2_INCLUDE_DIRS}")
-    else()
-        # Try to find manually
-        find_path(CODEC2_INCLUDE_DIRS codec2.h
-                  PATH_SUFFIXES codec2)
-        find_library(CODEC2_LIBRARY NAMES codec2)
-        if(CODEC2_LIBRARY AND CODEC2_INCLUDE_DIRS)
-            message(STATUS "  codec2 library: ${CODEC2_LIBRARY}")
-            message(STATUS "  codec2 headers: ${CODEC2_INCLUDE_DIRS}")
-            list(APPEND FREEDV_LINK_LIBS ${CODEC2_LIBRARY})
-            include_directories(${CODEC2_INCLUDE_DIRS})
-        else()
-            message(FATAL_ERROR "codec2 library not found.
-Linux: 
-Codec2 may not be in your distribution so build yourself or use the cmake option to build statically into FreeDV.
-Windws:
-It's easiest to use the cmake option: USE_STATIC_CODEC2"
-        )
-        endif()
-    endif()
-else(NOT USE_STATIC_CODEC2)
-    message(STATUS "Will attempt static build of codec2.")
-    include(cmake/BuildCodec2.cmake)
-endif(NOT USE_STATIC_CODEC2)
 
 
 # Freedv 
