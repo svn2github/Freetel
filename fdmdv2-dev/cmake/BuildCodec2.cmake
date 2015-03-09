@@ -1,7 +1,15 @@
+set(SPEEXDSP_CMAKE_ARGS -DBUILD_SHARED_LIBS=FALSE -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/external/dist)
+
+if(USE_STATIC_SPEEXDSP)
+    list(APPEND SPEEXDSP_CMAKE_ARGS 
+        -DSPEEXDSP_LIBRARIES=${CMAKE_BINARY_DIR}/external/dist/lib/libspeexdsp.a
+        -DSPEEXDSP_INCLUDE_DIR=${CMAKE_BINARY_DIR}/external/dist/include)
+endif()
+
 include(ExternalProject)
 ExternalProject_Add(codec2
    SVN_REPOSITORY https://svn.code.sf.net/p/freetel/code/codec2-dev
-   CMAKE_ARGS -DBUILD_SHARED_LIBS=FALSE -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR}/external/dist
+   CMAKE_ARGS ${SPEEXDSP_CMAKE_ARGS}
    INSTALL_COMMAND ""
 )
 set(CODEC2_LIBRARIES
