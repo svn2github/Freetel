@@ -1,0 +1,23 @@
+ENCL-SM1000-C1-Change-Log.txt
+Changes to ENCL-SM1000-C
+
+1.  (TOP COVER)Change width of Top Cover ENCL-SM1000-C from 68.20mm to 68.70mm. Note: Overall width of front panel must change correspondingly  by .5mmas well.
+ 
+2.  (TOP COVER)Trimmer POT hole (MIC GAIN) X dimension must increase from 31.25mm to 31.85mm.
+
+3.  (TOP COVER)Trimmer POT hole (RIG SPKR) X dimension must change from 40.26 mm to 40.86mm.
+
+4.  (TOP COVER)Trimmer POT hole (RIG MIC)  X dimension ust change from 50.25mm to 50.85mm.
+
+5.  (BOTTOM BASE)Top View - 2.2mm D  4 dimension must change to 1.8mm D X 4. Change to accommodate a 2.2mm self tapping screw.
+
+6.  BOTTOM BASE) front view, 54.30mm - 78.75mm X 0.85mm notch must be included to accommodate SIDE PLATE. 
+
+7   (TOP COVER) front panel view, X dimension to center of 6.0mm D holes missing, should be 20.90mm.
+
+8.  (TOP COVER) front panel view, X dimension to center of RJ45 connector hole missing, should be 11.76mm.
+
+9.  (TOP COVER) front panel view, X dimension to center of 7.8mm D hole missing, should be 10.26mm.
+
+
+
