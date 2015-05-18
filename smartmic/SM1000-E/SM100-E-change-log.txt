@@ -1,0 +1,57 @@
+SM1000-E-CHANGE-LOG.TXT
+03/30/15 RGB
+
+1.  [X]	Change PTT sw. to e-switch LC2259OANP.
+
+2.  [X]	Change POWER SW to e-switch LC2259EENP.
+	
+3.  [X]	Change SPKR CONN J4 to CONN-BOOM-XH-2A.
+
+4.  [ ]	Added part outlines to layer tDocu for documentation.
+
+   	In progress, adding to outlines in time.
+
+05/18/15
+
+5.  [ ]	Problem with SPKR OUT conn. Shorts output when stereo jack used.
+
+6.  [ ]	TrimPOT holes, location off by 1mm.
+
+7.  [X]	U1, CPU pins extend to the end of the pads.
+
+		Corrected RGB
+
+8.  [X]	Lad pattern for LEDs too large. I will look into this. RGB
+
+		No action todate.
+
+9.  [X]	SW5 land pattern too wide. Check specification.
+
+		Corrected footprint RGB
+
+10. [X]	C32, C59 footprint too short.
+
+		corrected  RGB
+
+11. [X]	L1 Land pattern too wide.
+
+		Corrected RGB
+
+12  [ ]	CN4	Bubble after SMT(high temperature)
+
+		No action yet. Edwin, can you find an alternative to fit? If different footprint, let me know and send specification so
+		I can change it.(RGB)
+
+13. [X]	R46	Easy to break R46 with handling.
+
+		Add cement after production.
+
+14. [ ]	PCB	Problem reflowing CN10 USB connector.
+		
+		Make Breakaway 10mm (Edwin)
+
+15  [ ]	PCB	Stencil too small.
+		
+		MAke Stencil 52 x 52 cm(Edwin)
+	
+		
