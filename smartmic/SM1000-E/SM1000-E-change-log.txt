@@ -14,6 +14,9 @@ SM1000-E-CHANGE-LOG.TXT
 05/18/15
 
 5.  [ ]	Problem with SPKR OUT conn. Shorts output when stereo jack used.
+        + as per Josh Mesaline email, suggest resistors to tip and ring
+          so a short doesn't upset amp.  Does this mean it will work with
+          mono and stereo plugs?  If stereo only we should note this in UG.
 
 6.  [ ]	TrimPOT holes, location off by 1mm.
 
@@ -54,4 +57,9 @@ SM1000-E-CHANGE-LOG.TXT
 		
 		MAke Stencil 52 x 52 cm(Edwin)
 	
-		
+16  [ ] Firmware   Better debouncing software for push button switches (DR)	
+
+17  [ ] Enclosure  Move "Speaker Volume" text lower to clear volume control knob
+
+18  [ ] Enclosure  Some variablility in gap between lid and front panel, gap is
+                   sometimes wider on one side than another (Edwin)
