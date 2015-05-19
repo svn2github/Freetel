@@ -55,9 +55,10 @@ SM1000-E-CHANGE-LOG.TXT
 
 15  [ ]	PCB	Stencil too small.
 		
-		MAke Stencil 52 x 52 cm(Edwin)
+		Make Stencil 52 x 52 cm(Edwin)
 	
 16  [ ] Firmware   Better debouncing software for push button switches (DR)	
+                   could be: more solid indication of in DV mode, like two beeps, two flashes
 
 17  [ ] Enclosure  Move "Speaker Volume" text lower to clear volume control knob
 
