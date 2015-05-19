@@ -63,3 +63,4 @@ SM1000-E-CHANGE-LOG.TXT
 
 18  [ ] Enclosure  Some variablility in gap between lid and front panel, gap is
                    sometimes wider on one side than another (Edwin)
+19  [ ] PCB        change power led from red to green, clip/error led from amber to red? 

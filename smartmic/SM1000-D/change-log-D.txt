@@ -97,29 +97,3 @@ Further Work
        + can we make it larger?    
    [ ] labels near R52, R47, R42, R46 on sch that match overlay and enclosure   
    
-Matt testing 28 Jan 2015
-------------------------
-
-  + First SM1000 OTA SM1000 QSO between VK5AKH (Andy) and VK5ZM (Matt) at 
-    Matt's QTH.  Matt connected the SM1000 to his IC706. 2130 SA time
-
-  0. Connected up patch panel, used rig mic, ptt, rig spkr through RJ45.
-     spkr and ptt had common ground which required and extra grnd jumper.
-     Matt " for fat fingers rather fiddly".  Would be good to doucment this
-     for common radios.
-  1. While monitoring with FT817 found similar slope on spectrum/scatter 
-     diagram to IC7200
-      + HF modem tones around 2000 Hz attenutaed by several dB
-      + get to the bottom of tx slope, say with test signal
-  2.  Andy sounded a bit distorted on rx
-      + Backed off his mic level and was better
-  3. Matt lugged in a Heil headset, had to reduce mic gain, clipping led
-     was very useful.  No noise issues.  Mic gain trimmer was a little too
-     sensitive.  Suggest multiturn trimmer.
-  4. Analog mode works OK once mic gain adjusted.  Tip: do mic level adj
-     in analog mode, then dig should be OK.  
-  5. Switching an to dig worked OK, levels OK.
-  6. AF gain of IC720 was slaved to the AF out in RJ45.  So trap is turning
-     down AF gain stopped FreeDV, turning up led to clipping.
-  7. Secondary use is analog processing.  Move sliders to adf filters, 
-     look at audio spectra with white noise or chirp, monitor on 2nd radio.
