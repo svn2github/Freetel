@@ -65,3 +65,14 @@ SM1000-E-CHANGE-LOG.TXT
 18  [ ] Enclosure  Some variablility in gap between lid and front panel, gap is
                    sometimes wider on one side than another (Edwin)
 19  [ ] PCB        change power led from red to green, clip/error led from amber to red? 
+
+20  [ ] ??         Mel reported ESD events at Dayton causing SM1000 to crash
+
+                   "Gerry and I did notice one thing... the SM1000 appears to be a little
+                   sensitive to ESD events caused by "walking across the carpet in tennis
+                   shoes in the booth and then touching the SM1000."  It would stop
+                   working and require toggling power, however it always came back
+                   working ok."
+
+                   Is action rqd here?  Anything we can do?
+
