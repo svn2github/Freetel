@@ -76,3 +76,12 @@ SM1000-E-CHANGE-LOG.TXT
 
                    Is action rqd here?  Anything we can do?
 
+21  [ ]            From Mel: DNL LED5 and LED8 to save a little power.
+
+22  [ ]            From Mel: Is R42 wired backwards? Higher output CCW vs CW?
+
+23  [ ]            From Mel: Silk screen pin numbers on.  Can e make CN12 larger for older Hams?
+
+24  [ ]            From Mel: green led too bright, increase R15 to 1500 ohms
+
+25  [ ]            From Mel: different colour case options
