@@ -85,3 +85,5 @@ SM1000-E-CHANGE-LOG.TXT
 24  [ ]            From Mel: green led too bright, increase R15 to 1500 ohms
 
 25  [ ]            From Mel: different colour case options
+
+26  [ ]            From Mel: PTT being pulsed low on power up.
