@@ -8,54 +8,50 @@ SM1000-E-CHANGE-LOG.TXT
 3.  [X]	Change SPKR CONN J4 to CONN-BOOM-XH-2A.
 
 4.  [ ]	Added part outlines to layer tDocu for documentation.
-
-   	In progress, adding to outlines in time.
+		In progress, adding to outlines in time.
 
 05/18/15
 
-5.  [ ]	Problem with SPKR OUT conn. Shorts output when stereo jack used.
+5.  [X]	Problem with SPKR OUT conn. Shorts output when stereo jack used.
         + as per Josh Mesaline email, suggest resistors to tip and ring
           so a short doesn't upset amp.  Does this mean it will work with
           mono and stereo plugs?  If stereo only we should note this in UG.
 
+		Changed connector to low profile locking type  RGB
+
 6.  [ ]	TrimPOT holes, location off by 1mm.
 
 7.  [X]	U1, CPU pins extend to the end of the pads.
-
 		Corrected RGB
 
 8.  [X]	Lad pattern for LEDs too large. I will look into this. RGB
-
-		No action todate.
+		Land pattern size recommended by vendor. If too large, need suggestion.  RGB
 
 9.  [X]	SW5 land pattern too wide. Check specification.
-
-		Corrected footprint RGB
+		Corrected package RGB
 
 10. [X]	C32, C59 footprint too short.
-
-		corrected  RGB
+		corrected package  RGB
 
 11. [X]	L1 Land pattern too wide.
+		Corrected package  RGB
 
-		Corrected RGB
-
-12  [ ]	CN4	Bubble after SMT(high temperature)
-
+12  [X]	CN4	Bubble after SMT(high temperature)
 		No action yet. Edwin, can you find an alternative to fit? If different footprint, let me know and send specification so
 		I can change it.(RGB)
+	*****	Edwin reports other vendors parts do same. Action? RGB
 
 13. [X]	R46	Easy to break R46 with handling.
+			Add cement after production.
+	*****	Note, I accidently hit and moved pot removing PCB from case. Suggest applying cement prior to soldering RGB
 
-		Add cement after production.
-
-14. [ ]	PCB	Problem reflowing CN10 USB connector.
-		
+14. [X]	PCB	Problem reflowing CN10 USB connector.
 		Make Breakaway 10mm (Edwin)
+	*****	Vendor problem. RGB
 
-15  [ ]	PCB	Stencil too small.
-		
+15  [X]	PCB	Stencil too small.
 		Make Stencil 52 x 52 cm(Edwin)
+	*****	Vendor problem. RGB
 	
 16  [ ] Firmware   Better debouncing software for push button switches (DR)	
                    could be: more solid indication of in DV mode, like two beeps, two flashes
@@ -64,26 +60,42 @@ SM1000-E-CHANGE-LOG.TXT
 
 18  [ ] Enclosure  Some variablility in gap between lid and front panel, gap is
                    sometimes wider on one side than another (Edwin)
-19  [ ] PCB        change power led from red to green, clip/error led from amber to red? 
 
-20  [ ] ??         Mel reported ESD events at Dayton causing SM1000 to crash
+19  [X] PCB	change power led from red to green, clip/error led from amber to red? 
+		LED1	GRN
+		LED2	RED
+		LED3	GRN
+		LED4	RED
+	*****	DO we need new LED packages?
 
-                   "Gerry and I did notice one thing... the SM1000 appears to be a little
-                   sensitive to ESD events caused by "walking across the carpet in tennis
-                   shoes in the booth and then touching the SM1000."  It would stop
-                   working and require toggling power, however it always came back
-                   working ok."
+20  [ ] ??      Mel reported ESD events at Dayton causing SM1000 to crash.
+		"Gerry and I did notice one thing... the SM1000 appears to be a little
+                sensitive to ESD events caused by "walking across the carpet in tennis
+                shoes in the booth and then touching the SM1000."  It would stop
+                working and require toggling power, however it always came back
+                working ok."
 
-                   Is action rqd here?  Anything we can do?
+	*****	Looking for 0402 or 0603 TVS with 5VDC holding voltage. RGB
+		Need definition of where to put these. RGB
 
-21  [ ]            From Mel: DNL LED5 and LED8 to save a little power.
+	*****	Is action rqd here?  Anything we can do?
 
-22  [ ]            From Mel: Is R42 wired backwards? Higher output CCW vs CW?
+21  [X]         From Mel: DNL LED5 and LED8 to save a little power.
+			DNL LED8	RGB
+			DNL R33
+			DNL LED5
+			DNL R17
 
-23  [ ]            From Mel: Silk screen pin numbers on.  Can e make CN12 larger for older Hams?
+22  [X]         From Mel: Is R42 wired backwards? Higher output CCW vs CW?
+			Mirrored part, corrected problem. RGB
 
-24  [ ]            From Mel: green led too bright, increase R15 to 1500 ohms
+23  [X]         From Mel: Silk screen pin numbers on.  Can e make CN12 larger for older Hams?
+			Added pin nos for 1,8,9,16	RGB
 
-25  [ ]            From Mel: different colour case options
+24  [ ]         From Mel: green led too bright, increase R15 to 1500 ohms
+	*****	WE should try this on all LEDs and evaluate. RGB
 
-26  [ ]            From Mel: PTT being pulsed low on power up.
+25  [ ]         From Mel: different colour case options
+
+26  [ ]         From Mel: PTT being pulsed low on power up.
+	*****		Need explaination on this. RGB
