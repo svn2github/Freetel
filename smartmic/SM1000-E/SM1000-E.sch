@@ -109,18 +109,6 @@
 <libraries>
 <library name="AA-IC">
 <packages>
-<package name="SOT23-5L">
-<smd name="2" x="0" y="1.15" dx="1.2" dy="0.6" layer="1" rot="R90"/>
-<smd name="3" x="-0.95" y="1.15" dx="1.2" dy="0.6" layer="1" rot="R90"/>
-<smd name="1" x="0.95" y="1.15" dx="1.2" dy="0.6" layer="1" rot="R90"/>
-<smd name="4" x="-0.95" y="-1.15" dx="1.2" dy="0.6" layer="1" rot="R90"/>
-<smd name="5" x="0.95" y="-1.15" dx="1.2" dy="0.6" layer="1" rot="R90"/>
-<wire x1="-1.5" y1="2" x2="1.5" y2="2" width="0" layer="39"/>
-<wire x1="1.5" y1="2" x2="1.5" y2="-2" width="0" layer="39"/>
-<wire x1="1.5" y1="-2" x2="-1.5" y2="-2" width="0" layer="39"/>
-<wire x1="-1.5" y1="-2" x2="-1.5" y2="2" width="0" layer="39"/>
-<text x="-2.5" y="2.5" size="1" layer="25" ratio="10">&gt;NAME</text>
-</package>
 <package name="ECOPACK-11">
 <smd name="D2" x="0" y="-0.75" dx="0.25" dy="0.25" layer="1" roundness="100" stop="no" cream="no"/>
 <circle x="0" y="-0.75" radius="0.17" width="0" layer="29"/>
@@ -167,19 +155,6 @@
 </package>
 </packages>
 <symbols>
-<symbol name="STMP2141">
-<pin name="GND" x="0" y="-10.16" length="middle" rot="R90"/>
-<pin name="IN" x="-15.24" y="2.54" length="middle"/>
-<pin name="!EN!" x="-15.24" y="-2.54" length="middle"/>
-<pin name="OUT" x="17.78" y="2.54" length="middle" rot="R180"/>
-<pin name="!FAULT!" x="17.78" y="-2.54" length="middle" rot="R180"/>
-<wire x1="-10.16" y1="5.08" x2="12.7" y2="5.08" width="0.1524" layer="94"/>
-<wire x1="12.7" y1="5.08" x2="12.7" y2="-5.08" width="0.1524" layer="94"/>
-<wire x1="12.7" y1="-5.08" x2="-10.16" y2="-5.08" width="0.1524" layer="94"/>
-<wire x1="-10.16" y1="-5.08" x2="-10.16" y2="5.08" width="0.1524" layer="94"/>
-<text x="-10.16" y="7.62" size="1.4224" layer="95" ratio="10">&gt;NAME</text>
-<text x="2.54" y="7.62" size="1.4224" layer="95" ratio="10">&gt;VALUE</text>
-</symbol>
 <symbol name="EMIF02-USB03F2">
 <pin name="VBUS" x="-17.78" y="5.08" length="middle"/>
 <pin name="D+OUT" x="-17.78" y="2.54" length="middle"/>
@@ -201,25 +176,6 @@
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="STMPS2141" prefix="U">
-<gates>
-<gate name="G$1" symbol="STMP2141" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="SOT23-5L">
-<connects>
-<connect gate="G$1" pin="!EN!" pad="4"/>
-<connect gate="G$1" pin="!FAULT!" pad="3"/>
-<connect gate="G$1" pin="GND" pad="2"/>
-<connect gate="G$1" pin="IN" pad="5"/>
-<connect gate="G$1" pin="OUT" pad="1"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
 <deviceset name="EMIF02-USB03F2" prefix="U">
 <gates>
 <gate name="G$1" symbol="EMIF02-USB03F2" x="2.54" y="2.54"/>
@@ -356,7 +312,11 @@ INFINEON, www.infineon.com/cmc_upload/0/000/010/257/eh_db_5b.pdf</description>
 <wire x1="1.5" y1="2" x2="1.5" y2="-2" width="0" layer="39"/>
 <wire x1="1.5" y1="-2" x2="-1.5" y2="-2" width="0" layer="39"/>
 <wire x1="-1.5" y1="-2" x2="-1.5" y2="2" width="0" layer="39"/>
-<text x="-2.5" y="2.5" size="1" layer="25" ratio="10">&gt;NAME</text>
+<text x="-1.7" y="2.5" size="1" layer="25" ratio="10">&gt;NAME</text>
+<wire x1="-1.7" y1="2.2" x2="1.7" y2="2.2" width="0.15" layer="21"/>
+<wire x1="1.7" y1="2.2" x2="1.7" y2="-2.2" width="0.15" layer="21"/>
+<wire x1="1.7" y1="-2.2" x2="-1.7" y2="-2.2" width="0.15" layer="21"/>
+<wire x1="-1.7" y1="-2.2" x2="-1.7" y2="2.2" width="0.15" layer="21"/>
 </package>
 <package name="PSO-DDA">
 <wire x1="1.6" y1="-2.9" x2="-1.6" y2="-2.9" width="0.15" layer="21"/>
@@ -518,6 +478,11 @@ NS Package M08A</description>
 <rectangle x1="0.39" y1="2" x2="0.88" y2="3.1" layer="51"/>
 <rectangle x1="-0.88" y1="2" x2="-0.39" y2="3.1" layer="51"/>
 <rectangle x1="-2.15" y1="2" x2="-1.66" y2="3.1" layer="51"/>
+<wire x1="-2.5" y1="1" x2="2.5" y2="1" width="0.15" layer="21"/>
+<wire x1="2.5" y1="1" x2="2.5" y2="-1" width="0.15" layer="21"/>
+<wire x1="2.5" y1="-1" x2="-2.5" y2="-1" width="0.15" layer="21"/>
+<wire x1="-2.5" y1="-1" x2="-2.5" y2="1" width="0.15" layer="21"/>
+<circle x="-2" y="-0.5" radius="0.316225" width="0" layer="21"/>
 </package>
 <package name="MMSOP08">
 <description>&lt;b&gt;Molded Mini Small Outline Package&lt;/b&gt; 8 - Lead (0.118" Wide)&lt;p&gt;
@@ -638,7 +603,7 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <wire x1="3.7" y1="3.5" x2="3.7" y2="-3.5" width="0" layer="39"/>
 <wire x1="3.7" y1="-3.5" x2="-3.7" y2="-3.5" width="0" layer="39"/>
 <wire x1="-3.7" y1="-3.5" x2="-3.7" y2="3.5" width="0" layer="39"/>
-<circle x="0" y="0" radius="1.9" width="0.15" layer="21"/>
+<circle x="0" y="0" radius="1" width="0.15" layer="21"/>
 <wire x1="-0.9" y1="3" x2="0.9" y2="3" width="0.15" layer="21"/>
 <wire x1="-0.9" y1="-3" x2="0.9" y2="-3" width="0.15" layer="21"/>
 <text x="-4.5" y="4" size="0.8128" layer="21" ratio="10">&gt;NAME</text>
@@ -649,8 +614,8 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <wire x1="-1.5" y1="-1.5" x2="-2" y2="-2" width="0.4" layer="51"/>
 <wire x1="1.5" y1="1.5" x2="2" y2="2" width="0.4" layer="51"/>
 <circle x="0" y="0" radius="2.06155" width="0.15" layer="51"/>
-<wire x1="1.4" y1="1.4" x2="1.7" y2="1.7" width="0.3" layer="21"/>
-<wire x1="-1.4" y1="-1.4" x2="-1.7" y2="-1.7" width="0.3" layer="21"/>
+<wire x1="0.65" y1="0.7" x2="0.95" y2="1" width="0.3" layer="21"/>
+<wire x1="-0.65" y1="-0.7" x2="-0.95" y2="-1" width="0.3" layer="21"/>
 </package>
 <package name="NICHICON-WX-6.3">
 <smd name="1" x="0" y="2.7" dx="3.5" dy="1.6" layer="1" roundness="25" rot="R90"/>
@@ -869,8 +834,14 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <wire x1="1.5" y1="0.75" x2="1.5" y2="-0.75" width="0" layer="39"/>
 <wire x1="1.5" y1="-0.75" x2="-1.5" y2="-0.75" width="0" layer="39"/>
 <wire x1="-1.5" y1="-0.75" x2="-1.5" y2="0.75" width="0" layer="39"/>
-<text x="-1.5" y="1.5" size="0.8128" layer="25" ratio="10">&gt;NAME</text>
-<circle x="2" y="0.5" radius="0.4" width="0" layer="21"/>
+<text x="-1.5" y="1.2" size="0.8128" layer="25" ratio="10">&gt;NAME</text>
+<circle x="2.1" y="0.5" radius="0.4" width="0" layer="21"/>
+<wire x1="-1.45" y1="0.7" x2="-0.8" y2="0.7" width="0.15" layer="21"/>
+<wire x1="0.8" y1="0.7" x2="1.45" y2="0.7" width="0.15" layer="21"/>
+<wire x1="1.45" y1="0.7" x2="1.45" y2="-0.7" width="0.15" layer="21"/>
+<wire x1="-1.45" y1="-0.7" x2="-1.45" y2="0.7" width="0.15" layer="21"/>
+<wire x1="-1.45" y1="-0.7" x2="-0.8" y2="-0.7" width="0.15" layer="21"/>
+<wire x1="1.45" y1="-0.7" x2="0.8" y2="-0.7" width="0.15" layer="21"/>
 </package>
 <package name="LQFP100-14">
 <smd name="1" x="-6" y="-7.75" dx="1.2" dy="0.3" layer="1" rot="R90"/>
@@ -1756,6 +1727,19 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <text x="-5.08" y="5.08" size="1" layer="95" ratio="10">&gt;NAME</text>
 <text x="2.54" y="5.08" size="1" layer="95" ratio="10">&gt;VALUE</text>
 </symbol>
+<symbol name="STMP2141">
+<pin name="GND" x="0" y="-10.16" length="middle" rot="R90"/>
+<pin name="IN" x="-15.24" y="2.54" length="middle"/>
+<pin name="!EN!" x="-15.24" y="-2.54" length="middle"/>
+<pin name="OUT" x="17.78" y="2.54" length="middle" rot="R180"/>
+<pin name="!FAULT!" x="17.78" y="-2.54" length="middle" rot="R180"/>
+<wire x1="-10.16" y1="5.08" x2="12.7" y2="5.08" width="0.1524" layer="94"/>
+<wire x1="12.7" y1="5.08" x2="12.7" y2="-5.08" width="0.1524" layer="94"/>
+<wire x1="12.7" y1="-5.08" x2="-10.16" y2="-5.08" width="0.1524" layer="94"/>
+<wire x1="-10.16" y1="-5.08" x2="-10.16" y2="5.08" width="0.1524" layer="94"/>
+<text x="-10.16" y="7.62" size="1.4224" layer="95" ratio="10">&gt;NAME</text>
+<text x="2.54" y="7.62" size="1.4224" layer="95" ratio="10">&gt;VALUE</text>
+</symbol>
 </symbols>
 <devicesets>
 <deviceset name="CAP-CHEMI-MVE-HA0" prefix="C">
@@ -2406,6 +2390,25 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <connects>
 <connect gate="G$1" pin="1" pad="1"/>
 <connect gate="G$1" pin="2" pad="2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="STMPS2141" prefix="U">
+<gates>
+<gate name="G$1" symbol="STMP2141" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="SOT23-5L">
+<connects>
+<connect gate="G$1" pin="!EN!" pad="4"/>
+<connect gate="G$1" pin="!FAULT!" pad="3"/>
+<connect gate="G$1" pin="GND" pad="2"/>
+<connect gate="G$1" pin="IN" pad="5"/>
+<connect gate="G$1" pin="OUT" pad="1"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -4089,7 +4092,7 @@ http://www.weartronics.com/</description>
 <part name="R27" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="22,1%"/>
 <part name="R28" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="22,1%"/>
 <part name="R30" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="0 Ohm"/>
-<part name="U3" library="AA-IC" deviceset="STMPS2141" device=""/>
+<part name="U3" library="_RoweTel" deviceset="STMPS2141" device=""/>
 <part name="V45" library="A-SUPPLY2" deviceset="+5V" device=""/>
 <part name="R25" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="10K,1%"/>
 <part name="R26" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="0 Ohm"/>

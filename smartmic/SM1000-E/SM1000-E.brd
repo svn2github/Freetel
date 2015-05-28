@@ -23,15 +23,15 @@
 <layer number="13" name="Route13" color="4" fill="5" visible="no" active="no"/>
 <layer number="14" name="Route14" color="1" fill="6" visible="no" active="no"/>
 <layer number="15" name="VDD" color="6" fill="1" visible="no" active="yes"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
-<layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
-<layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="yes"/>
+<layer number="17" name="Pads" color="2" fill="1" visible="no" active="yes"/>
+<layer number="18" name="Vias" color="2" fill="1" visible="no" active="yes"/>
 <layer number="19" name="Unrouted" color="6" fill="1" visible="yes" active="yes"/>
 <layer number="20" name="Dimension" color="15" fill="1" visible="yes" active="yes"/>
 <layer number="21" name="tPlace" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="22" name="bPlace" color="7" fill="1" visible="no" active="yes"/>
 <layer number="23" name="tOrigins" color="15" fill="1" visible="yes" active="yes"/>
-<layer number="24" name="bOrigins" color="15" fill="1" visible="yes" active="yes"/>
+<layer number="24" name="bOrigins" color="15" fill="1" visible="no" active="yes"/>
 <layer number="25" name="tNames" color="7" fill="1" visible="no" active="yes"/>
 <layer number="26" name="bNames" color="7" fill="1" visible="no" active="yes"/>
 <layer number="27" name="tValues" color="7" fill="1" visible="no" active="yes"/>
@@ -79,7 +79,7 @@
 <layer number="107" name="BD-Top" color="5" fill="1" visible="no" active="no"/>
 <layer number="108" name="fp8" color="7" fill="1" visible="no" active="yes"/>
 <layer number="109" name="fp9" color="7" fill="1" visible="no" active="yes"/>
-<layer number="110" name="POTS" color="7" fill="1" visible="yes" active="yes"/>
+<layer number="110" name="POTS" color="7" fill="1" visible="no" active="yes"/>
 <layer number="116" name="Patch_BOT" color="7" fill="1" visible="no" active="yes"/>
 <layer number="121" name="tTestdril" color="7" fill="1" visible="no" active="yes"/>
 <layer number="122" name="bTestdril" color="7" fill="1" visible="no" active="yes"/>
@@ -1518,18 +1518,6 @@ Licensed under TAPR Open Hardware License</text>
 <wire x1="1.25" y1="-1.5" x2="-1.25" y2="-1.5" width="0" layer="39"/>
 <wire x1="-1.25" y1="-1.5" x2="-1.25" y2="1.5" width="0" layer="39"/>
 </package>
-<package name="SOT23-5L">
-<smd name="2" x="0" y="1.15" dx="1.2" dy="0.6" layer="1" rot="R90"/>
-<smd name="3" x="-0.95" y="1.15" dx="1.2" dy="0.6" layer="1" rot="R90"/>
-<smd name="1" x="0.95" y="1.15" dx="1.2" dy="0.6" layer="1" rot="R90"/>
-<smd name="4" x="-0.95" y="-1.15" dx="1.2" dy="0.6" layer="1" rot="R90"/>
-<smd name="5" x="0.95" y="-1.15" dx="1.2" dy="0.6" layer="1" rot="R90"/>
-<wire x1="-1.5" y1="2" x2="1.5" y2="2" width="0" layer="39"/>
-<wire x1="1.5" y1="2" x2="1.5" y2="-2" width="0" layer="39"/>
-<wire x1="1.5" y1="-2" x2="-1.5" y2="-2" width="0" layer="39"/>
-<wire x1="-1.5" y1="-2" x2="-1.5" y2="2" width="0" layer="39"/>
-<text x="-2.5" y="2.5" size="1" layer="25" ratio="10">&gt;NAME</text>
-</package>
 </packages>
 </library>
 <library name="_RoweTel">
@@ -1641,7 +1629,11 @@ INFINEON, www.infineon.com/cmc_upload/0/000/010/257/eh_db_5b.pdf</description>
 <wire x1="1.5" y1="2" x2="1.5" y2="-2" width="0" layer="39"/>
 <wire x1="1.5" y1="-2" x2="-1.5" y2="-2" width="0" layer="39"/>
 <wire x1="-1.5" y1="-2" x2="-1.5" y2="2" width="0" layer="39"/>
-<text x="-2.5" y="2.5" size="1" layer="25" ratio="10">&gt;NAME</text>
+<text x="-1.7" y="2.5" size="1" layer="25" ratio="10">&gt;NAME</text>
+<wire x1="-1.7" y1="2.2" x2="1.7" y2="2.2" width="0.15" layer="21"/>
+<wire x1="1.7" y1="2.2" x2="1.7" y2="-2.2" width="0.15" layer="21"/>
+<wire x1="1.7" y1="-2.2" x2="-1.7" y2="-2.2" width="0.15" layer="21"/>
+<wire x1="-1.7" y1="-2.2" x2="-1.7" y2="2.2" width="0.15" layer="21"/>
 </package>
 <package name="PSO-DDA">
 <wire x1="1.6" y1="-2.9" x2="-1.6" y2="-2.9" width="0.15" layer="21"/>
@@ -1784,6 +1776,11 @@ NS Package M08A</description>
 <rectangle x1="0.39" y1="2" x2="0.88" y2="3.1" layer="51"/>
 <rectangle x1="-0.88" y1="2" x2="-0.39" y2="3.1" layer="51"/>
 <rectangle x1="-2.15" y1="2" x2="-1.66" y2="3.1" layer="51"/>
+<wire x1="-2.5" y1="1" x2="2.5" y2="1" width="0.15" layer="21"/>
+<wire x1="2.5" y1="1" x2="2.5" y2="-1" width="0.15" layer="21"/>
+<wire x1="2.5" y1="-1" x2="-2.5" y2="-1" width="0.15" layer="21"/>
+<wire x1="-2.5" y1="-1" x2="-2.5" y2="1" width="0.15" layer="21"/>
+<circle x="-2" y="-0.5" radius="0.316225" width="0" layer="21"/>
 </package>
 <package name="SM-LP-5001">
 <smd name="1" x="-6.25" y="2.54" dx="2.5" dy="1.5" layer="1"/>
@@ -1864,7 +1861,7 @@ NS Package M08A</description>
 <wire x1="3.7" y1="3.5" x2="3.7" y2="-3.5" width="0" layer="39"/>
 <wire x1="3.7" y1="-3.5" x2="-3.7" y2="-3.5" width="0" layer="39"/>
 <wire x1="-3.7" y1="-3.5" x2="-3.7" y2="3.5" width="0" layer="39"/>
-<circle x="0" y="0" radius="1.9" width="0.15" layer="21"/>
+<circle x="0" y="0" radius="1" width="0.15" layer="21"/>
 <wire x1="-0.9" y1="3" x2="0.9" y2="3" width="0.15" layer="21"/>
 <wire x1="-0.9" y1="-3" x2="0.9" y2="-3" width="0.15" layer="21"/>
 <text x="-4.5" y="4" size="0.8128" layer="21" ratio="10">&gt;NAME</text>
@@ -1875,8 +1872,8 @@ NS Package M08A</description>
 <wire x1="-1.5" y1="-1.5" x2="-2" y2="-2" width="0.4" layer="51"/>
 <wire x1="1.5" y1="1.5" x2="2" y2="2" width="0.4" layer="51"/>
 <circle x="0" y="0" radius="2.06155" width="0.15" layer="51"/>
-<wire x1="1.4" y1="1.4" x2="1.7" y2="1.7" width="0.3" layer="21"/>
-<wire x1="-1.4" y1="-1.4" x2="-1.7" y2="-1.7" width="0.3" layer="21"/>
+<wire x1="0.65" y1="0.7" x2="0.95" y2="1" width="0.3" layer="21"/>
+<wire x1="-0.65" y1="-0.7" x2="-0.95" y2="-1" width="0.3" layer="21"/>
 </package>
 <package name="NICHICON-WX-6.3">
 <smd name="1" x="0" y="2.7" dx="3.5" dy="1.6" layer="1" roundness="25" rot="R90"/>
@@ -2104,8 +2101,14 @@ NS Package M08A</description>
 <wire x1="1.5" y1="0.75" x2="1.5" y2="-0.75" width="0" layer="39"/>
 <wire x1="1.5" y1="-0.75" x2="-1.5" y2="-0.75" width="0" layer="39"/>
 <wire x1="-1.5" y1="-0.75" x2="-1.5" y2="0.75" width="0" layer="39"/>
-<text x="-1.5" y="1.5" size="0.8128" layer="25" ratio="10">&gt;NAME</text>
-<circle x="2" y="0.5" radius="0.4" width="0" layer="21"/>
+<text x="-1.5" y="1.2" size="0.8128" layer="25" ratio="10">&gt;NAME</text>
+<circle x="2.1" y="0.5" radius="0.4" width="0" layer="21"/>
+<wire x1="-1.45" y1="0.7" x2="-0.8" y2="0.7" width="0.15" layer="21"/>
+<wire x1="0.8" y1="0.7" x2="1.45" y2="0.7" width="0.15" layer="21"/>
+<wire x1="1.45" y1="0.7" x2="1.45" y2="-0.7" width="0.15" layer="21"/>
+<wire x1="-1.45" y1="-0.7" x2="-1.45" y2="0.7" width="0.15" layer="21"/>
+<wire x1="-1.45" y1="-0.7" x2="-0.8" y2="-0.7" width="0.15" layer="21"/>
+<wire x1="1.45" y1="-0.7" x2="0.8" y2="-0.7" width="0.15" layer="21"/>
 </package>
 <package name="LQFP100-14">
 <smd name="1" x="-6" y="-7.75" dx="1.2" dy="0.3" layer="1" rot="R90"/>
@@ -3153,7 +3156,7 @@ design rules under a new name.</description>
 <element name="R30" library="AA-ipc-7351-resistor" package="RESC1608X55N" value="0 Ohm" x="32.1" y="88.5" locked="yes" smashed="yes" rot="R270">
 <attribute name="NAME" x="31.6" y="86.05" size="0.8128" layer="25" font="vector"/>
 </element>
-<element name="U3" library="AA-IC" package="SOT23-5L" value="STMPS2141" x="20" y="92" locked="yes" smashed="yes" rot="R270">
+<element name="U3" library="_RoweTel" package="SOT23-5L" value="STMPS2141" x="20" y="92" smashed="yes" rot="R270">
 <attribute name="NAME" x="22.2" y="91.8" size="0.8128" layer="25" font="vector" ratio="10"/>
 </element>
 <element name="R25" library="AA-ipc-7351-resistor" package="RESC1005X40AN" value="10K,1%" x="12.5" y="93" locked="yes" smashed="yes" rot="R270">
@@ -5641,10 +5644,11 @@ design rules under a new name.</description>
 <wire x1="60" y1="58" x2="60" y2="60.2" width="0.3" layer="1"/>
 <wire x1="60.5" y1="51.5" x2="62.95" y2="51.5" width="0.3" layer="1"/>
 <wire x1="62.95" y1="51.5" x2="63" y2="51.45" width="0.2" layer="1"/>
-<wire x1="60.5" y1="51.5" x2="60.5" y2="52.5" width="0.3" layer="1"/>
-<wire x1="60.5" y1="52.5" x2="61" y2="53" width="0.3" layer="1"/>
-<wire x1="61" y1="53" x2="61" y2="57" width="0.3" layer="1"/>
-<wire x1="61" y1="57" x2="60" y2="58" width="0.3" layer="1"/>
+<wire x1="60" y1="58" x2="61.5" y2="56.5" width="0.3" layer="1"/>
+<wire x1="61.5" y1="56.5" x2="61.5" y2="53.2" width="0.3" layer="1"/>
+<wire x1="61.5" y1="53.2" x2="60.6" y2="52.3" width="0.3" layer="1"/>
+<wire x1="60.6" y1="52.3" x2="60.5" y2="52.2" width="0.3" layer="1"/>
+<wire x1="60.5" y1="52.2" x2="60.5" y2="51.5" width="0.3" layer="1"/>
 </signal>
 <signal name="N$87">
 <contactref element="R41" pad="2"/>
