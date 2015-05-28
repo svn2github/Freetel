@@ -98,4 +98,10 @@ SM1000-E-CHANGE-LOG.TXT
 25  [ ]         From Mel: different colour case options
 
 26  [ ]         From Mel: PTT being pulsed low on power up.
-	*****		Need explaination on this. RGB
+
+27 [ ]          From Peter VK5APR, DC input connector hole offset down wrt to
+                enclosure on his unit.  Is this true on any other
+                samples, or maybe a 1 off?  RJ45 aperture in enclosure
+                also slightly offset to left.
+
+28  [ ] firmware   Check analog speech level in digital mode.
