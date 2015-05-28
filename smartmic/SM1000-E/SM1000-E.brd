@@ -3114,7 +3114,7 @@ design rules under a new name.</description>
 <attribute name="NAME" x="5.7" y="57.3" size="0.8128" layer="25" font="vector" ratio="10" rot="R180"/>
 <attribute name="VALUE" x="7.0375" y="57.75" size="1" layer="27" font="vector" ratio="10" rot="R90"/>
 </element>
-<element name="R17" library="AA-ipc-7351-resistor" package="RESC1005X40AN" value="1K,1%" x="24" y="61.5" smashed="yes" rot="R90">
+<element name="R17" library="AA-ipc-7351-resistor" package="RESC1005X40AN" value="DNL" x="24" y="61.5" smashed="yes" rot="R90">
 <attribute name="NAME" x="23.9" y="64.8" size="0.8128" layer="25" font="vector" rot="R270"/>
 </element>
 <element name="LED1" library="_RoweTel" package="LTST-S2200K" value="LTST-S220KGKT" x="43" y="98.5" smashed="yes" rot="R270">
@@ -3224,7 +3224,7 @@ design rules under a new name.</description>
 <attribute name="NAME" x="49.56" y="60.79" size="0.8128" layer="25" font="vector"/>
 </element>
 <element name="SH3" library="_Coherix" package="NOPACKAGE" value="SHUNT,0.1IN" x="1.5" y="-0.5" locked="yes" smashed="yes" rot="R180"/>
-<element name="R33" library="AA-ipc-7351-resistor" package="RESC1005X40AN" value="2.2K,1%" x="14" y="35.5" smashed="yes" rot="R90">
+<element name="R33" library="AA-ipc-7351-resistor" package="RESC1005X40AN" value="DNL" x="14" y="35.5" smashed="yes" rot="R90">
 <attribute name="NAME" x="13.5" y="33.3" size="0.8128" layer="25" font="vector"/>
 </element>
 <element name="LD2" library="_RoweTel" package="LTV-817S" value="LTV-817S" x="26.5" y="29.5" smashed="yes" rot="R270">
@@ -3641,10 +3641,10 @@ design rules under a new name.</description>
 <element name="CN2" library="_RoweTel" package="JI-MU3-002" value="JS-MU3-002" x="28" y="95.7" locked="yes" smashed="yes" rot="MR0">
 <attribute name="NAME" x="34.5" y="92.8" size="1.27" layer="26" font="vector" ratio="10" rot="MR180"/>
 </element>
-<element name="LED8" library="_RoweTel" package="SML-LX0603SRW" value="SML-LX0603SRW-TR" x="14.5" y="38.5" smashed="yes">
+<element name="LED8" library="_RoweTel" package="SML-LX0603SRW" value="DNL" x="14.5" y="38.5" smashed="yes">
 <attribute name="NAME" x="13" y="39.5" size="0.8128" layer="25" ratio="10"/>
 </element>
-<element name="LED5" library="_RoweTel" package="SML-LX0603SRW" value="SML-LX0603SRW-TR" x="24.4" y="58.25" smashed="yes" rot="R180">
+<element name="LED5" library="_RoweTel" package="SML-LX0603SRW" value="" x="24.4" y="58.25" smashed="yes" rot="R180">
 <attribute name="NAME" x="25.9" y="57.25" size="0.8128" layer="25" ratio="10" rot="R180"/>
 </element>
 <element name="SPKR1" library="_RoweTel" package="NOPACKAGE" value="SPKR-HY4004M-001" x="4.5" y="-0.5" locked="yes"/>

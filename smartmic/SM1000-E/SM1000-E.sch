@@ -4070,7 +4070,7 @@ http://www.weartronics.com/</description>
 <part name="C6" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="1uF,16V"/>
 <part name="V33" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V34" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="R17" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="1K,1%"/>
+<part name="R17" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="DNL"/>
 <part name="V35" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="U$2" library="A-SUPPLY2" deviceset="+3.3V" device=""/>
 <part name="V36" library="A-SUPPLY2" deviceset="VDD" device=""/>
@@ -4132,7 +4132,7 @@ http://www.weartronics.com/</description>
 <part name="V67" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="J3" library="_Coherix" deviceset="JMP-2PIN" device=""/>
 <part name="SH3" library="_Coherix" deviceset="SHUNT,0.1IN" device=""/>
-<part name="R33" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="2.2K,1%"/>
+<part name="R33" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="DNL"/>
 <part name="V58" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="LD2" library="_RoweTel" deviceset="LTV-817S" device=""/>
 <part name="R51" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="390,1%"/>
@@ -4354,8 +4354,8 @@ http://www.weartronics.com/</description>
 <part name="SW5" library="_RoweTel" deviceset="TS-02B" device=""/>
 <part name="CN3" library="_RoweTel" deviceset="DS-0518" device=""/>
 <part name="CN2" library="_RoweTel" deviceset="JS-MU3-002" device=""/>
-<part name="LED8" library="_RoweTel" deviceset="SML-LX0603SRW" device="" value="SML-LX0603SRW-TR"/>
-<part name="LED5" library="_RoweTel" deviceset="SML-LX0603SRW" device="" value="SML-LX0603SRW-TR"/>
+<part name="LED8" library="_RoweTel" deviceset="SML-LX0603SRW" device="" value="DNL"/>
+<part name="LED5" library="_RoweTel" deviceset="SML-LX0603SRW" device="" value=""/>
 <part name="SPKR1" library="_RoweTel" deviceset="SPKR-HY4004M-001" device=""/>
 <part name="SW3" library="_RoweTel" deviceset="SW-LC2259" device="" value="SW-LC2259EENP"/>
 <part name="SW1" library="_RoweTel" deviceset="SW-LC2259" device=""/>
@@ -4467,18 +4467,21 @@ http://www.weartronics.com/</description>
 <text x="370.84" y="251.46" size="1.4224" layer="94" ratio="10">CHANGE PARTS SW1, SW3 &amp; J4</text>
 <text x="421.64" y="251.46" size="1.4224" layer="94" ratio="10">E</text>
 <text x="426.72" y="251.46" size="1.4224" layer="94" ratio="10">RGB</text>
-<text x="45.72" y="226.06" size="1.4224" layer="94" ratio="10">GREEN</text>
-<text x="45.72" y="205.74" size="1.4224" layer="94" ratio="10">GREEN</text>
-<text x="45.72" y="215.9" size="1.4224" layer="94" ratio="10">RED</text>
-<text x="45.72" y="195.58" size="1.4224" layer="94" ratio="10">RED</text>
+<text x="45.72" y="226.06" size="1.4224" layer="94" ratio="10">LED,GREEN,RA</text>
+<text x="45.72" y="205.74" size="1.4224" layer="94" ratio="10">LED,GREEN,RA</text>
+<text x="45.72" y="215.9" size="1.4224" layer="94" ratio="10">LED,RED,RA</text>
+<text x="45.72" y="195.58" size="1.4224" layer="94" ratio="10">LED,RED,RA</text>
 <text x="358.14" y="248.92" size="1.4224" layer="94" ratio="10">05/20/15</text>
 <text x="370.84" y="248.92" size="1.4224" layer="94" ratio="10">CHANGE LED COLORS FOR LED1 , LED4</text>
 <text x="421.64" y="248.92" size="1.4224" layer="94" ratio="10">E</text>
 <text x="426.72" y="248.92" size="1.4224" layer="94" ratio="10">RGB</text>
-<text x="358.14" y="246.38" size="1.4224" layer="94" ratio="10">05/20/15</text>
-<text x="370.84" y="246.38" size="1.4224" layer="94" ratio="10">DNL LED5,LED8 CIRCUITS</text>
+<text x="358.14" y="246.38" size="1.4224" layer="94" ratio="10">05/27/15</text>
+<text x="370.84" y="246.38" size="1.4224" layer="94" ratio="10">DNL LED5,R17,LED8,R33</text>
 <text x="421.64" y="246.38" size="1.4224" layer="94" ratio="10">E</text>
 <text x="426.72" y="246.38" size="1.4224" layer="94" ratio="10">RGB</text>
+<text x="289.56" y="144.78" size="1.4224" layer="94" ratio="10">1K,1%</text>
+<text x="289.56" y="129.54" size="1.4224" layer="94" ratio="10">SML-LX0603SRW-TR</text>
+<text x="289.56" y="132.08" size="1.4224" layer="96" ratio="10">DNL</text>
 </plain>
 <instances>
 <instance part="U4" gate="G$1" x="254" y="25.4"/>
@@ -6114,10 +6117,9 @@ http://www.weartronics.com/</description>
 <text x="368.3" y="271.78" size="1.4224" layer="94" ratio="10">RELEASE REV. D TO PRODUCTION.</text>
 <text x="419.1" y="271.78" size="1.4224" layer="94" ratio="10">D</text>
 <text x="424.18" y="271.78" size="1.4224" layer="94" ratio="10">RGB</text>
-<text x="355.6" y="269.24" size="1.4224" layer="94" ratio="10">05/19/15</text>
-<text x="368.3" y="269.24" size="1.4224" layer="94" ratio="10">CHANGE PARTS SW1, SW3 &amp; J4</text>
-<text x="419.1" y="269.24" size="1.4224" layer="94" ratio="10">E</text>
-<text x="424.18" y="269.24" size="1.4224" layer="94" ratio="10">RGB</text>
+<text x="251.46" y="236.22" size="1.4224" layer="94" ratio="10">2.2K,1%</text>
+<text x="251.46" y="220.98" size="1.4224" layer="94" ratio="10">SML-LX0603SRW-TR</text>
+<text x="368.3" y="269.24" size="1.4224" layer="94" ratio="10">NOTE: SEE PAGE 1 FOR CHANGES</text>
 </plain>
 <instances>
 <instance part="C39" gate="G$1" x="91.44" y="55.88" smashed="yes" rot="R90">
