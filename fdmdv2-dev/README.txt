@@ -10,6 +10,7 @@ missing on many Linux systems, or of the wrong (older) version.
 
 Assuming the freedv-dev sources is checked out into ~/fdmdv2-dev:
 
+$ sudo apt-get install libgtk2.0-dev libhamlib-dev libsamplerate-dev libasound2-dev libao-dev
 $ cd fdmdv2-dev
 $ mkdir build_linux
 $ cd build_linux
@@ -19,7 +20,7 @@ $ make
 
 Then you can use your local codec-dev, something like:
 
-$ cmake cmake -DBOOTSTRAP_WXWIDGETS=TRUE -DCODEC2_INCLUDE_DIR=/home/david/codec2-dev/src -DCODEC2_LIBRARY=/home/david/codec2-dev/build_linux/src/libcodec2.so -DUSE_STATIC_CODEC2=FALSE -DUSE_STATIC_PORTAUDIO=TRUE -DUSE_STATIC_SOX=TRUE ../
+$ cmake -DBOOTSTRAP_WXWIDGETS=TRUE -DCODEC2_INCLUDE_DIRS=/home/david/codec2-dev/src -DCODEC2_LIBRARY=/home/david/codec2-dev/build_linux/src/libcodec2.so -DUSE_STATIC_CODEC2=FALSE -DUSE_STATIC_PORTAUDIO=TRUE -DUSE_STATIC_SOX=TRUE ../
 
 OR build a local copy of codec2-dev:
 

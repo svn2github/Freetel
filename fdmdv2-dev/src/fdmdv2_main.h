@@ -54,6 +54,7 @@
 #include <samplerate.h>
 
 #include <hamlib.h> 
+#include <stdint.h>
 #include <speex/speex_preprocess.h>
 
 #ifdef _WIN32
