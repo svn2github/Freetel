@@ -7,8 +7,8 @@ SM1000-E-CHANGE-LOG.TXT
 	
 3.  [X]		Change SPKR CONN J4 to CONN-BOOM-XH-2A.
 
-4.  [ ]		Added part outlines to layer tDocu for documentation.
-			In progress, adding to outlines in time.
+4.  [X]		Added part outlines to layer tDocu for documentation.
+			All pars have outline on tplace layer.
 
 05/18/15
 
@@ -23,7 +23,7 @@ SM1000-E-CHANGE-LOG.TXT
 7.  [X]		U1, CPU pins extend to the end of the pads.
 				Corrected RGB
 
-8.  [X]		Lad pattern for LEDs too large. I will look into this. RGB
+8.  [ ]		Land pattern for LEDs too large. I will look into this. RGB
 				Land pattern size recommended by vendor. If too large, need suggestion.  RGB
 
 9.  [X]		SW5 land pattern too wide. Check specification.
@@ -32,7 +32,7 @@ SM1000-E-CHANGE-LOG.TXT
 10. [X]		C32, C59 footprint too short.
 				corrected package  RGB
 
-	11. [X]	L1 Land pattern too wide.
+11. [X]		L1 Land pattern too wide.
 				Corrected package  RGB
 
 12  [X]		CN4	Bubble after SMT(high temperature)
@@ -40,8 +40,8 @@ SM1000-E-CHANGE-LOG.TXT
 				I can change it.(RGB)
 	*****	Edwin reports other vendors parts do same. Action? RGB
 
-13. [X]	R46	Easy to break R46 with handling.
-			Add cement after production.
+13. [X]		R46	Easy to break R46 with handling.
+				Add cement after production.
 	*****		Note, I accidently hit and moved pot removing PCB from case. Suggest applying cement prior to soldering RGB
 
 14. [X]		PCB	Problem reflowing CN10 USB connector.
@@ -90,9 +90,12 @@ SM1000-E-CHANGE-LOG.TXT
 
 26  [ ]     From Mel: PTT being pulsed low on power up.
 
-27  [ ]     From Peter VK5APR, DC input connector hole offset down wrt to
+27  [X]     From Peter VK5APR, DC input connector hole offset down wrt to
             enclosure on his unit.  Is this true on any other
             samples, or maybe a 1 off?  RJ45 aperture in enclosure
             also slightly offset to left.
+			
+	*****		RJ45 and Power connectors are almost perfectly aligned on the units I have.
+				Perhaps a problem when PCBs are assembled into case?   RGB
 
 28  [ ] 	firmware   Check analog speech level in digital mode.

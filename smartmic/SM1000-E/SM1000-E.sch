@@ -6723,15 +6723,15 @@ http://www.weartronics.com/</description>
 <attribute name="VALUE" x="251.46" y="223.52" size="1.4224" layer="96" ratio="9"/>
 </instance>
 <instance part="SW3" gate="G$1" x="86.36" y="248.92" smashed="yes">
-<attribute name="NAME" x="73.66" y="264.16" size="1.4224" layer="95" ratio="10"/>
-<attribute name="VALUE" x="73.66" y="261.62" size="1.4224" layer="95" ratio="10"/>
+<attribute name="NAME" x="73.66" y="266.7" size="1.4224" layer="95" ratio="10"/>
+<attribute name="VALUE" x="73.66" y="264.16" size="1.4224" layer="95" ratio="10"/>
 </instance>
 <instance part="J4" gate="G$1" x="111.76" y="45.72" smashed="yes" rot="R90">
 <attribute name="NAME" x="109.22" y="38.1" size="1.4224" layer="95" ratio="10"/>
 <attribute name="VALUE" x="96.52" y="35.56" size="1.4224" layer="95" ratio="10"/>
 </instance>
-<instance part="V121" gate="GND" x="91.44" y="233.68" smashed="yes">
-<attribute name="VALUE" x="88.9" y="230.378" size="1.4224" layer="96" ratio="9"/>
+<instance part="V121" gate="GND" x="91.44" y="231.14" smashed="yes">
+<attribute name="VALUE" x="88.9" y="227.838" size="1.4224" layer="96" ratio="9"/>
 </instance>
 <instance part="V141" gate="GND" x="71.12" y="233.68" smashed="yes">
 <attribute name="VALUE" x="68.58" y="230.378" size="1.4224" layer="96" ratio="9"/>
@@ -7047,7 +7047,7 @@ http://www.weartronics.com/</description>
 </segment>
 <segment>
 <pinref part="SW3" gate="G$1" pin="7"/>
-<wire x1="91.44" y1="241.3" x2="91.44" y2="236.22" width="0.1524" layer="91"/>
+<wire x1="91.44" y1="241.3" x2="91.44" y2="233.68" width="0.1524" layer="91"/>
 <pinref part="V121" gate="GND" pin="GND"/>
 </segment>
 <segment>
@@ -7144,7 +7144,7 @@ http://www.weartronics.com/</description>
 <wire x1="45.72" y1="76.2" x2="45.72" y2="78.74" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<wire x1="86.36" y1="259.08" x2="96.52" y2="259.08" width="0.1524" layer="91"/>
+<wire x1="96.52" y1="261.62" x2="96.52" y2="259.08" width="0.1524" layer="91"/>
 <pinref part="R21" gate="G$1" pin="1"/>
 <pinref part="C63" gate="G$1" pin="1"/>
 <wire x1="96.52" y1="259.08" x2="106.68" y2="259.08" width="0.1524" layer="91"/>
@@ -7153,13 +7153,15 @@ http://www.weartronics.com/</description>
 <junction x="106.68" y="259.08"/>
 <pinref part="U$1" gate="G$1" pin="+VIN"/>
 <wire x1="106.68" y1="261.62" x2="106.68" y2="259.08" width="0.1524" layer="91"/>
-<pinref part="SW3" gate="G$1" pin="4"/>
-<wire x1="86.36" y1="259.08" x2="86.36" y2="256.54" width="0.1524" layer="91"/>
 <junction x="96.52" y="259.08"/>
-<pinref part="SW3" gate="G$1" pin="1"/>
-<wire x1="86.36" y1="241.3" x2="86.36" y2="238.76" width="0.1524" layer="91"/>
-<wire x1="86.36" y1="238.76" x2="96.52" y2="238.76" width="0.1524" layer="91"/>
 <wire x1="96.52" y1="238.76" x2="96.52" y2="259.08" width="0.1524" layer="91"/>
+<wire x1="96.52" y1="261.62" x2="81.28" y2="261.62" width="0.1524" layer="91"/>
+<pinref part="SW3" gate="G$1" pin="5"/>
+<wire x1="81.28" y1="261.62" x2="81.28" y2="256.54" width="0.1524" layer="91"/>
+<pinref part="SW3" gate="G$1" pin="2"/>
+<wire x1="81.28" y1="241.3" x2="81.28" y2="236.22" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="236.22" x2="96.52" y2="236.22" width="0.1524" layer="91"/>
+<wire x1="96.52" y1="236.22" x2="96.52" y2="238.76" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$43" class="0">
@@ -7923,15 +7925,17 @@ http://www.weartronics.com/</description>
 <net name="N$81" class="0">
 <segment>
 <wire x1="81.28" y1="238.76" x2="66.04" y2="238.76" width="0.1524" layer="91"/>
-<pinref part="SW3" gate="G$1" pin="2"/>
-<wire x1="81.28" y1="241.3" x2="81.28" y2="238.76" width="0.1524" layer="91"/>
-<pinref part="SW3" gate="G$1" pin="5"/>
-<wire x1="81.28" y1="259.08" x2="81.28" y2="256.54" width="0.1524" layer="91"/>
 <wire x1="66.04" y1="259.08" x2="81.28" y2="259.08" width="0.1524" layer="91"/>
 <pinref part="D2" gate="G$1" pin="C"/>
 <wire x1="63.5" y1="259.08" x2="66.04" y2="259.08" width="0.1524" layer="91"/>
 <wire x1="66.04" y1="238.76" x2="66.04" y2="259.08" width="0.1524" layer="91"/>
 <junction x="66.04" y="259.08"/>
+<pinref part="SW3" gate="G$1" pin="4"/>
+<wire x1="81.28" y1="259.08" x2="86.36" y2="259.08" width="0.1524" layer="91"/>
+<wire x1="86.36" y1="259.08" x2="86.36" y2="256.54" width="0.1524" layer="91"/>
+<wire x1="81.28" y1="238.76" x2="86.36" y2="238.76" width="0.1524" layer="91"/>
+<pinref part="SW3" gate="G$1" pin="1"/>
+<wire x1="86.36" y1="238.76" x2="86.36" y2="241.3" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$36" class="0">
