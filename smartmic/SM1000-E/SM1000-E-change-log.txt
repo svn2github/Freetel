@@ -1,101 +1,110 @@
 SM1000-E-CHANGE-LOG.TXT
 03/30/15 RGB
 
-1.  [X]		Change PTT sw. to e-switch LC2259OANP.
+1.  [X]	R	Change PTT sw. to e-switch LC2259OANP.
 
-2.  [X]		Change POWER SW to e-switch LC2259EENP.
+2.  [X]	R	Change POWER SW to e-switch LC2259EENP.
 	
-3.  [X]		Change SPKR CONN J4 to CONN-BOOM-XH-2A.
+3.  [X]	R+E	Change SPKR CONN J4 to CONN-BOOM-XH-2A.
+	*****	Edwin needs to add mating connector to speaker assembly.
 
-4.  [X]		Added part outlines to layer tDocu for documentation.
-			All pars have outline on tplace layer.
+4.  [X]	R	Added part outlines to layer tDocu for documentation.
+		All pars have outline on tplace layer.
 
 05/18/15
 
-5.  [X]		Problem with SPKR OUT conn. Shorts output when stereo jack used.
-			+ as per Josh Mesaline email, suggest resistors to tip and ring
-			so a short doesn't upset amp.  Does this mean it will work with
-			mono and stereo plugs?  If stereo only we should note this in UG.
-				Changed connector to low profile locking type  RGB
+5.  [X]	R	Problem with SPKR OUT conn. Shorts output when stereo jack used.
+		+ as per Josh Mesaline email, suggest resistors to tip and ring
+		so a short doesn't upset amp.  Does this mean it will work with
+		mono and stereo plugs?  If stereo only we should note this in UG.
+	*****	Add jmpr to ring terminal to provide ormally open circuit. Shunt must be
+		provided but only on 1 pin. Customer will place across both jmpr pins for 
+		use with stereo speaker/headphones.
 
-6.  [ ]		TrimPOT holes, location off by 1mm.
+6.  [ ]	R	TrimPOT holes, location off by 1mm.
 
-7.  [X]		U1, CPU pins extend to the end of the pads.
+7.  [X]	R	U1, CPU pins extend to the end of the pads.
 				Corrected RGB
 
-8.  [ ]		Land pattern for LEDs too large. I will look into this. RGB
-				Land pattern size recommended by vendor. If too large, need suggestion.  RGB
+8.  [ ]	R+E	Land pattern for LEDs too large. I will look into this. RGB
+	*****	Land pattern size recommended by vendor. If too large, need suggested pad size from Edwin.
 
-9.  [X]		SW5 land pattern too wide. Check specification.
+9.  [X]	R	SW5 land pattern too wide. Check specification.
 				Corrected package RGB
 
-10. [X]		C32, C59 footprint too short.
-				corrected package  RGB
+10. [X]	R	C32, C59 footprint too short.
+		corrected package  RGB
 
-11. [X]		L1 Land pattern too wide.
-				Corrected package  RGB
+11. [X]	R	L1 Land pattern too wide.
+		Corrected package  RGB
 
-12  [X]		CN4	Bubble after SMT(high temperature)
-				No action yet. Edwin, can you find an alternative to fit? If different footprint, let me know and send specification so
-				I can change it.(RGB)
-	*****	Edwin reports other vendors parts do same. Action? RGB
+12  [X]	R+E	CN4 Bubble after SMT(high temperature)
+		No action yet. Edwin, can you find an alternative to fit? If different footprint, let me know and send specification so
+		Edwin reports other vendors parts do same. Action? RGB
+	*****	No Action at this time
 
-13. [X]		R46	Easy to break R46 with handling.
-				Add cement after production.
-	*****		Note, I accidently hit and moved pot removing PCB from case. Suggest applying cement prior to soldering RGB
+13. [X]	E	R46 Easy to break R46 with handling.
+		Add cement after production.
+	*****	Note, I accidently hit and moved pot removing PCB from case. 
+		Suggest applying cement prior to soldering RGB
 
-14. [X]		PCB	Problem reflowing CN10 USB connector.
-			Make Breakaway 10mm (Edwin)
-	*****		Vendor problem. RGB
+14. [X]	E	PCB Problem reflowing CN10 USB connector.
+		Make Breakaway 10mm (Edwin)
+	*****	Vendor problem. RGB
 
-15  [X]		PCB	Stencil too small.
-			Make Stencil 52 x 52 cm(Edwin)
-	*****		Vendor problem. RGB
+15  [X]	E	PCB Stencil too small.
+		Make Stencil 52 x 52 cm(Edwin)
+	*****	Vendor problem. RGB
 	
-16  [ ] 	Firmware   Better debouncing software for push button switches (DR)	
-				could be: more solid indication of in DV mode, like two beeps, two flashes
+16  [ ] D	Firmware   Better debouncing software for push button switches (DR)	
+		could be: more solid indication of in DV mode, like two beeps, two flashes
 
-17  [ ] 	Enclosure  Move "Speaker Volume" text lower to clear volume control knob
+17  [ ] R	Enclosure  Move "Speaker Volume" text lower to clear volume control knob
 
-18  [ ] 	Enclosure  Some variablility in gap between lid and front panel, gap is
-                   sometimes wider on one side than another (Edwin)
+18  [ ] E	Enclosure  Some variablility in gap between lid and front panel, gap is
+                sometimes wider on one side than another (Edwin)
 
-19  [X] 	PCB	change power led from red to green, clip/error led from amber to red? 
-				LED1	GRN, LED2	RED, LED3	GRN, LED4	RED
-	*****		DO we need new LED packages?
+19  [X] R	PCB change power led from red to green, clip/error led from amber to red? 
+		LED1	GRN, LED2	RED, LED3	GRN, LED4	RED
+	*****	DO we need new LED packages?
 
-20  [ ] ??  Mel reported ESD events at Dayton causing SM1000 to crash.
-			"Gerry and I did notice one thing... the SM1000 appears to be a little
-            sensitive to ESD events caused by "walking across the carpet in tennis
-            shoes in the booth and then touching the SM1000."  It would stop
-            working and require toggling power, however it always came back
-            working ok."
-	*****		Looking for 0402 or 0603 TVS with 5VDC holding voltage. RGB
-				Need definition of where to put these. RGB
-	*****		Is action rqd here?  Anything we can do?
+20  [ ] R+D  	Mel reported ESD events at Dayton causing SM1000 to crash.
+		"Gerry and I did notice one thing... the SM1000 appears to be a little
+            	sensitive to ESD events caused by "walking across the carpet in tennis
+            	shoes in the booth and then touching the SM1000."  It would stop
+            	working and require toggling power, however it always came back
+            	working ok."
+	*****	Will add pads for TVS device across DC power connector & 6 X 3.5mm connectors.
+		DNL status TBD. RGB	
 
-21  [X]     From Mel: DNL LED5 and LED8 to save a little power.
-				DNL LED8, DNL R33, DNL LED5, DNL R17
+21  [X] R    	Mel: DNL LED5 and LED8 to save a little power.
+	*****	DNL LED8, DNL R33, DNL LED5, DNL R17
 
-22  [X]     From Mel: Is R42 wired backwards? Higher output CCW vs CW?
-				Mirrored part, corrected problem. RGB
+22  [X] R    	Mel: Is R42 wired backwards? Higher output CCW vs CW?
+		Mirrored part, corrected problem. RGB
 
-23  [X]     From Mel: Silk screen pin numbers on.  Can e make CN12 larger for older Hams?
-				Added pin nos for 1,8,9,16	RGB
+23  [X] R   	Mel: Silk screen pin numbers on.  Can e make CN12 larger for older Hams?
+	*****	Added pin nos for 1,8,9,16	RGB
 
-24  [ ]     From Mel: green led too bright, increase R15 to 1500 ohms
-	*****		WE should try this on all LEDs and evaluate. RGB
+24  [ ]  D+E   	Mel: green led too bright, increase R15 to 1500 ohms
+	*****	WE should try this on all LEDs and evaluate. RGB
 
-25  [ ]     From Mel: different colour case options
+25  [ ] NA    	Mel: different colour case options
 
-26  [ ]     From Mel: PTT being pulsed low on power up.
+26  [ ] D    	Mel: PTT being pulsed low on power up.
 
-27  [X]     From Peter VK5APR, DC input connector hole offset down wrt to
-            enclosure on his unit.  Is this true on any other
-            samples, or maybe a 1 off?  RJ45 aperture in enclosure
-            also slightly offset to left.
-			
-	*****		RJ45 and Power connectors are almost perfectly aligned on the units I have.
-				Perhaps a problem when PCBs are assembled into case?   RGB
+27  [X] R+D    	Peter VK5APR, DC input connector hole offset down wrt to
+            	enclosure on his unit.  Is this true on any other
+            	samples, or maybe a 1 off?  RJ45 aperture in enclosure
+            	also slightly offset to left.			
+	*****	RJ45 and Power connectors are almost perfectly aligned on the units I have.
+		Perhaps a problem when PCBs are assembled into case?   RGB
+		No Action
 
-28  [ ] 	firmware   Check analog speech level in digital mode.
+28  [ ] D	firmware   Check analog speech level in digital mode.
+
+29. [ ]	R	Change enclosure side plate for new PTT switch siize & location.
+
+30  [ ]	R	Add shunt for #5 above to BOM
+
+31  [ ]	R	Add TVS diodes to 3,5mm connectors & DC power Connector
