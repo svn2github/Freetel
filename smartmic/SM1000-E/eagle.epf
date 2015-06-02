@@ -55,7 +55,6 @@ UsedLibrary="C:/Users/rbarnich/My Projects/EagleFiles/lbr/_Shapix IIOC.lbr"
 UsedLibrary="C:/Users/rbarnich/My Projects/EagleFiles/lbr/adafruit.lbr"
 UsedLibrary="C:/Users/rbarnich/My Projects/EagleFiles/lbr/attr_coherix.lbr"
 UsedLibrary="C:/Users/rbarnich/My Projects/EagleFiles/lbr/coherix FRANK'S PERSONAL VERSION.lbr"
-UsedLibrary="C:/Users/rbarnich/My Projects/EagleFiles/lbr/nxp_60_1_1.lbr"
 UsedLibrary="C:/Program Files (x86)/EAGLE-6.5.0/lbr/19inch.lbr"
 UsedLibrary="C:/Program Files (x86)/EAGLE-6.5.0/lbr/40xx.lbr"
 UsedLibrary="C:/Program Files (x86)/EAGLE-6.5.0/lbr/41xx.lbr"
@@ -394,7 +393,7 @@ UsedLibrary="C:/Users/rbarnich/My Projects/PIC32MZ/PIC32MZ.lbr"
 
 [Win_1]
 Type="Control Panel"
-Loc="945 8 1544 407"
+Loc="92 172 759 681"
 State=2
 Number=0
 
