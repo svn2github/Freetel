@@ -1474,7 +1474,7 @@ void MainFrame::OnPlayFileToMicIn(wxCommandEvent& event)
 
 //-------------------------------------------------------------------------
 // OnPlayFileFromRadio()
-// This puppy "plays" a recorded file into the denmonulator input, allowing us
+// This puppy "plays" a recorded file into the demodulator input, allowing us
 // to replay off air signals.
 //-------------------------------------------------------------------------
 void MainFrame::OnPlayFileFromRadio(wxCommandEvent& event)
@@ -1544,6 +1544,7 @@ void MainFrame::OnPlayFileFromRadio(wxCommandEvent& event)
         g_loopPlayFileFromRadio = static_cast<MyExtraPlayFilePanel*>(ctrl)->getLoopPlayFileToMicIn();
 
         SetStatusText(wxT("Playing File: ") + fileName + wxT(" into From Radio") , 0);
+        printf("OnPlayFileFromRadio:: Playing File\n");
         g_playFileFromRadio = true;
     }
 }
@@ -2763,6 +2764,7 @@ int resample(SRC_STATE *src,
     SRC_DATA src_data;
     float    input[N48*2];
     float    output[N48*2];
+    int      ret;
 
     assert(src != NULL);
     assert(length_input_short <= N48*2);
@@ -2777,7 +2779,8 @@ int resample(SRC_STATE *src,
     src_data.end_of_input = 0;
     src_data.src_ratio = (float)output_sample_rate/input_sample_rate;
 
-    src_process(src, &src_data);
+    ret = src_process(src, &src_data);
+    assert(ret == 0);
 
     assert(src_data.output_frames_gen <= length_output_short);
     src_float_to_short_array(output, output_short, src_data.output_frames_gen);
@@ -2875,8 +2878,8 @@ void txRxProcessing()
 
         g_mutexProtectingCallbackData.Lock();
         if (g_playFileFromRadio && (g_sfPlayFileFromRadio != NULL)) {
-            int n = sf_read_short(g_sfPlayFileFromRadio, in8k_short, n8k);
-            if (n != N8) {
+            unsigned int n = sf_read_short(g_sfPlayFileFromRadio, in8k_short, n8k);
+            if (n != n8k) {
                 if (g_loopPlayFileFromRadio)
                     sf_seek(g_sfPlayFileFromRadio, 0, SEEK_SET);
                 else {

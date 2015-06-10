@@ -20,7 +20,7 @@ $ make
 
 Then you can use your local codec-dev, something like:
 
-$ cmake -DBOOTSTRAP_WXWIDGETS=TRUE -DCODEC2_INCLUDE_DIRS=/home/david/codec2-dev/src -DCODEC2_LIBRARY=/home/david/codec2-dev/build_linux/src/libcodec2.so -DUSE_STATIC_CODEC2=FALSE -DUSE_STATIC_PORTAUDIO=TRUE -DUSE_STATIC_SOX=TRUE ../
+$ cmake -DCMAKE_BUILD_TYPE=Debug -DBOOTSTRAP_WXWIDGETS=TRUE -DCODEC2_INCLUDE_DIRS=/home/david/codec2-dev/src -DCODEC2_LIBRARY=/home/david/codec2-dev/build_linux/src/libcodec2.so -DUSE_STATIC_CODEC2=FALSE -DUSE_STATIC_PORTAUDIO=TRUE -DUSE_STATIC_SOX=TRUE ../
 
 OR build a local copy of codec2-dev:
 
@@ -112,4 +112,21 @@ configure emacs:
           (function (lambda ()
                       (setq c-basic-offset 4)
                       )))
+====
+TODO
+====
+
+[ ] FreeDV 700 mode
+    [ ] Playfile bug
+    [ ] integrate freedv API
+    [ ] add 700 to freedv API
+    [ ] how to handle Fs=7500 Hz?
+    [ ] test mode
+        + how to plot error histogram
+[ ] Small fixes
+    [ ] long varicode default
+    [ ] option to _not_ require checksum
+    [ ] Waterfall direction
+    [ ] bump ver number
+[ ] Presence/spotting hooks
 
