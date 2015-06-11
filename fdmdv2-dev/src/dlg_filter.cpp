@@ -43,7 +43,7 @@
 #define F_STEP_DFT        10.0                       // frequency steps to sample spectrum
 #define F_MAG_N           (int)(MAX_F_HZ/F_STEP_DFT) // number of frequency steps
 
-extern struct CODEC2      *g_pCodec2;
+extern struct freedv      *g_pfreedv;
 
 //-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=--=-=-=-=
 // Class FilterDlg
@@ -543,8 +543,8 @@ void FilterDlg::setBeta(void) {
 
 void FilterDlg::setCodec2(void) {
     if (m_running) {
-        assert(g_pCodec2 != NULL);
-        codec2_set_lpc_post_filter(g_pCodec2, 
+        assert(g_pfreedv->codec2 != NULL);
+        codec2_set_lpc_post_filter(g_pfreedv->codec2, 
                                m_codec2LPCPostFilterEnable->GetValue(), 
                                m_codec2LPCPostFilterBassBoost->GetValue(), 
                                m_beta, m_gamma);

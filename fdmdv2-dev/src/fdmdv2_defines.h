@@ -22,7 +22,7 @@
 #define __FDMDV2_DEFINES__
 
 #include "wx/wx.h"
-#include "codec2_fdmdv.h"
+#include "freedv_api.h"
 
 // Spectrogram and Waterfall
 
@@ -57,7 +57,7 @@
 #define MAX_FPB             8096                           // maximum value of portAudio framesPerBuffer
 #define PA_FPB              1024                           // nominal value of portAudio framesPerBuffer
 #define SAMPLE_RATE         48000                          // 48 kHz sampling rate rec. as we can trust accuracy of sound card
-#define N8                  FDMDV_NOM_SAMPLES_PER_FRAME    // processing buffer size at 8 kHz
+#define N8                  FREEDV_NSAMPLES                // processing buffer size at 8 kHz
 #define MEM8                (FDMDV_OS_TAPS/FDMDV_OS)
 #define N48                 (N8*SAMPLE_RATE/FS)            // processing buffer size at 48 kHz
 #define NUM_CHANNELS        2                              // I think most sound cards prefer stereo we will convert to mono
@@ -97,14 +97,5 @@ enum
 #define CODEC2_LPC_PF_GAMMA 0.5
 #define CODEC2_LPC_PF_BETA  0.2
 
-// FreeDV modes
-
-#define MODE_1400_V0_91  0   // Legacy 1400 from Dec 2012 V0.91 release with incorrect QPSK mapping
-#define MODE_1400        1   // 1400 bit/s codec, no FEC
-#define MODE_1600        2   // 1300 bit/s codec, + 300 bit/s FEC
-#define MODE_2000        3   // 1400 bit/s codec, 600 bit/s FEC on most sensitive bits, 2000 bit/s total
-#define MODE_1600_WIDE   4   // As per 2 but wide carrier spacing
-
-#define FSEP_WIDE      125
 
 #endif  //__FDMDV2_DEFINES__

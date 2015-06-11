@@ -36,8 +36,7 @@
 // Global Codec2 & modem states - just one reqd for tx & rx
 int                 g_Nc;
 int                 g_mode;
-struct CODEC2      *g_pCodec2;
-struct FDMDV       *g_pFDMDV;
+struct freedv      *g_pfreedv;
 struct FDMDV_STATS  g_stats;
 float               g_pwr_scale;
 int                 g_clip;
@@ -67,12 +66,10 @@ bool  g_half_duplex;
 
 // sending and receiving Call Sign data
 struct FIFO         *g_txDataInFifo;
-struct VARICODE_DEC  g_varicode_dec_states;
 struct FIFO         *g_rxDataOutFifo;
 
 // tx/rx processing states
-int                 g_nRxIn = FDMDV_NOM_SAMPLES_PER_FRAME;
-int                 g_CodecBits[2*MAX_BITS_PER_FDMDV_FRAME];
+int                 g_nRxIn = FREEDV_NSAMPLES;
 int                 g_State;
 paCallBackData     *g_rxUserdata;
 
@@ -377,8 +374,8 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     wxGetApp().m_SpkOutEQEnable = (float)pConfig->Read(wxT("/Filter/SpkOutEQEnable"), f);
 
     wxGetApp().m_callSign = pConfig->Read("/Data/CallSign", wxT(""));
-    wxGetApp().m_textEncoding = pConfig->Read("/Data/TextEncoding", 2);
-    wxGetApp().m_enable_checksum = pConfig->Read("/Data/EnableChecksumOnMsgRx", t);
+    wxGetApp().m_textEncoding = pConfig->Read("/Data/TextEncoding", 1);
+    wxGetApp().m_enable_checksum = pConfig->Read("/Data/EnableChecksumOnMsgRx", f);
 
     wxGetApp().m_events = pConfig->Read("/Events/enable", f);
     wxGetApp().m_events_spam_timer = (int)pConfig->Read(wxT("/Events/spam_timer"), 10);
@@ -948,7 +945,7 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
     char callsign[MAX_CALLSIGN];
     strncpy(callsign, (const char*) wxGetApp().m_callSign.mb_str(wxConvUTF8), MAX_CALLSIGN-1);
 
-    // buffer 1 txt message to senure tx data fifo doesn't "run dry"
+    // buffer 1 txt message to ensure tx data fifo doesn't "run dry"
 
     if ((unsigned)fifo_used(g_txDataInFifo) < strlen(callsign)) {
 
@@ -980,42 +977,43 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
             // CR completes line
             *m_pcallsign = 0;
 
-            // lets see if checksum is OK
-            
-            unsigned char checksum_rx = 0;
-            if (strlen(m_callsign) > 2) {
-                for(unsigned int i=0; i<strlen(m_callsign)-2; i++)
-                    checksum_rx += m_callsign[i];
-            }
-            unsigned int checksum_tx;
-            int ret = sscanf(&m_callsign[strlen(m_callsign)-2], "%2x", &checksum_tx);
-            printf("m_callsign: %s checksums: %2x %2x\n", m_callsign, checksum_tx, checksum_rx);
+            // checksums can be disabled, e.g. for compatability
+            // with older vesions.  In that case we print msg but
+            // don't do any event processing
 
-            wxString s;
-            if (ret && (checksum_tx == checksum_rx)) {
-                m_callsign[strlen(m_callsign)-2] = 0;
-                s.Printf("%s", m_callsign);
-                m_txtCtrlCallSign->SetValue(s);
-
-                char s1[MAX_CALLSIGN];
-                sprintf(s1,"rx_txtmsg %s", m_callsign);
-                processTxtEvent(s1);
-
-                m_checksumGood++;
-                s.Printf("%d", m_checksumGood);
-                m_txtChecksumGood->SetLabel(s);              
+            if (!wxGetApp().m_enable_checksum) {
+                m_txtCtrlCallSign->SetValue(m_callsign);
             }
             else {
-                m_checksumBad++;
-                s.Printf("%d", m_checksumBad);
-                m_txtChecksumBad->SetLabel(s);        
+                // lets see if checksum is OK
+            
+                unsigned char checksum_rx = 0;
+                if (strlen(m_callsign) > 2) {
+                    for(unsigned int i=0; i<strlen(m_callsign)-2; i++)
+                        checksum_rx += m_callsign[i];
+                }
+                unsigned int checksum_tx;
+                int ret = sscanf(&m_callsign[strlen(m_callsign)-2], "%2x", &checksum_tx);
+                printf("m_callsign: %s checksums: %2x %2x\n", m_callsign, checksum_tx, checksum_rx);
 
-                // checksums can be disabled, e.g. for compatability
-                // with older vesions.  In that case we print msg but
-                // don't do any event processing
+                wxString s;
+                if (ret && (checksum_tx == checksum_rx)) {
+                    m_callsign[strlen(m_callsign)-2] = 0;
+                    s.Printf("%s", m_callsign);
+                    m_txtCtrlCallSign->SetValue(s);
 
-                if (!wxGetApp().m_enable_checksum) {
-                    m_txtCtrlCallSign->SetValue(m_callsign);
+                    char s1[MAX_CALLSIGN];
+                    sprintf(s1,"rx_txtmsg %s", m_callsign);
+                    processTxtEvent(s1);
+
+                    m_checksumGood++;
+                    s.Printf("%d", m_checksumGood);
+                    m_txtChecksumGood->SetLabel(s);              
+                }
+                else {
+                    m_checksumBad++;
+                    s.Printf("%d", m_checksumBad);
+                    m_txtChecksumBad->SetLabel(s);        
                 }
             }
 
@@ -1089,7 +1087,7 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
         m_schedule_restore = false;
     }
 
-    // Light Spam Timer LED if at least one time is running
+    // Light Spam Timer LED if at least one timer is running
 
     int i;
     optionsDlg->SetSpamTimerLight(false);
@@ -1936,33 +1934,30 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
         m_togBtnOnOff->SetLabel(wxT("Stop"));
         m_btnTogPTT->Enable();
 
-        m_rb1400old->Disable();
         m_rb1600->Disable();
-        m_rb1600Wide->Disable();
 #ifdef DISABLED_FEATURE
+        m_rb1600Wide->Disable();
+        m_rb1400old->Disable();
         m_rb1400->Disable();
         m_rb2000->Disable();
 #endif
         // determine what mode we are using
 
-        int codec2_mode;
-        if (m_rb1400old->GetValue()) {
-            g_mode = MODE_1400_V0_91;
-            g_Nc = 14;
-            codec2_mode = CODEC2_MODE_1400;
-        }
-
         if (m_rb1600->GetValue()) {
-            g_mode = MODE_1600;
+            g_mode = FREEDV_MODE_1600;
             g_Nc = 16;
-            codec2_mode = CODEC2_MODE_1300;
         }
+#ifdef DISABLED_FEATURE
         if (m_rb1600Wide->GetValue()) {
             g_mode = MODE_1600_WIDE;
             g_Nc = 16;
             codec2_mode = CODEC2_MODE_1300;
         }
-#ifdef DISABLED_FEATURE
+        if (m_rb1400old->GetValue()) {
+            g_mode = MODE_1400_V0_91;
+            g_Nc = 14;
+            codec2_mode = CODEC2_MODE_1400;
+        }
         if (m_rb1400->GetValue()) {
             g_mode = MODE_1400;
             g_Nc = 14;
@@ -1976,35 +1971,23 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
         printf("g_mode: %d  Nc: %d  codec2_mode: %d\n", g_mode, g_Nc, codec2_mode);
 #endif
 
-        // init modem and codec states
+        // init freedv states
 
-        g_pFDMDV  = fdmdv_create(g_Nc);
-        g_sz_error_pattern = fdmdv_error_pattern_size(g_pFDMDV);
+        g_pfreedv = freedv_open(g_mode);
+        assert(g_pfreedv != NULL);
+        g_sz_error_pattern = fdmdv_error_pattern_size(g_pfreedv->fdmdv);
         g_error_pattern = (short*)malloc(g_sz_error_pattern*sizeof(short));
         g_errorFifo = fifo_create(2*g_sz_error_pattern);
 
         assert(g_error_pattern != NULL);
 
-        g_pCodec2 = codec2_create(codec2_mode);
-
-        if (g_mode == MODE_1400_V0_91)
-            fdmdv_use_old_qpsk_mapping(g_pFDMDV);
-        if (g_mode == MODE_1600_WIDE)
-            fdmdv_set_fsep(g_pFDMDV, FSEP_WIDE);
-
         // adjust scatter diagram for Number of FDM carriers
 
         m_panelScatter->setNc(g_Nc);
 
-        // scale factor for to normalise ouput power across modes
-        // note: PAPR will still be worse for higher Nc, especially in frame test mode
-
-        g_pwr_scale = sqrt((14.0+4.0)/(g_Nc+4.0));
-        g_clip = 120;
-
         // init Codec 2 LPC Post Filter
 
-        codec2_set_lpc_post_filter(g_pCodec2,
+        codec2_set_lpc_post_filter(g_pfreedv->codec2,
                                    wxGetApp().m_codec2LPCPostFilterEnable,
                                    wxGetApp().m_codec2LPCPostFilterBassBoost,
                                    wxGetApp().m_codec2LPCPostFilterBeta,
@@ -2023,7 +2006,7 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
 
         // Init text msg decoding
 
-        varicode_decode_init(&g_varicode_dec_states, wxGetApp().m_textEncoding);      
+        varicode_set_code_num(&g_pfreedv->varicode_dec_states, wxGetApp().m_textEncoding);
         //printf("m_textEncoding = %d\n", wxGetApp().m_textEncoding);
         //printf("g_stats.snr: %f\n", g_stats.snr_est);
 
@@ -2083,8 +2066,7 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
 
         free(g_error_pattern);
         fifo_destroy(g_errorFifo);
-        fdmdv_destroy(g_pFDMDV);
-        codec2_destroy(g_pCodec2);
+        freedv_close(g_pfreedv);
 
         m_newMicInFilter = m_newSpkOutFilter = true;
 
@@ -2094,10 +2076,10 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
         m_togBtnAnalog->Disable();
         m_btnTogPTT->Disable();
         m_togBtnOnOff->SetLabel(wxT("Start"));
-        m_rb1400old->Enable();
         m_rb1600->Enable();
-        m_rb1600Wide->Enable();
 #ifdef DISABLED_FEATURE
+        m_rb1400old->Enable();
+        m_rb1600Wide->Enable();
         m_rb1400->Enable();
         m_rb2000->Enable();
 #endif
@@ -2364,8 +2346,8 @@ void MainFrame::startRxStream()
         g_rxUserdata->outfifo2 = fifo_create(8*N48);
         g_rxUserdata->infifo2 = fifo_create(8*N48);
 
-        g_rxUserdata->rxinfifo = fifo_create(3 * FDMDV_NOM_SAMPLES_PER_FRAME);
-        g_rxUserdata->rxoutfifo = fifo_create(2 * codec2_samples_per_frame(g_pCodec2));
+        g_rxUserdata->rxinfifo = fifo_create(3 * FREEDV_NSAMPLES);
+        g_rxUserdata->rxoutfifo = fifo_create(2 * codec2_samples_per_frame(g_pfreedv->codec2));
 
         // Init Equaliser Filters ------------------------------------------------------
 
@@ -2828,10 +2810,10 @@ void txRxProcessing()
     // signals in in48k/out48k are at a maximum sample rate of 48k, could be 44.1kHz
     // depending on sound hardware.
 
-    short           in8k_short[2*N8];
-    short           in48k_short[2*N48];
-    short           out8k_short[2*N8];
-    short           out48k_short[2*N48];
+    short           in8k_short[N8];
+    short           in48k_short[N48];
+    short           out8k_short[N8];
+    short           out48k_short[N48];
     int             nout;
 
     //wxLogDebug("start infifo1: %5d outfifo1: %5d\n", fifo_n(cbData->infifo1), fifo_n(cbData->outfifo1));
@@ -2895,7 +2877,7 @@ void txRxProcessing()
         fifo_write(cbData->rxinfifo, in8k_short, n8k);
         resample_for_plot(g_plotDemodInFifo, in8k_short, n8k);
 
-        per_frame_rx_processing(cbData->rxoutfifo, g_CodecBits, cbData->rxinfifo, &g_nRxIn, &g_State, g_pCodec2);
+        per_frame_rx_processing(cbData->rxoutfifo, cbData->rxinfifo);
 
         // Get some audio to send to headphones/speaker.  If out of
         // sync or in analog mode we pass thru the "from radio" audio
@@ -2911,7 +2893,7 @@ void txRxProcessing()
             fifo_read(cbData->rxoutfifo, out8k_short, N8);
         }
 
-        // Opional Spk Out EQ Filtering, need mutex as filter can change at run time
+        // Optional Spk Out EQ Filtering, need mutex as filter can change at run time
         g_mutexProtectingCallbackData.Lock();
         if (cbData->spkOutEQEnable) {
             sox_biquad_filter(cbData->sbqSpkOutBass,   out8k_short, out8k_short, N8);
@@ -2958,7 +2940,7 @@ void txRxProcessing()
         {
             g_mutexProtectingCallbackData.Unlock();
 
-            int   nsam = g_soundCard2SampleRate * (float)codec2_samples_per_frame(g_pCodec2)/FS;
+            int   nsam = g_soundCard2SampleRate * (float)codec2_samples_per_frame(g_pfreedv->codec2)/FS;
             assert(nsam <= 2*N48);
 
             // infifo2 is written to by another sound card so it may
@@ -2990,7 +2972,7 @@ void txRxProcessing()
             }
             g_mutexProtectingCallbackData.Unlock();
 
-            // Optional Speex pre-perocessor
+            // Optional Speex pre-processor for acoustic noise reduction
 
             if (wxGetApp().m_speexpp_enable) {
                 speex_preprocess_run(g_speex_st, in8k_short);
@@ -3026,10 +3008,10 @@ void txRxProcessing()
                 }
             }
             else
-                per_frame_tx_processing(out8k_short, in8k_short, g_pCodec2);
+                freedv_tx(g_pfreedv, out8k_short, in8k_short);
 
             // output 40ms of modem tone
-            nout = resample(cbData->outsrc1, out48k_short, out8k_short, g_soundCard1SampleRate, FS, 2*N48, 2*N8);
+            nout = resample(cbData->outsrc1, out48k_short, out8k_short, g_soundCard1SampleRate, FS, N48, N8);
             g_mutexProtectingCallbackData.Lock();
             fifo_write(cbData->outfifo1, out48k_short, nout);
         }
@@ -3121,77 +3103,46 @@ int MainFrame::rxCallback(
 //----------------------------------------------------------------
 // per_frame_rx_processing()
 //----------------------------------------------------------------
+
 void per_frame_rx_processing(
                                             FIFO    *output_fifo,   // decoded speech samples
-                                            int      codec_bits[],  // current frame of bits for decoder
-                                            FIFO    *input_fifo,    // modem samples input to demod
-                                            int     *nin,           // amount of samples demod needs for next call
-                                            int     *state,         // used to collect codec_bits[] halves
-                                            CODEC2  *c2             // Codec 2 states
+                                            FIFO    *input_fifo
                                         )
 {
-    int                 reliable_sync_bit;
-    short               input_buf[FDMDV_MAX_SAMPLES_PER_FRAME];
-    short               output_buf[N8*2];
-    COMP                rx_fdm[FDMDV_MAX_SAMPLES_PER_FRAME];
-    COMP                rx_fdm_offset[FDMDV_MAX_SAMPLES_PER_FRAME];
-    int                 rx_bits[MAX_BITS_PER_FDMDV_FRAME];
-    unsigned char       packed_bits[MAX_BYTES_PER_CODEC_FRAME];
+    short               input_buf[FREEDV_NSAMPLES];
+    short               output_buf[N8];
+    COMP                rx_fdm[2*FREEDV_NSAMPLES];
+    COMP                rx_fdm_offset[2*FREEDV_NSAMPLES];
     float               rx_spec[FDMDV_NSPEC];
     int                 i;
-    int                 nin_prev;
-    int                 bit;
-    int                 byte;
-    int                 next_state;
-    int                 bits_per_fdmdv_frame, bits_per_codec_frame, bytes_per_codec_frame;
+    int                 nin, nin_prev;
 
-    bits_per_fdmdv_frame = fdmdv_bits_per_frame(g_pFDMDV);
-    //printf(" bits_per_fdmdv_frame: %d\n", bits_per_fdmdv_frame);
-    assert(bits_per_fdmdv_frame <= MAX_BITS_PER_FDMDV_FRAME);
-    bits_per_codec_frame = codec2_bits_per_frame(c2);
-    assert(bits_per_codec_frame <= MAX_BITS_PER_CODEC_FRAME);
-    bytes_per_codec_frame = (bits_per_codec_frame+7)/8;
-    assert(bytes_per_codec_frame <= MAX_BYTES_PER_CODEC_FRAME);
-
-    //
-    //  This while loop will run the demod 0, 1 (nominal) or 2 times:
-    //
-    //  0: when tx sample clock runs faster than rx, occasionally we
-    //     will run out of samples
-    //
-    //  1: normal, run decoder once, every 2nd frame output a frame of
-    //     speech samples to D/A
-    //
-    //  2: when tx sample clock runs slower than rx, occasionally we will
-    //     have enough samples to run demod twice.
-    //
-    //  With a +/- 10 Hz sample clock difference at FS=8000Hz (+/- 1250
-    //  ppm), case 0 or 2 occured about once every 30 seconds.  This is
-    //  no problem for the decoded audio.
-    //
-
-    //printf("state: %d sync: %d nin %d \n", *state, sync_bit, *nin);
-    while (fifo_read(input_fifo, input_buf, *nin) == 0)
+    nin = freedv_nin(g_pfreedv);
+    while (fifo_read(input_fifo, input_buf, nin) == 0)
     {
-        nin_prev = *nin;
+        assert(nin <= 2*FREEDV_NSAMPLES);
+
+        nin_prev = nin;
 
         // demod per frame processing
-        for(i = 0; i < *nin; i++)
+        for(i=0; i<nin; i++)
         {
-            rx_fdm[i].real = (float)input_buf[i] / FDMDV_SCALE;
+            rx_fdm[i].real = (float)input_buf[i];
             rx_fdm[i].imag = 0.0;
         }
-
-        
+       
         if (g_channel_noise) {
-            fdmdv_simulate_channel(g_pFDMDV, rx_fdm, *nin, 2.0);
+            fdmdv_simulate_channel(g_pfreedv->fdmdv, rx_fdm, nin, 2.0);
         }
-        fdmdv_freq_shift(rx_fdm_offset, rx_fdm, g_RxFreqOffsetHz,  &g_RxFreqOffsetPhaseRect, *nin);
-        fdmdv_demod(g_pFDMDV, rx_bits, &reliable_sync_bit, rx_fdm_offset, nin);
+        fdmdv_freq_shift(rx_fdm_offset, rx_fdm, g_RxFreqOffsetHz,  &g_RxFreqOffsetPhaseRect, nin);
+        freedv_comprx(g_pfreedv, output_buf, rx_fdm_offset);
+        nin = freedv_nin(g_pfreedv);
+        g_State = g_pfreedv->fdmdv_stats.sync;
+        g_snr   = g_pfreedv->fdmdv_stats.snr_est;
 
         // compute rx spectrum & get demod stats, and update GUI plot data
-        fdmdv_get_rx_spectrum(g_pFDMDV, rx_spec, rx_fdm, nin_prev);
-        fdmdv_get_demod_stats(g_pFDMDV, &g_stats);
+        fdmdv_get_rx_spectrum(g_pfreedv->fdmdv, rx_spec, rx_fdm, nin_prev);
+        fdmdv_get_demod_stats(g_pfreedv->fdmdv, &g_stats);
 
         // Average rx spectrum data using a simple IIR low pass filter
         for(i = 0; i < FDMDV_NSPEC; i++)
@@ -3199,255 +3150,19 @@ void per_frame_rx_processing(
             g_avmag[i] = BETA * g_avmag[i] + (1.0 - BETA) * rx_spec[i];
         }
 
-        //
-        //   State machine to:
-        //
-        //   + Mute decoded audio when out of sync.  The demod is synced
-        //     when we are using the fine freq estimate and SNR is above
-        //     a thresh.
-        //
-        //   + Decode codec bits only if we have a 0,1 sync bit
-        //     sequence.  Collects two frames of demod bits to decode
-        //     one frame of codec bits.
-        //
-        next_state = *state;
-        switch(*state)
-        {
-            case 0:
-                // mute output audio when out of sync
+    }
+}
 
-                for(i = 0; i < N8; i++)
-                    output_buf[i] = 0;
-                fifo_write(output_fifo, output_buf, N8);
 
-                if(g_stats.sync == 1)
-                {
-                    next_state = 1;
-                }
-                //printf("sync state: %d\n", *state);
-                break;
-
-            case 1:
-                next_state = 2;
-                if(g_stats.sync == 0)
-                {
-                    next_state = 0;
-                }
-                if (reliable_sync_bit)
-                {
-                    next_state = 1;
-                }
-
-                // first half of frame of codec bits
-                memcpy(codec_bits, rx_bits, bits_per_fdmdv_frame * sizeof(int));
-
-                break;
-
-            case 2:
-                next_state = 1;
-                if(g_stats.sync == 0)
-                {
-                    next_state = 0;
-                }
-
-                int  data_flag_index, valid;
-
-                // second half of frame of codec bits
-                memcpy(&codec_bits[bits_per_fdmdv_frame], rx_bits, bits_per_fdmdv_frame *sizeof(int));
-
-                if (g_testFrames) {
-                    int bit_errors, ntest_bits, test_frame_sync;
-
-                    // test frame processing, g_test_frame_sync will be asserted when we detect a
-                    // valid test frame.
-
-                    fdmdv_put_test_bits(g_pFDMDV, &test_frame_sync, g_error_pattern, &bit_errors, &ntest_bits, codec_bits);
-
-                    if (test_frame_sync == 1) {
-                        g_test_frame_sync_state = 1;
-                        g_test_frame_count = 0;
-                    }
-
-                    if (g_test_frame_sync_state) {
-                        if (g_test_frame_count == 0) {
-                            //printf("bit_errors: %d ntest_bits: %d\n", bit_errors, ntest_bits);
-                            g_total_bit_errors += bit_errors;
-                            g_total_bits       += ntest_bits;
-                            fifo_write(g_errorFifo, g_error_pattern, g_sz_error_pattern);
-                        }
-                        g_test_frame_count++;
-                        if (g_test_frame_count == 4)
-                            g_test_frame_count = 0;
-                    }
-
-                    fdmdv_put_test_bits(g_pFDMDV, &test_frame_sync, g_error_pattern, &bit_errors, &ntest_bits, &codec_bits[bits_per_fdmdv_frame]);
-
-                    if (test_frame_sync == 1) {
-                        g_test_frame_sync_state = 1;
-                        g_test_frame_count = 0;
-                    }
-
-                    if (g_test_frame_sync_state) {
-                        if (g_test_frame_count == 0) {
-                            //printf("bit_errors: %d ntest_bits: %d\n", bit_errors, ntest_bits);
-                            g_total_bit_errors += bit_errors;
-                            g_total_bits       += ntest_bits;
-                            fifo_write(g_errorFifo, g_error_pattern, g_sz_error_pattern);
-                        }
-                        g_test_frame_count++;
-                        if (g_test_frame_count == 4)
-                            g_test_frame_count = 0;
-                    }
-
-                    // silent audio
-
-                    for(i=0; i<2*N8; i++)
-                        output_buf[i] = 0;
-
-                }
-                else {
-                    // regular Codec 2 frame decode
-
-                    // FEC Decoding  --------------------------------------------------------------
-
-                    if (g_mode == MODE_2000) {
-                        int recd_codeword, codeword1, codeword2;
-
-                        /* decode first codeword */
-
-                        recd_codeword = 0;
-                        for(i=0; i<12; i++) {
-                            recd_codeword <<= 1;
-                            recd_codeword |= codec_bits[i];
-                        }
-                        for(i=bits_per_codec_frame; i<bits_per_codec_frame+11; i++) {
-                            recd_codeword <<= 1;
-                            recd_codeword |= codec_bits[i];
-                        }
-                        codeword1 = golay23_decode(recd_codeword);
-                        g_total_bit_errors += golay23_count_errors(recd_codeword, codeword1);
-                        g_total_bits       += 23;
-
-                        //if (codeword1 != recd_codeword)
-                        //    printf("codeword1: 0x%x  recd_codeword: 0x%x\n", codeword1,recd_codeword );
-                        //fprintf(stderr, "received codeword1: 0x%x  decoded codeword1: 0x%x\n", recd_codeword, codeword1);
-
-                        for(i=0; i<12; i++) {
-                            codec_bits[i] = codeword1 >> (22-i);
-                        }
-
-                        /* decode second codeword */
-
-                        recd_codeword = 0;
-                        for(i=12; i<24; i++) {
-                            recd_codeword <<= 1;
-                            recd_codeword |= codec_bits[i];
-                        }
-                        for(i=bits_per_codec_frame+11; i<bits_per_codec_frame+11+11; i++) {
-                            recd_codeword <<= 1;
-                            recd_codeword |= codec_bits[i];
-                        }
-                        codeword2 = golay23_decode(recd_codeword);
-                        g_total_bit_errors += golay23_count_errors(recd_codeword, codeword2);
-                        g_total_bits       += 23;
-
-                        // if (codeword2 != recd_codeword)
-                        //    printf("codeword2: 0x%x  recd_codeword: 0x%x\n", codeword2,recd_codeword );
-                        //fprintf(stderr, "received codeword2: 0x%x  decoded codeword2: 0x%x\n", recd_codeword, codeword2);
-
-                        for(i=0; i<12; i++) {
-                            codec_bits[12+i] = codeword2 >> (22-i);
-                        }
-                    }
-
-                    if ((g_mode == MODE_1600) || (g_mode == MODE_1600_WIDE)) {
-                        int recd_codeword, codeword1, j;
-
-                        recd_codeword = 0;
-                        for(i=0; i<8; i++) {
-                            recd_codeword <<= 1;
-                            recd_codeword |= codec_bits[i];
-                        }
-                        for(i=11; i<15; i++) {
-                            recd_codeword <<= 1;
-                            recd_codeword |= codec_bits[i];
-                        }
-                        for(i=bits_per_codec_frame; i<bits_per_codec_frame+11; i++) {
-                            recd_codeword <<= 1;
-                            recd_codeword |= codec_bits[i];
-                        }
-                        codeword1 = golay23_decode(recd_codeword);
-                        g_total_bit_errors += golay23_count_errors(recd_codeword, codeword1);
-                        g_total_bits       += 23;
-
-                        //if (codeword1 != recd_codeword)
-                        //    printf("codeword1: 0x%x  recd_codeword: 0x%x\n", codeword1,recd_codeword );
-                        //codeword1 = recd_codeword;
-                        //fprintf(stderr, "received codeword1: 0x%x  decoded codeword1: 0x%x\n", recd_codeword, codeword1);
-
-                        for(i=0; i<8; i++) {
-                            codec_bits[i] = (codeword1 >> (22-i)) & 0x1;
-                        }
-                        for(i=8,j=11; i<12; i++,j++) {
-                            codec_bits[j] = (codeword1 >> (22-i)) & 0x1;
-                        }
-                    }
-
-                    // extract data bit ------------------------------------------------------------
-
-                    data_flag_index = codec2_get_spare_bit_index(c2);
-                    //printf("data_flag_index: %d\n", data_flag_index);
-                    assert(data_flag_index != -1); // not supported for all rates
-
-                    short abit[2];
-                    abit[0] = codec_bits[data_flag_index];
-                    abit[1] = codec_bits[bits_per_codec_frame+11]; // use spare bit, note not FEC protected
-                    char  ascii_out;
-
-                    //printf("rx bits %d %d %d\n", abit[0], abit[1], bits_per_codec_frame+11);
-                    int n_ascii = varicode_decode(&g_varicode_dec_states, &ascii_out, abit, 1, wxGetApp().m_textEncoding);
-                    assert((n_ascii == 0) || (n_ascii == 1));
+#ifdef TODO
                     if (n_ascii) {
                         short ashort = ascii_out;
                         fifo_write(g_rxDataOutFifo, &ashort, 1);
                     }
+#endif
 
-                    // reconstruct missing bit we steal for data bit and decode speech
 
-                    valid = codec2_rebuild_spare_bit(c2, codec_bits);
-                    assert(valid != -1);
-
-                    // pack bits, MSB received first
-
-                    bit  = 7;
-                    byte = 0;
-                    memset(packed_bits, 0,  bytes_per_codec_frame);
-                    for(i = 0; i < bits_per_codec_frame; i++)
-                        {
-                            packed_bits[byte] |= (codec_bits[i] << bit);
-                            bit--;
-                            if(bit < 0)
-                                {
-                                    bit = 7;
-                                    byte++;
-                                }
-                        }
-
-                    // add decoded speech to end of output buffer
-
-                    assert(codec2_samples_per_frame(c2) == (2*N8));
-                    codec2_decode(c2, output_buf, packed_bits);
-                }
-
-                fifo_write(output_fifo, output_buf, codec2_samples_per_frame(c2));
-
-                break;
-        }
-        //printf("state: %d next_state: %d reliable_sync_bit: %d\n", *state, next_state, reliable_sync_bit);
-        *state = next_state;
-    }
-}
-
+#ifdef RM_ME
 void per_frame_tx_processing(
                                             short   tx_fdm_scaled[],// ouput modulated samples
                                             short   input_buf[],    // speech sample input
@@ -3548,7 +3263,7 @@ void per_frame_tx_processing(
         assert(i <= 2*bits_per_fdmdv_frame);
     }
 
-    if ((g_mode == MODE_1600) || (g_mode == MODE_1600_WIDE)) {
+    if ((g_mode == FREEDV_MODE_1600) || (g_mode == FREEDMODE_1600_WIDE)) {
         int data, codeword1;
 
         /* Protect first 12 out of first 16 excitation bits with (23,12) Golay Code:
@@ -3612,6 +3327,7 @@ void per_frame_tx_processing(
     }
 
 }
+#endif
 
 //-------------------------------------------------------------------------
 // txCallback()

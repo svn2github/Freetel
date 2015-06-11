@@ -592,18 +592,7 @@ int resample(SRC_STATE *src,
 void txRxProcessing();
 void per_frame_rx_processing(
                                         FIFO    *output_fifo,   // decoded speech samples
-                                        int     codec_bits[],  // current frame of bits for decoder
-                                        FIFO    *input_fifo,   // modem samples input to demod
-                                        int     *nin,          // amount of samples demod needs for next call
-                                        int     *state,        // used to collect codec_bits[] halves
-                                        struct  CODEC2 *c2     // Codec 2 states
+                                        FIFO    *input_fifo     // modem samples input to demod
                                     );
-
-void per_frame_tx_processing(
-                                            short   tx_fdm_scaled[], // ouput modulated samples
-                                            short   input_buf[],     // speech sample input
-                                            CODEC2  *c2              // Codec 2 states
-                        );
-
 
 #endif //__FDMDV2_MAIN__
