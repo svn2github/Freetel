@@ -32,7 +32,9 @@ ExternalProject_Add(wxWidgets
 
 ExternalProject_Get_Property(wxWidgets install_dir)
 message(STATUS "wxWidgets install dir: ${install_dir}")
-set(WXCONFIG "${install_dir}/bin/wx-config")
+if(NOT WXCONFIG)
+    set(WXCONFIG "${install_dir}/bin/wx-config")
+endif()
 if(EXISTS ${WXCONFIG})
     set(BS_WX_DONE TRUE)
 endif()
