@@ -30,7 +30,7 @@ $ make
 [FreeDV builds]
 $ ./src/freedv
 
-Note: add "-DCMAKE_BUILD_TYPE=Debug" the list above for debug (gcc -g) buildthat include source line numbers.
+Note: add "-DCMAKE_BUILD_TYPE=Debug" the list above for debug (gcc -g) buildthat include source line numbers and working asserts().
 
 Quickstart 2
 ------------
@@ -45,6 +45,26 @@ $ cmake ../ (defaults to /usr/local, use CMAKE_INSTALL_PREFIX to override)
 $ make
 (as root)
 $ make install
+
+
+=======================================================
+ Building for Windows on Ubuntu Linux (Cross compiling)
+=======================================================
+
+$  sudo apt-get install mingw-w64
+
+[step to wget hamlib]
+
+$ cd /path/to/fdmdv2
+$ mkdir build_windows
+$ cd build_windows
+$ cmake -DBOOTSTRAP_WXWIDGETS=TRUE /path/to/fdmdv2-dev -DCMAKE_TOOLCHAIN_FILE=cmake/Toolchain-Ubuntu-mingw32.cmake
+[wxWidgets builds]
+
+$ cmake -DBOOTSTRAP_WXWIDGETS=TRUE ~/tmp/fdmdv2-dev -DCMAKE_TOOLCHAIN_FILE=cmake/Toolchain-Ubuntu-mingw32.cmake -DUSE_STATIC_SAMPLERATE=true -DUSE_STATIC_SNDFILE=TRUE -DHAMLIB_INCLUDE_DIR=hamlib-win32-1.2.15.3/include -DHAMLIB_LIBRARY=hamlib-win32-1.2.15.3/lib
+
+
+
 
 ====================================
  Building and installing on Windows
