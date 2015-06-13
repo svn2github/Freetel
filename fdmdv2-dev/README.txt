@@ -138,25 +138,30 @@ TODO
 
 [ ] FreeDV 700 mode
     [ ] integrate freedv API
-        [ ] varicode, codec, modem states
-        [ ] tx and rx freq shifts
-        [ ] generic, mode indep, sync and snr?
+        [X] varicode, codec, modem states
+        [X] tx and rx freq shifts
+        [ ] generic, mode indep, sync, snr, scatter?
     [ ] add 700 to freedv API
         [ ] modem signal spectrum and stats consistent with fdmdv
+        [ ] clipper a check box, so we can see difference in spectrum
     [ ] how to handle Fs=7500 Hz?
     [ ] freedv api
         [ ] normalise output pwr across modes?
+            + or maybe peak output?
+            + option?
         [X] support for both varicodes
     [ ] test mode
         + get error patterns working again, both modes
         + how to plot error histogram
 [ ] Small fixes
-    [ ] win32 X-compile
     [X] Playfile bug
     [X] running again
     [X] bump ver number
     [X] long varicode default
     [X] option to _not_ require checksum, on by default
+    [X] default squelch 2dB
+    [ ] win32 X-compile
+    [ ] cmd line file decode
     [ ] Waterfall direction
     [ ] test mode on 1600 with freedv api
         + maybe calc stats, hist

@@ -300,18 +300,20 @@ TopFrame::TopFrame(wxWindow* parent, wxWindowID id, const wxString& title, const
     wxStaticBoxSizer* sbSizer_mode;
     sbSizer_mode = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Mode")), wxVERTICAL);
 
+#ifdef DISABLED_FEATURE
     m_rb1400old = new wxRadioButton( this, wxID_ANY, wxT("1400 V0.91"), wxDefaultPosition, wxDefaultSize, wxRB_GROUP);
     sbSizer_mode->Add(m_rb1400old, 0, wxALIGN_LEFT|wxALL, 1);
-#ifdef DISABLED_FEATURE
     m_rb1400 = new wxRadioButton( this, wxID_ANY, wxT("1400"), wxDefaultPosition, wxDefaultSize, 0);
     sbSizer_mode->Add(m_rb1400, 0, wxALIGN_LEFT|wxALL, 1);
 #endif
+    m_rb700 = new wxRadioButton( this, wxID_ANY, wxT("700"), wxDefaultPosition, wxDefaultSize, 0);
+    sbSizer_mode->Add(m_rb700, 0, wxALIGN_LEFT|wxALL, 1);
     m_rb1600 = new wxRadioButton( this, wxID_ANY, wxT("1600"), wxDefaultPosition, wxDefaultSize, 0);
     sbSizer_mode->Add(m_rb1600, 0, wxALIGN_LEFT|wxALL, 1);
     m_rb1600->SetValue(true);
+#ifdef DISABLED_FEATURE
     m_rb1600Wide = new wxRadioButton( this, wxID_ANY, wxT("1600 Wide"), wxDefaultPosition, wxDefaultSize, 0);
     sbSizer_mode->Add(m_rb1600Wide, 0, wxALIGN_LEFT|wxALL, 1);
-#ifdef DISABLED_FEATURE
     m_rb2000 = new wxRadioButton( this, wxID_ANY, wxT("2000"), wxDefaultPosition, wxDefaultSize, 0);
     sbSizer_mode->Add(m_rb2000, 0, wxALIGN_LEFT|wxALL, 1);
 #endif

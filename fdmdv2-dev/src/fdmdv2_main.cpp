@@ -69,7 +69,6 @@ struct FIFO         *g_txDataInFifo;
 struct FIFO         *g_rxDataOutFifo;
 
 // tx/rx processing states
-int                 g_nRxIn = FREEDV_NSAMPLES;
 int                 g_State;
 paCallBackData     *g_rxUserdata;
 
@@ -1935,6 +1934,7 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
         m_btnTogPTT->Enable();
 
         m_rb1600->Disable();
+        m_rb700->Disable();
 #ifdef DISABLED_FEATURE
         m_rb1600Wide->Disable();
         m_rb1400old->Disable();
@@ -2077,6 +2077,7 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
         m_btnTogPTT->Disable();
         m_togBtnOnOff->SetLabel(wxT("Start"));
         m_rb1600->Enable();
+        m_rb700->Enable();
 #ifdef DISABLED_FEATURE
         m_rb1400old->Enable();
         m_rb1600Wide->Enable();
@@ -2346,7 +2347,7 @@ void MainFrame::startRxStream()
         g_rxUserdata->outfifo2 = fifo_create(8*N48);
         g_rxUserdata->infifo2 = fifo_create(8*N48);
 
-        g_rxUserdata->rxinfifo = fifo_create(3 * FREEDV_NSAMPLES);
+        g_rxUserdata->rxinfifo = fifo_create(3 * g_pfreedv->n_speech_samples);
         g_rxUserdata->rxoutfifo = fifo_create(2 * codec2_samples_per_frame(g_pfreedv->codec2));
 
         // Init Equaliser Filters ------------------------------------------------------
@@ -3007,11 +3008,19 @@ void txRxProcessing()
                     out8k_short[i] = out;
                 }
             }
-            else
-                freedv_tx(g_pfreedv, out8k_short, in8k_short);
+            else {
+                COMP tx_fdm[g_pfreedv->n_nom_modem_samples];
+                COMP tx_fdm_offset[g_pfreedv->n_nom_modem_samples];
+                int  i;
 
-            // output 40ms of modem tone
-            nout = resample(cbData->outsrc1, out48k_short, out8k_short, g_soundCard1SampleRate, FS, N48, N8);
+                freedv_comptx(g_pfreedv, tx_fdm, in8k_short);
+                fdmdv_freq_shift(tx_fdm_offset, tx_fdm, g_TxFreqOffsetHz, &g_TxFreqOffsetPhaseRect, g_pfreedv->n_nom_modem_samples);
+                for(i=0; i<g_pfreedv->n_nom_modem_samples; i++)
+                    out8k_short[i] = tx_fdm_offset[i].real;
+            }
+
+            // output one frame of modem signal
+            nout = resample(cbData->outsrc1, out48k_short, out8k_short, g_soundCard1SampleRate, g_pfreedv->modem_sample_rate, N48, g_pfreedv->n_nom_modem_samples);
             g_mutexProtectingCallbackData.Lock();
             fifo_write(cbData->outfifo1, out48k_short, nout);
         }
@@ -3109,18 +3118,18 @@ void per_frame_rx_processing(
                                             FIFO    *input_fifo
                                         )
 {
-    short               input_buf[FREEDV_NSAMPLES];
+    short               input_buf[g_pfreedv->n_max_modem_samples];
     short               output_buf[N8];
-    COMP                rx_fdm[2*FREEDV_NSAMPLES];
-    COMP                rx_fdm_offset[2*FREEDV_NSAMPLES];
+    COMP                rx_fdm[g_pfreedv->n_max_modem_samples];
+    COMP                rx_fdm_offset[g_pfreedv->n_max_modem_samples];
     float               rx_spec[FDMDV_NSPEC];
     int                 i;
-    int                 nin, nin_prev;
+    int                 nin, nin_prev, nout;
 
     nin = freedv_nin(g_pfreedv);
     while (fifo_read(input_fifo, input_buf, nin) == 0)
     {
-        assert(nin <= 2*FREEDV_NSAMPLES);
+        assert(nin <= g_pfreedv->n_max_modem_samples);
 
         nin_prev = nin;
 
@@ -3135,7 +3144,9 @@ void per_frame_rx_processing(
             fdmdv_simulate_channel(g_pfreedv->fdmdv, rx_fdm, nin, 2.0);
         }
         fdmdv_freq_shift(rx_fdm_offset, rx_fdm, g_RxFreqOffsetHz,  &g_RxFreqOffsetPhaseRect, nin);
-        freedv_comprx(g_pfreedv, output_buf, rx_fdm_offset);
+        nout = freedv_comprx(g_pfreedv, output_buf, rx_fdm_offset);
+        fifo_write(output_fifo, output_buf, nout);
+
         nin = freedv_nin(g_pfreedv);
         g_State = g_pfreedv->fdmdv_stats.sync;
         g_snr   = g_pfreedv->fdmdv_stats.snr_est;
