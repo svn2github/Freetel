@@ -10,7 +10,7 @@ ExternalProject_Add(sndfile
     INSTALL_COMMAND $(MAKE) install
 )
 if(MINGW)
-    set(SNDFILE_LIBRARIES ${CMAKE_BINARY_DIR}/external/dist/bin/libsndfile-1.dll)
+    set(SNDFILE_LIBRARIES ${CMAKE_BINARY_DIR}/external/dist/lib/libsndfile.a)
 else()
     set(SNDFILE_LIBRARIES ${CMAKE_BINARY_DIR}/external/dist/lib/libsndfile.a)
 endif()

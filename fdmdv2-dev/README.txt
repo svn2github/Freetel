@@ -24,7 +24,7 @@ $ cmake -DCMAKE_BUILD_TYPE=Debug -DBOOTSTRAP_WXWIDGETS=TRUE -DCODEC2_INCLUDE_DIR
 
 OR build a local copy of codec2-dev:
 
-$ cmake cmake -DBOOTSTRAP_WXWIDGETS=TRUE -DUSE_STATIC_CODEC2=TRUE -DUSE_STATIC_PORTAUDIO=TRUE -DUSE_STATIC_SOX=TRUE ../
+$ cmake -DBOOTSTRAP_WXWIDGETS=TRUE -DUSE_STATIC_CODEC2=TRUE -DUSE_STATIC_PORTAUDIO=TRUE -DUSE_STATIC_SOX=TRUE ../
 
 $ make
 [FreeDV builds]
@@ -51,19 +51,21 @@ $ make install
  Building for Windows on Ubuntu Linux (Cross compiling)
 =======================================================
 
-$  sudo apt-get install mingw-w64
+Patch cmake using: http://www.cmake.org/gitweb?p=stage/cmake.git;a=patch;h=33286235048495ceafb636d549d9a4e8891967ae
 
-[step to wget hamlib]
-
-$ cd /path/to/fdmdv2
+$ sudo apt-get install mingw-w64
+$ cd /path/to/fdmdv2-dev
 $ mkdir build_windows
 $ cd build_windows
-$ cmake -DBOOTSTRAP_WXWIDGETS=TRUE /path/to/fdmdv2-dev -DCMAKE_TOOLCHAIN_FILE=cmake/Toolchain-Ubuntu-mingw32.cmake
+$ cmake -DBOOTSTRAP_WXWIDGETS=TRUE .. -DCMAKE_TOOLCHAIN_FILE=cmake/Toolchain-Ubuntu-mingw32.cmake
+$ make
+
 [wxWidgets builds]
 
-$ cmake -DBOOTSTRAP_WXWIDGETS=TRUE ~/tmp/fdmdv2-dev -DCMAKE_TOOLCHAIN_FILE=cmake/Toolchain-Ubuntu-mingw32.cmake -DUSE_STATIC_SAMPLERATE=true -DUSE_STATIC_SNDFILE=TRUE -DHAMLIB_INCLUDE_DIR=hamlib-win32-1.2.15.3/include -DHAMLIB_LIBRARY=hamlib-win32-1.2.15.3/lib
+$ wget http://internode.dl.sourceforge.net/project/hamlib/hamlib/1.2.15.3/hamlib-win32-1.2.15.3.zip
+$ unzip hamlib-win32-1.2.15.3.zip
 
-
+$ cmake -DBOOTSTRAP_WXWIDGETS=TRUE -DCMAKE_TOOLCHAIN_FILE=cmake/Toolchain-Ubuntu-mingw32.cmake -DUSE_STATIC_DEPS=TRUE -DHAMLIB_INCLUDE_DIR=hamlib-win32-1.2.15.3/include -DHAMLIB_LIBRARY=hamlib-win32-1.2.15.3/lib ..
 
 
 ====================================

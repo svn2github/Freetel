@@ -11,7 +11,7 @@ ExternalProject_Add(samplerate
 )
 if(WIN32)
     set(SAMPLERATE_LIBRARIES
-        ${CMAKE_BINARY_DIR}/external/dist/lib/samplerate.lib)
+        ${CMAKE_BINARY_DIR}/external/dist/lib/libsamplerate.a)
 else(WIN32)
     set(SAMPLERATE_LIBRARIES
         ${CMAKE_BINARY_DIR}/external/dist/lib/libsamplerate.a)
