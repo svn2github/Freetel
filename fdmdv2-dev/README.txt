@@ -146,7 +146,7 @@ TODO
     [ ] add 700 to freedv API
         [ ] modem signal spectrum and stats consistent with fdmdv
         [ ] clipper a check box, so we can see difference in spectrum
-    [ ] how to handle Fs=7500 Hz?
+        [ ] cohpsk snr est
     [ ] freedv api
         [ ] normalise output pwr across modes?
             + or maybe peak output?
@@ -155,6 +155,11 @@ TODO
     [ ] test mode
         + get error patterns working again, both modes
         + how to plot error histogram
+    [ ] file sample replay at 7500Hz work OK?
+    [X] interp of 8k to 7500Hz for analog bypass.
+    [ ] interp 7500 to 8k for spectrum plotting
+    [ ] filter around clipping
+        + to tcohpsk first
 [ ] Small fixes
     [X] Playfile bug
     [X] running again

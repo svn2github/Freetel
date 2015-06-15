@@ -322,16 +322,3 @@ PaError PortAudioWrap::setCallback(PaStreamCallback *callback)
     return paNoError;
 }
 
-/*
-//----------------------------------------------------------------
-// loadData() : create Dummy Data
-//----------------------------------------------------------------
-void PortAudioWrap::loadData()
-{
-    int i;
-    for(i = 0; i < FDMDV_NSPEC; i++)
-    {
-        m_av_mag[i] = i;
-    }
-}
-*/

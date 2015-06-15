@@ -37,7 +37,7 @@
 int                 g_Nc;
 int                 g_mode;
 struct freedv      *g_pfreedv;
-struct FDMDV_STATS  g_stats;
+struct MODEM_STATS  g_stats;
 float               g_pwr_scale;
 int                 g_clip;
 
@@ -53,7 +53,7 @@ struct FIFO        *g_errorFifo;
 int                 g_channel_noise;
 
 // time averaged magnitude spectrum used for waterfall and spectrum display
-float               g_avmag[FDMDV_NSPEC];
+float               g_avmag[MODEM_STATS_NSPEC];
 
 // GUI controls that affect rx and tx processes
 int   g_SquelchActive;
@@ -244,7 +244,7 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     {
         // Add Spectrum Plot window
         m_panelSpectrum = new PlotSpectrum((wxFrame*) m_auiNbookCtrl, g_avmag,
-                                           FDMDV_NSPEC*((float)MAX_F_HZ/FDMDV_MAX_F_HZ));
+                                           MODEM_STATS_NSPEC*((float)MAX_F_HZ/MODEM_STATS_MAX_F_HZ));
         m_panelSpectrum->SetToolTip(_("Left click to tune"));
         m_auiNbookCtrl->AddPage(m_panelSpectrum, _("Spectrum"), true, wxNullBitmap);
     }
@@ -294,7 +294,7 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     if(wxGetApp().m_show_test_frame_errors)
     {
         // Add Test Frame Errors window
-        m_panelTestFrameErrors = new PlotScalar((wxFrame*) m_auiNbookCtrl, 2*FDMDV_NC_MAX, 30.0, DT, 0, 2*FDMDV_NC_MAX+2, 1, 1, "", 1);
+        m_panelTestFrameErrors = new PlotScalar((wxFrame*) m_auiNbookCtrl, 2*MODEM_STATS_NC_MAX, 30.0, DT, 0, 2*MODEM_STATS_NC_MAX+2, 1, 1, "", 1);
         m_auiNbookCtrl->AddPage(m_panelTestFrameErrors, L"Test Frame Errors", true, wxNullBitmap);
     }
 
@@ -816,6 +816,8 @@ void MainFrame::lowerRTS(void)
 //----------------------------------------------------------------
 void MainFrame::OnTimer(wxTimerEvent &evt)
 {
+    int r;
+
     if (m_panelWaterfall->checkDT()) {
         m_panelWaterfall->setRxFreq(FDMDV_FCENTRE - g_RxFreqOffsetHz);
         m_panelWaterfall->m_newdata = true;
@@ -826,7 +828,8 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
     m_panelSpectrum->m_newdata = true;
     m_panelSpectrum->Refresh();
 
-    m_panelScatter->add_new_samples(g_stats.rx_symbols);
+    for (r=0; r<g_stats.nr; r++)
+        m_panelScatter->add_new_samples(&g_stats.rx_symbols[r][0]);
     m_panelScatter->Refresh();
 
     // Oscilliscope type speech plots -------------------------------------------------------
@@ -881,6 +884,7 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
     if (snr_limited < 0.0) snr_limited = 0;
     if (snr_limited > 20.0) snr_limited = 20.0;
     m_gaugeSNR->SetValue((int)(snr_limited));
+    //printf("snr_limited: %f\n", snr_limited);
 
     // Level Gauge -----------------------------------------------------------------------
 
@@ -888,7 +892,6 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
     if (!g_tx && m_RxRunning)
     {
         // receive mode - display From Radio peaks
-
         // peak from this DT sampling period
         int maxDemodIn = 0;
         for(int i=0; i<WAVEFORM_PLOT_BUF; i++)
@@ -921,6 +924,7 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
     // Peak Reading meter: updates peaks immediately, then slowly decays
     int maxScaled = (int)(100.0 * ((float)m_maxLevel/32767.0));
     m_gaugeLevel->SetValue(maxScaled);
+    //printf("maxScaled: %d\n", maxScaled);
     if (((float)maxScaled/100) > tooHighThresh)
         m_textLevel->SetLabel("Too High");
     else
@@ -1927,61 +1931,39 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
         // modify some button states when running
 
         m_togBtnSplit->Enable();
-        //m_togRxID->Enable();
-        //m_togTxID->Enable();
         m_togBtnAnalog->Enable();
         m_togBtnOnOff->SetLabel(wxT("Stop"));
         m_btnTogPTT->Enable();
 
         m_rb1600->Disable();
         m_rb700->Disable();
-#ifdef DISABLED_FEATURE
-        m_rb1600Wide->Disable();
-        m_rb1400old->Disable();
-        m_rb1400->Disable();
-        m_rb2000->Disable();
-#endif
+
         // determine what mode we are using
 
         if (m_rb1600->GetValue()) {
             g_mode = FREEDV_MODE_1600;
             g_Nc = 16;
         }
-#ifdef DISABLED_FEATURE
-        if (m_rb1600Wide->GetValue()) {
-            g_mode = MODE_1600_WIDE;
-            g_Nc = 16;
-            codec2_mode = CODEC2_MODE_1300;
-        }
-        if (m_rb1400old->GetValue()) {
-            g_mode = MODE_1400_V0_91;
+        if (m_rb700->GetValue()) {
+            g_mode = FREEDV_MODE_700;
             g_Nc = 14;
-            codec2_mode = CODEC2_MODE_1400;
         }
-        if (m_rb1400->GetValue()) {
-            g_mode = MODE_1400;
-            g_Nc = 14;
-            codec2_mode = CODEC2_MODE_1400;
-        }
-        if (m_rb2000->GetValue()) {
-            g_mode = MODE_2000;
-            g_Nc = 20;
-            codec2_mode = CODEC2_MODE_1400;
-        }
-        printf("g_mode: %d  Nc: %d  codec2_mode: %d\n", g_mode, g_Nc, codec2_mode);
-#endif
 
         // init freedv states
 
         g_pfreedv = freedv_open(g_mode);
         assert(g_pfreedv != NULL);
+        modem_stats_open(&g_stats);
+
+#ifdef TODO
         g_sz_error_pattern = fdmdv_error_pattern_size(g_pfreedv->fdmdv);
         g_error_pattern = (short*)malloc(g_sz_error_pattern*sizeof(short));
-        g_errorFifo = fifo_create(2*g_sz_error_pattern);
 
         assert(g_error_pattern != NULL);
 
         // adjust scatter diagram for Number of FDM carriers
+#endif
+        g_errorFifo = fifo_create(2*g_sz_error_pattern);
 
         m_panelScatter->setNc(g_Nc);
 
@@ -2066,6 +2048,7 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
 
         free(g_error_pattern);
         fifo_destroy(g_errorFifo);
+        modem_stats_close(&g_stats);
         freedv_close(g_pfreedv);
 
         m_newMicInFilter = m_newSpkOutFilter = true;
@@ -2348,7 +2331,7 @@ void MainFrame::startRxStream()
         g_rxUserdata->infifo2 = fifo_create(8*N48);
 
         g_rxUserdata->rxinfifo = fifo_create(3 * g_pfreedv->n_speech_samples);
-        g_rxUserdata->rxoutfifo = fifo_create(2 * codec2_samples_per_frame(g_pfreedv->codec2));
+        g_rxUserdata->rxoutfifo = fifo_create(2 * g_pfreedv->n_speech_samples);
 
         // Init Equaliser Filters ------------------------------------------------------
 
@@ -2825,6 +2808,7 @@ void txRxProcessing()
 
     // while we have enough input samples available ...
 
+    fprintf(stderr, "c");
     int nsam = g_soundCard1SampleRate * (float)N8/FS;
     assert(nsam <= N48);
     g_mutexProtectingCallbackData.Lock();
@@ -2833,7 +2817,8 @@ void txRxProcessing()
         g_mutexProtectingCallbackData.Unlock();
         unsigned int n8k;
 
-        n8k = resample(cbData->insrc1, in8k_short, in48k_short, FS, g_soundCard1SampleRate, N8, nsam);
+        n8k = resample(cbData->insrc1, in8k_short, in48k_short, g_pfreedv->modem_sample_rate, g_soundCard1SampleRate, N8, nsam);
+        assert(n8k <= N8);
 
         // optionally save "from radio" signal (write demod input to file)
         // Really useful for testing and development as it allows us
@@ -2941,7 +2926,7 @@ void txRxProcessing()
         {
             g_mutexProtectingCallbackData.Unlock();
 
-            int   nsam = g_soundCard2SampleRate * (float)codec2_samples_per_frame(g_pfreedv->codec2)/FS;
+            int   nsam = g_soundCard2SampleRate * g_pfreedv->n_speech_samples/FS;
             assert(nsam <= 2*N48);
 
             // infifo2 is written to by another sound card so it may
@@ -3026,6 +3011,8 @@ void txRxProcessing()
         }
         g_mutexProtectingCallbackData.Unlock();
     }
+    fprintf(stderr, "d");
+   
     //wxLogDebug("  end infifo1: %5d outfifo1: %5d\n", fifo_n(cbData->infifo1), fifo_n(cbData->outfifo1));
 }
 
@@ -3119,13 +3106,14 @@ void per_frame_rx_processing(
                                         )
 {
     short               input_buf[g_pfreedv->n_max_modem_samples];
-    short               output_buf[N8];
+    short               output_buf[g_pfreedv->n_speech_samples];
     COMP                rx_fdm[g_pfreedv->n_max_modem_samples];
     COMP                rx_fdm_offset[g_pfreedv->n_max_modem_samples];
-    float               rx_spec[FDMDV_NSPEC];
-    int                 i;
+    float               rx_spec[MODEM_STATS_NSPEC];
+    int                 i, ret;
     int                 nin, nin_prev, nout;
 
+    fprintf(stderr, "a ");
     nin = freedv_nin(g_pfreedv);
     while (fifo_read(input_fifo, input_buf, nin) == 0)
     {
@@ -3143,25 +3131,32 @@ void per_frame_rx_processing(
         if (g_channel_noise) {
             fdmdv_simulate_channel(g_pfreedv->fdmdv, rx_fdm, nin, 2.0);
         }
-        fdmdv_freq_shift(rx_fdm_offset, rx_fdm, g_RxFreqOffsetHz,  &g_RxFreqOffsetPhaseRect, nin);
+        fdmdv_freq_shift(rx_fdm_offset, rx_fdm, g_RxFreqOffsetHz, &g_RxFreqOffsetPhaseRect, nin);
         nout = freedv_comprx(g_pfreedv, output_buf, rx_fdm_offset);
-        fifo_write(output_fifo, output_buf, nout);
+        fprintf(stderr, "nin: %d nout: %d output_buf: %d %d ", nin, nout, output_buf[0], output_buf[nout-1]);
+        ret = fifo_write(output_fifo, output_buf, nout);
+        fprintf(stderr, "ret = %d\n", ret);
 
         nin = freedv_nin(g_pfreedv);
-        g_State = g_pfreedv->fdmdv_stats.sync;
-        g_snr   = g_pfreedv->fdmdv_stats.snr_est;
+        g_State = g_pfreedv->reliable_sync_bit;
+        g_snr   = g_pfreedv->snr_est;
 
         // compute rx spectrum & get demod stats, and update GUI plot data
-        fdmdv_get_rx_spectrum(g_pfreedv->fdmdv, rx_spec, rx_fdm, nin_prev);
-        fdmdv_get_demod_stats(g_pfreedv->fdmdv, &g_stats);
+
+        modem_stats_get_rx_spectrum(&g_stats, rx_spec, rx_fdm, nin_prev);
+        if (g_pfreedv->mode == FREEDV_MODE_1600)
+            fdmdv_get_demod_stats(g_pfreedv->fdmdv, &g_stats);
+        if (g_pfreedv->mode == FREEDV_MODE_700)
+            cohpsk_get_demod_stats(g_pfreedv->cohpsk, &g_stats);
 
         // Average rx spectrum data using a simple IIR low pass filter
-        for(i = 0; i < FDMDV_NSPEC; i++)
+        for(i = 0; i < MODEM_STATS_NSPEC; i++)
         {
             g_avmag[i] = BETA * g_avmag[i] + (1.0 - BETA) * rx_spec[i];
         }
 
     }
+    fprintf(stderr, "b ");
 }
 
 
@@ -3173,172 +3168,6 @@ void per_frame_rx_processing(
 #endif
 
 
-#ifdef RM_ME
-void per_frame_tx_processing(
-                                            short   tx_fdm_scaled[],// ouput modulated samples
-                                            short   input_buf[],    // speech sample input
-                                            CODEC2  *c2             // Codec 2 states
-                                        )
-{
-    unsigned char  packed_bits[MAX_BYTES_PER_CODEC_FRAME];
-    int            bits[2*MAX_BITS_PER_FDMDV_FRAME];
-    COMP           tx_fdm[2*FDMDV_NOM_SAMPLES_PER_FRAME];
-    COMP           tx_fdm_offset[2*FDMDV_NOM_SAMPLES_PER_FRAME];
-    int            sync_bit;
-    int            i, j, bit, byte, data_flag_index;
-    short          abit[2];
-    int            bits_per_fdmdv_frame, bits_per_codec_frame, bytes_per_codec_frame;
-
-    bits_per_fdmdv_frame = fdmdv_bits_per_frame(g_pFDMDV);
-    assert(bits_per_fdmdv_frame <= MAX_BITS_PER_FDMDV_FRAME);
-    bits_per_codec_frame = codec2_bits_per_frame(c2);
-    assert(bits_per_codec_frame <= MAX_BITS_PER_CODEC_FRAME);
-    bytes_per_codec_frame = (bits_per_codec_frame+7)/8;
-    assert(bytes_per_codec_frame <= MAX_BYTES_PER_CODEC_FRAME);
-
-    codec2_encode(c2, packed_bits, input_buf);
-
-    /* unpack bits, MSB first */
-
-    bit = 7; byte = 0;
-    for(i=0; i<bits_per_codec_frame; i++) {
-        bits[i] = (packed_bits[byte] >> bit) & 0x1;
-        bit--;
-        if (bit < 0) {
-            bit = 7;
-            byte++;
-        }
-    }
-
-    /* add data bit  ----------------------------------*/
-
-    // spare bit in frame that codec defines.  Use this 1
-    // bit/frame to send call sign data
-
-    data_flag_index = codec2_get_spare_bit_index(c2);
-    assert(data_flag_index != -1); // not supported for all rates
-
-    abit[0] = abit[1] = 0;
-    if (fifo_read(g_txDataInFifo, abit, wxGetApp().m_textEncoding) == 0) {
-        bits[data_flag_index] = abit[0];
-        bits[bits_per_codec_frame+11] = abit[1];  // spare bit that was unused in 1600 mode
-                                                  // note fast varicode must be sent two bits at a time 
-    }
-    else {
-        bits[data_flag_index] = 0;
-        bits[bits_per_codec_frame+11] = 0; 
-        printf("tx fifo empty - sending a 00!\n");
-    }
-
-    /* add FEC  ---------------------------------------*/
-
-    if (g_mode == MODE_2000) {
-        int data, codeword1, codeword2;
-
-        /* Protect first 24 bits with (23,12) Golay Code.  The first
-           24 bits are the most sensitive, as they contain the
-           pitch/energy VQ and voicing bits. This uses 56 + 11 + 11 =
-           78 bits, so we have two spare in 80 bit frame sent to
-           modem. */
-
-        /* first codeword */
-
-        data = 0;
-        for(i=0; i<12; i++) {
-            data <<= 1;
-            data |= bits[i];
-        }
-        codeword1 = golay23_encode(data);
-        //fprintf(stderr, "data1: 0x%x codeword1: 0x%x\n", data, codeword1);
-
-        /* second codeword */
-
-        data = 0;
-        for(i=12; i<24; i++) {
-            data <<= 1;
-            data |= bits[i];
-        }
-        codeword2 = golay23_encode(data);
-        //fprintf(stderr, "data: 0x%x codeword2: 0x%x\n", data, codeword2);
-
-        /* now pack output frame with parity bits at end to make them
-           as far apart as possible from the data the protect.  Parity
-           bits are LSB of the Golay codeword */
-
-        for(i=bits_per_codec_frame,j=0; i<bits_per_codec_frame+11; i++,j++) {
-            bits[i] = (codeword1 >> (10-j)) & 0x1;
-        }
-        for(j=0; i<bits_per_codec_frame+11+11; i++,j++) {
-            bits[i] = (codeword2 >> (10-j)) & 0x1;
-        }
-        assert(i <= 2*bits_per_fdmdv_frame);
-    }
-
-    if ((g_mode == FREEDV_MODE_1600) || (g_mode == FREEDMODE_1600_WIDE)) {
-        int data, codeword1;
-
-        /* Protect first 12 out of first 16 excitation bits with (23,12) Golay Code:
-
-           0,1,2,3: v[0]..v[3]
-           4,5,6,7: MSB of pitch
-           11,12,13,14: MSB of energy
-
-        */
-
-        data = 0;
-        for(i=0; i<8; i++) {
-            data <<= 1;
-            data |= bits[i];
-        }
-        for(i=11; i<15; i++) {
-            data <<= 1;
-            data |= bits[i];
-        }
-        data =
-        codeword1 = golay23_encode(data);
-
-        /* now pack output frame with parity bits at end to make them
-           as far apart as possible from the data they protect.  Parity
-           bits are LSB of the Golay codeword */
-
-        for(j=0,i=bits_per_codec_frame; i<bits_per_codec_frame+11; i++,j++) {
-            bits[i] = (codeword1 >> (10-j)) & 0x1;
-        }
-    }
-
-
-    /* if in test frame mode replace codec payload data with test frames */
-
-    if (g_testFrames) {
-	fdmdv_get_test_bits(g_pFDMDV, bits);
-	fdmdv_get_test_bits(g_pFDMDV, &bits[bits_per_fdmdv_frame]);
-    }
-
-    /* modulate even and odd frames */
-
-    fdmdv_mod(g_pFDMDV, tx_fdm, bits, &sync_bit);
-    assert(sync_bit == 1);
-
-    fdmdv_mod(g_pFDMDV, &tx_fdm[FDMDV_NOM_SAMPLES_PER_FRAME], &bits[bits_per_fdmdv_frame], &sync_bit);
-    assert(sync_bit == 0);
-
-    fdmdv_freq_shift(tx_fdm_offset, tx_fdm, g_TxFreqOffsetHz, &g_TxFreqOffsetPhaseRect, 2*FDMDV_NOM_SAMPLES_PER_FRAME);
-
-    /* compute scale factor to normalise tx power for all modes */
-
-    /* scale and convert to shorts */
-
-    for(i=0; i<2*FDMDV_NOM_SAMPLES_PER_FRAME; i++) {
-        float s =  tx_fdm_offset[i].real;
-        if (s > g_clip)
-            s = (float)g_clip;
-        if (s < -g_clip)
-            s = (float)-g_clip;
-        tx_fdm_scaled[i] = FDMDV_SCALE * g_pwr_scale * s;
-    }
-
-}
-#endif
 
 //-------------------------------------------------------------------------
 // txCallback()

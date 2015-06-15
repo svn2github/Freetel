@@ -68,6 +68,7 @@
 #include "codec2_fdmdv.h"
 #include "codec2_fifo.h"
 #include "golay23.h"
+#include "modem_stats.h"
 
 #include "topFrame.h"
 #include "dlg_ptt.h"
