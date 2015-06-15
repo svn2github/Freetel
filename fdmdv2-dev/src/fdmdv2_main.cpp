@@ -2808,7 +2808,6 @@ void txRxProcessing()
 
     // while we have enough input samples available ...
 
-    fprintf(stderr, "c");
     int nsam = g_soundCard1SampleRate * (float)N8/FS;
     assert(nsam <= N48);
     g_mutexProtectingCallbackData.Lock();
@@ -2869,7 +2868,7 @@ void txRxProcessing()
         // sync or in analog mode we pass thru the "from radio" audio
         // to the headphones/speaker.  When out of sync it's useful to
         // hear the audio from the channel, e.g. as a tuning aid
-
+        
         if ((g_State == 0) || g_analog) {
             memcpy(out8k_short, in8k_short, sizeof(short)*n8k);
         }
@@ -3011,7 +3010,6 @@ void txRxProcessing()
         }
         g_mutexProtectingCallbackData.Unlock();
     }
-    fprintf(stderr, "d");
    
     //wxLogDebug("  end infifo1: %5d outfifo1: %5d\n", fifo_n(cbData->infifo1), fifo_n(cbData->outfifo1));
 }
@@ -3110,10 +3108,9 @@ void per_frame_rx_processing(
     COMP                rx_fdm[g_pfreedv->n_max_modem_samples];
     COMP                rx_fdm_offset[g_pfreedv->n_max_modem_samples];
     float               rx_spec[MODEM_STATS_NSPEC];
-    int                 i, ret;
+    int                 i;
     int                 nin, nin_prev, nout;
 
-    fprintf(stderr, "a ");
     nin = freedv_nin(g_pfreedv);
     while (fifo_read(input_fifo, input_buf, nin) == 0)
     {
@@ -3133,12 +3130,11 @@ void per_frame_rx_processing(
         }
         fdmdv_freq_shift(rx_fdm_offset, rx_fdm, g_RxFreqOffsetHz, &g_RxFreqOffsetPhaseRect, nin);
         nout = freedv_comprx(g_pfreedv, output_buf, rx_fdm_offset);
-        fprintf(stderr, "nin: %d nout: %d output_buf: %d %d ", nin, nout, output_buf[0], output_buf[nout-1]);
-        ret = fifo_write(output_fifo, output_buf, nout);
-        fprintf(stderr, "ret = %d\n", ret);
-
+        
+        fifo_write(output_fifo, output_buf, nout);
+        
         nin = freedv_nin(g_pfreedv);
-        g_State = g_pfreedv->reliable_sync_bit;
+        g_State = g_pfreedv->sync;
         g_snr   = g_pfreedv->snr_est;
 
         // compute rx spectrum & get demod stats, and update GUI plot data
@@ -3156,7 +3152,6 @@ void per_frame_rx_processing(
         }
 
     }
-    fprintf(stderr, "b ");
 }
 
 
