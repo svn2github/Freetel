@@ -871,21 +871,19 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
 
     g_snr = m_snrBeta*g_snr + (1.0 - m_snrBeta)*g_stats.snr_est;
     float snr_limited = g_snr;
+    if (snr_limited < -5.0) snr_limited = -5.0;
+    if (snr_limited > 20.0) snr_limited = 20.0;
 
-    if (snr_limited < -9.0) snr_limited = -9.0; // stop text box overflow
     char snr[15];
-    if (wxGetApp().m_snrSlow)
-        sprintf(snr, "%4.1f", snr_limited);
-    else
-        sprintf(snr, "%d", (int)(snr_limited+0.5)); // round to nearest dB
+    sprintf(snr, "%d", (int)(snr_limited+0.5)); // round to nearest dB
+
+    //printf("snr_est: %f m_snrBeta: %f g_snr: %f snr_limited: %f\n", g_stats.snr_est,  m_snrBeta, g_snr, snr_limited);
+
     wxString snr_string(snr);
     m_textSNR->SetLabel(snr_string);
+    m_gaugeSNR->SetValue((int)(snr_limited+5));
 
-    if (snr_limited < 0.0) snr_limited = 0;
-    if (snr_limited > 20.0) snr_limited = 20.0;
-    m_gaugeSNR->SetValue((int)(snr_limited));
-    //printf("snr_limited: %f\n", snr_limited);
-
+ 
     // Level Gauge -----------------------------------------------------------------------
 
     float tooHighThresh;
@@ -1194,7 +1192,7 @@ void MainFrame::setsnrBeta(bool snrSlow)
 {
     if(snrSlow)
     {
-        m_snrBeta = 0.9; // make this closer to 1.0 to smooth SNR est further
+        m_snrBeta = 0.95; // make this closer to 1.0 to smooth SNR est further
     }
     else
     {
@@ -2728,13 +2726,13 @@ int resample(SRC_STATE *src,
             )
 {
     SRC_DATA src_data;
-    float    input[N48*2];
-    float    output[N48*2];
+    float    input[N48*4];
+    float    output[N48*4];
     int      ret;
 
     assert(src != NULL);
-    assert(length_input_short <= N48*2);
-    assert(length_output_short <= N48*2);
+    assert(length_input_short <= N48*4);
+    assert(length_output_short <= N48*4);
 
     src_short_to_float_array(input_short, input, length_input_short);
 
@@ -2794,10 +2792,10 @@ void txRxProcessing()
     // signals in in48k/out48k are at a maximum sample rate of 48k, could be 44.1kHz
     // depending on sound hardware.
 
-    short           in8k_short[N8];
-    short           in48k_short[N48];
-    short           out8k_short[N8];
-    short           out48k_short[N48];
+    short           in8k_short[4*N8];
+    short           in48k_short[4*N48];
+    short           out8k_short[4*N8];
+    short           out48k_short[4*N48];
     int             nout;
 
     //wxLogDebug("start infifo1: %5d outfifo1: %5d\n", fifo_n(cbData->infifo1), fifo_n(cbData->outfifo1));
@@ -2926,7 +2924,7 @@ void txRxProcessing()
             g_mutexProtectingCallbackData.Unlock();
 
             int   nsam = g_soundCard2SampleRate * g_pfreedv->n_speech_samples/FS;
-            assert(nsam <= 2*N48);
+            assert(nsam <= 4*N48);
 
             // infifo2 is written to by another sound card so it may
             // over or underflow, but we don't realy care.  It will
@@ -3135,7 +3133,6 @@ void per_frame_rx_processing(
         
         nin = freedv_nin(g_pfreedv);
         g_State = g_pfreedv->sync;
-        g_snr   = g_pfreedv->snr_est;
 
         // compute rx spectrum & get demod stats, and update GUI plot data
 

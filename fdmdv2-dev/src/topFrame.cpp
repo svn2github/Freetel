@@ -113,7 +113,7 @@ TopFrame::TopFrame(wxWindow* parent, wxWindowID id, const wxString& title, const
     //------------------------------
     // S/N ratio Guage (vert. bargraph)
     //------------------------------
-    m_gaugeSNR = new wxGauge(this, wxID_ANY, 20, wxDefaultPosition, wxSize(15,135), wxGA_SMOOTH|wxGA_VERTICAL);
+    m_gaugeSNR = new wxGauge(this, wxID_ANY, 25, wxDefaultPosition, wxSize(15,135), wxGA_SMOOTH|wxGA_VERTICAL);
     m_gaugeSNR->SetToolTip(_("Displays signal to noise ratio in dB."));
     snrSizer->Add(m_gaugeSNR, 1, wxALIGN_CENTER_HORIZONTAL|wxALL, 10);
 

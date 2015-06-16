@@ -139,27 +139,25 @@ TODO
 ====
 
 [ ] FreeDV 700 mode
-    [ ] integrate freedv API
+    [X] interp of 8k to 7500Hz for analog bypass.
+    [X] integrate freedv API
         [X] varicode, codec, modem states
         [X] tx and rx freq shifts
-        [ ] generic, mode indep, sync, snr, scatter?
+        [X] generic, mode indep, sync, snr, scatter?
+        [ ] text working on 700
     [ ] add 700 to freedv API
-        [ ] modem signal spectrum and stats consistent with fdmdv
+        [X] modem signal spectrum and stats consistent with fdmdv
+        [X] rx from file works
+        [ ] tx works
         [ ] clipper a check box, so we can see difference in spectrum
         [ ] cohpsk snr est
-    [ ] freedv api
-        [ ] normalise output pwr across modes?
-            + or maybe peak output?
-            + option?
-        [X] support for both varicodes
     [ ] test mode
-        + get error patterns working again, both modes
-        + how to plot error histogram
+        [ ] get error patterns working again, both 700 and 1600
+        [ ] how to plot error histogram
     [ ] file sample replay at 7500Hz work OK?
-    [X] interp of 8k to 7500Hz for analog bypass.
     [ ] interp 7500 to 8k for spectrum plotting
-    [ ] filter around clipping
-        + to tcohpsk first
+    [ ] bpf filter after clipping
+        [ ] tcohpsk first
 [ ] Small fixes
     [X] Playfile bug
     [X] running again
