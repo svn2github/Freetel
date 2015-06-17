@@ -20,12 +20,18 @@ On Linux systems try installing:
     )
 endif(UNIX AND NOT AO_LIBRARIES)
 
+if(MINGW AND CMAKE_CROSSCOMPILING)
+    set(CONFIGURE_COMMAND ./configure --build=${HOST} --host=${HOST} --target=${HOST} --enable-shared=no --without-id3tag --without-png --disable-gomp --with-oggvorbis=no --with-oss=no --with-flac=no --with-amrnb=no --with-amrwb=no --with-mp3=no --with-wavpack=no --disable-dl-sndfile --with-pulseaudio=no --without-magic --prefix=${CMAKE_BINARY_DIR}/external/dist)
+else()
+    set(CONFIGURE_COMMAND ./configure --enable-shared=no --without-id3tag --without-png --disable-gomp --with-oggvorbis=no --with-oss=no --with-flac=no --with-amrnb=no --with-amrwb=no --with-mp3=no --with-wavpack=no --disable-dl-sndfile --with-pulseaudio=no --without-magic --prefix=${CMAKE_BINARY_DIR}/external/dist)
+endif()
+
 include(ExternalProject)
 ExternalProject_Add(sox
     URL http://downloads.sourceforge.net/sox/${SOX_TARBALL}.tar.gz
     BUILD_IN_SOURCE 1
     INSTALL_DIR external/dist
-    CONFIGURE_COMMAND ./configure --enable-shared=no --without-id3tag --without-png --disable-gomp --with-oggvorbis=no --with-oss=no --with-flac=no --with-amrnb=no --with-amrwb=no --with-mp3=no --with-wavpack=no --disable-dl-sndfile --with-pulseaudio=no --without-magic --prefix=${CMAKE_BINARY_DIR}/external/dist
+    CONFIGURE_COMMAND ${CONFIGURE_COMMAND}
     BUILD_COMMAND $(MAKE) V=1
     INSTALL_COMMAND $(MAKE) install
 )

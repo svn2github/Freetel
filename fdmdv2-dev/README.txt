@@ -8,65 +8,73 @@ Quickstart 1
 Builds static versions of wxWidgets, portaudio, codec2-dev, which are commonly
 missing on many Linux systems, or of the wrong (older) version.
 
-Assuming the freedv-dev sources is checked out into ~/fdmdv2-dev:
+1/ Assuming the freedv-dev sources is checked out into ~/fdmdv2-dev:
 
-$ sudo apt-get install libgtk2.0-dev libhamlib-dev libsamplerate-dev libasound2-dev libao-dev
-$ cd fdmdv2-dev
-$ mkdir build_linux
-$ cd build_linux
-$ cmake -DBOOTSTRAP_WXWIDGETS=TRUE ~/fdmdv2-dev
-$ make
-[wxWidgets builds]
+  $ sudo apt-get install libgtk2.0-dev libhamlib-dev libsamplerate-dev libasound2-dev libao-dev
+  $ cd fdmdv2-dev
+  $ mkdir build_linux
+  $ cd build_linux
+  $ cmake -DBOOTSTRAP_WXWIDGETS=TRUE ~/fdmdv2-dev
+  $ make
 
-Then you can use your local codec-dev, something like:
+2/ Then you can configure FreeDV using your local codec-dev, something like:
 
-$ cmake -DCMAKE_BUILD_TYPE=Debug -DBOOTSTRAP_WXWIDGETS=TRUE -DCODEC2_INCLUDE_DIRS=/home/david/codec2-dev/src -DCODEC2_LIBRARY=/home/david/codec2-dev/build_linux/src/libcodec2.so -DUSE_STATIC_CODEC2=FALSE -DUSE_STATIC_PORTAUDIO=TRUE -DUSE_STATIC_SOX=TRUE ../
+  $ cmake -DCMAKE_BUILD_TYPE=Debug -DBOOTSTRAP_WXWIDGETS=TRUE -DCODEC2_INCLUDE_DIRS=/home/david/codec2-dev/src -DCODEC2_LIBRARY=/home/david/codec2-dev/build_linux/src/libcodec2.so -DUSE_STATIC_CODEC2=FALSE -DUSE_STATIC_PORTAUDIO=TRUE -DUSE_STATIC_SOX=TRUE ../
 
-OR build a local copy of codec2-dev:
+3/ OR build a local copy of codec2-dev:
 
-$ cmake -DBOOTSTRAP_WXWIDGETS=TRUE -DUSE_STATIC_CODEC2=TRUE -DUSE_STATIC_PORTAUDIO=TRUE -DUSE_STATIC_SOX=TRUE ../
+  $ cmake -DBOOTSTRAP_WXWIDGETS=TRUE -DUSE_STATIC_CODEC2=TRUE -DUSE_STATIC_PORTAUDIO=TRUE -DUSE_STATIC_SOX=TRUE ../
+  
+4/ Build and run FreeDV:
 
-$ make
-[FreeDV builds]
-$ ./src/freedv
-
-Note: add "-DCMAKE_BUILD_TYPE=Debug" the list above for debug (gcc -g) buildthat include source line numbers and working asserts().
+   $ make
+   $ ./src/freedv
 
 Quickstart 2
 ------------
 
-Assuming you have all the dependant libraries:
+1/ Assuming you have all the dependant libraries:
 
-$ cd /path/to/fdmdv2
-$ mkdir build_linux
-$ cd build_linux
-$ cmake ../ (defaults to /usr/local, use CMAKE_INSTALL_PREFIX to override)
-(if no errors)
-$ make
-(as root)
-$ make install
+  $ cd /path/to/fdmdv2
+  $ mkdir build_linux
+  $ cd build_linux
+  $ cmake ../ (defaults to /usr/local, use CMAKE_INSTALL_PREFIX to override)
+  (if no errors)
+  $ make
+  (as root)
+  $ make install
 
 
 =======================================================
  Building for Windows on Ubuntu Linux (Cross compiling)
 =======================================================
 
-Patch cmake using: http://www.cmake.org/gitweb?p=stage/cmake.git;a=patch;h=33286235048495ceafb636d549d9a4e8891967ae
+1/ Install the cross compiling toolchain:
 
-$ sudo apt-get install mingw-w64
-$ cd /path/to/fdmdv2-dev
-$ mkdir build_windows
-$ cd build_windows
-$ cmake -DBOOTSTRAP_WXWIDGETS=TRUE .. -DCMAKE_TOOLCHAIN_FILE=cmake/Toolchain-Ubuntu-mingw32.cmake
-$ make
+  $ sudo apt-get install mingw-w64
 
-[wxWidgets builds]
+2/ Patch cmake using: http://www.cmake.org/gitweb?p=stage/cmake.git;a=patch;h=33286235048495ceafb636d549d9a4e8891967ae
 
-$ wget http://internode.dl.sourceforge.net/project/hamlib/hamlib/1.2.15.3/hamlib-win32-1.2.15.3.zip
-$ unzip hamlib-win32-1.2.15.3.zip
+3/ Checkout a fresh copy of codec2-dev and build for Windows, pointing to the generate_codebook built by a linux build of generate_codebook, using this cmake line
 
-$ cmake -DBOOTSTRAP_WXWIDGETS=TRUE -DCMAKE_TOOLCHAIN_FILE=cmake/Toolchain-Ubuntu-mingw32.cmake -DUSE_STATIC_DEPS=TRUE -DHAMLIB_INCLUDE_DIR=hamlib-win32-1.2.15.3/include -DHAMLIB_LIBRARY=hamlib-win32-1.2.15.3/lib ..
+  $ cmake .. -DCMAKE_TOOLCHAIN_FILE=../fdmdv2-dev/cmake/Toolchain-Ubuntu-mingw32.cmake -DUNITTEST=FALSE -DGENERATE_CODEBOOK=/home/david/codec2-dev/build_linux/src/generate_codebook
 
+4/ Build WxWidgets
+
+  $ cd /path/to/fdmdv2-dev
+  $ mkdir build_windows
+  $ cd build_windows
+  $ cmake -DBOOTSTRAP_WXWIDGETS=TRUE .. -DCMAKE_TOOLCHAIN_FILE=cmake/Toolchain-Ubuntu-mingw32.cmake
+  $ make
+
+5/ Download and install the Windows version of Hamlib:
+
+  $ wget http://internode.dl.sourceforge.net/project/hamlib/hamlib/1.2.15.3/hamlib-win32-1.2.15.3.zip
+  $ unzip hamlib-win32-1.2.15.3.zip
+
+6/ Build All the libraries and FreeDV:
+
+  $ cmake -DBOOTSTRAP_WXWIDGETS=TRUE -DCMAKE_TOOLCHAIN_FILE=cmake/Toolchain-Ubuntu-mingw32.cmake -DUSE_STATIC_PORTAUDIO=TRUE -DUSE_STATIC_SNDFILE=TRUE -DUSE_STATIC_SAMPLERATE=TRUE -DUSE_STATIC_SOX=TRUE -DUSE_STATIC_CODEC2=FALSE -DCODEC2_INCLUDE_DIRS=/home/david/tmp/codec2-dev/src -DCODEC2_LIBRARY=/home/david/tmp/codec2-dev/build_windows/src/libcodec2.dll.a -DHAMLIB_INCLUDE_DIR=hamlib-win32-1.2.15.3/include -DHAMLIB_LIBRARY=hamlib-win32-1.2.15.3/lib/gcc/libhamlib.dll.a ..
 
 ====================================
  Building and installing on Windows
@@ -151,6 +159,13 @@ TODO
         [ ] tx works
         [ ] clipper a check box, so we can see difference in spectrum
         [ ] cohpsk snr est
+        [ ] squelch
+        [ ] from radio plot broken
+    [ ] freedv api
+        [ ] normalise output pwr across modes?
+            + or maybe peak output?
+            + option?
+        [X] support for both varicodes
     [ ] test mode
         [ ] get error patterns working again, both 700 and 1600
         [ ] how to plot error histogram

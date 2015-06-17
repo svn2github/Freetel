@@ -1,11 +1,17 @@
 set(SPEEXDSP_TARBALL "speexdsp-1.2rc3.tar.gz")
 
+if(MINGW AND CMAKE_CROSSCOMPILING)
+    set(CONFIGURE_COMMAND ./configure --host=${HOST} --prefix=${CMAKE_BINARY_DIR}/external/dist --disable-examples)
+else()
+    set(CONFIGURE_COMMAND ./configure --prefix=${CMAKE_BINARY_DIR}/external/dist --disable-examples)
+endif()
+
 include(ExternalProject)
 ExternalProject_Add(speex
    URL http://downloads.xiph.org/releases/speex/${SPEEXDSP_TARBALL}
    BUILD_IN_SOURCE 1
    INSTALL_DIR external/dist
-   CONFIGURE_COMMAND ./configure --prefix=${CMAKE_BINARY_DIR}/external/dist --disable-examples
+   CONFIGURE_COMMAND ${CONFIGURE_COMMAND}
    BUILD_COMMAND $(MAKE)
    INSTALL_COMMAND $(MAKE) install
 )
