@@ -124,6 +124,7 @@ SpeexPreprocessState *g_speex_st;
 // WxWidgets - initialize the application
 IMPLEMENT_APP(MainApp);
 
+
 //-------------------------------------------------------------------------
 // OnInit()
 //-------------------------------------------------------------------------
@@ -484,11 +485,6 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
 
     optionsDlg = new OptionsDlg(NULL);
     m_schedule_restore = false;
-
-    // Init Speex pre-processor states
-    // by inspecting Speex source it seems that only denoiser is on be default
-
-    g_speex_st = speex_preprocess_state_init(2*N8, FS); 
 
 }
 
@@ -951,23 +947,20 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
     if ((unsigned)fifo_used(g_txDataInFifo) < strlen(callsign)) {
 
         unsigned char checksum = 0;
-        for(unsigned int i=0; i<strlen(callsign); i++)
+        unsigned int  i;
+        for(i=0; i<strlen(callsign); i++)
             checksum += callsign[i];
         char callsign_checksum_cr[MAX_CALLSIGN+1];
         sprintf(callsign_checksum_cr, "%s%2x", callsign, checksum);
         //printf("callsign_checksum_cr: %s\n", callsign_checksum_cr);
         callsign_checksum_cr[strlen(callsign)+2] = 13;
  
-        // varicode encode and write to tx data fifo
+        // write chars to tx data fifo
 
-        short varicode[MAX_CALLSIGN*VARICODE_MAX_BITS];
-        int nout = varicode_encode(varicode, callsign_checksum_cr, MAX_CALLSIGN*VARICODE_MAX_BITS, strlen(callsign)+3, wxGetApp().m_textEncoding);
-        //printf("\ntx varicode nout = %d: ", nout);
-        //for(int i=0; i<nout; i++)
-        //    printf("%d ", varicode[i]);
-        //printf("\n");
-        fifo_write(g_txDataInFifo, varicode, nout);
-        //printf("Callsign sending: %s nout: %d\n", callsign, nout);
+        for(i=0; i<=strlen(callsign_checksum_cr); i++) {
+            short ashort = (short)callsign_checksum_cr[i];
+            fifo_write(g_txDataInFifo, &ashort, 1);
+        }
     }
 
     // See if any Callsign info received --------------------------------
@@ -1950,8 +1943,18 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
         // init freedv states
 
         g_pfreedv = freedv_open(g_mode);
+        g_pfreedv->callback_state = NULL;
+        g_pfreedv->freedv_get_next_tx_char = &my_get_next_tx_char;
+        g_pfreedv->freedv_put_next_rx_char = &my_put_next_rx_char;
+
+        //cohpsk_set_verbose(g_pfreedv->cohpsk, 1);
         assert(g_pfreedv != NULL);
         modem_stats_open(&g_stats);
+
+        // Init Speex pre-processor states
+        // by inspecting Speex source it seems that only denoiser is on be default
+
+        g_speex_st = speex_preprocess_state_init(g_pfreedv->n_speech_samples, FS); 
 
 #ifdef TODO
         g_sz_error_pattern = fdmdv_error_pattern_size(g_pfreedv->fdmdv);
@@ -2048,7 +2051,7 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
         fifo_destroy(g_errorFifo);
         modem_stats_close(&g_stats);
         freedv_close(g_pfreedv);
-
+        speex_preprocess_state_destroy(g_speex_st);
         m_newMicInFilter = m_newSpkOutFilter = true;
 
         m_togBtnSplit->Disable();
@@ -2324,7 +2327,7 @@ void MainFrame::startRxStream()
         // create FIFOs used to interface between different buffer sizes
 
         g_rxUserdata->infifo1 = fifo_create(8*N48);
-        g_rxUserdata->outfifo1 = fifo_create(8*N48);
+        g_rxUserdata->outfifo1 = fifo_create(10*N48);
         g_rxUserdata->outfifo2 = fifo_create(8*N48);
         g_rxUserdata->infifo2 = fifo_create(8*N48);
 
@@ -2762,9 +2765,7 @@ void resample_for_plot(struct FIFO *plotFifo, short buf[], int length)
     int decimation = FS/WAVEFORM_PLOT_FS;
     int nSamples, sample;
     int i, st, en, max, min;
-    short dec_samples[2*N8];
-
-    assert(length <= 2*N8);
+    short dec_samples[length];
 
     nSamples = length/decimation;
 
@@ -2862,6 +2863,7 @@ void txRxProcessing()
 
         per_frame_rx_processing(cbData->rxoutfifo, cbData->rxinfifo);
 
+#ifdef TMPa
         // Get some audio to send to headphones/speaker.  If out of
         // sync or in analog mode we pass thru the "from radio" audio
         // to the headphones/speaker.  When out of sync it's useful to
@@ -2872,9 +2874,10 @@ void txRxProcessing()
         }
         else {
             // we are in sync so use decoded audio
-            memset(out8k_short, 0, sizeof(short)*N8);
-            fifo_read(cbData->rxoutfifo, out8k_short, N8);
         }
+#endif
+        memset(out8k_short, 0, sizeof(short)*N8);
+        fifo_read(cbData->rxoutfifo, out8k_short, N8);
 
         // Optional Spk Out EQ Filtering, need mutex as filter can change at run time
         g_mutexProtectingCallbackData.Lock();
@@ -2911,8 +2914,9 @@ void txRxProcessing()
     //
 
     if ((g_nSoundCards == 2) && ((g_half_duplex && g_tx) || !g_half_duplex)) {
+        int ret;
 
-        // Make sure we have at least 6 frames of modulator output
+        // Make sure we have q few frames of modulator output
         // samples.  This also locks the modulator to the sample rate
         // of sound card 1.  We want to make sure that modulator
         // samples are uninterrupted by differences in sample rate
@@ -2936,13 +2940,14 @@ void txRxProcessing()
             memset(in48k_short, 0, nsam*sizeof(short));
             fifo_read(cbData->infifo2, in48k_short, nsam);
 
-            nout = resample(cbData->insrc2, in8k_short, in48k_short, FS, g_soundCard2SampleRate, 2*N8, nsam);
+            nout = resample(cbData->insrc2, in8k_short, in48k_short, FS, g_soundCard2SampleRate, 4*N8, nsam);
 
             // optionally use file for mic input signal
 
             g_mutexProtectingCallbackData.Lock();
             if (g_playFileToMicIn && (g_sfPlayFile != NULL)) {
                 int n = sf_read_short(g_sfPlayFile, in8k_short, nout);
+                //fprintf(stderr, "n: %d nout: %d\n", n, nout);
                 if (n != nout) {
                     if (g_loopPlayFileToMicIn)
                         sf_seek(g_sfPlayFile, 0, SEEK_SET);
@@ -2983,7 +2988,7 @@ void txRxProcessing()
                 // of the peak level for normal SSB voice. So we
                 // introduce 6dB gain to make analog SSB sound the
                 // same level as the digital.  Watch out for clipping.
-                for(int i=0; i<2*N8; i++) {
+                for(int i=0; i<g_pfreedv->n_nom_modem_samples; i++) {
                     float out = (float)in8k_short[i]*2.0;
                     if (out > 32767) out = 32767.0;
                     if (out < -32767) out = -32767.0;
@@ -2996,15 +3001,19 @@ void txRxProcessing()
                 int  i;
 
                 freedv_comptx(g_pfreedv, tx_fdm, in8k_short);
+  
                 fdmdv_freq_shift(tx_fdm_offset, tx_fdm, g_TxFreqOffsetHz, &g_TxFreqOffsetPhaseRect, g_pfreedv->n_nom_modem_samples);
                 for(i=0; i<g_pfreedv->n_nom_modem_samples; i++)
                     out8k_short[i] = tx_fdm_offset[i].real;
             }
 
             // output one frame of modem signal
-            nout = resample(cbData->outsrc1, out48k_short, out8k_short, g_soundCard1SampleRate, g_pfreedv->modem_sample_rate, N48, g_pfreedv->n_nom_modem_samples);
+            nout = resample(cbData->outsrc1, out48k_short, out8k_short, g_soundCard1SampleRate, g_pfreedv->modem_sample_rate, N48*4, g_pfreedv->n_nom_modem_samples);
             g_mutexProtectingCallbackData.Lock();
-            fifo_write(cbData->outfifo1, out48k_short, nout);
+            ret = fifo_write(cbData->outfifo1, out48k_short, nout);
+            //fprintf(stderr,"nout: %d ret: %d N48*4: %d\n", nout, ret, N48*4);
+
+            assert(ret != -1);
         }
         g_mutexProtectingCallbackData.Unlock();
     }
@@ -3405,4 +3414,18 @@ void *UDPThread::Entry() {
         wxThread::Sleep(20);
     }
     return NULL;
+}
+
+
+char my_get_next_tx_char(void *callback_state) {
+    short ch = 0;
+
+    fifo_read(g_txDataInFifo, &ch, 1);
+ 
+    return (char)ch;
+}
+
+void my_put_next_rx_char(void *callback_state, char c) {
+    short ch = (short)c;
+    fifo_write(g_rxDataOutFifo, &ch, 1);
 }

@@ -596,4 +596,7 @@ void per_frame_rx_processing(
                                         FIFO    *input_fifo     // modem samples input to demod
                                     );
 
+char my_get_next_tx_char(void *callback_state);
+void my_put_next_rx_char(void *callback_state, char c);
+
 #endif //__FDMDV2_MAIN__

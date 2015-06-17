@@ -152,13 +152,16 @@ TODO
         [X] varicode, codec, modem states
         [X] tx and rx freq shifts
         [X] generic, mode indep, sync, snr, scatter?
-        [ ] text working on 700
+        [ ] text working on 700 and 1600
+        [ ] char by char text appearing
     [ ] add 700 to freedv API
         [X] modem signal spectrum and stats consistent with fdmdv
         [X] rx from file works
-        [ ] tx works
+        [X] cohpsk snr est
+        [X] tx works in full duplex
         [ ] clipper a check box, so we can see difference in spectrum
-        [ ] cohpsk snr est
+        [ ] analog mode
+            + complicated by sample rate change
         [ ] squelch
         [ ] from radio plot broken
     [ ] freedv api
@@ -181,9 +184,12 @@ TODO
     [X] option to _not_ require checksum, on by default
     [X] default squelch 2dB
     [ ] win32 X-compile
+        [ ] installer
+        [ ] works
     [ ] cmd line file decode
     [ ] Waterfall direction
     [ ] test mode on 1600 with freedv api
         + maybe calc stats, hist
+    [ ] from radio display breaking up
 [ ] Presence/spotting hooks
 
