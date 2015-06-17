@@ -252,6 +252,8 @@ class MainApp : public wxApp
 
         int        FilterEvent(wxEvent& event);
         MainFrame *frame;
+
+        bool       m_FreeDV700txClip;
     protected:
 };
 
@@ -595,6 +597,8 @@ void per_frame_rx_processing(
                                         FIFO    *output_fifo,   // decoded speech samples
                                         FIFO    *input_fifo     // modem samples input to demod
                                     );
+
+// FreeDv API calls these puppies when it needs/receives a text char 
 
 char my_get_next_tx_char(void *callback_state);
 void my_put_next_rx_char(void *callback_state, char c);

@@ -51,6 +51,20 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
     bSizer30->Add(sbSizer_testFrames,0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 3);
 
     //------------------------------
+    // FreeDV 700 Options
+    //------------------------------
+
+    wxStaticBoxSizer* sbSizer_freedv700;
+    wxStaticBox *sb_freedv700 = new wxStaticBox(this, wxID_ANY, _("FreeDV 700 Clipping"));
+    sbSizer_freedv700 = new wxStaticBoxSizer(sb_freedv700, wxHORIZONTAL);
+
+    m_ckboxFreeDV700txClip = new wxCheckBox(this, wxID_ANY, _("Enable"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
+    m_ckboxFreeDV700txClip->SetToolTip(_("Clip FreeDv 700 tx waveform to reduce Peak to Average Power Ratio (PAPR)"));
+    sbSizer_freedv700->Add(m_ckboxFreeDV700txClip, 0, wxALIGN_LEFT, 0);
+
+    bSizer30->Add(sbSizer_freedv700,0, wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 3);
+
+    //------------------------------
     // Txt Msg Text Box
     //------------------------------
 
@@ -175,6 +189,8 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
     m_sdbSizer5Cancel->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(OptionsDlg::OnCancel), NULL, this);
     m_sdbSizer5Apply->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(OptionsDlg::OnApply), NULL, this);
 
+    m_ckboxFreeDV700txClip->Connect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxScrollEventHandler(OptionsDlg::OnFreeDV700txClip), NULL, this);
+
     event_in_serial = 0;
     event_out_serial = 0;
 }
@@ -191,6 +207,7 @@ OptionsDlg::~OptionsDlg()
     m_sdbSizer5OK->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(OptionsDlg::OnOK), NULL, this);
     m_sdbSizer5Cancel->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(OptionsDlg::OnCancel), NULL, this);
     m_sdbSizer5Apply->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(OptionsDlg::OnApply), NULL, this);
+    m_ckboxFreeDV700txClip->Disconnect(wxEVT_COMMAND_CHECKBOX_CLICKED, wxScrollEventHandler(OptionsDlg::OnFreeDV700txClip), NULL, this);
 }
 
 
@@ -221,6 +238,8 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
         if (wxGetApp().m_textEncoding == 2)
             m_rb_textEncoding2->SetValue(true);
         m_ckboxEnableChecksum->SetValue(wxGetApp().m_enable_checksum);
+
+        m_ckboxFreeDV700txClip->SetValue(wxGetApp().m_FreeDV700txClip);
     }
 
     if(inout == EXCHANGE_DATA_OUT)
@@ -256,6 +275,8 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
             wxGetApp().m_textEncoding = 2;
         wxGetApp().m_enable_checksum = m_ckboxEnableChecksum->GetValue();
 
+        wxGetApp().m_FreeDV700txClip = m_ckboxFreeDV700txClip->GetValue();
+
         if (storePersistent) {
             pConfig->Write(wxT("/Data/CallSign"), wxGetApp().m_callSign);
             pConfig->Write(wxT("/Data/TextEncoding"), wxGetApp().m_textEncoding);
@@ -268,6 +289,8 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
             
             pConfig->Write(wxT("/UDP/enable"), wxGetApp().m_udp_enable);
             pConfig->Write(wxT("/UDP/port"),  wxGetApp().m_udp_port);
+
+            pConfig->Write(wxT("/FreeDV700/txClip"), wxGetApp().m_FreeDV700txClip);
 
             pConfig->Flush();
         }
@@ -308,6 +331,12 @@ void OptionsDlg::OnApply(wxCommandEvent& event)
 void OptionsDlg::OnInitDialog(wxInitDialogEvent& event)
 {
     ExchangeData(EXCHANGE_DATA_IN, false);
+}
+
+// immediately change flags rather using ExchangeData() so we can switch on and off at run time
+
+void OptionsDlg::OnFreeDV700txClip(wxScrollEvent& event) {
+    wxGetApp().m_FreeDV700txClip = m_ckboxFreeDV700txClip->GetValue();
 }
 
 

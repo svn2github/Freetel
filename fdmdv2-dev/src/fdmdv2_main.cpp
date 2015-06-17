@@ -394,6 +394,8 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     wxGetApp().m_udp_enable = (float)pConfig->Read(wxT("/UDP/enable"), f);
     wxGetApp().m_udp_port = (int)pConfig->Read(wxT("/UDP/port"), 3000);
 
+    wxGetApp().m_FreeDV700txClip = (float)pConfig->Read(wxT("/FreeDV700/txClip"), t);
+
     pConfig->SetPath(wxT("/"));
 
 //    this->Connect(m_menuItemHelpUpdates->GetId(), wxEVT_UPDATE_UI, wxUpdateUIEventHandler(TopFrame::OnHelpCheckUpdatesUI));
@@ -579,6 +581,8 @@ MainFrame::~MainFrame()
 
         pConfig->Write(wxT("/Filter/MicInEQEnable"), wxGetApp().m_MicInEQEnable);
         pConfig->Write(wxT("/Filter/SpkOutEQEnable"), wxGetApp().m_SpkOutEQEnable);
+
+        pConfig->Write(wxT("/FreeDV700/txClip"), wxGetApp().m_FreeDV700txClip);
     }
 
     //m_togRxID->Disconnect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(MainFrame::OnTogBtnRxIDUI), NULL, this);
@@ -1041,6 +1045,11 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
     }
     g_rxUserdata->micInEQEnable = wxGetApp().m_MicInEQEnable;
     g_rxUserdata->spkOutEQEnable = wxGetApp().m_SpkOutEQEnable;
+
+    // Run time update of FreeDV 700 tx clipper
+
+    g_pfreedv->clip = (int)wxGetApp().m_FreeDV700txClip;
+    //fprintf(stderr, "g_pfreedv->clip: %d\n",  g_pfreedv->clip);
 
     // Test Frame Bit Error Updates ------------------------------------
 

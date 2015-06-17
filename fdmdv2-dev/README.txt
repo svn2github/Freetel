@@ -75,6 +75,7 @@ Quickstart 2
 6/ Build All the libraries and FreeDV:
 
   $ cmake -DBOOTSTRAP_WXWIDGETS=TRUE -DCMAKE_TOOLCHAIN_FILE=cmake/Toolchain-Ubuntu-mingw32.cmake -DUSE_STATIC_PORTAUDIO=TRUE -DUSE_STATIC_SNDFILE=TRUE -DUSE_STATIC_SAMPLERATE=TRUE -DUSE_STATIC_SOX=TRUE -DUSE_STATIC_CODEC2=FALSE -DCODEC2_INCLUDE_DIRS=/home/david/tmp/codec2-dev/src -DCODEC2_LIBRARY=/home/david/tmp/codec2-dev/build_windows/src/libcodec2.dll.a -DHAMLIB_INCLUDE_DIR=hamlib-win32-1.2.15.3/include -DHAMLIB_LIBRARY=hamlib-win32-1.2.15.3/lib/gcc/libhamlib.dll.a ..
+  $ make
 
 ====================================
  Building and installing on Windows
@@ -142,6 +143,7 @@ configure emacs:
           (function (lambda ()
                       (setq c-basic-offset 4)
                       )))
+
 ====
 TODO
 ====
@@ -152,14 +154,15 @@ TODO
         [X] varicode, codec, modem states
         [X] tx and rx freq shifts
         [X] generic, mode indep, sync, snr, scatter?
-        [ ] text working on 700 and 1600
-        [ ] char by char text appearing
+        [X] text working on 700 and 1600
+        [X] char by char text appearing
     [ ] add 700 to freedv API
         [X] modem signal spectrum and stats consistent with fdmdv
         [X] rx from file works
         [X] cohpsk snr est
         [X] tx works in full duplex
         [ ] clipper a check box, so we can see difference in spectrum
+            + adjustable at run time
         [ ] analog mode
             + complicated by sample rate change
         [ ] squelch
