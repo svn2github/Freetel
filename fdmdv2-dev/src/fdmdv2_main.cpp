@@ -945,20 +945,28 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
     // buffer 1 txt message to ensure tx data fifo doesn't "run dry"
 
     if ((unsigned)fifo_used(g_txDataInFifo) < strlen(callsign)) {
-
-        unsigned char checksum = 0;
         unsigned int  i;
-        for(i=0; i<strlen(callsign); i++)
-            checksum += callsign[i];
-        char callsign_checksum_cr[MAX_CALLSIGN+1];
-        sprintf(callsign_checksum_cr, "%s%2x", callsign, checksum);
-        //printf("callsign_checksum_cr: %s\n", callsign_checksum_cr);
-        callsign_checksum_cr[strlen(callsign)+2] = 13;
- 
+
+        /* optionally append checksum */
+
+        if (wxGetApp().m_enable_checksum) {
+
+            unsigned char checksum = 0;
+            char callsign_checksum_cr[MAX_CALLSIGN+1];
+
+            for(i=0; i<strlen(callsign); i++)
+                checksum += callsign[i];
+            sprintf(callsign_checksum_cr, "%s%2x", callsign, checksum);
+            callsign_checksum_cr[strlen(callsign)+2] = 13;
+            strcpy(callsign, callsign_checksum_cr);
+        }
+        else
+            callsign[strlen(callsign)] = 13;
+
         // write chars to tx data fifo
 
-        for(i=0; i<=strlen(callsign_checksum_cr); i++) {
-            short ashort = (short)callsign_checksum_cr[i];
+        for(i=0; i<strlen(callsign); i++) {
+            short ashort = (short)callsign[i];
             fifo_write(g_txDataInFifo, &ashort, 1);
         }
     }
@@ -1011,12 +1019,15 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
                 }
             }
 
+            //fprintf(stderr,"resetting callsign %s %d\n", m_callsign, m_pcallsign-m_callsign);
             // reset ptr to start of string
             m_pcallsign = m_callsign;
         }
         else
         {
+            //printf("new char %d %c\n", ashort, (char)ashort);
             *m_pcallsign++ = (char)ashort;
+            m_txtCtrlCallSign->SetValue(m_callsign);
         }
     }
 
@@ -1981,6 +1992,7 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
         g_half_duplex = wxGetApp().m_boolHalfDuplex;
 
         m_pcallsign = m_callsign;
+        memset(m_callsign, 0, sizeof(m_callsign));
         m_checksumGood = m_checksumBad = 0;
 
         m_maxLevel = 0;
@@ -3419,13 +3431,14 @@ void *UDPThread::Entry() {
 
 char my_get_next_tx_char(void *callback_state) {
     short ch = 0;
-
+    
     fifo_read(g_txDataInFifo, &ch, 1);
- 
+    //fprintf(stderr, "get_next_tx_char: %c\n", (char)ch);
     return (char)ch;
 }
 
 void my_put_next_rx_char(void *callback_state, char c) {
     short ch = (short)c;
+    //fprintf(stderr, "put_next_rx_char: %c\n", (char)c);
     fifo_write(g_rxDataOutFifo, &ch, 1);
 }
