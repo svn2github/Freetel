@@ -161,7 +161,7 @@ TODO
         [X] rx from file works
         [X] cohpsk snr est
         [X] tx works in full duplex
-        [ ] clipper a check box, so we can see difference in spectrum
+        [X] clipper a check box, so we can see difference in spectrum
             + adjustable at run time
         [ ] analog mode
             + complicated by sample rate change

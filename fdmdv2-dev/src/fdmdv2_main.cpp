@@ -951,6 +951,8 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
     if ((unsigned)fifo_used(g_txDataInFifo) < strlen(callsign)) {
         unsigned int  i;
 
+        printf("callsign: %s\n", callsign);
+
         /* optionally append checksum */
 
         if (wxGetApp().m_enable_checksum) {
@@ -962,10 +964,13 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
                 checksum += callsign[i];
             sprintf(callsign_checksum_cr, "%s%2x", callsign, checksum);
             callsign_checksum_cr[strlen(callsign)+2] = 13;
+            callsign_checksum_cr[strlen(callsign)+3] = 0;
             strcpy(callsign, callsign_checksum_cr);
         }
-        else
+        else {
             callsign[strlen(callsign)] = 13;
+            callsign[strlen(callsign)+1] = 0;
+        }
 
         // write chars to tx data fifo
 
@@ -1023,13 +1028,13 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
                 }
             }
 
-            //fprintf(stderr,"resetting callsign %s %d\n", m_callsign, m_pcallsign-m_callsign);
+            fprintf(stderr,"resetting callsign %s %d\n", m_callsign, m_pcallsign-m_callsign);
             // reset ptr to start of string
             m_pcallsign = m_callsign;
         }
         else
         {
-            //printf("new char %d %c\n", ashort, (char)ashort);
+            printf("new char %d %c\n", ashort, (char)ashort);
             *m_pcallsign++ = (char)ashort;
             m_txtCtrlCallSign->SetValue(m_callsign);
         }
@@ -1049,7 +1054,6 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
     // Run time update of FreeDV 700 tx clipper
 
     g_pfreedv->clip = (int)wxGetApp().m_FreeDV700txClip;
-    //fprintf(stderr, "g_pfreedv->clip: %d\n",  g_pfreedv->clip);
 
     // Test Frame Bit Error Updates ------------------------------------
 
@@ -2003,6 +2007,11 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
         m_pcallsign = m_callsign;
         memset(m_callsign, 0, sizeof(m_callsign));
         m_checksumGood = m_checksumBad = 0;
+        wxString s;
+        s.Printf("%d", m_checksumGood);
+        m_txtChecksumGood->SetLabel(s);              
+        s.Printf("%d", m_checksumBad);
+        m_txtChecksumBad->SetLabel(s);        
 
         m_maxLevel = 0;
         m_textLevel->SetLabel(wxT(""));
