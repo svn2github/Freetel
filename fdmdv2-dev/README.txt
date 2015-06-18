@@ -163,22 +163,29 @@ TODO
         [X] tx works in full duplex
         [X] clipper a check box, so we can see difference in spectrum
             + adjustable at run time
-        [ ] analog mode
+        [X] analog mode
             + complicated by sample rate change
+        [X] from radio plot broken
+        [X] support for both varicodes
         [ ] squelch
-        [ ] from radio plot broken
-    [ ] freedv api
         [ ] normalise output pwr across modes?
             + or maybe peak output?
             + option?
-        [X] support for both varicodes
     [ ] test mode
         [ ] get error patterns working again, both 700 and 1600
         [ ] how to plot error histogram
     [ ] file sample replay at 7500Hz work OK?
     [ ] interp 7500 to 8k for spectrum plotting
-    [ ] bpf filter after clipping
-        [ ] tcohpsk first
+
+[ ] FreeDV 700 improvements
+    [ ] bpf filter after clipping to remove clicks
+        [ ] tcohpsk first, measure PAPR, impl loss
+    [ ] error masking
+
+[ ] win32 X-compile
+    [ ] installer
+    [ ] works
+ 
 [ ] Small fixes
     [X] Playfile bug
     [X] running again
@@ -186,13 +193,10 @@ TODO
     [X] long varicode default
     [X] option to _not_ require checksum, on by default
     [X] default squelch 2dB
-    [ ] win32 X-compile
-        [ ] installer
-        [ ] works
     [ ] cmd line file decode
     [ ] Waterfall direction
     [ ] test mode on 1600 with freedv api
         + maybe calc stats, hist
-    [ ] from radio display breaking up
-[ ] Presence/spotting hooks
+
+[ ] Web support for Presence/spotting hooks
 

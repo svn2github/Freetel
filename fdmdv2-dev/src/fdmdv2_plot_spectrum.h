@@ -34,6 +34,7 @@ class PlotSpectrum : public PlotPanel
                  float min_mag_db=MIN_MAG_DB, float max_mag_db=MAX_MAG_DB, bool clickTune=true);
         ~PlotSpectrum();
         void setRxFreq(float rxFreq) { m_rxFreq = rxFreq; }
+        void setFreqScale(int n_magdB) { m_n_magdB = n_magdB; }
 
     protected:
         void        OnPaint(wxPaintEvent& event);

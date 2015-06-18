@@ -1003,7 +1003,7 @@ void AudioOptsDialog::plotDeviceInputForAFewSecs(int devNum, PlotScalar *plotSca
                 in48k_short[j] = in48k_stereo_short[j]; 
         }
         int n8k = resample(src, in8k_short, in48k_short, 8000, TEST_FS, TEST_BUF_SIZE, TEST_BUF_SIZE);
-        resample_for_plot(fifo, in8k_short, n8k);
+        resample_for_plot(fifo, in8k_short, n8k, FS);
 
         // every TEST_DT seconds update plot, unfortunately plot
         // doesnt get updated to end as we are blocking events in this
@@ -1117,7 +1117,7 @@ void AudioOptsDialog::plotDeviceOutputForAFewSecs(int devNum, PlotScalar *plotSc
 
         // convert back to 8kHz just for plotting
         int n8k = resample(src, out8k_short, out48k_short, 8000, TEST_FS, TEST_BUF_SIZE, TEST_BUF_SIZE);
-        resample_for_plot(fifo, out8k_short, n8k);
+        resample_for_plot(fifo, out8k_short, n8k, FS);
 
         // every TEST_DT seconds update plot
 

@@ -268,7 +268,7 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
         // Add Speech Input window
         m_panelSpeechIn = new PlotScalar((wxFrame*) m_auiNbookCtrl, 1, WAVEFORM_PLOT_TIME, 1.0/WAVEFORM_PLOT_FS, -1, 1, 1, 0.2, "%2.1f", 0);
         m_auiNbookCtrl->AddPage(m_panelSpeechIn, _("Frm Mic"), true, wxNullBitmap);
-        g_plotSpeechInFifo = fifo_create(2*WAVEFORM_PLOT_BUF);
+        g_plotSpeechInFifo = fifo_create(4*WAVEFORM_PLOT_BUF);
     }
 
     if(wxGetApp().m_show_speech_out)
@@ -835,8 +835,10 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
     // Oscilliscope type speech plots -------------------------------------------------------
 
     short speechInPlotSamples[WAVEFORM_PLOT_BUF];
-    if (fifo_read(g_plotSpeechInFifo, speechInPlotSamples, WAVEFORM_PLOT_BUF))
+    if (fifo_read(g_plotSpeechInFifo, speechInPlotSamples, WAVEFORM_PLOT_BUF)) {
         memset(speechInPlotSamples, 0, WAVEFORM_PLOT_BUF*sizeof(short));
+        fprintf(stderr, "empty!\n");
+    }
     m_panelSpeechIn->add_new_short_samples(0, speechInPlotSamples, WAVEFORM_PLOT_BUF, 32767);
     m_panelSpeechIn->Refresh();
 
@@ -847,8 +849,9 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
     m_panelSpeechOut->Refresh();
 
     short demodInPlotSamples[WAVEFORM_PLOT_BUF];
-    if (fifo_read(g_plotDemodInFifo, demodInPlotSamples, WAVEFORM_PLOT_BUF))
+    if (fifo_read(g_plotDemodInFifo, demodInPlotSamples, WAVEFORM_PLOT_BUF)) {
         memset(demodInPlotSamples, 0, WAVEFORM_PLOT_BUF*sizeof(short));
+    }
     m_panelDemodIn->add_new_short_samples(0,demodInPlotSamples, WAVEFORM_PLOT_BUF, 32767);
     m_panelDemodIn->Refresh();
 
@@ -951,7 +954,7 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
     if ((unsigned)fifo_used(g_txDataInFifo) < strlen(callsign)) {
         unsigned int  i;
 
-        printf("callsign: %s\n", callsign);
+        //printf("callsign: %s\n", callsign);
 
         /* optionally append checksum */
 
@@ -1005,7 +1008,7 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
                 }
                 unsigned int checksum_tx;
                 int ret = sscanf(&m_callsign[strlen(m_callsign)-2], "%2x", &checksum_tx);
-                printf("m_callsign: %s checksums: %2x %2x\n", m_callsign, checksum_tx, checksum_rx);
+                //printf("m_callsign: %s checksums: %2x %2x\n", m_callsign, checksum_tx, checksum_rx);
 
                 wxString s;
                 if (ret && (checksum_tx == checksum_rx)) {
@@ -1028,13 +1031,13 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
                 }
             }
 
-            fprintf(stderr,"resetting callsign %s %d\n", m_callsign, m_pcallsign-m_callsign);
+            //fprintf(stderr,"resetting callsign %s %d\n", m_callsign, m_pcallsign-m_callsign);
             // reset ptr to start of string
             m_pcallsign = m_callsign;
         }
         else
         {
-            printf("new char %d %c\n", ashort, (char)ashort);
+            //printf("new char %d %c\n", ashort, (char)ashort);
             *m_pcallsign++ = (char)ashort;
             m_txtCtrlCallSign->SetValue(m_callsign);
         }
@@ -1307,16 +1310,16 @@ void MainFrame::togglePTT(void) {
         if (wxGetApp().m_boolUseRTS) {
             printf("g_tx: %d m_boolRTSPos: %d serialLine: %d\n", g_tx, wxGetApp().m_boolRTSPos, g_tx == wxGetApp().m_boolRTSPos);
             if (g_tx == wxGetApp().m_boolRTSPos)
-				raiseRTS();
+                raiseRTS();
             else
-				lowerRTS();
+                lowerRTS();
         }
         if (wxGetApp().m_boolUseDTR) {
             printf("g_tx: %d m_boolDTRPos: %d serialLine: %d\n", g_tx, wxGetApp().m_boolDTRPos, g_tx == wxGetApp().m_boolDTRPos);
             if (g_tx == wxGetApp().m_boolDTRPos)
-				raiseDTR();
+                raiseDTR();
             else
-				lowerDTR();
+                lowerDTR();
         }
  
     }
@@ -1364,6 +1367,9 @@ void MainFrame::OnTogBtnAnalogClick (wxCommandEvent& event)
         g_analog = 1;
     else
         g_analog = 0;
+
+    g_State = 0;
+    g_stats.snr_est = 0;
 
     event.Skip();
 }
@@ -1963,8 +1969,8 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
             g_mode = FREEDV_MODE_700;
             g_Nc = 14;
         }
-
-        // init freedv states
+   
+       // init freedv states
 
         g_pfreedv = freedv_open(g_mode);
         g_pfreedv->callback_state = NULL;
@@ -1986,8 +1992,14 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
 
         assert(g_error_pattern != NULL);
 
-        // adjust scatter diagram for Number of FDM carriers
 #endif
+        // adjust spectrum and waterfall freq scaling base on mode
+
+        m_panelSpectrum->setFreqScale(MODEM_STATS_NSPEC*((float)MAX_F_HZ/(g_pfreedv->modem_sample_rate/2)));
+        m_panelWaterfall->setFs(g_pfreedv->modem_sample_rate);
+
+        // adjust scatter diagram for Number of FDM carriers
+
         g_errorFifo = fifo_create(2*g_sz_error_pattern);
 
         m_panelScatter->setNc(g_Nc);
@@ -2594,8 +2606,8 @@ void MainFrame::startRxStream()
 void MainFrame::processTxtEvent(char event[]) {
     int rule = 0;
 
-    printf("processTxtEvent:\n");
-    printf("  event: %s\n", event);
+    //printf("processTxtEvent:\n");
+    //printf("  event: %s\n", event);
 
     // process with regexp and issue system command
 
@@ -2620,14 +2632,14 @@ void MainFrame::processTxtEvent(char event[]) {
             wxString regexp_replace = regexp_replace_list.SubString(0, replace_end-1);
             //printf("match: %s replace: %s\n", (const char *)regexp_match.c_str(), (const char *)regexp_replace.c_str());
             wxRegEx re(regexp_match);
-            printf("  checking for match against: %s\n", (const char *)regexp_match.c_str());
+            //printf("  checking for match against: %s\n", (const char *)regexp_match.c_str());
 
             // if we found a match, lets run the replace regexp and issue the system command
 
             wxString event_str_rep = event_str;
 
             if (re.Replace(&event_str_rep, regexp_replace) != 0) {
-                printf("  found match!\n");
+                //printf("  found match!\n");
                 found_match = true;
 
                 bool enableSystem = false;
@@ -2638,7 +2650,7 @@ void MainFrame::processTxtEvent(char event[]) {
 
                 if (spamTimer[rule].IsRunning()) {
                     enableSystem = false;
-                    printf("  spam timer running\n");
+                    //printf("  spam timer running\n");
                 }
 
                 const char *event_out = event_str_rep.ToUTF8();
@@ -2790,9 +2802,9 @@ int resample(SRC_STATE *src,
 // speech signals at a low sample rate.  We want a low sample rate so
 // we don't hammer the graphics system too hard.  Saves decimated data
 // to a fifo for plotting on screen.
-void resample_for_plot(struct FIFO *plotFifo, short buf[], int length)
+void resample_for_plot(struct FIFO *plotFifo, short buf[], int length, int fs)
 {
-    int decimation = FS/WAVEFORM_PLOT_FS;
+    int decimation = fs/WAVEFORM_PLOT_FS;
     int nSamples, sample;
     int i, st, en, max, min;
     short dec_samples[length];
@@ -2827,9 +2839,16 @@ void txRxProcessing()
     short           in48k_short[4*N48];
     short           out8k_short[4*N8];
     short           out48k_short[4*N48];
-    int             nout;
+    int             nout, samplerate, n_samples;
 
     //wxLogDebug("start infifo1: %5d outfifo1: %5d\n", fifo_n(cbData->infifo1), fifo_n(cbData->outfifo1));
+
+    // FreeDV 700 uses a modem sample rate of 7500 Hz which requires some special treatment
+
+    if (g_analog) 
+        samplerate = FS;
+    else
+        samplerate = g_pfreedv->modem_sample_rate;
 
     //
     //  RX side processing --------------------------------------------
@@ -2845,7 +2864,7 @@ void txRxProcessing()
         g_mutexProtectingCallbackData.Unlock();
         unsigned int n8k;
 
-        n8k = resample(cbData->insrc1, in8k_short, in48k_short, g_pfreedv->modem_sample_rate, g_soundCard1SampleRate, N8, nsam);
+        n8k = resample(cbData->insrc1, in8k_short, in48k_short, samplerate, g_soundCard1SampleRate, N8, nsam);
         assert(n8k <= N8);
 
         // optionally save "from radio" signal (write demod input to file)
@@ -2888,26 +2907,22 @@ void txRxProcessing()
         }
         g_mutexProtectingCallbackData.Unlock();
 
-        fifo_write(cbData->rxinfifo, in8k_short, n8k);
-        resample_for_plot(g_plotDemodInFifo, in8k_short, n8k);
+        resample_for_plot(g_plotDemodInFifo, in8k_short, n8k, samplerate);
 
-        per_frame_rx_processing(cbData->rxoutfifo, cbData->rxinfifo);
-
-#ifdef TMPa
         // Get some audio to send to headphones/speaker.  If out of
         // sync or in analog mode we pass thru the "from radio" audio
         // to the headphones/speaker.  When out of sync it's useful to
         // hear the audio from the channel, e.g. as a tuning aid
         
-        if ((g_State == 0) || g_analog) {
+        if (g_analog) {
             memcpy(out8k_short, in8k_short, sizeof(short)*n8k);
         }
         else {
-            // we are in sync so use decoded audio
+            fifo_write(cbData->rxinfifo, in8k_short, n8k);
+            per_frame_rx_processing(cbData->rxoutfifo, cbData->rxinfifo);
+            memset(out8k_short, 0, sizeof(short)*N8);
+            fifo_read(cbData->rxoutfifo, out8k_short, N8);
         }
-#endif
-        memset(out8k_short, 0, sizeof(short)*N8);
-        fifo_read(cbData->rxoutfifo, out8k_short, N8);
 
         // Optional Spk Out EQ Filtering, need mutex as filter can change at run time
         g_mutexProtectingCallbackData.Lock();
@@ -2925,7 +2940,7 @@ void txRxProcessing()
             memset(out8k_short, 0, sizeof(short)*N8);
         }
 
-        resample_for_plot(g_plotSpeechOutFifo, out8k_short, N8);
+        resample_for_plot(g_plotSpeechOutFifo, out8k_short, N8, FS);
 
         g_mutexProtectingCallbackData.Lock();
         if (g_nSoundCards == 1) {
@@ -3006,9 +3021,12 @@ void txRxProcessing()
             }
             g_mutexProtectingCallbackData.Unlock();
 
-            resample_for_plot(g_plotSpeechInFifo, in8k_short, nout);
+            resample_for_plot(g_plotSpeechInFifo, in8k_short, nout, FS);
+
+            n_samples = g_pfreedv->n_nom_modem_samples;
 
             if (g_analog) {
+                n_samples = g_pfreedv->n_speech_samples;
 
                 // Boost the "from mic" -> "to radio" audio in analog
                 // mode.  The need for the gain was found by
@@ -3018,7 +3036,7 @@ void txRxProcessing()
                 // of the peak level for normal SSB voice. So we
                 // introduce 6dB gain to make analog SSB sound the
                 // same level as the digital.  Watch out for clipping.
-                for(int i=0; i<g_pfreedv->n_nom_modem_samples; i++) {
+                for(int i=0; i<n_samples; i++) {
                     float out = (float)in8k_short[i]*2.0;
                     if (out > 32767) out = 32767.0;
                     if (out < -32767) out = -32767.0;
@@ -3038,7 +3056,7 @@ void txRxProcessing()
             }
 
             // output one frame of modem signal
-            nout = resample(cbData->outsrc1, out48k_short, out8k_short, g_soundCard1SampleRate, g_pfreedv->modem_sample_rate, N48*4, g_pfreedv->n_nom_modem_samples);
+            nout = resample(cbData->outsrc1, out48k_short, out8k_short, g_soundCard1SampleRate, samplerate, N48*4, n_samples);
             g_mutexProtectingCallbackData.Lock();
             ret = fifo_write(cbData->outfifo1, out48k_short, nout);
             //fprintf(stderr,"nout: %d ret: %d N48*4: %d\n", nout, ret, N48*4);

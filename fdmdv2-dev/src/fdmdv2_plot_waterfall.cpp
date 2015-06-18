@@ -59,6 +59,8 @@ PlotWaterfall::PlotWaterfall(wxFrame* parent, bool graticule, int colour): PlotP
     m_newdata       = false;
     m_firstPass     = true;
     m_line_color    = 0;
+    m_modem_stats_max_f_hz = MODEM_STATS_MAX_F_HZ;
+
     SetLabelSize(10.0);
 
     m_pBmp = NULL;
@@ -340,8 +342,8 @@ void PlotWaterfall::plotPixelData()
     // update min and max amplitude estimates
     float max_mag = MIN_MAG_DB;
 
-    int min_fft_bin=((float)200/MODEM_STATS_MAX_F_HZ)*MODEM_STATS_NSPEC;
-    int max_fft_bin=((float)2800/MODEM_STATS_MAX_F_HZ)*MODEM_STATS_NSPEC;
+    int min_fft_bin=((float)200/m_modem_stats_max_f_hz)*MODEM_STATS_NSPEC;
+    int max_fft_bin=((float)2800/m_modem_stats_max_f_hz)*MODEM_STATS_NSPEC;
 
     for(int i=min_fft_bin; i<max_fft_bin; i++) 
     {
@@ -356,7 +358,7 @@ void PlotWaterfall::plotPixelData()
     //printf("max_mag: %f m_max_mag: %f\n", max_mag, m_max_mag);
     //intensity_per_dB  = (float)256 /(MAX_MAG_DB - MIN_MAG_DB);
     intensity_per_dB  = (float)256 /(m_max_mag - m_min_mag);
-    spec_index_per_px = ((float)(MAX_F_HZ)/(float)MODEM_STATS_MAX_F_HZ)*(float)MODEM_STATS_NSPEC / (float) m_rGrid.GetWidth();
+    spec_index_per_px = ((float)(MAX_F_HZ)/(float)m_modem_stats_max_f_hz)*(float)MODEM_STATS_NSPEC / (float) m_rGrid.GetWidth();
 
     /*
     printf("h %d w %d px_per_sec %d dy %d dy_blocks %d spec_index_per_px: %f\n", 

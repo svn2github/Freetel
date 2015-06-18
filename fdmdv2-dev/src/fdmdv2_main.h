@@ -582,7 +582,7 @@ public:
     bool                    m_run;
 };
 
-void resample_for_plot(struct FIFO *plotFifo, short buf[], int length);
+void resample_for_plot(struct FIFO *plotFifo, short buf[], int length, int fs);
 
 int resample(SRC_STATE *src,
              short      output_short[],

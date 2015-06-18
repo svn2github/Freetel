@@ -42,6 +42,7 @@ class PlotWaterfall : public PlotPanel
         bool checkDT(void);
         void setGreyscale(bool greyscale) { m_greyscale = greyscale; }
         void setRxFreq(float rxFreq) { m_rxFreq = rxFreq; }
+        void setFs(int fs) { m_modem_stats_max_f_hz = fs/2; }
 
     protected:
         unsigned    m_heatmap_lut[256];
@@ -64,6 +65,7 @@ class PlotWaterfall : public PlotPanel
         float       m_min_mag;
         float       m_max_mag;
         int         m_colour;
+        int         m_modem_stats_max_f_hz;
 
         DECLARE_EVENT_TABLE()
 };
