@@ -837,7 +837,7 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
     short speechInPlotSamples[WAVEFORM_PLOT_BUF];
     if (fifo_read(g_plotSpeechInFifo, speechInPlotSamples, WAVEFORM_PLOT_BUF)) {
         memset(speechInPlotSamples, 0, WAVEFORM_PLOT_BUF*sizeof(short));
-        fprintf(stderr, "empty!\n");
+        //fprintf(stderr, "empty!\n");
     }
     m_panelSpeechIn->add_new_short_samples(0, speechInPlotSamples, WAVEFORM_PLOT_BUF, 32767);
     m_panelSpeechIn->Refresh();
@@ -1062,15 +1062,16 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
 
     // Toggle test frame mode at run time
 
-    if (!g_testFrames && wxGetApp().m_testFrames) {
+    if (!g_pfreedv->test_frames && wxGetApp().m_testFrames) {
 
         // reset stats on check box off to on transition
 
-        g_test_frame_sync_state = 0;
-        g_total_bits = 0;
-        g_total_bit_errors = 0;
+        g_pfreedv->test_frames = 1;
+        g_pfreedv->test_frame_sync_state = 0;
+        g_pfreedv->total_bits = 0;
+        g_pfreedv->total_bit_errors = 0;
     }
-    g_testFrames =  wxGetApp().m_testFrames;
+    g_pfreedv->test_frames =  wxGetApp().m_testFrames;
     g_channel_noise =  wxGetApp().m_channel_noise;
 
     if (g_State) {
@@ -1078,11 +1079,12 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
 
         // update stats on main page
 
-        sprintf(bits, "Bits: %d", (int)g_total_bits); wxString bits_string(bits); m_textBits->SetLabel(bits_string);
-        sprintf(errors, "Errs: %d", (int)g_total_bit_errors); wxString errors_string(errors); m_textErrors->SetLabel(errors_string);
-        float b = (float)g_total_bit_errors/(1E-6+g_total_bits);
+        sprintf(bits, "Bits: %d", (int)g_pfreedv->total_bits); wxString bits_string(bits); m_textBits->SetLabel(bits_string);
+        sprintf(errors, "Errs: %d", (int)g_pfreedv->total_bit_errors); wxString errors_string(errors); m_textErrors->SetLabel(errors_string);
+        float b = (float)g_pfreedv->total_bit_errors/(1E-6+g_pfreedv->total_bits);
         sprintf(ber, "BER: %4.3f", b); wxString ber_string(ber); m_textBER->SetLabel(ber_string);
 
+        #ifdef FIXME
         // update error plots
 
         short *error_pattern = new short[g_sz_error_pattern];
@@ -1098,6 +1100,7 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
         }
 
         delete error_pattern;
+        #endif
     }
 
     // command from UDP thread that is best processed in main thread to avoid seg faults
@@ -1388,8 +1391,8 @@ void MainFrame::OnCallSignReset(wxCommandEvent& event)
 
 void MainFrame::OnBerReset(wxCommandEvent& event)
 {
-    g_total_bits = 0;
-    g_total_bit_errors = 0;
+    g_pfreedv->total_bits = 0;
+    g_pfreedv->total_bit_errors = 0;
 }
 
 #ifdef ALC
@@ -1643,13 +1646,13 @@ void MainFrame::OnRecFileFromRadio(wxCommandEvent& event)
             {
                 sfInfo.format     = SF_FORMAT_RAW | SF_FORMAT_PCM_16;
                 sfInfo.channels   = 1;
-                sfInfo.samplerate = FS;
+                sfInfo.samplerate = g_pfreedv->modem_sample_rate;
             }
             else if(extension == wxT("wav"))
             {
                 sfInfo.format     = SF_FORMAT_WAV | SF_FORMAT_PCM_16;
                 sfInfo.channels   = 1;
-                sfInfo.samplerate = FS;
+                sfInfo.samplerate = g_pfreedv->modem_sample_rate;
             } else {
                 wxMessageBox(wxT("Invalid file format"), wxT("Record File From Radio"), wxOK);
                 return;
@@ -3180,7 +3183,8 @@ void per_frame_rx_processing(
             rx_fdm[i].imag = 0.0;
         }
        
-        if (g_channel_noise) {
+        // only implemented for FreeDV 1600 at this stage
+        if (g_channel_noise && FREEDV_MODE_1600) {
             fdmdv_simulate_channel(g_pfreedv->fdmdv, rx_fdm, nin, 2.0);
         }
         fdmdv_freq_shift(rx_fdm_offset, rx_fdm, g_RxFreqOffsetHz, &g_RxFreqOffsetPhaseRect, nin);

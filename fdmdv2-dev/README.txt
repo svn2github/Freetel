@@ -174,13 +174,16 @@ TODO
     [ ] test mode
         [ ] get error patterns working again, both 700 and 1600
         [ ] how to plot error histogram
-    [ ] file sample replay at 7500Hz work OK?
-    [ ] interp 7500 to 8k for spectrum plotting
+    [X] file sample replay at 7500Hz work OK?
+    [X] interp 7500 to 8k for spectrum plotting
+    [X] rotation of scatter diagram on FreeDV 700
+    [X] freq track plot
 
 [ ] FreeDV 700 improvements
     [ ] bpf filter after clipping to remove clicks
         [ ] tcohpsk first, measure PAPR, impl loss
     [ ] error masking
+    [ ] plotting other demod stats like ch ampl and phase ests
 
 [ ] win32 X-compile
     [ ] installer
@@ -197,6 +200,7 @@ TODO
     [ ] Waterfall direction
     [ ] test mode on 1600 with freedv api
         + maybe calc stats, hist
+    [ ] documenttation or use, walk through,you tube, blog posts
 
 [ ] Web support for Presence/spotting hooks
 
