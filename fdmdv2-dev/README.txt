@@ -8,7 +8,7 @@ Quickstart 1
 Builds static versions of wxWidgets, portaudio, codec2-dev, which are commonly
 missing on many Linux systems, or of the wrong (older) version.
 
-1/ Assuming the freedv-dev sources is checked out into ~/fdmdv2-dev:
+1/ Assuming the fdmdv2-dev source is checked out into ~/fdmdv2-dev:
 
   $ sudo apt-get install libgtk2.0-dev libhamlib-dev libsamplerate-dev libasound2-dev libao-dev
   $ cd fdmdv2-dev
@@ -19,7 +19,7 @@ missing on many Linux systems, or of the wrong (older) version.
 
 2/ Then you can configure FreeDV using your local codec-dev, something like:
 
-  $ cmake -DCMAKE_BUILD_TYPE=Debug -DBOOTSTRAP_WXWIDGETS=TRUE -DCODEC2_INCLUDE_DIRS=/home/david/codec2-dev/src -DCODEC2_LIBRARY=/home/david/codec2-dev/build_linux/src/libcodec2.so -DUSE_STATIC_CODEC2=FALSE -DUSE_STATIC_PORTAUDIO=TRUE -DUSE_STATIC_SOX=TRUE ../
+  $ cmake -DCMAKE_BUILD_TYPE=Debug -DBOOTSTRAP_WXWIDGETS=TRUE -DCODEC2_INCLUDE_DIRS=/path/to/codec2-dev/src -DCODEC2_LIBRARY=/path/to/codec2-dev/build_linux/src/libcodec2.so -DUSE_STATIC_CODEC2=FALSE -DUSE_STATIC_PORTAUDIO=TRUE -DUSE_STATIC_SOX=TRUE ../
 
 3/ OR build a local copy of codec2-dev:
 
@@ -171,13 +171,28 @@ TODO
         [ ] normalise output pwr across modes?
             + or maybe peak output?
             + option?
-    [ ] test mode
-        [ ] get error patterns working again, both 700 and 1600
-        [ ] how to plot error histogram
+    [ ] test frames 
+        [X] freedv API support
+        [X] BER displayed on GUI for 700 and 1600
+        [ ] plot error patterns for 700 and 1600
+        [ ] plot error histograms for 700 and 1600
     [X] file sample replay at 7500Hz work OK?
     [X] interp 7500 to 8k for spectrum plotting
     [X] rotation of scatter diagram on FreeDV 700
     [X] freq track plot
+
+[ ] Mel Bugs
+    [X] resync issue
+    [X] equalise power on 700 and 1600
+    [X] research real and complex PAPR
+    [ ] Squelch control on 1600 mode will not open up squelch to 0  (appears to be around 2 dB)
+    [ ] waterfall and spectrum in analog mode
+    [ ] On TX, intermittently PTT will cause signal to be heard in speakers.  Toggle PTT or 
+        Stop/Start toggle and then starts working.
+    [ ] There is a .dll missing otherwise FreeDV will not excite.  We tested it on xp, win7, 8, 8.1 and 10.   
+        Needs ilbusb0.dll  the 32bit one on all releases. 
+    [ ] The waterfall in analog mode appears to quit working sometimes?
+    [ ] I am not sure the "checksum" is still working when enabled (1600 mode)
 
 [ ] FreeDV 700 improvements
     [ ] bpf filter after clipping to remove clicks
@@ -185,10 +200,11 @@ TODO
     [ ] error masking
     [ ] plotting other demod stats like ch ampl and phase ests
 
-[ ] win32 X-compile
-    [ ] installer
-    [ ] works
- 
+[ ] win32
+    [X] X-compile works
+    [X] basic installer
+    [ ] 
+
 [ ] Small fixes
     [X] Playfile bug
     [X] running again
@@ -198,9 +214,8 @@ TODO
     [X] default squelch 2dB
     [ ] cmd line file decode
     [ ] Waterfall direction
-    [ ] test mode on 1600 with freedv api
-        + maybe calc stats, hist
     [ ] documenttation or use, walk through,you tube, blog posts
+    [ ] scatter diagram agc with hysteresis
 
 [ ] Web support for Presence/spotting hooks
 

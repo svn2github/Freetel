@@ -124,6 +124,7 @@ SpeexPreprocessState *g_speex_st;
 // WxWidgets - initialize the application
 IMPLEMENT_APP(MainApp);
 
+//FILE *ft;
 FILE *g_logfile;
 
 //-------------------------------------------------------------------------
@@ -167,6 +168,9 @@ bool MainApp::OnInit()
     frame->Layout();
     frame->Show();
     g_parent =frame;
+
+    //ft = fopen("tmp.raw","wb");
+    //assert(ft != NULL);
 
     return true;
 }
@@ -506,6 +510,7 @@ MainFrame::~MainFrame()
     int w;
     int h;
 
+    //fclose(ft);
     #ifdef __WXMSW__
     fclose(g_logfile);
     #endif
@@ -888,7 +893,7 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
     if (snr_limited > 20.0) snr_limited = 20.0;
 
     char snr[15];
-    sprintf(snr, "%d", (int)(snr_limited+0.5)); // round to nearest dB
+    sprintf(snr, "%d", (int)(g_snr+0.5)); // round to nearest dB
 
     //printf("snr_est: %f m_snrBeta: %f g_snr: %f snr_limited: %f\n", g_stats.snr_est,  m_snrBeta, g_snr, snr_limited);
 
@@ -1983,12 +1988,14 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
             g_Nc = 14;
         }
    
-       // init freedv states
+        // init freedv states
 
         g_pfreedv = freedv_open(g_mode);
         g_pfreedv->callback_state = NULL;
         g_pfreedv->freedv_get_next_tx_char = &my_get_next_tx_char;
         g_pfreedv->freedv_put_next_rx_char = &my_put_next_rx_char;
+        //if (g_mode == FREEDV_MODE_700)
+        //    cohpsk_set_verbose(g_pfreedv->cohpsk, 1);
 
         //cohpsk_set_verbose(g_pfreedv->cohpsk, 1);
         assert(g_pfreedv != NULL);
@@ -1999,13 +2006,6 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
 
         g_speex_st = speex_preprocess_state_init(g_pfreedv->n_speech_samples, FS); 
 
-#ifdef TODO
-        g_sz_error_pattern = fdmdv_error_pattern_size(g_pfreedv->fdmdv);
-        g_error_pattern = (short*)malloc(g_sz_error_pattern*sizeof(short));
-
-        assert(g_error_pattern != NULL);
-
-#endif
         // adjust spectrum and waterfall freq scaling base on mode
 
         m_panelSpectrum->setFreqScale(MODEM_STATS_NSPEC*((float)MAX_F_HZ/(g_pfreedv->modem_sample_rate/2)));
@@ -2922,20 +2922,38 @@ void txRxProcessing()
 
         resample_for_plot(g_plotDemodInFifo, in8k_short, n8k, samplerate);
 
-        // Get some audio to send to headphones/speaker.  If out of
-        // sync or in analog mode we pass thru the "from radio" audio
-        // to the headphones/speaker.  When out of sync it's useful to
-        // hear the audio from the channel, e.g. as a tuning aid
-        
+        // Get some audio to send to headphones/speaker.  If in analog
+        // mode we pass thru the "from radio" audio to the
+        // headphones/speaker.
+
         if (g_analog) {
             memcpy(out8k_short, in8k_short, sizeof(short)*n8k);
+            
+            // compute rx spectrum 
+
+            COMP  rx_fdm[n8k];
+            float rx_spec[MODEM_STATS_NSPEC];
+            unsigned int   i;
+
+            for(i=0; i<n8k; i++) {
+                rx_fdm[i].real = in8k_short[i];
+                rx_fdm[i].imag = 0.0;
+            }            
+            modem_stats_get_rx_spectrum(&g_stats, rx_spec, rx_fdm, n8k);
+
+            // Average rx spectrum data using a simple IIR low pass filter
+
+            for(i = 0; i<MODEM_STATS_NSPEC; i++) {
+                g_avmag[i] = BETA * g_avmag[i] + (1.0 - BETA) * rx_spec[i];
+            }
         }
         else {
             fifo_write(cbData->rxinfifo, in8k_short, n8k);
             per_frame_rx_processing(cbData->rxoutfifo, cbData->rxinfifo);
             memset(out8k_short, 0, sizeof(short)*N8);
             fifo_read(cbData->rxoutfifo, out8k_short, N8);
-        }
+       }
+
 
         // Optional Spk Out EQ Filtering, need mutex as filter can change at run time
         g_mutexProtectingCallbackData.Lock();
@@ -3185,6 +3203,7 @@ void per_frame_rx_processing(
         assert(nin <= g_pfreedv->n_max_modem_samples);
 
         nin_prev = nin;
+        //fwrite(input_buf, sizeof(short), nin, ft);
 
         // demod per frame processing
         for(i=0; i<nin; i++)
@@ -3194,6 +3213,7 @@ void per_frame_rx_processing(
         }
        
         // only implemented for FreeDV 1600 at this stage
+
         if (g_channel_noise && FREEDV_MODE_1600) {
             fdmdv_simulate_channel(g_pfreedv->fdmdv, rx_fdm, nin, 2.0);
         }
@@ -3205,31 +3225,23 @@ void per_frame_rx_processing(
         nin = freedv_nin(g_pfreedv);
         g_State = g_pfreedv->sync;
 
-        // compute rx spectrum & get demod stats, and update GUI plot data
+        // compute rx spectrum 
 
         modem_stats_get_rx_spectrum(&g_stats, rx_spec, rx_fdm, nin_prev);
+ 
+        // Average rx spectrum data using a simple IIR low pass filter
+
+        for(i = 0; i<MODEM_STATS_NSPEC; i++) {
+            g_avmag[i] = BETA * g_avmag[i] + (1.0 - BETA) * rx_spec[i];
+        }
+
         if (g_pfreedv->mode == FREEDV_MODE_1600)
             fdmdv_get_demod_stats(g_pfreedv->fdmdv, &g_stats);
         if (g_pfreedv->mode == FREEDV_MODE_700)
             cohpsk_get_demod_stats(g_pfreedv->cohpsk, &g_stats);
 
-        // Average rx spectrum data using a simple IIR low pass filter
-        for(i = 0; i < MODEM_STATS_NSPEC; i++)
-        {
-            g_avmag[i] = BETA * g_avmag[i] + (1.0 - BETA) * rx_spec[i];
-        }
-
     }
 }
-
-
-#ifdef TODO
-                    if (n_ascii) {
-                        short ashort = ascii_out;
-                        fifo_write(g_rxDataOutFifo, &ashort, 1);
-                    }
-#endif
-
 
 
 //-------------------------------------------------------------------------
