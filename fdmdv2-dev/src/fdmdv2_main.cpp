@@ -124,6 +124,7 @@ SpeexPreprocessState *g_speex_st;
 // WxWidgets - initialize the application
 IMPLEMENT_APP(MainApp);
 
+FILE *g_logfile;
 
 //-------------------------------------------------------------------------
 // OnInit()
@@ -166,6 +167,7 @@ bool MainApp::OnInit()
     frame->Layout();
     frame->Show();
     g_parent =frame;
+
     return true;
 }
 
@@ -183,6 +185,12 @@ int MainApp::OnExit()
 MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
 {
     m_zoom              = 1.;
+
+    #ifdef __WXMSW__
+    g_logfile = fopen("log.txt","wt");
+    #else
+    g_logfile = stderr;
+    #endif
 
     SetMinSize(wxSize(400,400));
 
@@ -207,14 +215,12 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
 
     // sanitise frame position as a first pass at Win32 registry bug
 
-    printf("x = %d y = %d w = %d h = %d\n", x,y,w,h);
+    fprintf(g_logfile, "x = %d y = %d w = %d h = %d\n", x,y,w,h);
     if (x < 0 || x > 2048) x = 20;
     if (y < 0 || y > 2048) y = 20;
     if (w < 0 || w > 2048) w = 800;
     if (h < 0 || h > 2048) h = 550;
 
-    // note: run DebugView program to see this message under windows
-    //wxLogDebug("x = %d y = %d w = %d h = %d\n", x,y,w,h);
     wxGetApp().m_show_wf            = pConfig->Read(wxT("/MainFrame/show_wf"),           1);
     wxGetApp().m_show_spect         = pConfig->Read(wxT("/MainFrame/show_spect"),        1);
     wxGetApp().m_show_scatter       = pConfig->Read(wxT("/MainFrame/show_scatter"),      1);
@@ -499,6 +505,10 @@ MainFrame::~MainFrame()
     int y;
     int w;
     int h;
+
+    #ifdef __WXMSW__
+    fclose(g_logfile);
+    #endif
 
     if (optionsDlg != NULL) {
         delete optionsDlg;
@@ -2126,10 +2136,10 @@ void MainFrame::stopRxStream()
     {
         m_RxRunning = false;
 
-        wxLogDebug("waiting for thread to stop");
+        fprintf(g_logfile, "waiting for thread to stop");
         m_txRxThread->m_run = 0;
         m_txRxThread->Wait();
-        wxLogDebug("thread stopped");
+        fprintf(g_logfile, "thread stopped");
 
         m_rxInPa->stop();
         m_rxInPa->streamClose();
