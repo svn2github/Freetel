@@ -2872,7 +2872,7 @@ void txRxProcessing()
     int nsam = g_soundCard1SampleRate * (float)N8/FS;
     assert(nsam <= N48);
     g_mutexProtectingCallbackData.Lock();
-    while (fifo_read(cbData->infifo1, in48k_short, nsam) == 0)
+    while ((fifo_read(cbData->infifo1, in48k_short, nsam) == 0) && ((g_half_duplex && !g_tx) || !g_half_duplex)) 
     {
         g_mutexProtectingCallbackData.Unlock();
         unsigned int n8k;

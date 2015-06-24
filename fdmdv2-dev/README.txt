@@ -156,7 +156,7 @@ TODO
         [X] generic, mode indep, sync, snr, scatter?
         [X] text working on 700 and 1600
         [X] char by char text appearing
-    [ ] add 700 to freedv API
+    [X] add 700 to freedv API
         [X] modem signal spectrum and stats consistent with fdmdv
         [X] rx from file works
         [X] cohpsk snr est
@@ -167,19 +167,20 @@ TODO
             + complicated by sample rate change
         [X] from radio plot broken
         [X] support for both varicodes
-        [ ] squelch
-        [ ] normalise output pwr across modes?
+        [X] squelch
+        [X] normalise output pwr across modes?
             + or maybe peak output?
             + option?
-    [ ] test frames 
-        [X] freedv API support
-        [X] BER displayed on GUI for 700 and 1600
-        [ ] plot error patterns for 700 and 1600
-        [ ] plot error histograms for 700 and 1600
     [X] file sample replay at 7500Hz work OK?
     [X] interp 7500 to 8k for spectrum plotting
     [X] rotation of scatter diagram on FreeDV 700
     [X] freq track plot
+
+[ ] test frames 
+    [X] freedv API support
+    [X] BER displayed on GUI for 700 and 1600
+    [ ] plot error patterns for 700 and 1600
+    [ ] plot error histograms for 700 and 1600
 
 [ ] Mel Bugs
     [X] resync issue
@@ -187,7 +188,7 @@ TODO
     [X] research real and complex PAPR
     [X] waterfall and spectrum in analog mode
     [X] The waterfall in analog mode appears to quit working sometimes?
-    [ ] Squelch control on 1600 mode will not open up squelch to 0 (appears to be around 2 dB)
+    [X] Squelch control on 1600 mode will not open up squelch to 0 (appears to be around 2 dB)
     [ ] On TX, intermittently PTT will cause signal to be heard in speakers.  Toggle PTT or 
         Stop/Start toggle and then starts working.
     [ ] There is a .dll missing otherwise FreeDV will not excite.  We tested it on xp, win7, 8, 8.1 and 10.   
@@ -200,10 +201,9 @@ TODO
     [ ] error masking
     [ ] plotting other demod stats like ch ampl and phase ests
 
-[ ] win32
+[X] win32
     [X] X-compile works
     [X] basic installer
-    [ ] 
 
 [ ] Small fixes
     [X] Playfile bug
@@ -216,6 +216,7 @@ TODO
     [ ] Waterfall direction
     [ ] documenttation or use, walk through,you tube, blog posts
     [ ] scatter diagram agc with hysteresis
+    [ ] scatter diagram useful on fading channels in real time (longer persistance?)
 
 [ ] Web support for Presence/spotting hooks
 
