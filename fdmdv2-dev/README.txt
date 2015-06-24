@@ -185,13 +185,13 @@ TODO
     [X] resync issue
     [X] equalise power on 700 and 1600
     [X] research real and complex PAPR
-    [ ] Squelch control on 1600 mode will not open up squelch to 0  (appears to be around 2 dB)
-    [ ] waterfall and spectrum in analog mode
+    [X] waterfall and spectrum in analog mode
+    [X] The waterfall in analog mode appears to quit working sometimes?
+    [ ] Squelch control on 1600 mode will not open up squelch to 0 (appears to be around 2 dB)
     [ ] On TX, intermittently PTT will cause signal to be heard in speakers.  Toggle PTT or 
         Stop/Start toggle and then starts working.
     [ ] There is a .dll missing otherwise FreeDV will not excite.  We tested it on xp, win7, 8, 8.1 and 10.   
         Needs ilbusb0.dll  the 32bit one on all releases. 
-    [ ] The waterfall in analog mode appears to quit working sometimes?
     [ ] I am not sure the "checksum" is still working when enabled (1600 mode)
 
 [ ] FreeDV 700 improvements

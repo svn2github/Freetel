@@ -1203,7 +1203,7 @@ void MainFrame::OnPaint(wxPaintEvent& WXUNUSED(event))
 void MainFrame::OnCmdSliderScroll(wxScrollEvent& event)
 {
     char sqsnr[15];
-    g_SquelchLevel = (float)m_sliderSQ->GetValue()/2.0;
+    g_SquelchLevel = (float)m_sliderSQ->GetValue()/2.0;   
     sprintf(sqsnr, "%4.1f", g_SquelchLevel); // 0.5 dB steps
     wxString sqsnr_string(sqsnr);
     m_textSQ->SetLabel(sqsnr_string);
@@ -2922,6 +2922,13 @@ void txRxProcessing()
 
         resample_for_plot(g_plotDemodInFifo, in8k_short, n8k, samplerate);
 
+        // send latest squelch level to FreeDV API, as it handles squelch internally
+
+        if (g_SquelchActive)
+            g_pfreedv->snr_squelch_thresh = g_SquelchLevel;
+        else
+            g_pfreedv->snr_squelch_thresh = -100.0;
+
         // Get some audio to send to headphones/speaker.  If in analog
         // mode we pass thru the "from radio" audio to the
         // headphones/speaker.
@@ -2952,7 +2959,7 @@ void txRxProcessing()
             per_frame_rx_processing(cbData->rxoutfifo, cbData->rxinfifo);
             memset(out8k_short, 0, sizeof(short)*N8);
             fifo_read(cbData->rxoutfifo, out8k_short, N8);
-       }
+        }
 
 
         // Optional Spk Out EQ Filtering, need mutex as filter can change at run time
@@ -2963,13 +2970,6 @@ void txRxProcessing()
             sox_biquad_filter(cbData->sbqSpkOutMid,    out8k_short, out8k_short, N8);
         }
         g_mutexProtectingCallbackData.Unlock();
-
-        // note squelch automatically disabled in analog mode
-
-        if (g_SquelchActive && (g_SquelchLevel > g_snr) && !g_analog) {
-            //printf("g_SquelchLevel: %f g_snr: %f\n", g_SquelchLevel, g_snr);
-            memset(out8k_short, 0, sizeof(short)*N8);
-        }
 
         resample_for_plot(g_plotSpeechOutFifo, out8k_short, N8, FS);
 
@@ -3224,6 +3224,7 @@ void per_frame_rx_processing(
         
         nin = freedv_nin(g_pfreedv);
         g_State = g_pfreedv->sync;
+        //fprintf(g_logfile, "g_State: %d g_stats.sync: %d snr: %f \n", g_State, g_stats.sync, f->snr);
 
         // compute rx spectrum 
 
