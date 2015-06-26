@@ -108,3 +108,8 @@ SM1000-E-CHANGE-LOG.TXT
 30  [ ]	R	Add shunt for #5 above to BOM
 
 31  [ ]	R	Add TVS diodes to 3,5mm connectors & DC power Connector
+
+06/26/2015   RGB
+
+32  [ ] R	Fix problems with CN8 and Mono plug problems.
+		Changed J2 & J4 connections to work with stereo or mono plugs and protect U8.

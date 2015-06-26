@@ -1,4 +1,4 @@
-"Bill of Materials from SM1000-E.sch, 205 parts, grouped by values, as of 6/2/2015 10:26:59 AM"
+"Bill of Materials from SM1000-E.sch, 205 parts, grouped by values, as of 6/26/2015 2:02:48 PM"
 "Part","Qty","DEFINITION","MANUFACTURER","MFG_NUMBER","DISTRIBUTOR","DIST_NUMBER","GENERIC","ROHS","COST100",
 "C1, C34, C55, C56","4","CAP CER 1000PF 50V 10% X7R 0402","MURATA","GRM155R71H102KA01D","DIGIKEY","490-1303-1-ND","Y","Y","0.006"
 "C2, C3, C27","3","CAP CER 20PF 50V 5% NP0 0402","SAMSUNG","CL05C200JB5NNNC","DIGIKEY","1276-1661-1-ND","Y","Y","0.005"
