@@ -1100,7 +1100,7 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <wire x1="-7" y1="0" x2="-16.5" y2="0" width="0.15" layer="51" style="shortdash"/>
 <wire x1="-13" y1="-1.5" x2="-13" y2="1.5" width="0.15" layer="21"/>
 <text x="5.5" y="-4" size="1" layer="25" ratio="10" rot="R180">&gt;NAME</text>
-<pad name="7" x="-5.7" y="-2.1" drill="1.4" diameter="2.1844"/>
+<pad name="7" x="-5.7" y="-2.1" drill="1.6" diameter="2.54"/>
 <pad name="8" x="5.7" y="2.1" drill="1.4" diameter="2.1844"/>
 </package>
 <package name="CONN-BOOM-XH-2A">

@@ -111,5 +111,8 @@ SM1000-E-CHANGE-LOG.TXT
 
 06/26/2015   RGB
 
-32  [ ] R	Fix problems with CN8 and Mono plug problems.
+32  [X] R	Fix problems with CN8 and Mono plug problems.
 		Changed J2 & J4 connections to work with stereo or mono plugs and protect U8.
+
+33  [X] R	Change drill & pad diameter od pad 7 of switch LC-2259 to 1.6mm & 2.54mm respectively to accomodate switch with larger tabs.
+		Library & .brd updated. RGB
