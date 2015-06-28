@@ -426,7 +426,7 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
 
     // squelch settings
     char sqsnr[15];
-    m_sliderSQ->SetValue((int)(g_SquelchLevel*2.0));
+    m_sliderSQ->SetValue((int)((g_SquelchLevel+5.0)*2.0));
     sprintf(sqsnr, "%4.1f", g_SquelchLevel);
     wxString sqsnr_string(sqsnr);
     m_textSQ->SetLabel(sqsnr_string);
@@ -1203,7 +1203,7 @@ void MainFrame::OnPaint(wxPaintEvent& WXUNUSED(event))
 void MainFrame::OnCmdSliderScroll(wxScrollEvent& event)
 {
     char sqsnr[15];
-    g_SquelchLevel = (float)m_sliderSQ->GetValue()/2.0;   
+    g_SquelchLevel = (float)m_sliderSQ->GetValue()/2.0 - 5.0;   
     sprintf(sqsnr, "%4.1f", g_SquelchLevel); // 0.5 dB steps
     wxString sqsnr_string(sqsnr);
     m_textSQ->SetLabel(sqsnr_string);
@@ -2924,10 +2924,9 @@ void txRxProcessing()
 
         // send latest squelch level to FreeDV API, as it handles squelch internally
 
-        if (g_SquelchActive)
-            g_pfreedv->snr_squelch_thresh = g_SquelchLevel;
-        else
-            g_pfreedv->snr_squelch_thresh = -100.0;
+        g_pfreedv->squelch_en = g_SquelchActive;
+        g_pfreedv->snr_squelch_thresh = g_SquelchLevel;
+        //fprintf(g_logfile, "snr_squelch_thresh: %f\n",  g_pfreedv->snr_squelch_thresh);
 
         // Get some audio to send to headphones/speaker.  If in analog
         // mode we pass thru the "from radio" audio to the

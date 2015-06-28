@@ -182,18 +182,19 @@ TODO
     [ ] plot error patterns for 700 and 1600
     [ ] plot error histograms for 700 and 1600
 
-[ ] Mel Bugs
+[X] Mel Bugs
     [X] resync issue
     [X] equalise power on 700 and 1600
     [X] research real and complex PAPR
     [X] waterfall and spectrum in analog mode
     [X] The waterfall in analog mode appears to quit working sometimes?
-    [X] Squelch control on 1600 mode will not open up squelch to 0 (appears to be around 2 dB)
-    [ ] On TX, intermittently PTT will cause signal to be heard in speakers.  Toggle PTT or 
+
+    [X] On TX, intermittently PTT will cause signal to be heard in speakers.  Toggle PTT or 
         Stop/Start toggle and then starts working.
-    [ ] There is a .dll missing otherwise FreeDV will not excite.  We tested it on xp, win7, 8, 8.1 and 10.   
-        Needs ilbusb0.dll  the 32bit one on all releases. 
-    [ ] I am not sure the "checksum" is still working when enabled (1600 mode)
+    [ ] short varicode
+        + cld be broken in freedv_api
+    [ ] Squelch control on 1600 mode will not open up squelch to 0 (appears to be around 2 dB)
+    [ ] space bar keys PTT when entering text info box
 
 [ ] FreeDV 700 improvements
     [ ] bpf filter after clipping to remove clicks
@@ -204,6 +205,8 @@ TODO
 [X] win32
     [X] X-compile works
     [X] basic installer
+    [ ] add ilbusb0.dll
+    [ ] add hamlib stuff
 
 [ ] Small fixes
     [X] Playfile bug
@@ -214,7 +217,7 @@ TODO
     [X] default squelch 2dB
     [ ] cmd line file decode
     [ ] Waterfall direction
-    [ ] documenttation or use, walk through,you tube, blog posts
+    [ ] documentation or use, walk through,you tube, blog posts
     [ ] scatter diagram agc with hysteresis
     [ ] scatter diagram useful on fading channels in real time (longer persistance?)
 
