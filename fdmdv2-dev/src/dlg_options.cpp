@@ -200,6 +200,7 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
 //-------------------------------------------------------------------------
 OptionsDlg::~OptionsDlg()
 {
+
     // Disconnect Events
 
     this->Disconnect(wxEVT_INIT_DIALOG, wxInitDialogEventHandler(OptionsDlg::OnInitDialog));
@@ -305,6 +306,7 @@ void OptionsDlg::OnOK(wxCommandEvent& event)
 {
     ExchangeData(EXCHANGE_DATA_OUT, true);
     //this->EndModal(wxID_OK);
+    g_modal = false;
     this->Show(false);
 }
 
@@ -314,6 +316,7 @@ void OptionsDlg::OnOK(wxCommandEvent& event)
 void OptionsDlg::OnCancel(wxCommandEvent& event)
 {
     //this->EndModal(wxID_CANCEL);
+    g_modal = false;
     this->Show(false);
 }
 
@@ -322,6 +325,7 @@ void OptionsDlg::OnCancel(wxCommandEvent& event)
 //-------------------------------------------------------------------------
 void OptionsDlg::OnApply(wxCommandEvent& event)
 {
+    g_modal = false;
     ExchangeData(EXCHANGE_DATA_OUT, true);
 }
 

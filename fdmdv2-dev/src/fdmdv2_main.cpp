@@ -63,6 +63,7 @@ int   g_split;
 int   g_tx;
 float g_snr;
 bool  g_half_duplex;
+bool  g_modal;
 
 // sending and receiving Call Sign data
 struct FIFO         *g_txDataInFifo;
@@ -488,7 +489,7 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     g_total_bits = 0;
     wxGetApp().m_testFrames = false;
 
-    m_modal = false;
+    g_modal = false;
 
     // Start UDP listener thread
 
@@ -1256,8 +1257,9 @@ int MainApp::FilterEvent(wxEvent& event)
         (((wxKeyEvent&)event).GetKeyCode() == WXK_SPACE))
         {
             // only use space to toggle PTT if we are running and no modal dialogs (like options) up
-
-            if (frame->m_RxRunning && !frame->m_modal) {
+            //fprintf(stderr,"frame->m_RxRunning: %d g_modal: %d\n",
+            //        frame->m_RxRunning, g_modal);
+            if (frame->m_RxRunning && !g_modal) {
                 if (frame->m_btnTogPTT->GetValue())
                     frame->m_btnTogPTT->SetValue(false);
                 else
@@ -1798,9 +1800,9 @@ void MainFrame::OnToolsFilter(wxCommandEvent& event)
 void MainFrame::OnToolsOptions(wxCommandEvent& event)
 {
     wxUnusedVar(event);
-    m_modal=true;
+    g_modal = true;
+    //fprintf(stderr,"g_modal: %d\n", g_modal);
     optionsDlg->Show();
-    m_modal=false;
 }
 
 //-------------------------------------------------------------------------
