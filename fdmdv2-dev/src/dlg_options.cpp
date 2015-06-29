@@ -326,7 +326,6 @@ void OptionsDlg::OnCancel(wxCommandEvent& event)
 //-------------------------------------------------------------------------
 void OptionsDlg::OnApply(wxCommandEvent& event)
 {
-    g_modal = false;
     ExchangeData(EXCHANGE_DATA_OUT, true);
 }
 

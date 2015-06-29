@@ -148,34 +148,6 @@ configure emacs:
 TODO
 ====
 
-[ ] FreeDV 700 mode
-    [X] interp of 8k to 7500Hz for analog bypass.
-    [X] integrate freedv API
-        [X] varicode, codec, modem states
-        [X] tx and rx freq shifts
-        [X] generic, mode indep, sync, snr, scatter?
-        [X] text working on 700 and 1600
-        [X] char by char text appearing
-    [X] add 700 to freedv API
-        [X] modem signal spectrum and stats consistent with fdmdv
-        [X] rx from file works
-        [X] cohpsk snr est
-        [X] tx works in full duplex
-        [X] clipper a check box, so we can see difference in spectrum
-            + adjustable at run time
-        [X] analog mode
-            + complicated by sample rate change
-        [X] from radio plot broken
-        [X] support for both varicodes
-        [X] squelch
-        [X] normalise output pwr across modes?
-            + or maybe peak output?
-            + option?
-    [X] file sample replay at 7500Hz work OK?
-    [X] interp 7500 to 8k for spectrum plotting
-    [X] rotation of scatter diagram on FreeDV 700
-    [X] freq track plot
-
 [ ] test frames 
     [X] freedv API support
     [X] BER displayed on GUI for 700 and 1600
@@ -191,10 +163,13 @@ TODO
 
     [X] On TX, intermittently PTT will cause signal to be heard in speakers.  Toggle PTT or 
         Stop/Start toggle and then starts working.
-    [ ] short varicode
+    [X] Squelch control on 1600 mode will not open up squelch to 0 (appears to be around 2 dB)
+    [X] space bar keys PTT when entering text info box
+    [ ] checksum based txt reception can't be verified
+        + too many bit errors
+        + add FEC?  Would this need frame sync?
+    [ ] short varicode doesn't work
         + cld be broken in freedv_api
-    [ ] Squelch control on 1600 mode will not open up squelch to 0 (appears to be around 2 dB)
-    [ ] space bar keys PTT when entering text info box
 
 [ ] FreeDV 700 improvements
     [ ] bpf filter after clipping to remove clicks
