@@ -13,6 +13,7 @@ endif()
 
 # Make sure that configure knows what system we're using when cross-compiling.
 if(MINGW AND CMAKE_CROSSCOMPILING)
+    include(cmake/MinGW.cmake)
     set(CONFIGURE_COMMAND ./configure --build=${HOST} --host=${HOST} --target=${HOST} --enable-cxx --without-jack --disable-shared --prefix=${CMAKE_BINARY_DIR}/external/dist)
 else()
     set(CONFIGURE_COMMAND ./configure --enable-cxx --without-jack --disable-shared --prefix=${CMAKE_BINARY_DIR}/external/dist)

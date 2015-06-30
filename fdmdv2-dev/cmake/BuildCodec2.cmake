@@ -6,10 +6,14 @@ if(USE_STATIC_SPEEXDSP)
         -DSPEEXDSP_INCLUDE_DIR=${CMAKE_BINARY_DIR}/external/dist/include)
 endif()
 
+if(CMAKE_CROSSCOMPILING)
+    set(CODEC2_CMAKE_ARGS "-DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}")
+endif()
+
 include(ExternalProject)
 ExternalProject_Add(codec2
    SVN_REPOSITORY https://svn.code.sf.net/p/freetel/code/codec2-dev
-   CMAKE_ARGS ${SPEEXDSP_CMAKE_ARGS}
+   CMAKE_ARGS ${CODEC2_CMAKE_ARGS} ${SPEEXDSP_CMAKE_ARGS}
    INSTALL_COMMAND ""
 )
 set(CODEC2_LIBRARIES

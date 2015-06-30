@@ -1,6 +1,7 @@
 set(SPEEXDSP_TARBALL "speexdsp-1.2rc3.tar.gz")
 
 if(MINGW AND CMAKE_CROSSCOMPILING)
+    include(cmake/MinGW.cmake)
     set(CONFIGURE_COMMAND ./configure --host=${HOST} --prefix=${CMAKE_BINARY_DIR}/external/dist --disable-examples)
 else()
     set(CONFIGURE_COMMAND ./configure --prefix=${CMAKE_BINARY_DIR}/external/dist --disable-examples)
