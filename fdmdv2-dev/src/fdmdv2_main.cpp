@@ -970,7 +970,7 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
     if ((unsigned)fifo_used(g_txDataInFifo) < strlen(callsign)) {
         unsigned int  i;
 
-        //printf("callsign: %s\n", callsign);
+        //fprintf(g_logfile, "tx callsign: %s.\n", callsign);
 
         /* optionally append checksum */
 
@@ -991,6 +991,8 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
             callsign[strlen(callsign)+1] = 0;
         }
 
+        //fprintf(g_logfile, "tx callsign: %s.\n", callsign);
+
         // write chars to tx data fifo
 
         for(i=0; i<strlen(callsign); i++) {
@@ -1003,18 +1005,17 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
 
     short ashort;
     while (fifo_read(g_rxDataOutFifo, &ashort, 1) == 0) {
+
         if ((ashort == 13) || ((m_pcallsign - m_callsign) > MAX_CALLSIGN-1)) {
             // CR completes line
             *m_pcallsign = 0;
+            
+            /* Checksums can be disabled, e.g. for compatability with
+               older vesions.  In that case we print msg but don't do
+               any event processing.  If checksums enabled, only print
+               out when checksum is good. */
 
-            // checksums can be disabled, e.g. for compatability
-            // with older vesions.  In that case we print msg but
-            // don't do any event processing
-
-            if (!wxGetApp().m_enable_checksum) {
-                m_txtCtrlCallSign->SetValue(m_callsign);
-            }
-            else {
+            if (wxGetApp().m_enable_checksum) {
                 // lets see if checksum is OK
             
                 unsigned char checksum_rx = 0;
@@ -1024,7 +1025,7 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
                 }
                 unsigned int checksum_tx;
                 int ret = sscanf(&m_callsign[strlen(m_callsign)-2], "%2x", &checksum_tx);
-                //printf("m_callsign: %s checksums: %2x %2x\n", m_callsign, checksum_tx, checksum_rx);
+                //fprintf(g_logfile, "rx callsign: %s.\n  checksum tx: %02x checksum rx: %02x\n", m_callsign, checksum_tx, checksum_rx);
 
                 wxString s;
                 if (ret && (checksum_tx == checksum_rx)) {
@@ -1047,14 +1048,18 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
                 }
             }
 
-            //fprintf(stderr,"resetting callsign %s %d\n", m_callsign, m_pcallsign-m_callsign);
+            //fprintf(g_logfile,"resetting callsign %s %ld\n", m_callsign, m_pcallsign-m_callsign);
             // reset ptr to start of string
             m_pcallsign = m_callsign;
         }
-        else
-        {
-            //printf("new char %d %c\n", ashort, (char)ashort);
+        else {
+            //fprintf(g_logfile, "new char %d %c\n", ashort, (char)ashort);
             *m_pcallsign++ = (char)ashort;
+        }
+
+        /* If checksums disabled, display txt chars as they arrive */
+
+        if (!wxGetApp().m_enable_checksum) {
             m_txtCtrlCallSign->SetValue(m_callsign);
         }
     }

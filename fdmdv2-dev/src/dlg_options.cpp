@@ -85,11 +85,13 @@ OptionsDlg::OptionsDlg(wxWindow* parent, wxWindowID id, const wxString& title, c
 
     wxStaticBoxSizer* sbSizer_encoding = new wxStaticBoxSizer(new wxStaticBox(this, wxID_ANY, _("Text Encoding")), wxHORIZONTAL);
 
+#ifdef SHORT_VARICODE
     m_rb_textEncoding1 = new wxRadioButton( this, wxID_ANY, wxT("Long varicode"), wxDefaultPosition, wxDefaultSize, 0);
     m_rb_textEncoding1->SetValue(true);
     sbSizer_encoding->Add(m_rb_textEncoding1, 0, wxALIGN_LEFT|wxALL, 1);
     m_rb_textEncoding2 = new wxRadioButton( this, wxID_ANY, wxT("Short Varicode"), wxDefaultPosition, wxDefaultSize, 0);
     sbSizer_encoding->Add(m_rb_textEncoding2, 0, wxALIGN_LEFT|wxALL, 1);
+#endif
 
     m_ckboxEnableChecksum = new wxCheckBox(this, wxID_ANY, _("Use Checksum on Rx"), wxDefaultPosition, wxDefaultSize, wxCHK_2STATE);
     sbSizer_encoding->Add(m_ckboxEnableChecksum, 0, wxALIGN_LEFT, 0);
@@ -235,10 +237,12 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
         m_ckbox_udp_enable->SetValue(wxGetApp().m_udp_enable);
         m_txt_udp_port->SetValue(wxString::Format(wxT("%i"),wxGetApp().m_udp_port));
 
+#ifdef SHORT_VARICODE
         if (wxGetApp().m_textEncoding == 1)
             m_rb_textEncoding1->SetValue(true);
         if (wxGetApp().m_textEncoding == 2)
             m_rb_textEncoding2->SetValue(true);
+#endif
         m_ckboxEnableChecksum->SetValue(wxGetApp().m_enable_checksum);
 
         m_ckboxFreeDV700txClip->SetValue(wxGetApp().m_FreeDV700txClip);
@@ -271,17 +275,21 @@ void OptionsDlg::ExchangeData(int inout, bool storePersistent)
         m_txt_udp_port->GetValue().ToLong(&port);
         wxGetApp().m_udp_port       = (int)port;
 
+#ifdef SHORT_VARICODE
         if (m_rb_textEncoding1->GetValue())
             wxGetApp().m_textEncoding = 1;
         if (m_rb_textEncoding2->GetValue())
             wxGetApp().m_textEncoding = 2;
+#endif
         wxGetApp().m_enable_checksum = m_ckboxEnableChecksum->GetValue();
 
         wxGetApp().m_FreeDV700txClip = m_ckboxFreeDV700txClip->GetValue();
 
         if (storePersistent) {
             pConfig->Write(wxT("/Data/CallSign"), wxGetApp().m_callSign);
+#ifdef SHORT_VARICODE
             pConfig->Write(wxT("/Data/TextEncoding"), wxGetApp().m_textEncoding);
+#endif
             pConfig->Write(wxT("/Data/EnableChecksumOnMsgRx"), wxGetApp().m_enable_checksum);
 
             pConfig->Write(wxT("/Events/enable"), wxGetApp().m_events);

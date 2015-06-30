@@ -163,11 +163,10 @@ TODO
 
     [X] On TX, intermittently PTT will cause signal to be heard in speakers.  Toggle PTT or 
         Stop/Start toggle and then starts working.
-    [X] Squelch control on 1600 mode will not open up squelch to 0 (appears to be around 2 dB)
+    [ ] Squelch control on 1600 mode will not open up squelch to 0 (appears to be around 2 dB)
     [X] space bar keys PTT when entering text info box
-    [ ] checksum based txt reception can't be verified
-        + too many bit errors
-        + add FEC?  Would this need frame sync?
+    [ ] checksum based txt reception
+        + only print if valid
     [ ] short varicode doesn't work
         + cld be broken in freedv_api
 
