@@ -447,11 +447,11 @@ if(WIN32)
     endif()
     set(CPACK_PACKAGE_INSTALL_DIRECTORY "FreeDV")
     set(CPACK_PACKAGE_EXECUTABLES freedv;FreeDV)
-    # There is a bug in NSI that does not handle full unix paths properly. Make
-    # sure there is at least one set of four (4) backlasshes.
-    #set(CPACK_PACKAGE_ICON "${CMake_SOURCE_DIR}/Utilities/Release\\\\InstallIcon.bmp")
+    set(CPACK_STRIP_FILES TRUE)
+    # NSIS specific settings
     set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\freedv.exe")
     set(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_INSTALL_DIRECTORY}")
+    set(CPACK_NSIS_PACKAGE_NAME "FreeDV")
     set(CPACK_NSIS_URL_INFO_ABOUT "http://freedv.org")
     set(CPACK_NSIS_MODIFY_PATH OFF)
     set(CPACK_NSIS_MENU_LINKS "http://freedv.org" "FreeDV Homepage")
