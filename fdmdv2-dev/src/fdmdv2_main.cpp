@@ -49,8 +49,9 @@ int                 g_total_bits;
 int                 g_total_bit_errors;
 int                 g_channel_noise;
 float               g_sig_pwr_av = 0.0;
-struct FIFO         *g_error_pattern_fifo;
-
+struct FIFO        *g_error_pattern_fifo;
+short              *g_error_hist;
+ 
 // time averaged magnitude spectrum used for waterfall and spectrum display
 float               g_avmag[MODEM_STATS_NSPEC];
 
@@ -234,6 +235,7 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
     wxGetApp().m_show_speech_out    = pConfig->Read(wxT("/MainFrame/show_speech_out"),   1);
     wxGetApp().m_show_demod_in      = pConfig->Read(wxT("/MainFrame/show_demod_in"),     1);
     wxGetApp().m_show_test_frame_errors = pConfig->Read(wxT("/MainFrame/show_test_frame_errors"),     1);
+    wxGetApp().m_show_test_frame_errors_hist = pConfig->Read(wxT("/MainFrame/show_test_frame_errors_hist"),     1);
 
     wxGetApp().m_rxNbookCtrl        = pConfig->Read(wxT("/MainFrame/rxNbookCtrl"),    (long)0);
 
@@ -307,6 +309,13 @@ MainFrame::MainFrame(wxWindow *parent) : TopFrame(parent)
         // Add Test Frame Errors window
         m_panelTestFrameErrors = new PlotScalar((wxFrame*) m_auiNbookCtrl, 2*MODEM_STATS_NC_MAX, 30.0, DT, 0, 2*MODEM_STATS_NC_MAX+2, 1, 1, "", 1);
         m_auiNbookCtrl->AddPage(m_panelTestFrameErrors, L"Test Frame Errors", true, wxNullBitmap);
+    }
+
+    if(wxGetApp().m_show_test_frame_errors_hist)
+    {
+        // Add Test Frame Errors window
+        m_panelTestFrameErrorsHist = new PlotScalar((wxFrame*) m_auiNbookCtrl, 1, 1.0, 1.0/FDMDV_NC_MAX, 0.0, 1.0, 1.0/FDMDV_NC_MAX, 0.1, "%3.2f", 0);
+        m_auiNbookCtrl->AddPage(m_panelTestFrameErrorsHist, L"Test Frame Histogram", true, wxNullBitmap);
     }
 
     wxGetApp().m_framesPerBuffer = pConfig->Read(wxT("/Audio/framesPerBuffer"), PA_FPB);
@@ -553,6 +562,7 @@ MainFrame::~MainFrame()
         pConfig->Write(wxT("/MainFrame/show_speech_out"),   wxGetApp().m_show_speech_out);
         pConfig->Write(wxT("/MainFrame/show_demod_in"),     wxGetApp().m_show_demod_in);
         pConfig->Write(wxT("/MainFrame/show_test_frame_errors"), wxGetApp().m_show_test_frame_errors);
+        pConfig->Write(wxT("/MainFrame/show_test_frame_errors_hist"), wxGetApp().m_show_test_frame_errors_hist);
 
         pConfig->Write(wxT("/MainFrame/rxNbookCtrl"), wxGetApp().m_rxNbookCtrl);
 
@@ -1112,13 +1122,26 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
         if (fifo_read(g_error_pattern_fifo, error_pattern, sz_error_pattern) == 0) {
             int i,b;
 
+            /* both modes map IQ to alternate bits, but one same carrier */
+
             if (g_pfreedv->mode == FREEDV_MODE_1600) {
                 /* FreeDV 1600 mapping from error pattern to bit on each carrier */
 
                 for(b=0; b<g_Nc*2; b++) {
-                    for(i=b; i<sz_error_pattern; i+= 2*g_Nc)
+                    for(i=b; i<sz_error_pattern; i+= 2*g_Nc) {
                         m_panelTestFrameErrors->add_new_sample(b, b + 0.8*error_pattern[i]);
+                        g_error_hist[b/2] += error_pattern[i];
+                    }
+                    //if (b%2)
+                    //    printf("g_error_hist[%d]: %d\n", b/2, g_error_hist[b/2]);
                 }
+
+                int max_hist = 0;
+                for(b=0; b<g_Nc; b++)
+                    if (g_error_hist[b] > max_hist)
+                        max_hist = g_error_hist[b];
+
+                m_panelTestFrameErrorsHist->add_new_short_samples(0, g_error_hist, FDMDV_NC_MAX, max_hist);
             }
        
             if (g_pfreedv->mode == FREEDV_MODE_700) {
@@ -1128,12 +1151,24 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
                    picture, we have to assume Nc/2 carriers. */
 
                 for(b=0; b<g_Nc; b++) {
-                    for(i=b; i<sz_error_pattern; i+= g_Nc)
+                    for(i=b; i<sz_error_pattern; i+= g_Nc) {
                         m_panelTestFrameErrors->add_new_sample(b, b + 0.8*error_pattern[i]);
+                        g_error_hist[b/2] += error_pattern[i];
+                    }
+                    //if (b%2)
+                    //    printf("g_error_hist[%d]: %d\n", b/2, g_error_hist[b/2]);
                 }
-            }
 
+                int max_hist = 0;
+                for(b=0; b<g_Nc/2; b++)
+                    if (g_error_hist[b] > max_hist)
+                        max_hist = g_error_hist[b];
+                m_panelTestFrameErrorsHist->add_new_short_samples(0, g_error_hist, FDMDV_NC_MAX, max_hist);
+                
+            }
+ 
             m_panelTestFrameErrors->Refresh();       
+            m_panelTestFrameErrorsHist->Refresh();
         }
     }
 
@@ -1428,6 +1463,10 @@ void MainFrame::OnBerReset(wxCommandEvent& event)
 {
     g_pfreedv->total_bits = 0;
     g_pfreedv->total_bit_errors = 0;
+    int i;
+    for(i=0; i<g_Nc; i++)
+        g_error_hist[i] = 0;
+    
 }
 
 #ifdef ALC
@@ -2018,6 +2057,10 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
         g_pfreedv->error_pattern_callback_state = (void*)m_panelTestFrameErrors;
         g_pfreedv->freedv_put_error_pattern = &my_freedv_put_error_pattern;
         g_error_pattern_fifo = fifo_create(2*g_pfreedv->sz_error_pattern);
+        g_error_hist = new short[FDMDV_NC_MAX];
+        int i;
+        for(i=0; i<FDMDV_NC_MAX; i++)
+            g_error_hist[i] = 0;
 
         //if (g_mode == FREEDV_MODE_700)
         //    cohpsk_set_verbose(g_pfreedv->cohpsk, 1);
@@ -2126,6 +2169,7 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
         // free up states
 
         modem_stats_close(&g_stats);
+        delete g_error_hist;
         fifo_destroy(g_error_pattern_fifo);
         freedv_close(g_pfreedv);
         speex_preprocess_state_destroy(g_speex_st);
@@ -3234,7 +3278,15 @@ void per_frame_rx_processing(
         }
        
         if (g_channel_noise) {
-            fdmdv_simulate_channel(&g_sig_pwr_av, rx_fdm, nin, 2.0);
+            float snr;
+
+            /* enough noise to get a couple of % errors */
+
+            if (g_pfreedv->mode == FREEDV_MODE_1600)
+                snr = 2.0;
+             if (g_pfreedv->mode == FREEDV_MODE_700)
+                snr = -1.0;           
+            fdmdv_simulate_channel(&g_sig_pwr_av, rx_fdm, nin, snr);
         }
         fdmdv_freq_shift(rx_fdm_offset, rx_fdm, g_RxFreqOffsetHz, &g_RxFreqOffsetPhaseRect, nin);
         nout = freedv_comprx(g_pfreedv, output_buf, rx_fdm_offset);

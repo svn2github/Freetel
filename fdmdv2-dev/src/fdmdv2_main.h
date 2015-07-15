@@ -226,6 +226,7 @@ class MainApp : public wxApp
         int                 m_show_speech_out;
         int                 m_show_demod_in;
         int                 m_show_test_frame_errors;
+        int                 m_show_test_frame_errors_hist;
 
         // optional vox trigger tone
         bool                m_leftChannelVoxTone;
@@ -366,6 +367,7 @@ class MainFrame : public TopFrame
         PlotScalar*             m_panelSpeechOut;
         PlotScalar*             m_panelDemodIn;
         PlotScalar*             m_panelTestFrameErrors;
+        PlotScalar*             m_panelTestFrameErrorsHist;
 
         bool                    m_RxRunning;
 
