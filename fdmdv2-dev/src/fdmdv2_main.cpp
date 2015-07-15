@@ -47,10 +47,9 @@ int                 g_test_frame_sync_state;
 int                 g_test_frame_count;
 int                 g_total_bits;
 int                 g_total_bit_errors;
-int                 g_sz_error_pattern;
-short              *g_error_pattern;
-struct FIFO        *g_errorFifo;
 int                 g_channel_noise;
+float               g_sig_pwr_av = 0.0;
+struct FIFO         *g_error_pattern_fifo;
 
 // time averaged magnitude spectrum used for waterfall and spectrum display
 float               g_avmag[MODEM_STATS_NSPEC];
@@ -1105,23 +1104,37 @@ void MainFrame::OnTimer(wxTimerEvent &evt)
         float b = (float)g_pfreedv->total_bit_errors/(1E-6+g_pfreedv->total_bits);
         sprintf(ber, "BER: %4.3f", b); wxString ber_string(ber); m_textBER->SetLabel(ber_string);
 
-        #ifdef FIXME
         // update error plots
 
-        short *error_pattern = new short[g_sz_error_pattern];
+        int sz_error_pattern = g_pfreedv->sz_error_pattern;
+        short error_pattern[sz_error_pattern];
 
-        if (fifo_read(g_errorFifo, error_pattern, g_sz_error_pattern) == 0) {
+        if (fifo_read(g_error_pattern_fifo, error_pattern, sz_error_pattern) == 0) {
             int i,b;
-            for(b=0; b<g_Nc*2; b++) {
-                for(i=b; i<g_sz_error_pattern; i+= 2*g_Nc)
-                    m_panelTestFrameErrors->add_new_sample(b, b + 0.8*error_pattern[i]);
+
+            if (g_pfreedv->mode == FREEDV_MODE_1600) {
+                /* FreeDV 1600 mapping from error pattern to bit on each carrier */
+
+                for(b=0; b<g_Nc*2; b++) {
+                    for(i=b; i<sz_error_pattern; i+= 2*g_Nc)
+                        m_panelTestFrameErrors->add_new_sample(b, b + 0.8*error_pattern[i]);
+                }
+            }
+       
+            if (g_pfreedv->mode == FREEDV_MODE_700) {
+                /* FreeDV 700 mapping from error pattern to bit on each
+                   carrier.  Note we don't have access to carriers before
+                   diversity re-combination, so this won't give us the full
+                   picture, we have to assume Nc/2 carriers. */
+
+                for(b=0; b<g_Nc; b++) {
+                    for(i=b; i<sz_error_pattern; i+= g_Nc)
+                        m_panelTestFrameErrors->add_new_sample(b, b + 0.8*error_pattern[i]);
+                }
             }
 
-            m_panelTestFrameErrors->Refresh();
+            m_panelTestFrameErrors->Refresh();       
         }
-
-        delete error_pattern;
-        #endif
     }
 
     // command from UDP thread that is best processed in main thread to avoid seg faults
@@ -2001,6 +2014,11 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
         g_pfreedv->callback_state = NULL;
         g_pfreedv->freedv_get_next_tx_char = &my_get_next_tx_char;
         g_pfreedv->freedv_put_next_rx_char = &my_put_next_rx_char;
+
+        g_pfreedv->error_pattern_callback_state = (void*)m_panelTestFrameErrors;
+        g_pfreedv->freedv_put_error_pattern = &my_freedv_put_error_pattern;
+        g_error_pattern_fifo = fifo_create(2*g_pfreedv->sz_error_pattern);
+
         //if (g_mode == FREEDV_MODE_700)
         //    cohpsk_set_verbose(g_pfreedv->cohpsk, 1);
 
@@ -2019,8 +2037,6 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
         m_panelWaterfall->setFs(g_pfreedv->modem_sample_rate);
 
         // adjust scatter diagram for Number of FDM carriers
-
-        g_errorFifo = fifo_create(2*g_sz_error_pattern);
 
         m_panelScatter->setNc(g_Nc);
 
@@ -2109,9 +2125,8 @@ void MainFrame::OnTogBtnOnOff(wxCommandEvent& event)
 
         // free up states
 
-        free(g_error_pattern);
-        fifo_destroy(g_errorFifo);
         modem_stats_close(&g_stats);
+        fifo_destroy(g_error_pattern_fifo);
         freedv_close(g_pfreedv);
         speex_preprocess_state_destroy(g_speex_st);
         m_newMicInFilter = m_newSpkOutFilter = true;
@@ -3218,10 +3233,8 @@ void per_frame_rx_processing(
             rx_fdm[i].imag = 0.0;
         }
        
-        // only implemented for FreeDV 1600 at this stage
-
-        if (g_channel_noise && FREEDV_MODE_1600) {
-            fdmdv_simulate_channel(g_pfreedv->fdmdv, rx_fdm, nin, 2.0);
+        if (g_channel_noise) {
+            fdmdv_simulate_channel(&g_sig_pwr_av, rx_fdm, nin, 2.0);
         }
         fdmdv_freq_shift(rx_fdm_offset, rx_fdm, g_RxFreqOffsetHz, &g_RxFreqOffsetPhaseRect, nin);
         nout = freedv_comprx(g_pfreedv, output_buf, rx_fdm_offset);
@@ -3510,4 +3523,10 @@ void my_put_next_rx_char(void *callback_state, char c) {
     short ch = (short)c;
     //fprintf(stderr, "put_next_rx_char: %c\n", (char)c);
     fifo_write(g_rxDataOutFifo, &ch, 1);
+}
+
+// Callback from FreeDv API to update error plots
+
+void my_freedv_put_error_pattern(void *state, short error_pattern[], int sz_error_pattern) {
+    fifo_write(g_error_pattern_fifo, error_pattern, sz_error_pattern);
 }

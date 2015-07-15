@@ -598,6 +598,10 @@ void per_frame_rx_processing(
                                         FIFO    *input_fifo     // modem samples input to demod
                                     );
 
+// FreeDv API calls this when there is a test frame that needs a-plottin'
+
+void my_freedv_put_error_pattern(void *state, short error_pattern[], int sz_error_pattern);
+
 // FreeDv API calls these puppies when it needs/receives a text char 
 
 char my_get_next_tx_char(void *callback_state);

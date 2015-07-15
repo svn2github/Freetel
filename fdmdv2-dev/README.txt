@@ -152,7 +152,15 @@ TODO
     [X] freedv API support
     [X] BER displayed on GUI for 700 and 1600
     [ ] plot error patterns for 700 and 1600
+        + callback for error patterns, or poll via stats interface
     [ ] plot error histograms for 700 and 1600
+        + map bit error to carrier, have done this in tcohpsk?
+        + how to reset histogram?  On error reset?
+        + histogram screen ... new code?
+        + test with filter
+    [ ] Plot per carrier average Es/No, or even just Es
+        + good proxy for error histograms if No is constant
+        + this is just a "slow" FFT option I think......
 
 [X] Mel Bugs
     [X] resync issue
@@ -163,24 +171,30 @@ TODO
 
     [X] On TX, intermittently PTT will cause signal to be heard in speakers.  Toggle PTT or 
         Stop/Start toggle and then starts working.
-    [ ] Squelch control on 1600 mode will not open up squelch to 0 (appears to be around 2 dB)
+    [X] Squelch control on 1600 mode will not open up squelch to 0 (appears to be around 2 dB)
     [X] space bar keys PTT when entering text info box
-    [ ] checksum based txt reception
+    [X] checksum based txt reception
         + only print if valid
     [ ] short varicode doesn't work
+        + #ifdef-ed out for now
         + cld be broken in freedv_api
 
 [ ] FreeDV 700 improvements
     [ ] bpf filter after clipping to remove clicks
         [ ] tcohpsk first, measure PAPR, impl loss
     [ ] error masking
+        [ ] excitation params
+        [ ] training
     [ ] plotting other demod stats like ch ampl and phase ests
+    [ ] profile with perf, different libresample routine
+    [ ] check for occassional freedv 700 loss of sync
+        + scatter seems to jump
 
 [X] win32
     [X] X-compile works
     [X] basic installer
-    [ ] add ilbusb0.dll
-    [ ] add hamlib stuff
+    [X] Win32 installer
+        + Richard has taken care of this
 
 [ ] Small fixes
     [X] Playfile bug
