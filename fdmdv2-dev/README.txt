@@ -148,21 +148,26 @@ configure emacs:
 TODO
 ====
 
-[ ] test frames 
+[ ] Open R&D questions
+    + Goal is to develop an open source DV mode that performs comparably to SSB
+    [ ] Does 700 perform OK next to SSB?
+        + approx same tx pk level (hard to measure exactly)
+        + try some low SNR channels
+        + try some fast fading/nasty channels
+    [ ] Is 700 speech quality acceptable?
+
+[X] test frames 
     [X] freedv API support
     [X] BER displayed on GUI for 700 and 1600
-    [ ] plot error patterns for 700 and 1600
+    [X] plot error patterns for 700 and 1600
         + callback for error patterns, or poll via stats interface
-    [ ] plot error histograms for 700 and 1600
+    [X] plot error histograms for 700 and 1600
         + map bit error to carrier, have done this in tcohpsk?
         + how to reset histogram?  On error reset?
         + histogram screen ... new code?
         + test with filter
-    [ ] Plot per carrier average Es/No, or even just Es
-        + good proxy for error histograms if No is constant
-        + this is just a "slow" FFT option I think......
 
-[X] Mel Bugs
+[X] Bugs
     [X] resync issue
     [X] equalise power on 700 and 1600
     [X] research real and complex PAPR
@@ -175,20 +180,34 @@ TODO
     [X] space bar keys PTT when entering text info box
     [X] checksum based txt reception
         + only print if valid
+    [X] IC7200 audio breakup
     [ ] short varicode doesn't work
         + #ifdef-ed out for now
         + cld be broken in freedv_api
+    [X] On 700 audio sounds tinny and clicky when out of sync compared to 1600 why?
+        + clue: only when analog not pressed
+        + this was 7.5 to 8kHz interpolator bug
+    [X] spectrum and waterfall scale changes when analog pressed
+    [ ] ocassional test frames error counter goes crazy
+    [ ] 700 syncs up to 1000Hz sine waves
+        + shouldn't trigger sync logic, will be a problem with carriers
+    [ ] "clip" led, encourage people to adjust gain to hit that occ when speaking
 
 [ ] FreeDV 700 improvements
     [ ] bpf filter after clipping to remove clicks
         [ ] tcohpsk first, measure PAPR, impl loss
     [ ] error masking
+        [ ] C version
+        [ ] training off air?  Switchable?
         [ ] excitation params
         [ ] training
     [ ] plotting other demod stats like ch ampl and phase ests
     [ ] profile with perf, different libresample routine
     [ ] check for occassional freedv 700 loss of sync
         + scatter seems to jump
+    [ ] switchable diversity (narrowband) option
+        + measure difference on a few channels
+        + blog
 
 [X] win32
     [X] X-compile works
@@ -203,11 +222,48 @@ TODO
     [X] long varicode default
     [X] option to _not_ require checksum, on by default
     [X] default squelch 2dB
+    [X] scatter diagram tweaks
+        + e.g. meaningful plots on fading channels in real time 
+        [X] agc with hysteresis
+            + changed to log steps
+        [X] longer persistance
+            + changed to 6 seconds
+        [X] diversity addtions on 700
+            + still not real obvious on plot
+            + might be useful to make this switchable
+    [X] scatter diagram different colours/carrier
+    [ ] remember what mode you were in
     [ ] cmd line file decode
     [ ] Waterfall direction
-    [ ] documentation or use, walk through,you tube, blog posts
-    [ ] scatter diagram agc with hysteresis
-    [ ] scatter diagram useful on fading channels in real time (longer persistance?)
+    [ ] documentation or use, walk through, you tube, blog posts
 
 [ ] Web support for Presence/spotting hooks
 
+=================
+USER GUIDE NOTES
+=================
+
+TODO: Put this in a more usable form, video tutorials etc
+
+1/ Error Histogram.  Displays BER of each carrier when in "test frame"
+ mode.  As each QPSK carrier has 2 bits there are 2*Nc histogram
+ points.
+
+ Ideally all carriers will have about the same BER (+/- 20% after 5000
+ total bit errors).  However problems can occur with filtering in the
+ tx path.  If one carrier has less power, then it will have a higher
+ BER.  The errors in this carrier will tend to dominate overall
+ BER. For example if one carrier is attenuated due to SSB filter
+ ripple in the tx path then the BER on that carrier will be higher.
+ This is bad news for DV.
+
+ Suggested usage: Transmit FreeDV in test frame mode.  Use a 2nd rx
+ (or get a friend) to monitor your rx signal with FreeDV in test frame
+ mode.  Adjust your rx SNR to get a BER of a few % (e.g. reduce tx power,
+ use a short antenna for the rx, point your beam away, adjust rx RF
+ gain).  Monitor the error histogram for a few minutes, until you have
+ say 5000 total bit errors.  You have a problem if the BER of any
+ carrier is more than 20% different from the rest.
+
+  A typical issue will be one carrier at 1.0, the others at 0.5,
+  indicating the poorer carrier BER is twice the larger.

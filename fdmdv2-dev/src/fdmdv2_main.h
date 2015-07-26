@@ -86,6 +86,7 @@
 #include "dlg_options.h"
 #include "varicode.h"
 #include "sox_biquad.h"
+#include "comp_prim.h"
 
 #define _USE_TIMER              1
 #define _USE_ONIDLE             1
@@ -272,6 +273,7 @@ typedef struct
     SRC_STATE      *outsrc1;
     SRC_STATE      *insrc2;
     SRC_STATE      *outsrc2;
+    SRC_STATE      *insrcsf;
 
     // FIFOs attached to first sound card
 
