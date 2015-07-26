@@ -41,7 +41,7 @@
 
 // Scatter diagram 
 
-#define SCATTER_MEM_SECS    2
+#define SCATTER_MEM_SECS    10
 // (symbols/frame)/(graphics update period) = symbols/s sent to scatter memory
 // memory (symbols) = secs of memory * symbols/sec
 #define SCATTER_MEM_SYMS_MAX    ((int)(SCATTER_MEM_SECS*((FDMDV_NC_MAX+1)/DT)))
