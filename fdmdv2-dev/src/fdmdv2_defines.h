@@ -23,6 +23,7 @@
 
 #include "wx/wx.h"
 #include "freedv_api.h"
+#include "freedv_api_internal.h"
 
 // Spectrogram and Waterfall
 

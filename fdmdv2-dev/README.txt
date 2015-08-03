@@ -188,10 +188,11 @@ TODO
         + clue: only when analog not pressed
         + this was 7.5 to 8kHz interpolator bug
     [X] spectrum and waterfall scale changes when analog pressed
-    [ ] ocassional test frames error counter goes crazy
+    [X] ocassional test frames error counter goes crazy
     [ ] 700 syncs up to 1000Hz sine waves
         + shouldn't trigger sync logic, will be a problem with carriers
     [ ] "clip" led, encourage people to adjust gain to hit that occ when speaking
+    [ ] Win32 record from radio time
 
 [ ] FreeDV 700 improvements
     [ ] bpf filter after clipping to remove clicks
@@ -232,7 +233,7 @@ TODO
             + still not real obvious on plot
             + might be useful to make this switchable
     [X] scatter diagram different colours/carrier
-    [ ] remember what mode you were in
+    [X] remember what mode you were in
     [ ] cmd line file decode
     [ ] Waterfall direction
     [ ] documentation or use, walk through, you tube, blog posts
