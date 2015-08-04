@@ -126,6 +126,8 @@ else(BOOTSTRAP_WXWIDGETS AND NOT EXISTS ${WXCONFIG})
 #
 if(MINGW)
     message(STATUS "System is MinGW.")
+    # Setup HOST variable.
+    include(cmake/MinGW.cmake)
     # This sets up the exe icon for windows under mingw.
     set(RES_FILES "")
     set(RES_FILES "${CMAKE_SOURCE_DIR}/contrib/freedv.rc")
