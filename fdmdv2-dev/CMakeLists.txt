@@ -25,21 +25,21 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
 project(FreeDV)
 
 #
-# Parse FreeDV version from src/version.h
+# Set FreeDV version and generate src/version.h
 #
-file(READ "${CMAKE_SOURCE_DIR}/src/version.h" _VERSION_H)
-string(REGEX REPLACE ".*FREEDV_VERSION_MAJOR ([0-9]+).*" "\\1"
-    FREEDV_VERSION_MAJOR "${_VERSION_H}")
-string(REGEX REPLACE ".*FREEDV_VERSION_MINOR ([0-9]+).*" "\\1"
-    FREEDV_VERSION_MINOR "${_VERSION_H}")
-string(REGEX REPLACE ".*FREEDV_VERSION_PATCH ([0-9]+).*" "\\1"
-    FREEDV_VERSION_PATCH "${_VERSION_H}")
-set(FREEDV_VERSION "${FREEDV_VERSION_MAJOR}.${FREEDV_VERSION_MINOR}")
+set(FREEDV_VERSION_MAJOR 0)
+set(FREEDV_VERSION_MINOR 99)
+set(FREEDV_VERSION_PATCH FALSE)
+set(FREEDV_VERSION ${FREEDV_VERSION_MAJOR}.${FREEDV_VERSION_MINOR})
 if(FREEDV_VERSION_PATCH)
     set(FREEDV_VERSION ${FREEDV_VERSION}.${FREEDV_VERSION_PATCH})
-endif(FREEDV_VERSION_PATCH)
-
-message(STATUS "FreeDV version: ${FREEDV_VERSION}")
+endif()
+set(FREEDV_VERSION_SUFFIX "Beta")
+if(FREEDV_VERSION_SUFFIX)
+    set(FREEDV_VERSION_STRING "${FREEDV_VERSION} ${FREEDV_VERSION_SUFFIX}")
+endif()
+message(STATUS "FreeDV version: ${FREEDV_VERSION_STRING}")
+configure_file(cmake/version.h.in src/version.h @ONLY)
 
 # Set default build type
 if(NOT CMAKE_BUILD_TYPE)
@@ -463,12 +463,15 @@ if(WIN32)
     set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/COPYING")
     set(CPACK_PACKAGE_VERSION_MAJOR ${FREEDV_VERSION_MAJOR})
     set(CPACK_PACKAGE_VERSION_MINOR ${FREEDV_VERSION_MINOR})
+    # CPack expects a patch level version so set it here and override if we
+    # are actually setting one.
+    set(CPACK_PACKAGE_VERSION_PATCH 0)
     if(FREEDV_VERSION_PATCH)
         set(CPACK_PACKAGE_VERSION_PATCH ${FREEDV_VERSION_PATCH})
-    else()
-        set(CPACK_PACKAGE_VERSION_PATCH "0")
     endif()
-    set(CPACK_PACKAGE_EXECUTABLES freedv;FreeDV)
+    if(FREEDV_VERSION_SUFFIX)
+        set(CPACK_PACKAGE_VERSION_PATCH "${CPACK_PACKAGE_VERSION_PATCH}-${FREEDV_VERSION_SUFFIX}")
+    endif()
     # There is a bug in NSI that does not handle full unix paths properly. Make
     # sure there is at least one set of four (4) backlasshes.
     #set(CPACK_PACKAGE_ICON "${CMake_SOURCE_DIR}/Utilities/Release\\\\InstallIcon.bmp")
