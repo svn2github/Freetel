@@ -356,8 +356,8 @@ void PlotWaterfall::plotPixelData()
     m_max_mag = BETA*m_max_mag + (1 - BETA)*max_mag;
     m_min_mag = max_mag - 20.0;
     //printf("max_mag: %f m_max_mag: %f\n", max_mag, m_max_mag);
-    intensity_per_dB  = (float)256 /(MAX_MAG_DB - MIN_MAG_DB);
-    //intensity_per_dB  = (float)256 /(m_max_mag - m_min_mag);
+    //intensity_per_dB  = (float)256 /(MAX_MAG_DB - MIN_MAG_DB);
+    intensity_per_dB  = (float)256 /(m_max_mag - m_min_mag);
     spec_index_per_px = ((float)(MAX_F_HZ)/(float)m_modem_stats_max_f_hz)*(float)MODEM_STATS_NSPEC / (float) m_rGrid.GetWidth();
 
     /*
