@@ -10,7 +10,7 @@ missing on many Linux systems, or of the wrong (older) version.
 
 1/ Assuming the fdmdv2-dev source is checked out into ~/fdmdv2-dev:
 
-  $ sudo apt-get install libgtk2.0-dev libhamlib-dev libsamplerate-dev libasound2-dev libao-dev
+  $ sudo apt-get install libgtk2.0-dev libhamlib-dev libsamplerate-dev libasound2-dev libao-dev libgsm1-dev
   $ cd fdmdv2-dev
   $ mkdir build_linux
   $ cd build_linux
@@ -193,6 +193,7 @@ TODO
         + this was 7.5 to 8kHz interpolator bug
     [X] spectrum and waterfall scale changes when analog pressed
     [X] ocassional test frames error counter goes crazy
+    [ ] old Waterfall AGC
     [ ] 700 syncs up to 1000Hz sine waves
         + shouldn't trigger sync logic, will be a problem with carriers
     [ ] "clip" led, encourage people to adjust gain to hit that occ when speaking
