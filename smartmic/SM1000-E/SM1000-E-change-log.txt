@@ -11,8 +11,6 @@ SM1000-E-CHANGE-LOG.TXT
 4.  [X]	R	Added part outlines to layer tDocu for documentation.
 		All pars have outline on tplace layer.
 
-05/18/15
-
 5.  [X]	R	Problem with SPKR OUT conn. Shorts output when stereo jack used.
 		+ as per Josh Mesaline email, suggest resistors to tip and ring
 		so a short doesn't upset amp.  Does this mean it will work with
@@ -116,3 +114,12 @@ SM1000-E-CHANGE-LOG.TXT
 
 33  [X] R	Change drill & pad diameter od pad 7 of switch LC-2259 to 1.6mm & 2.54mm respectively to accomodate switch with larger tabs.
 		Library & .brd updated. RGB
+
+
+Rev F Ideas
+-----------
+
+[ ] jumper with series R for mic gain
+[ ] consider combining grounds on patch panel as they usually are
+[ ] do all gain pots increase gain when turned CW
+[ ] increasing arrow on trimmer pot case overlay showing increase direction
