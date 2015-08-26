@@ -480,9 +480,11 @@ if(WIN32)
     set(CPACK_NSIS_INSTALLED_ICON_NAME "bin\\\\freedv.exe")
     set(CPACK_NSIS_DISPLAY_NAME "${CPACK_PACKAGE_INSTALL_DIRECTORY}")
     set(CPACK_NSIS_PACKAGE_NAME "FreeDV")
+    set(CPACK_PACKAGE_EXECUTABLES freedv;FreeDV)
     set(CPACK_NSIS_URL_INFO_ABOUT "http://freedv.org")
     set(CPACK_NSIS_MODIFY_PATH OFF)
-    set(CPACK_NSIS_MENU_LINKS "http://freedv.org" "FreeDV Homepage")
+    set(CPACK_NSIS_MENU_LINKS
+        "http://freedv.org" "FreeDV Homepage")
     include(CPack)
 endif(WIN32)
 
