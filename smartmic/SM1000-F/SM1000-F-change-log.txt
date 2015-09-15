@@ -1,5 +1,5 @@
 SM1000-E-CHANGE-LOG.TXT
-03/30/15 RGB
+09/15/15 RGB
 
 1.  [X]	R	Change PTT sw. to e-switch LC2259OANP.
 
@@ -116,21 +116,29 @@ SM1000-E-CHANGE-LOG.TXT
 		Library & .brd updated. RGB
 
 
-Rev F Ideas
+Rev F Changes
 -----------
 
-34 [ ] jumper with series R for mic gain
+34 [X] jumper with series R for mic gain
+          Will add jmpr and 1/4W 330 Ohm res in parallel with R48.
 
-35 [ ] consider combining grounds on patch panel as they usually are
+35 [X] consider combining grounds on patch panel as they usually are
+          Will disconnect CN13-12 from RF-MIC(MIC_GND) and connect to CN12-13 RF_PTT(PTT_GND). More flexibility.
 
-36 [ ] do all gain pots increase gain when turned CW
+36 [X] do all gain pots increase gain when turned CW. 
+          Mic GAin reversed fixed in 37 below.
 
-37 [ ] mic gain is wront way around
+37 [X] mic gain is wront way around. 
+          Switched ends of POT to fix direction, increaasing CW.
 
-38 [ ] increasing arrow on trimmer pot case overlay showing increase direction
+38 [X] increasing arrow on trimmer pot case overlay showing increase direction
+          Edwin will arrange with enclosure manufacturer.
 
-39 [ ] http://rfhead.net/?p=582
+39 [X] http://rfhead.net/?p=582
+          Will add pads to implement this. Will be User change & responsibility.
 
-40 [ ] larger patch panel?
+40 [X] larger patch panel?
+	  Replacing CN12 with 16pin DIL turret post socket.
 
-41 [ ] 0805 R48 gain resistors?
+41 [X] 0805 R48 gain resistors?
+	replace R48 package with 1206 package.
