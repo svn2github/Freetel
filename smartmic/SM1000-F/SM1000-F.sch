@@ -4632,6 +4632,7 @@ http://www.weartronics.com/</description>
 <part name="V143" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="D8" library="_RoweTel" deviceset="PESD5ZX" device="" value="DNL"/>
 <part name="CN13" library="_RoweTel" deviceset="DIL16X300" device=""/>
+<part name="R59" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="1206"/>
 </parts>
 <sheets>
 <sheet>
@@ -7076,6 +7077,7 @@ http://www.weartronics.com/</description>
 <attribute name="NAME" x="363.22" y="196.596" size="1.4224" layer="95" ratio="10"/>
 <attribute name="VALUE" x="363.22" y="170.18" size="1.4224" layer="96" ratio="10"/>
 </instance>
+<instance part="R59" gate="G$1" x="401.32" y="106.68"/>
 </instances>
 <busses>
 </busses>
@@ -8158,11 +8160,8 @@ http://www.weartronics.com/</description>
 <wire x1="309.88" y1="187.96" x2="274.32" y2="187.96" width="0.1524" layer="91"/>
 <wire x1="274.32" y1="187.96" x2="274.32" y2="185.42" width="0.1524" layer="91"/>
 <wire x1="274.32" y1="185.42" x2="274.32" y2="182.88" width="0.1524" layer="91"/>
-<wire x1="309.88" y1="185.42" x2="274.32" y2="185.42" width="0.1524" layer="91"/>
-<junction x="274.32" y="185.42"/>
 <pinref part="V133" gate="G$1" pin="RF_MIC"/>
 <pinref part="CN12" gate="G$1" pin="11"/>
-<pinref part="CN12" gate="G$1" pin="12"/>
 </segment>
 <segment>
 <pinref part="CN7" gate="G$1" pin="A"/>
@@ -8250,6 +8249,10 @@ http://www.weartronics.com/</description>
 <wire x1="281.94" y1="182.88" x2="281.94" y2="180.34" width="0.1524" layer="91"/>
 <pinref part="V92" gate="G$1" pin="RF_PTT"/>
 <pinref part="CN12" gate="G$1" pin="13"/>
+<pinref part="CN12" gate="G$1" pin="12"/>
+<wire x1="309.88" y1="185.42" x2="281.94" y2="185.42" width="0.1524" layer="91"/>
+<wire x1="281.94" y1="185.42" x2="281.94" y2="182.88" width="0.1524" layer="91"/>
+<junction x="281.94" y="182.88"/>
 </segment>
 </net>
 <net name="N$32" class="0">

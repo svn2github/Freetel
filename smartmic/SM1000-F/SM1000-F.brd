@@ -3876,6 +3876,7 @@ design rules under a new name.</description>
 </element>
 <element name="DRILEGEND" library="drilegend" package="DRILEGEND" value="" x="21.266053125" y="-12.15666875"/>
 <element name="CN13" library="_RoweTel" package="DIL16X300" value="DIL16X300" x="-11.5" y="26"/>
+<element name="R59" library="AA-ipc-7351-resistor" package="RESC3115X70N" value="" x="69.5" y="24.5" rot="R90"/>
 </elements>
 <signals>
 <signal name="N$2">
@@ -6444,12 +6445,10 @@ design rules under a new name.</description>
 <signal name="RF_MIC">
 <contactref element="C43" pad="2"/>
 <contactref element="CN12" pad="11"/>
-<contactref element="CN12" pad="12"/>
 <wire x1="40.21" y1="10.29" x2="36.5" y2="14" width="0.2" layer="1"/>
 <wire x1="36.5" y1="14" x2="36" y2="14.5" width="0.2" layer="1"/>
 <wire x1="36" y1="22.5" x2="36.5" y2="23" width="0.2" layer="1"/>
 <via x="36.5" y="23" extent="1-16" drill="0.4" diameter="0.8"/>
-<wire x1="28.5" y1="24" x2="30.5" y2="24" width="0.2" layer="16"/>
 <wire x1="30.5" y1="24" x2="31.5" y2="23" width="0.2" layer="16"/>
 <wire x1="31.5" y1="23" x2="36.5" y2="23" width="0.2" layer="16"/>
 <wire x1="36" y1="22.5" x2="36" y2="14.5" width="0.2" layer="1"/>
@@ -6540,6 +6539,8 @@ design rules under a new name.</description>
 <wire x1="33.5" y1="33" x2="33" y2="33.5" width="0.2" layer="1"/>
 <wire x1="32.5" y1="33.55" x2="32.95" y2="33.55" width="0.2" layer="1"/>
 <wire x1="32.95" y1="33.55" x2="33" y2="33.5" width="0.2" layer="1"/>
+<contactref element="CN12" pad="12"/>
+<wire x1="26.5" y1="24" x2="28.5" y2="24" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$32">
 <contactref element="U6" pad="3"/>
