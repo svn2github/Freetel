@@ -14,7 +14,7 @@ endif()
 
 include(ExternalProject)
 ExternalProject_Add(codec2
-   SVN_REPOSITORY https://svn.code.sf.net/p/freetel/code/codec2-dev
+   SVN_REPOSITORY https://svn.code.sf.net/p/freetel/code/codec2/branches/0.5
    CMAKE_ARGS ${CODEC2_CMAKE_ARGS} ${SPEEXDSP_CMAKE_ARGS}
    INSTALL_COMMAND ""
 )
