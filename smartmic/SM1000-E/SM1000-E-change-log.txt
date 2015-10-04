@@ -122,8 +122,8 @@ Rev F Ideas
 [ ] jumper with series R for mic gain
 [ ] consider combining grounds on patch panel as they usually are
 [ ] do all gain pots increase gain when turned CW
-    [ ] mic gain is wront way around
+[ ] mic gain is wront way around
 [ ] increasing arrow on trimmer pot case overlay showing increase direction
 [ ] http://rfhead.net/?p=582
-    [ ] larger patch panel?
-    [ ] 0805 R48 gain resistors?
+[ ] larger patch panel?
+[ ] 0805 R48 gain resistors?
