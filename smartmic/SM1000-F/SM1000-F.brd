@@ -9,7 +9,7 @@
 <grid distance="0.5" unitdist="mm" unit="mm" style="dots" multiple="1" display="yes" altdistance="0.1" altunitdist="mm" altunit="mm"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
-<layer number="2" name="GND" color="3" fill="1" visible="no" active="yes"/>
+<layer number="2" name="GND" color="3" fill="1" visible="yes" active="yes"/>
 <layer number="3" name="Route3" color="4" fill="3" visible="no" active="no"/>
 <layer number="4" name="Route4" color="1" fill="4" visible="no" active="no"/>
 <layer number="5" name="Route5" color="4" fill="4" visible="no" active="no"/>
@@ -22,8 +22,8 @@
 <layer number="12" name="Route12" color="1" fill="5" visible="no" active="no"/>
 <layer number="13" name="Route13" color="4" fill="5" visible="no" active="no"/>
 <layer number="14" name="Route14" color="1" fill="6" visible="no" active="no"/>
-<layer number="15" name="VDD" color="6" fill="1" visible="no" active="yes"/>
-<layer number="16" name="Bottom" color="1" fill="1" visible="no" active="yes"/>
+<layer number="15" name="VDD" color="6" fill="1" visible="yes" active="yes"/>
+<layer number="16" name="Bottom" color="1" fill="1" visible="yes" active="yes"/>
 <layer number="17" name="Pads" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="18" name="Vias" color="2" fill="1" visible="yes" active="yes"/>
 <layer number="19" name="Unrouted" color="6" fill="1" visible="no" active="yes"/>
@@ -112,7 +112,7 @@
 <layer number="203" name="BDIM" color="7" fill="1" visible="no" active="yes"/>
 <layer number="204" name="BRD-DIM" color="7" fill="1" visible="no" active="yes"/>
 <layer number="205" name="???" color="7" fill="1" visible="no" active="yes"/>
-<layer number="206" name="Corners" color="7" fill="1" visible="no" active="yes"/>
+<layer number="206" name="Corners" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="207" name="207bmp" color="7" fill="1" visible="no" active="yes"/>
 <layer number="208" name="208bmp" color="7" fill="1" visible="no" active="yes"/>
 <layer number="209" name="209bmp" color="7" fill="1" visible="no" active="yes"/>
@@ -2441,16 +2441,6 @@ Licensed under TAPR Open Hardware License</text>
 <wire x1="11.058" y1="63.808" x2="10.042" y2="62.792" width="0.1016" layer="146"/>
 <wire x1="10.042" y1="63.3" x2="11.058" y2="63.3" width="0.1016" layer="146"/>
 <text x="0.5" y="101" size="1.27" layer="206" ratio="10">SM1000-F  10/03/15 RGB.</text>
-<dimension x1="0" y1="0" x2="0" y2="100" x3="-16.5" y3="50" textsize="1.27" textratio="10" layer="20"/>
-<dimension x1="0" y1="0" x2="0" y2="21.5" x3="-5" y3="10.75" textsize="1.27" textratio="10" layer="20"/>
-<dimension x1="0" y1="0" x2="0" y2="87.5" x3="-10.5" y3="43.75" textsize="1.27" textratio="10" layer="20"/>
-<dimension x1="65" y1="0" x2="65" y2="22.5" x3="71" y3="11.25" textsize="1.27" textratio="10" layer="20"/>
-<dimension x1="65" y1="0" x2="65" y2="87.5" x3="77" y3="43.75" textsize="1.27" textratio="10" layer="20"/>
-<dimension x1="0" y1="0" x2="4.5" y2="0" x3="2.25" y3="-5.5" textsize="1.27" textratio="10" layer="20"/>
-<dimension x1="0" y1="0" x2="60.5" y2="0" x3="30.25" y3="-10.5" textsize="1.27" textratio="10" layer="20"/>
-<dimension x1="0" y1="0" x2="65" y2="0" x3="32.5" y3="-15.5" textsize="1.27" textratio="10" layer="20"/>
-<dimension x1="0" y1="100" x2="12.5" y2="100" x3="6.25" y3="106" textsize="1.27" textratio="10" layer="20"/>
-<dimension x1="0" y1="100" x2="60.5" y2="100" x3="30.25" y3="111.5" textsize="1.27" textratio="10" layer="20"/>
 </plain>
 <libraries>
 <library name="AA-IC">
@@ -7769,14 +7759,6 @@ design rules under a new name.</description>
 <approved hash="18,29,3b305319f2ef2864"/>
 <approved hash="18,29,6cd9576e62b18b8d"/>
 <approved hash="18,29,73463fbc934f9073"/>
-<approved hash="3,1,d6d2fe2301e52914"/>
-<approved hash="3,1,1216e3c29f3b6eef"/>
-<approved hash="3,2,00ea953ee9177cc3"/>
-<approved hash="3,15,837e876afaaffebb"/>
-<approved hash="3,16,0338b3accf947f00"/>
-<approved hash="3,1,29e612b26ee455b0"/>
-<approved hash="3,16,7ee9c54db96a02ce"/>
-<approved hash="3,16,72bcd178ad5f0e9b"/>
 <approved hash="18,29,fe49c2c52c050f89"/>
 <approved hash="18,29,78fb56a6b46498a5"/>
 <approved hash="18,29,4cea9fd2e6bac09f"/>
@@ -7822,6 +7804,14 @@ design rules under a new name.</description>
 <approved hash="18,29,589b13b6997ad140"/>
 <approved hash="18,29,3bdba896abd5388a"/>
 <approved hash="18,30,63efff11ff1063ee"/>
+<approved hash="3,1,d6d2fe2301e52914"/>
+<approved hash="3,1,1216e3c29f3b6eef"/>
+<approved hash="3,2,00ea953ee9177cc3"/>
+<approved hash="3,15,837e876afaaffebb"/>
+<approved hash="3,16,0338b3accf947f00"/>
+<approved hash="3,1,29e612b26ee455b0"/>
+<approved hash="3,16,7ee9c54db96a02ce"/>
+<approved hash="3,16,72bcd178ad5f0e9b"/>
 <approved hash="4,1,5c780c094c023c72"/>
 <approved hash="4,1,6a12da639e6f5628"/>
 <approved hash="4,1,a07cf5171c84a93f"/>
