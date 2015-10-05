@@ -1,0 +1,69 @@
+Here's my attempt to document the process for branching and tagging releases 
+of codec2 and freedv.
+
+1/ Update the version in CMakeLists.txt in both codec2-dev and freedv-dev to
+   the intended release version.
+
+   Ideally the version in -dev would be greater
+   than the version branched or tagged but as we can't predict the next release
+   we settle for them at least being the same.
+
+   Minor changes that don't break API/ABI compatibility (including bug fixes)
+   should only cause a PATCH level bump.
+
+   Minor changes that do break API/ABI compatibility should bump the MINOR
+   version.
+
+   MAJOR bumps should be reservered for significant milestones or major changes
+   to the UI or other changes that could be considered disruptive to the end 
+   users experience.
+
+2/ Copy the source to a new branch directoy.
+
+   The directory name should only include the MAJOR and MINOR version number.
+
+   (from the freetel directory)
+   $ svn cp codec2-dev codec2/branches/<MAJOR>.<MINOR>
+   $ svn cp freedv-dev freedv/branches/<MAJOR>.<MINOR>
+
+3/ Go into each branch directory and make the necessary modifications.
+
+   This could include Debug->Release changes (if set)
+
+   Specifically in the case of freedv we need to change cmake/BuildCodec2.cmake
+   to checkout codec2 from the appropriate branch instead of codec2-dev.
+
+4/ Tag a release
+
+   Similar to the previous step, except we copy from the branch dir to the tag
+   dir. 
+
+   $ svn cp codec2/branch/<MAJOR>.<MINOR> codec2/tag/<MAJOR>.<MINOR>.[PATCH]
+   $ svn cp freedv/branch/<MAJOR>.<MINOR> freedv/tag/<MAJOR>.<MINOR>.[PATCH]
+
+   The patch level should only be specified if it exists (non-zero).
+
+   Why both branch and tag you ask? While SVN doesn't enforce it, the idea 
+   behind tags is that they are immutible, meaning once you tag a release it
+   doesn't change, instead you would update the branch with whatever changes
+   are needed and tag a new release (bump the minor version).
+
+5/ Export and archive the releases
+
+   codec2:
+   $ svn export codec2/tags/<MAJOR>.<MINOR>.[PATCH] \
+       codec2-<MAJOR>.<MINOR>.[PATCH]
+   $ tar acf codec2-<MAJOR>.<MINOR>.[PATCH].tar.xz \
+       codec2-<MAJOR>.<MINOR>.[PATCH]
+   freedv:
+   $ svn export freedv/tags/<MAJOR>.<MINOR>.[PATCH] \
+       freedv-<MAJOR>.<MINOR>.[PATCH]
+   $ tar acf freedv-<MAJOR>.<MINOR>.[PATCH].tar.xz \
+       freedv-<MAJOR>.<MINOR>.[PATCH]
+
+   This could probably be somewhat automated through a bash script, I'll work
+   on that when I have some free time.
+
+6/ Upload to files.freedv.org
+
+   I'm not sure who all has access other than me. We'll address this later.
