@@ -1,0 +1,90 @@
+[ ] Goals
+    [ ] Demonstrate TDMA repeater
+    [ ] superior weak signal performance (-135dBm)
+    [ ] diversity to handle multipath
+    [ ] wideband audio
+    [ ] high bit rate data
+    [ ] low cost
+    [ ] Full SDR so we can define waveform
+    [ ] SSB up and down converters to allow full waveform control
+    [ ] no SoCs
+
+[ ] Doc
+    [ ] Block diagram
+    [ ] Uses cases in paragraph form
+    [ ] Gain, NF, IP3 budget spreadsheet
+    [ ] Power supply budget spreadsheet
+
+[ ] RF Specs
+    + these are targets, main goals are functional, leave
+      others to get sparkling RF performance
+    [ ] spurious tx emissions -45dBC @ 1W
+    [ ] IP3 10dBm
+    [ ] Blocking 95dB
+    [ ] System NF 2dB
+    [ ] ACS 50dB, 
+    [ ] MDS (1200Hz) -135dBm, 
+    [ ] Tx phase noise -124dBc/Hz ??
+
+[ ] Parts Selection
+    [ ] New audio amp chip
+        + bit better, higher power than LM386
+    [ ] should we add a LCD?
+        + how would this be used? 
+    [ ] General purpose VHF transistors
+    [X] 1st mixer: ADE-1 
+    [ ] RF switches
+    [ ] 1W PA transistor
+    [ ] LCD
+    [ ] encoder
+    [ ] first LO: Si5351
+        + also 2nd LO
+        [ ] optional Si570
+            + low phase noise soldered in option, provide footprint
+            + Si5351 still used as 2nd LO
+            [ ] how to select Si570?
+                + jumper 0hm resistor?
+
+[ ] Use Cases
+    [ ] VHF FM radio
+    [ ] Open Source VHF DV radio
+        [ ] Low MDS
+    [ ] TDMA Repeater
+    [ ] Setting frequencu and mode
+        + how to select frequency?  What combinations of buttons
+          and encoder.
+        + do we need a full 0-9 keyboard?
+        + should we use a PC or remote device as primary input device
+        + does position of buttons/encoders/style of buttons make it easy 
+          to use, e.g. set a frequency
+    [ ] Chnaging waveform
+
+[ ] Software Modules
+    [ ] VHF Modem
+    [ ] VHF protocol
+    [ ] TDMA framework around modem, burst modem
+    [ ] New Drivers
+        [ ] LCD
+        [ ] Encoder
+        [ ] Si570
+        [ ] Si5351
+    [ ] UI for setting a frequency
+    [ ] USB console
+
+[ ] Risks
+    + and experiments/tasks/prototypes to mitigate
+    [ ] DAC and ADC tied together
+        + demo tx/rx switching using this approach
+    [ ] Can we use ADE-1 bir-directional?
+        + what about diplexor?
+    [ ] Investigate use of other mixers
+        + but doesnt have to be perfect?
+        [ ] Celestra mixer
+        [ ] Glens
+    [ ] coupled res in shielded box or cots part?
+    [ ] how to swithc mixer/xtal filter
+    [ ] what else wcould er use instead of NE602?
+
+[ ] PCB layout
+    [ ] where do we put shilds
+    [ ] how to fabricate?
