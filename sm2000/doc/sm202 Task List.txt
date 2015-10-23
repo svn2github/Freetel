@@ -2,6 +2,8 @@
     [ ] Demonstrate TDMA repeater
     [ ] superior weak signal performance (-135dBm)
     [ ] diversity to handle multipath
+        + TDMA diversity, switch rx LO quickly?
+        + demo overcoming large fades?
     [ ] wideband audio
     [ ] high bit rate data
     [ ] low cost
@@ -13,7 +15,11 @@
     [ ] Block diagram
     [ ] Uses cases in paragraph form
     [ ] Gain, NF, IP3 budget spreadsheet
-    [ ] Power supply budget spreadsheet
+    [ ] Power budget spreadsheet
+        [ ] Current per active device
+        [ ] Power dissiapation per active device
+        [ ] Resistor power dissiapation per active device
+            + RF bias currents can be high
 
 [ ] RF Specs
     + these are targets, main goals are functional, leave
@@ -35,6 +41,7 @@
     [ ] General purpose VHF transistors
     [X] 1st mixer: ADE-1 
     [ ] RF switches
+        + Brady has suggest AS17992LF
     [ ] 1W PA transistor
     [ ] LCD
     [ ] encoder
@@ -51,19 +58,22 @@
     [ ] Open Source VHF DV radio
         [ ] Low MDS
     [ ] TDMA Repeater
-    [ ] Setting frequencu and mode
+    [ ] Diversity rx
+        + use 2nd output from 5351
+    [ ] Setting frequency and mode
         + how to select frequency?  What combinations of buttons
           and encoder.
         + do we need a full 0-9 keyboard?
         + should we use a PC or remote device as primary input device
         + does position of buttons/encoders/style of buttons make it easy 
           to use, e.g. set a frequency
-    [ ] Chnaging waveform
+    [ ] Changing waveform
 
 [ ] Software Modules
     [ ] VHF Modem
     [ ] VHF protocol
     [ ] TDMA framework around modem, burst modem
+    [ ] diversity
     [ ] New Drivers
         [ ] LCD
         [ ] Encoder
@@ -85,7 +95,20 @@
     [ ] coupled res in shielded box or cots part?
     [ ] how to swithc mixer/xtal filter
     [ ] what else wcould er use instead of NE602?
+    [ ] ADC perf
+        + SFDR etc, which is why we run it as 100kHz
+        + if not good enough we'll need an external ADC
+        + test against two tone, MDS and ACR
+    [ ] Power dissipation of active devices and resistors
+        + easy to exceed limits in SM resistors and transistors
+        + RF drivers draw lots of current
+    [ ] termination of mixer
+    [ ] do we need a way to bypass the LNA?
+        + or is it OK even with strong signals
 
 [ ] PCB layout
-    [ ] where do we put shilds
-    [ ] how to fabricate?
+    [ ] shields
+        [ ] where do we put sheilds
+        [ ] how to fabricate?
+        [ ] foot prints
+    
