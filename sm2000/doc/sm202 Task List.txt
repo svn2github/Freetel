@@ -31,6 +31,7 @@
         + bit better, higher power than LM386
     [ ] should we add a LCD?
         + how would this be used? 
+        + Could use cheap Nokia 5110, at least in first rev. Well documented and libraried.
     [ ] General purpose VHF transistors
     [X] 1st mixer: ADE-1 
     [ ] RF switches
