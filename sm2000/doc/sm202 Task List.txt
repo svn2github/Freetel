@@ -32,7 +32,24 @@
     [ ] MDS (1200Hz) -135dBm, 
     [ ] Tx phase noise -124dBc/Hz ??
 
+
+[ ] Design 
+    [ ] LNA selected with RF switch
+        [ ] switchable power as well
+            + as power consumption is so high
+    [ ] AGC in rx to facilitate SSB operation
+        + a control line from uC DAV/PWM?
+        + pump up/down GPIO
+    [ ] LO buffer that can be bypassed by DNL
+    [ ] put extra 0805/603 compons in parallel for Z matchhing and dnl
+        + e.g. on collectors and emitters of RF amps
+
 [ ] Parts Selection
+    [ ] what constitutes a RFC?
+        + recc general part
+        + current consumption
+        + RF characterisistics
+        + e.g. for PGA 103 and RF amps
     [ ] New audio amp chip
         + bit better, higher power than LM386
     [ ] should we add a LCD?
@@ -111,4 +128,48 @@
         [ ] where do we put sheilds
         [ ] how to fabricate?
         [ ] foot prints
-    
+    [ ] probe points
+        + VHF freindly with nearby grounds
+        + something I can sit a CRO probe in, with short ground, like 2 thru hole donuts
+        + 1k series resistor to 50 ohm points so we can probe with 50 ohm spec-an or scope
+        + can we get a 50-ohm probe for cro or spec-an?  
+          So mechanically it can sit on board?
+    [ ] 50 ohm points for spec an?
+    [ ] ways to disconnect modules so we can insert tracking gen and spec an
+        + 0805 0 ohm jumpers
+
+[ ] Manufacture
+    [ ] is it feasible to have 6 turn coils with one turn taps in production?
+        + what are the alternatives
+    [ ] can people wind toroids?
+    [ ] How will we test and align?
+
+Unorg notes
+-----------
+
+What we care about:
+
++ Software defined waveform (even linear ones like PSK), so must be
+  linear up and down conversion, eg. direct FM is out
++ TDMA so needs a uC with bare metal, no USB and Host PC type devices due
+  to latenecies
++ Functional demos of advanced features
++ Your idea is you are willing to roll up you sleaves and make it happen.
+
+What we don't care about:
+
+Other people are good the aspects below, we are not.  So we focus
+where we can make a difference, like innovateive coding, good modems,
+a new codec, and open source. We are doing enough!  Don't have to
+a tick all boxes first time around.
+
++ minimal cost
++ your favourite radio architecture - there are many ways to up and down convert a signal.
++ High RF performance, such as phase noise, blocking, ACR, high tx
+  power, multi-band operation, low spurious, component selection, low
+  power consumption.
++ Your favourite chipset
++ Your idea unless you are willing to roll up you sleeves and make it
+  happen.
++ gold plating - is the feature you are proposing going to add to our
+  schedule?  Will it introduce risk?
