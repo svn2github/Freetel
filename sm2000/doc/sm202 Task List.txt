@@ -43,6 +43,11 @@
     [ ] LO buffer that can be bypassed by DNL
     [ ] put extra 0805/603 compons in parallel for Z matchhing and dnl
         + e.g. on collectors and emitters of RF amps
+    [ ] protection for LNA etc if RF switches get set the wrong way
+    [ ] xtal filter power
+        + limit, how many uW?
+    [ ] linear reg for vadc ADC and vref
+        + jumper select to test
 
 [ ] Parts Selection
     [ ] what constitutes a RFC?
