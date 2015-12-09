@@ -1,84 +1,124 @@
-[ ] Goals
-    [ ] Demonstrate TDMA repeater
-    [ ] superior weak signal performance (-135dBm)
-    [ ] diversity to handle multipath
-        + TDMA diversity, switch rx LO quickly?
-        + demo overcoming large fades?
-    [ ] wideband audio
-    [ ] high bit rate data
-    [ ] low cost
-    [ ] Full SDR so we can define waveform
-    [ ] SSB up and down converters to allow full waveform control
-    [ ] no SoCs
+Goals
+=====
 
-[ ] Doc
-    [ ] Block diagram
-    [ ] Uses cases in paragraph form
-    [ ] Gain, NF, IP3 budget spreadsheet
-    [ ] Power budget spreadsheet
-        [ ] Current per active device
-        [ ] Power dissiapation per active device
-        [ ] Resistor power dissiapation per active device
-            + RF bias currents can be high
+To demonstrate advanced VHF/UHF Digital Voice features on an open
+software and hardware platform.
 
-[ ] RF Specs
-    + these are targets, main goals are functional, leave
-      others to get sparkling RF performance
-    [ ] spurious tx emissions -45dBC @ 1W
-    [ ] IP3 10dBm
-    [ ] Blocking 95dB
-    [ ] System NF 2dB
-    [ ] ACS 50dB, 
-    [ ] MDS (1200Hz) -135dBm, 
-    [ ] Tx phase noise -124dBc/Hz ??
+[ ] feasibility of "$100" TDMA repeater
+    + show our radio working as a TDMA repeater without a diplexor
+    + temporary mount on hill top, city wide coverage
+    + no split so saves spectrum, potentially low cost (to fill coverage gaps easily)
+[ ] 10dB weak signal performance gain over analog FM and 1st gen DV
+    + "smackdown" video of current state of the art against our solution
+[ ] diversity to handle multipath
+    + TDMA diversity, switch rx LO quickly
+    + demo overcoming large fades
+[ ] wideband audio
+    + for example use 10dB gain to send 10 kbit/s Skype type audio over channel
+[ ] high bit rate data
+    + 10 - 100 kbit/s
+[ ] low cost
+    + several hundred $ sales price
+    + approx $100 BOM
+
+Project Workflow
+================
+
+Manhatten Prototype -> Sch Entry -> PCB Design -> Load and Test -> Demos
+       /\                                               /\
+       ||                                               ||
+ Proto Modem SW                                      Modem SW
+                                                     UI SW
+                                                     Driver SW
+
+Themes
+======
+
++ Full SDR so we can define waveform
++ SSB up and down converters to allow full waveform control
++ no SoCs
++ Demos of advanced DV features is "enough".  We don't need
+  sparkling performance in other areas such as all RF specs.
+
+Task List
+=========
 
 
-[ ] Design 
-    [ ] LNA selected with RF switch
-        [ ] switchable power as well
-            + as power consumption is so high
-    [ ] AGC in rx to facilitate SSB operation
-        + a control line from uC DAV/PWM?
-        + pump up/down GPIO
-    [ ] LO buffer that can be bypassed by DNL
-    [ ] put extra 0805/603 compons in parallel for Z matchhing and dnl
-        + e.g. on collectors and emitters of RF amps
-    [ ] protection for LNA etc if RF switches get set the wrong way
-    [ ] xtal filter power
-        + limit, how many uW?
-    [ ] linear reg for vadc ADC and vref
-        + jumper select to test
+[ ] Documentation
+  [X] Block diagram
+  [X] Uses cases in paragraph form
+  [X] RF design spreadsheet
+      [X] cascaded Gain 
+      [X] cascaded NF
+      [ ] cascaded IP3
+  [ ] Power budget spreadsheet
+      [ ] Current per active device
+      [ ] Power dissipation per active device
+      [ ] Resistor power dissiapation
+          + RF bias currents can be high
+          + don't want to smoke and SM parts
+      [ ] Summary for each rail
+  [ ] Specs
+      + We don't care too much about IP3, Blocking, ACS, tx phase noise,
+        power consumption, they can be modest, equivalent to middle of 
+        range VHF radios.
+      + We do care about the following.  Check off when demonstrated on
+        prototype of Rev A
+      [X] 12VDC operation
+      [X] NF < 2dB
+      [X] MDS (1200 bit/s 2FSK at BER < 0.03) of < -133dBm   
+      [ ] MDS (1200 bit/s 2FSK at BER < 0.03) of < -130dBm  (3dB de-sensitisation)
+          with -20dBm blocking signal outside of 144 - 148 MHz
+          [ ] spot check at 88, 108, 150, 200 MHz
+      [ ] 1W tx power with spurious emissions -45dBC
+
+
+[ ] Remaining Manhatten Prototype Tasks
+    + Manhatten Style prototype used to build and test as much as possible
+    [ ] 1W PA
+    [ ] PIN diode TR switch
+    [ ] PA filter
+    [ ] Input (1st) BPF
+    [ ] TDMA switching
+        [ ] how to switch PS rails
+        [ ] tx and rx meet specs
+
 
 [ ] Parts Selection
-    [ ] what constitutes a RFC?
-        + recc general part
-        + current consumption
-        + RF characterisistics
-        + e.g. for PGA 103 and RF amps
+    + cross off below when part selected and tested in prototype
     [ ] New audio amp chip
         + bit better, higher power than LM386
-    [ ] should we add a LCD?
-        + how would this be used? 
-        + Could use cheap Nokia 5110, at least in first rev. Well documented and libraried.
     [ ] General purpose VHF transistors
+    [ ] General purpose IF transistors
     [X] 1st mixer: ADE-1 
-    [ ] RF switches
+    [X] RF switches
         + Brady has suggest AS17992LF
     [ ] 1W PA transistor
     [ ] LCD
+        + Could use cheap Nokia 5110, at least in first rev. Well documented and libraried.
     [ ] encoder
-    [ ] first LO: Si5351
+    [X] first LO: Si5351
         + also 2nd LO
-        [ ] optional Si570
+        [X] optional Si570
             + low phase noise soldered in option, provide footprint
             + Si5351 still used as 2nd LO
-            [ ] how to select Si570?
-                + jumper 0hm resistor?
+    [ ] Prototype parts list to Edwin for review
+        + just major parts, semiconductors
+        + make sure they are obtainable
+        + look for low cost equivalents
+
 
 [ ] Use Cases
+    + need software/test procedure to support the following use cases
+    [ ] test modes
+        + useful for devevelopment and debugging
+        [ ] rx BER
+            + prints BER on LCD when continuous 2FSK/4FSK test frames sent
+        [ ] tx BER
+            + sends continuous test frames using 2FSK/4FSK
     [ ] VHF FM radio
-    [ ] Open Source VHF DV radio
-        [ ] Low MDS
+    [ ] Open Source PTT VHF FreeDV radio
+        + continuous or TDMA?  Can they be the same?
     [ ] TDMA Repeater
     [ ] Diversity rx
         + use 2nd output from 5351
@@ -91,11 +131,32 @@
           to use, e.g. set a frequency
     [ ] Changing waveform
 
+
 [ ] Software Modules
+    + see sm201 Block Diagram page 2
     [ ] VHF Modem
+        + cont mode first, we can adpat to burst/TDMA mode next
+        [ ] ideal non-coherent 2FSK/4FSK BER versus Eb/No perf
+        [ ] tracks +/- 500ppm sample clock offsets with no impl loss
+        [ ] +/- 5kHz frequency offset acquisition in 1000ms on continuous signal
+        [ ] C/Octave versions
+        [ ] user defined symbol rate (nominal 1200, 2400), carrier freq, sample rate
+            [ ] can it cope with say 3000 symb/s to allow time for TDMA guard times and sync?
+                + e.g. a gd fit with integerat Fs/Rs ratios
+                + might need TDMA design at same time to answer this question
+        [ ] variable nin style demod C function call, approx 20ms packets
+            [ ] DR to review function headers
+        [ ] automated test script to copare C and Octave units results
+            + to ensure identical implementation 
+        [ ] command line ./mfsk_tx and ./mfsk_rx 
+        [ ] demo OTA (1200/2400/2FSK/4FSK) using SSB radios or SDR
     [ ] VHF protocol
+        + do we need two modes, cont & TDMA?
+        + or is there a way to combine?  So one rx does both?  Autobaud?
+        + can we optionally use FM friendly machester encoded waveform?
     [ ] TDMA framework around modem, burst modem
-    [ ] diversity
+    [ ] rx TDMA diversity
+    [ ] test frame tx/rx modes
     [ ] New Drivers
         [ ] LCD
         [ ] Encoder
@@ -103,35 +164,80 @@
         [ ] Si5351
     [ ] UI for setting a frequency
     [ ] USB console
+    [ ] USB tx/rx signal streaming
+    [ ] Code to support running Modes
+        [ ] Analog FM
+        [ ] TDMA repeater
+        [ ] Diversity RX
+        [ ] FreeDV PTT TDMA radio
+
 
 [ ] Risks
-    + and experiments/tasks/prototypes to mitigate
-    [ ] DAC and ADC tied together
-        + demo tx/rx switching using this approach
-    [ ] Can we use ADE-1 bir-directional?
-        + what about diplexor?
-    [ ] Investigate use of other mixers
-        + but doesnt have to be perfect?
-        [ ] Celestra mixer
-        [ ] Glens
-    [ ] coupled res in shielded box or cots part?
-    [ ] how to swithc mixer/xtal filter
-    [ ] what else wcould er use instead of NE602?
-    [ ] ADC perf
+    + check off when risk has been nailed, e.g. by experiment/test
+    [X] Can we use ADE-1 bir-directional?
+        + yes, use TIA and PIN diode switching
+    [X] coupled res in shielded box or cots part?
+        + make little shields out of blacnk PCB
+        + just make box, doesnt need lids
+    [X] how to switch mixer/xtal filter
+        + tx modulator transistor is part of rx load
+        + alo use of TIA
+    [ ] Is NE602/612 still easy to get?
+    [X] ADC perf
         + SFDR etc, which is why we run it as 100kHz
         + if not good enough we'll need an external ADC
         + test against two tone, MDS and ACR
+        + Result: met 135dBm spec on prototype so OK
     [ ] Power dissipation of active devices and resistors
         + easy to exceed limits in SM resistors and transistors
         + RF drivers draw lots of current
-    [ ] termination of mixer
+        + mitigation: power spereadhseet in doc section
+    [ ] IF termination of 1st mixer
+        + how to test if this is OK?
     [ ] do we need a way to bypass the LNA?
         + or is it OK even with strong signals
+        + mitigation: cascaded IP3 calculations in doc section
+                      if this compares to current middle range radios then OK
+    [ ] xtal filter power
+        + what is the limit, how many dBm are we using at the moment?
+    [X] prototype RX works 
+        + 1200 bit/s 2FSK at < -133dBm with BER < 0.03
+        + theory with NFis -134dBm at 0.02
+    [ ] prototype TX works
+        + 1200 bit/s 2FSK at 1W spurious -45dBC
+        + demod by SDR at high SNR with 0 BER
+    [ ] TDMA switching
+        + demonstrate design supports tx/rx switching fast enough for TDMA
 
-[ ] PCB layout
+
+[ ] Sch Entry
+    [ ] linear reg option for vadc ADC and vref
+        + jumper select to test
+    [ ] put extra 0805 or 1206 components in parallel for Z matching and DNL
+        + e.g. on collectors and emitters of RF amps
+        + between building blocks
+    [ ] inductors
+        [ ] coil winding details if air core
+        [ ] tolerance
+        [ ] statement on Q so we know if we can subs SM or need Hi-Q air-core
+        [ ] alignment of coils WRT each other to prevent coupling
+        [ ] location of shields if rqd
+        [ ] how to adjust/if adjustment rqd
+            + e.g. adjust filter by variation in coild spacing against filter spec
+    [ ] 4 by 0.1 inch pin headers in a square pattern to disconnect building blocks    
+    [ ] select Si570 with a jumper
+    [ ] review of foot prints for discretes
+        + ease of debug, e.g. if we need to add a LC filter
+        + power handling
+         
+[ ] Rev A PCB Layout
+    [ ] footprints for all devices
+    [ ] block diagram showing map of building blocks
+        + separate analog and digital        
     [ ] shields
         [ ] where do we put sheilds
         [ ] how to fabricate?
+            + try small pieces of black PCB
         [ ] foot prints
     [ ] probe points
         + VHF freindly with nearby grounds
@@ -140,8 +246,9 @@
         + can we get a 50-ohm probe for cro or spec-an?  
           So mechanically it can sit on board?
     [ ] 50 ohm points for spec an?
-    [ ] ways to disconnect modules so we can insert tracking gen and spec an
-        + 0805 0 ohm jumpers
+    [ ] 4 pin 0.1 inch headers to disconnect building blocks so we can insert 
+        tracking gen and spec an
+
 
 [ ] Manufacture
     [ ] is it feasible to have 6 turn coils with one turn taps in production?
@@ -149,32 +256,3 @@
     [ ] can people wind toroids?
     [ ] How will we test and align?
 
-Unorg notes
------------
-
-What we care about:
-
-+ Software defined waveform (even linear ones like PSK), so must be
-  linear up and down conversion, eg. direct FM is out
-+ TDMA so needs a uC with bare metal, no USB and Host PC type devices due
-  to latenecies
-+ Functional demos of advanced features
-+ Your idea is you are willing to roll up you sleaves and make it happen.
-
-What we don't care about:
-
-Other people are good the aspects below, we are not.  So we focus
-where we can make a difference, like innovateive coding, good modems,
-a new codec, and open source. We are doing enough!  Don't have to
-a tick all boxes first time around.
-
-+ minimal cost
-+ your favourite radio architecture - there are many ways to up and down convert a signal.
-+ High RF performance, such as phase noise, blocking, ACR, high tx
-  power, multi-band operation, low spurious, component selection, low
-  power consumption.
-+ Your favourite chipset
-+ Your idea unless you are willing to roll up you sleeves and make it
-  happen.
-+ gold plating - is the feature you are proposing going to add to our
-  schedule?  Will it introduce risk?
