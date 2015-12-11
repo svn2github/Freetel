@@ -8223,6 +8223,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <part name="V1" library="A-SUPPLY2" deviceset="+12V" device=""/>
 <part name="C10" library="_RoweTel" deviceset="TRIMCAP_VAR_2222_V" device=""/>
 <part name="U$1" library="A-FRAMES" deviceset="ROWE-ASIZE" device=""/>
+<part name="R9" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0805" value="10k"/>
 </parts>
 <sheets>
 <sheet>
@@ -8363,6 +8364,10 @@ In this library the device names are the same as the pin names of the symbols, t
 <instance part="U$1" gate="G$1" x="0" y="0"/>
 <instance part="U$1" gate="G$2" x="147.32" y="0"/>
 <instance part="U$1" gate="G$3" x="175.26" y="185.42"/>
+<instance part="R9" gate="G$1" x="12.7" y="172.72" smashed="yes" rot="R90">
+<attribute name="NAME" x="11.2014" y="179.07" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="10.922" y="176.53" size="1.778" layer="96" rot="R180"/>
+</instance>
 </instances>
 <busses>
 </busses>
