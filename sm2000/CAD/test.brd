@@ -1693,7 +1693,6 @@ design rules under a new name.</description>
 </element>
 <element name="C9" library="rcl" package="C025-024X044" value="22p" x="-53.22" y="86.25"/>
 <element name="C10" library="_RoweTel" package="TRIMCAP_VAR_2222_V" value="TRIMCAP_VAR_2222_V" x="-19" y="47"/>
-<element name="R9" library="AA-ipc-7351-resistor" package="RESC2012X70N" value="10k" x="-53.5" y="-2.5"/>
 </elements>
 <signals>
 <signal name="N$1">
