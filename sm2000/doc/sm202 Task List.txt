@@ -3,6 +3,7 @@ Goals
 
 To demonstrate advanced VHF/UHF Digital Voice features on an open software and hardware platform.
 
+
 [ ] feasibility of "$100" TDMA repeater
     + show our radio working as a TDMA repeater without a diplexor
     + temporary mount on hill top, city wide coverage
