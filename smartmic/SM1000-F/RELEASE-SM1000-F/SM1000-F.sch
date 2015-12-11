@@ -4632,7 +4632,6 @@ http://www.weartronics.com/</description>
 <part name="CN8" library="_RoweTel" deviceset="ST-3509" device=""/>
 <part name="CN9" library="_RoweTel" deviceset="ST-3509" device=""/>
 <part name="CN10" library="_RoweTel" deviceset="ST-3509" device=""/>
-<part name="V49" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="SW2" library="_RoweTel" deviceset="TS-026" device=""/>
 <part name="SW4" library="_RoweTel" deviceset="TS-026" device=""/>
 <part name="SW5" library="_RoweTel" deviceset="TS-02B" device=""/>
@@ -4645,8 +4644,6 @@ http://www.weartronics.com/</description>
 <part name="SW1" library="_RoweTel" deviceset="SW-LC2259" device=""/>
 <part name="J4" library="_RoweTel" deviceset="CONN-BOOM-XH-2A" device=""/>
 <part name="V120" library="A-SUPPLY2" deviceset="VDD" device=""/>
-<part name="V121" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="V141" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="J2" library="_Coherix" deviceset="JMP-2PIN" device=""/>
 <part name="SH2" library="_Coherix" deviceset="SHUNT,0.1IN" device=""/>
 <part name="D1" library="_RoweTel" deviceset="PTVS20VP1UP" device=""/>
@@ -4764,6 +4761,10 @@ http://www.weartronics.com/</description>
 <text x="358.14" y="160.02" size="1.4224" layer="94" ratio="10">24LC256-I/MS</text>
 <text x="391.668" y="134.62" size="1.4224" layer="94" ratio="10" rot="R90">4.7K,1%</text>
 <text x="399.542" y="134.62" size="1.4224" layer="94" ratio="10" rot="R90">4.7K,1%</text>
+<text x="373.38" y="254" size="1.4224" layer="94" ratio="10">REMOVE GND FROM SW1 &amp; SW3 FRAME.</text>
+<text x="358.14" y="254" size="1.4224" layer="94" ratio="10">12/10/15</text>
+<text x="421.64" y="254" size="1.4224" layer="94" ratio="10">F</text>
+<text x="426.72" y="254" size="1.4224" layer="94" ratio="10">RGB</text>
 </plain>
 <instances>
 <instance part="U4" gate="G$1" x="254" y="25.4"/>
@@ -5131,7 +5132,6 @@ http://www.weartronics.com/</description>
 <attribute name="NAME" x="292.1" y="157.48" size="1.4224" layer="95" ratio="9"/>
 <attribute name="VALUE" x="297.18" y="157.48" size="1.4224" layer="96" ratio="9"/>
 </instance>
-<instance part="V49" gate="GND" x="185.42" y="233.68"/>
 <instance part="SW2" gate="G$1" x="241.3" y="241.3" smashed="yes" rot="R270">
 <attribute name="NAME" x="254" y="243.84" size="1.4224" layer="95" ratio="10"/>
 <attribute name="VALUE" x="254" y="241.3" size="1.4224" layer="95" ratio="10"/>
@@ -5672,16 +5672,6 @@ http://www.weartronics.com/</description>
 <wire x1="284.48" y1="233.68" x2="284.48" y2="231.14" width="0.1524" layer="91"/>
 <wire x1="284.48" y1="231.14" x2="281.94" y2="231.14" width="0.1524" layer="91"/>
 <junction x="281.94" y="231.14"/>
-</segment>
-<segment>
-<wire x1="185.42" y1="264.16" x2="185.42" y2="243.84" width="0.1524" layer="91"/>
-<wire x1="185.42" y1="243.84" x2="185.42" y2="236.22" width="0.1524" layer="91"/>
-<pinref part="V49" gate="GND" pin="GND"/>
-<pinref part="SW1" gate="G$1" pin="8"/>
-<wire x1="185.42" y1="264.16" x2="190.5" y2="264.16" width="0.1524" layer="91"/>
-<pinref part="SW1" gate="G$1" pin="7"/>
-<wire x1="185.42" y1="243.84" x2="190.5" y2="243.84" width="0.1524" layer="91"/>
-<junction x="185.42" y="243.84"/>
 </segment>
 <segment>
 <wire x1="353.06" y1="139.7" x2="350.52" y2="139.7" width="0.1524" layer="91"/>
@@ -6507,6 +6497,10 @@ http://www.weartronics.com/</description>
 <wire x1="417.83" y1="263.906" x2="417.83" y2="254" width="0.1524" layer="94"/>
 <wire x1="422.91" y1="264.16" x2="422.91" y2="254" width="0.1524" layer="94"/>
 <text x="370.84" y="256.54" size="1.4224" layer="94" ratio="10">ADD EEPROM FOR PERSISTANT MEMORY.</text>
+<text x="370.84" y="254" size="1.4224" layer="94" ratio="10">REMOVE GND FROM SW1 &amp; SW3 FRAME.</text>
+<text x="355.6" y="254" size="1.4224" layer="94" ratio="10">12/10/15</text>
+<text x="419.1" y="254" size="1.4224" layer="94" ratio="10">F</text>
+<text x="424.18" y="254" size="1.4224" layer="94" ratio="10">RGB</text>
 </plain>
 <instances>
 <instance part="C39" gate="G$1" x="88.9" y="55.88" smashed="yes" rot="R90">
@@ -7107,12 +7101,6 @@ http://www.weartronics.com/</description>
 <attribute name="NAME" x="121.92" y="30.48" size="1.4224" layer="95" ratio="10"/>
 <attribute name="VALUE" x="114.3" y="27.94" size="1.4224" layer="95" ratio="10"/>
 </instance>
-<instance part="V121" gate="GND" x="96.52" y="233.68" smashed="yes">
-<attribute name="VALUE" x="93.98" y="230.378" size="1.4224" layer="96" ratio="9"/>
-</instance>
-<instance part="V141" gate="GND" x="76.2" y="233.68" smashed="yes">
-<attribute name="VALUE" x="73.66" y="230.378" size="1.4224" layer="96" ratio="9"/>
-</instance>
 <instance part="J2" gate="G$1" x="124.46" y="48.26" smashed="yes" rot="R90">
 <attribute name="NAME" x="129.54" y="53.34" size="1.4224" layer="95" rot="R270"/>
 <attribute name="VALUE" x="127" y="53.34" size="1.4224" layer="96" ratio="9" rot="R270"/>
@@ -7493,16 +7481,6 @@ http://www.weartronics.com/</description>
 <pinref part="V109" gate="GND" pin="GND"/>
 <wire x1="307.34" y1="220.98" x2="309.88" y2="220.98" width="0.1524" layer="91"/>
 <wire x1="309.88" y1="220.98" x2="309.88" y2="218.44" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="SW3" gate="G$1" pin="7"/>
-<pinref part="V141" gate="GND" pin="GND"/>
-<wire x1="76.2" y1="241.3" x2="76.2" y2="236.22" width="0.1524" layer="91"/>
-</segment>
-<segment>
-<pinref part="V121" gate="GND" pin="GND"/>
-<pinref part="SW3" gate="G$1" pin="8"/>
-<wire x1="96.52" y1="236.22" x2="96.52" y2="241.3" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="D3" gate="G$1" pin="A"/>
