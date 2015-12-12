@@ -1,0 +1,5 @@
+SM1000 Rev G Change Log
+
+[ ] Add large txt silk screen lables to STLINK CN1 to help people
+    connecting to it
+
