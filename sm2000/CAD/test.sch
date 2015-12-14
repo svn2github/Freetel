@@ -8056,6 +8056,26 @@ In this library the device names are the same as the pin names of the symbols, t
 <text x="-2.5" y="6.5" size="1" layer="25" ratio="10">&gt;NAME</text>
 <text x="-3" y="-7.5" size="1" layer="27" ratio="10">&gt;VALUE</text>
 </package>
+<package name="DF782">
+<smd name="1" x="-1.4986" y="-1.9177" dx="1.4732" dy="0.7112" layer="1" roundness="25" rot="R90"/>
+<smd name="2" x="0" y="-1.9177" dx="1.4732" dy="0.7112" layer="1" roundness="25" rot="R90"/>
+<smd name="3" x="1.4986" y="-1.9177" dx="1.4732" dy="0.7112" layer="1" roundness="25" rot="R90"/>
+<smd name="4" x="0" y="1.0922" dx="3.175" dy="2.159" layer="1" roundness="50" rot="R90"/>
+<wire x1="0" y1="-2" x2="0" y2="2" width="0.7112" layer="1"/>
+<wire x1="-2.5" y1="-3.246" x2="-2.5" y2="3.238" width="0" layer="39"/>
+<wire x1="-2.5" y1="3.238" x2="2.5" y2="3.238" width="0" layer="39"/>
+<wire x1="2.5" y1="3.238" x2="2.5" y2="-3.246" width="0" layer="39"/>
+<wire x1="2.5" y1="-3.246" x2="-2.5" y2="-3.246" width="0" layer="39"/>
+<wire x1="-1.524" y1="2.032" x2="-2.286" y2="2.032" width="0.15" layer="21"/>
+<wire x1="-2.286" y1="2.032" x2="-2.286" y2="-0.4826" width="0.15" layer="21"/>
+<wire x1="-2.286" y1="-0.4826" x2="-1.4478" y2="-0.4826" width="0.15" layer="21"/>
+<wire x1="1.524" y1="2.032" x2="2.286" y2="2.032" width="0.15" layer="21"/>
+<wire x1="2.286" y1="2.032" x2="2.286" y2="-0.4572" width="0.15" layer="21"/>
+<wire x1="2.286" y1="-0.4572" x2="1.4224" y2="-0.4572" width="0.15" layer="21"/>
+<wire x1="1.4224" y1="-0.4572" x2="1.4224" y2="-0.4318" width="0.15" layer="21"/>
+<text x="-2.54" y="3.683" size="1" layer="25" ratio="10">&gt;NAME</text>
+<text x="-2.54" y="-4.699" size="1" layer="25" ratio="10">&gt;VALUE</text>
+</package>
 </packages>
 <symbols>
 <symbol name="TRIMCAP_VAR_2222_V">
@@ -8077,6 +8097,18 @@ In this library the device names are the same as the pin names of the symbols, t
 </polygon>
 <wire x1="-2.54" y1="0" x2="-0.508" y2="0" width="0.1524" layer="94"/>
 </symbol>
+<symbol name="PGA-103+">
+<wire x1="-5.08" y1="7.62" x2="7.62" y2="0" width="0.4064" layer="94"/>
+<wire x1="7.62" y1="0" x2="0" y2="-4.572" width="0.4064" layer="94"/>
+<wire x1="0" y1="-4.572" x2="-5.08" y2="-7.62" width="0.4064" layer="94"/>
+<wire x1="-5.08" y1="-7.62" x2="-5.08" y2="7.62" width="0.4064" layer="94"/>
+<pin name="1N" x="-10.16" y="0" visible="pad" length="middle"/>
+<pin name="OUT" x="12.7" y="0" visible="pad" length="middle" rot="R180"/>
+<pin name="GND" x="0" y="-10.16" visible="pad" length="middle" rot="R90"/>
+<wire x1="0" y1="-5.08" x2="0" y2="-4.572" width="0.1524" layer="94"/>
+<text x="0" y="10.16" size="1.4224" layer="95" ratio="10">&gt;NAME</text>
+<text x="0" y="7.62" size="1.4224" layer="95" ratio="10">&gt;VALUE</text>
+</symbol>
 </symbols>
 <devicesets>
 <deviceset name="TRIMCAP_VAR_2222_V" prefix="C">
@@ -8088,6 +8120,23 @@ In this library the device names are the same as the pin names of the symbols, t
 <connects>
 <connect gate="G$1" pin="R" pad="R1 R2"/>
 <connect gate="G$1" pin="S" pad="S"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="PGA-103+" prefix="U">
+<gates>
+<gate name="G$1" symbol="PGA-103+" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="DF782">
+<connects>
+<connect gate="G$1" pin="1N" pad="1"/>
+<connect gate="G$1" pin="GND" pad="2 4"/>
+<connect gate="G$1" pin="OUT" pad="3"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -8223,6 +8272,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <part name="V1" library="A-SUPPLY2" deviceset="+12V" device=""/>
 <part name="C10" library="_RoweTel" deviceset="TRIMCAP_VAR_2222_V" device=""/>
 <part name="U$1" library="A-FRAMES" deviceset="ROWE-ASIZE" device=""/>
+<part name="U1" library="_RoweTel" deviceset="PGA-103+" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -8363,6 +8413,7 @@ In this library the device names are the same as the pin names of the symbols, t
 <instance part="U$1" gate="G$1" x="0" y="0"/>
 <instance part="U$1" gate="G$2" x="147.32" y="0"/>
 <instance part="U$1" gate="G$3" x="175.26" y="185.42"/>
+<instance part="U1" gate="G$1" x="48.26" y="154.94"/>
 </instances>
 <busses>
 </busses>
