@@ -1,9 +1,15 @@
 1. Change labels on top overlay near trimmers
-   [X] SPKR IN -> RIG SPKR
-   [X] EXT MIC -> MIC GAIN
-   [X] Remove INT MIC label (it's not associated with a trimmer)
-		INT MIC  Identifies internal microphone. Will move to remove confusion. RGB 12/30/14
    
+[X] SPKR IN -> RIG SPKR
+   
+[X] EXT MIC -> MIC GAIN
+   
+[X] Remove INT MIC label (it's not associated with a trimmer)
+		
+INT MIC  Identifies internal microphone. Will move to remove confusion. RGB 12/30/14
+   
+
+
 2.  [X] Change LED8 to LTST-S2200K. Will correct wrong footprint proble.
 
 3.  [X] Investigate moving USB connector forward so that it extends trhu the rear panel. 
