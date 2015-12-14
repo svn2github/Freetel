@@ -394,7 +394,7 @@ UsedLibrary="drilegend.lbr"
 
 [Win_1]
 Type="Control Panel"
-Loc="492 231 1091 630"
+Loc="849 73 1448 472"
 State=2
 Number=0
 
