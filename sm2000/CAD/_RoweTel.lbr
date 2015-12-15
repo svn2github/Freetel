@@ -1342,8 +1342,8 @@ NS Package M08A</description>
 <smd name="2" x="0" y="-3.099" dx="1.219" dy="2.235" layer="1"/>
 <smd name="3" x="2.311" y="-3.099" dx="1.219" dy="2.235" layer="1"/>
 <smd name="4" x="0" y="3.099" dx="3.6" dy="2.2" layer="1"/>
-<text x="-2.54" y="0.0508" size="1.27" layer="25">&gt;NAME</text>
-<text x="-2.54" y="-1.3208" size="1.27" layer="27">&gt;VALUE</text>
+<text x="-3.04" y="5.5508" size="1" layer="25" font="vector" ratio="10">&gt;NAME</text>
+<text x="-3.54" y="-6.8208" size="1" layer="27" font="vector" ratio="10">&gt;VALUE</text>
 <rectangle x1="-1.6002" y1="1.8034" x2="1.6002" y2="3.6576" layer="51"/>
 <rectangle x1="-0.4318" y1="-3.6576" x2="0.4318" y2="-1.8034" layer="51"/>
 <rectangle x1="-2.7432" y1="-3.6576" x2="-1.8796" y2="-1.8034" layer="51"/>
@@ -1352,6 +1352,10 @@ NS Package M08A</description>
 <rectangle x1="-0.4318" y1="-3.6576" x2="0.4318" y2="-1.8034" layer="51"/>
 <rectangle x1="-2.7432" y1="-3.6576" x2="-1.8796" y2="-1.8034" layer="51"/>
 <rectangle x1="1.8796" y1="-3.6576" x2="2.7432" y2="-1.8034" layer="51"/>
+<wire x1="-3.5" y1="-5" x2="-3.5" y2="5" width="0" layer="39"/>
+<wire x1="-3.5" y1="5" x2="3.5" y2="5" width="0" layer="39"/>
+<wire x1="3.5" y1="5" x2="3.5" y2="-5" width="0" layer="39"/>
+<wire x1="3.5" y1="-5" x2="-3.5" y2="-5" width="0" layer="39"/>
 </package>
 <package name="TO263">
 <description>&lt;b&gt;TO-263 Package&lt;/b&gt;</description>
@@ -17797,6 +17801,40 @@ Source: LITEON, LTV816.pdf</description>
 <connect gate="G$1" pin="D" pad="3"/>
 <connect gate="G$1" pin="G" pad="1"/>
 <connect gate="G$1" pin="S" pad="2 2.1"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="MMBT3904" prefix="Q">
+<gates>
+<gate name="G$1" symbol="NPN" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="SOT23">
+<connects>
+<connect gate="G$1" pin="B" pad="1"/>
+<connect gate="G$1" pin="C" pad="3"/>
+<connect gate="G$1" pin="E" pad="2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="PZT3904" prefix="Q">
+<gates>
+<gate name="G$1" symbol="NPN" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="SOT223">
+<connects>
+<connect gate="G$1" pin="B" pad="1"/>
+<connect gate="G$1" pin="C" pad="2 4"/>
+<connect gate="G$1" pin="E" pad="3"/>
 </connects>
 <technologies>
 <technology name=""/>
