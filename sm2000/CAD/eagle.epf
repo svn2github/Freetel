@@ -7,10 +7,11 @@ Desktop="Desktop"
 
 [Globals]
 AutoSaveProject=1
+UsedLibrary="C:/Users/rbarnich/My Projects/EagleFiles/lbr/_Coherix.lbr"
 
 [Win_1]
 Type="Control Panel"
-Loc="850 228 1449 859"
+Loc="648 119 1247 518"
 State=2
 Number=0
 
