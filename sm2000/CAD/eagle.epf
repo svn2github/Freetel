@@ -7,7 +7,9 @@ Desktop="Desktop"
 
 [Globals]
 AutoSaveProject=1
+UsedLibrary="C:/Users/rbarnich/My Projects/EagleFiles/lbr/A-FRAMES.lbr"
 UsedLibrary="C:/Users/rbarnich/My Projects/EagleFiles/lbr/_Coherix.lbr"
+UsedLibrary="_RoweTel.lbr"
 
 [Win_1]
 Type="Control Panel"
