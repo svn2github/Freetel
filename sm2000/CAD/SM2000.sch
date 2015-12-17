@@ -9287,7 +9287,6 @@ BF959 corrected 2008.03.06&lt;br&gt;</description>
 <part name="C49" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="100nF,25V"/>
 <part name="V124" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="FB7" library="_RoweTel" deviceset="FB0805" device=""/>
-<part name="R55" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="0 Ohm"/>
 <part name="R54" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0603" value="0 Ohm"/>
 <part name="C55" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="1nF,25V,0402"/>
 <part name="C56" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0402" value="1nF,25V,0402"/>
@@ -9872,10 +9871,6 @@ SCHEMATICS</text>
 </instance>
 <instance part="V124" gate="GND" x="43.18" y="106.68"/>
 <instance part="FB7" gate="G$1" x="20.32" y="60.96"/>
-<instance part="R55" gate="G$1" x="83.82" y="208.28" smashed="yes" rot="R180">
-<attribute name="NAME" x="81.28" y="210.82" size="1.4224" layer="95" ratio="9"/>
-<attribute name="VALUE" x="86.36" y="210.82" size="1.4224" layer="96" ratio="9"/>
-</instance>
 <instance part="R54" gate="G$1" x="83.82" y="203.2" smashed="yes" rot="R180">
 <attribute name="NAME" x="81.788" y="204.978" size="1.4224" layer="95" ratio="9"/>
 <attribute name="VALUE" x="86.614" y="204.978" size="1.4224" layer="96" ratio="9"/>
@@ -10889,13 +10884,6 @@ SCHEMATICS</text>
 <label x="69.85" y="234.188" size="1.4224" layer="95" ratio="10"/>
 </segment>
 </net>
-<net name="!CPPT!" class="0">
-<segment>
-<pinref part="U1" gate="A" pin="PD10"/>
-<wire x1="147.32" y1="149.86" x2="165.1" y2="149.86" width="0.1524" layer="91"/>
-<label x="149.86" y="150.368" size="1.4224" layer="95" ratio="10"/>
-</segment>
-</net>
 <net name="!TEST!" class="0">
 <segment>
 <pinref part="R4" gate="G$1" pin="2"/>
@@ -11054,25 +11042,11 @@ SCHEMATICS</text>
 <wire x1="104.14" y1="261.62" x2="104.14" y2="264.16" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="DAC1_OUT" class="0">
-<segment>
-<pinref part="R55" gate="G$1" pin="2"/>
-<wire x1="78.74" y1="208.28" x2="66.04" y2="208.28" width="0.1524" layer="91"/>
-<label x="68.58" y="208.788" size="1.4224" layer="95" ratio="10"/>
-</segment>
-</net>
 <net name="DAC2_OUT" class="0">
 <segment>
 <pinref part="R54" gate="G$1" pin="2"/>
 <wire x1="78.74" y1="203.2" x2="66.04" y2="203.2" width="0.1524" layer="91"/>
 <label x="68.58" y="203.708" size="1.4224" layer="95" ratio="10"/>
-</segment>
-</net>
-<net name="N$11" class="0">
-<segment>
-<pinref part="R55" gate="G$1" pin="1"/>
-<pinref part="U1" gate="A" pin="PA4"/>
-<wire x1="88.9" y1="208.28" x2="111.76" y2="208.28" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$13" class="0">
@@ -12852,15 +12826,14 @@ SCHEMATICS</text>
 </net>
 <net name="N$90" class="0">
 <segment>
-<pinref part="C69" gate="G$1" pin="1"/>
-<wire x1="132.08" y1="215.9" x2="134.62" y2="215.9" width="0.1524" layer="91"/>
 <pinref part="C76" gate="G$1" pin="2"/>
-<wire x1="134.62" y1="215.9" x2="137.16" y2="215.9" width="0.1524" layer="91"/>
 <wire x1="134.62" y1="152.4" x2="137.16" y2="152.4" width="0.1524" layer="91"/>
-<wire x1="134.62" y1="215.9" x2="137.16" y2="215.9" width="0.1524" layer="91"/>
 <wire x1="137.16" y1="215.9" x2="137.16" y2="152.4" width="0.1524" layer="91"/>
 <pinref part="X2" gate="G$1" pin="1"/>
 <wire x1="144.78" y1="215.9" x2="137.16" y2="215.9" width="0.1524" layer="91"/>
+<pinref part="C69" gate="G$1" pin="1"/>
+<wire x1="137.16" y1="215.9" x2="134.62" y2="215.9" width="0.1524" layer="91"/>
+<wire x1="132.08" y1="215.9" x2="134.62" y2="215.9" width="0.1524" layer="91"/>
 <junction x="137.16" y="215.9"/>
 </segment>
 </net>
