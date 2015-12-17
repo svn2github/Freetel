@@ -22,9 +22,19 @@ Vo1 = Vi*j*Xc/(Rs+j*Xc);
 
 Vo2 = Vi*j*Xc/(Rb+j*Xc);
 
-printf("standard: %3.0f mVrms   Cap Mult: %3.0f mVrms\n", abs(Vo1)*1E3, abs(Vo2)*1E3);
+printf("1/ standard: %3.0f mVrms   Cap Mult: %3.0f mVrms\n", abs(Vo1)*1E3, abs(Vo2)*1E3);
 
+# 2nd simulation between two Rb values with C=47uF
 
+C = 47E-6;
+Xc = 1/(w*C);
+
+Rb=50;
+Vo3 = Vi*j*Xc/(Rb+j*Xc);
+Rb=5000;
+Vo4 = Vi*j*Xc/(Rb+j*Xc);
+
+printf("2/ Cap Mult C=47uF Rb=50: %3.0f mVrms   Rb=5000: %3.1f mVrms\n", abs(Vo3)*1E3, abs(Vo4)*1E3);
 
 
 
