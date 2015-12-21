@@ -11768,8 +11768,8 @@ Radiall&lt;p&gt;</description>
 <wire x1="0.508" y1="0" x2="2.54" y2="2.54" width="0.3048" layer="94"/>
 </symbol>
 <symbol name="MINI-L">
-<pin name="2" x="7.62" y="0" visible="off" length="middle" direction="pas" rot="R180"/>
-<pin name="1" x="-7.62" y="0" visible="off" length="middle" direction="pas"/>
+<pin name="2" x="5.08" y="0" visible="off" length="short" direction="pas" rot="R180"/>
+<pin name="1" x="-5.08" y="0" visible="off" length="short" direction="pas"/>
 <wire x1="-2.54" y1="1.27" x2="2.54" y2="1.27" width="0.1524" layer="94"/>
 <wire x1="2.54" y1="1.27" x2="2.54" y2="-1.27" width="0.1524" layer="94"/>
 <wire x1="2.54" y1="-1.27" x2="-2.54" y2="-1.27" width="0.1524" layer="94"/>
