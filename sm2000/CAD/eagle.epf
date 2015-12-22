@@ -12,18 +12,12 @@ UsedLibrary="C:/Users/rbarnich/My Projects/EagleFiles/lbr/_Coherix.lbr"
 UsedLibrary="_RoweTel.lbr"
 
 [Win_1]
-Type="Control Panel"
-Loc="648 119 1247 518"
-State=2
-Number=0
-
-[Win_2]
 Type="Board Editor"
-Loc="2217 293 2816 692"
-State=2
+Loc="492 231 1091 630"
+State=0
 Number=2
 File="SM2000.brd"
-View="-201.299 -2.70425 167.084 137.917"
+View="-201.809 -44.588 167.094 138.738"
 WireWidths=" 0 0.1 0.15 0.25 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1 1.27 1.8 2.54 0.2"
 PadDiameters=" 0 0.5 0.6 0.7 0.9 1 1.27 1.42 1.67 1.8 1.9 2.2 2.54 3.81 6.45 0.8"
 PadDrills=" 0.5 0.6 0.7 0.8 0.9 1 1.1 1.2 1.4 1.5 1.6 2 2.2 2.8 3.2 0.4"
@@ -62,6 +56,12 @@ ArcDirection=0
 AddLevel=2
 PadsSameType=0
 Layer=16
+
+[Win_2]
+Type="Control Panel"
+Loc="575 244 1174 643"
+State=2
+Number=0
 
 [Desktop]
 Screen="3520 1200"
