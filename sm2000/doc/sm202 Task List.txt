@@ -208,7 +208,20 @@ Task List
         + demod by SDR at high SNR with 0 BER
     [ ] TDMA switching
         + demonstrate design supports tx/rx switching fast enough for TDMA
-
+        [ ] tx/rx power supply rail swicthing
+    [ ] RF detector
+        + pwr calibration, shutdown with no load
+    [ ] PA
+        [ ] 1W for 5 minutes
+        [ ] adjust PA from uC via Vgg
+    [ ] Dual freq TDMA
+        + tx and rx?  We need a way to tx on two different freqs
+        + use same clock for tx and rx?
+    [ ] 2ND LO dist and swicthing
+        + 150pF to NE602?
+        + attenuator?
+        + selecting LOs?
+    [ ] Spreadsheet with Z matches
 
 [ ] Sch Entry
     [ ] linear reg option for vadc ADC and vref
@@ -229,9 +242,17 @@ Task List
     [ ] review of foot prints for discretes
         + ease of debug, e.g. if we need to add a LC filter
         + power handling
+    [ ] check package of each L
+        + make sure enough room for hand wound air core versions
+    [ ] specify locations of 4 pin 50 ohm breaks
+        + 0805 0 ohm, or break for isolation and testing
          
 [ ] Rev A PCB Layout
     [ ] footprints for all devices
+    [ ] will air core inductors be thru hole parts?
+        + nice big pads as some rework likely
+    [ ] avoid vias for RF nets, all routing on top layer
+        + gnd plane next layer down
     [ ] block diagram showing map of building blocks
         + separate analog and digital        
     [ ] shields
