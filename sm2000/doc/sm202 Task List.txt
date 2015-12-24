@@ -161,7 +161,9 @@ Task List
         [ ] LCD
         [ ] Encoder
         [ ] Si570
+            [ ] TDMA clock switching
         [ ] Si5351
+            [ ] TDMA clock switching              
     [ ] UI for setting a frequency
     [ ] USB console
     [ ] USB tx/rx signal streaming
@@ -246,7 +248,14 @@ Task List
         + make sure enough room for hand wound air core versions
     [ ] specify locations of 4 pin 50 ohm breaks
         + 0805 0 ohm, or break for isolation and testing
-         
+    [ ] 10uF tant to PA
+    [ ] research TXCO for si5351 clock input
+        + perhaps include as option
+        + does it have to be 25MHz?
+    [ ] how to connect SCA/SCL on clock chips to uC?
+        + is there a separate enable?
+    [ ] LEDs for control signals/rails
+
 [ ] Rev A PCB Layout
     [ ] footprints for all devices
     [ ] will air core inductors be thru hole parts?
