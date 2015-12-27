@@ -1,0 +1,35 @@
+Questions for Dave
+12/27/15
+
+	1. 4 Status LEDS Pg 1?
+	2. Led power on indicator? Pg 1
+	3. Select & Back Switches? Pg1
+	4. Usart 3 pullups? Pg 1
+	5. Boot1 pulldown? Pg 1
+	6. Stlink Conn & SIgs? Pg1
+	7. Self Test jmpr & pullup? Pg1
+	8. Reset Switch, pullup& cap? Pg1
+	9. STM32F4907 power section OK? Pg1
+	10. CPU AIN1 & 2 ? Pg1
+	11. CPU DAC1(2)? others? Pg1
+	12. Test points? Where & type? PG1 & 2
+	13. Ext SPI & I2c I/O?
+	14. I2c to Si570 & SI 5351?
+	15. 8 MHz osc(CPU)? Pg1
+	16. Uart 3.3V I/O pullups?
+	17. Same USP OTG Interface? Pg1
+	18. EEPROM chip & interface? PG1
+	19. Review Voltage regulators? Pg2  What is Vgg?
+	20. Int/Ext MIC interface, same? Pg2
+	21. Speaker? Amp? Ext SPKR & COnn? Pg2
+	22. Same Vdd -> AVdd filtering? Pg2
+	23. Start with 160mm x 100mm PCB? 4 layers?
+	24. Same power input jack? Pg2
+	25. Ext PTT input? isolated? Pg2
+	26. Jumper blocks 2 x 2? where? PG 3 & 4
+	27. Scope probe footprints? Where?
+
+
+Power Dissipation?
+1.568W xls sht. 33.38W in regulators. Eliminate 9V regulator? power still high.
+FIltering on +12V input. Limit input to 12V - 14V? 13.8V in shack or mobile, 12V PS common?  difficult to accomodate wider range.
