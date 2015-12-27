@@ -75,10 +75,10 @@ Task List
 
 [ ] Remaining Manhatten Prototype Tasks
     + Manhatten Style prototype used to build and test as much as possible
-    [ ] 1W PA
-    [ ] PIN diode TR switch
-    [ ] PA filter
-    [ ] Input (1st) BPF
+    [X] 1W PA
+    [X] PIN diode TR switch
+    [X] PA filter
+    [X] Input (1st) BPF
     [ ] TDMA switching
         [ ] how to switch PS rails
         [ ] tx and rx meet specs
@@ -88,12 +88,12 @@ Task List
     + cross off below when part selected and tested in prototype
     [ ] New audio amp chip
         + bit better, higher power than LM386
-    [ ] General purpose VHF transistors
-    [ ] General purpose IF transistors
+    [X] General purpose VHF transistors
+    [X] General purpose IF transistors
     [X] 1st mixer: ADE-1 
     [X] RF switches
         + Brady has suggest AS17992LF
-    [ ] 1W PA transistor
+    [X] 1W PA transistor
     [ ] LCD
         + Could use cheap Nokia 5110, at least in first rev. Well documented and libraried.
     [ ] encoder
@@ -102,7 +102,7 @@ Task List
         [X] optional Si570
             + low phase noise soldered in option, provide footprint
             + Si5351 still used as 2nd LO
-    [ ] Prototype parts list to Edwin for review
+    [X] Prototype parts list to Edwin for review
         + just major parts, semiconductors
         + make sure they are obtainable
         + look for low cost equivalents
@@ -184,7 +184,7 @@ Task List
     [X] how to switch mixer/xtal filter
         + tx modulator transistor is part of rx load
         + alo use of TIA
-    [ ] Is NE602/612 still easy to get?
+    [X] Is NE602/612 still easy to get?
     [X] ADC perf
         + SFDR etc, which is why we run it as 100kHz
         + if not good enough we'll need an external ADC
@@ -194,12 +194,13 @@ Task List
         + easy to exceed limits in SM resistors and transistors
         + RF drivers draw lots of current
         + mitigation: power spereadhseet in doc section
-    [ ] IF termination of 1st mixer
-        + how to test if this is OK?
-    [ ] do we need a way to bypass the LNA?
+    [X] IF termination of 1st mixer
+        + how to test if this is OK -> Sweep with R/L bridge
+    [X] do we need a way to bypass the LNA?
         + or is it OK even with strong signals
         + mitigation: cascaded IP3 calculations in doc section
                       if this compares to current middle range radios then OK
+        + decided to keep in cct, pending strong sig tests
     [ ] xtal filter power
         + what is the limit, how many dBm are we using at the moment?
     [X] prototype RX works 
@@ -211,11 +212,12 @@ Task List
     [ ] TDMA switching
         + demonstrate design supports tx/rx switching fast enough for TDMA
         [ ] tx/rx power supply rail swicthing
-    [ ] RF detector
+    [X] RF detector
         + pwr calibration, shutdown with no load
-    [ ] PA
-        [ ] 1W for 5 minutes
-        [ ] adjust PA from uC via Vgg
+    [X] PA
+        [X] 1W for 5 minutes
+        [X] adjust PA from uC via Vgg
+            + not tested from uC yet
     [ ] Dual freq TDMA
         + tx and rx?  We need a way to tx on two different freqs
         + use same clock for tx and rx?
@@ -232,15 +234,15 @@ Task List
         + e.g. on collectors and emitters of RF amps
         + between building blocks
     [ ] inductors
-        [ ] coil winding details if air core
-        [ ] tolerance
-        [ ] statement on Q so we know if we can subs SM or need Hi-Q air-core
-        [ ] alignment of coils WRT each other to prevent coupling
+        [X] coil winding details if air core
+        [X] tolerance
+        [X] statement on Q so we know if we can subs SM or need Hi-Q air-core
+        [X] alignment of coils WRT each other to prevent coupling
         [ ] location of shields if rqd
         [ ] how to adjust/if adjustment rqd
             + e.g. adjust filter by variation in coild spacing against filter spec
     [ ] 4 by 0.1 inch pin headers in a square pattern to disconnect building blocks    
-    [ ] select Si570 with a jumper
+    [X] select Si570 with a jumper
     [ ] review of foot prints for discretes
         + ease of debug, e.g. if we need to add a LC filter
         + power handling
@@ -249,9 +251,10 @@ Task List
     [ ] specify locations of 4 pin 50 ohm breaks
         + 0805 0 ohm, or break for isolation and testing
     [ ] 10uF tant to PA
-    [ ] research TXCO for si5351 clock input
+    [X] research TXCO for si5351 clock input
         + perhaps include as option
         + does it have to be 25MHz?
+        + decided not to run with TXCO for prototype, as freq stab not critical
     [ ] how to connect SCA/SCL on clock chips to uC?
         + is there a separate enable?
     [ ] LEDs for control signals/rails
