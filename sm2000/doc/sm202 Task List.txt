@@ -190,10 +190,11 @@ Task List
         + if not good enough we'll need an external ADC
         + test against two tone, MDS and ACR
         + Result: met 135dBm spec on prototype so OK
-    [ ] Power dissipation of active devices and resistors
+    [X] Power dissipation of active devices and resistors
         + easy to exceed limits in SM resistors and transistors
         + RF drivers draw lots of current
         + mitigation: power spereadhseet in doc section
+        + looks good, see also email to Rick 28/12/15 sub: "sm205 powr budget"
     [X] IF termination of 1st mixer
         + how to test if this is OK -> Sweep with R/L bridge
     [X] do we need a way to bypass the LNA?
@@ -258,6 +259,9 @@ Task List
     [ ] how to connect SCA/SCL on clock chips to uC?
         + is there a separate enable?
     [ ] LEDs for control signals/rails
+    [ ] Add a Av=2 op-amp to take 3v3 DAC max from uC to 5V
+        max for Vgg driving PA final Q14.  Will need to be powered by 5V rail.
+        This is a preacuation in case we need > 3V for some FETs
 
 [ ] Rev A PCB Layout
     [ ] footprints for all devices
