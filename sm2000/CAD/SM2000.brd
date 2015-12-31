@@ -1230,25 +1230,6 @@ INFINEON, www.infineon.com/cmc_upload/0/000/010/257/eh_db_5b.pdf</description>
 <wire x1="4.5" y1="-2.5" x2="4" y2="-2.5" width="0.6" layer="21"/>
 <circle x="-5.5" y="-4" radius="1" width="0" layer="21"/>
 </package>
-<package name="SI570">
-<smd name="5" x="0" y="2.1" dx="2.15" dy="1.7" layer="1" rot="R90"/>
-<smd name="6" x="-2.54" y="2.1" dx="2.15" dy="1.7" layer="1" rot="R90"/>
-<smd name="4" x="2.54" y="2.1" dx="2.15" dy="1.7" layer="1" rot="R90"/>
-<smd name="2" x="0" y="-2.1" dx="2.15" dy="1.7" layer="1" rot="R90"/>
-<smd name="1" x="-2.54" y="-2.1" dx="2.15" dy="1.7" layer="1" rot="R90"/>
-<smd name="3" x="2.54" y="-2.1" dx="2.15" dy="1.7" layer="1" rot="R90"/>
-<smd name="7" x="-2.8525" y="0" dx="1.545" dy="1.3" layer="1"/>
-<smd name="8" x="2.8525" y="0" dx="1.545" dy="1.3" layer="1"/>
-<wire x1="-4.1" y1="3.65" x2="4.1" y2="3.65" width="0.15" layer="21"/>
-<wire x1="4.1" y1="3.65" x2="4.1" y2="-3.65" width="0.15" layer="21"/>
-<wire x1="4.1" y1="-3.65" x2="-4.1" y2="-3.65" width="0.15" layer="21"/>
-<wire x1="-4.1" y1="-3.65" x2="-4.1" y2="3.65" width="0.15" layer="21"/>
-<wire x1="-4.5" y1="3.8" x2="4.5" y2="3.8" width="0" layer="39"/>
-<wire x1="4.5" y1="3.8" x2="4.5" y2="-3.8" width="0" layer="39"/>
-<wire x1="4.5" y1="-3.8" x2="-4.5" y2="-3.8" width="0" layer="39"/>
-<wire x1="-4.5" y1="-3.8" x2="-4.5" y2="3.8" width="0" layer="39"/>
-<text x="-2.5" y="4.5" size="1" layer="25" font="vector" ratio="10">&gt;NAME</text>
-</package>
 <package name="MSOP10">
 <wire x1="-1.5" y1="1" x2="1.5" y2="1" width="0.127" layer="21"/>
 <wire x1="1.5" y1="1" x2="1.5" y2="-1" width="0.127" layer="21"/>
@@ -1301,6 +1282,25 @@ INFINEON, www.infineon.com/cmc_upload/0/000/010/257/eh_db_5b.pdf</description>
 <text x="-1.475" y="-2.2875" size="1" layer="27" font="vector" ratio="10">&gt;VALUE</text>
 <rectangle x1="-1" y1="-0.625" x2="-0.6" y2="0.625" layer="51"/>
 <rectangle x1="0.6" y1="-0.625" x2="1" y2="0.625" layer="51"/>
+</package>
+<package name="SI570">
+<smd name="5" x="0" y="2.1" dx="2.15" dy="1.7" layer="1" rot="R90"/>
+<smd name="6" x="-2.54" y="2.1" dx="2.15" dy="1.7" layer="1" rot="R90"/>
+<smd name="4" x="2.54" y="2.1" dx="2.15" dy="1.7" layer="1" rot="R90"/>
+<smd name="2" x="0" y="-2.1" dx="2.15" dy="1.7" layer="1" rot="R90"/>
+<smd name="1" x="-2.54" y="-2.1" dx="2.15" dy="1.7" layer="1" rot="R90"/>
+<smd name="3" x="2.54" y="-2.1" dx="2.15" dy="1.7" layer="1" rot="R90"/>
+<smd name="7" x="-2.8525" y="0" dx="1.545" dy="1.3" layer="1"/>
+<smd name="8" x="2.8525" y="0" dx="1.545" dy="1.3" layer="1"/>
+<wire x1="-4.1" y1="3.65" x2="4.1" y2="3.65" width="0.15" layer="21"/>
+<wire x1="4.1" y1="3.65" x2="4.1" y2="-3.65" width="0.15" layer="21"/>
+<wire x1="4.1" y1="-3.65" x2="-4.1" y2="-3.65" width="0.15" layer="21"/>
+<wire x1="-4.1" y1="-3.65" x2="-4.1" y2="3.65" width="0.15" layer="21"/>
+<wire x1="-4.5" y1="3.8" x2="4.5" y2="3.8" width="0" layer="39"/>
+<wire x1="4.5" y1="3.8" x2="4.5" y2="-3.8" width="0" layer="39"/>
+<wire x1="4.5" y1="-3.8" x2="-4.5" y2="-3.8" width="0" layer="39"/>
+<wire x1="-4.5" y1="-3.8" x2="-4.5" y2="3.8" width="0" layer="39"/>
+<text x="-2.5" y="4.5" size="1" layer="25" font="vector" ratio="10">&gt;NAME</text>
 </package>
 </packages>
 </library>
@@ -3014,14 +3014,14 @@ design rules under a new name.</description>
 <element name="R66" library="_RoweTel" package="R0805" value="180" x="-88.67" y="103.65"/>
 <element name="R67" library="_RoweTel" package="R0805" value="15" x="-92.48" y="103.65"/>
 <element name="C28" library="_RoweTel" package="C0805" value="100nF" x="-69.62" y="71.9"/>
-<element name="C67" library="_RoweTel" package="C0805" value="100nF" x="-75.97" y="71.9"/>
+<element name="C67" library="_RoweTel" package="C0805" value="100nF,25V" x="-75.97" y="71.9"/>
 <element name="R68" library="_RoweTel" package="R0805" value="2.2K" x="-96.29" y="103.65"/>
 <element name="R69" library="_RoweTel" package="R0805" value="470" x="-100.1" y="103.65"/>
-<element name="C68" library="_RoweTel" package="C0805" value="100nF" x="-82.32" y="71.9"/>
+<element name="C68" library="_RoweTel" package="C0805" value="100nF,25V" x="-82.32" y="71.9"/>
 <element name="R70" library="_RoweTel" package="R0805" value="10" x="-103.91" y="103.65"/>
 <element name="R71" library="_RoweTel" package="R0805" value="47" x="-107.72" y="103.65"/>
-<element name="C69" library="_RoweTel" package="C0805" value="100nF" x="-88.67" y="71.9"/>
-<element name="C71" library="_RoweTel" package="C0805" value="100nF" x="-95.02" y="71.9"/>
+<element name="C69" library="_RoweTel" package="C0805" value="100nF,25V" x="-88.67" y="71.9"/>
+<element name="C71" library="_RoweTel" package="C0805" value="100nF,25V" x="-95.02" y="71.9"/>
 <element name="Q4" library="_RoweTel" package="SOT23" value="MMBT3904" x="-59.46" y="64.28"/>
 <element name="Q5" library="_RoweTel" package="SOT23" value="MMBT3904" x="-64.54" y="64.28"/>
 <element name="Q6" library="_RoweTel" package="SOT23" value="MMBT3904" x="-69.62" y="64.28"/>
@@ -3031,15 +3031,15 @@ design rules under a new name.</description>
 <element name="R75" library="_RoweTel" package="R0805" value="2.2K" x="-13.74" y="108.73"/>
 <element name="R76" library="_RoweTel" package="R0805" value="180" x="-17.55" y="108.73"/>
 <element name="R77" library="_RoweTel" package="R0805" value="15" x="-21.36" y="108.73"/>
-<element name="C72" library="_RoweTel" package="C0805" value="100nF" x="-101.37" y="71.9"/>
-<element name="C73" library="_RoweTel" package="C0805" value="100nF" x="-107.72" y="71.9"/>
+<element name="C72" library="_RoweTel" package="C0805" value="100nF,25V" x="-101.37" y="71.9"/>
+<element name="C73" library="_RoweTel" package="C0805" value="100nF,25V" x="-107.72" y="71.9"/>
 <element name="R78" library="_RoweTel" package="R0805" value="2.2K" x="-25.17" y="108.73"/>
 <element name="R79" library="_RoweTel" package="R0805" value="470" x="-28.98" y="108.73"/>
-<element name="C74" library="_RoweTel" package="C0805" value="100nF" x="-114.07" y="71.9"/>
+<element name="C74" library="_RoweTel" package="C0805" value="100nF,25V" x="-114.07" y="71.9"/>
 <element name="R80" library="_RoweTel" package="R0805" value="10" x="-32.79" y="108.73"/>
 <element name="R81" library="_RoweTel" package="R0805" value="47" x="-36.6" y="108.73"/>
-<element name="C75" library="_RoweTel" package="C0805" value="100nF" x="-120.42" y="71.9"/>
-<element name="C76" library="_RoweTel" package="C0805" value="100nF" x="-15.01" y="78.25"/>
+<element name="C75" library="_RoweTel" package="C0805" value="100nF,25V" x="-120.42" y="71.9"/>
+<element name="C76" library="_RoweTel" package="C0805" value="100nF,25V" x="-15.01" y="78.25"/>
 <element name="X1" library="_RoweTel" package="BU-SMA-H" value="BU-SMA-H" x="-100.1" y="12.21">
 <attribute name="OC_NEWARK" value="unknown" x="1.5" y="-17" size="1.778" layer="27" display="off"/>
 <attribute name="MPN" value="" x="1.5" y="-17" size="1.778" layer="27" display="off"/>
@@ -3118,25 +3118,25 @@ design rules under a new name.</description>
 <element name="C99" library="_RoweTel" package="C0805" value="47p" x="-162" y="88"/>
 <element name="C100" library="_RoweTel" package="C0805" value="33p" x="-145.5" y="101"/>
 <element name="L15" library="rcl" package="0204/5" value="57nH air core 4T 2mm ID " x="-166" y="82"/>
-<element name="Q17" library="transistor" package="SOT23-EBC" value="MMT2904" x="-158.5" y="43"/>
+<element name="Q17" library="transistor" package="SOT23-EBC" value="MMBT3904" x="-158.5" y="43"/>
 <element name="R108" library="_RoweTel" package="R0805" value="3k" x="-139" y="18"/>
 <element name="R109" library="_RoweTel" package="R0805" value="1k" x="-134" y="18"/>
 <element name="R110" library="_RoweTel" package="R0805" value="10" x="-168.5" y="12.5"/>
 <element name="C118" library="_RoweTel" package="C0805" value="0.1u" x="-135" y="29.5"/>
 <element name="C119" library="_RoweTel" package="C0805" value="10uF" x="-139.5" y="43.5"/>
 <element name="FB14" library="_RoweTel" package="FE0805" value="FB0805" x="-138" y="12.5"/>
-<element name="L20" library="rcl" package="0204/5" value="5.7uH +/- 10% Q&gt;20" x="-167" y="23.5"/>
+<element name="L20" library="rcl" package="0204/5" value="5.7uH" x="-167" y="23.5"/>
 <element name="C120" library="_RoweTel" package="C0805" value="39pF" x="-161.5" y="36"/>
 <element name="C121" library="_RoweTel" package="C0805" value="0.1u" x="-156" y="36"/>
 <element name="C122" library="_RoweTel" package="C0805" value="5p6" x="-150.5" y="36"/>
-<element name="L21" library="rcl" package="0204/5" value="9.2uH +/- 10% Q&gt;20" x="-152" y="23.5"/>
+<element name="L21" library="rcl" package="0204/5" value="9.2uH" x="-152" y="23.5"/>
 <element name="C123" library="c-trimm" package="3008" value="2-12pF" x="-141" y="51.5">
 <attribute name="OC_NEWARK" value="unknown" x="-182.5" y="-23" size="1" layer="27" ratio="10" display="off"/>
 <attribute name="MPN" value="" x="-182.5" y="-23" size="1" layer="27" ratio="10" display="off"/>
 <attribute name="MF" value="" x="-182.5" y="-23" size="1" layer="27" ratio="10" display="off"/>
 <attribute name="OC_FARNELL" value="unknown" x="-182.5" y="-23" size="1" layer="27" ratio="10" display="off"/>
 </element>
-<element name="Q18" library="transistor" package="SOT23-EBC" value="MMT2904" x="-149" y="43"/>
+<element name="Q18" library="transistor" package="SOT23-EBC" value="MMBT3904" x="-149" y="43"/>
 <element name="R111" library="_RoweTel" package="R0805" value="33k" x="-163.5" y="12.5"/>
 <element name="R112" library="_RoweTel" package="R0805" value="15k" x="-158.5" y="12.5"/>
 <element name="R113" library="_RoweTel" package="R0805" value="1k" x="-153.5" y="12.5"/>
@@ -3146,7 +3146,7 @@ design rules under a new name.</description>
 <element name="C127" library="_RoweTel" package="C0805" value="27pF" x="-168" y="29.5"/>
 <element name="C128" library="_RoweTel" package="C0805" value="150pF" x="-134.5" y="43.5"/>
 <element name="C129" library="_RoweTel" package="C0805" value="0.1u" x="-162.5" y="29.5"/>
-<element name="L22" library="rcl" package="0204/5" value="5.2uH +/- 10% Q&gt;20" x="-167" y="18"/>
+<element name="L22" library="rcl" package="0204/5" value="5.2uH" x="-167" y="18"/>
 <element name="U7" library="_RoweTel" package="SO-08" value="SA612A" x="-164" y="43"/>
 <element name="R114" library="_RoweTel" package="R0805" value="50" x="-148.5" y="12.5"/>
 <element name="C130" library="_RoweTel" package="C0805" value="1n" x="-157" y="29.5"/>
@@ -3155,7 +3155,7 @@ design rules under a new name.</description>
 <element name="C131" library="_RoweTel" package="C0805" value="0.1u" x="-151.5" y="29.5"/>
 <element name="C132" library="_RoweTel" package="C0805" value="150pF" x="-168" y="36"/>
 <element name="C133" library="_RoweTel" package="C0805" value="1n" x="-146" y="29.5"/>
-<element name="L23" library="rcl" package="0204/5" value="15uH +/- 10% Q&gt;20" x="-152" y="18"/>
+<element name="L23" library="rcl" package="0204/5" value="15uH" x="-152" y="18"/>
 <element name="C134" library="_RoweTel" package="C0805" value="1n" x="-140.5" y="29.5"/>
 <element name="XTAL2" library="_RoweTel" package="HC49/S" value="ECS-10.7-15B" x="-165.5" y="4.5"/>
 <element name="XTAL3" library="_RoweTel" package="HC49/S" value="ECS-10.7-15B" x="-151" y="4.5"/>
@@ -3205,17 +3205,16 @@ design rules under a new name.</description>
 <element name="L26" library="rcl" package="0204/5" value="220nH 7T 6.25mm ID" x="-210" y="57"/>
 <element name="U13" library="_RoweTel" package="ADE-1" value="ADE-1" x="-198.5" y="65.5"/>
 <element name="R101" library="_RoweTel" package="R0805" value="150" x="-184.5" y="95.5"/>
-<element name="C42" library="_RoweTel" package="C0805" value="0.1u" x="-199" y="94.5"/>
+<element name="C42" library="_RoweTel" package="C0805" value="0.1uF,25V" x="-199" y="94.5"/>
 <element name="FB13" library="_RoweTel" package="FE0805" value="FB0805" x="-199" y="82.5"/>
-<element name="U14" library="_RoweTel" package="SI570" value="SI570CAC000141DG" x="-202" y="109"/>
-<element name="XTAL5" library="_RoweTel" package="XTAL-FY0800035" value="25MHz 10pF e.g. TXC 7B-25.000MEEQ-T" x="-203" y="101.5"/>
+<element name="XTAL5" library="_RoweTel" package="XTAL-FY0800035" value="25MHz,TXC,SMD" x="-203" y="101.5"/>
 <element name="FB16" library="_RoweTel" package="FE0805" value="FB0805" x="-194" y="82.5"/>
-<element name="C43" library="_RoweTel" package="C0805" value="0.1u" x="-194" y="94.5"/>
+<element name="C43" library="_RoweTel" package="C0805" value="0.1uF,25V" x="-194" y="94.5"/>
 <element name="R102" library="_RoweTel" package="R0805" value="1k" x="-204.5" y="88"/>
 <element name="R103" library="_RoweTel" package="R0805" value="1k" x="-199.5" y="88"/>
 <element name="R104" library="_RoweTel" package="R0805" value="150" x="-194.5" y="88"/>
 <element name="FB22" library="_RoweTel" package="FE0805" value="FB0805" x="-189" y="82.5"/>
-<element name="C44" library="_RoweTel" package="C0805" value="0.1u" x="-189" y="94.5"/>
+<element name="C44" library="_RoweTel" package="C0805" value="0.1uF,25V" x="-189" y="94.5"/>
 <element name="R105" library="_RoweTel" package="R0805" value="0R" x="-189.5" y="88"/>
 <element name="R106" library="_RoweTel" package="R0805" value="0R" x="-184.5" y="88"/>
 <element name="R107" library="_RoweTel" package="R0805" value="0R" x="-204.5" y="82.5"/>
@@ -3266,6 +3265,7 @@ design rules under a new name.</description>
 <attribute name="NAME" x="-201.9825" y="-5.525" size="1" layer="25" font="vector" ratio="10" rot="R270"/>
 <attribute name="VALUE" x="-205.2875" y="-5.525" size="1" layer="27" font="vector" ratio="10" rot="R270"/>
 </element>
+<element name="U14" library="_RoweTel" package="SI570" value="SI570" x="-220" y="-18"/>
 </elements>
 <signals>
 <signal name="N$2">
@@ -3511,13 +3511,11 @@ design rules under a new name.</description>
 <contactref element="L24" pad="2"/>
 <contactref element="R48" pad="1"/>
 <contactref element="C148" pad="2"/>
-<contactref element="U14" pad="3"/>
 <contactref element="U15" pad="8"/>
 <contactref element="XTAL5" pad="2"/>
 <contactref element="XTAL5" pad="4"/>
 <contactref element="C42" pad="2"/>
 <contactref element="C43" pad="2"/>
-<contactref element="U14" pad="3"/>
 <contactref element="U15" pad="8"/>
 <contactref element="R104" pad="2"/>
 <contactref element="C44" pad="2"/>
@@ -3554,6 +3552,10 @@ design rules under a new name.</description>
 <contactref element="X1" pad="3"/>
 <contactref element="X1" pad="4"/>
 <contactref element="X1" pad="5"/>
+<contactref element="U14" pad="3"/>
+<contactref element="U14" pad="3"/>
+<wire x1="-209.95" y1="-12.4" x2="-217.46" y2="-20.1" width="0" layer="19" extent="1-1"/>
+<wire x1="-208.05" y1="-8.6" x2="-209.95" y2="-12.4" width="0" layer="19" extent="1-1"/>
 <wire x1="-207.6" y1="1.5" x2="-208.05" y2="-8.6" width="0" layer="19" extent="1-1"/>
 <wire x1="-206.6" y1="4.5" x2="-207.6" y2="1.5" width="0" layer="19" extent="1-1"/>
 <wire x1="-203.1" y1="4.5" x2="-206.6" y2="4.5" width="0" layer="19" extent="1-1"/>
@@ -3588,7 +3590,6 @@ design rules under a new name.</description>
 <wire x1="-207.46" y1="51.5" x2="-207.46" y2="46" width="0" layer="19" extent="1-1"/>
 <wire x1="-210.5" y1="63.0823" x2="-207.46" y2="51.5" width="0" layer="19" extent="1-1"/>
 <wire x1="-210.5" y1="66.0922" x2="-210.5" y2="63.0823" width="0" layer="19" extent="1-1"/>
-<wire x1="-209.95" y1="-12.4" x2="-196.5" y2="3.4" width="0" layer="19" extent="1-1"/>
 <wire x1="-193.46" y1="51.5" x2="-202.175" y2="41" width="0" layer="19" extent="1-1"/>
 <wire x1="-191.96" y1="57" x2="-193.46" y2="51.5" width="0" layer="19" extent="1-1"/>
 <wire x1="-184.96" y1="67.5" x2="-191.96" y2="57" width="0" layer="19" extent="1-1"/>
@@ -3750,7 +3751,6 @@ design rules under a new name.</description>
 <wire x1="-200.9" y1="100.3" x2="-203" y2="96.2" width="0" layer="19" extent="1-1"/>
 <wire x1="-205.1" y1="102.7" x2="-200.9" y2="100.3" width="0" layer="19" extent="1-1"/>
 <wire x1="-193.55" y1="88" x2="-193.1" y2="94.5" width="0" layer="19" extent="1-1"/>
-<wire x1="-199.46" y1="106.9" x2="-200.9" y2="100.3" width="0" layer="19" extent="1-1"/>
 <wire x1="-86.13" y1="-14.3" x2="-63.73" y2="-14.88" width="0" layer="19" extent="1-1"/>
 <wire x1="-96.29" y1="-14.3" x2="-86.13" y2="-14.3" width="0" layer="19" extent="1-1"/>
 </signal>
@@ -3815,10 +3815,16 @@ design rules under a new name.</description>
 <contactref element="U6" pad="5"/>
 <contactref element="C36" pad="1"/>
 <contactref element="C41" pad="1"/>
+<contactref element="FB13" pad="1"/>
+<contactref element="FB22" pad="1"/>
+<contactref element="FB16" pad="1"/>
 <wire x1="-212.4" y1="4.5" x2="-213.9" y2="1.5" width="0" layer="19" extent="1-1"/>
 <wire x1="-211.05" y1="9" x2="-212.4" y2="4.5" width="0" layer="19" extent="1-1"/>
 <wire x1="-210.05" y1="12.35" x2="-211.05" y2="9" width="0" layer="19" extent="1-1"/>
 <wire x1="-207.95" y1="15" x2="-210.05" y2="12.35" width="0" layer="19" extent="1-1"/>
+<wire x1="-199.975" y1="82.5" x2="-207.95" y2="15" width="0" layer="19" extent="1-1"/>
+<wire x1="-194.975" y1="82.5" x2="-199.975" y2="82.5" width="0" layer="19" extent="1-1"/>
+<wire x1="-189.975" y1="82.5" x2="-194.975" y2="82.5" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="+5V">
 <contactref element="U3" pad="5"/>
@@ -4932,11 +4938,6 @@ design rules under a new name.</description>
 <wire x1="-189.4" y1="25" x2="-212.45" y2="32" width="0" layer="19" extent="1-1"/>
 <wire x1="-212.54" y1="57" x2="-212.45" y2="32" width="0" layer="19" extent="1-1"/>
 </signal>
-<signal name="3V3">
-<contactref element="FB13" pad="1"/>
-<contactref element="FB22" pad="1"/>
-<wire x1="-189.975" y1="82.5" x2="-199.975" y2="82.5" width="0" layer="19" extent="1-1"/>
-</signal>
 <signal name="TX-2ND-LO">
 <contactref element="R104" pad="1"/>
 <contactref element="R102" pad="1"/>
@@ -4954,13 +4955,6 @@ design rules under a new name.</description>
 <wire x1="-190.45" y1="88" x2="-205.45" y2="82.5" width="0" layer="19" extent="1-1"/>
 <wire x1="-185.45" y1="88" x2="-190.45" y2="88" width="0" layer="19" extent="1-1"/>
 </signal>
-<signal name="N$63">
-<contactref element="FB13" pad="2"/>
-<contactref element="C42" pad="1"/>
-<contactref element="U15" pad="1"/>
-<wire x1="-204" y1="91.8" x2="-198.025" y2="82.5" width="0" layer="19" extent="1-1"/>
-<wire x1="-199.9" y1="94.5" x2="-204" y2="91.8" width="0" layer="19" extent="1-1"/>
-</signal>
 <signal name="N$65">
 <contactref element="XTAL5" pad="3"/>
 <contactref element="U15" pad="2"/>
@@ -4971,24 +4965,21 @@ design rules under a new name.</description>
 <contactref element="U15" pad="3"/>
 <wire x1="-205.1" y1="100.3" x2="-203" y2="91.8" width="0" layer="19" extent="1-1"/>
 </signal>
-<signal name="N$117">
-<contactref element="FB16" pad="1"/>
-</signal>
 <signal name="N$119">
-<contactref element="FB16" pad="2"/>
-<contactref element="U14" pad="6"/>
-<contactref element="C43" pad="1"/>
 <contactref element="U14" pad="2"/>
+<contactref element="U14" pad="6"/>
+<contactref element="FB16" pad="2"/>
+<contactref element="C43" pad="1"/>
+<wire x1="-222.54" y1="-15.9" x2="-220" y2="-20.1" width="0" layer="19" extent="1-1"/>
+<wire x1="-193.025" y1="82.5" x2="-222.54" y2="-15.9" width="0" layer="19" extent="1-1"/>
 <wire x1="-194.9" y1="94.5" x2="-193.025" y2="82.5" width="0" layer="19" extent="1-1"/>
-<wire x1="-202" y1="106.9" x2="-194.9" y2="94.5" width="0" layer="19" extent="1-1"/>
-<wire x1="-204.54" y1="111.1" x2="-202" y2="106.9" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$120">
+<contactref element="U15" pad="7"/>
 <contactref element="FB22" pad="2"/>
 <contactref element="C44" pad="1"/>
-<contactref element="U15" pad="7"/>
-<wire x1="-189.9" y1="94.5" x2="-188.025" y2="82.5" width="0" layer="19" extent="1-1"/>
-<wire x1="-202.5" y1="96.2" x2="-189.9" y2="94.5" width="0" layer="19" extent="1-1"/>
+<wire x1="-189.9" y1="94.5" x2="-202.5" y2="96.2" width="0" layer="19" extent="1-1"/>
+<wire x1="-188.025" y1="82.5" x2="-189.9" y2="94.5" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$121">
 <contactref element="R105" pad="2"/>
@@ -5001,9 +4992,9 @@ design rules under a new name.</description>
 <wire x1="-183.55" y1="88" x2="-202" y2="96.2" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$123">
-<contactref element="U14" pad="4"/>
 <contactref element="R107" pad="2"/>
-<wire x1="-199.46" y1="111.1" x2="-203.55" y2="82.5" width="0" layer="19" extent="1-1"/>
+<contactref element="U14" pad="4"/>
+<wire x1="-203.55" y1="82.5" x2="-217.46" y2="-15.9" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$124">
 <contactref element="R102" pad="2"/>
@@ -5106,9 +5097,7 @@ design rules under a new name.</description>
 </signal>
 <signal name="+12V_RX">
 <contactref element="Q9" pad="3"/>
-<contactref element="Q11" pad="3"/>
 <contactref element="R70" pad="2"/>
-<wire x1="-213.5" y1="-12.4" x2="-213.5" y2="-8.6" width="0" layer="19" extent="1-1"/>
 <wire x1="-102.96" y1="103.65" x2="-213.5" y2="-12.4" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$42">
@@ -5141,7 +5130,29 @@ design rules under a new name.</description>
 <wire x1="-203" y1="-7.95" x2="-209.95" y2="-8.6" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="N$40">
+<contactref element="Q11" pad="3"/>
 <contactref element="R80" pad="1"/>
+<wire x1="-33.74" y1="108.73" x2="-213.5" y2="-8.6" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$47">
+<contactref element="FB13" pad="2"/>
+<contactref element="C42" pad="1"/>
+<contactref element="U15" pad="1"/>
+<wire x1="-204" y1="91.8" x2="-198.025" y2="82.5" width="0" layer="19" extent="1-1"/>
+<wire x1="-199.9" y1="94.5" x2="-204" y2="91.8" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$56">
+<contactref element="L20" pad="1"/>
+</signal>
+<signal name="SDA">
+<contactref element="U15" pad="5"/>
+<contactref element="U14" pad="7"/>
+<wire x1="-202" y1="91.8" x2="-222.8525" y2="-18" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="SCL">
+<contactref element="U15" pad="4"/>
+<contactref element="U14" pad="8"/>
+<wire x1="-202.5" y1="91.8" x2="-217.1475" y2="-18" width="0" layer="19" extent="1-1"/>
 </signal>
 </signals>
 </board>
