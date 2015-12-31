@@ -76,12 +76,52 @@
 <layer number="100" name="Mechanical" color="7" fill="1" visible="no" active="yes"/>
 <layer number="101" name="Gehäuse" color="13" fill="1" visible="no" active="yes"/>
 <layer number="102" name="Mittellin" color="7" fill="1" visible="no" active="yes"/>
+<layer number="103" name="fp3" color="7" fill="1" visible="no" active="yes"/>
+<layer number="104" name="Name" color="7" fill="1" visible="no" active="yes"/>
 <layer number="105" name="Beschreib" color="9" fill="1" visible="no" active="no"/>
 <layer number="106" name="BGA-Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="107" name="BD-Top" color="5" fill="1" visible="no" active="no"/>
+<layer number="108" name="fp8" color="7" fill="1" visible="no" active="yes"/>
+<layer number="109" name="fp9" color="7" fill="1" visible="no" active="yes"/>
+<layer number="110" name="fp0" color="7" fill="1" visible="no" active="yes"/>
+<layer number="111" name="KASTMAAT1" color="7" fill="1" visible="no" active="yes"/>
+<layer number="112" name="KASTMAAT2" color="7" fill="1" visible="no" active="yes"/>
+<layer number="113" name="FRNTTEKEN" color="7" fill="1" visible="no" active="yes"/>
+<layer number="114" name="FRNTMAAT1" color="7" fill="1" visible="no" active="yes"/>
+<layer number="115" name="FRNTMAAT2" color="7" fill="1" visible="no" active="yes"/>
+<layer number="116" name="Patch_BOT" color="7" fill="1" visible="no" active="yes"/>
+<layer number="117" name="BACKMAAT1" color="7" fill="1" visible="no" active="yes"/>
+<layer number="118" name="BACKMAAT2" color="7" fill="1" visible="no" active="yes"/>
+<layer number="119" name="KAP_TEKEN" color="7" fill="1" visible="no" active="yes"/>
+<layer number="120" name="KAP_MAAT1" color="7" fill="1" visible="no" active="yes"/>
+<layer number="121" name="tTestdril" color="7" fill="1" visible="no" active="yes"/>
+<layer number="122" name="bTestdril" color="7" fill="1" visible="no" active="yes"/>
+<layer number="123" name="tTestmark" color="7" fill="1" visible="no" active="yes"/>
+<layer number="124" name="bTestmark" color="7" fill="1" visible="no" active="yes"/>
+<layer number="125" name="BIFRNTTEK" color="7" fill="1" visible="no" active="yes"/>
+<layer number="126" name="BIFRNTMAT" color="7" fill="1" visible="no" active="yes"/>
+<layer number="130" name="SMDSTROOK" color="7" fill="1" visible="no" active="yes"/>
+<layer number="131" name="tAdjust" color="7" fill="1" visible="no" active="yes"/>
+<layer number="132" name="bAdjust" color="7" fill="1" visible="no" active="yes"/>
+<layer number="144" name="Drill_legend" color="7" fill="1" visible="no" active="yes"/>
+<layer number="151" name="HeatSink" color="7" fill="1" visible="no" active="yes"/>
+<layer number="199" name="Contour" color="7" fill="1" visible="no" active="yes"/>
 <layer number="200" name="200bmp" color="1" fill="10" visible="no" active="no"/>
+<layer number="201" name="Construction" color="7" fill="1" visible="no" active="yes"/>
+<layer number="202" name="TDIM" color="7" fill="1" visible="no" active="yes"/>
+<layer number="203" name="BDIM" color="7" fill="1" visible="no" active="yes"/>
+<layer number="204" name="BRD-DIM" color="7" fill="1" visible="no" active="yes"/>
+<layer number="205" name="SECTION-OTL" color="7" fill="1" visible="no" active="yes"/>
+<layer number="206" name="206bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="207" name="207bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="208" name="208bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="209" name="209bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="210" name="210bmp" color="7" fill="1" visible="no" active="yes"/>
+<layer number="216" name="BottomExtra" color="7" fill="1" visible="no" active="yes"/>
 <layer number="250" name="Descript" color="3" fill="1" visible="no" active="no"/>
 <layer number="251" name="SMDround" color="12" fill="11" visible="no" active="no"/>
+<layer number="254" name="OrgLBR" color="7" fill="1" visible="no" active="yes"/>
+<layer number="255" name="Accent" color="7" fill="1" visible="no" active="yes"/>
 </layers>
 <schematic xreflabel="%F%N/%S.%C%R" xrefpart="/%S.%C%R">
 <libraries>
@@ -2285,6 +2325,20 @@ INFINEON, www.infineon.com/cmc_upload/0/000/010/257/eh_db_5b.pdf</description>
 <text x="2.54" y="10.16" size="1.4224" layer="95" ratio="10">&gt;NAME</text>
 <text x="2.54" y="7.62" size="1.4224" layer="95" ratio="10">&gt;VALUE</text>
 </symbol>
+<symbol name="DIODE">
+<wire x1="-1.27" y1="-1.27" x2="1.27" y2="0" width="0.254" layer="94"/>
+<wire x1="1.27" y1="0" x2="-1.27" y2="1.27" width="0.254" layer="94"/>
+<wire x1="-1.27" y1="1.27" x2="-1.27" y2="0" width="0.254" layer="94"/>
+<wire x1="-1.27" y1="0" x2="-1.27" y2="-1.27" width="0.254" layer="94"/>
+<wire x1="1.27" y1="1.27" x2="1.27" y2="0" width="0.254" layer="94"/>
+<text x="-2.54" y="1.905" size="1.4224" layer="95">&gt;NAME</text>
+<text x="-2.54" y="-3.81" size="1.4224" layer="96">&gt;VALUE</text>
+<pin name="A" x="-2.54" y="0" visible="off" length="point" direction="pas"/>
+<pin name="K" x="2.54" y="0" visible="off" length="point" direction="pas" rot="R180"/>
+<wire x1="1.27" y1="0" x2="1.27" y2="-1.27" width="0.254" layer="94"/>
+<wire x1="-2.54" y1="0" x2="-1.27" y2="0" width="0.1524" layer="94"/>
+<wire x1="2.54" y1="0" x2="1.27" y2="0" width="0.1524" layer="94"/>
+</symbol>
 </symbols>
 <devicesets>
 <deviceset name="CAP-CHEMI-MVE-HA0" prefix="C">
@@ -3165,6 +3219,22 @@ Radiall&lt;p&gt;</description>
 <connect gate="G$1" pin="SCL" pad="8"/>
 <connect gate="G$1" pin="SDA" pad="7"/>
 <connect gate="G$1" pin="VDD" pad="6"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="BAT18" prefix="D">
+<gates>
+<gate name="G$1" symbol="DIODE" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="SOT23">
+<connects>
+<connect gate="G$1" pin="A" pad="3"/>
+<connect gate="G$1" pin="K" pad="1"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -11783,13 +11853,13 @@ winding counter clockwise</description>
 <part name="X2" library="_RoweTel" deviceset="BU-SMA-H" device=""/>
 <part name="V161" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V162" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="Q7" library="transistor" deviceset="*-NPN-" device="SOT23-EBC" value="BC548"/>
+<part name="Q7" library="_RoweTel" deviceset="MMBT3904" device="" value="BC548"/>
 <part name="R82" library="_RoweTel" deviceset="RES-0805" device="" value="39k"/>
 <part name="R83" library="_RoweTel" deviceset="RES-0805" device="" value="18k"/>
 <part name="R84" library="_RoweTel" deviceset="RES-0805" device="" value="1k"/>
 <part name="R85" library="_RoweTel" deviceset="RES-0805" device="" value="3k3"/>
 <part name="R86" library="_RoweTel" deviceset="RES-0805" device="" value="10"/>
-<part name="C77" library="_RoweTel" deviceset="CAP-0805" device="" value="0.1u"/>
+<part name="C77" library="_RoweTel" deviceset="CAP-0805" device="" value="0.1uF,25V"/>
 <part name="C78" library="_RoweTel" deviceset="CAP-0805" device="" value="0.1u"/>
 <part name="R87" library="_RoweTel" deviceset="RES-0805" device="" value="10"/>
 <part name="GND2" library="supply1" deviceset="GND" device=""/>
@@ -12041,6 +12111,12 @@ winding counter clockwise</description>
 <part name="U$6" library="A-SUPPLY2" deviceset="+3.3V" device=""/>
 <part name="U14" library="_RoweTel" deviceset="SI570" device=""/>
 <part name="U$7" library="A-SUPPLY2" deviceset="+3.3V" device=""/>
+<part name="D4" library="_RoweTel" deviceset="BAT18" device=""/>
+<part name="R35" library="_RoweTel" deviceset="RES-0805" device=""/>
+<part name="C25" library="_RoweTel" deviceset="CAP-0805" device=""/>
+<part name="C26" library="_RoweTel" deviceset="CAP-0805" device=""/>
+<part name="GND18" library="supply1" deviceset="GND" device=""/>
+<part name="GND19" library="supply1" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -16354,7 +16430,7 @@ with shield</text>
 <text x="220.98" y="226.06" size="1.778" layer="91">L8 and L9 at
 right angles
 with shield</text>
-<text x="386.08" y="185.42" size="1.778" layer="91">Tune L4
+<text x="381" y="190.5" size="1.778" layer="91">Tune L25
 to 146MHz</text>
 <text x="259.08" y="266.7" size="3.81" layer="94" ratio="10">1ST_MIXER_BPF_SWITCH</text>
 <text x="304.8" y="109.22" size="2.54" layer="94" ratio="10">5.0V -&gt; 3.3V PS</text>
@@ -16389,7 +16465,7 @@ to 146MHz</text>
 </instance>
 <instance part="C77" gate="G$1" x="76.2" y="241.3" smashed="yes">
 <attribute name="NAME" x="73.66" y="251.46" size="1.4224" layer="95"/>
-<attribute name="VALUE" x="73.66" y="248.92" size="1.4224" layer="96"/>
+<attribute name="VALUE" x="71.12" y="248.92" size="1.4224" layer="96"/>
 </instance>
 <instance part="C78" gate="G$1" x="134.62" y="241.3" smashed="yes">
 <attribute name="NAME" x="132.08" y="251.46" size="1.4224" layer="95"/>
@@ -16762,7 +16838,7 @@ to 146MHz</text>
 <attribute name="VALUE" x="345.44" y="215.9" size="1.778" layer="96"/>
 </instance>
 <instance part="GND45" gate="1" x="347.98" y="190.5" smashed="yes">
-<attribute name="VALUE" x="345.44" y="187.96" size="1.778" layer="96"/>
+<attribute name="VALUE" x="345.44" y="187.96" size="1.4224" layer="96"/>
 </instance>
 <instance part="L24" gate="G$1" x="347.98" y="170.18" smashed="yes">
 <attribute name="NAME" x="353.06" y="170.18" size="1.778" layer="95"/>
@@ -16777,7 +16853,7 @@ to 146MHz</text>
 <attribute name="VALUE" x="353.06" y="177.8" size="1.778" layer="96" rot="R90"/>
 </instance>
 <instance part="GND46" gate="1" x="347.98" y="160.02" smashed="yes">
-<attribute name="VALUE" x="345.44" y="157.48" size="1.778" layer="96"/>
+<attribute name="VALUE" x="345.44" y="157.48" size="1.4224" layer="96"/>
 </instance>
 <instance part="D12" gate="G$1" x="375.92" y="208.28" smashed="yes" rot="R270">
 <attribute name="NAME" x="373.38" y="218.9226" size="1.778" layer="95"/>
@@ -16904,6 +16980,16 @@ to 146MHz</text>
 </instance>
 <instance part="V47" gate="G$1" x="165.1" y="121.92" smashed="yes">
 <attribute name="VALUE" x="162.56" y="122.555" size="1.4224" layer="96" ratio="9"/>
+</instance>
+<instance part="D4" gate="G$1" x="396.24" y="180.34" rot="R180"/>
+<instance part="R35" gate="G$1" x="403.86" y="172.72" rot="R90"/>
+<instance part="C25" gate="G$1" x="411.48" y="180.34" rot="R90"/>
+<instance part="C26" gate="G$1" x="388.62" y="175.26" rot="R180"/>
+<instance part="GND18" gate="1" x="388.62" y="167.64" smashed="yes">
+<attribute name="VALUE" x="386.08" y="165.1" size="1.4224" layer="96"/>
+</instance>
+<instance part="GND19" gate="1" x="403.86" y="162.56" smashed="yes">
+<attribute name="VALUE" x="401.32" y="160.02" size="1.4224" layer="96"/>
 </instance>
 </instances>
 <busses>
@@ -17184,6 +17270,16 @@ to 146MHz</text>
 <pinref part="GND48" gate="1" pin="GND"/>
 <wire x1="391.16" y1="200.66" x2="391.16" y2="203.2" width="0.1524" layer="91"/>
 <junction x="391.16" y="203.2"/>
+</segment>
+<segment>
+<pinref part="C26" gate="G$1" pin="1"/>
+<wire x1="388.62" y1="172.72" x2="388.62" y2="170.18" width="0.1524" layer="91"/>
+<pinref part="GND18" gate="1" pin="GND"/>
+</segment>
+<segment>
+<pinref part="R35" gate="G$1" pin="1"/>
+<wire x1="403.86" y1="167.64" x2="403.86" y2="165.1" width="0.1524" layer="91"/>
+<pinref part="GND19" gate="1" pin="GND"/>
 </segment>
 </net>
 <net name="N$103" class="0">
@@ -17469,10 +17565,15 @@ to 146MHz</text>
 <pinref part="C147" gate="G$1" pin="1"/>
 <wire x1="408.94" y1="213.36" x2="411.48" y2="213.36" width="0.1524" layer="91"/>
 <pinref part="R48" gate="G$1" pin="2"/>
-<wire x1="411.48" y1="213.36" x2="424.18" y2="213.36" width="0.1524" layer="91"/>
+<wire x1="411.48" y1="213.36" x2="416.56" y2="213.36" width="0.1524" layer="91"/>
+<wire x1="416.56" y1="213.36" x2="424.18" y2="213.36" width="0.1524" layer="91"/>
 <wire x1="411.48" y1="210.82" x2="411.48" y2="213.36" width="0.1524" layer="91"/>
 <junction x="411.48" y="213.36"/>
 <label x="413.512" y="213.868" size="1.4224" layer="95" ratio="10"/>
+<wire x1="416.56" y1="213.36" x2="416.56" y2="180.34" width="0.1524" layer="91"/>
+<pinref part="C25" gate="G$1" pin="2"/>
+<wire x1="416.56" y1="180.34" x2="414.02" y2="180.34" width="0.1524" layer="91"/>
+<junction x="416.56" y="213.36"/>
 </segment>
 </net>
 <net name="N$32" class="0">
@@ -17846,6 +17947,28 @@ to 146MHz</text>
 <segment>
 <pinref part="C137" gate="G$1" pin="2"/>
 <wire x1="287.02" y1="200.66" x2="299.72" y2="200.66" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$57" class="0">
+<segment>
+<pinref part="C25" gate="G$1" pin="1"/>
+<pinref part="D4" gate="G$1" pin="A"/>
+<wire x1="408.94" y1="180.34" x2="403.86" y2="180.34" width="0.1524" layer="91"/>
+<pinref part="R35" gate="G$1" pin="2"/>
+<wire x1="403.86" y1="180.34" x2="398.78" y2="180.34" width="0.1524" layer="91"/>
+<wire x1="403.86" y1="177.8" x2="403.86" y2="180.34" width="0.1524" layer="91"/>
+<junction x="403.86" y="180.34"/>
+</segment>
+</net>
+<net name="AIN_PWR" class="0">
+<segment>
+<pinref part="D4" gate="G$1" pin="K"/>
+<pinref part="C26" gate="G$1" pin="2"/>
+<wire x1="393.7" y1="180.34" x2="388.62" y2="180.34" width="0.1524" layer="91"/>
+<wire x1="388.62" y1="180.34" x2="388.62" y2="177.8" width="0.1524" layer="91"/>
+<wire x1="388.62" y1="180.34" x2="378.46" y2="180.34" width="0.1524" layer="91"/>
+<junction x="388.62" y="180.34"/>
+<label x="378.968" y="180.848" size="1.4224" layer="95" ratio="10"/>
 </segment>
 </net>
 </nets>
