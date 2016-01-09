@@ -72,6 +72,14 @@ Task List
           [ ] spot check at 88, 108, 150, 200 MHz
       [ ] 1W tx power with spurious emissions -45dBC
 
+[ ] UI ideas:
+    [ ] ESP8266 boards: $7 Wifi interface
+        + Or Edwin's boards
+    [ ] Twitter's open source 'Bootstrap'
+    [ ] BTLE module from Adafruit
+    [ ] Websocket
+        + what does server look like?
+    [ ] Hamlib back end?
 
 [ ] Remaining Manhatten Prototype Tasks
     + Manhatten Style prototype used to build and test as much as possible
