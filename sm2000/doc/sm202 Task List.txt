@@ -230,14 +230,15 @@ Task List
     [ ] Dual freq TDMA
         + tx and rx?  We need a way to tx on two different freqs
         + use same clock for tx and rx?
-    [ ] 2ND LO dist and swicthing
+    [X] 2ND LO dist and swicthing
         + 150pF to NE602?
         + attenuator?
         + selecting LOs?
     [ ] Spreadsheet with Z matches
+    [ ] check power consumption on each rail matches regulator limits
 
 [ ] Sch Entry
-    [ ] linear reg option for vadc ADC and vref
+    [X] linear reg option for vadc ADC and vref
         + jumper select to test
     [ ] put extra 0805 or 1206 components in parallel for Z matching and DNL
         + e.g. on collectors and emitters of RF amps
@@ -250,16 +251,16 @@ Task List
         [ ] location of shields if rqd
         [ ] how to adjust/if adjustment rqd
             + e.g. adjust filter by variation in coild spacing against filter spec
-    [ ] 4 by 0.1 inch pin headers in a square pattern to disconnect building blocks    
+    [X] 4 by 0.1 inch pin headers in a square pattern to disconnect building blocks    
     [X] select Si570 with a jumper
     [ ] review of foot prints for discretes
         + ease of debug, e.g. if we need to add a LC filter
         + power handling
-    [ ] check package of each L
+    [X] check package of each L
         + make sure enough room for hand wound air core versions
-    [ ] specify locations of 4 pin 50 ohm breaks
+    [X] specify locations of 4 pin 50 ohm breaks
         + 0805 0 ohm, or break for isolation and testing
-    [ ] 10uF tant to PA
+    [X] PS filter for PA
     [X] research TXCO for si5351 clock input
         + perhaps include as option
         + does it have to be 25MHz?
@@ -267,10 +268,16 @@ Task List
     [ ] how to connect SCA/SCL on clock chips to uC?
         + is there a separate enable?
     [ ] LEDs for control signals/rails
-    [ ] Add a Av=2 op-amp to take 3v3 DAC max from uC to 5V
+    [X] Add a Av=2 op-amp to take 3v3 DAC max from uC to 5V
         max for Vgg driving PA final Q14.  Will need to be powered by 5V rail.
         This is a preacuation in case we need > 3V for some FETs
-
+    [ ] Vgg PWM filtering
+        + we use PWM to genrate a bias for VGG
+        + this needs to be filtered so we don't modulate the PA output
+        + but we also need a faily fast respomse time, e.g. 1ms from
+          0V to Vgg set point to modulate PA power for TDMA.
+    [ ] consider shared clock for Si5351 and uC
+   
 [ ] Rev A PCB Layout
     [ ] footprints for all devices
     [ ] will air core inductors be thru hole parts?
