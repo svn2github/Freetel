@@ -14,7 +14,7 @@ UsedLibrary="_RoweTel.lbr"
 
 [Win_1]
 Type="Control Panel"
-Loc="421 14 1458 413"
+Loc="529 41 1128 440"
 State=2
 Number=0
 
