@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -1613,6 +1613,21 @@ Radiall&lt;p&gt;</description>
 <pad name="5" x="10.16" y="0" drill="0.8" diameter="1.4224"/>
 <text x="-1.27" y="2.54" size="1.27" layer="21">&gt;NAME</text>
 </package>
+<package name="SCOPE_PAD">
+<pad name="1" x="0" y="1.5" drill="1" diameter="2.1844"/>
+<pad name="2" x="0" y="-4" drill="1" diameter="2.1844" shape="offset" rot="R90"/>
+<rectangle x1="-1.5" y1="0" x2="1.5" y2="3" layer="1"/>
+<rectangle x1="-1.5" y1="-5.5" x2="1.5" y2="-0.5" layer="1"/>
+<wire x1="-2" y1="3.5" x2="2" y2="3.5" width="0" layer="39"/>
+<wire x1="2" y1="3.5" x2="2" y2="-6" width="0" layer="39"/>
+<wire x1="2" y1="-6" x2="-2" y2="-6" width="0" layer="39"/>
+<wire x1="-2" y1="-6" x2="-2" y2="3.5" width="0" layer="39"/>
+<wire x1="-2" y1="3.5" x2="2" y2="3.5" width="0.15" layer="21"/>
+<wire x1="2" y1="3.5" x2="2" y2="-6" width="0.15" layer="21"/>
+<wire x1="2" y1="-6" x2="-2" y2="-6" width="0.15" layer="21"/>
+<wire x1="-2" y1="-6" x2="-2" y2="3.5" width="0.15" layer="21"/>
+<text x="-2" y="4" size="1" layer="21" font="vector" ratio="10">&gt;NAME</text>
+</package>
 </packages>
 <symbols>
 <symbol name="CAP-POL">
@@ -2591,6 +2606,25 @@ Radiall&lt;p&gt;</description>
 <pin name="3" x="0" y="-5.08" visible="pin" length="middle" function="dot" rot="R180"/>
 <pin name="4" x="0" y="-7.62" visible="pin" length="middle" function="dot" rot="R180"/>
 <pin name="5" x="0" y="-10.16" visible="pin" length="middle" function="dot" rot="R180"/>
+</symbol>
+<symbol name="SCOPE_PAD">
+<pin name="1" x="-5.08" y="0" visible="off" length="point"/>
+<pin name="2" x="5.08" y="0" visible="off" length="point" rot="R180"/>
+<wire x1="-2.54" y1="0" x2="-2.54" y2="1.27" width="0.1524" layer="94"/>
+<wire x1="-2.54" y1="1.27" x2="2.54" y2="1.27" width="0.1524" layer="94"/>
+<wire x1="2.54" y1="1.27" x2="2.54" y2="-1.27" width="0.1524" layer="94"/>
+<wire x1="2.54" y1="-1.27" x2="-2.54" y2="-1.27" width="0.1524" layer="94"/>
+<wire x1="-2.54" y1="-1.27" x2="-2.54" y2="0" width="0.1524" layer="94"/>
+<circle x="-1.27" y="0" radius="0.762" width="0.1524" layer="94"/>
+<polygon width="0.1524" layer="94">
+<vertex x="0" y="0.508"/>
+<vertex x="2.032" y="0.508"/>
+<vertex x="1.016" y="-0.762"/>
+</polygon>
+<wire x1="-5.08" y1="0" x2="-2.032" y2="0" width="0.1524" layer="94"/>
+<wire x1="5.08" y1="0" x2="1.524" y2="0" width="0.1524" layer="94"/>
+<text x="-2.54" y="1.778" size="1.4224" layer="95" ratio="10">&gt;NAME</text>
+<circle x="-1.27" y="0" radius="0.381" width="0.1524" layer="94"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -3699,6 +3733,22 @@ Radiall&lt;p&gt;</description>
 </device>
 </devices>
 </deviceset>
+<deviceset name="SCOPE_PAD" prefix="SP">
+<gates>
+<gate name="G$1" symbol="SCOPE_PAD" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="SCOPE_PAD">
+<connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="2" pad="2"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
 </devicesets>
 </library>
 <library name="_Coherix">
@@ -4290,12 +4340,8 @@ http://www.weartronics.com/</description>
 <text x="-0.975" y="0.779" size="0.8128" layer="25" font="vector" ratio="10">&gt;NAME</text>
 <rectangle x1="-0.5125" y1="-0.2625" x2="-0.2575" y2="0.2625" layer="51"/>
 <rectangle x1="0.2575" y1="-0.2625" x2="0.5125" y2="0.2625" layer="51"/>
-<wire x1="-1" y1="0.5" x2="-0.5" y2="0.5" width="0.125" layer="21"/>
-<wire x1="0.5" y1="0.5" x2="1" y2="0.5" width="0.125" layer="21"/>
-<wire x1="1" y1="0.5" x2="1" y2="-0.5" width="0.125" layer="21"/>
-<wire x1="1" y1="-0.5" x2="0.5" y2="-0.5" width="0.125" layer="21"/>
-<wire x1="-0.5" y1="-0.5" x2="-1" y2="-0.5" width="0.125" layer="21"/>
-<wire x1="-1" y1="-0.5" x2="-1" y2="0.5" width="0.125" layer="21"/>
+<wire x1="-0.5" y1="0.5" x2="0.5" y2="0.5" width="0.125" layer="21"/>
+<wire x1="-0.5" y1="-0.5" x2="0.5" y2="-0.5" width="0.125" layer="21"/>
 </package>
 <package name="CAPC1220X107N">
 <wire x1="-1.1" y1="-1.25" x2="-1.1" y2="1.25" width="0" layer="39"/>
@@ -4312,27 +4358,6 @@ http://www.weartronics.com/</description>
 <text x="-0.925" y="-2.624" size="1.27" layer="27" font="vector" ratio="10">&gt;VALUE</text>
 <rectangle x1="-0.625" y1="-1" x2="-0.33" y2="1" layer="51"/>
 <rectangle x1="0.33" y1="-1" x2="0.625" y2="1" layer="51"/>
-</package>
-<package name="CAPC1608X92N">
-<wire x1="-1.5" y1="-0.75" x2="-1.5" y2="0.75" width="0" layer="39"/>
-<wire x1="-1.5" y1="0.75" x2="1.5" y2="0.75" width="0" layer="39"/>
-<wire x1="1.5" y1="0.75" x2="1.5" y2="-0.75" width="0" layer="39"/>
-<wire x1="1.5" y1="-0.75" x2="-1.5" y2="-0.75" width="0" layer="39"/>
-<wire x1="-0.8" y1="-0.4" x2="-0.8" y2="0.4" width="0.127" layer="51"/>
-<wire x1="-0.8" y1="0.4" x2="0.8" y2="0.4" width="0.127" layer="51"/>
-<wire x1="0.8" y1="0.4" x2="0.8" y2="-0.4" width="0.127" layer="51"/>
-<wire x1="0.8" y1="-0.4" x2="-0.8" y2="-0.4" width="0.127" layer="51"/>
-<smd name="1" x="-0.8" y="0" dx="0.95" dy="0.9" layer="1" roundness="25" rot="R90"/>
-<smd name="2" x="0.8" y="0" dx="0.95" dy="0.9" layer="1" roundness="25" rot="R90"/>
-<text x="-1.55" y="1.0675" size="0.8128" layer="25" font="vector" ratio="10">&gt;NAME</text>
-<rectangle x1="-0.8" y1="-0.4" x2="-0.42" y2="0.4" layer="51"/>
-<rectangle x1="0.42" y1="-0.4" x2="0.8" y2="0.4" layer="51"/>
-<wire x1="-1.5" y1="0.75" x2="-0.8" y2="0.75" width="0.125" layer="21"/>
-<wire x1="0.8" y1="0.75" x2="1.5" y2="0.75" width="0.125" layer="21"/>
-<wire x1="1.5" y1="0.75" x2="1.5" y2="-0.75" width="0.125" layer="21"/>
-<wire x1="1.5" y1="-0.75" x2="0.8" y2="-0.75" width="0.125" layer="21"/>
-<wire x1="-0.8" y1="-0.75" x2="-1.5" y2="-0.75" width="0.125" layer="21"/>
-<wire x1="-1.5" y1="-0.75" x2="-1.5" y2="0.75" width="0.125" layer="21"/>
 </package>
 <package name="CAPC1632X168N">
 <wire x1="-1.55" y1="-1.95" x2="-1.55" y2="1.95" width="0" layer="39"/>
@@ -4515,6 +4540,23 @@ http://www.weartronics.com/</description>
 <text x="-5.1" y="-6.499" size="1.27" layer="27" font="vector" ratio="10">&gt;VALUE</text>
 <rectangle x1="-4.57" y1="-4.91" x2="-4.065" y2="4.91" layer="51"/>
 <rectangle x1="4.065" y1="-4.91" x2="4.57" y2="4.91" layer="51"/>
+</package>
+<package name="CAPC1608X92N">
+<wire x1="-1.5" y1="-0.75" x2="-1.5" y2="0.75" width="0" layer="39"/>
+<wire x1="-1.5" y1="0.75" x2="1.5" y2="0.75" width="0" layer="39"/>
+<wire x1="1.5" y1="0.75" x2="1.5" y2="-0.75" width="0" layer="39"/>
+<wire x1="1.5" y1="-0.75" x2="-1.5" y2="-0.75" width="0" layer="39"/>
+<wire x1="-0.8" y1="-0.4" x2="-0.8" y2="0.4" width="0.127" layer="51"/>
+<wire x1="-0.8" y1="0.4" x2="0.8" y2="0.4" width="0.127" layer="51"/>
+<wire x1="0.8" y1="0.4" x2="0.8" y2="-0.4" width="0.127" layer="51"/>
+<wire x1="0.8" y1="-0.4" x2="-0.8" y2="-0.4" width="0.127" layer="51"/>
+<smd name="1" x="-0.8" y="0" dx="0.95" dy="0.9" layer="1" roundness="25" rot="R90"/>
+<smd name="2" x="0.8" y="0" dx="0.95" dy="0.9" layer="1" roundness="25" rot="R90"/>
+<text x="-1.55" y="1.0675" size="0.8128" layer="25" font="vector" ratio="10">&gt;NAME</text>
+<rectangle x1="-0.8" y1="-0.4" x2="-0.42" y2="0.4" layer="51"/>
+<rectangle x1="0.42" y1="-0.4" x2="0.8" y2="0.4" layer="51"/>
+<wire x1="-0.75" y1="0.75" x2="0.75" y2="0.75" width="0.15" layer="21"/>
+<wire x1="-0.75" y1="-0.75" x2="0.75" y2="-0.75" width="0.15" layer="21"/>
 </package>
 </packages>
 <symbols>
@@ -9219,383 +9261,6 @@ BF959 corrected 2008.03.06&lt;br&gt;</description>
 </deviceset>
 </devicesets>
 </library>
-<library name="ipc-7351-capacitor">
-<description>&lt;b&gt;IPC-7351 compliant SMT capacitors&lt;/b&gt;&lt;br&gt;
-&lt;br&gt;
-Symbols copied from CadSoft rcl.lbr&lt;br&gt;
-Packages generated using genpkg_chp.ulp, genpkg_cae.ulp and genpkg_mld.ulp&lt;br&gt;
-Devices are Vishay chip types, generic AEC types and Kemet T491 series molded body types.&lt;br&gt;
-&lt;br&gt;
-Weartronics 2006&lt;br&gt;
-http://www.weartronics.com/</description>
-<packages>
-<package name="CAPC1005X60N">
-<wire x1="-0.95" y1="-0.5" x2="-0.95" y2="0.5" width="0" layer="39"/>
-<wire x1="-0.95" y1="0.5" x2="0.95" y2="0.5" width="0" layer="39"/>
-<wire x1="0.95" y1="0.5" x2="0.95" y2="-0.5" width="0" layer="39"/>
-<wire x1="0.95" y1="-0.5" x2="-0.95" y2="-0.5" width="0" layer="39"/>
-<wire x1="-0.5125" y1="-0.2625" x2="-0.5125" y2="0.2625" width="0.127" layer="51"/>
-<wire x1="-0.5125" y1="0.2625" x2="0.5125" y2="0.2625" width="0.127" layer="51"/>
-<wire x1="0.5125" y1="0.2625" x2="0.5125" y2="-0.2625" width="0.127" layer="51"/>
-<wire x1="0.5125" y1="-0.2625" x2="-0.5125" y2="-0.2625" width="0.127" layer="51"/>
-<smd name="1" x="-0.45" y="0" dx="0.65" dy="0.65" layer="1" roundness="25" rot="R90"/>
-<smd name="2" x="0.45" y="0" dx="0.65" dy="0.65" layer="1" roundness="25" rot="R90"/>
-<text x="-0.775" y="0.579" size="1" layer="25" font="vector" ratio="10">&gt;NAME</text>
-<text x="-0.775" y="-1.849" size="1" layer="27" font="vector" ratio="10">&gt;VALUE</text>
-<rectangle x1="-0.5125" y1="-0.2625" x2="-0.2575" y2="0.2625" layer="51"/>
-<rectangle x1="0.2575" y1="-0.2625" x2="0.5125" y2="0.2625" layer="51"/>
-</package>
-<package name="CAPC1220X107N">
-<wire x1="-1.1" y1="-1.25" x2="-1.1" y2="1.25" width="0" layer="39"/>
-<wire x1="-1.1" y1="1.25" x2="1.1" y2="1.25" width="0" layer="39"/>
-<wire x1="1.1" y1="1.25" x2="1.1" y2="-1.25" width="0" layer="39"/>
-<wire x1="1.1" y1="-1.25" x2="-1.1" y2="-1.25" width="0" layer="39"/>
-<wire x1="-0.625" y1="-1" x2="-0.625" y2="1" width="0.127" layer="51"/>
-<wire x1="-0.625" y1="1" x2="0.625" y2="1" width="0.127" layer="51"/>
-<wire x1="0.625" y1="1" x2="0.625" y2="-1" width="0.127" layer="51"/>
-<wire x1="0.625" y1="-1" x2="-0.625" y2="-1" width="0.127" layer="51"/>
-<smd name="1" x="-0.55" y="0" dx="2.2" dy="0.75" layer="1" rot="R90"/>
-<smd name="2" x="0.55" y="0" dx="2.2" dy="0.75" layer="1" rot="R90"/>
-<text x="-0.925" y="1.354" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
-<text x="-0.925" y="-2.624" size="1.27" layer="27" font="vector" ratio="10">&gt;VALUE</text>
-<rectangle x1="-0.625" y1="-1" x2="-0.33" y2="1" layer="51"/>
-<rectangle x1="0.33" y1="-1" x2="0.625" y2="1" layer="51"/>
-</package>
-<package name="CAPC1608X92N">
-<wire x1="-1.5" y1="-0.75" x2="-1.5" y2="0.75" width="0" layer="39"/>
-<wire x1="-1.5" y1="0.75" x2="1.5" y2="0.75" width="0" layer="39"/>
-<wire x1="1.5" y1="0.75" x2="1.5" y2="-0.75" width="0" layer="39"/>
-<wire x1="1.5" y1="-0.75" x2="-1.5" y2="-0.75" width="0" layer="39"/>
-<wire x1="0" y1="0.45" x2="0" y2="-0.45" width="0.127" layer="21"/>
-<wire x1="-0.8" y1="-0.4" x2="-0.8" y2="0.4" width="0.127" layer="51"/>
-<wire x1="-0.8" y1="0.4" x2="0.8" y2="0.4" width="0.127" layer="51"/>
-<wire x1="0.8" y1="0.4" x2="0.8" y2="-0.4" width="0.127" layer="51"/>
-<wire x1="0.8" y1="-0.4" x2="-0.8" y2="-0.4" width="0.127" layer="51"/>
-<smd name="1" x="-0.8" y="0" dx="0.95" dy="0.9" layer="1" roundness="25" rot="R90"/>
-<smd name="2" x="0.8" y="0" dx="0.95" dy="0.9" layer="1" rot="R90"/>
-<text x="-1.25" y="0.7675" size="1" layer="25" font="vector" ratio="10">&gt;NAME</text>
-<text x="-1.25" y="-2.0375" size="1" layer="27" font="vector" ratio="10">&gt;VALUE</text>
-<rectangle x1="-0.8" y1="-0.4" x2="-0.42" y2="0.4" layer="51"/>
-<rectangle x1="0.42" y1="-0.4" x2="0.8" y2="0.4" layer="51"/>
-</package>
-<package name="CAPC1632X168N">
-<wire x1="-1.55" y1="-1.95" x2="-1.55" y2="1.95" width="0" layer="39"/>
-<wire x1="-1.55" y1="1.95" x2="1.55" y2="1.95" width="0" layer="39"/>
-<wire x1="1.55" y1="1.95" x2="1.55" y2="-1.95" width="0" layer="39"/>
-<wire x1="1.55" y1="-1.95" x2="-1.55" y2="-1.95" width="0" layer="39"/>
-<wire x1="0" y1="1.7" x2="0" y2="-1.7" width="0.127" layer="21"/>
-<wire x1="-0.8" y1="-1.6" x2="-0.8" y2="1.6" width="0.127" layer="51"/>
-<wire x1="-0.8" y1="1.6" x2="0.8" y2="1.6" width="0.127" layer="51"/>
-<wire x1="0.8" y1="1.6" x2="0.8" y2="-1.6" width="0.127" layer="51"/>
-<wire x1="0.8" y1="-1.6" x2="-0.8" y2="-1.6" width="0.127" layer="51"/>
-<smd name="1" x="-0.8" y="0" dx="3.4" dy="0.95" layer="1" rot="R90"/>
-<smd name="2" x="0.8" y="0" dx="3.4" dy="0.95" layer="1" rot="R90"/>
-<text x="-1.275" y="2.0175" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
-<text x="-1.275" y="-3.2875" size="1.27" layer="27" font="vector" ratio="10">&gt;VALUE</text>
-<rectangle x1="-0.8" y1="-1.6" x2="-0.445" y2="1.6" layer="51"/>
-<rectangle x1="0.445" y1="-1.6" x2="0.8" y2="1.6" layer="51"/>
-</package>
-<package name="CAPC2012X145AN">
-<wire x1="-1.75" y1="-1" x2="-1.75" y2="1" width="0" layer="39"/>
-<wire x1="-1.75" y1="1" x2="1.75" y2="1" width="0" layer="39"/>
-<wire x1="1.75" y1="1" x2="1.75" y2="-1" width="0" layer="39"/>
-<wire x1="1.75" y1="-1" x2="-1.75" y2="-1" width="0" layer="39"/>
-<wire x1="0" y1="0.7" x2="0" y2="-0.7" width="0.127" layer="21"/>
-<wire x1="-1" y1="-0.625" x2="-1" y2="0.625" width="0.127" layer="51"/>
-<wire x1="-1" y1="0.625" x2="1" y2="0.625" width="0.127" layer="51"/>
-<wire x1="1" y1="0.625" x2="1" y2="-0.625" width="0.127" layer="51"/>
-<wire x1="1" y1="-0.625" x2="-1" y2="-0.625" width="0.127" layer="51"/>
-<smd name="1" x="-0.9" y="0" dx="1.45" dy="1.15" layer="1" rot="R90"/>
-<smd name="2" x="0.9" y="0" dx="1.45" dy="1.15" layer="1" rot="R90"/>
-<text x="-1.475" y="1.0175" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
-<text x="-1.475" y="-2.2875" size="1.27" layer="27" font="vector" ratio="10">&gt;VALUE</text>
-<rectangle x1="-1" y1="-0.625" x2="-0.52" y2="0.625" layer="51"/>
-<rectangle x1="0.52" y1="-0.625" x2="1" y2="0.625" layer="51"/>
-</package>
-<package name="CAPC3215X168N">
-<wire x1="-2.35" y1="-1.1" x2="-2.35" y2="1.1" width="0" layer="39"/>
-<wire x1="-2.35" y1="1.1" x2="2.35" y2="1.1" width="0" layer="39"/>
-<wire x1="2.35" y1="1.1" x2="2.35" y2="-1.1" width="0" layer="39"/>
-<wire x1="2.35" y1="-1.1" x2="-2.35" y2="-1.1" width="0" layer="39"/>
-<wire x1="-0.5" y1="0.8" x2="0.5" y2="0.8" width="0.127" layer="21"/>
-<wire x1="-0.5" y1="-0.8" x2="0.5" y2="-0.8" width="0.127" layer="21"/>
-<wire x1="-1.6" y1="-0.75" x2="-1.6" y2="0.75" width="0.127" layer="51"/>
-<wire x1="-1.6" y1="0.75" x2="1.6" y2="0.75" width="0.127" layer="51"/>
-<wire x1="1.6" y1="0.75" x2="1.6" y2="-0.75" width="0.127" layer="51"/>
-<wire x1="1.6" y1="-0.75" x2="-1.6" y2="-0.75" width="0.127" layer="51"/>
-<smd name="1" x="-1.5" y="0" dx="1.65" dy="1.15" layer="1" rot="R90"/>
-<smd name="2" x="1.5" y="0" dx="1.65" dy="1.15" layer="1" rot="R90"/>
-<text x="-2.075" y="1.1175" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
-<text x="-2.075" y="-2.3875" size="1.27" layer="27" font="vector" ratio="10">&gt;VALUE</text>
-<rectangle x1="-1.6" y1="-0.75" x2="-1.095" y2="0.75" layer="51"/>
-<rectangle x1="1.095" y1="-0.75" x2="1.6" y2="0.75" layer="51"/>
-</package>
-<package name="CAPC3225X168N">
-<wire x1="-2.35" y1="-1.6" x2="-2.35" y2="1.6" width="0" layer="39"/>
-<wire x1="-2.35" y1="1.6" x2="2.35" y2="1.6" width="0" layer="39"/>
-<wire x1="2.35" y1="1.6" x2="2.35" y2="-1.6" width="0" layer="39"/>
-<wire x1="2.35" y1="-1.6" x2="-2.35" y2="-1.6" width="0" layer="39"/>
-<wire x1="-0.5" y1="1.35" x2="0.5" y2="1.35" width="0.127" layer="21"/>
-<wire x1="-0.5" y1="-1.35" x2="0.5" y2="-1.35" width="0.127" layer="21"/>
-<wire x1="-1.6" y1="-1.25" x2="-1.6" y2="1.25" width="0.127" layer="51"/>
-<wire x1="-1.6" y1="1.25" x2="1.6" y2="1.25" width="0.127" layer="51"/>
-<wire x1="1.6" y1="1.25" x2="1.6" y2="-1.25" width="0.127" layer="51"/>
-<wire x1="1.6" y1="-1.25" x2="-1.6" y2="-1.25" width="0.127" layer="51"/>
-<smd name="1" x="-1.5" y="0" dx="2.7" dy="1.15" layer="1" roundness="25" rot="R90"/>
-<smd name="2" x="1.5" y="0" dx="2.7" dy="1.15" layer="1" roundness="25" rot="R90"/>
-<text x="-2.075" y="1.6675" size="0.8128" layer="25" font="vector" ratio="10">&gt;NAME</text>
-<text x="-2.075" y="-2.9375" size="0.8128" layer="27" font="vector" ratio="10">&gt;VALUE</text>
-<rectangle x1="-1.6" y1="-1.25" x2="-1.095" y2="1.25" layer="51"/>
-<rectangle x1="1.095" y1="-1.25" x2="1.6" y2="1.25" layer="51"/>
-</package>
-<package name="CAPC4520X168N">
-<wire x1="-3" y1="-1.4" x2="-3" y2="1.4" width="0" layer="39"/>
-<wire x1="-3" y1="1.4" x2="3" y2="1.4" width="0" layer="39"/>
-<wire x1="3" y1="1.4" x2="3" y2="-1.4" width="0" layer="39"/>
-<wire x1="3" y1="-1.4" x2="-3" y2="-1.4" width="0" layer="39"/>
-<wire x1="-1.15" y1="1.15" x2="1.15" y2="1.15" width="0.127" layer="21"/>
-<wire x1="-1.15" y1="-1.15" x2="1.15" y2="-1.15" width="0.127" layer="21"/>
-<wire x1="-2.25" y1="-1.015" x2="-2.25" y2="1.015" width="0.127" layer="51"/>
-<wire x1="-2.25" y1="1.015" x2="2.25" y2="1.015" width="0.127" layer="51"/>
-<wire x1="2.25" y1="1.015" x2="2.25" y2="-1.015" width="0.127" layer="51"/>
-<wire x1="2.25" y1="-1.015" x2="-2.25" y2="-1.015" width="0.127" layer="51"/>
-<smd name="1" x="-2.15" y="0" dx="2.3" dy="1.2" layer="1" rot="R90"/>
-<smd name="2" x="2.15" y="0" dx="2.3" dy="1.2" layer="1" rot="R90"/>
-<text x="-2.75" y="1.4675" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
-<text x="-2.75" y="-2.7375" size="1.27" layer="27" font="vector" ratio="10">&gt;VALUE</text>
-<rectangle x1="-2.25" y1="-1.015" x2="-1.745" y2="1.015" layer="51"/>
-<rectangle x1="1.745" y1="-1.015" x2="2.25" y2="1.015" layer="51"/>
-</package>
-<package name="CAPC4532X218N">
-<wire x1="-3" y1="-1.95" x2="-3" y2="1.95" width="0" layer="39"/>
-<wire x1="-3" y1="1.95" x2="3" y2="1.95" width="0" layer="39"/>
-<wire x1="3" y1="1.95" x2="3" y2="-1.95" width="0" layer="39"/>
-<wire x1="3" y1="-1.95" x2="-3" y2="-1.95" width="0" layer="39"/>
-<wire x1="-1.15" y1="1.7" x2="1.15" y2="1.7" width="0.127" layer="21"/>
-<wire x1="-1.15" y1="-1.7" x2="1.15" y2="-1.7" width="0.127" layer="21"/>
-<wire x1="-2.25" y1="-1.6" x2="-2.25" y2="1.6" width="0.127" layer="51"/>
-<wire x1="-2.25" y1="1.6" x2="2.25" y2="1.6" width="0.127" layer="51"/>
-<wire x1="2.25" y1="1.6" x2="2.25" y2="-1.6" width="0.127" layer="51"/>
-<wire x1="2.25" y1="-1.6" x2="-2.25" y2="-1.6" width="0.127" layer="51"/>
-<smd name="1" x="-2.15" y="0" dx="3.4" dy="1.2" layer="1" rot="R90"/>
-<smd name="2" x="2.15" y="0" dx="3.4" dy="1.2" layer="1" rot="R90"/>
-<text x="-2.75" y="2.0175" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
-<text x="-2.75" y="-3.2875" size="1.27" layer="27" font="vector" ratio="10">&gt;VALUE</text>
-<rectangle x1="-2.25" y1="-1.6" x2="-1.745" y2="1.6" layer="51"/>
-<rectangle x1="1.745" y1="-1.6" x2="2.25" y2="1.6" layer="51"/>
-</package>
-<package name="CAPC4564X218N">
-<wire x1="-3" y1="-3.6" x2="-3" y2="3.6" width="0" layer="39"/>
-<wire x1="-3" y1="3.6" x2="3" y2="3.6" width="0" layer="39"/>
-<wire x1="3" y1="3.6" x2="3" y2="-3.6" width="0" layer="39"/>
-<wire x1="3" y1="-3.6" x2="-3" y2="-3.6" width="0" layer="39"/>
-<wire x1="-1.15" y1="3.3" x2="1.15" y2="3.3" width="0.127" layer="21"/>
-<wire x1="-1.15" y1="-3.3" x2="1.15" y2="-3.3" width="0.127" layer="21"/>
-<wire x1="-2.25" y1="-3.2" x2="-2.25" y2="3.2" width="0.127" layer="51"/>
-<wire x1="-2.25" y1="3.2" x2="2.25" y2="3.2" width="0.127" layer="51"/>
-<wire x1="2.25" y1="3.2" x2="2.25" y2="-3.2" width="0.127" layer="51"/>
-<wire x1="2.25" y1="-3.2" x2="-2.25" y2="-3.2" width="0.127" layer="51"/>
-<smd name="1" x="-2.15" y="0" dx="6.65" dy="1.2" layer="1" rot="R90"/>
-<smd name="2" x="2.15" y="0" dx="6.65" dy="1.2" layer="1" rot="R90"/>
-<text x="-2.75" y="3.6175" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
-<text x="-2.75" y="-4.8875" size="1.27" layer="27" font="vector" ratio="10">&gt;VALUE</text>
-<rectangle x1="-2.25" y1="-3.2" x2="-1.745" y2="3.2" layer="51"/>
-<rectangle x1="1.745" y1="-3.2" x2="2.25" y2="3.2" layer="51"/>
-</package>
-<package name="CAPC5651X218N">
-<wire x1="-3.55" y1="-2.95" x2="-3.55" y2="2.95" width="0" layer="39"/>
-<wire x1="-3.55" y1="2.95" x2="3.55" y2="2.95" width="0" layer="39"/>
-<wire x1="3.55" y1="2.95" x2="3.55" y2="-2.95" width="0" layer="39"/>
-<wire x1="3.55" y1="-2.95" x2="-3.55" y2="-2.95" width="0" layer="39"/>
-<wire x1="-1.7" y1="2.65" x2="1.7" y2="2.65" width="0.127" layer="21"/>
-<wire x1="-1.7" y1="-2.65" x2="1.7" y2="-2.65" width="0.127" layer="21"/>
-<wire x1="-2.82" y1="-2.54" x2="-2.82" y2="2.54" width="0.127" layer="51"/>
-<wire x1="-2.82" y1="2.54" x2="2.82" y2="2.54" width="0.127" layer="51"/>
-<wire x1="2.82" y1="2.54" x2="2.82" y2="-2.54" width="0.127" layer="51"/>
-<wire x1="2.82" y1="-2.54" x2="-2.82" y2="-2.54" width="0.127" layer="51"/>
-<smd name="1" x="-2.7" y="0" dx="5.35" dy="1.15" layer="1" rot="R90"/>
-<smd name="2" x="2.7" y="0" dx="5.35" dy="1.15" layer="1" rot="R90"/>
-<text x="-3.275" y="2.9675" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
-<text x="-3.275" y="-4.2375" size="1.27" layer="27" font="vector" ratio="10">&gt;VALUE</text>
-<rectangle x1="-2.82" y1="-2.54" x2="-2.315" y2="2.54" layer="51"/>
-<rectangle x1="2.315" y1="-2.54" x2="2.82" y2="2.54" layer="51"/>
-</package>
-<package name="CAPC5664X218N">
-<wire x1="-3.5" y1="-3.55" x2="-3.5" y2="3.55" width="0" layer="39"/>
-<wire x1="-3.5" y1="3.55" x2="3.5" y2="3.55" width="0" layer="39"/>
-<wire x1="3.5" y1="3.55" x2="3.5" y2="-3.55" width="0" layer="39"/>
-<wire x1="3.5" y1="-3.55" x2="-3.5" y2="-3.55" width="0" layer="39"/>
-<wire x1="-1.65" y1="3.3" x2="1.65" y2="3.3" width="0.127" layer="21"/>
-<wire x1="-1.65" y1="-3.3" x2="1.65" y2="-3.3" width="0.127" layer="21"/>
-<wire x1="-2.77" y1="-3.175" x2="-2.77" y2="3.175" width="0.127" layer="51"/>
-<wire x1="-2.77" y1="3.175" x2="2.77" y2="3.175" width="0.127" layer="51"/>
-<wire x1="2.77" y1="3.175" x2="2.77" y2="-3.175" width="0.127" layer="51"/>
-<wire x1="2.77" y1="-3.175" x2="-2.77" y2="-3.175" width="0.127" layer="51"/>
-<smd name="1" x="-2.65" y="0" dx="6.6" dy="1.2" layer="1" rot="R90"/>
-<smd name="2" x="2.65" y="0" dx="6.6" dy="1.2" layer="1" rot="R90"/>
-<text x="-3.25" y="3.6175" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
-<text x="-3.25" y="-4.8875" size="1.27" layer="27" font="vector" ratio="10">&gt;VALUE</text>
-<rectangle x1="-2.77" y1="-3.175" x2="-2.265" y2="3.175" layer="51"/>
-<rectangle x1="2.265" y1="-3.175" x2="2.77" y2="3.175" layer="51"/>
-</package>
-<package name="CAPC9198X218N">
-<wire x1="-5.35" y1="-5.25" x2="-5.35" y2="5.25" width="0" layer="39"/>
-<wire x1="-5.35" y1="5.25" x2="5.35" y2="5.25" width="0" layer="39"/>
-<wire x1="5.35" y1="5.25" x2="5.35" y2="-5.25" width="0" layer="39"/>
-<wire x1="5.35" y1="-5.25" x2="-5.35" y2="-5.25" width="0" layer="39"/>
-<wire x1="-3.4" y1="4.9" x2="3.4" y2="4.9" width="0.127" layer="21"/>
-<wire x1="-3.4" y1="-4.9" x2="3.4" y2="-4.9" width="0.127" layer="21"/>
-<wire x1="-4.57" y1="-4.91" x2="-4.57" y2="4.91" width="0.127" layer="51"/>
-<wire x1="-4.57" y1="4.91" x2="4.57" y2="4.91" width="0.127" layer="51"/>
-<wire x1="4.57" y1="4.91" x2="4.57" y2="-4.91" width="0.127" layer="51"/>
-<wire x1="4.57" y1="-4.91" x2="-4.57" y2="-4.91" width="0.127" layer="51"/>
-<smd name="1" x="-4.45" y="0" dx="9.95" dy="1.3" layer="1" rot="R90"/>
-<smd name="2" x="4.45" y="0" dx="9.95" dy="1.3" layer="1" rot="R90"/>
-<text x="-5.1" y="5.229" size="1.27" layer="25" font="vector" ratio="10">&gt;NAME</text>
-<text x="-5.1" y="-6.499" size="1.27" layer="27" font="vector" ratio="10">&gt;VALUE</text>
-<rectangle x1="-4.57" y1="-4.91" x2="-4.065" y2="4.91" layer="51"/>
-<rectangle x1="4.065" y1="-4.91" x2="4.57" y2="4.91" layer="51"/>
-</package>
-</packages>
-<symbols>
-<symbol name="CAPACITOR">
-<wire x1="-2.54" y1="0" x2="-0.762" y2="0" width="0.1524" layer="94"/>
-<wire x1="2.54" y1="0" x2="0.762" y2="0" width="0.1524" layer="94"/>
-<text x="-2.54" y="2.54" size="1.778" layer="95">&gt;NAME</text>
-<text x="-2.54" y="-4.318" size="1.778" layer="96">&gt;VALUE</text>
-<rectangle x1="-1.524" y1="-0.254" x2="2.54" y2="0.254" layer="94" rot="R90"/>
-<rectangle x1="-2.54" y1="-0.254" x2="1.524" y2="0.254" layer="94" rot="R90"/>
-<pin name="1" x="-5.08" y="0" visible="off" length="short" direction="pas" swaplevel="1"/>
-<pin name="2" x="5.08" y="0" visible="off" length="short" direction="pas" swaplevel="1" rot="R180"/>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="CAPACITOR_" prefix="C" uservalue="yes">
-<gates>
-<gate name="G$1" symbol="CAPACITOR" x="0" y="0"/>
-</gates>
-<devices>
-<device name="0402" package="CAPC1005X60N">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="0508" package="CAPC1220X107N">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="0603" package="CAPC1608X92N">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="0612" package="CAPC1632X168N">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="0805" package="CAPC2012X145AN">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="1206" package="CAPC3215X168N">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="1210" package="CAPC3225X168N">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="1808" package="CAPC4520X168N">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="1812" package="CAPC4532X218N">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="1825" package="CAPC4564X218N">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="2220" package="CAPC5651X218N">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="2225" package="CAPC5664X218N">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-<device name="3640" package="CAPC9198X218N">
-<connects>
-<connect gate="G$1" pin="1" pad="1"/>
-<connect gate="G$1" pin="2" pad="2"/>
-</connects>
-<technologies>
-<technology name=""/>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 </libraries>
 <attributes>
 </attributes>
@@ -9815,7 +9480,6 @@ http://www.weartronics.com/</description>
 <part name="D1" library="_RoweTel" deviceset="PESD5ZX" device="" value="DNL"/>
 <part name="V143" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="D2" library="_RoweTel" deviceset="PESD5ZX" device="" value="DNL"/>
-<part name="P11" library="_Coherix" deviceset="TPAD50" device=""/>
 <part name="U4" library="_RoweTel" deviceset="I2C-EEPROM-256K" device="" value="DNL"/>
 <part name="V145" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V146" library="A-SUPPLY2" deviceset="GND" device=""/>
@@ -10138,15 +9802,14 @@ http://www.weartronics.com/</description>
 <part name="V118" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V127" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V133" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="C47" library="ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="8.2nF,25V"/>
+<part name="C47" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="8.2nF,25V"/>
 <part name="V134" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="R43" library="AA-ipc-7351-resistor" deviceset="RESISTOR_" device="0402" value="10K,1%"/>
 <part name="C42" library="_RoweTel" deviceset="CAP-1210" device="" value="22uF,25V"/>
 <part name="V135" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V144" library="A-SUPPLY2" deviceset="+5V" device=""/>
-<part name="C41" library="_RoweTel" deviceset="CAP-0805" device="" value="100nF,25V"/>
 <part name="V184" library="A-SUPPLY2" deviceset="GND" device=""/>
-<part name="C46" library="ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="470nF,25V"/>
+<part name="C46" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="0603" value="470nF,25V"/>
 <part name="V185" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="C54" library="AA-ipc-7351-capacitor" deviceset="CAPACITOR_" device="1210" value="22uF,25V,1210"/>
 <part name="V216" library="A-SUPPLY2" deviceset="GND" device=""/>
@@ -10237,6 +9900,9 @@ http://www.weartronics.com/</description>
 <part name="V101" library="A-SUPPLY2" deviceset="3V3" device=""/>
 <part name="V102" library="A-SUPPLY2" deviceset="3V3" device=""/>
 <part name="V106" library="A-SUPPLY2" deviceset="GND" device=""/>
+<part name="C41" library="_RoweTel" deviceset="CAP-0805" device="" value="1nF,25V"/>
+<part name="TP1" library="_RoweTel" deviceset="SCOPE_PAD" device=""/>
+<part name="V108" library="A-SUPPLY2" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -12167,7 +11833,10 @@ SCHEMATICS</text>
 <attribute name="NAME" x="66.04" y="212.344" size="1.4224" layer="95"/>
 <attribute name="VALUE" x="66.04" y="207.518" size="1.4224" layer="96"/>
 </instance>
-<instance part="FB3" gate="G$1" x="60.96" y="106.68"/>
+<instance part="FB3" gate="G$1" x="60.96" y="106.68" smashed="yes">
+<attribute name="NAME" x="61.722" y="108.712" size="1.4224" layer="95" ratio="10"/>
+<attribute name="VALUE" x="58.42" y="102.743" size="1.4224" layer="96" ratio="10"/>
+</instance>
 <instance part="R41" gate="G$1" x="137.16" y="106.68" smashed="yes">
 <attribute name="NAME" x="134.62" y="111.76" size="1.4224" layer="95" ratio="9"/>
 <attribute name="VALUE" x="134.62" y="109.22" size="1.4224" layer="96" ratio="9"/>
@@ -12290,9 +11959,6 @@ SCHEMATICS</text>
 <instance part="D2" gate="G$1" x="43.18" y="200.66" smashed="yes" rot="R90">
 <attribute name="NAME" x="45.72" y="200.66" size="1.4224" layer="95" ratio="10"/>
 <attribute name="VALUE" x="45.72" y="198.12" size="1.4224" layer="96" ratio="10"/>
-</instance>
-<instance part="P11" gate="G$1" x="53.34" y="109.22" smashed="yes">
-<attribute name="NAME" x="55.372" y="113.538" size="1.4224" layer="95"/>
 </instance>
 <instance part="U5" gate="G$1" x="22.86" y="152.4" smashed="yes">
 <attribute name="NAME" x="15.24" y="162.56" size="1.4224" layer="95" ratio="10"/>
@@ -12428,10 +12094,6 @@ SCHEMATICS</text>
 </instance>
 <instance part="V144" gate="G$1" x="274.32" y="93.98" smashed="yes" rot="R270">
 <attribute name="VALUE" x="274.955" y="96.393" size="1.4224" layer="96" ratio="9" rot="R270"/>
-</instance>
-<instance part="C41" gate="G$1" x="149.86" y="99.06" smashed="yes">
-<attribute name="NAME" x="149.86" y="116.84" size="1.4224" layer="95" ratio="9"/>
-<attribute name="VALUE" x="149.86" y="114.3" size="1.4224" layer="96" ratio="9"/>
 </instance>
 <instance part="V184" gate="GND" x="149.86" y="91.44" smashed="yes">
 <attribute name="VALUE" x="147.32" y="88.138" size="1.4224" layer="96" ratio="9"/>
@@ -12572,6 +12234,16 @@ SCHEMATICS</text>
 </instance>
 <instance part="V98" gate="GND" x="129.54" y="76.2" smashed="yes">
 <attribute name="VALUE" x="127" y="72.898" size="1.4224" layer="96" ratio="9"/>
+</instance>
+<instance part="C41" gate="G$1" x="149.86" y="99.06" smashed="yes">
+<attribute name="VALUE" x="149.86" y="114.3" size="1.4224" layer="96" ratio="10"/>
+<attribute name="NAME" x="149.86" y="116.84" size="1.4224" layer="95" ratio="10"/>
+</instance>
+<instance part="TP1" gate="G$1" x="53.34" y="114.3" smashed="yes" rot="R90">
+<attribute name="NAME" x="51.562" y="111.76" size="1.4224" layer="95" ratio="10" rot="R90"/>
+</instance>
+<instance part="V108" gate="GND" x="53.34" y="121.92" smashed="yes" rot="R180">
+<attribute name="VALUE" x="55.88" y="125.222" size="1.4224" layer="96" ratio="9" rot="R180"/>
 </instance>
 </instances>
 <busses>
@@ -12797,9 +12469,9 @@ SCHEMATICS</text>
 <wire x1="154.94" y1="93.98" x2="154.94" y2="96.52" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="C41" gate="G$1" pin="2"/>
 <pinref part="V184" gate="GND" pin="GND"/>
 <wire x1="149.86" y1="93.98" x2="149.86" y2="96.52" width="0.1524" layer="91"/>
+<pinref part="C41" gate="G$1" pin="2"/>
 </segment>
 <segment>
 <pinref part="C46" gate="G$1" pin="2"/>
@@ -12865,6 +12537,10 @@ SCHEMATICS</text>
 <pinref part="LED7" gate="G$1" pin="C"/>
 <wire x1="129.54" y1="81.28" x2="129.54" y2="78.74" width="0.1524" layer="91"/>
 <pinref part="V98" gate="GND" pin="GND"/>
+</segment>
+<segment>
+<pinref part="TP1" gate="G$1" pin="2"/>
+<pinref part="V108" gate="GND" pin="GND"/>
 </segment>
 </net>
 <net name="N$25" class="0">
@@ -13055,9 +12731,9 @@ SCHEMATICS</text>
 <junction x="45.72" y="106.68"/>
 <pinref part="C25" gate="G$1" pin="1"/>
 <wire x1="53.34" y1="104.14" x2="53.34" y2="106.68" width="0.1524" layer="91"/>
-<pinref part="P11" gate="G$1" pin="1"/>
 <wire x1="53.34" y1="109.22" x2="53.34" y2="106.68" width="0.1524" layer="91"/>
 <junction x="53.34" y="106.68"/>
+<pinref part="TP1" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="N$24" class="0">
@@ -13545,7 +13221,6 @@ SCHEMATICS</text>
 <wire x1="154.94" y1="101.6" x2="154.94" y2="106.68" width="0.1524" layer="91"/>
 <junction x="154.94" y="106.68"/>
 <wire x1="149.86" y1="106.68" x2="154.94" y2="106.68" width="0.1524" layer="91"/>
-<pinref part="C41" gate="G$1" pin="1"/>
 <wire x1="149.86" y1="101.6" x2="149.86" y2="106.68" width="0.1524" layer="91"/>
 <junction x="149.86" y="106.68"/>
 <wire x1="142.24" y1="106.68" x2="144.78" y2="106.68" width="0.1524" layer="91"/>
@@ -13557,6 +13232,7 @@ SCHEMATICS</text>
 <wire x1="144.78" y1="101.6" x2="144.78" y2="106.68" width="0.1524" layer="91"/>
 <junction x="144.78" y="106.68"/>
 <pinref part="R41" gate="G$1" pin="2"/>
+<pinref part="C41" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="N$138" class="0">
