@@ -1107,42 +1107,13 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <wire x1="-2.235" y1="-1.245" x2="-2.235" y2="1.219" width="0.1524" layer="51"/>
 <wire x1="-2.235" y1="1.219" x2="2.235" y2="1.219" width="0.1524" layer="51"/>
 <wire x1="-0.7874" y1="1.5748" x2="-0.3556" y2="2.0066" width="0.2032" layer="51"/>
-<wire x1="-0.3556" y1="2.0066" x2="0.3556" y2="2.0066" width="0.2032" layer="51"/>
 <wire x1="0.3556" y1="2.0066" x2="0.7874" y2="1.5748" width="0.2032" layer="51"/>
 <wire x1="0.7874" y1="1.5748" x2="0.7874" y2="1.2954" width="0.2032" layer="51"/>
 <wire x1="0.7874" y1="1.2954" x2="-0.7874" y2="1.2954" width="0.2032" layer="51"/>
 <wire x1="-0.7874" y1="1.2954" x2="-0.7874" y2="1.5748" width="0.2032" layer="51"/>
-<wire x1="-0.254" y1="-1.143" x2="-0.254" y2="-0.762" width="0.254" layer="43"/>
-<wire x1="-0.254" y1="-0.762" x2="-0.381" y2="-0.762" width="0.254" layer="43"/>
-<wire x1="-0.381" y1="-0.762" x2="-0.889" y2="-0.254" width="0.254" layer="43"/>
-<wire x1="-0.889" y1="-0.254" x2="-0.889" y2="2.159" width="0.254" layer="43"/>
-<wire x1="-0.889" y1="2.159" x2="-0.381" y2="2.667" width="0.254" layer="43"/>
-<wire x1="-0.381" y1="2.667" x2="0.381" y2="2.667" width="0.254" layer="43"/>
-<wire x1="0.381" y1="2.667" x2="0.889" y2="2.159" width="0.254" layer="43"/>
-<wire x1="0.889" y1="2.159" x2="0.889" y2="-0.254" width="0.254" layer="43"/>
-<wire x1="0.889" y1="-0.254" x2="0.381" y2="-0.762" width="0.254" layer="43"/>
-<wire x1="0.381" y1="-0.762" x2="0.254" y2="-0.762" width="0.254" layer="43"/>
-<wire x1="0.254" y1="-0.762" x2="0.254" y2="-1.143" width="0.254" layer="43"/>
-<wire x1="0" y1="-1.143" x2="0" y2="-0.762" width="0.254" layer="43"/>
-<wire x1="0" y1="-0.762" x2="0" y2="0" width="0.762" layer="43"/>
-<wire x1="0" y1="0" x2="0" y2="1.778" width="1.6764" layer="43"/>
-<wire x1="-0.254" y1="-1.143" x2="-0.254" y2="-0.762" width="0.254" layer="41"/>
-<wire x1="-0.254" y1="-0.762" x2="-0.381" y2="-0.762" width="0.254" layer="41"/>
-<wire x1="-0.381" y1="-0.762" x2="-0.889" y2="-0.254" width="0.254" layer="41"/>
-<wire x1="-0.889" y1="-0.254" x2="-0.889" y2="2.159" width="0.254" layer="41"/>
-<wire x1="-0.889" y1="2.159" x2="-0.381" y2="2.667" width="0.254" layer="41"/>
-<wire x1="-0.381" y1="2.667" x2="0.381" y2="2.667" width="0.254" layer="41"/>
-<wire x1="0.381" y1="2.667" x2="0.889" y2="2.159" width="0.254" layer="41"/>
-<wire x1="0.889" y1="2.159" x2="0.889" y2="-0.254" width="0.254" layer="41"/>
-<wire x1="0.889" y1="-0.254" x2="0.381" y2="-0.762" width="0.254" layer="41"/>
-<wire x1="0.381" y1="-0.762" x2="0.254" y2="-0.762" width="0.254" layer="41"/>
-<wire x1="0.254" y1="-0.762" x2="0.254" y2="-1.143" width="0.254" layer="41"/>
-<wire x1="0" y1="-0.762" x2="0" y2="0" width="0.762" layer="41"/>
-<wire x1="0" y1="0" x2="0" y2="1.778" width="1.6764" layer="41"/>
-<wire x1="0" y1="0.1905" x2="0" y2="1.651" width="1.8" layer="31"/>
 <smd name="1" x="-1.499" y="-1.75" dx="0.8" dy="1.2" layer="1"/>
 <smd name="3" x="1.499" y="-1.75" dx="0.8" dy="1.2" layer="1"/>
-<smd name="2.1" x="0" y="1.1" dx="2" dy="2.5" layer="1" cream="no"/>
+<smd name="4" x="0" y="1.1" dx="2" dy="2.5" layer="1" cream="no"/>
 <text x="-2.5" y="4" size="1" layer="25" font="vector" ratio="10">&gt;NAME</text>
 <text x="-2.5" y="-4.5" size="1" layer="27" font="vector" ratio="10">&gt;VALUE</text>
 <rectangle x1="-1.7272" y1="-2.1082" x2="-1.27" y2="-1.27" layer="51"/>
@@ -1159,7 +1130,6 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <vertex x="-0.7874" y="1.2954"/>
 </polygon>
 <smd name="2" x="0.001" y="-1.75" dx="0.8" dy="1.2" layer="1"/>
-<wire x1="0" y1="-1.5" x2="0" y2="1" width="0.8" layer="1"/>
 <wire x1="-1.5" y1="1.5" x2="-2" y2="1.5" width="0.15" layer="21"/>
 <wire x1="-2" y1="1.5" x2="-2" y2="0" width="0.15" layer="21"/>
 <wire x1="-2" y1="0" x2="-1.5" y2="0" width="0.15" layer="21"/>
@@ -2347,6 +2317,9 @@ Radiall&lt;p&gt;</description>
 <text x="-10.922" y="-6.096" size="1.778" layer="94" ratio="10">G</text>
 <text x="-3.556" y="-10.922" size="1.778" layer="94" ratio="10">S</text>
 <text x="-3.81" y="6.096" size="1.778" layer="94" ratio="10">D</text>
+<pin name="S2" x="5.08" y="-10.16" visible="off" length="short" rot="R90"/>
+<wire x1="5.08" y1="-7.62" x2="0" y2="-7.62" width="0.1524" layer="94"/>
+<text x="6.858" y="-10.922" size="1.778" layer="94" ratio="10">S2</text>
 </symbol>
 <symbol name="SA602A">
 <pin name="IN_B" x="-17.78" y="2.54" length="middle"/>
@@ -3313,7 +3286,8 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <connects>
 <connect gate="G$1" pin="D" pad="3"/>
 <connect gate="G$1" pin="G" pad="1"/>
-<connect gate="G$1" pin="S" pad="2 2.1"/>
+<connect gate="G$1" pin="S" pad="2" route="any"/>
+<connect gate="G$1" pin="S2" pad="4"/>
 </connects>
 <technologies>
 <technology name=""/>
@@ -3688,7 +3662,7 @@ Source: http://cache.national.com/ds/LM/LM386.pdf</description>
 <device name="" package="SOT89">
 <connects>
 <connect gate="G$1" pin="B" pad="1" route="any"/>
-<connect gate="G$1" pin="C" pad="2 2.1" route="any"/>
+<connect gate="G$1" pin="C" pad="2 4" route="any"/>
 <connect gate="G$1" pin="E" pad="3" route="any"/>
 </connects>
 <technologies>
@@ -12630,8 +12604,9 @@ must be zero length</text>
 <pinref part="C99" gate="G$1" pin="2"/>
 <wire x1="297.18" y1="63.5" x2="297.18" y2="58.42" width="0.1524" layer="91"/>
 <pinref part="Q13" gate="G$1" pin="S"/>
-<wire x1="309.88" y1="78.74" x2="309.88" y2="58.42" width="0.1524" layer="91"/>
+<wire x1="309.88" y1="78.74" x2="309.88" y2="76.2" width="0.1524" layer="91"/>
 <pinref part="C105" gate="G$1" pin="2"/>
+<wire x1="309.88" y1="76.2" x2="309.88" y2="58.42" width="0.1524" layer="91"/>
 <wire x1="322.58" y1="91.44" x2="322.58" y2="86.36" width="0.1524" layer="91"/>
 <wire x1="322.58" y1="86.36" x2="322.58" y2="58.42" width="0.1524" layer="91"/>
 <wire x1="322.58" y1="86.36" x2="342.9" y2="86.36" width="0.1524" layer="91"/>
@@ -12646,6 +12621,10 @@ must be zero length</text>
 <junction x="271.78" y="58.42"/>
 <junction x="297.18" y="58.42"/>
 <junction x="309.88" y="58.42"/>
+<pinref part="Q13" gate="G$1" pin="S2"/>
+<wire x1="314.96" y1="78.74" x2="314.96" y2="76.2" width="0.1524" layer="91"/>
+<wire x1="314.96" y1="76.2" x2="309.88" y2="76.2" width="0.1524" layer="91"/>
+<junction x="309.88" y="76.2"/>
 </segment>
 <segment>
 <pinref part="C94" gate="G$1" pin="2"/>
