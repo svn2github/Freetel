@@ -75,7 +75,7 @@
 <layer number="101" name="Gehäuse" color="13" fill="1" visible="no" active="yes"/>
 <layer number="102" name="Mittellin" color="7" fill="1" visible="no" active="yes"/>
 <layer number="103" name="fp3" color="7" fill="1" visible="no" active="yes"/>
-<layer number="104" name="Name" color="7" fill="1" visible="no" active="yes"/>
+<layer number="104" name="Name" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="105" name="Beschreib" color="9" fill="1" visible="no" active="no"/>
 <layer number="106" name="BGA-Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="107" name="BD-Top" color="5" fill="1" visible="no" active="no"/>
@@ -8718,8 +8718,11 @@ package type P</description>
 <circle x="0" y="0" radius="1.802775" width="0.15" layer="21"/>
 <wire x1="0" y1="0" x2="-1" y2="1" width="0.15" layer="21"/>
 <wire x1="0" y1="0" x2="1" y2="-1" width="0.15" layer="21"/>
-<text x="-2.5" y="6.5" size="1" layer="25" font="vector" ratio="10">&gt;NAME</text>
+<text x="-2.5" y="5.5" size="1" layer="25" font="vector" ratio="10">&gt;NAME</text>
 <text x="-3" y="-7.5" size="1" layer="27" font="vector" ratio="10">&gt;VALUE</text>
+<wire x1="-1" y1="4" x2="4" y2="-1" width="0.15" layer="21" curve="-118.072487"/>
+<wire x1="-3.5" y1="-1" x2="-3.5" y2="1" width="0.15" layer="21" curve="-30.169608"/>
+<wire x1="1.2" y1="-3.7" x2="-1.4" y2="-3.5" width="0.15" layer="21" curve="-38.74088"/>
 </package>
 <package name="ADE-1">
 <smd name="1" x="-2.54" y="-2.54" dx="2.54" dy="1.27" layer="1" rot="R90"/>
@@ -9740,6 +9743,48 @@ Source: www.ilsiamerica.com .. C1 IXF Series.pdf</description>
 <text x="-3.58" y="2.421" size="1.27" layer="25" ratio="10">&gt;NAME</text>
 <text x="-5.08" y="-4.191" size="1.27" layer="27" ratio="10">&gt;VALUE</text>
 <circle x="-6.5" y="-2.5" radius="1.11803125" width="0" layer="21"/>
+</package>
+<package name="D2PACK">
+<description>&lt;b&gt;D2PACK&lt;/b&gt;&lt;p&gt;
+Source: INTERNATIONAL RECTIFIER, irg4bc15ud-s.pdf</description>
+<wire x1="-5.1308" y1="-4.0894" x2="5.1308" y2="-4.0894" width="0.254" layer="21"/>
+<wire x1="5.1308" y1="-4.0894" x2="5.1308" y2="4.445" width="0.254" layer="51"/>
+<wire x1="5.1308" y1="4.445" x2="3.1242" y2="5.8166" width="0.254" layer="51"/>
+<wire x1="3.1242" y1="5.8166" x2="-3.3782" y2="5.8166" width="0.254" layer="51"/>
+<wire x1="-3.3782" y1="5.8166" x2="-5.1308" y2="4.699" width="0.254" layer="51"/>
+<wire x1="-5.1308" y1="4.699" x2="-5.1308" y2="4.445" width="0.254" layer="51"/>
+<wire x1="-5.1308" y1="4.445" x2="-5.1308" y2="-4.0894" width="0.254" layer="51"/>
+<wire x1="-5.1308" y1="4.445" x2="5.1308" y2="4.445" width="0.254" layer="51"/>
+<wire x1="-5.1308" y1="-4.0894" x2="-5.1308" y2="-2.3114" width="0.254" layer="21"/>
+<wire x1="5.1308" y1="-4.0894" x2="5.1308" y2="-2.3114" width="0.254" layer="21"/>
+<smd name="1" x="-2.54" y="-8.89" dx="2.0828" dy="3.81" layer="1"/>
+<smd name="3" x="2.54" y="-8.89" dx="2.0828" dy="3.81" layer="1"/>
+<smd name="2" x="0" y="2.54" dx="11.43" dy="8.89" layer="1"/>
+<text x="-5.588" y="7.239" size="1.27" layer="25">&gt;NAME</text>
+<text x="-3.81" y="-3.429" size="1.27" layer="27">&gt;VALUE</text>
+<rectangle x1="-3.0988" y1="-9.525" x2="-1.9812" y2="-8.1026" layer="51"/>
+<rectangle x1="-3.2512" y1="-8.1534" x2="-1.8288" y2="-6.731" layer="51"/>
+<rectangle x1="-3.2512" y1="-6.731" x2="-1.8288" y2="-4.2418" layer="21"/>
+<rectangle x1="1.9812" y1="-9.525" x2="3.0988" y2="-8.1026" layer="51"/>
+<rectangle x1="1.8288" y1="-8.1534" x2="3.2512" y2="-6.731" layer="51"/>
+<rectangle x1="1.8288" y1="-6.731" x2="3.2512" y2="-4.2418" layer="21"/>
+<rectangle x1="-0.7112" y1="-6.731" x2="0.7112" y2="-4.2418" layer="21"/>
+</package>
+<package name="CTS-405">
+<smd name="1" x="-1.9" y="-1.1" dx="1.2" dy="1.5" layer="1" roundness="25" rot="R90"/>
+<smd name="2" x="1.9" y="-1.1" dx="1.2" dy="1.5" layer="1" roundness="25" rot="R90"/>
+<smd name="3" x="1.9" y="1.1" dx="1.2" dy="1.5" layer="1" roundness="25" rot="R90"/>
+<smd name="4" x="-1.9" y="1.1" dx="1.2" dy="1.5" layer="1" roundness="25" rot="R90"/>
+<wire x1="-0.7" y1="1.6" x2="0.7" y2="1.6" width="0.15" layer="21"/>
+<wire x1="0.7" y1="-1.6" x2="-0.7" y2="-1.6" width="0.15" layer="21"/>
+<wire x1="-2.5" y1="0.2" x2="-2.5" y2="-0.2" width="0.15" layer="21"/>
+<wire x1="2.5" y1="0.2" x2="2.5" y2="-0.2" width="0.15" layer="21"/>
+<circle x="-3.5" y="-2" radius="0.5099" width="0" layer="21"/>
+<text x="-2.5" y="2" size="0.8" layer="21" ratio="10">&gt;NAME</text>
+<wire x1="-3" y1="2" x2="3" y2="2" width="0" layer="39"/>
+<wire x1="3" y1="2" x2="3" y2="-2" width="0" layer="39"/>
+<wire x1="3" y1="-2" x2="-3" y2="-2" width="0" layer="39"/>
+<wire x1="-3" y1="-2" x2="-3" y2="2" width="0" layer="39"/>
 </package>
 </packages>
 <symbols>
@@ -13798,6 +13843,30 @@ Source: www.ilsiamerica.com .. C1 IXF Series.pdf</description>
 <pin name="1" x="2.54" y="0" visible="off" length="point" direction="pas" swaplevel="1"/>
 <pin name="2" x="0" y="-5.08" visible="off" length="short" direction="pas" rot="R90"/>
 <circle x="3.556" y="-3.048" radius="0.915809375" width="0" layer="94"/>
+</symbol>
+<symbol name="CTS-405">
+<pin name="1" x="-10.16" y="2.54" visible="pad" length="short" direction="pas"/>
+<pin name="2" x="-10.16" y="-2.54" visible="pad" length="short" direction="pas"/>
+<pin name="4" x="10.16" y="-2.54" visible="pad" length="short" direction="pas" rot="R180"/>
+<pin name="3" x="10.16" y="2.54" visible="pad" length="short" direction="pas" rot="R180"/>
+<wire x1="-7.62" y1="-5.08" x2="-7.62" y2="2.54" width="0.1524" layer="94"/>
+<wire x1="-7.62" y1="2.54" x2="-7.62" y2="7.62" width="0.1524" layer="94"/>
+<wire x1="-7.62" y1="7.62" x2="7.62" y2="7.62" width="0.1524" layer="94"/>
+<wire x1="7.62" y1="7.62" x2="7.62" y2="2.54" width="0.1524" layer="94"/>
+<wire x1="7.62" y1="2.54" x2="7.62" y2="-5.08" width="0.1524" layer="94"/>
+<wire x1="7.62" y1="-5.08" x2="-7.62" y2="-5.08" width="0.1524" layer="94"/>
+<wire x1="-2.54" y1="5.08" x2="-2.54" y2="2.54" width="0.1524" layer="94"/>
+<wire x1="-2.54" y1="2.54" x2="-2.54" y2="0" width="0.1524" layer="94"/>
+<wire x1="2.54" y1="5.08" x2="2.54" y2="2.54" width="0.1524" layer="94"/>
+<wire x1="2.54" y1="2.54" x2="2.54" y2="0" width="0.1524" layer="94"/>
+<wire x1="-1.524" y1="6.35" x2="-1.524" y2="-1.27" width="0.1524" layer="94"/>
+<wire x1="-1.524" y1="-1.27" x2="1.524" y2="-1.27" width="0.1524" layer="94"/>
+<wire x1="1.524" y1="-1.27" x2="1.524" y2="6.35" width="0.1524" layer="94"/>
+<wire x1="1.524" y1="6.35" x2="-1.524" y2="6.35" width="0.1524" layer="94"/>
+<wire x1="-7.62" y1="2.54" x2="-2.54" y2="2.54" width="0.1524" layer="94"/>
+<wire x1="2.54" y1="2.54" x2="7.62" y2="2.54" width="0.1524" layer="94"/>
+<text x="-7.62" y="11.176" size="1.4224" layer="104" ratio="10">&gt;NAME</text>
+<text x="-7.62" y="8.636" size="1.4224" layer="104" ratio="10">&gt;VALUE</text>
 </symbol>
 </symbols>
 <devicesets>
@@ -20101,6 +20170,41 @@ Source: http://www.presto.co.uk</description>
 <connects>
 <connect gate="G$1" pin="A" pad="A"/>
 <connect gate="G$1" pin="K" pad="C"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="L78XX">
+<gates>
+<gate name="G$1" symbol="L78MXX" x="0" y="0"/>
+</gates>
+<devices>
+<device name="D2PACK" package="D2PACK">
+<connects>
+<connect gate="G$1" pin="GND" pad="2"/>
+<connect gate="G$1" pin="IN" pad="1"/>
+<connect gate="G$1" pin="OUT" pad="3"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="CTS-405" prefix="XTAL">
+<gates>
+<gate name="G$1" symbol="CTS-405" x="0" y="-2.54"/>
+</gates>
+<devices>
+<device name="" package="CTS-405">
+<connects>
+<connect gate="G$1" pin="1" pad="1"/>
+<connect gate="G$1" pin="2" pad="2"/>
+<connect gate="G$1" pin="3" pad="3"/>
+<connect gate="G$1" pin="4" pad="4"/>
 </connects>
 <technologies>
 <technology name=""/>
