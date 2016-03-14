@@ -5501,8 +5501,6 @@ SCHEMATICS</text>
 </net>
 <net name="3V3" class="0">
 <segment>
-<wire x1="101.6" y1="30.48" x2="104.14" y2="30.48" width="0.1524" layer="91"/>
-<wire x1="104.14" y1="30.48" x2="99.06" y2="30.48" width="0.1524" layer="91"/>
 <wire x1="99.06" y1="30.48" x2="86.36" y2="30.48" width="0.1524" layer="91"/>
 <wire x1="86.36" y1="30.48" x2="73.66" y2="30.48" width="0.1524" layer="91"/>
 <wire x1="73.66" y1="30.48" x2="60.96" y2="30.48" width="0.1524" layer="91"/>
@@ -5528,7 +5526,6 @@ SCHEMATICS</text>
 <junction x="48.26" y="30.48"/>
 <junction x="60.96" y="30.48"/>
 <junction x="73.66" y="30.48"/>
-<pinref part="R14" gate="G$1" pin="1"/>
 <wire x1="10.16" y1="30.48" x2="10.16" y2="60.96" width="0.1524" layer="91"/>
 <junction x="10.16" y="30.48"/>
 <wire x1="10.16" y1="60.96" x2="10.16" y2="71.12" width="0.1524" layer="91"/>
@@ -5563,8 +5560,10 @@ SCHEMATICS</text>
 <pinref part="C15" gate="G$1" pin="1"/>
 <wire x1="99.06" y1="22.86" x2="99.06" y2="30.48" width="0.1524" layer="91"/>
 <junction x="86.36" y="30.48"/>
-<junction x="99.06" y="30.48"/>
 <pinref part="V11" gate="G$1" pin="3V3"/>
+<pinref part="R14" gate="G$1" pin="1"/>
+<wire x1="99.06" y1="30.48" x2="101.6" y2="30.48" width="0.1524" layer="91"/>
+<junction x="99.06" y="30.48"/>
 </segment>
 <segment>
 <pinref part="R7" gate="G$1" pin="1"/>
@@ -5843,11 +5842,6 @@ SCHEMATICS</text>
 <pinref part="V105" gate="GND" pin="GND"/>
 </segment>
 <segment>
-<wire x1="226.06" y1="190.5" x2="223.52" y2="190.5" width="0.1524" layer="91"/>
-<wire x1="223.52" y1="190.5" x2="223.52" y2="180.34" width="0.1524" layer="91"/>
-<pinref part="V51" gate="GND" pin="GND"/>
-</segment>
-<segment>
 <wire x1="246.38" y1="190.5" x2="248.92" y2="190.5" width="0.1524" layer="91"/>
 <wire x1="248.92" y1="190.5" x2="248.92" y2="180.34" width="0.1524" layer="91"/>
 <pinref part="V87" gate="GND" pin="GND"/>
@@ -5946,6 +5940,12 @@ SCHEMATICS</text>
 <wire x1="162.56" y1="231.14" x2="157.48" y2="231.14" width="0.1524" layer="91"/>
 <wire x1="157.48" y1="231.14" x2="157.48" y2="228.6" width="0.1524" layer="91"/>
 <pinref part="V88" gate="GND" pin="GND"/>
+</segment>
+<segment>
+<pinref part="XTAL1" gate="G$1" pin="2"/>
+<pinref part="V51" gate="GND" pin="GND"/>
+<wire x1="226.06" y1="190.5" x2="223.52" y2="190.5" width="0.1524" layer="91"/>
+<wire x1="223.52" y1="190.5" x2="223.52" y2="180.34" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="NRST" class="0">
@@ -11567,16 +11567,6 @@ minimise net length</text>
 <junction x="276.86" y="147.32"/>
 </segment>
 </net>
-<net name="N$65" class="0">
-<segment>
-<wire x1="38.1" y1="114.3" x2="38.1" y2="121.92" width="0.1524" layer="91"/>
-<wire x1="38.1" y1="121.92" x2="10.16" y2="121.92" width="0.1524" layer="91"/>
-<wire x1="10.16" y1="121.92" x2="10.16" y2="114.3" width="0.1524" layer="91"/>
-<wire x1="10.16" y1="114.3" x2="10.16" y2="109.22" width="0.1524" layer="91"/>
-<wire x1="10.16" y1="109.22" x2="15.24" y2="109.22" width="0.1524" layer="91"/>
-<pinref part="XTAL2" gate="G$1" pin="1"/>
-</segment>
-</net>
 <net name="N$80" class="0">
 <segment>
 <wire x1="35.56" y1="109.22" x2="38.1" y2="109.22" width="0.1524" layer="91"/>
@@ -11765,13 +11755,22 @@ minimise net length</text>
 <net name="N$2" class="0">
 <segment>
 <pinref part="U14" gate="G$1" pin="XA"/>
-<wire x1="55.88" y1="114.3" x2="53.34" y2="114.3" width="0.1524" layer="91"/>
-<wire x1="53.34" y1="114.3" x2="38.1" y2="114.3" width="0.1524" layer="91"/>
+<wire x1="55.88" y1="114.3" x2="38.1" y2="114.3" width="0.1524" layer="91"/>
+<wire x1="38.1" y1="114.3" x2="38.1" y2="121.92" width="0.1524" layer="91"/>
+<wire x1="38.1" y1="121.92" x2="12.7" y2="121.92" width="0.1524" layer="91"/>
+<wire x1="12.7" y1="121.92" x2="12.7" y2="109.22" width="0.1524" layer="91"/>
+<pinref part="XTAL2" gate="G$1" pin="1"/>
+<wire x1="12.7" y1="109.22" x2="15.24" y2="109.22" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
 </sheet>
 </sheets>
+<errors>
+<approved hash="104,4,71.12,121.92,U14,VDD,N$47,,,"/>
+<approved hash="104,4,86.36,111.76,U14,VDDO,N$120,,,"/>
+<approved hash="104,4,73.66,68.58,U15,VDD,N$119,,,"/>
+</errors>
 </schematic>
 </drawing>
 <compatibility>
