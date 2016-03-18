@@ -1617,6 +1617,10 @@ Source: www.ilsiamerica.com .. C1 IXF Series.pdf</description>
 <wire x1="-3.5" y1="-1" x2="-3.5" y2="1" width="0.15" layer="21" curve="-30.169608"/>
 <wire x1="1.2" y1="-3.7" x2="-1.4" y2="-3.5" width="0.15" layer="21" curve="-38.74088"/>
 </package>
+<package name="SGND">
+<smd name="P$1" x="0" y="0" dx="2" dy="5" layer="1" rot="R90"/>
+<pad name="SGND" x="0" y="0" drill="0.8"/>
+</package>
 </packages>
 <symbols>
 <symbol name="CAP-POL">
@@ -2675,6 +2679,10 @@ Source: www.ilsiamerica.com .. C1 IXF Series.pdf</description>
 <vertex x="3.302" y="3.048"/>
 </polygon>
 <wire x1="-2.54" y1="0" x2="-0.508" y2="0" width="0.1524" layer="94"/>
+</symbol>
+<symbol name="SGND">
+<pin name="P$1" x="0" y="-5.08" visible="off" length="middle" rot="R90"/>
+<rectangle x1="-1.27" y1="-2.54" x2="1.016" y2="2.54" layer="94"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -3972,6 +3980,21 @@ Source: http://www.presto.co.uk</description>
 </device>
 </devices>
 </deviceset>
+<deviceset name="SGND" prefix="S">
+<gates>
+<gate name="G$1" symbol="SGND" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="SGND">
+<connects>
+<connect gate="G$1" pin="P$1" pad="SGND"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
 </devicesets>
 </library>
 <library name="_Coherix">
@@ -4375,6 +4398,9 @@ In this library the device names are the same as the pin names of the symbols, t
 </variantdefs>
 <classes>
 <class number="0" name="default" width="0" drill="0">
+</class>
+<class number="1" name="Stripline" width="0.508" drill="0.508">
+<clearance class="1" value="0.508"/>
 </class>
 </classes>
 <parts>
@@ -5015,6 +5041,20 @@ In this library the device names are the same as the pin names of the symbols, t
 <part name="XTAL1" library="_RoweTel" deviceset="CTS-405" device="" value="8.000MHz"/>
 <part name="XTAL2" library="_RoweTel" deviceset="CTS-405" device="" value="25.000MHz"/>
 <part name="C83" library="_RoweTel" deviceset="TRIMCAP_VAR_2222_V" device="" value="2-12pF"/>
+<part name="S1" library="_RoweTel" deviceset="SGND" device=""/>
+<part name="S2" library="_RoweTel" deviceset="SGND" device=""/>
+<part name="S3" library="_RoweTel" deviceset="SGND" device=""/>
+<part name="S4" library="_RoweTel" deviceset="SGND" device=""/>
+<part name="S5" library="_RoweTel" deviceset="SGND" device=""/>
+<part name="S6" library="_RoweTel" deviceset="SGND" device=""/>
+<part name="S7" library="_RoweTel" deviceset="SGND" device=""/>
+<part name="V90" library="A-SUPPLY2" deviceset="GND" device=""/>
+<part name="V111" library="A-SUPPLY2" deviceset="GND" device=""/>
+<part name="V116" library="A-SUPPLY2" deviceset="GND" device=""/>
+<part name="V117" library="A-SUPPLY2" deviceset="GND" device=""/>
+<part name="V123" library="A-SUPPLY2" deviceset="GND" device=""/>
+<part name="V138" library="A-SUPPLY2" deviceset="GND" device=""/>
+<part name="V139" library="A-SUPPLY2" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -5482,6 +5522,20 @@ SCHEMATICS</text>
 <attribute name="VALUE" x="314.198" y="121.285" size="1.4224" layer="96" ratio="10" rot="R180"/>
 </instance>
 <instance part="XTAL1" gate="G$1" x="236.22" y="193.04"/>
+<instance part="S1" gate="G$1" x="337.82" y="83.82"/>
+<instance part="S2" gate="G$1" x="342.9" y="83.82"/>
+<instance part="S3" gate="G$1" x="347.98" y="83.82"/>
+<instance part="S4" gate="G$1" x="353.06" y="83.82"/>
+<instance part="S5" gate="G$1" x="358.14" y="83.82"/>
+<instance part="S6" gate="G$1" x="365.76" y="83.82"/>
+<instance part="S7" gate="G$1" x="370.84" y="83.82"/>
+<instance part="V90" gate="GND" x="337.82" y="76.2"/>
+<instance part="V111" gate="GND" x="342.9" y="76.2"/>
+<instance part="V116" gate="GND" x="347.98" y="76.2"/>
+<instance part="V117" gate="GND" x="353.06" y="76.2"/>
+<instance part="V123" gate="GND" x="358.14" y="76.2"/>
+<instance part="V138" gate="GND" x="365.76" y="76.2"/>
+<instance part="V139" gate="GND" x="370.84" y="76.2"/>
 </instances>
 <busses>
 </busses>
@@ -5946,6 +6000,34 @@ SCHEMATICS</text>
 <pinref part="V51" gate="GND" pin="GND"/>
 <wire x1="226.06" y1="190.5" x2="223.52" y2="190.5" width="0.1524" layer="91"/>
 <wire x1="223.52" y1="190.5" x2="223.52" y2="180.34" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="S1" gate="G$1" pin="P$1"/>
+<pinref part="V90" gate="GND" pin="GND"/>
+</segment>
+<segment>
+<pinref part="S2" gate="G$1" pin="P$1"/>
+<pinref part="V111" gate="GND" pin="GND"/>
+</segment>
+<segment>
+<pinref part="S3" gate="G$1" pin="P$1"/>
+<pinref part="V116" gate="GND" pin="GND"/>
+</segment>
+<segment>
+<pinref part="S4" gate="G$1" pin="P$1"/>
+<pinref part="V117" gate="GND" pin="GND"/>
+</segment>
+<segment>
+<pinref part="S5" gate="G$1" pin="P$1"/>
+<pinref part="V123" gate="GND" pin="GND"/>
+</segment>
+<segment>
+<pinref part="S6" gate="G$1" pin="P$1"/>
+<pinref part="V138" gate="GND" pin="GND"/>
+</segment>
+<segment>
+<pinref part="S7" gate="G$1" pin="P$1"/>
+<pinref part="V139" gate="GND" pin="GND"/>
 </segment>
 </net>
 <net name="NRST" class="0">
