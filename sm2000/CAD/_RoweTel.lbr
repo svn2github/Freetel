@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.5" unitdist="mm" unit="mm" style="dots" multiple="1" display="yes" altdistance="0.1" altunitdist="mm" altunit="mm"/>
+<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="yes"/>
@@ -8825,7 +8825,6 @@ package type P</description>
 <smd name="2" x="0" y="-1.9177" dx="1.4732" dy="0.7112" layer="1" roundness="25" rot="R90"/>
 <smd name="3" x="1.4986" y="-1.9177" dx="1.4732" dy="0.7112" layer="1" roundness="25" rot="R90"/>
 <smd name="4" x="0" y="1.0922" dx="3.175" dy="2.159" layer="1" roundness="50" rot="R90"/>
-<wire x1="0" y1="-2" x2="0" y2="2" width="0.7112" layer="1"/>
 <wire x1="-2.5" y1="-3.246" x2="-2.5" y2="3.238" width="0" layer="39"/>
 <wire x1="-2.5" y1="3.238" x2="2.5" y2="3.238" width="0" layer="39"/>
 <wire x1="2.5" y1="3.238" x2="2.5" y2="-3.246" width="0" layer="39"/>
@@ -8838,7 +8837,7 @@ package type P</description>
 <wire x1="2.286" y1="-0.4572" x2="1.4224" y2="-0.4572" width="0.15" layer="21"/>
 <wire x1="1.4224" y1="-0.4572" x2="1.4224" y2="-0.4318" width="0.15" layer="21"/>
 <text x="-2.54" y="3.683" size="1" layer="25" font="vector" ratio="10">&gt;NAME</text>
-<text x="-2.54" y="-4.699" size="1" layer="25" font="vector" ratio="10">&gt;VALUE</text>
+<text x="-2.54" y="-4.699" size="1" layer="27" font="vector" ratio="10">&gt;VALUE</text>
 </package>
 <package name="SI570">
 <smd name="5" x="0" y="2.1" dx="2.15" dy="1.7" layer="1" rot="R90"/>
@@ -9787,8 +9786,11 @@ Source: INTERNATIONAL RECTIFIER, irg4bc15ud-s.pdf</description>
 <wire x1="-3" y1="-2" x2="-3" y2="2" width="0" layer="39"/>
 </package>
 <package name="SGND">
-<smd name="P$1" x="0" y="0" dx="2" dy="5" layer="1" rot="R90"/>
-<pad name="SGND" x="0" y="0" drill="0.8"/>
+<pad name="1" x="0" y="0" drill="0.8" thermals="no"/>
+<rectangle x1="-1.5" y1="-1" x2="1.5" y2="1" layer="1"/>
+</package>
+<package name="MTG-PAD-3.2">
+<pad name="P$1" x="0" y="0" drill="3.2" diameter="6.4516"/>
 </package>
 </packages>
 <symbols>
@@ -13413,7 +13415,7 @@ Source: INTERNATIONAL RECTIFIER, irg4bc15ud-s.pdf</description>
 <pin name="1N" x="-10.16" y="0" visible="pad" length="middle"/>
 <pin name="OUT" x="12.7" y="0" visible="pad" length="middle" rot="R180"/>
 <text x="0" y="10.16" size="1.4224" layer="95" ratio="10">&gt;NAME</text>
-<text x="0" y="7.62" size="1.4224" layer="95" ratio="10">&gt;VALUE</text>
+<text x="0" y="7.62" size="1.4224" layer="96" ratio="10">&gt;VALUE</text>
 <pin name="GND" x="-2.54" y="-12.7" visible="pad" length="middle" rot="R90"/>
 <pin name="GND1" x="2.54" y="-12.7" visible="pad" length="middle" rot="R90"/>
 <wire x1="-2.54" y1="-7.62" x2="-2.54" y2="-6.096" width="0.1524" layer="94"/>
@@ -13873,8 +13875,13 @@ Source: INTERNATIONAL RECTIFIER, irg4bc15ud-s.pdf</description>
 <text x="-7.62" y="8.636" size="1.4224" layer="104" ratio="10">&gt;VALUE</text>
 </symbol>
 <symbol name="SGND">
-<pin name="P$1" x="0" y="-5.08" visible="off" length="middle" rot="R90"/>
+<pin name="1" x="0" y="-5.08" visible="off" length="middle" rot="R90"/>
 <rectangle x1="-1.27" y1="-2.54" x2="1.016" y2="2.54" layer="94"/>
+</symbol>
+<symbol name="MTG-PAD-3.2">
+<pin name="P$1" x="0" y="-5.08" visible="off" length="middle" rot="R90"/>
+<circle x="0" y="0" radius="2.54" width="0.1524" layer="94"/>
+<circle x="0" y="0" radius="1.135921875" width="0.1524" layer="94"/>
 </symbol>
 </symbols>
 <devicesets>
@@ -20227,7 +20234,22 @@ Source: http://www.presto.co.uk</description>
 <devices>
 <device name="" package="SGND">
 <connects>
-<connect gate="G$1" pin="P$1" pad="SGND"/>
+<connect gate="G$1" pin="1" pad="1"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+<deviceset name="MTG-PAD-3.2" prefix="PAD">
+<gates>
+<gate name="G$1" symbol="MTG-PAD-3.2" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="MTG-PAD-3.2">
+<connects>
+<connect gate="G$1" pin="P$1" pad="P$1"/>
 </connects>
 <technologies>
 <technology name=""/>
