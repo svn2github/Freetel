@@ -1376,9 +1376,6 @@ INFINEON, www.infineon.com/cmc_upload/0/000/010/257/eh_db_5b.pdf</description>
 <wire x1="5" y1="7.5" x2="5" y2="-7.5" width="0.15" layer="21"/>
 <wire x1="5" y1="-7.5" x2="-5" y2="-7.5" width="0.15" layer="21"/>
 <wire x1="-5" y1="-7.5" x2="-5" y2="7.5" width="0.15" layer="21"/>
-<dimension x1="-5" y1="-7.5" x2="5" y2="-7.5" x3="0" y3="-11" textsize="1" textratio="10" layer="201" dtype="horizontal"/>
-<dimension x1="-5" y1="-7.5" x2="-5" y2="7.5" x3="-8" y3="0" textsize="1" textratio="10" layer="201" dtype="vertical"/>
-<text x="6" y="-0.5" size="1" layer="201" ratio="10">Pads 6mm x 2mm</text>
 </package>
 <package name="Z15/4">
 <description>FREE-SUSPENSION &lt;b&gt;CHOKE&lt;/b&gt;&lt;p&gt;
@@ -1617,8 +1614,13 @@ Source: www.ilsiamerica.com .. C1 IXF Series.pdf</description>
 <wire x1="1.2" y1="-3.7" x2="-1.4" y2="-3.5" width="0.15" layer="21" curve="-38.74088"/>
 </package>
 <package name="SGND">
-<pad name="1" x="0" y="0" drill="0.8" thermals="no"/>
-<rectangle x1="-1.5" y1="-1" x2="1.5" y2="1" layer="1"/>
+<pad name="1" x="0" y="0" drill="0.8"/>
+<polygon width="0" layer="1">
+<vertex x="-1.5" y="1"/>
+<vertex x="1.5" y="1"/>
+<vertex x="1.5" y="-1"/>
+<vertex x="-1.5" y="-1"/>
+</polygon>
 </package>
 <package name="MTG-PAD-3.2">
 <pad name="P$1" x="0" y="0" drill="3.2" diameter="6.4516"/>
@@ -2684,7 +2686,12 @@ Source: www.ilsiamerica.com .. C1 IXF Series.pdf</description>
 </symbol>
 <symbol name="SGND">
 <pin name="1" x="0" y="-5.08" visible="off" length="middle" rot="R90"/>
-<rectangle x1="-1.27" y1="-2.54" x2="1.016" y2="2.54" layer="94"/>
+<polygon width="0" layer="94">
+<vertex x="1.27" y="-2.54"/>
+<vertex x="-1.27" y="-2.54"/>
+<vertex x="-1.27" y="2.54"/>
+<vertex x="1.27" y="2.54"/>
+</polygon>
 </symbol>
 <symbol name="MTG-PAD-3.2">
 <pin name="P$1" x="0" y="-5.08" visible="off" length="middle" rot="R90"/>
@@ -5149,6 +5156,20 @@ In this library the device names are the same as the pin names of the symbols, t
 <part name="S36" library="_RoweTel" deviceset="SGND" device=""/>
 <part name="V192" library="A-SUPPLY2" deviceset="GND" device=""/>
 <part name="V193" library="A-SUPPLY2" deviceset="GND" device=""/>
+<part name="S37" library="_RoweTel" deviceset="SGND" device=""/>
+<part name="S38" library="_RoweTel" deviceset="SGND" device=""/>
+<part name="V194" library="A-SUPPLY2" deviceset="GND" device=""/>
+<part name="V195" library="A-SUPPLY2" deviceset="GND" device=""/>
+<part name="S39" library="_RoweTel" deviceset="SGND" device=""/>
+<part name="V196" library="A-SUPPLY2" deviceset="GND" device=""/>
+<part name="S40" library="_RoweTel" deviceset="SGND" device=""/>
+<part name="V197" library="A-SUPPLY2" deviceset="GND" device=""/>
+<part name="S41" library="_RoweTel" deviceset="SGND" device=""/>
+<part name="S42" library="_RoweTel" deviceset="SGND" device=""/>
+<part name="V198" library="A-SUPPLY2" deviceset="GND" device=""/>
+<part name="V199" library="A-SUPPLY2" deviceset="GND" device=""/>
+<part name="S43" library="_RoweTel" deviceset="SGND" device=""/>
+<part name="V200" library="A-SUPPLY2" deviceset="GND" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -5170,8 +5191,8 @@ In this library the device names are the same as the pin names of the symbols, t
 <wire x1="330.2" y1="71.12" x2="330.2" y2="116.84" width="0.1524" layer="94" style="longdash"/>
 <wire x1="330.2" y1="116.84" x2="266.7" y2="116.84" width="0.1524" layer="94" style="longdash"/>
 <wire x1="266.7" y1="116.84" x2="185.42" y2="116.84" width="0.1524" layer="94" style="longdash"/>
-<wire x1="330.2" y1="116.84" x2="330.2" y2="134.62" width="0.1524" layer="94" style="longdash"/>
-<wire x1="330.2" y1="134.62" x2="330.2" y2="172.72" width="0.1524" layer="94" style="longdash"/>
+<wire x1="330.2" y1="116.84" x2="330.2" y2="142.24" width="0.1524" layer="94" style="longdash"/>
+<wire x1="330.2" y1="142.24" x2="330.2" y2="172.72" width="0.1524" layer="94" style="longdash"/>
 <wire x1="330.2" y1="172.72" x2="281.94" y2="172.72" width="0.1524" layer="94" style="longdash"/>
 <wire x1="281.94" y1="172.72" x2="266.7" y2="172.72" width="0.1524" layer="94" style="longdash"/>
 <wire x1="266.7" y1="172.72" x2="185.42" y2="172.72" width="0.1524" layer="94" style="longdash"/>
@@ -5229,9 +5250,9 @@ SCHEMATICS</text>
 <text x="198.12" y="167.64" size="2.54" layer="94" ratio="10">EXT. PTT INPUT</text>
 <text x="236.22" y="147.32" size="1.4224" layer="94" ratio="10" rot="R180">PESD5Z3.3</text>
 <wire x1="266.7" y1="116.84" x2="266.7" y2="172.72" width="0.254" layer="94" style="longdash"/>
-<text x="335.28" y="129.54" size="1.778" layer="94" ratio="10">Pads for RF shields (SYMBOL SO THEY CAN BE LOCKED)</text>
+<text x="332.74" y="139.7" size="1.778" layer="94" ratio="10">Pads for RF shields (SYMBOL SO THEY CAN BE LOCKED)</text>
 <text x="332.74" y="88.9" size="1.778" layer="94" ratio="10">MOUNTING PADS - (SYMBOL SO THEY CAN BE LOCKED)</text>
-<wire x1="330.2" y1="134.62" x2="431.8" y2="134.62" width="0.1524" layer="94" style="longdash"/>
+<wire x1="330.2" y1="142.24" x2="431.8" y2="142.24" width="0.1524" layer="94" style="longdash"/>
 </plain>
 <instances>
 <instance part="U3" gate="G$1" x="254" y="25.4"/>
@@ -5620,8 +5641,8 @@ SCHEMATICS</text>
 <attribute name="VALUE" x="314.198" y="121.285" size="1.4224" layer="96" ratio="10" rot="R180"/>
 </instance>
 <instance part="XTAL1" gate="G$1" x="236.22" y="193.04"/>
-<instance part="S1" gate="G$1" x="335.28" y="109.22"/>
-<instance part="V90" gate="GND" x="335.28" y="101.6"/>
+<instance part="S1" gate="G$1" x="335.28" y="104.14"/>
+<instance part="V90" gate="GND" x="335.28" y="96.52"/>
 <instance part="PAD1" gate="G$1" x="335.28" y="83.82"/>
 <instance part="PAD2" gate="G$1" x="342.9" y="83.82"/>
 <instance part="PAD3" gate="G$1" x="350.52" y="83.82"/>
@@ -5636,76 +5657,90 @@ SCHEMATICS</text>
 <instance part="V138" gate="GND" x="365.76" y="76.2"/>
 <instance part="V139" gate="GND" x="373.38" y="76.2"/>
 <instance part="V147" gate="GND" x="381" y="76.2"/>
-<instance part="S2" gate="G$1" x="340.36" y="109.22"/>
-<instance part="V148" gate="GND" x="340.36" y="101.6"/>
-<instance part="S3" gate="G$1" x="345.44" y="109.22"/>
-<instance part="S4" gate="G$1" x="350.52" y="109.22"/>
-<instance part="S5" gate="G$1" x="355.6" y="109.22"/>
-<instance part="S6" gate="G$1" x="360.68" y="109.22"/>
-<instance part="S7" gate="G$1" x="365.76" y="109.22"/>
-<instance part="S8" gate="G$1" x="370.84" y="109.22"/>
-<instance part="V149" gate="GND" x="345.44" y="101.6"/>
-<instance part="V153" gate="GND" x="350.52" y="101.6"/>
-<instance part="V160" gate="GND" x="355.6" y="101.6"/>
-<instance part="V161" gate="GND" x="360.68" y="101.6"/>
-<instance part="V162" gate="GND" x="365.76" y="101.6"/>
-<instance part="V163" gate="GND" x="370.84" y="101.6"/>
-<instance part="S9" gate="G$1" x="375.92" y="109.22"/>
-<instance part="S10" gate="G$1" x="381" y="109.22"/>
-<instance part="S11" gate="G$1" x="386.08" y="109.22"/>
-<instance part="S12" gate="G$1" x="391.16" y="109.22"/>
-<instance part="S13" gate="G$1" x="396.24" y="109.22"/>
-<instance part="S14" gate="G$1" x="401.32" y="109.22"/>
-<instance part="S15" gate="G$1" x="406.4" y="109.22"/>
-<instance part="S16" gate="G$1" x="411.48" y="109.22"/>
-<instance part="S17" gate="G$1" x="416.56" y="109.22"/>
-<instance part="S18" gate="G$1" x="421.64" y="109.22"/>
-<instance part="S19" gate="G$1" x="426.72" y="109.22"/>
-<instance part="S20" gate="G$1" x="335.28" y="124.46"/>
-<instance part="V164" gate="GND" x="375.92" y="101.6"/>
-<instance part="V165" gate="GND" x="381" y="101.6"/>
-<instance part="V166" gate="GND" x="386.08" y="101.6"/>
-<instance part="V167" gate="GND" x="391.16" y="101.6"/>
-<instance part="V168" gate="GND" x="396.24" y="101.6"/>
-<instance part="V169" gate="GND" x="401.32" y="101.6"/>
-<instance part="V170" gate="GND" x="406.4" y="101.6"/>
-<instance part="V171" gate="GND" x="411.48" y="101.6"/>
-<instance part="V172" gate="GND" x="416.56" y="101.6"/>
-<instance part="V173" gate="GND" x="421.64" y="101.6"/>
-<instance part="V174" gate="GND" x="426.72" y="101.6"/>
-<instance part="V175" gate="GND" x="335.28" y="116.84"/>
-<instance part="S21" gate="G$1" x="340.36" y="124.46"/>
-<instance part="S22" gate="G$1" x="345.44" y="124.46"/>
-<instance part="S23" gate="G$1" x="350.52" y="124.46"/>
-<instance part="S24" gate="G$1" x="355.6" y="124.46"/>
-<instance part="S25" gate="G$1" x="360.68" y="124.46"/>
-<instance part="S26" gate="G$1" x="365.76" y="124.46"/>
-<instance part="S27" gate="G$1" x="370.84" y="124.46"/>
-<instance part="S28" gate="G$1" x="375.92" y="124.46"/>
-<instance part="S29" gate="G$1" x="381" y="124.46"/>
-<instance part="S30" gate="G$1" x="386.08" y="124.46"/>
-<instance part="V176" gate="GND" x="340.36" y="116.84"/>
-<instance part="V177" gate="GND" x="345.44" y="116.84"/>
-<instance part="V178" gate="GND" x="350.52" y="116.84"/>
-<instance part="V179" gate="GND" x="355.6" y="116.84"/>
-<instance part="V180" gate="GND" x="360.68" y="116.84"/>
-<instance part="V181" gate="GND" x="365.76" y="116.84"/>
-<instance part="V182" gate="GND" x="370.84" y="116.84"/>
-<instance part="V183" gate="GND" x="375.92" y="116.84"/>
-<instance part="V186" gate="GND" x="381" y="116.84"/>
-<instance part="V187" gate="GND" x="386.08" y="116.84"/>
-<instance part="S31" gate="G$1" x="391.16" y="124.46"/>
-<instance part="S32" gate="G$1" x="396.24" y="124.46"/>
-<instance part="S33" gate="G$1" x="401.32" y="124.46"/>
-<instance part="S34" gate="G$1" x="406.4" y="124.46"/>
-<instance part="V188" gate="GND" x="391.16" y="116.84"/>
-<instance part="V189" gate="GND" x="396.24" y="116.84"/>
-<instance part="V190" gate="GND" x="401.32" y="116.84"/>
-<instance part="V191" gate="GND" x="406.4" y="116.84"/>
-<instance part="S35" gate="G$1" x="411.48" y="124.46"/>
-<instance part="S36" gate="G$1" x="416.56" y="124.46"/>
-<instance part="V192" gate="GND" x="411.48" y="116.84"/>
-<instance part="V193" gate="GND" x="416.56" y="116.84"/>
+<instance part="S2" gate="G$1" x="340.36" y="104.14"/>
+<instance part="V148" gate="GND" x="340.36" y="96.52"/>
+<instance part="S3" gate="G$1" x="345.44" y="104.14"/>
+<instance part="S4" gate="G$1" x="350.52" y="104.14"/>
+<instance part="S5" gate="G$1" x="355.6" y="104.14"/>
+<instance part="S6" gate="G$1" x="360.68" y="104.14"/>
+<instance part="S7" gate="G$1" x="365.76" y="104.14"/>
+<instance part="S8" gate="G$1" x="370.84" y="104.14"/>
+<instance part="V149" gate="GND" x="345.44" y="96.52"/>
+<instance part="V153" gate="GND" x="350.52" y="96.52"/>
+<instance part="V160" gate="GND" x="355.6" y="96.52"/>
+<instance part="V161" gate="GND" x="360.68" y="96.52"/>
+<instance part="V162" gate="GND" x="365.76" y="96.52"/>
+<instance part="V163" gate="GND" x="370.84" y="96.52"/>
+<instance part="S9" gate="G$1" x="375.92" y="104.14"/>
+<instance part="S10" gate="G$1" x="381" y="104.14"/>
+<instance part="S11" gate="G$1" x="386.08" y="104.14"/>
+<instance part="S12" gate="G$1" x="391.16" y="104.14"/>
+<instance part="S13" gate="G$1" x="396.24" y="104.14"/>
+<instance part="S14" gate="G$1" x="401.32" y="104.14"/>
+<instance part="S15" gate="G$1" x="406.4" y="104.14"/>
+<instance part="S16" gate="G$1" x="411.48" y="104.14"/>
+<instance part="S17" gate="G$1" x="416.56" y="104.14"/>
+<instance part="S18" gate="G$1" x="421.64" y="104.14"/>
+<instance part="S19" gate="G$1" x="426.72" y="104.14"/>
+<instance part="S20" gate="G$1" x="335.28" y="119.38"/>
+<instance part="V164" gate="GND" x="375.92" y="96.52"/>
+<instance part="V165" gate="GND" x="381" y="96.52"/>
+<instance part="V166" gate="GND" x="386.08" y="96.52"/>
+<instance part="V167" gate="GND" x="391.16" y="96.52"/>
+<instance part="V168" gate="GND" x="396.24" y="96.52"/>
+<instance part="V169" gate="GND" x="401.32" y="96.52"/>
+<instance part="V170" gate="GND" x="406.4" y="96.52"/>
+<instance part="V171" gate="GND" x="411.48" y="96.52"/>
+<instance part="V172" gate="GND" x="416.56" y="96.52"/>
+<instance part="V173" gate="GND" x="421.64" y="96.52"/>
+<instance part="V174" gate="GND" x="426.72" y="96.52"/>
+<instance part="V175" gate="GND" x="335.28" y="111.76"/>
+<instance part="S21" gate="G$1" x="340.36" y="119.38"/>
+<instance part="S22" gate="G$1" x="345.44" y="119.38"/>
+<instance part="S23" gate="G$1" x="350.52" y="119.38"/>
+<instance part="S24" gate="G$1" x="355.6" y="119.38"/>
+<instance part="S25" gate="G$1" x="360.68" y="119.38"/>
+<instance part="S26" gate="G$1" x="365.76" y="119.38"/>
+<instance part="S27" gate="G$1" x="370.84" y="119.38"/>
+<instance part="S28" gate="G$1" x="375.92" y="119.38"/>
+<instance part="S29" gate="G$1" x="381" y="119.38"/>
+<instance part="S30" gate="G$1" x="386.08" y="119.38"/>
+<instance part="V176" gate="GND" x="340.36" y="111.76"/>
+<instance part="V177" gate="GND" x="345.44" y="111.76"/>
+<instance part="V178" gate="GND" x="350.52" y="111.76"/>
+<instance part="V179" gate="GND" x="355.6" y="111.76"/>
+<instance part="V180" gate="GND" x="360.68" y="111.76"/>
+<instance part="V181" gate="GND" x="365.76" y="111.76"/>
+<instance part="V182" gate="GND" x="370.84" y="111.76"/>
+<instance part="V183" gate="GND" x="375.92" y="111.76"/>
+<instance part="V186" gate="GND" x="381" y="111.76"/>
+<instance part="V187" gate="GND" x="386.08" y="111.76"/>
+<instance part="S31" gate="G$1" x="391.16" y="119.38"/>
+<instance part="S32" gate="G$1" x="396.24" y="119.38"/>
+<instance part="S33" gate="G$1" x="401.32" y="119.38"/>
+<instance part="S34" gate="G$1" x="406.4" y="119.38"/>
+<instance part="V188" gate="GND" x="391.16" y="111.76"/>
+<instance part="V189" gate="GND" x="396.24" y="111.76"/>
+<instance part="V190" gate="GND" x="401.32" y="111.76"/>
+<instance part="V191" gate="GND" x="406.4" y="111.76"/>
+<instance part="S35" gate="G$1" x="411.48" y="119.38"/>
+<instance part="S36" gate="G$1" x="416.56" y="119.38"/>
+<instance part="V192" gate="GND" x="411.48" y="111.76"/>
+<instance part="V193" gate="GND" x="416.56" y="111.76"/>
+<instance part="S37" gate="G$1" x="421.64" y="119.38"/>
+<instance part="S38" gate="G$1" x="426.72" y="119.38"/>
+<instance part="V194" gate="GND" x="421.64" y="111.76"/>
+<instance part="V195" gate="GND" x="426.72" y="111.76"/>
+<instance part="S39" gate="G$1" x="335.28" y="134.62"/>
+<instance part="V196" gate="GND" x="335.28" y="127"/>
+<instance part="S40" gate="G$1" x="340.36" y="134.62"/>
+<instance part="V197" gate="GND" x="340.36" y="127"/>
+<instance part="S41" gate="G$1" x="345.44" y="134.62"/>
+<instance part="S42" gate="G$1" x="350.52" y="134.62"/>
+<instance part="V198" gate="GND" x="345.44" y="127"/>
+<instance part="V199" gate="GND" x="350.52" y="127"/>
+<instance part="S43" gate="G$1" x="355.6" y="134.62"/>
+<instance part="V200" gate="GND" x="355.6" y="127"/>
 </instances>
 <busses>
 </busses>
@@ -6342,6 +6377,34 @@ SCHEMATICS</text>
 <segment>
 <pinref part="S36" gate="G$1" pin="1"/>
 <pinref part="V193" gate="GND" pin="GND"/>
+</segment>
+<segment>
+<pinref part="S37" gate="G$1" pin="1"/>
+<pinref part="V194" gate="GND" pin="GND"/>
+</segment>
+<segment>
+<pinref part="S38" gate="G$1" pin="1"/>
+<pinref part="V195" gate="GND" pin="GND"/>
+</segment>
+<segment>
+<pinref part="V196" gate="GND" pin="GND"/>
+<pinref part="S39" gate="G$1" pin="1"/>
+</segment>
+<segment>
+<pinref part="S40" gate="G$1" pin="1"/>
+<pinref part="V197" gate="GND" pin="GND"/>
+</segment>
+<segment>
+<pinref part="S41" gate="G$1" pin="1"/>
+<pinref part="V198" gate="GND" pin="GND"/>
+</segment>
+<segment>
+<pinref part="S42" gate="G$1" pin="1"/>
+<pinref part="V199" gate="GND" pin="GND"/>
+</segment>
+<segment>
+<pinref part="S43" gate="G$1" pin="1"/>
+<pinref part="V200" gate="GND" pin="GND"/>
 </segment>
 </net>
 <net name="NRST" class="0">
