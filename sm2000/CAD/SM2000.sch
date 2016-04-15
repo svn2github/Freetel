@@ -1615,7 +1615,7 @@ Source: www.ilsiamerica.com .. C1 IXF Series.pdf</description>
 </package>
 <package name="SGND">
 <pad name="1" x="0" y="0" drill="0.8"/>
-<polygon width="0" layer="1">
+<polygon width="0.2" layer="1">
 <vertex x="-1.5" y="1"/>
 <vertex x="1.5" y="1"/>
 <vertex x="1.5" y="-1"/>
