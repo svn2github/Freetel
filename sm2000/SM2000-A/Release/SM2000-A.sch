@@ -11084,6 +11084,18 @@ SCHEMATICS</text>
 <text x="426.72" y="274.32" size="1.4224" layer="94" ratio="10">RGB</text>
 <text x="345.44" y="17.272" size="3.81" layer="94" ratio="10">SM2000 - </text>
 <text x="422.148" y="6.35" size="3.81" layer="94" ratio="10">A</text>
+<text x="287.02" y="27.94" size="1.4224" layer="94">L10  6T 6.25mm</text>
+<text x="287.02" y="25.4" size="1.4224" layer="94">L12  3T 6.25mm</text>
+<text x="287.02" y="30.48" size="1.4224" layer="94">L9  3T 6.25mm</text>
+<text x="287.02" y="2.54" size="1.4224" layer="94" ratio="10">L26  220nH,7T 6.25mm ID</text>
+<text x="287.02" y="10.16" size="1.4224" layer="94" ratio="10">L19  68nH,4.5T 5mm ID</text>
+<text x="287.02" y="12.7" size="1.4224" layer="94" ratio="10">L18  68nH,4.5T 5mm ID</text>
+<text x="287.02" y="15.24" size="1.4224" layer="94" ratio="10">L17  68nH,4.5T 5mm ID</text>
+<text x="287.02" y="17.78" size="1.4224" layer="94" ratio="10">L16  68nH,4.5T 5mm ID</text>
+<text x="287.02" y="7.62" size="1.4224" layer="94" ratio="10">L24  260nH  8T 6.25mm ID</text>
+<text x="287.02" y="5.08" size="1.4224" layer="94" ratio="10">L25  53nH,3T 5mm ID</text>
+<text x="287.02" y="20.32" size="1.4224" layer="94" ratio="10">L15  57nH, Air Core, 4T, 2mm ID</text>
+<text x="287.02" y="22.86" size="1.4224" layer="94" ratio="10">L14  57nH, Air Core, 4T, 2mm ID</text>
 <text x="157.48" y="215.9" size="1.4224" layer="91">1.7V</text>
 <text x="147.32" y="215.9" size="1.4224" layer="91">1.4V</text>
 <text x="139.7" y="228.6" size="1.4224" layer="91">2.4V</text>
@@ -11102,7 +11114,7 @@ SCHEMATICS</text>
 <wire x1="330.2" y1="45.72" x2="307.34" y2="45.72" width="0.254" layer="94" style="longdash"/>
 <wire x1="307.34" y1="45.72" x2="187.96" y2="45.72" width="0.254" layer="94" style="longdash"/>
 <wire x1="187.96" y1="45.72" x2="147.32" y2="45.72" width="0.254" layer="94" style="longdash"/>
-<text x="264.16" y="38.1" size="3.81" layer="94" ratio="10">Notes</text>
+<text x="284.48" y="38.1" size="3.81" layer="94" ratio="10">Notes</text>
 <text x="259.08" y="104.14" size="1.4224" layer="94">To PA1 ADC uC</text>
 <text x="160.02" y="129.54" size="1.4224" layer="94">From 2nd Rx Mixer NE602</text>
 <text x="241.3" y="106.68" size="1.4224" layer="91">1.5V</text>
@@ -11114,25 +11126,6 @@ SCHEMATICS</text>
 minimise net length</text>
 <text x="53.34" y="160.02" size="3.81" layer="94" ratio="10">LOCAL OSCILLATOR</text>
 <wire x1="307.34" y1="175.26" x2="307.34" y2="45.72" width="0.1524" layer="94" style="longdash"/>
-<text x="264.16" y="33.02" size="1.4224" layer="94" ratio="10">L2     68nH     4.5T,5mm ID</text>
-<text x="264.16" y="30.48" size="1.4224" layer="94" ratio="10">L3     68nH     4.5T,5mm ID</text>
-<text x="264.16" y="25.4" size="1.4224" layer="94" ratio="10">L5     68nH     4.5T,5mm ID</text>
-<text x="264.16" y="17.78" size="1.4224" layer="94" ratio="10">L8     68nH     4.5T,5mm ID</text>
-<text x="264.16" y="27.94" size="1.4224" layer="94" ratio="10">L4     57nH     4T, 2mm ID</text>
-<text x="292.1" y="33.02" size="1.4224" layer="94" ratio="10">L14    57nH     4T, 2mm ID</text>
-<text x="292.1" y="27.94" size="1.4224" layer="94" ratio="10">L16    57nH     4T, 2mm ID</text>
-<text x="264.16" y="22.86" size="1.4224" layer="94" ratio="10">L6     168nH   6T 6.25mm ID</text>
-<text x="264.16" y="20.32" size="1.4224" layer="94" ratio="10">L7     not used</text>
-<text x="264.16" y="15.24" size="1.4224" layer="94" ratio="10">L9     54nH     3.5T 5mm ID</text>
-<text x="264.16" y="12.7" size="1.4224" layer="94" ratio="10">L10   53nH     3T 5mm ID</text>
-<text x="264.16" y="10.16" size="1.4224" layer="94" ratio="10">L11    220nH     7T 6.25mm ID</text>
-<text x="264.16" y="7.62" size="1.4224" layer="94" ratio="10">L12    RFC</text>
-<text x="264.16" y="5.08" size="1.4224" layer="94" ratio="10">L13    RFC</text>
-<text x="292.1" y="30.48" size="1.4224" layer="94" ratio="10">L15    RFC</text>
-<text x="292.1" y="25.4" size="1.4224" layer="94" ratio="10">L17    5.6uH  TDK MLF2012 Series</text>
-<text x="292.1" y="22.86" size="1.4224" layer="94" ratio="10">L18    10uH   TDK MLF2012 Series</text>
-<text x="292.1" y="20.32" size="1.4224" layer="94" ratio="10">L19    5.6 uH TDK MLF 2012 Series</text>
-<text x="292.1" y="17.78" size="1.4224" layer="94" ratio="10">L20    15uH   TDK MLF 2012 Series</text>
 </plain>
 <instances>
 <instance part="B-FRAME4" gate="G$1" x="0" y="0"/>
