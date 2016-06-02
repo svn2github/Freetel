@@ -1,0 +1,13 @@
+[ ] DR Place C7 much closer to U1. Similar distance to C6 p22.  Maybe move C6 and C7 closer if possible. Reduce total area of loop through which power supply currents must flow.
+
+[ ] DR swap postions of C1 and C2, C3 and C5, C8 and C9. 10n closer to U1 than 100n as smaller cap deals with higher freq currents.  C14 & C15 OK.
+
+[ ] DR C22 4.7uF footprint small for the tant I hand loaded.  Pls make larger.
+
+[ ] DR C114 overlay rotate 180 deg
+
+[ ] DR Indication on overlay on pin 1 of XTAL1 and XTAL2. Two of the pins
+    on xtals are connected together (ground pins), I worked out
+    orientation using a multimeter
+
+[ ] DR hole size on all (3 pin, 4 pin, etc) 0.1 inch headers too small.
