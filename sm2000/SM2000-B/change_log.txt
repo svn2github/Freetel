@@ -1,13 +1,35 @@
-[ ] DR Place C7 much closer to U1. Similar distance to C6 p22.  Maybe move C6 and C7 closer if possible. Reduce total area of loop through which power supply currents must flow.
+[ ] DR Place C7 much closer to U1. Similar distance to C6 p22.  Maybe
+    move C6 and C7 closer if possible. Reduce total area of loop
+    through which power supply currents must flow.
 
-[ ] DR swap postions of C1 and C2, C3 and C5, C8 and C9. 10n closer to U1 than 100n as smaller cap deals with higher freq currents.  C14 & C15 OK.
+[ ] DR swap postions of C1 and C2, C3 and C5, C8 and C9. 10n closer to
+    U1 than 100n as smaller cap deals with higher freq currents.  C14
+    & C15 OK.
 
-[ ] DR C22 4.7uF footprint small for the tant I hand loaded.  Pls make larger.
+[ ] DR C22 4.7uF footprint small for the tant I hand loaded.  Pls make
+    larger.
 
 [ ] DR C114 overlay rotate 180 deg
 
-[ ] DR Indication on overlay on pin 1 of XTAL1 and XTAL2. Two of the pins
-    on xtals are connected together (ground pins), I worked out
-    orientation using a multimeter
+[ ] DR Indication on overlay on pin 1 of XTAL1 and XTAL2. Two of the
+    pins on xtals are connected together (ground pins), I worked out
+    orientation using a multimeter.
 
-[ ] DR hole size on all (3 pin, 4 pin, etc) 0.1 inch headers too small.
+[ ] DR hole size on all (3 pin, 4 pin, etc) 0.1 inch headers too
+    small.  Had to solder headers on top.
+
+[ ] DR On schematic only suggest move R28 and R29 to SCL3/SDA3 nodes
+    near U1.  This is not a netlist change, just move on schematic to
+    highlight these parts are pullups for entire I2C bus and not just
+    U4 which is unlikely to be used.  TBH U4 can be removed.  We have
+    internal non volatile storage in U1 and drivers to use it.
+
+[ ] DR XTAL1 and XTAL2 footprints too small, OK for machine assembly
+    but too small for hand assembly.  Larger pads please that extend
+    beyond the perimiter of the the xtal.
+
+[ ] DR - question to Neil re USB D+ D- differential pair routing
+    across PCB, e.g. do they need to be the same length, how close
+    together.  Distance from USB connector on SM2000 is several
+    inches.  Much closer on SM1000.
+
