@@ -33,3 +33,11 @@
     together.  Distance from USB connector on SM2000 is several
     inches.  Much closer on SM1000.
 
+[ ] DR - should +12VTXENB/+12VRXENB have pull down R's so that on
+    reset they are not floating and +12V rx/tx supply lines are
+    disabled?
+
+[ ] DR - change notes above and below L2/L3.  Currently refer to
+    L8/L9, should be L2/L3.
+
+[ ] DR - connect p3 of J6 to ground
