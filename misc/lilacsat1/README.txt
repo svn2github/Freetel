@@ -3,10 +3,16 @@ LilacSat-1 Rx Setup for AREG Club Project
 Mark Jessop and David Rowe
 June 2017
 
-If the build fails, (e.g. due to a missing package) you can restart it:
+If the Gnu Radio build fails, (e.g. due to a missing package) you can
+restart it from the beginning with:
 
-$ cd prefix/default/
+$ cd prefix/default
 $ pybombs rebuild
+
+You can test the GNU Radio build by checking that gnuradio-companion starts:
+
+$ source prefix/default/setup_env.sh
+$ gnuradio-companion
 
 TODO
 ----
