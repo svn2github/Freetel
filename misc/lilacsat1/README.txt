@@ -10,5 +10,16 @@ $ pybombs rebuild
 
 TODO
 ----
-[ ] rebuild instructions
+
+[X] rebuild instructions
 [ ] link to gnuradio build instructions 
+[ ] way to throttle GR UDP input for testing
+    + pipe viewer: cat file | pv -L 512k | nc -u 192.168.x.x 5000
+[ ] HackRF test Tx
+[ ] way to disable telemetry uploads
+    + maybe modify script?
+[ ] will it run fast enough on roadkill machines?
+    [ ] play samples in real time from a HackRF
+    [ ] real satellite pass
+[ ] Wenet style start/stp scripts
+[ ] heartbeat output to show all pcoresses running
