@@ -40,15 +40,17 @@ sudo pybombs install gqrx
 git clone https://github.com/daniestevez/libfec.git
 cd libfec && ./configure && make && sudo make install && cd ..
 
-# DR 21 June - works up to here .......... but gr-satellites not 'make
-# installing' to the correct path
-
 # Hopefully by now we have everything needed to compile gr-satellites
+# Note magic cmake command to set path that cost my 3 hours of my life
+# that I want back
 
 cd prefix/default/
 source setup_env.sh
 cd src
 git clone https://github.com/daniestevez/gr-satellites.git
-cd gr-satellites && mkdir build_linux && cd build_linux && cmake ../ && make && cd ..
+cd gr-satellites && mkdir build_linux && cd build_linux
+cmake -DCMAKE_INSTALL_PREFIX=$PYBOMBS_PREFIX ..
+cd ..
 ./compile_hierarchical.sh
 
+# OK now ready to run everything, back to REAME.txt
