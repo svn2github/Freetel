@@ -30,51 +30,25 @@ sudo add-apt-repository ppa:gpredict-team/daily
 sudo apt-get update
 sudo apt-get install gpredict
 
-# Install some other dependencies
-
-git clone https://github.com/daniestevez/libfec.git
-
-# follow the INSTALL file for that one.
-
 # Install gqrx
 
 sudo pybombs install gqrx 
 
+# Install libfec, which gr-satellites needs.  This is installed outside
+# of pybombs ~/prefix/default environment
+
+git clone https://github.com/daniestevez/libfec.git
+cd libfec && ./configure && make && sudo make install && cd ..
+
+# DR 21 June - works up to here .......... but gr-satellites not 'make
+# installing' to the correct path
+
 # Hopefully by now we have everything needed to compile gr-satellites
 
+cd prefix/default/
+source setup_env.sh
+cd src
 git clone https://github.com/daniestevez/gr-satellites.git
-# use standard cmake build process with this one (mkdir build; cd build; cmake ../; etc...)
-# once compiled/installed, run (from the gr-satellites root)
+cd gr-satellites && mkdir build_linux && cd build_linux && cmake ../ && make && cd ..
 ./compile_hierarchical.sh
-
-# Now you have to make it all talk to each other :-)
-# might need to ring me for that.
-
-# GQRX
-- Set up to talk to your SDR of choice.
-- Up top, look for settings icon.
-    - Make sure RX port set to 7356
-- Up top, make sure little 'Remote control via TCP' icon is selected (2 computers icon)
-- In receiver options tab (on the right) set Mode to USB
-- Drag passband indication abover waterfall so filter width is maybe 30 kHz wide.
-- Bottom right, click ... 
-  - Network tab, set UDP port to 7355, hostname to localhost
-- I'd also suggest setting the 'main' audio output to a dummy audio device, you don't want to hear the modem signal really.
-- Click 'UDP' to have it start sending samples out via UDP port.
-
-# Gpredict
-- Set up as normal, update keps, set location, add lilacsat-1
-- Edit -> Preferences -> Interfaces
-  - Add new interface, radio type RX Only
-  - Set port to 7356, hostname of localhost
-- Back on gpredict main window, top right look for down arrow, go to Radio control
-  - Choose LilacSat-1 in target dropdown
-  - Set downlink freequency to 436.499.000 Hz
-  - Choose gqrx from radio list, set cycle to 5000,
-  - Click 'engage' then click 'track'
-  - You should now see gqrx's frequency adjusting every 5 seconds.
-
-# gr-satellite stuff
-# When you get to this point, let me know >_>
-
 
