@@ -77,3 +77,6 @@ TODO
     [ ] real satellite pass
 [ ] Wenet style start/stop scripts on Desktop
 [ ] heartbeat output to show all proceses running
+[ ] install feh
+[ ] work out where rtlsdr is coming from
+[ ] determine if any other blocks upload telemetry in classroom situation
