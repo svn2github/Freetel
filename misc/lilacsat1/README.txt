@@ -58,25 +58,50 @@ Links
 
 https://github.com/gnuradio/pybombs
 
+HackRF Notes
+------------
+
+A HackRF can be used to generate a test signal.
+
+1/ If you get persistent :hackrf not found" errors on a laptop, try
+   adding the HackRF USB ID to the TLP USB blacklist:
+
+  $ lsusb
+  $ vi /etc/default/tlp
+  $ /etc/init.d/tlp restart
+
+2/ codec2-dec/octave script to generate Fs = 4MHz .iq file from 48kHz
+   wave file
+
+  octave:15> hackrf_uc("/home/david/tmp/misc/lilacsat1/lilacsat1.iq",
+                       "/home/david/tmp/misc/lilacsat1/lilacsat1.wav");
+
+3/ There is a 1MHz offset in the .iq file, plus 12kHz in the source wave file
+   so tune gqrx to 441.012 MHz, this signal is about -70 dBm:
+
+  $ hackrf_transfer -s 4000000 -t lilacsat1.iq -f 440000000 -a 1 -x 0
+
 TODO
 ----
 
 [X] rebuild instructions
 [X] link to gnuradio build instruction
-[ ] How to find and starta terminal (image)
+[X] HackRF test Tx
+[X] will it run fast enough on roadkill machines?
+    [X] play samples in real time from a HackRF
+    [X] uses all 4 < 50% CPUs and runs OK
+[ ] How to find and start a terminal (image)
 [ ] what path?
     + lilacsat1/default/prefix too long?
 [ ] install emacs as well, in case we need an editor
 [ ] way to throttle GR UDP input for testing
     + pipe viewer: cat file | pv -L 512k | nc -u 192.168.x.x 5000
-[ ] HackRF test Tx
 [ ] way to disable telemetry uploads
     + maybe modify script?
-[ ] will it run fast enough on roadkill machines?
-    [ ] play samples in real time from a HackRF
-    [ ] real satellite pass
+[ ] real satellite pass
 [ ] Wenet style start/stop scripts on Desktop
 [ ] heartbeat output to show all proceses running
 [ ] install feh
 [ ] work out where rtlsdr is coming from
 [ ] determine if any other blocks upload telemetry in classroom situation
+
