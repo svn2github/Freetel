@@ -32,18 +32,18 @@ Running
 
 2/ In a new Terminal start GNU Radio LilacSat-1 application running
 
-   $ cd lilacsat1/prefix/default
+   $ cd ~/prefix/default
    $ source setup_ev.sh
    $ gnuradio-companion
  
-   + File-Open navigate to src/gr-satellites/apps/lilacsat1.grc
+   + File-Open navigate to ~/prefix/default/src/gr-satellites/apps/lilacsat1.grc
    + Manually disable any missing blocks (right click - disable)
    + Click on Green Button, new terminal should start
    + see also lilacsat1/screenshots for other options
 
 3/ In a new Terminal start gqrx
 
-   $ cd lilacsat1/prefix/default
+   $ cd ~/prefix/default
    $ source setup_ev.sh
    $ gqrx
 
@@ -79,17 +79,17 @@ Build/Test Tips
 1/ If the GNU Radio build fails, (e.g. due to a missing package, or
    legacy package) you can restart it from the beginning with:
 
-  $ cd prefix/default
+  $ cd ~/prefix/default
   $ pybombs rebuild
 
 2/ Test the GNU Radio build by checking that gnuradio-companion starts:
 
-  $ source prefix/default/setup_env.sh
+  $ source ~/prefix/default/setup_env.sh
   $ gnuradio-companion
 
 3/ Test gqrx build by starting it:
 
-  $ source prefix/default/setup_env.sh
+  $ source ~/prefix/default/setup_env.sh
   $ gqrx
 
 Links
