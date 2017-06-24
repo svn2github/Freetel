@@ -26,14 +26,13 @@ Installation
 Running
 -------
 
-1/ Start Codec 2 decoder running in the background:
+1/ In a Terminal start Codec 2 decoder running in the background:
 
   $ nc -lu 7000 | ~/codec2-dev/build/src/c2dec 1300 - - | aplay -f S16_LE&
 
 2/ In a new Terminal start GNU Radio LilacSat-1 application running
 
-   $ 
-cd lilacsat1/preofix/default
+   $ cd lilacsat1/prefix/default
    $ source setup_ev.sh
    $ gnuradio-companion
  
@@ -44,11 +43,12 @@ cd lilacsat1/preofix/default
 
 3/ In a new Terminal start gqrx
 
-   $ cd lilacsat1/preofix/default
+   $ cd lilacsat1/prefix/default
    $ source setup_ev.sh
    $ gqrx
 
-   + Set up to talk to your SDR of choice.
+   + Set up to talk to your SDR of choice, probably a RTL-SDR
+   + To power your LNA from your RTL-SDR see screenshots/enable_bias_t.png 
    + Up top, look for settings icon. Make sure RX port set to 7356
    + Up top, make sure little 'Remote control via TCP' icon is selected (2 computers icon)
    + In receiver options tab (on the right) set Mode to USB
