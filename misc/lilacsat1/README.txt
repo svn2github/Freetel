@@ -1,13 +1,79 @@
 README.txt
-LilacSat-1 Rx Setup for AREG Club Project
+LilacSat-1 Rx Setup AREG Club Project
 Mark Jessop and David Rowe
 June 2017
+
+Pre-requisities
+---------------
+
+1/ Codec 2 is built for Wenet in ~/codec2-dec/build
+
+2/ SVN is installed
+
+Installation
+------------
+
+  $ cd ~
+  $ svn co https://svn.code.sf.net/p/freetel/code/misc/lilacsat1
+  $ cd lilacsat1
+  lilacsat1$ ./1-install_packages.sh
+  lilacsat1$ ./2-build_gnu_radio.sh
+  lilacsat1$ ./3-build_gqrx_gr-satellites.sh
+
+Running
+-------
+
+1/ Start Codec 2 decoder running in the background:
+
+  $ nc -lu 7000 | ~/codec2-dev/build/src/c2dec 1300 - - | aplay -f S16_LE&
+
+2/ In a new Terminal start GNU Radio LilacSat-1 appliction running
+
+   $ cd lilacsat1/preofix/default
+   $ source setup_ev.sh
+   $ gnuradio-companion
+ 
+   + File-Open navigate to src/gr-satellites/apps/lilacsat1.grc
+   + Manually disable any missing blocks (right click - disable)
+   + Click on Green Button, new terminal should start
+   + see also lilacsat1/screenshots for other options
+
+3/ In a new Terminal start gqrx
+
+   $ cd lilacsat1/preofix/default
+   $ source setup_ev.sh
+   $ gqrx
+
+   + Set up to talk to your SDR of choice.
+   + Up top, look for settings icon. Make sure RX port set to 7356
+   + Up top, make sure little 'Remote control via TCP' icon is selected (2 computers icon)
+   + In receiver options tab (on the right) set Mode to USB
+   + Drag passband indication abover waterfall so filter width is maybe 30 kHz wide.
+   + Bottom right, click "..." Network tab, set UDP port to 7355, hostname to localhost
+   + Suggest setting the 'main' audio output to a dummy audio device, you don't want to 
+     hear the modem signal really.
+   + Click 'UDP' to have it start sending samples out via UDP port.
+
+4/ In a new Terminal start gpredict
+
+   $ gpredict
+
+   + Set up as normal, update keps, set location, add lilacsat-1
+   + Edit -> Preferences -> Interfaces
+     + Add new interface, radio type RX Only
+     + Set port to 7356, hostname of localhost
+   + Back on gpredict main window, top right look for down arrow, go to Radio control
+     + Choose LilacSat-1 in target dropdown
+     + Set downlink freequency to 436.499.000 Hz
+     + Choose gqrx from radio list, set cycle to 5000,
+     + Click 'engage' then click 'track'
+     + You should now see gqrx's frequency adjusting every 5 seconds.
 
 Build/Test Tips
 ---------------
 
 1/ If the GNU Radio build fails, (e.g. due to a missing package, or
-legacy package) you can restart it from the beginning with:
+   legacy package) you can restart it from the beginning with:
 
   $ cd prefix/default
   $ pybombs rebuild
@@ -21,37 +87,6 @@ legacy package) you can restart it from the beginning with:
 
   $ source prefix/default/setup_env.sh
   $ gqrx
-
-Running
--------
-
-# Now you have to make it all talk to each other :-)
-# might need to ring me for that.
-
-# GQRX
-- Set up to talk to your SDR of choice.
-- Up top, look for settings icon.
-    - Make sure RX port set to 7356
-- Up top, make sure little 'Remote control via TCP' icon is selected (2 computers icon)
-- In receiver options tab (on the right) set Mode to USB
-- Drag passband indication abover waterfall so filter width is maybe 30 kHz wide.
-- Bottom right, click ... 
-  - Network tab, set UDP port to 7355, hostname to localhost
-- I'd also suggest setting the 'main' audio output to a dummy audio device, you don't want to hear the modem signal really.
-- Click 'UDP' to have it start sending samples out via UDP port.
-
-# Gpredict
-- Set up as normal, update keps, set location, add lilacsat-1
-- Edit -> Preferences -> Interfaces
-  - Add new interface, radio type RX Only
-  - Set port to 7356, hostname of localhost
-- Back on gpredict main window, top right look for down arrow, go to Radio control
-  - Choose LilacSat-1 in target dropdown
-  - Set downlink freequency to 436.499.000 Hz
-  - Choose gqrx from radio list, set cycle to 5000,
-  - Click 'engage' then click 'track'
-  - You should now see gqrx's frequency adjusting every 5 seconds.
-
 
 Links
 -----
