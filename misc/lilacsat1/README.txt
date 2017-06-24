@@ -3,12 +3,15 @@ LilacSat-1 Rx Setup AREG Club Project
 Mark Jessop and David Rowe
 June 2017
 
-Pre-requisities
+Pre-requisites
 ---------------
 
-1/ Codec 2 is built for Wenet in ~/codec2-dec/build
+1/ Codec 2 is built in ~/codec2-dec/build
 
 2/ SVN is installed
+
+3/ Make sure you have no gnuradio, usrp or related packages
+   installed.
 
 Installation
 ------------
@@ -27,9 +30,10 @@ Running
 
   $ nc -lu 7000 | ~/codec2-dev/build/src/c2dec 1300 - - | aplay -f S16_LE&
 
-2/ In a new Terminal start GNU Radio LilacSat-1 appliction running
+2/ In a new Terminal start GNU Radio LilacSat-1 application running
 
-   $ cd lilacsat1/preofix/default
+   $ 
+cd lilacsat1/preofix/default
    $ source setup_ev.sh
    $ gnuradio-companion
  
@@ -48,7 +52,7 @@ Running
    + Up top, look for settings icon. Make sure RX port set to 7356
    + Up top, make sure little 'Remote control via TCP' icon is selected (2 computers icon)
    + In receiver options tab (on the right) set Mode to USB
-   + Drag passband indication abover waterfall so filter width is maybe 30 kHz wide.
+   + Drag passband indication above waterfall so filter width is maybe 30 kHz wide.
    + Bottom right, click "..." Network tab, set UDP port to 7355, hostname to localhost
    + Suggest setting the 'main' audio output to a dummy audio device, you don't want to 
      hear the modem signal really.
@@ -125,18 +129,6 @@ TODO
 [X] will it run fast enough on roadkill machines?
     [X] play samples in real time from a HackRF
     [X] uses all 4 < 50% CPUs and runs OK
-[ ] How to find and start a terminal (image)
-[ ] what path?
-    + lilacsat1/default/prefix too long?
-[ ] install emacs as well, in case we need an editor
-[ ] way to throttle GR UDP input for testing
-    + pipe viewer: cat file | pv -L 512k | nc -u 192.168.x.x 5000
-[ ] way to disable telemetry uploads
-    + maybe modify script?
 [ ] real satellite pass
 [ ] Wenet style start/stop scripts on Desktop
-[ ] heartbeat output to show all proceses running
-[ ] install feh
-[ ] work out where rtlsdr is coming from
-[ ] determine if any other blocks upload telemetry in classroom situation
 
