@@ -51,12 +51,16 @@ Running
    + To power your LNA from your RTL-SDR see screenshots/enable_bias_t.png 
    + Up top, look for settings icon. Make sure RX port set to 7356
    + Up top, make sure little 'Remote control via TCP' icon is selected (2 computers icon)
+   + On 'Input Controls' tab, adjust Freq. Correction value as required.
+      + A good idea would be to transmit a CQ signal from a 'known good' transmitter, and adjust the ppm value
+        until the carrier is where it should be on the waterfall display.
    + In receiver options tab (on the right) set Mode to USB
    + Drag passband indication above waterfall so filter width is maybe 30 kHz wide.
    + Bottom right, click "..." Network tab, set UDP port to 7355, hostname to localhost
    + Suggest setting the 'main' audio output to a dummy audio device, you don't want to 
      hear the modem signal really.
    + Click 'UDP' to have it start sending samples out via UDP port.
+   + Optionally, click 'Rec' to record the modem signal to disk (useful for later debugging)
 
 4/ In a new Terminal start gpredict
 
@@ -68,10 +72,12 @@ Running
      + Set port to 7356, hostname of localhost
    + Back on gpredict main window, top right look for down arrow, go to Radio control
      + Choose LilacSat-1 in target dropdown
-     + Set downlink freequency to 436.499.000 Hz
+     + Change downlink frequency from 436.510.000 Hz to 436.498.000 Hz (need a 12 kHz IF signal)
      + Choose gqrx from radio list, set cycle to 5000,
      + Click 'engage' then click 'track'
      + You should now see gqrx's frequency adjusting every 5 seconds.
+     + Once you start seeing the downlink signal, you may need to adjust the 'nominal' downlink frequency so it sits at 
+       12 kHz within the SSB passband. 
 
 Build/Test Tips
 ---------------
