@@ -12,7 +12,7 @@
 # Install libfec, which gr-satellites needs.  This is installed outside
 # of pybombs ~/prefix/default environment
 
-#git clone https://github.com/daniestevez/libfec.git
+git clone https://github.com/daniestevez/libfec.git
 cd libfec && ./configure && make && sudo make install && cd ..
 
 # Hopefully by now we have everything needed to compile gr-satellites
