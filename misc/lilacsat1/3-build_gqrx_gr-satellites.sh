@@ -13,7 +13,7 @@
 # of pybombs ~/prefix/default environment
 
 #git clone https://github.com/daniestevez/libfec.git
-#cd libfec && ./configure && make && sudo make install && cd ..
+cd libfec && ./configure && make && sudo make install && cd ..
 
 # Hopefully by now we have everything needed to compile gr-satellites
 # Note magic cmake command to set path that cost my 3 hours of my life
