@@ -66,7 +66,8 @@ Running
 
    $ gpredict
 
-   + Set up as normal, update keps, set location, add lilacsat-1
+   + Edit > Update TLE data -> From Network
+   + Edit > Update Transponder data -> From Network
    + Edit -> Preferences -> Interfaces
      + Add new interface, radio type RX Only
      + Set port to 7356, hostname of localhost
