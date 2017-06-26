@@ -29,9 +29,15 @@ Installation
 Running
 -------
 
-1/ In a Terminal start Codec 2 decoder running in the background:
+1/ Open a terminal window and perform the following commands to install the codec2 binaries.
+   $ cd ~/codec2-dev/build/
+   $ sudo make install
 
-  $ nc -lu 7000 | ~/codec2-dev/build/src/c2dec 1300 - - | aplay -f S16_LE&
+   Now we can start the codec2 decoder by running:
+   $ cd ~/lilacsat1/
+   $ ./4-decode.sh
+   You can leave this running in the currently open terminal while the rest of the commands are performed.
+
 
 2/ In a new Terminal start GNU Radio LilacSat-1 application running
 
