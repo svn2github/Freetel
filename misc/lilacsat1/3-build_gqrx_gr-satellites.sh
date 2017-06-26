@@ -7,7 +7,7 @@
 
 # Install gqrx
 
-sudo pybombs install gqrx 
+pybombs install gqrx 
 
 # Install libfec, which gr-satellites needs.  This is installed outside
 # of pybombs ~/prefix/default environment
