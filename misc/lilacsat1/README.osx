@@ -7,13 +7,24 @@
 Installing Gnuradio
 -------------------
 
-You need the following packages from macports: 
+You need the following packages from macports (sudo port install <portname>): 
+git
+subversion
+sox
+feh
+gpredict
+cmake
+py27-pip
 gnuradio-devel
 gqrx-devel
 
 Install them IN THAT ORDER, otherwise gqrx-devel will pull in a 'stable' version of gnuradio, which wont work with gr-satellites.
 I had to wipe my macports folder and start from scratch to make things play nicely.
 
+
+Install other packages we need
+------------------------------
+sudo pip install construct
 
 Making cmake play nicely with macports
 --------------------------------------
@@ -24,3 +35,24 @@ alias cm_port='cmake -DPYTHON_EXECUTABLE=/opt/local/bin/python2.7 -DPYTHON_INCLU
 From now on, instead of using 'cmake <command here>' when building a gnuradio out-of-tree module (i.e. gr-satellites), use cm_port
 i.e.:
 > cm_port ../
+
+
+Install codec2-dev
+-------------------
+<TODO>
+
+
+Install gr-satellites
+---------------------
+
+$ git clone https://github.com/daniestevez/gr-satellites.git
+$ cd gr-satellites && mkdir build_linux && cd build_linux
+$ cm_port ..
+$ make 
+$ sudo make install
+$ cd ..
+$ ./compile_hierarchical.sh
+$ cp ./apps/hierarchical/*.grc ~/.grc_gnuradio/
+
+
+More to come...

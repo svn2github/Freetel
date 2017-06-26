@@ -27,6 +27,7 @@ cd gr-satellites && mkdir build_linux && cd build_linux
 cmake -DCMAKE_INSTALL_PREFIX=$PYBOMBS_PREFIX ..
 make && make install
 cd ..
-#./compile_hierarchical.sh
+./compile_hierarchical.sh
+cp ./apps/hierarchical/*.grc ~/.grc_gnuradio/
 
 # OK now ready to run everything, back to REAME.txt
