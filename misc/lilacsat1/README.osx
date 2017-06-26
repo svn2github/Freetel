@@ -1,0 +1,26 @@
+# LilacSat-1 Rx Setup for AREG Club Project - OSX Installation Notes
+# Mark Jessop and David Rowe
+# June 2017
+
+
+
+Installing Gnuradio
+-------------------
+
+You need the following packages from macports: 
+gnuradio-devel
+gqrx-devel
+
+Install them IN THAT ORDER, otherwise gqrx-devel will pull in a 'stable' version of gnuradio, which wont work with gr-satellites.
+I had to wipe my macports folder and start from scratch to make things play nicely.
+
+
+Making cmake play nicely with macports
+--------------------------------------
+Add the following to your .profile file:
+
+alias cm_port='cmake -DPYTHON_EXECUTABLE=/opt/local/bin/python2.7 -DPYTHON_INCLUDE_DIR=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Headers -DPYTHON_LIBRARY=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/Python -DGR_PYTHON_DIR=/opt/local/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages -DCMAKE_INSTALL_NAME_DIR=/opt/local/lib -DCMAKE_SYSTEM_PREFIX_PATH="/opt/local;/usr" -DCMAKE_INSTALL_PREFIX=/opt/local'
+
+From now on, instead of using 'cmake <command here>' when building a gnuradio out-of-tree module (i.e. gr-satellites), use cm_port
+i.e.:
+> cm_port ../
