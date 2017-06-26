@@ -28,33 +28,33 @@ Installation
 
 Running
 -------
+0.1/ Keeping track of all these programs is a lot easier if you enable 'Workspaces'
+     Open Ubuntu system settings from the 'gear' icon on the far top right of your screen, and
+     navigate to 'Appearance', then the 'Behaviour' tab. Check the 'Enable Workspaces' box.
+     You can now jump between 'workspaces' (basically, extra desktops) by using:
+         CTRL + ALT + Arrow Keys
+     You can also 'drag' windows between workspaces by selecting the window you want to move, and using:
+         CTRL + ALT + SHIFT + Arrow Keys.
+     I would suggest moving each of the windows opened below to a new workspace as you open them, to avoid clutter.
+
 
 1/ Open a terminal window and perform the following commands to install the codec2 binaries.
+   Note that this assumes you already have codec2-dev built as part of a previous Wenet installation.
    $ cd ~/codec2-dev/build/
    $ sudo make install
+   If you haven't installed codec2-dev, you can do so by following lines 67 through 72 in
+   https://github.com/projecthorus/wenet/blob/master/INSTALL_ubuntu#L67
 
    Now we can start the codec2 decoder by running:
    $ cd ~/lilacsat1/
-   $ ./4-decode.sh
-   You can leave this running in the currently open terminal while the rest of the commands are performed.
+   $ ./6-decode.sh
+   You can leave this running in the currently open terminal while the rest of the programs are started.
 
 
-2/ In a new Terminal start GNU Radio LilacSat-1 application running
+2/ In a new Terminal start gqrx
 
-   $ cd ~/prefix/default
-   $ source setup_ev.sh
-   $ gnuradio-companion
- 
-   + File-Open navigate to ~/prefix/default/src/gr-satellites/apps/lilacsat1.grc
-   + Manually disable any missing blocks (right click - disable)
-   + Click on Green Button, new terminal should start
-   + see also lilacsat1/screenshots for other options
-
-3/ In a new Terminal start gqrx
-
-   $ cd ~/prefix/default
-   $ source setup_ev.sh
-   $ gqrx
+   $ cd ~/lilacsat1/
+   $ ./4-gqrx.sh
 
    + Set up to talk to your SDR of choice, probably a RTL-SDR
    + To power your LNA from your RTL-SDR see screenshots/enable_bias_t.png 
@@ -65,11 +65,22 @@ Running
         until the carrier is where it should be on the waterfall display.
    + In receiver options tab (on the right) set Mode to USB
    + Drag passband indication above waterfall so filter width is maybe 30 kHz wide.
+   + On 'Input Controls' tab, drag gain slider down to about +30dB, especialy if using a preamp.
    + Bottom right, click "..." Network tab, set UDP port to 7355, hostname to localhost
    + Suggest setting the 'main' audio output to a dummy audio device, you don't want to 
      hear the modem signal really.
    + Click 'UDP' to have it start sending samples out via UDP port.
    + Optionally, click 'Rec' to record the modem signal to disk (useful for later debugging)
+
+3/ In a new Terminal start GNU Radio LilacSat-1 application running
+
+   $ cd ~/lilacsat1/
+   $ ./5-gnuradio.sh
+ 
+   + File-Open navigate to ~/prefix/default/src/gr-satellites/apps/lilacsat1.grc
+   + Manually disable any missing blocks (right click - disable)
+   + Click on Green Button, new terminal should start
+   + see also lilacsat1/screenshots for other options
 
 4/ In a new Terminal start gpredict
 
@@ -78,7 +89,7 @@ Running
    + Edit > Update TLE data -> From Network
    + Edit > Update Transponder data -> From Network
    + Edit -> Preferences -> Interfaces
-     + Add new interface, radio type RX Only
+     + Add new interface, radio type RX Only, set name to 'GQRX'
      + Set port to 7356, hostname of localhost
    + Back on gpredict main window, top right look for down arrow, go to Radio control
      + Choose LilacSat-1 in target dropdown
@@ -145,6 +156,6 @@ TODO
 [X] will it run fast enough on roadkill machines?
     [X] play samples in real time from a HackRF
     [X] uses all 4 < 50% CPUs and runs OK
-[ ] real satellite pass
+[X] real satellite pass
 [ ] Wenet style start/stop scripts on Desktop
 
