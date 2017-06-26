@@ -6,11 +6,14 @@ June 2017
 Pre-requisites
 ---------------
 
-1/ Codec 2 is built in ~/codec2-dec/build
+1/ A few hours of your time and an Internet connection.  Script 2 in
+particular will take about two hours to run.
 
-2/ SVN is installed
+2/ Codec 2 is built in ~/codec2-dec/build
 
-3/ Make sure you have no gnuradio, usrp or related packages
+3/ SVN is installed
+
+4/ Make sure you have no gnuradio, usrp or related packages
    installed.
 
 Installation
