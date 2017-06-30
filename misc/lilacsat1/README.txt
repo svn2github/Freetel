@@ -28,6 +28,7 @@ Installation
 
 Running
 -------
+
 0.1/ Keeping track of all these programs is a lot easier if you enable 'Workspaces'
      Open Ubuntu system settings from the 'gear' icon on the far top right of your screen, and
      navigate to 'Appearance', then the 'Behaviour' tab. Check the 'Enable Workspaces' box.
@@ -145,7 +146,7 @@ A HackRF can be used to generate a test signal.
 3/ There is a 1MHz offset in the .iq file, plus 12kHz in the source wave file
    so tune gqrx to 441.012 MHz, this signal is about -70 dBm:
 
-  $ hackrf_transfer -s 4000000 -t lilacsat1.iq -f 440000000 -a 1 -x 0
+  $ hackrf_transfer -s 4000000 -t lilacsat1.iq -f 440000000 -a 1 -x 0 -R
 
 TODO
 ----
